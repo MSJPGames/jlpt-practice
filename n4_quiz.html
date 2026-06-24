@@ -754,6 +754,7 @@ function renderChoices(q) {
   shuffle(q.choices).forEach((c, i) => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
+    btn.dataset.value = c;
     btn.innerHTML = '<span class="choice-label">' + labels[i] + '</span><span class="choice-text">' + c + '</span>';
     btn.addEventListener('click', () => selectAnswer(c, q, btn, choicesEl));
     choicesEl.appendChild(btn);
@@ -769,8 +770,8 @@ function selectAnswer(chosen, q, btn, choicesEl) {
   localStorage.setItem('jlpt_n4_stats', JSON.stringify(stats));
   choicesEl.querySelectorAll('.choice-btn').forEach(b => {
     b.disabled = true;
-    const txt = b.querySelector('.choice-text').textContent;
-    if (txt === q.answer) b.classList.add('correct');
+    const val = b.dataset.value;
+    if (val === q.answer) b.classList.add('correct');
     else if (b === btn && !isCorrect) b.classList.add('wrong');
   });
   const fb = document.getElementById('feedback-box');

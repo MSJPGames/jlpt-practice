@@ -869,6 +869,7 @@ function renderChoices(q) {
   shuffle(q.choices).forEach((c, i) => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
+    btn.dataset.value = c;
     btn.innerHTML = '<span class="choice-label">' + labels[i] + '</span><span class="choice-text">' + c + '</span>';
     btn.addEventListener('click', () => selectAnswer(c, q, btn, choicesEl));
     choicesEl.appendChild(btn);
@@ -1024,8 +1025,8 @@ function selectAnswer(selected, q, btn, choicesEl) {
 
   Array.from(choicesEl.children).forEach(b => {
     b.disabled = true;
-    const txt = b.querySelector('.choice-text').textContent;
-    if (txt === q.answer) b.classList.add('correct');
+    const val = b.dataset.value || b.querySelector('.choice-text').textContent;
+    if (val === q.answer) b.classList.add('correct');
     else if (b === btn && !isCorrect) b.classList.add('wrong');
   });
 

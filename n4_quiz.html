@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JLPT N4 対策クイズ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --accent: #185FA5; --accent-light: #E6F1FB; --accent-dark: #0C447C;
+    --success: #2A7A4B; --success-light: #E8F5ED;
+    --danger: #B03A2E; --danger-light: #FDECEA;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 12px; --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 1rem; }
+  .container { max-width: 480px; margin: 0 auto; }
+  .app-header { text-align: center; padding: 1.5rem 0 1rem; }
+  .app-title { font-size: 22px; font-weight: 700; color: var(--accent-dark); letter-spacing: 0.02em; }
+  .app-sub { font-size: 12px; color: var(--text-hint); margin-top: 4px; }
+
+  .stats-bar { display: flex; gap: 8px; margin-bottom: 1.25rem; }
+  .stat-box { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 8px; text-align: center; }
+  .stat-num { font-size: 20px; font-weight: 700; color: var(--accent); }
+  .stat-lbl { font-size: 10px; color: var(--text-hint); margin-top: 2px; }
+
+  .section-label { font-size: 12px; font-weight: 700; color: var(--text-hint); letter-spacing: 0.08em; margin-bottom: 8px; margin-top: 1.25rem; }
+  .main-cats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+  .main-cat-btn {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 10px 12px; cursor: pointer; text-align: center;
+    transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+    position: relative; overflow: hidden;
+  }
+  .main-cat-btn::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); transform: scaleX(0); transition: transform 0.15s; }
+  .main-cat-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-color: var(--accent); }
+  .main-cat-btn:hover::before { transform: scaleX(1); }
+  .main-cat-btn.active { border-color: var(--accent); background: var(--accent-light); }
+  .main-cat-btn.active::before { transform: scaleX(1); }
+  .cat-icon { font-size: 22px; margin-bottom: 6px; }
+  .cat-name { font-size: 13px; font-weight: 700; color: var(--text); }
+  .cat-sub { font-size: 10px; color: var(--text-hint); margin-top: 3px; }
+  .cat-count { font-size: 10px; color: var(--accent); margin-top: 4px; font-weight: 500; }
+
+  .vocab-sub { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 1rem; display: none; }
+  .vocab-sub.show { display: block; }
+  .vocab-sub-title { font-size: 12px; font-weight: 700; color: var(--text-hint); letter-spacing: 0.06em; margin-bottom: 10px; }
+  .vocab-sub-grid { display: flex; flex-direction: column; gap: 6px; }
+  .vocab-sub-btn {
+    background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 10px 14px; text-align: left; cursor: pointer; font-size: 13px;
+    font-family: 'Noto Sans JP', sans-serif; color: var(--text);
+    display: flex; justify-content: space-between; align-items: center;
+    transition: background 0.12s, border-color 0.12s;
+  }
+  .vocab-sub-btn:hover { background: var(--accent-light); border-color: var(--accent); }
+  .vocab-sub-btn .tag { font-size: 10px; color: var(--accent); font-weight: 700; }
+  .hint-text { font-size: 12px; color: var(--text-hint); text-align: center; margin-top: 0.5rem; }
+
+  .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .q-counter { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+  .section-pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--accent-light); color: var(--accent); letter-spacing: 0.03em; }
+  .timer-box { font-size: 13px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; letter-spacing: 0.05em; }
+  .quiz-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .progress-track { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 1.25rem; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; }
+  .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem; font-size: 15px; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
+  .choices { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem; }
+  .choice-btn {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 13px 14px; text-align: left; cursor: pointer; font-size: 14px;
+    font-family: 'Noto Sans JP', sans-serif; color: var(--text);
+    display: flex; align-items: center; gap: 10px;
+    transition: border-color 0.1s, background 0.1s; width: 100%;
+  }
+  .choice-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-light); }
+  .choice-btn.correct { background: var(--success-light); border-color: var(--success); }
+  .choice-btn.wrong { background: var(--danger-light); border-color: var(--danger); }
+  .choice-label { width: 24px; height: 24px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--text-muted); flex-shrink: 0; }
+  .choice-btn.correct .choice-label { background: var(--success); border-color: var(--success); color: #fff; }
+  .choice-btn.wrong .choice-label { background: var(--danger); border-color: var(--danger); color: #fff; }
+  .choice-btn.correct .choice-text { color: var(--success); font-weight: 500; }
+  .choice-btn.wrong .choice-text { color: var(--danger); }
+  .feedback-box { border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; line-height: 1.7; margin-bottom: 1rem; display: none; }
+  .feedback-box.show { display: block; }
+  .feedback-box.correct { background: var(--success-light); color: var(--success); border: 1px solid #A8D5BC; }
+  .feedback-box.wrong { background: var(--danger-light); color: var(--danger); border: 1px solid #F0B8B2; }
+  .feedback-label { font-weight: 700; margin-bottom: 4px; font-size: 14px; }
+  .next-btn { width: 100%; padding: 14px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 700; font-family: 'Noto Sans JP', sans-serif; cursor: pointer; display: none; transition: background 0.15s; }
+  .next-btn.show { display: block; }
+  .next-btn:hover { background: var(--accent-dark); }
+
+  .puzzle-sentence { font-size:16px; line-height:2; text-align:left; margin-bottom:12px; }
+  .puzzle-slot-row { display:flex; align-items:center; gap:5px; flex-wrap:wrap; justify-content:center; margin:12px 0 6px; }
+  .puzzle-slot { min-width:60px; height:42px; padding:0 10px; border:2px dashed var(--border); border-radius:8px; display:inline-flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:var(--text); background:var(--bg); transition:border-color .15s,background .15s; cursor:default; position:relative; }
+  .puzzle-slot.star-slot { border-color:#185FA5; background:#E6F1FB; }
+  .puzzle-slot.star-slot::after { content:'★'; position:absolute; top:-12px; left:50%; transform:translateX(-50%); font-size:11px; color:#185FA5; background:var(--surface); padding:0 3px; }
+  .puzzle-slot.filled { border-style:solid; border-color:#185FA5; background:#d0e4f5; cursor:pointer; }
+  .puzzle-slot.filled:hover { background:#b8d3ee; }
+  .puzzle-slot.correct-slot { border-color:#27ae60; background:#d4edda; color:#1a7a3c; border-style:solid; }
+  .puzzle-slot.wrong-slot { border-color:#c0392b; background:#fde8e6; color:#a02020; border-style:solid; }
+  .puzzle-tiles { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:14px 0 4px; min-height:48px; }
+  .puzzle-tile { padding:10px 16px; border-radius:10px; background:var(--accent); color:#fff; font-size:15px; font-weight:700; cursor:pointer; border:none; box-shadow:0 2px 6px rgba(0,0,0,.18); transition:transform .1s,opacity .15s; touch-action:manipulation; }
+  .puzzle-tile:hover { transform:translateY(-2px); }
+  .puzzle-tile:active { transform:scale(.95); }
+  .puzzle-tile.used { opacity:0; pointer-events:none; }
+  .puzzle-check-btn { display:block; margin:14px auto 0; padding:12px 36px; border-radius:24px; background:#27ae60; color:#fff; font-size:16px; font-weight:700; border:none; cursor:pointer; transition:opacity .15s; }
+  .puzzle-check-btn:disabled { opacity:.4; cursor:not-allowed; }
+  .quit-btn { display: block; width: 100%; margin-top: 10px; padding: 11px; background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: 'Noto Sans JP', sans-serif; color: var(--text-muted); cursor: pointer; transition: background 0.15s, color 0.15s; }
+  .quit-btn:hover { background: var(--danger-light); color: var(--danger); border-color: var(--danger); }
+
+  .confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 1rem; }
+  .confirm-box { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; width: 100%; max-width: 320px; text-align: center; }
+  .confirm-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .confirm-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 1.25rem; line-height: 1.6; }
+  .confirm-actions { display: flex; gap: 8px; }
+  .confirm-actions button { flex: 1; padding: 11px; border-radius: var(--radius-sm); font-size: 14px; font-family: 'Noto Sans JP', sans-serif; cursor: pointer; font-weight: 500; }
+  .confirm-cancel { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+  .confirm-ok { background: var(--danger); border: none; color: #fff; }
+  .confirm-ok:hover { background: #8B2D23; }
+
+  .result-wrap { text-align: center; padding: 1.5rem 0; }
+  .result-circle { width: 110px; height: 110px; border-radius: 50%; background: var(--accent-light); border: 3px solid var(--accent); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+  .result-score { font-size: 30px; font-weight: 700; color: var(--accent); line-height: 1; }
+  .result-of { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .result-time { font-size: 14px; color: var(--accent-dark); font-weight: 700; margin-bottom: 4px; }
+  .result-pct { font-size: 15px; font-weight: 700; color: var(--accent-dark); margin-bottom: 1rem; }
+  .result-comment { font-size: 14px; color: var(--text); line-height: 1.8; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 1.5rem; text-align: left; }
+  .result-actions { display: flex; flex-direction: column; gap: 8px; }
+  .btn-primary { padding: 13px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 700; font-family: 'Noto Sans JP', sans-serif; cursor: pointer; }
+  .btn-primary:hover { background: var(--accent-dark); }
+  .btn-secondary { padding: 13px; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; font-weight: 500; font-family: 'Noto Sans JP', sans-serif; cursor: pointer; }
+  .btn-secondary:hover { background: var(--bg); }
+  .back-to-top { padding: 13px; background: none; color: var(--text-muted); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: 'Noto Sans JP', sans-serif; cursor: pointer; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="app-header">
+    <div class="app-title">JLPT N4 対策クイズ</div>
+    <div class="app-sub">N4合格を目指して毎日練習しよう</div>
+  </div>
+
+  <div id="home-screen">
+    <div id="stats-bar" class="stats-bar hidden">
+      <div class="stat-box"><div class="stat-num" id="stat-total">0</div><div class="stat-lbl">累計問題数</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-correct">0</div><div class="stat-lbl">正解数</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-rate">-</div><div class="stat-lbl">正答率</div></div>
+    </div>
+
+    <div class="section-label">カテゴリを選んでください</div>
+    <div class="main-cats">
+      <button class="main-cat-btn" id="cat-vocab" onclick="toggleVocab()">
+        <div class="cat-icon">📖</div>
+        <div class="cat-name">文字・語彙</div>
+        <div class="cat-sub">5種類の問題形式</div>
+        <div class="cat-count">各種20問収録</div>
+      </button>
+      <button class="main-cat-btn" id="cat-grammar" onclick="toggleGrammar()">
+        <div class="cat-icon">✏️</div>
+        <div class="cat-name">文法</div>
+        <div class="cat-sub">3種類の問題形式</div>
+        <div class="cat-count">各種20問収録</div>
+      </button>
+      <button class="main-cat-btn" onclick="startQuiz('読解', null)">
+        <div class="cat-icon">📄</div>
+        <div class="cat-name">読解</div>
+        <div class="cat-sub">短文・中文・情報検索</div>
+        <div class="cat-count">20問収録</div>
+      </button>
+      <button class="main-cat-btn" onclick="startQuiz('聴解', null)">
+        <div class="cat-icon">💬</div>
+        <div class="cat-name">聴解（場面理解）</div>
+        <div class="cat-sub">状況から推測</div>
+        <div class="cat-count">20問収録</div>
+      </button>
+    </div>
+
+    <div id="vocab-sub" class="vocab-sub">
+      <div class="vocab-sub-title">問題の種類を選んでください</div>
+      <div class="vocab-sub-grid">
+        <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '漢字読み')">
+          <span>問題１ 漢字読み<br><span style="font-size:11px;color:var(--text-hint)">漢字をひらがなで読む</span></span>
+          <span class="tag">20問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '表記')">
+          <span>問題２ 表記<br><span style="font-size:11px;color:var(--text-hint)">ひらがなを漢字で書く</span></span>
+          <span class="tag">20問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '文脈規定')">
+          <span>問題３ 文脈規定<br><span style="font-size:11px;color:var(--text-hint)">空欄に合う語彙を選ぶ</span></span>
+          <span class="tag">20問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '言い換え類義')">
+          <span>問題４ 言い換え類義<br><span style="font-size:11px;color:var(--text-hint)">下線部と同じ意味の文を選ぶ</span></span>
+          <span class="tag">20問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '用法')">
+          <span>問題５ 用法<br><span style="font-size:11px;color:var(--text-hint)">正しい使い方の文を選ぶ</span></span>
+          <span class="tag">20問</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="grammar-sub" class="vocab-sub">
+      <div class="vocab-sub-title">問題の種類を選んでください</div>
+      <div class="vocab-sub-grid">
+        <button class="vocab-sub-btn" onclick="startQuiz('文法', '文の文法1')">
+          <span>問題１ 文の文法１<br><span style="font-size:11px;color:var(--text-hint)">文法形式の判断（空欄補充）</span></span>
+          <span class="tag">20問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('文法', '文の文法2')">
+          <span>問題２ 文の文法２<br><span style="font-size:11px;color:var(--text-hint)">文の組み立て（並べ替え）</span></span>
+          <span class="tag">20問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('文法', '文章の文法')">
+          <span>問題３ 文章の文法<br><span style="font-size:11px;color:var(--text-hint)">文章の流れに合う文法選択</span></span>
+          <span class="tag">20問</span>
+        </button>
+      </div>
+    </div>
+    <div class="hint-text">各セッション10問・約5〜10分</div>
+    <div style="text-align:center;margin-top:8px"><span onclick="openEditor()" style="color:var(--text-hint);font-size:11px;cursor:pointer;opacity:0.4;user-select:none;">✎</span></div>
+    <div style="text-align:center;margin-top:12px">
+      <a href="index.html" style="font-size:12px;color:var(--text-hint);text-decoration:none;">← レベル選択に戻る</a>
+    </div>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div class="quiz-meta-row">
+      <span class="q-counter" id="q-counter">問題 1 / 10</span>
+      <span class="timer-box" id="timer-box">00:00</span>
+    </div>
+    <div class="quiz-meta-row" style="margin-bottom:10px">
+      <span class="section-pill" id="section-pill">文字・語彙</span>
+      <span style="font-size:11px;color:var(--text-hint)" id="subtype-label"></span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:10%"></div>
+    </div>
+    <div id="question-card" class="question-card"></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback-box" id="feedback-box"></div>
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">次の問題へ →</button>
+    <button class="quit-btn" onclick="confirmQuit()">中断してトップに戻る</button>
+  </div>
+
+  <!-- Editor screen -->
+  <div id="editor-screen" class="hidden">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <button onclick="closeEditor()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-main)">←</button>
+      <h2 style="margin:0;font-size:18px;font-weight:700">問題エディタ</h2>
+    </div>
+
+    <!-- Category selector -->
+    <div style="margin-bottom:14px">
+      <select id="editor-cat" onchange="loadEditorList()" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-main);font-size:14px;font-family:inherit">
+        <option value="文法/文の文法1">文法 ＞ 文の文法１</option>
+        <option value="文法/文の文法2">文法 ＞ 文の文法２（並べ替え）</option>
+        <option value="文法/文章の文法">文法 ＞ 文章の文法</option>
+        <option value="文字・語彙/漢字読み">文字・語彙 ＞ 漢字読み</option>
+        <option value="文字・語彙/表記">文字・語彙 ＞ 表記</option>
+        <option value="文字・語彙/文脈規定">文字・語彙 ＞ 文脈規定</option>
+        <option value="文字・語彙/言い換え類義">文字・語彙 ＞ 言い換え類義</option>
+        <option value="文字・語彙/用法">文字・語彙 ＞ 用法</option>
+        <option value="読解/読解">読解</option>
+      </select>
+    </div>
+
+    <!-- Question list -->
+    <div id="editor-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:80px"></div>
+
+    <!-- Edit modal overlay -->
+    <div id="edit-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;overflow-y:auto;padding:16px;box-sizing:border-box">
+      <div style="background:var(--card-bg);border-radius:14px;padding:20px;max-width:540px;margin:0 auto;position:relative">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <strong id="edit-modal-title" style="font-size:16px">問題を編集</strong>
+          <button onclick="closeEditModal()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-hint);line-height:1">✕</button>
+        </div>
+
+        <div style="margin-bottom:12px">
+          <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:4px">問題文（設問の後の本文のみ。\\nで改行）</label>
+          <textarea id="edit-question" rows="5" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit;resize:vertical"></textarea>
+        </div>
+
+        <div id="edit-choices-wrap" style="margin-bottom:12px">
+          <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:6px">選択肢（並べ替え問題は文中の順番通りに）</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div><span style="font-size:11px;color:var(--text-hint)">①</span><input id="edit-c1" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit"></div>
+            <div><span style="font-size:11px;color:var(--text-hint)">②</span><input id="edit-c2" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit"></div>
+            <div><span style="font-size:11px;color:var(--text-hint)">③ ★正解</span><input id="edit-c3" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:2px solid #2D5A8E;background:#E8F0F8;color:var(--text-main);font-size:14px;font-family:inherit;font-weight:700"></div>
+            <div><span style="font-size:11px;color:var(--text-hint)">④</span><input id="edit-c4" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit"></div>
+          </div>
+          <div id="edit-answer-note" style="font-size:11px;color:var(--text-hint);margin-top:6px"></div>
+        </div>
+
+        <div style="margin-bottom:16px">
+          <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:4px">解説</label>
+          <textarea id="edit-explanation" rows="3" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit;resize:vertical"></textarea>
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <button onclick="saveEdit()" style="flex:1;padding:12px;background:#2D5A8E;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer">保存する</button>
+          <button onclick="closeEditModal()" style="flex:1;padding:12px;background:var(--border);color:var(--text-main);border:none;border-radius:8px;font-size:15px;font-family:inherit;cursor:pointer">キャンセル</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz screen -->
+  <div id="quiz-screen" class="hidden">
+    <div class="quiz-meta-row">
+      <span class="q-counter" id="q-counter">問題 1 / 10</span>
+      <span class="timer-box" id="timer-box">00:00</span>
+    </div>
+    <div class="quiz-meta-row" style="margin-bottom:10px">
+      <span class="section-pill" id="section-pill">文字・語彙</span>
+      <span style="font-size:11px;color:var(--text-hint)" id="subtype-label"></span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:10%"></div>
+    </div>
+    <div id="question-card" class="question-card"></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback-box" id="feedback-box"></div>
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">次の問題へ →</button>
+    <button class="quit-btn" onclick="confirmQuit()">中断してトップに戻る</button>
+  </div>
+
+  <div id="confirm-overlay" class="confirm-overlay hidden">
+    <div class="confirm-box">
+      <div class="confirm-title">クイズを中断しますか？</div>
+      <div class="confirm-sub">現在の進捗は保存されません。<br>トップページに戻りますか？</div>
+      <div class="confirm-actions">
+        <button class="confirm-cancel" onclick="cancelQuit()">続ける</button>
+        <button class="confirm-ok" onclick="doQuit()">中断する</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="result-screen" class="hidden">
+    <div class="result-wrap">
+      <div class="result-circle">
+        <div class="result-score" id="r-score"></div>
+        <div class="result-of" id="r-of"></div>
+      </div>
+      <div class="result-time" id="r-time"></div>
+      <div class="result-pct" id="r-pct"></div>
+      <div class="result-comment" id="r-comment"></div>
+      <div class="result-actions">
+        <button class="btn-primary" onclick="retrySection()">同じ種類をもう一度</button>
+        <button class="btn-secondary" onclick="goHome()">カテゴリ選択に戻る</button>
+        <button class="back-to-top" onclick="location.href='index.html'">← レベル選択に戻る</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+const vocabQuestions = {
+
+  "漢字読み": [
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nきのうの夜、友だちと__映画__を見に行きました。", choices: ["えいが", "えが", "えいが", "えいわ"], answer: "えいが", explanation: "「映画」は「えいが」と読みます。「映」は「えい」、「画」は「が」です。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n彼は毎朝__新聞__を読みます。", choices: ["しんぶん", "しんもん", "にゅうぶん", "にゅうもん"], answer: "しんぶん", explanation: "「新聞」は「しんぶん」と読みます。「新」は「しん」、「聞」は「ぶん」です。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n電車の__乗り換え__は次の駅です。", choices: ["のりかえ", "のりきえ", "のぼりかえ", "のぼりきえ"], answer: "のりかえ", explanation: "「乗り換え」は「のりかえ」と読みます。別の電車に移ることを表します。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n今日は__曇り__で少し寒いです。", choices: ["くもり", "ぐもり", "かもり", "くもの"], answer: "くもり", explanation: "「曇り」は「くもり」と読みます。雲が多い天気のことです。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n先生に__相談__してみます。", choices: ["そうだん", "そうたん", "しょうだん", "しょうたん"], answer: "そうだん", explanation: "「相談」は「そうだん」と読みます。「相」は「そう」、「談」は「だん」です。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nこの料理には__砂糖__を少し入れます。", choices: ["さとう", "さどう", "しゃとう", "しゃどう"], answer: "さとう", explanation: "「砂糖」は「さとう」と読みます。甘みをつけるための調味料です。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n彼女は__笑顔__でむかえてくれた。", choices: ["えがお", "えかお", "えがの", "えかの"], answer: "えがお", explanation: "「笑顔」は「えがお」と読みます。にこやかな表情のことです。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n病院で__入院__することになった。", choices: ["にゅういん", "にゅういん", "いりいん", "いれいん"], answer: "にゅういん", explanation: "「入院」は「にゅういん」と読みます。「入」は「にゅう」、「院」は「いん」です。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n駅の__出口__はどこですか。", choices: ["でぐち", "でくち", "でーぐち", "しゅつぐち"], answer: "でぐち", explanation: "「出口」は「でぐち」と読みます。「出」は「で」、「口」は「ぐち」と読みます。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n母は料理が__上手__です。", choices: ["じょうず", "じょうて", "うわて", "うわず"], answer: "じょうず", explanation: "「上手」は「じょうず」と読みます。技術が優れていることを表します。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n週末に公園で__運動__しました。", choices: ["うんどう", "うんどん", "うどん", "わんどう"], answer: "うんどう", explanation: "「運動」は「うんどう」と読みます。体を動かして健康を保つことです。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n今日は__特別__なメニューがあります。", choices: ["とくべつ", "とくべん", "どくべつ", "どくべん"], answer: "とくべつ", explanation: "「特別」は「とくべつ」と読みます。「特」は「とく」、「別」は「べつ」です。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nその仕事は__簡単__ではありません。", choices: ["かんたん", "かんだん", "けんたん", "けんだん"], answer: "かんたん", explanation: "「簡単」は「かんたん」と読みます。「簡」は「かん」、「単」は「たん」です。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n彼女は__親切__な人です。", choices: ["しんせつ", "しんきり", "しんきれ", "しんきれつ"], answer: "しんせつ", explanation: "「親切」は「しんせつ」と読みます。他人を思いやる優しさを表します。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n本を__返す__のを忘れてしまった。", choices: ["かえす", "もどす", "かえる", "もどる"], answer: "かえす", explanation: "「返す」は「かえす」と読みます。借りたものを元に戻すことを表します。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n__予定__があるので、早く帰ります。", choices: ["よてい", "よだい", "ゆてい", "ゆだい"], answer: "よてい", explanation: "「予定」は「よてい」と読みます。「予」は「よ」、「定」は「てい」です。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nこの店は__安全__な食材を使っています。", choices: ["あんぜん", "あんせん", "あんぜい", "あんせい"], answer: "あんぜん", explanation: "「安全」は「あんぜん」と読みます。「安」は「あん」、「全」は「ぜん」です。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n友達から手紙が__届いた__。", choices: ["とどいた", "おくいた", "きたいた", "さしいた"], answer: "とどいた", explanation: "「届いた」は「とどいた」と読みます。「届く」は送ったものが相手に着くことです。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nその問題を__解決__するのは難しい。", choices: ["かいけつ", "かいきつ", "けいけつ", "けいきつ"], answer: "かいけつ", explanation: "「解決」は「かいけつ」と読みます。問題などを処理してなくすことです。" },
+    { question: "＿＿の ことばは ひらがなで どう よみますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n彼は毎日__練習__しています。", choices: ["れんしゅう", "れんしゆ", "れいしゅう", "れいしゆ"], answer: "れんしゅう", explanation: "「練習」は「れんしゅう」と読みます。上達のために繰り返し行うことです。" }
+  ],
+
+  "表記": [
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n毎朝6時に__おきます__。", choices: ["起きます", "置きます", "起ます", "拾きます"], answer: "起きます", explanation: "「おきる」は「起きる」と書きます。眠りから目が覚めることを表します。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nここに名前を__かいて__ください。", choices: ["書いて", "描いて", "欠いて", "数いて"], answer: "書いて", explanation: "文字を「かく」は「書く」と書きます。「描く」は絵を描くときに使います。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n駅まで__あるいて__10分です。", choices: ["歩いて", "步いて", "步て", "歩て"], answer: "歩いて", explanation: "「あるく」は「歩く」と書きます。足で移動することです。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n__てがみ__を書いて送りました。", choices: ["手紙", "手張", "手帳", "手長"], answer: "手紙", explanation: "「てがみ」は「手紙」と書きます。人に送る書いたものを指します。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n今日は__あたたかい__天気です。", choices: ["暖かい", "温かい", "熱かい", "春かい"], answer: "暖かい", explanation: "天気が「あたたかい」は「暖かい」と書きます。「温かい」は食べ物や気持ちなどに使います。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nその映画は__かなしい__話でした。", choices: ["悲しい", "悲かしい", "哀しい", "哀かしい"], answer: "悲しい", explanation: "「かなしい」は「悲しい」と書きます。悲しみを表す形容詞です。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n試験に__ごうかく__した。", choices: ["合格", "合格格", "合各", "各格"], answer: "合格", explanation: "「ごうかく」は「合格」と書きます。試験などに受かることを表します。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n__りょこう__の計画を立てました。", choices: ["旅行", "旅好", "旅工", "旅考"], answer: "旅行", explanation: "「りょこう」は「旅行」と書きます。遠くへ行くことを表します。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nこの店の料理は__やすい__です。", choices: ["安い", "容い", "易い", "廉い"], answer: "安い", explanation: "値段が「やすい」は「安い」と書きます。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nかれは__せがたかい__。", choices: ["背が高い", "丈が高い", "背が多い", "丈が多い"], answer: "背が高い", explanation: "身長が「せがたかい」は「背が高い」と書きます。「背」は身長の意味です。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n__かぎ__をなくしてしまいました。", choices: ["鍵", "錠", "金", "金属"], answer: "鍵", explanation: "「かぎ」は「鍵」と書きます。ドアや鍵穴に使う道具です。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n彼女は__いしゃ__になりたいと言っています。", choices: ["医者", "医師", "医匠", "医員"], answer: "医者", explanation: "「いしゃ」は「医者」と書きます。病気を治す仕事をする人です。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n__しごと__が終わったら電話します。", choices: ["仕事", "仕合", "仕業", "使事"], answer: "仕事", explanation: "「しごと」は「仕事」と書きます。働くことを表します。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n彼は__しゅくだい__をしていない。", choices: ["宿題", "宿問", "宿課", "宿業"], answer: "宿題", explanation: "「しゅくだい」は「宿題」と書きます。家でやる勉強の課題です。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n父は__びょういん__で働いています。", choices: ["病院", "病所", "病館", "疾院"], answer: "病院", explanation: "「びょういん」は「病院」と書きます。病気やけがを治す施設です。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nその__むずかしい__問題が解けた。", choices: ["難しい", "難かしい", "困しい", "困かしい"], answer: "難しい", explanation: "「むずかしい」は「難しい」と書きます。解決や理解が困難なことを表します。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n春になると花が__さきます__。", choices: ["咲きます", "花きます", "開きます", "映きます"], answer: "咲きます", explanation: "花が「さく」は「咲く」と書きます。花が開くことを表します。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n__そうじ__が終わったら休みましょう。", choices: ["掃除", "清除", "掃清", "清掃"], answer: "掃除", explanation: "「そうじ」は「掃除」と書きます。きれいにすることを表します。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n来月__けっこん__する予定です。", choices: ["結婚", "結昏", "縁婚", "縁昏"], answer: "結婚", explanation: "「けっこん」は「結婚」と書きます。夫婦になることを表します。" },
+    { question: "＿＿の ことばは どう かきますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n今日は__はれ__です。", choices: ["晴れ", "晴天", "明れ", "明天"], answer: "晴れ", explanation: "天気が「はれ」は「晴れ」と書きます。空が明るく雨が降らない天気です。" }
+  ],
+
+  "文脈規定": [
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n山田さんが（　）したので、みんな心配しました。", choices: ["けが", "旅行", "勉強", "仕事"], answer: "けが", explanation: "「みんなが心配する」という文脈には「けが（怪我）」が最も自然です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nこのかばんは（　）が軽くて使いやすいです。", choices: ["重さ", "色", "形", "大きさ"], answer: "重さ", explanation: "「軽くて使いやすい」という文脈には「重さ」が適切です。重さが軽いということです。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n（　）があるので、今日は学校を休みます。", choices: ["発熱", "元気", "食欲", "笑顔"], answer: "発熱", explanation: "学校を休む理由として「発熱（熱が出ること）」が最も自然です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n毎日（　）して体を動かしています。", choices: ["運動", "勉強", "料理", "読書"], answer: "運動", explanation: "「体を動かす」という文脈には「運動」が最も適切です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nこの店は（　）がよくて、いつもお客さんが多いです。", choices: ["評判", "形", "色", "重さ"], answer: "評判", explanation: "客が多い理由として「評判（良い口コミ）がよい」が最も自然です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n友達に（　）を言いましたが、なかなか許してもらえませんでした。", choices: ["謝り", "文句", "お礼", "あいさつ"], answer: "謝り", explanation: "「許してもらえなかった」という文脈には「謝り（謝罪）」が最も適切です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n電車が（　）したので、会社に遅刻してしまいました。", choices: ["遅延", "出発", "到着", "停車"], answer: "遅延", explanation: "「遅刻した原因」として「電車が遅延（遅れること）した」が最も自然です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n先生に（　）してから、自分で決めました。", choices: ["相談", "連絡", "報告", "案内"], answer: "相談", explanation: "「自分で決める前に先生に〜する」という文脈には「相談」が最も適切です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nこの映画はとても（　）で、最後まで見られませんでした。", choices: ["こわい", "たのしい", "おもしろい", "きれい"], answer: "こわい", explanation: "「最後まで見られなかった」映画の理由として「こわい（恐ろしい）」が最も自然です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n荷物が（　）て、一人では持てませんでした。", choices: ["重く", "軽く", "広く", "高く"], answer: "重く", explanation: "「一人では持てない」という状況には「重くて」が最も自然です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nパーティーに（　）するために、プレゼントを買いました。", choices: ["参加", "出発", "到着", "準備"], answer: "参加", explanation: "パーティーのためにプレゼントを買う行動の理由として「参加するため」が最も自然です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n父は（　）がよく、何でもすぐに覚えます。", choices: ["記憶力", "体力", "腕力", "視力"], answer: "記憶力", explanation: "「何でもすぐ覚える」という内容から「記憶力（覚える力）」が適切です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nパスポートを（　）して、旅行に行けなくなりました。", choices: ["なくして", "つかって", "わたして", "かして"], answer: "なくして", explanation: "旅行に行けなくなる原因として「パスポートをなくして（失くして）」が最も自然です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n（　）があったら、いつでも連絡してください。", choices: ["何か", "どこか", "だれか", "いつか"], answer: "何か", explanation: "「連絡してください」という文脈には「何か（問題や用件など）があったら」が最も自然です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nこの店では品物を（　）することができます。", choices: ["交換", "修理", "製造", "輸出"], answer: "交換", explanation: "購入した品物に問題があるときに「交換する」という行為が自然な文脈です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n母は毎日（　）に行って、食材を買ってきます。", choices: ["買い物", "見物", "散歩", "旅行"], answer: "買い物", explanation: "「食材を買う」という行動の前の活動として「買い物（に行く）」が最も自然です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n弟は（　）が得意で、いつもいい点数をとります。", choices: ["勉強", "料理", "運動", "旅行"], answer: "勉強", explanation: "「いい点数をとる」という結果から「勉強が得意」が最も適切です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n彼女は（　）がよくて、みんなに好かれています。", choices: ["性格", "体格", "規格", "価格"], answer: "性格", explanation: "「みんなに好かれる理由」として「性格（人柄）がよい」が最も自然です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nその問題は（　）に考える必要があります。", choices: ["慎重", "簡単", "すぐ", "軽く"], answer: "慎重", explanation: "重要な問題に対する態度として「慎重に考える」が最も自然です。" },
+    { question: "（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n電話で（　）を伝えましたが、相手は留守でした。", choices: ["用件", "住所", "趣味", "気持ち"], answer: "用件", explanation: "電話で伝えるものとして「用件（用事の内容）」が最も自然です。" }
+  ],
+
+  "言い換え類義": [
+    { question: "＿＿の ぶんと だいたい おなじ いみの ぶんが あります。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nおとうとは あの きっさてんで アルバイトをして います。", choices: ["おとうとは あの きっさてんで まって います。", "おとうとは あの きっさてんで はたらいて います。", "おとうとは あの きっさてんで コーヒーを のんで います。", "おとうとは あの きっさてんで ともだちと はなして います。"], answer: "おとうとは あの きっさてんで はたらいて います。", explanation: "「アルバイトをしている」は「働いている」と同じ意味です。" },
+    { question: "＿＿の ぶんと だいたい おなじ いみの ぶんが あります。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nわたしは すいえいが すきです。", choices: ["わたしは はしるのが すきです。", "わたしは およぐのが すきです。", "わたしは ごはんを たべるのが すきです。", "わたしは ほんを よむのが すきです。"], answer: "わたしは およぐのが すきです。", explanation: "「水泳（すいえい）」は「泳ぐ（およぐ）こと」です。" },
+    { question: "＿＿の ぶんと だいたい おなじ いみの ぶんが あります。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nそれを きいて びっくりしました。", choices: ["それを きいて わらいました。", "それを きいて こまりました。", "それを きいて おこりました。", "それを きいて おどろきました。"], answer: "それを きいて おどろきました。", explanation: "「びっくりする」は「驚く（おどろく）」と同じ意味です。" },
+    { question: "＿＿の ぶんと だいたい おなじ いみの ぶんが あります。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nあの ひとは うつくしいですね。", choices: ["あの ひとは きれいですね。", "あの ひとは げんきですね。", "あの ひとは おもしろいですね。", "あの ひとは わかいですね。"], answer: "あの ひとは きれいですね。", explanation: "「美しい（うつくしい）」は「きれい」とほぼ同じ意味で使われます。" },
+    { question: "＿＿の ぶんと だいたい おなじ いみの ぶんが あります。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nこの くには こめを ゆにゅうして います。", choices: ["この くには こめを ほかの くにに うって います。", "この くには こめを ほかの くにから もらって います。", "この くには こめを ほかの くにから かって います。", "この くには こめを ほかの くにに あげて います。"], answer: "この くには こめを ほかの くにから かって います。", explanation: "「輸入（ゆにゅう）する」とは「ほかの国から買う・取り入れる」ことです。" },
+    { question: "＿＿の ぶんと だいたい おなじ いみの ぶんが あります。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n山田さんは げんきですか。", choices: ["山田さんは いそがしいですか。", "山田さんは つかれていますか。", "山田さんは おかわりありませんか。", "山田さんは まだ いますか。"], answer: "山田さんは おかわりありませんか。", explanation: "「元気ですか」は「お変わりありませんか」とほぼ同じ意味の挨拶表現です。" },
+    { question: "＿＿の ぶんと だいたい おなじ いみの ぶんが あります。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nかれは さいきん けっこんした そうです。", choices: ["かれは このごろ けっこんした そうです。", "かれは むかし けっこんした そうです。", "かれは もうすぐ けっこんする そうです。", "かれは まだ けっこんして いない そうです。"], answer: "かれは このごろ けっこんした そうです。", explanation: "「最近（さいきん）」は「このごろ」とほぼ同じ意味で、近い過去を表します。" },
+    { question: "＿＿の ぶんと だいたい おなじ いみの ぶんが あります。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nラジオの おとが おおきいので、もう すこし ちいさくして ください。", choices: ["ラジオの ねだんが たかいので、もう すこし やすくして ください。", "ラジオの おんりょうが おおきいので、もう すこし さげて ください。", "ラジオの かたちが おおきいので、もう すこし ちいさくして ください。", "ラジオの じかんが おそいので、もう すこし はやくして ください。"], answer: "ラジオの おんりょうが おおきいので、もう すこし さげて ください。", explanation: "「音（おと）が大きい」は「音量（おんりょう）が大きい」と同じ意味です。" },
+    { question: "＿＿のぶんとだいたいおなじいみのぶんがあります。１・２・３・４からいちばんいいものをひとつえらびなさい。\n\nはが わるいので、かたい ものは たべられません。", choices: ["は が じょうぶでないので、かたい ものは たべられません。", "は が つよいので、かたい ものは たべられません。", "は が おおきいので、かたい ものは たべられません。", "は が ながいので、かたい ものは たべられません。"], answer: "は が じょうぶでないので、かたい ものは たべられません。", explanation: "「歯が悪い」は「歯が丈夫でない（じょうぶでない）」とほぼ同じ意味です。" },
+    { question: "＿＿のぶんとだいたいおなじいみのぶんがあります。１・２・３・４からいちばんいいものをひとつえらびなさい。\n\nもりさんを デートに さそいましたが、いけないと いわれました。", choices: ["もりさんを デートに まねきましたが、いけないと いわれました。", "もりさんを デートに れんらくしましたが、いけないと いわれました。", "もりさんを デートに つれていきましたが、いけないと いわれました。", "もりさんを デートに むかえに いきましたが、いけないと いわれました。"], answer: "もりさんを デートに まねきましたが、いけないと いわれました。", explanation: "「誘う（さそう）」と「招く（まねく）」は「一緒に来るよう呼びかける」という点で似た意味を持ちます。" },
+    { question: "＿＿のぶんとだいたいおなじいみのぶんがあります。１・２・３・４からいちばんいいものをひとつえらびなさい。\n\nたなかさんの いえの でんきが ついて いませんね。たなかさんは るすの ようです。", choices: ["たなかさんは ねて いる ようです。", "たなかさんは そとに でかけて いる ようです。", "たなかさんは おきて いる ようです。", "たなかさんは うちに いる ようです。"], answer: "たなかさんは そとに でかけて いる ようです。", explanation: "「留守（るす）」は「外に出かけていて家にいないこと」を意味します。" },
+    { question: "＿＿のぶんとだいたいおなじいみのぶんがあります。１・２・３・４からいちばんいいものをひとつえらびなさい。\n\nかさを かして ください。", choices: ["かさを かりて ください。", "かさを つかって ください。", "かさを もって いって ください。", "かさを かりられますか。"], answer: "かさを かりられますか。", explanation: "「貸してください（かしてください）」とは「借りたい」ということなので、「借りられますか」とほぼ同じ内容です。" },
+    { question: "＿＿のぶんとだいたいおなじいみのぶんがあります。１・２・３・４からいちばんいいものをひとつえらびなさい。\n\nわたしの むすこは、１ねんで ５センチぐらい せが たかく なりました。", choices: ["わたしの むすこは、１ねんで ５センチぐらい せいちょう しました。", "わたしの むすこは、１ねんで ５センチぐらい やせました。", "わたしの むすこは、１ねんで ５センチぐらい ふとりました。", "わたしの むすこは、１ねんで ５センチぐらい うごきました。"], answer: "わたしの むすこは、１ねんで ５センチぐらい せいちょう しました。", explanation: "「背が高くなった（せがたかくなった）」は「成長した（せいちょうした）」と同じ意味です。" },
+    { question: "＿＿のぶんとだいたいおなじいみのぶんがあります。１・２・３・４からいちばんいいものをひとつえらびなさい。\n\nへやの かぎを さがして いますが、まだ みつかりません。", choices: ["へやの かぎを なくして しまいました。", "へやの かぎを どこかに おいて きました。", "へやの かぎが どこに あるか わかりません。", "へやの かぎが こわれて しまいました。"], answer: "へやの かぎが どこに あるか わかりません。", explanation: "「探しているがまだ見つからない」は「どこにあるかわからない」ということです。" },
+    { question: "＿＿のぶんとだいたいおなじいみのぶんがあります。１・２・３・４からいちばんいいものをひとつえらびなさい。\n\nきむらさんは さいきん けっこんした そうです。", choices: ["きむらさんは もうすぐ けっこんする そうです。", "きむらさんは ちかごろ けっこんした そうです。", "きむらさんは むかし けっこんした そうです。", "きむらさんは まだ けっこんして いない そうです。"], answer: "きむらさんは ちかごろ けっこんした そうです。", explanation: "「最近（さいきん）」は「近ごろ（ちかごろ）」と同じ意味で、最近の出来事を指します。" },
+    { question: "＿＿のぶんとだいたいおなじいみのぶんがあります。１・２・３・４からいちばんいいものをひとつえらびなさい。\n\nにねんまえに きょうとへ いきました。", choices: ["きのう きょうとへ いきました。", "おととい きょうとへ いきました。", "きょねん きょうとへ いきました。", "おととし きょうとへ いきました。"], answer: "おととし きょうとへ いきました。", explanation: "「二年前（にねんまえ）」は「一昨年（おととし）」と同じです。" },
+    { question: "＿＿のぶんとだいたいおなじいみのぶんがあります。１・２・３・４からいちばんいいものをひとつえらびなさい。\n\nきょうの テストは かんたん でした。", choices: ["きょうの テストは むずかしく ありませんでした。", "きょうの テストは おもしろかった です。", "きょうの テストは なかなか できませんでした。", "きょうの テストは ながかった です。"], answer: "きょうの テストは むずかしく ありませんでした。", explanation: "「簡単（かんたん）だった」は「難しくなかった」と同じ意味です。" },
+    { question: "＿＿のぶんとだいたいおなじいみのぶんがあります。１・２・３・４からいちばんいいものをひとつえらびなさい。\n\nお店で だいの パソコンを くらべて、いちばん かるい パソコンを えらびました。", choices: ["いろいろな パソコンを みて、かるさで えらびました。", "いちばん たかい パソコンを えらびました。", "いちばん ふるい パソコンを えらびました。", "すきな パソコンを えらびました。"], answer: "いろいろな パソコンを みて、かるさで えらびました。", explanation: "「比べて（くらべて）、一番軽いものを選んだ」は「いろいろ見て軽さで選んだ」と同じ内容です。" },
+    { question: "＿＿のぶんとだいたいおなじいみのぶんがあります。１・２・３・４からいちばんいいものをひとつえらびなさい。\n\nこの くには こめを ゆしゅつして います。", choices: ["この くには こめを ほかの くにから かって います。", "この くには こめを ほかの くにに うって います。", "この くには こめを たくさん つくって います。", "この くには こめを たくさん たべて います。"], answer: "この くには こめを ほかの くにに うって います。", explanation: "「輸出（ゆしゅつ）する」とは「自国の品を外国に売る・送り出す」ことです。" },
+    { question: "＿＿のぶんとだいたいおなじいみのぶんがあります。１・２・３・４からいちばんいいものをひとつえらびなさい。\n\nきのうは サッカーの しあいが ありました。", choices: ["きのうは サッカーの れんしゅうが ありました。", "きのうは サッカーの ゲームが ありました。", "きのうは サッカーの れんらくが ありました。", "きのうは サッカーの はっぴょうが ありました。"], answer: "きのうは サッカーの ゲームが ありました。", explanation: "「試合（しあい）」は「ゲーム」とほぼ同じ意味で、スポーツの競技のことです。" }
+  ],
+
+  "用法": [
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nさいきん", choices: ["さいきん りょうりが できたので、いっしょに たべましょう。", "さいきん しゅくだいを だして ください。", "きむらさんは さいきん けっこんした そうです。", "さいきん でんしゃが きますから、いそいで えきに いきましょう。"], answer: "きむらさんは さいきん けっこんした そうです。", explanation: "「最近（さいきん）」は「このごろ・近ごろ」という意味です。③が正しい使い方です。①は「できたて」、②は文が不自然、④は「もうすぐ」が正しい。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nおと", choices: ["ラジオの おとが おおきいので、もう すこし ちいさく して ください。", "にほんごの おとが じょうずに なりたいので、まいにち たくさん はなします。", "みせの ひとに おおきな おとで なまえを よばれました。", "すずきさんが ギターで ゆうめいな おとを ひいて くれました。"], answer: "ラジオの おとが おおきいので、もう すこし ちいさく して ください。", explanation: "「音（おと）」はラジオや音楽などの音量を指します。①が最も自然な使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nけんがく", choices: ["かばんが ほしいので、デパートに いって けんがくします。", "わからない かんじは じしょで けんがくして ください。", "せんせいや ともだちと こうじょうを けんがくしました。", "まいばん テレビで ニュースを けんがくして います。"], answer: "せんせいや ともだちと こうじょうを けんがくしました。", explanation: "「見学（けんがく）」は実際に行って学ぶことです。工場などの施設を訪問して見ることに使います。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nかざる", choices: ["やまだせんせいは テストの おしらせを きょうしつに かざりました。", "おきゃくさんが きますから、へやに はなを かざりましょう。", "てんきが わるいので、せんたくものは うちの なかに かざります。", "こっちの エアコンは、となりの へやの かべに かざって ください。"], answer: "おきゃくさんが きますから、へやに はなを かざりましょう。", explanation: "「飾る（かざる）」はきれいに飾り付けることです。部屋に花を飾るという使い方が正しいです。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nこうじ", choices: ["はが いたかったので、はいしゃで こうじを して もらいました。", "この セーターは ふるいですが、こうじを して、ずっと きて います。", "ほんだなが こわれて しまったので、こうじを しました。", "この みちは こうじを して いるので、とおれません。"], answer: "この みちは こうじを して いるので、とおれません。", explanation: "「工事（こうじ）」は建設・修理・整備作業のことで、道路工事などに使います。④が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nれんらく", choices: ["わからないことが あったら、いつでも れんらくして ください。", "ともだちに プレゼントを れんらくしました。", "この しごとは れんらくが かかって たいへんです。", "あした れんらくで がっこうに いきます。"], answer: "わからないことが あったら、いつでも れんらくして ください。", explanation: "「連絡（れんらく）する」は「知らせる・連絡をとる」という意味で、①が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nたいせつ", choices: ["この しごとは たいせつに して ください。", "けんこうは とても たいせつです。", "あたらしい コートを たいせつしました。", "かれは たいせつに なったので、はやく かえりました。"], answer: "けんこうは とても たいせつです。", explanation: "「大切（たいせつ）」は「重要だ・大事だ」という意味の形容動詞です。「健康は大切です」が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nしんぱい", choices: ["こどもが かぜを ひいたので、しんぱいです。", "あしたの パーティーが しんぱいで、うれしいです。", "せんせいの じゅぎょうは しんぱいで、たのしいです。", "しけんに うかって、しんぱいしました。"], answer: "こどもが かぜを ひいたので、しんぱいです。", explanation: "「心配（しんぱい）」は「気がかり・不安」という意味です。子どもが病気のときに心配するのは自然です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nわすれる", choices: ["ともだちに かした ほんを わすれました。", "さいふを うちに わすれて きて しまいました。", "あたらしい ことばを わすれて おきました。", "たいせつな かいぎを わすれて うれしかったです。"], answer: "さいふを うちに わすれて きて しまいました。", explanation: "「忘れる（わすれる）」は「うっかり置いてくる」という意味にも使います。「財布を忘れてきた」が自然な使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nいそがしい", choices: ["きょうは しごとが たくさんあって いそがしいです。", "この みちは くるまが いそがしいです。", "あした いそがしい ひとが たくさん きます。", "この もんだいは むずかしくて いそがしいです。"], answer: "きょうは しごとが たくさんあって いそがしいです。", explanation: "「忙しい（いそがしい）」は人がやることが多くて余裕がない状態を表します。①が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nくらべる", choices: ["ふたつの サイズを くらべて、おおきい ほうを えらびました。", "えきで ともだちを くらべて います。", "りんごを くらべて たべました。", "あした くらべに いきます。"], answer: "ふたつの サイズを くらべて、おおきい ほうを えらびました。", explanation: "「比べる（くらべる）」は二つ以上のものを見て違いや優劣を確かめることです。①が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nてつだう", choices: ["いもうとが にもつを てつだって くれました。", "せんせいが もんだいを てつだいました。", "あねが りょうりを てつだいに きました。", "ともだちが しゅくだいを てつだいました。"], answer: "あねが りょうりを てつだいに きました。", explanation: "「手伝う（てつだう）」は仕事や作業を助けることです。「料理を手伝いに来た」が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nすてる", choices: ["へやを ぜんぶ すてて ください。", "ひどい ことを するのは すてて ください。", "ここに いらない ものを すてて ください。", "がっこうの ほんを かばんに すてて ください。"], answer: "ここに いらない ものを すてて ください。", explanation: "「捨てる（すてる）」は不要なものを処分することです。「いらないものを捨てる」が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nさそう", choices: ["ともだちを えいがに さそいました。", "しごとを さそって ください。", "でんわを さそいました。", "でんしゃで さそいました。"], answer: "ともだちを えいがに さそいました。", explanation: "「誘う（さそう）」は一緒に来るよう声をかけることです。「友達を映画に誘った」が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nにゅうがく", choices: ["かれは にほんの かいしゃに にゅうがくしました。", "らいねん だいがくに にゅうがくします。", "この でんしゃは つぎの えきに にゅうがくします。", "くすりを にゅうがくして もらいました。"], answer: "らいねん だいがくに にゅうがくします。", explanation: "「入学（にゅうがく）する」は学校に入ることです。「大学に入学する」が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nまにあう", choices: ["でんしゃに まにあいました。", "しごとを まにあいました。", "ともだちに まにあいました。", "えいがが まにあいました。"], answer: "でんしゃに まにあいました。", explanation: "「間に合う（まにあう）」は時間内に到着・完了することです。「電車に間に合った」が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nこまる", choices: ["しごとが うまく いって こまりました。", "パスポートを わすれて こまりました。", "いい てんきで こまりました。", "ともだちが きて こまりました。"], answer: "パスポートを わすれて こまりました。", explanation: "「困る（こまる）」は困難な状況になることです。「パスポートを忘れて困った」が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nはっきり", choices: ["てんきが はっきりで、とても さむかった。", "かれは はっきり こたえて くれました。", "えいごが はっきりで むずかしいです。", "きのうは はっきりで とても たのしかったです。"], answer: "かれは はっきり こたえて くれました。", explanation: "「はっきり」は明確・明瞭という意味の副詞です。「はっきり答える」が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nなおす", choices: ["こわれた じてんしゃを なおしました。", "にほんごを なおして まいにち べんきょうしています。", "パーティーに なおして いきます。", "としょかんに ほんを なおしました。"], answer: "こわれた じてんしゃを なおしました。", explanation: "「直す（なおす）」は壊れたものを修理することです。「壊れた自転車を直した」が正しい使い方です。" },
+    { question: "つぎの ことばの つかいかたで いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\nけいかく", choices: ["らいねんの りょこうの けいかくを たてました。", "はは は まいにち けいかくに かよっています。", "この えいがは けいかくで とても おもしろかった。", "しゅくだいを けいかくして ください。"], answer: "らいねんの りょこうの けいかくを たてました。", explanation: "「計画（けいかく）を立てる」は何かをする予定や段取りを作ることです。旅行の計画を立てるのが正しい使い方です。" }
+  ]
+};
+
+const grammarQuestions = {
+  "文の文法1": [
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nすみません、この近くに銀行（　）ありますか。", choices: ["が", "は", "を", "に"], answer: "が", explanation: "「銀行がありますか」という存在を尋ねる表現では「が」を使います。「が」は存在・所有の主語を表す助詞です。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n毎朝、バス（　）学校に行きます。", choices: ["で", "に", "を", "と"], answer: "で", explanation: "手段・方法を表すには「で」を使います。「バスで行く」＝バスという手段で行くという意味です。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n日本語（　）話せるようになりたいです。", choices: ["が", "を", "に", "で"], answer: "が", explanation: "「〜が話せる」という可能の表現では「が」を使います。能力を表す「〜できる」の対象には「が」が自然です。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n宿題が終わって（　）、遊んでいいですよ。", choices: ["から", "ので", "ために", "まで"], answer: "から", explanation: "「〜てから」は「〜した後で」という順序を表します。「終わってから遊ぶ」＝終わった後で遊ぶという意味です。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n彼女は先生に褒め（　）、とても嬉しそうでした。", choices: ["られて", "させて", "てあげて", "てもらって"], answer: "られて", explanation: "「先生に褒められる」は受け身の形で、先生から褒めるという行為を受けたことを表します。「〜られる」は受け身を示します。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nもう少し（　）待ってください。", choices: ["だけ", "ほど", "ばかり", "しか"], answer: "だけ", explanation: "「もう少しだけ」は「その程度・量だけ」を表す「だけ」の使い方です。限定の意味を持ちます。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n熱があるなら、学校を休ん（　）ほうがいいです。", choices: ["だ", "な", "の", "が"], answer: "だ", explanation: "「〜たほうがいい」は「〜することが望ましい」というアドバイスを表します。「休んだほうがいい」が正しい形です。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nこの店は料理が（　）、値段も安いです。", choices: ["おいしいし", "おいしくて", "おいしいから", "おいしいのに"], answer: "おいしくて", explanation: "「〜くて」は二つの性質を並べるときに使います。「おいしくて値段も安い」は二つのよい点を並べています。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n子どもたちに部屋の掃除（　）させました。", choices: ["が", "を", "に", "で"], answer: "を", explanation: "「〜をさせる」は使役の表現で、「掃除をさせる」＝掃除という行為をするよう仕向けることです。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nこの映画は子どもが見（　）ように、やさしい言葉で作られています。", choices: ["られる", "させる", "てもらう", "てあげる"], answer: "られる", explanation: "「子どもが見られるように」は「子どもが見ることができるように」という可能の意味です。「〜られる」には可能の意味もあります。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n明日、雨が降（　）、試合は中止になります。", choices: ["れば", "たら", "なら", "と"], answer: "ると", explanation: "自然現象や条件の帰結を表すには「〜と」を使います。「雨が降ると試合が中止になる」という自然な因果関係を表します。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n彼は仕事が（　）、旅行に行く時間がありません。", choices: ["いそがしくて", "いそがしいし", "いそがしいから", "いそがしいので"], answer: "いそがしくて", explanation: "「忙しくて〜ない」は「忙しいという理由で〜できない」という状況を表します。「〜くて」は原因・理由を示す場合にも使います。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n先生が（　）ので、ドアを開けました。", choices: ["いらっしゃった", "おられた", "みえた", "おいでになった"], answer: "いらっしゃった", explanation: "「いらっしゃる」は「いる・来る・行く」の尊敬語です。先生という上の立場の人に使う最も一般的な尊敬語の表現です。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n友達が引っ越しを（　）くれたので、助かりました。", choices: ["手伝って", "手伝わせて", "手伝われて", "手伝ってもらって"], answer: "手伝って", explanation: "「〜てくれる」は相手が自分のために何かをしてくれることを表します。「友達が手伝ってくれた」が正しい形です。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n日本語の試験に（　）ために、毎日勉強しています。", choices: ["合格する", "合格した", "合格して", "合格すれば"], answer: "合格する", explanation: "「〜ために」の前は動詞の辞書形または「〜するため」の形にします。「合格するために勉強する」が正しい形です。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n先生の話を聞き（　）、ノートにメモしました。", choices: ["ながら", "てから", "たあと", "ながらに"], answer: "ながら", explanation: "「〜ながら」は二つの動作を同時に行うことを表します。「聞きながらメモする」＝聞くこととメモすることを同時にするという意味です。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nこの薬は食事の後（　）飲んでください。", choices: ["に", "で", "と", "から"], answer: "に", explanation: "「食事の後に」は時間を表す「に」の使い方です。「〜の後に」で「〜が終わった時間に」という意味を表します。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\nもし時間が（　）、映画を見に行きましょう。", choices: ["あれば", "あると", "あって", "あるのに"], answer: "あれば", explanation: "「もし〜ば」は仮定の条件を表します。「もし時間があれば〜しましょう」という提案の表現です。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n田中さんは今会議中です。後で（　）いただけますか。", choices: ["電話して", "電話させて", "電話していただいて", "お電話して"], answer: "電話して", explanation: "「〜ていただけますか」は丁寧な依頼表現です。「後で電話していただけますか」＝「後で電話してもらえますか」という丁寧な依頼です。" },
+    { question: "つぎの文の（　）に なにを いれますか。１・２・３・４から いちばん いい ものを ひとつ えらんで ください。\n\n体の（　）ために、毎日野菜を食べています。", choices: ["ため", "こと", "ほど", "ところ"], answer: "ため", explanation: "「〜のために」は目的を表します。「体のために（体の健康のために）野菜を食べる」という目的の表現です。" }
+  ],
+
+  "文の文法2": [
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n友達に\n　__１__　__２__　★　__４__\nもらいました。", choices: ["プレゼントを", "買って", "誕生日の", "て"], answer: "買って", explanation: "正しい語順：「友達に＋誕生日の＋プレゼントを＋買って＋もらいました」。★（3番目）には「買って」が入ります。「〜てもらう」は恩恵受益の表現です。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n彼女は\n　__１__　__２__　★　__４__\n見えます。", choices: ["より", "若く", "年齢", "に"], answer: "若く", explanation: "正しい語順：「彼女は＋年齢＋より＋若く＋見えます」。★（3番目）には「若く」が入ります。「〜より若く見える」は比較の表現です。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n毎日\n　__１__　__２__　★　__４__\nうまくなりました。", choices: ["練習した", "おかげで", "ので", "ギターが"], answer: "ので", explanation: "正しい語順：「毎日＋練習した＋おかげで＋ギターが＋うまくなりました」。★（3番目）には「ギターが」が入ります。「〜おかげで」は良い結果の原因を表します。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\nこの問題は\n　__１__　__２__　★　__４__\nと思います。", choices: ["かんがえれば", "できる", "よく", "解くことが"], answer: "解くことが", explanation: "正しい語順：「この問題は＋よく＋かんがえれば＋解くことが＋できると思います」。★（3番目）には「解くことが」が入ります。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n母に\n　__１__　__２__　★　__４__\nと言われました。", choices: ["早く", "帰って", "くるように", "なさい"], answer: "くるように", explanation: "正しい語順：「母に＋早く＋帰って＋くるように＋と言われました」。★（3番目）には「くるように」が入ります。「〜ように言う」は間接的な指示を表します。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n電車が\n　__１__　__２__　★　__４__\n遅刻しました。", choices: ["遅れた", "ために", "会社に", "ので"], answer: "ので", explanation: "正しい語順：「電車が＋遅れた＋ために＋会社に＋遅刻しました」。★（3番目）には「会社に」が入ります。「〜ために」は原因・理由を表します。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n彼は\n　__１__　__２__　★　__４__\nくれました。", choices: ["やさしく", "勉強を", "教えて", "日本語の"], answer: "教えて", explanation: "正しい語順：「彼は＋やさしく＋日本語の＋勉強を＋教えて＋くれました」。★（3番目）には「勉強を」が入ります。「〜てくれる」は恩恵を表します。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n来週\n　__１__　__２__　★　__４__\n行きます。", choices: ["と", "友達", "一緒に", "旅行に"], answer: "旅行に", explanation: "正しい語順：「来週＋友達＋と＋一緒に＋旅行に＋行きます」。★（3番目）には「一緒に」が入ります。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\nもっと\n　__１__　__２__　★　__４__\n覚えたいです。", choices: ["日本語の", "単語を", "たくさん", "勉強して"], answer: "単語を", explanation: "正しい語順：「もっと＋日本語の＋単語を＋たくさん＋勉強して＋覚えたいです」。★（3番目）には「たくさん」が入ります。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n彼女に\n　__１__　__２__　★　__４__\nなりました。", choices: ["会い", "たくて", "気持ちに", "どうしても"], answer: "気持ちに", explanation: "正しい語順：「彼女に＋どうしても＋会い＋たくて＋気持ちになりました」。★（3番目）には「たくて」が入ります。「〜たくてたまらない気持ちになった」という意味です。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\nこの店は\n　__１__　__２__　★　__４__\n有名です。", choices: ["おいしい", "料理が", "として", "こと"], answer: "として", explanation: "正しい語順：「この店は＋料理が＋おいしい＋こと＋として＋有名です」。★（3番目）には「こと」が入ります。「〜ことで有名」は〜で知られているという表現です。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n仕事が\n　__１__　__２__　★　__４__\n休めませんでした。", choices: ["忙しくて", "少しも", "たくさんあって", "ゆっくり"], answer: "ゆっくり", explanation: "正しい語順：「仕事が＋たくさんあって＋忙しくて＋少しも＋ゆっくり＋休めませんでした」。★（3番目）には「少しも」が入ります。「少しも〜ない」は否定の強調です。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n先生に\n　__１__　__２__　★　__４__\nいただきました。", choices: ["わかりやすく", "文法を", "説明して", "難しい"], answer: "説明して", explanation: "正しい語順：「先生に＋難しい＋文法を＋わかりやすく＋説明して＋いただきました」。★（3番目）には「わかりやすく」が入ります。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n雨が\n　__１__　__２__　★　__４__\n出かけました。", choices: ["降って", "傘を", "いたのに", "さして"], answer: "いたのに", explanation: "正しい語順：「雨が＋降って＋いたのに＋傘を＋さして＋出かけました」。★（3番目）には「傘を」が入ります。「〜のに」は逆接を表します。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n日本に\n　__１__　__２__　★　__４__\n三年になります。", choices: ["来て", "から", "もう", "住んで"], answer: "住んで", explanation: "正しい語順：「日本に＋来て＋住んで＋から＋もう＋三年になります」。★（3番目）には「から」が入ります。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n子どもが\n　__１__　__２__　★　__４__\n困ってしまいました。", choices: ["泣いて", "止まら", "なくて", "ずに"], answer: "なくて", explanation: "正しい語順：「子どもが＋泣いて＋止まら＋ずに＋なくて＋困ってしまいました」。★（3番目）には「ずに」が入ります。「泣き止まずに」という表現です。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\nこの本は\n　__１__　__２__　★　__４__\nお勧めです。", choices: ["子どもにも", "大人にも", "わかりやすく", "書かれていて"], answer: "書かれていて", explanation: "正しい語順：「この本は＋わかりやすく＋書かれていて＋大人にも＋子どもにも＋お勧めです」。★（3番目）には「大人にも」が入ります。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\nたくさん\n　__１__　__２__　★　__４__\n話せるように なりました。", choices: ["練習した", "日本語が", "おかげで", "流暢に"], answer: "流暢に", explanation: "正しい語順：「たくさん＋練習した＋おかげで＋日本語が＋流暢に＋話せるようになりました」。★（3番目）には「日本語が」が入ります。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n彼に\n　__１__　__２__　★　__４__\nほしいです。", choices: ["連絡して", "すぐに", "もらいたいと", "思って"], answer: "もらいたいと", explanation: "正しい語順：「彼に＋すぐに＋連絡して＋もらいたいと＋思って＋ほしいです」。★（3番目）には「もらいたいと」が入ります。" },
+    { question: "つぎの　★　に はいる いちばん いい ものを ひとつ えらんで ください。\n\n父は\n　__１__　__２__　★　__４__\n心配しています。", choices: ["の", "健康", "こと", "が"], answer: "こと", explanation: "正しい語順：「父は＋健康＋の＋こと＋が＋心配しています」。★（3番目）には「こと」が入ります。「健康のことが心配」という表現です。" }
+  ],
+
+  "文章の文法": [
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\nわたしは去年の春から日本語を習い始めました。最初はひらがなもカタカナも書けませんでした。  ①  、今では少しずつ話せるようになりました。\n\n日本語のクラスには色々な国の人がいます。中国や韓国、ブラジル、フランスなどから来た人  ②  います。みんな日本語を勉強する理由は違いますが、仲良くしています。\n\n先生の教え方はとてもわかりやすいです。難しい言葉は絵や写真を  ③  、説明してくれます。\n\n来年は日本語能力試験を受ける  ④  です。N4に合格するために、毎日少しずつ練習を続けたいと思います。\n\n━━━━━━━━━━━━━━━━━━\n\n①に入るものはどれですか。", choices: ["しかし", "だから", "それに", "たとえば"], answer: "しかし", explanation: "①の前では「最初はひらがなも書けなかった」という困難が述べられ、後ろでは「今では話せるようになった」という進歩が続きます。「しかし」が逆接の接続詞として最も適切です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\nわたしは去年の春から日本語を習い始めました。最初はひらがなもカタカナも書けませんでした。しかし、今では少しずつ話せるようになりました。\n\n日本語のクラスには色々な国の人がいます。中国や韓国、ブラジル、フランスなどから来た人  ②  います。みんな日本語を勉強する理由は違いますが、仲良くしています。\n\n先生の教え方はとてもわかりやすいです。難しい言葉は絵や写真を  ③  、説明してくれます。\n\n来年は日本語能力試験を受ける  ④  です。N4に合格するために、毎日少しずつ練習を続けたいと思います。\n\n━━━━━━━━━━━━━━━━━━\n\n②に入るものはどれですか。", choices: ["しか", "ばかり", "など", "が"], answer: "が", explanation: "「中国や韓国、ブラジル、フランスなどから来た人がいます」という存在を表す文では「が」が適切です。「〜が」は存在の主語を示す助詞です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\nわたしは去年の春から日本語を習い始めました。最初はひらがなもカタカナも書けませんでした。しかし、今では少しずつ話せるようになりました。\n\n日本語のクラスには色々な国の人がいます。中国や韓国、ブラジル、フランスなどから来た人がいます。みんな日本語を勉強する理由は違いますが、仲良くしています。\n\n先生の教え方はとてもわかりやすいです。難しい言葉は絵や写真を  ③  、説明してくれます。\n\n来年は日本語能力試験を受ける  ④  です。N4に合格するために、毎日少しずつ練習を続けたいと思います。\n\n━━━━━━━━━━━━━━━━━━\n\n③に入るものはどれですか。", choices: ["使いながら", "使っても", "使わなければ", "使うなら"], answer: "使いながら", explanation: "「絵や写真を使いながら説明する」は「絵や写真を使うことと説明することを同時に行う」という意味で、「〜ながら」が最も適切です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\nわたしは去年の春から日本語を習い始めました。最初はひらがなもカタカナも書けませんでした。しかし、今では少しずつ話せるようになりました。\n\n日本語のクラスには色々な国の人がいます。中国や韓国、ブラジル、フランスなどから来た人がいます。みんな日本語を勉強する理由は違いますが、仲良くしています。\n\n先生の教え方はとてもわかりやすいです。難しい言葉は絵や写真を使いながら、説明してくれます。\n\n来年は日本語能力試験を受ける  ④  です。N4に合格するために、毎日少しずつ練習を続けたいと思います。\n\n━━━━━━━━━━━━━━━━━━\n\n④に入るものはどれですか。", choices: ["つもり", "はず", "こと", "もの"], answer: "つもり", explanation: "「試験を受けるつもりです」は「自分の意志・予定」を表す「つもり」が最も適切です。「来年受ける予定・意志がある」という自分の計画を表しています。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n先週の日曜日、家族でピクニックに行きました。天気がよかった  ①  、公園にはたくさんの人がいました。\n\nお弁当を食べた  ②  、みんなで広場でボールを投げて遊びました。子どもたちはとても楽しそうでした。\n\n午後になると、すこし  ③  なりましたが、そのまま遊び続けました。\n\n帰る前に、近くの川で手を洗いました。水がとても  ④  て、気持ちよかったです。\n\n来月もまた行こうという話になりました。\n\n━━━━━━━━━━━━━━━━━━\n\n①に入るものはどれですか。", choices: ["ので", "のに", "から", "ために"], answer: "ので", explanation: "「天気がよかったので、人が多かった」は「天気がよかった」という理由から「人が多かった」という結果が導かれる文です。「ので」は丁寧な理由表現として最も適切です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n先週の日曜日、家族でピクニックに行きました。天気がよかったので、公園にはたくさんの人がいました。\n\nお弁当を食べた  ②  、みんなで広場でボールを投げて遊びました。子どもたちはとても楽しそうでした。\n\n午後になると、すこし  ③  なりましたが、そのまま遊び続けました。\n\n帰る前に、近くの川で手を洗いました。水がとても  ④  て、気持ちよかったです。\n\n来月もまた行こうという話になりました。\n\n━━━━━━━━━━━━━━━━━━\n\n②に入るものはどれですか。", choices: ["あとで", "ために", "ように", "ながら"], answer: "あとで", explanation: "「お弁当を食べたあとで、ボールで遊んだ」は「食べる」という行動が先で、「遊ぶ」が後という順序を表します。「〜たあとで」が最も適切です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n先週の日曜日、家族でピクニックに行きました。天気がよかったので、公園にはたくさんの人がいました。\n\nお弁当を食べたあとで、みんなで広場でボールを投げて遊びました。子どもたちはとても楽しそうでした。\n\n午後になると、すこし  ③  なりましたが、そのまま遊び続けました。\n\n帰る前に、近くの川で手を洗いました。水がとても  ④  て、気持ちよかったです。\n\n来月もまた行こうという話になりました。\n\n━━━━━━━━━━━━━━━━━━\n\n③に入るものはどれですか。", choices: ["さむく", "あたたかく", "ひろく", "にぎやかに"], answer: "さむく", explanation: "「なりましたが、そのまま遊び続けた」という文脈から、遊ぶのをやめたくなるような変化が起きたと考えられます。午後に「寒くなった（さむくなった）」が最も自然です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n先週の日曜日、家族でピクニックに行きました。天気がよかったので、公園にはたくさんの人がいました。\n\nお弁当を食べたあとで、みんなで広場でボールを投げて遊びました。子どもたちはとても楽しそうでした。\n\n午後になると、すこし寒くなりましたが、そのまま遊び続けました。\n\n帰る前に、近くの川で手を洗いました。水がとても  ④  て、気持ちよかったです。\n\n来月もまた行こうという話になりました。\n\n━━━━━━━━━━━━━━━━━━\n\n④に入るものはどれですか。", choices: ["つめたく", "あたたかく", "おいしく", "きれいで"], answer: "つめたく", explanation: "川の水について「〜て、気持ちよかった」という感想が続く場合、「冷たくて気持ちよかった」が最も自然な表現です。川の水は通常冷たく感じられます。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n私の趣味は料理です。毎週末、新しいレシピに  ①  います。\n\n先週は、はじめてカレーを作りました。材料を切って、  ②  炒めて、スープを加えました。\n\nできあがったカレーは  ③  おいしくできました。家族みんなに好評でした。\n\nまた来週も  ④  料理を作ってみたいと思います。\n\n━━━━━━━━━━━━━━━━━━\n\n①に入るものはどれですか。", choices: ["挑戦して", "挑戦した", "挑戦する", "挑戦しない"], answer: "挑戦して", explanation: "「新しいレシピに挑戦しています」は継続している趣味の活動を表します。「〜している」という進行・継続の形には「挑戦して（います）」が適切です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n私の趣味は料理です。毎週末、新しいレシピに挑戦しています。\n\n先週は、はじめてカレーを作りました。材料を切って、  ②  炒めて、スープを加えました。\n\nできあがったカレーは  ③  おいしくできました。家族みんなに好評でした。\n\nまた来週も  ④  料理を作ってみたいと思います。\n\n━━━━━━━━━━━━━━━━━━\n\n②に入るものはどれですか。", choices: ["それから", "しかし", "だから", "でも"], answer: "それから", explanation: "「材料を切って、それから炒めて」は料理の手順を順番に述べる文です。順序を示す「それから（その次に）」が最も適切です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n私の趣味は料理です。毎週末、新しいレシピに挑戦しています。\n\n先週は、はじめてカレーを作りました。材料を切って、それから炒めて、スープを加えました。\n\nできあがったカレーは  ③  おいしくできました。家族みんなに好評でした。\n\nまた来週も  ④  料理を作ってみたいと思います。\n\n━━━━━━━━━━━━━━━━━━\n\n③に入るものはどれですか。", choices: ["とても", "あまり", "ちょっと", "少し"], answer: "とても", explanation: "「家族みんなに好評だった」という後の内容から、カレーは非常においしくできたと考えられます。「とてもおいしくできた」が文脈に最も合います。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n私の趣味は料理です。毎週末、新しいレシピに挑戦しています。\n\n先週は、はじめてカレーを作りました。材料を切って、それから炒めて、スープを加えました。\n\nできあがったカレーはとてもおいしくできました。家族みんなに好評でした。\n\nまた来週も  ④  料理を作ってみたいと思います。\n\n━━━━━━━━━━━━━━━━━━\n\n④に入るものはどれですか。", choices: ["あたらしい", "ふるい", "やすい", "たかい"], answer: "あたらしい", explanation: "趣味として毎週新しいレシピに挑戦しているという文脈から、「また来週も新しい料理を作ってみたい」が最も自然な流れです。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n来月、友達と旅行に行く  ①  になっています。はじめての海外旅行なので、とても楽しみにしています。\n\n旅行の準備として、パスポートはもう作りました。お金も  ②  おきました。\n\nホテルはインターネットで予約しました。部屋から海が  ③  ホテルです。\n\n旅行中は写真をたくさん撮りたいと思っています。思い出を  ④  おきたいからです。\n\n━━━━━━━━━━━━━━━━━━\n\n①に入るものはどれですか。", choices: ["こと", "つもり", "はず", "ため"], answer: "こと", explanation: "「〜ことになっている」は「決定していること・予定されていること」を表します。友達と一緒に行くという計画が既に決まっているという状況に適切です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n来月、友達と旅行に行くことになっています。はじめての海外旅行なので、とても楽しみにしています。\n\n旅行の準備として、パスポートはもう作りました。お金も  ②  おきました。\n\nホテルはインターネットで予約しました。部屋から海が  ③  ホテルです。\n\n旅行中は写真をたくさん撮りたいと思っています。思い出を  ④  おきたいからです。\n\n━━━━━━━━━━━━━━━━━━\n\n②に入るものはどれですか。", choices: ["用意して", "用意した", "用意する", "用意しない"], answer: "用意して", explanation: "「お金も用意しておきました」は「準備として事前にお金を用意した」という意味です。「〜ておく」は事前の準備を表し、「用意して（おく）」の形が適切です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n来月、友達と旅行に行くことになっています。はじめての海外旅行なので、とても楽しみにしています。\n\n旅行の準備として、パスポートはもう作りました。お金も用意しておきました。\n\nホテルはインターネットで予約しました。部屋から海が  ③  ホテルです。\n\n旅行中は写真をたくさん撮りたいと思っています。思い出を  ④  おきたいからです。\n\n━━━━━━━━━━━━━━━━━━\n\n③に入るものはどれですか。", choices: ["見えるホテル", "見えるホテルが", "見えるホテルに", "見えるホテルは"], answer: "見えるホテル", explanation: "「部屋から海が見えるホテル」は連体修飾節（名詞を修飾する節）です。「〜ホテル」という形で、「部屋から海が見える」という条件のホテルを表します。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n来月、友達と旅行に行くことになっています。はじめての海外旅行なので、とても楽しみにしています。\n\n旅行の準備として、パスポートはもう作りました。お金も用意しておきました。\n\nホテルはインターネットで予約しました。部屋から海が見えるホテルです。\n\n旅行中は写真をたくさん撮りたいと思っています。思い出を  ④  おきたいからです。\n\n━━━━━━━━━━━━━━━━━━\n\n④に入るものはどれですか。", choices: ["残して", "消して", "変えて", "集めて"], answer: "残して", explanation: "「思い出を残しておきたい」は「記念として思い出を保存しておきたい」という意味です。写真を撮る目的として「思い出を残す」が最も自然な表現です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n今日は近くのスーパーで買い物を  ①  ました。野菜や肉、それから飲み物も買いました。\n\nお店にはたくさんの商品がありました。特に果物  ②  、種類がとても多かったです。\n\nレジで払う  ③  、クレジットカードが使えなくて困りました。\n\n結局、現金で払いました。  ④  、ちょうど持っていたので助かりました。\n\n━━━━━━━━━━━━━━━━━━\n\n①に入るものはどれですか。", choices: ["し", "する", "した", "して"], answer: "し", explanation: "「買い物をしました」の「し」は「する」の連用形で、「〜をしました」という動作の完了を表します。この文脈では「買い物をしました」の「し」が正しい形です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n今日は近くのスーパーで買い物をしました。野菜や肉、それから飲み物も買いました。\n\nお店にはたくさんの商品がありました。特に果物  ②  、種類がとても多かったです。\n\nレジで払う  ③  、クレジットカードが使えなくて困りました。\n\n結局、現金で払いました。  ④  、ちょうど持っていたので助かりました。\n\n━━━━━━━━━━━━━━━━━━\n\n②に入るものはどれですか。", choices: ["は", "が", "を", "に"], answer: "は", explanation: "「特に果物は、種類がとても多かった」の「は」は「果物」を話題として取り上げるトピックマーカーです。「特に〜は」という形で特定のものを強調するのに「は」が適切です。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n今日は近くのスーパーで買い物をしました。野菜や肉、それから飲み物も買いました。\n\nお店にはたくさんの商品がありました。特に果物は、種類がとても多かったです。\n\nレジで払う  ③  、クレジットカードが使えなくて困りました。\n\n結局、現金で払いました。  ④  、ちょうど持っていたので助かりました。\n\n━━━━━━━━━━━━━━━━━━\n\n③に入るものはどれですか。", choices: ["とき", "ため", "ので", "から"], answer: "とき", explanation: "「レジで払うとき」は「支払いをしようとしたその場面で」という意味です。「〜とき」は特定の時点・場面を表します。" },
+    { question: "つぎの ぶんしょうを よんで、（　）に はいる いちばん いい ものを、１・２・３・４から ひとつ えらんで ください。\n\n━━━━━━━━━━━━━━━━━━\n\n今日は近くのスーパーで買い物をしました。野菜や肉、それから飲み物も買いました。\n\nお店にはたくさんの商品がありました。特に果物は、種類がとても多かったです。\n\nレジで払うとき、クレジットカードが使えなくて困りました。\n\n結局、現金で払いました。  ④  、ちょうど持っていたので助かりました。\n\n━━━━━━━━━━━━━━━━━━\n\n④に入るものはどれですか。", choices: ["さいわい", "ざんねん", "やはり", "それでも"], answer: "さいわい", explanation: "「幸い（さいわい）、ちょうど持っていたので助かった」は「運よく現金を持っていたから助かった」という意味です。困った状況が運よく解決したことを表す「幸い」が最も適切です。" }
+  ]
+};
+
+const readingQuestions = [
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n山田さんへ\n\n来週の土曜日のパーティーのことですが、場所が変わりました。田中さんの家ではなく、駅前のレストラン「さくら」になりました。時間は午後6時から、変わっていません。よろしくお願いします。\n\n佐藤\n━━━━━━━━━━━━━━━━━━\n\nこのメモで変わったことは何ですか。", choices: ["パーティーの日", "パーティーの時間", "パーティーの場所", "パーティーの人数"], answer: "パーティーの場所", explanation: "メモには「場所が変わりました」と書いてあります。時間は「変わっていません」とあります。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nお知らせ\n\n図書館は今月15日（木）から17日（土）まで、本の整理のためお休みします。18日（日）から通常通り開館します。ご不便をおかけしますが、よろしくお願いします。\n━━━━━━━━━━━━━━━━━━\n\n図書館は何日間休みますか。", choices: ["2日間", "3日間", "4日間", "5日間"], answer: "3日間", explanation: "15日、16日、17日の3日間休みます。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n田中さんは毎朝7時に起きます。朝ごはんを食べてから、シャワーを浴びます。そして、8時30分に家を出て、電車で会社に行きます。会社までは電車で30分かかります。\n━━━━━━━━━━━━━━━━━━\n\n田中さんは何時に会社につきますか。", choices: ["午前8時", "午前8時30分", "午前9時", "午前9時30分"], answer: "午前9時", explanation: "8時30分に家を出て、電車で30分かかるので、9時に会社に着きます。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nリーさんは今、日本語学校で勉強しています。クラスには20人の学生がいて、その半分は中国から来た人です。韓国から来た人は5人で、残りはほかの国の人です。\n━━━━━━━━━━━━━━━━━━\n\nほかの国から来た学生は何人ですか。", choices: ["3人", "5人", "7人", "10人"], answer: "5人", explanation: "全部で20人。中国10人、韓国5人、残り20-10-5=5人がほかの国から来た学生です。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nやまもとさんはりょうりがすきです。まいしゅうまつ、いえでいろいろなりょうりをつくります。とくに、にほんりょうりがとくいで、ともだちにもよくつくってあげます。ともだちはいつも「おいしい」と言って、よろこんでくれます。\n━━━━━━━━━━━━━━━━━━\n\nやまもとさんについて正しいのはどれですか。", choices: ["毎日料理を作ります。", "レストランで働いています。", "特に日本料理が上手です。", "一人で食べています。"], answer: "特に日本料理が上手です。", explanation: "「とくに、にほんりょうりがとくいで」とあるので、日本料理が得意だということです。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nスポーツジム　会員様へ\n\n来月から、プールの開館時間が変わります。今まで朝9時から夜10時まででしたが、来月からは朝8時から夜9時までになります。ご注意ください。\n━━━━━━━━━━━━━━━━━━\n\nプールは来月から何時に閉まりますか。", choices: ["夜8時", "夜9時", "夜10時", "夜11時"], answer: "夜9時", explanation: "「来月からは朝8時から夜9時まで」とあるので、閉館は夜9時です。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n先生は学生に「宿題は来週の月曜日までに出してください。」と言いました。今日は金曜日です。\n━━━━━━━━━━━━━━━━━━\n\n宿題はあと何日で出さなければなりませんか。", choices: ["2日", "3日", "4日", "5日"], answer: "3日", explanation: "今日が金曜日で、来週の月曜日が締め切りです。土曜日、日曜日、月曜日で3日後です。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nキムさんは日本に来て3年になります。最初の1年は日本語学校で勉強しました。次の2年間は大学に通っています。大学では経済を専攻しています。\n━━━━━━━━━━━━━━━━━━\n\nキムさんは今、何をしていますか。", choices: ["日本語学校で日本語を勉強しています。", "大学で経済を勉強しています。", "会社で働いています。", "日本語を教えています。"], answer: "大学で経済を勉強しています。", explanation: "「次の2年間は大学に通っています。大学では経済を専攻しています。」とあります。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nお客様へ\n\nこの商品は30日間、返品できます。ただし、箱を開けた後は返品できません。返品の場合は、レシートと商品を一緒にお持ちください。\n━━━━━━━━━━━━━━━━━━\n\n返品するとき、持っていかなければならないものはどれですか。", choices: ["レシートだけ", "商品だけ", "レシートと商品", "クレジットカードとレシート"], answer: "レシートと商品", explanation: "「レシートと商品を一緒にお持ちください」とあります。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n今日は山田さんの誕生日です。山田さんの家族は、山田さんのためにパーティーを準備しました。山田さんはパーティーのことを知りません。家に帰ったとき、山田さんはとても驚きました。\n━━━━━━━━━━━━━━━━━━\n\n山田さんはなぜ驚きましたか。", choices: ["家族が家にいなかったから", "パーティーを知らなかったから", "誕生日を忘れていたから", "家族と喧嘩したから"], answer: "パーティーを知らなかったから", explanation: "「山田さんはパーティーのことを知りません」とあるので、知らなかったから驚いたのです。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nバス時刻表\n\n駅前発\n7:00 / 7:30 / 8:00 / 8:30 / 9:00\n（月曜日〜金曜日）\n\n土日祝日は運行しません。\n━━━━━━━━━━━━━━━━━━\n\nこの時刻表について、正しいのはどれですか。", choices: ["土曜日も使えます。", "一日5本バスがあります（平日）。", "8時のバスは日曜日にも出ます。", "このバスは24時間運行します。"], answer: "一日5本バスがあります（平日）。", explanation: "7:00, 7:30, 8:00, 8:30, 9:00の5本あります。土日祝日は運行しないと書いてあります。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nわたしの趣味はカメラです。特に花の写真を撮るのが好きです。春は桜、夏はひまわり、秋は紅葉、冬は雪の上に咲く梅の花などを撮ります。先月、写真コンテストに応募したら、3位に入賞しました。\n━━━━━━━━━━━━━━━━━━\n\n先月、何がありましたか。", choices: ["カメラを買いました。", "花を植えました。", "写真コンテストで賞をとりました。", "写真を教え始めました。"], answer: "写真コンテストで賞をとりました。", explanation: "「先月、写真コンテストに応募したら、3位に入賞しました」とあります。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nマリアさんは、毎週土曜日に友達と日本語の練習をしています。今週は用事があるので、来週から再開する予定です。\n━━━━━━━━━━━━━━━━━━\n\n今週の土曜日はどうなりますか。", choices: ["いつも通り日本語を練習します。", "友達と別の場所で会います。", "日本語の練習をしません。", "先生と練習します。"], answer: "日本語の練習をしません。", explanation: "「今週は用事があるので」とあり、来週から再開するとあるので、今週はしないということです。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nレストランのメニュー\nランチセット：800円\n（ライス・スープ・メイン料理・サラダ）\nドリンクは別途100円\n━━━━━━━━━━━━━━━━━━\n\nランチセットにコーヒーをつけると、いくらになりますか。", choices: ["700円", "800円", "900円", "1000円"], answer: "900円", explanation: "ランチセット800円＋ドリンク100円＝900円です。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nたなかさんへ\n\n明日の会議は10時から始まります。会議室は3階です。資料は私が準備しますので、たなかさんは手ぶらで来てください。\n\nすずき\n━━━━━━━━━━━━━━━━━━\n\n田中さんは明日、何を持っていかなければなりませんか。", choices: ["資料", "ノートパソコン", "何も持っていかなくていい", "コーヒー"], answer: "何も持っていかなくていい", explanation: "「資料は私が準備しますので、手ぶらで来てください」とあります。「手ぶら」は何も持たないという意味です。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nわたしは先週、はじめて一人で料理をしました。レシピを見ながら野菜を切ったり、肉を炒めたりしました。少し時間がかかりましたが、おいしいカレーができました。家族も「おいしい」と言ってくれました。\n━━━━━━━━━━━━━━━━━━\n\nこの人について正しいのはどれですか。", choices: ["毎日料理をしています。", "料理が得意です。", "先週初めて一人で料理しました。", "家族のために毎週料理します。"], answer: "先週初めて一人で料理しました。", explanation: "「先週、はじめて一人で料理をしました」とあります。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nりんごは100グラムで50円です。バナナは1本30円です。みかんは1袋（5個入り）で200円です。\n━━━━━━━━━━━━━━━━━━\n\nみかんを一個だけ買うと、いくらですか。", choices: ["20円", "30円", "40円", "50円"], answer: "40円", explanation: "みかんは5個で200円なので、1個は200÷5=40円です。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nあなたの日本語の先生から手紙が来ました。\n\n「来月から授業の時間が変わります。今まで月曜日と水曜日の午後2時からでしたが、来月からは火曜日と木曜日の午前10時からになります。教室は変わりません。」\n━━━━━━━━━━━━━━━━━━\n\n来月から変わることはどれですか。", choices: ["授業の日と時間", "授業の日と教室", "教室と時間", "授業の日だけ"], answer: "授業の日と時間", explanation: "「月・水の午後2時」から「火・木の午前10時」に変わります。曜日（日）と時間が変わります。教室は変わらないとあります。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n公園のお知らせ\n\nこの公園では、次のことが禁止されています。\n・犬の放し飼い（リードをつけてください）\n・バーベキュー\n・深夜（22時以降）の使用\n━━━━━━━━━━━━━━━━━━\n\nこの公園でできることはどれですか。", choices: ["リードなしで犬を散歩させる", "夜9時に公園を使う", "バーベキューをする", "夜11時に公園を使う"], answer: "夜9時に公園を使う", explanation: "禁止されているのは22時（夜10時）以降の使用なので、夜9時は使えます。" },
+  { question: "つぎの文章を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n電話のメモ\n\n田中さんへ\n\n今日の午後3時に、ABC商事の鈴木さんから電話がありました。明日の打ち合わせの時間を2時から3時に変更したいとのことです。よろしければ、鈴木さんに電話してください。電話番号は03-1234-5678です。\n━━━━━━━━━━━━━━━━━━\n\n田中さんはこのメモを読んで、何をしなければなりませんか。", choices: ["今日の午後3時に会議に行く", "鈴木さんに電話する", "打ち合わせをキャンセルする", "ABC商事に行く"], answer: "鈴木さんに電話する", explanation: "「よろしければ、鈴木さんに電話してください」とあります。" }
+];
+
+const listeningQuestions = [
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n男：すみません、この電車は新宿に止まりますか。\n女：いいえ、止まりません。新宿に行くなら、次の駅で乗り換えてください。\n男：次の駅はどこですか。\n女：渋谷です。渋谷で山手線に乗り換えれば、新宿に行けますよ。\n━━━━━━━━━━━━━━━━━━\n\n男の人はどうすればいいですか。", choices: ["この電車でそのまま新宿に行く。", "渋谷で降りて、山手線に乗り換える。", "次の電車を待つ。", "タクシーで新宿に行く。"], answer: "渋谷で降りて、山手線に乗り換える。", explanation: "女性が「渋谷で山手線に乗り換えれば、新宿に行けます」と言っています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n女：田中さん、明日のパーティーに来られますか。\n男：来たいんですが、明日は仕事があって…\n女：そうですか。残念ですね。\n男：ええ。もし仕事が早く終わったら、後から行くかもしれません。\n━━━━━━━━━━━━━━━━━━\n\n男の人はパーティーについてどう思っていますか。", choices: ["絶対行くつもりです。", "行きたいが、行けないかもしれない。", "行きたくありません。", "すでに行く予定があります。"], answer: "行きたいが、行けないかもしれない。", explanation: "「来たいんですが、仕事があって」「早く終わったら後から行くかもしれません」とあります。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n店員：いらっしゃいませ。\n客：このセーター、Mサイズはありますか。\n店員：申し訳ありません。MとLはあるのですが、Sだけ売り切れてしまいました。\n客：あ、Mがあればいいです。じゃあ、これをください。\n━━━━━━━━━━━━━━━━━━\n\n客はどのサイズを買いますか。", choices: ["S", "M", "L", "XL"], answer: "M", explanation: "客が「Mがあればいいです。じゃあ、これをください」と言っています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nA：今日は何時に帰りますか。\nB：会議が5時に終わるから、6時ごろには帰れると思います。\nA：そうですか。では、夕食を6時半に用意しておきますね。\nB：ありがとう。でも、電車が混んでいたら少し遅くなるかもしれません。\n━━━━━━━━━━━━━━━━━━\n\nBはいつ帰ると思っていますか。", choices: ["5時ごろ", "6時ごろ", "6時半ごろ", "7時ごろ"], answer: "6時ごろ", explanation: "「6時ごろには帰れると思います」と言っています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n先生：鈴木さん、宿題を出してください。\n学生：すみません、先生。宿題を家に忘れてきてしまいました。\n先生：また忘れたんですか。明日必ず持ってきてください。\n学生：はい、必ず持ってきます。本当に申し訳ありませんでした。\n━━━━━━━━━━━━━━━━━━\n\n学生は宿題をどうしましたか。", choices: ["宿題をしていません。", "家に置いてきてしまいました。", "宿題を失くしました。", "宿題を友達に貸しました。"], answer: "家に置いてきてしまいました。", explanation: "「宿題を家に忘れてきてしまいました」と言っています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nA：お腹がすいたね。ここで何か食べていかない？\nB：そうだね。でも、ここは高そうだね。\nA：確かに。じゃあ、駅の反対側に安くておいしいラーメン屋があるよ。\nB：いいね。そっちにしよう。\n━━━━━━━━━━━━━━━━━━\n\nふたりはどこで食べますか。", choices: ["今いるレストラン", "駅の反対側のラーメン屋", "デパートの食堂", "コンビニ"], answer: "駅の反対側のラーメン屋", explanation: "「駅の反対側に安くておいしいラーメン屋があるよ」に対して「そっちにしよう」と答えています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n電話の会話\n男：もしもし、今日のサッカーの練習は何時からですか。\n女：普通は4時からなんですが、今日はグラウンドが使えないので、5時からに変わりました。\n男：場所は同じですか。\n女：はい、場所は変わりません。\n━━━━━━━━━━━━━━━━━━\n\n今日のサッカーの練習について正しいのはどれですか。", choices: ["4時から、同じ場所で行われる。", "5時から、違う場所で行われる。", "5時から、同じ場所で行われる。", "4時から、違う場所で行われる。"], answer: "5時から、同じ場所で行われる。", explanation: "「今日は5時からに変わりました」「場所は変わりません」とあります。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n女：昨日の試験、どうだった？\n男：難しかったけど、なんとか全問答えられた。\n女：そう。私は時間が足りなくて、最後の問題が書けなかったよ。\n男：それは残念だったね。結果はいつわかるの？\n女：来週の月曜日らしいよ。\n━━━━━━━━━━━━━━━━━━\n\n女の人は試験でどうでしたか。", choices: ["全問答えられた。", "最後の問題が書けなかった。", "試験を受けなかった。", "試験は簡単だった。"], answer: "最後の問題が書けなかった。", explanation: "「時間が足りなくて、最後の問題が書けなかった」と言っています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nA：このコート、素敵ですね。どこで買いましたか。\nB：ありがとうございます。先週、渋谷のデパートでセールをやっていたので、そこで買いました。\nA：おいくらでしたか。\nB：もともと20,000円だったんですが、半額で10,000円で買えました。\n━━━━━━━━━━━━━━━━━━\n\nBさんはコートをいくらで買いましたか。", choices: ["5,000円", "10,000円", "15,000円", "20,000円"], answer: "10,000円", explanation: "「半額で10,000円で買えました」と言っています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n受付：山田クリニックです。\n患者：予約をしたいんですが。\n受付：はい、いつがよろしいですか。\n患者：来週の水曜日の午後はありますか。\n受付：水曜日の午後は…2時と4時でしたら空いています。\n患者：では、2時でお願いします。\n━━━━━━━━━━━━━━━━━━\n\n患者はいつ予約しましたか。", choices: ["来週の月曜日の2時", "来週の水曜日の2時", "来週の水曜日の4時", "来週の金曜日の2時"], answer: "来週の水曜日の2時", explanation: "「来週の水曜日の午後」を希望し、「2時でお願いします」と言っています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n男：すみません、図書館はどこですか。\n女：この道をまっすぐ行って、二つ目の信号を右に曲がってください。そこにある大きな建物が図書館です。\n男：二つ目の信号ですね。ありがとうございます。\n━━━━━━━━━━━━━━━━━━\n\n図書館はどこにありますか。", choices: ["まっすぐ行ったところ", "最初の信号を右に曲がったところ", "二つ目の信号を右に曲がったところ", "三つ目の信号を右に曲がったところ"], answer: "二つ目の信号を右に曲がったところ", explanation: "「二つ目の信号を右に曲がってください。そこにある大きな建物が図書館です」と言っています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nA：花子さん、顔色が悪いですよ。大丈夫ですか。\nB：実は、昨日から少し熱があって…\nA：それは大変。早く帰って休んだほうがいいですよ。\nB：でも、今日は大事な会議があって…\nA：会議は私が代わりに出ますから、今日は帰ってください。\n━━━━━━━━━━━━━━━━━━\n\nAはBに何をするようにすすめていますか。", choices: ["病院に行く", "会議に出る", "早く帰って休む", "薬を飲む"], answer: "早く帰って休む", explanation: "「早く帰って休んだほうがいいですよ」「今日は帰ってください」と言っています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n客：この靴を修理してもらいたいんですが。\n店員：はい、かかとの部分ですね。直すのに3日かかりますが、よろしいですか。\n客：3日ですか。急いでいるんですが…\n店員：急ぎでしたら、追加料金500円でお急ぎ対応も可能です。その場合は明日できます。\n客：じゃあ、急ぎでお願いします。\n━━━━━━━━━━━━━━━━━━\n\n客は靴をいつ受け取りますか。", choices: ["今日", "明日", "明後日", "3日後"], answer: "明日", explanation: "「急ぎでしたら、追加料金500円で明日できます」に対して「急ぎでお願いします」と答えています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n女：田中さん、最近どうですか。\n男：元気ですよ。実は先月、引っ越しをしたんです。\n女：そうですか。どこに引っ越したんですか。\n男：前は会社から1時間かかっていたんですが、今は30分になりました。\n女：便利になりましたね。\n━━━━━━━━━━━━━━━━━━\n\n田中さんの新しい家から会社まで、どのくらいかかりますか。", choices: ["10分", "30分", "1時間", "1時間30分"], answer: "30分", explanation: "「今は30分になりました」と言っています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nA：昨日のパーティー、楽しかった？\nB：うん、すごく楽しかった。でも、帰りの電車で財布を忘れてきちゃって。\nA：えっ、大変！今はどうしたの？\nB：電車の会社に連絡したら、拾った人が届けてくれていたから、取りに行って来たよ。\nA：よかった。\n━━━━━━━━━━━━━━━━━━\n\nBの財布はどうなりましたか。", choices: ["なくなってしまいました。", "誰かが届けてくれていた。", "まだ見つかっていません。", "電車の中にあります。"], answer: "誰かが届けてくれていた。", explanation: "「拾った人が届けてくれていたから、取りに行って来た」と言っています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n先生：皆さんに大切なお知らせがあります。来週の木曜日のテストの範囲を変更します。最初は第1章から第5章まででしたが、第1章から第3章までに変わります。\n学生：先生、時間は変わりませんか。\n先生：時間は同じ、午後2時から3時までです。\n━━━━━━━━━━━━━━━━━━\n\nテストについて変わったことは何ですか。", choices: ["テストの日", "テストの時間", "テストの範囲", "テストの場所"], answer: "テストの範囲", explanation: "「テストの範囲を変更します」と先生が言っています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n女：もしもし、山田です。今日のランチのことなんですが、12時でよかったですか。\n男：あ、すみません。会議が入ってしまって、1時間遅らせてもらえますか。\n女：わかりました。では、1時ですね。場所は変わりませんか。\n男：はい、同じ店です。\n━━━━━━━━━━━━━━━━━━\n\nランチは何時になりましたか。", choices: ["11時", "12時", "1時", "2時"], answer: "1時", explanation: "12時から「1時間遅らせてもらえますか」とあるので、1時になりました。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nA：明日の天気はどうですか。\nB：天気予報では朝は晴れですが、午後から雨が降るそうです。\nA：そうですか。傘を持っていったほうがいいですね。\nB：そうですね。夕方は特に強く降るみたいですよ。\n━━━━━━━━━━━━━━━━━━\n\n明日の午後の天気はどうなりますか。", choices: ["晴れです。", "雨が降ります。", "曇りです。", "雪が降ります。"], answer: "雨が降ります。", explanation: "「午後から雨が降るそうです」「夕方は特に強く降るみたい」とあります。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\n学生：先生、この問題がわからないので、教えていただけますか。\n先生：いいですよ。今日の5時以降なら時間がありますよ。\n学生：ありがとうございます。では、5時15分ごろ行ってもいいですか。\n先生：はい、どうぞ。研究室においでください。\n━━━━━━━━━━━━━━━━━━\n\n学生は何時ごろ先生のところへ行きますか。", choices: ["4時15分", "5時", "5時15分", "6時"], answer: "5時15分", explanation: "「5時15分ごろ行ってもいいですか」と学生が聞いて、先生が「はい」と答えています。" },
+  { question: "つぎの会話を読んで、質問に答えなさい。\n\n━━━━━━━━━━━━━━━━━━\nA：新しいスマートフォンを買おうと思っているんですが、AとBとどちらがいいですか。\nB：Aのほうが画面が大きいですが、少し重いです。Bは軽くてかっこいいけど、電池が長持ちしません。\nA：電池のことが大事なんですよね。\nB：じゃあ、Aのほうがいいんじゃないですか。\n━━━━━━━━━━━━━━━━━━\n\nBさんはAにAとBのどちらを勧めていますか。", choices: ["A", "B", "どちらも勧めていない", "どちらでもいいと言っている"], answer: "A", explanation: "「電池が大事」という条件に対して「じゃあ、Aのほうがいいんじゃないですか」と言っています。" }
+];
+
+// ─────────── App State ───────────
+let section = '', subtype = '', pool = [], current = 0, correct = 0, answered = false;
+let timerInterval = null, startTime = null;
+const TOTAL_Q = 10;
+
+const stats = JSON.parse(localStorage.getItem('jlpt_n4_stats') || '{"total":0,"correct":0}');
+updateStatsBar();
+
+function updateStatsBar() {
+  if (stats.total === 0) { document.getElementById('stats-bar').classList.add('hidden'); return; }
+  document.getElementById('stats-bar').classList.remove('hidden');
+  document.getElementById('stat-total').textContent = stats.total;
+  document.getElementById('stat-correct').textContent = stats.correct;
+  document.getElementById('stat-rate').textContent = Math.round(stats.correct / stats.total * 100) + '%';
+}
+
+function shuffle(arr) { let a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a; }
+
+function toggleVocab() {
+  const el = document.getElementById('vocab-sub');
+  const gEl = document.getElementById('grammar-sub');
+  const btn = document.getElementById('cat-vocab');
+  const gBtn = document.getElementById('cat-grammar');
+  const isOpen = el.classList.contains('show');
+  el.classList.toggle('show', !isOpen);
+  btn.classList.toggle('active', !isOpen);
+  gEl.classList.remove('show');
+  gBtn.classList.remove('active');
+}
+
+function toggleGrammar() {
+  const el = document.getElementById('grammar-sub');
+  const vEl = document.getElementById('vocab-sub');
+  const btn = document.getElementById('cat-grammar');
+  const vBtn = document.getElementById('cat-vocab');
+  const isOpen = el.classList.contains('show');
+  el.classList.toggle('show', !isOpen);
+  btn.classList.toggle('active', !isOpen);
+  vEl.classList.remove('show');
+  vBtn.classList.remove('active');
+}
+
+function startQuiz(sec, sub) {
+  section = sec; subtype = sub;
+  let all = [];
+  if (sec === '文字・語彙') all = vocabQuestions[sub] || [];
+  else if (sec === '文法') all = grammarQuestions[sub] || [];
+  else if (sec === '読解') all = readingQuestions;
+  else if (sec === '聴解') all = listeningQuestions;
+  pool = shuffle(all).slice(0, TOTAL_Q);
+  current = 0; correct = 0; answered = false;
+  document.getElementById('home-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('section-pill').textContent = sec;
+  document.getElementById('subtype-label').textContent = sub || '';
+  startTime = Date.now();
+  timerInterval = setInterval(updateTimer, 1000);
+  renderQuestion();
+}
+
+function updateTimer() {
+  const sec = Math.floor((Date.now() - startTime) / 1000);
+  const m = String(Math.floor(sec / 60)).padStart(2, '0');
+  const s = String(sec % 60).padStart(2, '0');
+  document.getElementById('timer-box').textContent = m + ':' + s;
+}
+
+function renderQuestionText(text) {
+  const escaped = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  let result = escaped.replace(/__(.+?)__/g, '<u style="text-decoration-thickness:2px;text-underline-offset:3px;font-weight:700;">$1</u>');
+  result = result.replace(/★/g, '<span style="display:inline-block;background:#185FA5;color:#fff;font-weight:700;padding:1px 8px;border-radius:4px;font-size:15px;">★</span>');
+  result = result.replace(/([①②③④⑤])/g, '<span style="display:inline-block;background:#E6F1FB;border:2px solid #185FA5;border-radius:4px;padding:1px 10px;font-weight:700;color:#0C447C;min-width:40px;text-align:center;">$1</span>');
+  return result.replace(/\n/g, '<br>');
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = pool[current];
+  const num = current + 1;
+  document.getElementById('q-counter').textContent = '問題 ' + num + ' / ' + TOTAL_Q;
+  document.getElementById('progress-fill').style.width = Math.round(num / TOTAL_Q * 100) + '%';
+  document.getElementById('feedback-box').className = 'feedback-box';
+  document.getElementById('feedback-box').innerHTML = '';
+  document.getElementById('next-btn').className = 'next-btn';
+  if (section === '文法' && subtype === '文の文法2') {
+    renderPuzzle(q);
+  } else {
+    renderChoices(q);
+  }
+}
+
+function renderChoices(q) {
+  document.getElementById('question-card').innerHTML = renderQuestionText(q.question);
+  const labels = ['１', '２', '３', '４'];
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+  shuffle(q.choices).forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = '<span class="choice-label">' + labels[i] + '</span><span class="choice-text">' + c + '</span>';
+    btn.addEventListener('click', () => selectAnswer(c, q, btn, choicesEl));
+    choicesEl.appendChild(btn);
+  });
+}
+
+function selectAnswer(chosen, q, btn, choicesEl) {
+  if (answered) return;
+  answered = true;
+  const isCorrect = chosen === q.answer;
+  if (isCorrect) correct++;
+  stats.total++; if (isCorrect) stats.correct++;
+  localStorage.setItem('jlpt_n4_stats', JSON.stringify(stats));
+  choicesEl.querySelectorAll('.choice-btn').forEach(b => {
+    b.disabled = true;
+    const txt = b.querySelector('.choice-text').textContent;
+    if (txt === q.answer) b.classList.add('correct');
+    else if (b === btn && !isCorrect) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('feedback-box');
+  fb.innerHTML = '<div class="feedback-label">' + (isCorrect ? '✓ 正解！' : '✗ 不正解') + '</div>' +
+    (!isCorrect ? '<div style="margin-bottom:6px">正解：<strong>' + q.answer + '</strong></div>' : '') +
+    '<div>' + q.explanation + '</div>';
+  fb.className = 'feedback-box show ' + (isCorrect ? 'correct' : 'wrong');
+  document.getElementById('next-btn').className = 'next-btn show';
+}
+
+function renderPuzzle(q) {
+  const STAR_POS = 2;
+  const allLines = q.question.split('\n');
+  const instructionLine = allLines[0] || '';
+  const underlineLineIdx = allLines.findIndex(l => l.includes('__１__'));
+  const preLines = allLines.slice(1, underlineLineIdx).filter(l => l.trim() !== '');
+  const tailLines = allLines.slice(underlineLineIdx + 1).filter(l => l.trim() !== '');
+  const slotContents = [null, null, null, null];
+  const tiles = shuffle([...q.choices]);
+  const card = document.getElementById('question-card');
+  card.innerHTML = '';
+  const instr = document.createElement('div');
+  instr.style.cssText = 'font-size:13px;color:var(--text-hint);margin-bottom:10px;';
+  instr.textContent = instructionLine;
+  card.appendChild(instr);
+  const sentDiv = document.createElement('div');
+  sentDiv.className = 'puzzle-sentence';
+  sentDiv.style.lineHeight = '2.2';
+  preLines.forEach(line => {
+    sentDiv.appendChild(document.createTextNode(line.trim()));
+    sentDiv.appendChild(document.createElement('br'));
+  });
+  const slotRow = document.createElement('div');
+  slotRow.className = 'puzzle-slot-row';
+  const slotEls = [];
+  for (let i = 0; i < 4; i++) {
+    const slot = document.createElement('span');
+    slot.className = 'puzzle-slot' + (i === STAR_POS ? ' star-slot' : '');
+    slot.dataset.idx = i;
+    slot.addEventListener('click', () => {
+      if (!slot.classList.contains('filled') || answered) return;
+      const word = slotContents[i];
+      slotContents[i] = null;
+      slot.textContent = '';
+      slot.classList.remove('filled');
+      const tileEl = document.querySelector(`.puzzle-tile[data-word="${word}"]`);
+      if (tileEl) { tileEl.classList.remove('used'); tileEl.disabled = false; }
+      updateCheckBtn();
+    });
+    slotEls.push(slot);
+    slotRow.appendChild(slot);
+    if (i < 3) {
+      const sep = document.createElement('span');
+      sep.style.cssText = 'color:var(--text-hint);font-size:18px;line-height:1;margin:0 1px;';
+      sep.textContent = '―';
+      slotRow.appendChild(sep);
+    }
+  }
+  sentDiv.appendChild(slotRow);
+  tailLines.forEach((line, idx) => {
+    if (idx > 0) sentDiv.appendChild(document.createElement('br'));
+    sentDiv.appendChild(document.createTextNode(line.trim()));
+  });
+  card.appendChild(sentDiv);
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+  const tilesDiv = document.createElement('div');
+  tilesDiv.className = 'puzzle-tiles';
+  tiles.forEach(word => {
+    const tile = document.createElement('button');
+    tile.className = 'puzzle-tile';
+    tile.textContent = word;
+    tile.dataset.word = word;
+    tile.addEventListener('click', () => {
+      if (answered || tile.classList.contains('used')) return;
+      const emptyIdx = slotContents.findIndex(s => s === null);
+      if (emptyIdx === -1) return;
+      slotContents[emptyIdx] = word;
+      slotEls[emptyIdx].textContent = word;
+      slotEls[emptyIdx].classList.add('filled');
+      tile.classList.add('used');
+      tile.disabled = true;
+      updateCheckBtn();
+    });
+    tilesDiv.appendChild(tile);
+  });
+  choicesEl.appendChild(tilesDiv);
+  const checkBtn = document.createElement('button');
+  checkBtn.className = 'puzzle-check-btn';
+  checkBtn.textContent = '確認する';
+  checkBtn.disabled = true;
+  choicesEl.appendChild(checkBtn);
+  function updateCheckBtn() { checkBtn.disabled = slotContents.some(s => s === null); }
+  checkBtn.addEventListener('click', () => {
+    if (answered) return;
+    answered = true;
+    const starWord = slotContents[STAR_POS];
+    const isCorrect = starWord === q.answer;
+    if (isCorrect) correct++;
+    stats.total++; if (isCorrect) stats.correct++;
+    localStorage.setItem('jlpt_n4_stats', JSON.stringify(stats));
+    slotEls[STAR_POS].classList.add(isCorrect ? 'correct-slot' : 'wrong-slot');
+    document.querySelectorAll('.puzzle-tile').forEach(t => { t.disabled = true; });
+    checkBtn.disabled = true;
+    const fb = document.getElementById('feedback-box');
+    fb.innerHTML = '<div class="feedback-label">' + (isCorrect ? '✓ 正解！' : '✗ 不正解') + '</div>' +
+      (!isCorrect ? '<div style="margin-bottom:6px">★の正解：<strong>' + q.answer + '</strong></div>' : '') +
+      '<div>' + q.explanation + '</div>';
+    fb.className = 'feedback-box show ' + (isCorrect ? 'correct' : 'wrong');
+    document.getElementById('next-btn').className = 'next-btn show';
+  });
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= TOTAL_Q) { showResult(); return; }
+  renderQuestion();
+}
+
+function showResult() {
+  clearInterval(timerInterval);
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  document.getElementById('r-score').textContent = correct;
+  document.getElementById('r-of').textContent = '/ ' + TOTAL_Q;
+  const m = Math.floor(elapsed / 60), s = elapsed % 60;
+  document.getElementById('r-time').textContent = '所要時間：' + (m > 0 ? m + '分' : '') + s + '秒';
+  const pct = Math.round(correct / TOTAL_Q * 100);
+  document.getElementById('r-pct').textContent = '正答率：' + pct + '%';
+  let comment = '';
+  if (pct >= 90) comment = '🎉 素晴らしい！N4レベルは完璧です！';
+  else if (pct >= 70) comment = '👍 よくできました！あと少しで合格ラインです。';
+  else if (pct >= 50) comment = '📚 まだ伸びしろがあります。苦手なところを復習しましょう。';
+  else comment = '💪 もう一度チャレンジしてみましょう！繰り返しが大切です。';
+  document.getElementById('r-comment').textContent = comment;
+  updateStatsBar();
+}
+
+function retrySection() {
+  startQuiz(section, subtype);
+}
+
+function goHome() {
+  clearInterval(timerInterval);
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('home-screen').classList.remove('hidden');
+  document.getElementById('vocab-sub').classList.remove('show');
+  document.getElementById('grammar-sub').classList.remove('show');
+  document.getElementById('cat-vocab').classList.remove('active');
+  document.getElementById('cat-grammar').classList.remove('active');
+}
+
+function confirmQuit() { document.getElementById('confirm-overlay').classList.remove('hidden'); }
+function cancelQuit() { document.getElementById('confirm-overlay').classList.add('hidden'); }
+function doQuit() { document.getElementById('confirm-overlay').classList.add('hidden'); clearInterval(timerInterval); goHome(); }
+
+function openEditor() {
+  const input = prompt('パスワードを入力してください：');
+  if (!input) return;
+  const HASH = '474c573a859ec24ab1e74f1a53177e5aa52cbd4881bc5584cb2c70f74c19de68';
+  crypto.subtle.digest('SHA-256', new TextEncoder().encode(input)).then(buf => {
+    const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    if (hex === HASH) {
+      hide('home-screen');
+      show('editor-screen');
+      loadEditorList();
+    } else {
+      alert('パスワードが違います。');
+    }
+  });
+}
+
+function closeEditor() {
+  hide('editor-screen');
+  show('home-screen');
+}
+
+function getEditorPool(catStr) {
+  const [cat, key] = catStr.split('/');
+  if (cat === '文法') return { pool: grammarQuestions[key] || [], key };
+  if (cat === '文字・語彙') return { pool: vocabQuestions[key] || [], key };
+  return { pool: otherQuestions[key] || otherQuestions[cat] || [], key };
+}
+
+function loadEditorList() {
+  const catStr = document.getElementById('editor-cat').value;
+  const { pool, key } = getEditorPool(catStr);
+  const isG2 = (key === '文の文法2');
+  const listEl = document.getElementById('editor-list');
+  listEl.innerHTML = '';
+
+  // 未確認を先に、確認済みを後に並べる
+  const indexed = pool.map((q, i) => ({ q, i, reviewed: isReviewed(catStr, i) }));
+  indexed.sort((a, b) => a.reviewed - b.reviewed);
+
+  // セパレーター用フラグ
+  let shownUnreviewed = false;
+  let shownReviewed = false;
+
+  indexed.forEach(({ q, i, reviewed }) => {
+    // セクションヘッダー
+    if (!reviewed && !shownUnreviewed) {
+      shownUnreviewed = true;
+      const hdr = document.createElement('div');
+      hdr.style.cssText = 'font-size:12px;font-weight:700;color:var(--danger);padding:4px 0 2px;';
+      hdr.textContent = '── 未確認';
+      listEl.appendChild(hdr);
+    }
+    if (reviewed && !shownReviewed) {
+      shownReviewed = true;
+      const hdr = document.createElement('div');
+      hdr.style.cssText = 'font-size:12px;font-weight:700;color:#27ae60;padding:10px 0 2px;';
+      hdr.textContent = '── 確認済み ✓';
+      listEl.appendChild(hdr);
+    }
+
+    const card = document.createElement('div');
+    card.style.cssText = `background:var(--card-bg);border:1px solid ${reviewed ? '#27ae60' : 'var(--danger)'};border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;opacity:${reviewed ? '0.65' : '1'}`;
+
+    const lines = q.question.split('\n').filter(l => l.trim() && !l.includes('えらびなさい'));
+    const preview = lines.join(' ').replace(/__[１２★４]__/g,'＿').replace(/　/g,' ').substring(0,65) + '…';
+    const choicesHtml = q.choices.map((c,ci) =>
+      `<span style="font-size:12px;padding:2px 7px;border-radius:4px;background:${ci===2?'#2D5A8E':'var(--bg)'};color:${ci===2?'#fff':'var(--text-hint)'};border:1px solid var(--border)">${c}</span>`
+    ).join('');
+    const badge = reviewed
+      ? `<span style="font-size:11px;color:#27ae60;font-weight:700">✓ 確認済み</span>`
+      : `<span style="font-size:11px;color:var(--danger);font-weight:700">● 未確認</span>`;
+
+    card.innerHTML = `
+      <div style="flex:1;min-width:0">
+        <div style="font-size:11px;color:var(--text-hint);margin-bottom:3px;display:flex;gap:8px;align-items:center">
+          <span>問${i+1}</span>${badge}
+        </div>
+        <div style="font-size:14px;line-height:1.5;word-break:break-all;margin-bottom:5px">${preview}</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap">${choicesHtml}</div>
+        ${!isG2 ? `<div style="font-size:12px;color:#27ae60;margin-top:4px">✓ 正解：${q.answer}</div>` : ''}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+        <button onclick="openEditModal('${catStr}',${i})" style="padding:7px 14px;border-radius:7px;background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer">編集</button>
+        <button onclick="toggleReviewed('${catStr}',${i})" style="padding:5px 10px;border-radius:7px;background:${reviewed?'#eee':'#27ae60'};color:${reviewed?'var(--text-hint)':'#fff'};border:none;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer">${reviewed?'未確認に戻す':'✓ 確認済みに'}</button>
+      </div>`;
+    listEl.appendChild(card);
+  });
+
+  if (pool.length === 0) {
+    listEl.innerHTML = '<div style="color:var(--text-hint);text-align:center;padding:20px">問題がありません</div>';
+  }
+}
+
+function toggleReviewed(catStr, idx) {
+  setReviewed(catStr, idx, !isReviewed(catStr, idx));
+  loadEditorList();
+}
+
+function openEditModal(catStr, idx) {
+  const { pool, key } = getEditorPool(catStr);
+  const q = pool[idx];
+  if (!q) return;
+  editingCat = catStr;
+  editingKey = key;
+  editingIdx = idx;
+  const isG2 = (key === '文の文法2');
+
+  const bodyLines = q.question.split('\n').slice(1);
+  document.getElementById('edit-question').value = bodyLines.join('\n');
+  document.getElementById('edit-c1').value = q.choices[0] || '';
+  document.getElementById('edit-c2').value = q.choices[1] || '';
+  document.getElementById('edit-c3').value = q.choices[2] || '';
+  document.getElementById('edit-c4').value = q.choices[3] || '';
+  document.getElementById('edit-explanation').value = q.explanation || '';
+
+  const note = document.getElementById('edit-answer-note');
+  if (isG2) {
+    note.textContent = '⚠ 並べ替え問題：③が★（正解）になります。文中の正しい語順通りに①②③④を入力してください。';
+    note.style.color = '#2D5A8E';
+  } else {
+    note.textContent = '※ 正解は③の選択肢に自動設定されます。正解にしたい語を③に入力してください。';
+    note.style.color = 'var(--text-hint)';
+  }
+
+  document.getElementById('edit-modal-title').textContent = `問${idx+1} を編集`;
+  document.getElementById('edit-overlay').style.display = 'block';
+}
+
+function closeEditModal() {
+  document.getElementById('edit-overlay').style.display = 'none';
+}
+
+function saveEdit() {
+  const { pool } = getEditorPool(editingCat);
+  const q = pool[editingIdx];
+  if (!q) return;
+
+  const firstLine = q.question.split('\n')[0];
+  q.question    = firstLine + '\n' + document.getElementById('edit-question').value;
+  const c1 = document.getElementById('edit-c1').value.trim();
+  const c2 = document.getElementById('edit-c2').value.trim();
+  const c3 = document.getElementById('edit-c3').value.trim();
+  const c4 = document.getElementById('edit-c4').value.trim();
+  q.choices     = [c1, c2, c3, c4];
+  q.answer      = c3;
+  q.explanation = document.getElementById('edit-explanation').value.trim();
+
+  // 編集したら自動的に未確認に戻す
+  setReviewed(editingCat, editingIdx, false);
+
+  closeEditModal();
+  loadEditorList();
+}
+// ────────────────────────────────────────────────
+
+updateStatsBar();
+
+updateStatsBar();
+</script>
+</body>
+</html>

@@ -755,9 +755,13 @@ function toggleGrammar() {
   const sub = document.getElementById('grammar-sub');
   const btn = document.getElementById('cat-grammar');
   const isExpanded = sub.classList.contains('show');
-  // close vocab if open
+  // close others
   document.getElementById('vocab-sub').classList.remove('show');
   document.getElementById('cat-vocab').classList.remove('active');
+  const rSub = document.getElementById('reading-sub');
+  const rBtn = document.getElementById('cat-reading');
+  if (rSub) rSub.classList.remove('show');
+  if (rBtn) rBtn.classList.remove('active');
   if (!isExpanded) {
     sub.classList.add('show');
     btn.classList.add('active');
@@ -774,6 +778,10 @@ function toggleVocab() {
   // close grammar if open
   document.getElementById('grammar-sub').classList.remove('show');
   document.getElementById('cat-grammar').classList.remove('active');
+  const readingSub = document.getElementById('reading-sub');
+  if (readingSub) readingSub.classList.remove('show');
+  const catReading = document.getElementById('cat-reading');
+  if (catReading) catReading.classList.remove('active');
   if (vocabExpanded) {
     sub.classList.add('show');
     btn.classList.add('active');
@@ -791,12 +799,20 @@ function startQuiz(sec, sub) {
   document.getElementById('cat-vocab').classList.remove('active');
   document.getElementById('grammar-sub').classList.remove('show');
   document.getElementById('cat-grammar').classList.remove('active');
+  const readingSub = document.getElementById('reading-sub');
+  if (readingSub) readingSub.classList.remove('show');
+  const catReading = document.getElementById('cat-reading');
+  if (catReading) catReading.classList.remove('active');
 
   let sourcePool;
   if (sec === '文字・語彙' && sub) {
     sourcePool = vocabQuestions[sub] || [];
   } else if (sec === '文法' && sub) {
     sourcePool = grammarQuestions[sub] || [];
+  } else if (sec === '読解' && sub) {
+    sourcePool = readingQuestions[sub] || [];
+  } else if (sec === '読解') {
+    sourcePool = Object.values(readingQuestions).flat();
   } else {
     sourcePool = otherQuestions[sec] || [];
   }

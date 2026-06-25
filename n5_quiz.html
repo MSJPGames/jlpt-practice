@@ -574,6 +574,7 @@ const listeningQuestions = [{"question": "つぎの会話を読んで、質問�
 let section = '', subtype = '', pool = [], current = 0, correct = 0, answered = false;
 let timerInterval = null, startTime = null;
 const TOTAL_Q = 10;
+let actualTotal = TOTAL_Q;
 
 const stats = JSON.parse(localStorage.getItem('jlpt_n5_stats') || '{"total":0,"correct":0}');
 updateStatsBar();
@@ -636,6 +637,7 @@ function startQuiz(sec, sub) {
   else if (sec === '読解') all = sub ? (readingQuestions[sub] || []) : Object.values(readingQuestions).flat();
   else if (sec === '聴解') all = listeningQuestions;
   pool = shuffle(all).slice(0, TOTAL_Q);
+  actualTotal = pool.length;
   current = 0; correct = 0; answered = false;
   document.getElementById('home-screen').classList.add('hidden');
   document.getElementById('quiz-screen').classList.remove('hidden');
@@ -665,9 +667,10 @@ function renderQuestionText(text) {
 function renderQuestion() {
   answered = false;
   const q = pool[current];
+  if (!q) { showResult(); return; }
   const num = current + 1;
-  document.getElementById('q-counter').textContent = '問題 ' + num + ' / ' + TOTAL_Q;
-  document.getElementById('progress-fill').style.width = Math.round(num / TOTAL_Q * 100) + '%';
+  document.getElementById('q-counter').textContent = '問題 ' + num + ' / ' + actualTotal;
+  document.getElementById('progress-fill').style.width = Math.round(num / actualTotal * 100) + '%';
   document.getElementById('feedback-box').className = 'feedback-box';
   document.getElementById('feedback-box').innerHTML = '';
   document.getElementById('next-btn').className = 'next-btn';
@@ -840,7 +843,7 @@ function renderPuzzle(q) {
 
 function nextQuestion() {
   current++;
-  if (current >= TOTAL_Q) { showResult(); return; }
+  if (current >= actualTotal) { showResult(); return; }
   renderQuestion();
 }
 
@@ -850,10 +853,10 @@ function showResult() {
   document.getElementById('quiz-screen').classList.add('hidden');
   document.getElementById('result-screen').classList.remove('hidden');
   document.getElementById('r-score').textContent = correct;
-  document.getElementById('r-of').textContent = '/ ' + TOTAL_Q;
+  document.getElementById('r-of').textContent = '/ ' + actualTotal;
   const m = Math.floor(elapsed / 60), s = elapsed % 60;
   document.getElementById('r-time').textContent = '所要時間：' + (m > 0 ? m + '分' : '') + s + '秒';
-  const pct = Math.round(correct / TOTAL_Q * 100);
+  const pct = Math.round(correct / actualTotal * 100);
   document.getElementById('r-pct').textContent = '正答率：' + pct + '%';
   let comment = '';
   if (pct >= 90) comment = '🎉 素晴らしい！N5レベルは完璧です！';

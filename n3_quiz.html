@@ -659,6 +659,7 @@ const TOTAL_Q = 10;
 let section = '';
 let subtype = null;
 let pool = [];
+let actualTotal = 10;
 let current = 0;
 let correct = 0;
 let answered = false;
@@ -783,6 +784,8 @@ function startQuiz(sec, sub) {
   } else {
     pool = shuffle(sourcePool).slice(0, TOTAL_Q);
   }
+  // 実際のpool数に合わせてTOTAL_Qを調整
+  actualTotal = pool.length;
   current = 0;
   correct = 0;
   answered = false;
@@ -842,9 +845,10 @@ function renderQuestionText(text) {
 function renderQuestion() {
   answered = false;
   const q = pool[current];
+  if (!q) { showResult(); return; }
   const num = current + 1;
-  document.getElementById('q-counter').textContent = '問題 ' + num + ' / ' + TOTAL_Q;
-  document.getElementById('progress-fill').style.width = Math.round(num / TOTAL_Q * 100) + '%';
+  document.getElementById('q-counter').textContent = '問題 ' + num + ' / ' + actualTotal;
+  document.getElementById('progress-fill').style.width = Math.round(num / actualTotal * 100) + '%';
   document.getElementById('feedback-box').className = 'feedback-box';
   document.getElementById('feedback-box').innerHTML = '';
   document.getElementById('next-btn').className = 'next-btn';
@@ -1051,7 +1055,7 @@ function selectAnswer(selected, q, btn, choicesEl) {
 
 function nextQuestion() {
   current++;
-  if (current >= TOTAL_Q) showResult();
+  if (current >= actualTotal) showResult();
   else renderQuestion();
 }
 
@@ -1059,9 +1063,9 @@ function showResult() {
   stopTimer();
   hide('quiz-screen');
   show('result-screen');
-  const pct = Math.round(correct / TOTAL_Q * 100);
+  const pct = Math.round(correct / actualTotal * 100);
   document.getElementById('r-score').textContent = correct + '問';
-  document.getElementById('r-of').textContent = TOTAL_Q + '問中';
+  document.getElementById('r-of').textContent = actualTotal + '問中';
   document.getElementById('r-time').textContent = '⏱ ' + formatTime(elapsedSeconds) + 'で完了';
   document.getElementById('r-pct').textContent = '正答率 ' + pct + '%';
   const msg = pct >= 90 ? 'すばらしい！この種類の問題はほぼ完璧です。他の種類にも挑戦してみましょう！'

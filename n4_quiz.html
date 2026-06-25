@@ -742,15 +742,21 @@ function renderQuestion() {
 }
 
 function renderChoices(q) {
-  const visualKey = q.visual || null;
+  // visual HTML（情報検索問題のお知らせ表示）
   let visualDiv = '';
-  if (visualKey && visualHTML[visualKey]) {
-    visualDiv = '<div style="margin-bottom:12px">' + visualHTML[visualKey] + '</div>';
-  }
-  document.getElementById('question-card').innerHTML = visualDiv + renderQuestionText(q.question);
-  const labels = ['１', '２', '３', '４'];
+  try {
+    const visualKey = q.visual || null;
+    if (visualKey && typeof visualHTML !== 'undefined' && visualHTML[visualKey]) {
+      visualDiv = '<div style="margin-bottom:12px;overflow-x:auto">' + visualHTML[visualKey] + '</div>';
+    }
+  } catch(e) { visualDiv = ''; }
+
+  // 問題カードと選択肢を必ずリセット
   const choicesEl = document.getElementById('choices');
   choicesEl.innerHTML = '';
+  document.getElementById('question-card').innerHTML = visualDiv + renderQuestionText(q.question);
+
+  const labels = ['１', '２', '３', '４'];
   shuffle(q.choices).forEach((c, i) => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';

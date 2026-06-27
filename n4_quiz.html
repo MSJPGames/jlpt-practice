@@ -309,7 +309,9 @@
         <option value="文字・語彙/文脈規定">文字・語彙 ＞ 文脈規定</option>
         <option value="文字・語彙/言い換え類義">文字・語彙 ＞ 言い換え類義</option>
         <option value="文字・語彙/用法">文字・語彙 ＞ 用法</option>
-        <option value="読解/読解">読解</option>
+        <option value="読解/内容理解（短文）">読解 ＞ 内容理解（短文）</option>
+        <option value="読解/内容理解（中文）">読解 ＞ 内容理解（中文）</option>
+        <option value="読解/情報検索">読解 ＞ 情報検索</option>
       </select>
     </div>
 
@@ -959,7 +961,8 @@ function getEditorPool(catStr) {
   const [cat, key] = catStr.split('/');
   if (cat === '文法') return { pool: grammarQuestions[key] || [], key };
   if (cat === '文字・語彙') return { pool: vocabQuestions[key] || [], key };
-  return { pool: otherQuestions[key] || otherQuestions[cat] || [], key };
+  if (cat === '読解') return { pool: readingQuestions[key] || [], key };
+  return { pool: [], key };
 }
 
 function loadEditorList() {

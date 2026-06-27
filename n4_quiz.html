@@ -943,8 +943,8 @@ function openEditor() {
   crypto.subtle.digest('SHA-256', new TextEncoder().encode(input)).then(buf => {
     const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
     if (hex === HASH) {
-      hide('home-screen');
-      show('editor-screen');
+      document.getElementById('home-screen').classList.add('hidden');
+      document.getElementById('editor-screen').classList.remove('hidden');
       loadEditorList();
     } else {
       alert('パスワードが違います。');
@@ -953,8 +953,8 @@ function openEditor() {
 }
 
 function closeEditor() {
-  hide('editor-screen');
-  show('home-screen');
+  document.getElementById('editor-screen').classList.add('hidden');
+  document.getElementById('home-screen').classList.remove('hidden');
 }
 
 function getEditorPool(catStr) {

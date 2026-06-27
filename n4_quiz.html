@@ -965,6 +965,17 @@ function getEditorPool(catStr) {
   return { pool: [], key };
 }
 
+
+function getReviewedKey(catStr, idx) { return 'reviewed:' + catStr + ':' + idx; }
+function isReviewed(catStr, idx) { return localStorage.getItem(getReviewedKey(catStr, idx)) === '1'; }
+function setReviewed(catStr, idx, val) {
+  if (val) localStorage.setItem(getReviewedKey(catStr, idx), '1');
+  else localStorage.removeItem(getReviewedKey(catStr, idx));
+}
+function toggleReviewed(catStr, idx) {
+  setReviewed(catStr, idx, !isReviewed(catStr, idx));
+  loadEditorList();
+}
 function loadEditorList() {
   const catStr = document.getElementById('editor-cat').value;
   const { pool, key } = getEditorPool(catStr);

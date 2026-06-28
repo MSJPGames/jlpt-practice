@@ -814,14 +814,150 @@ function formatTime(sec) {
   return m + '分' + s + '秒';
 }
 
+const RUBY_DICT = [
+  ['盛り上がり', '<ruby>盛り上がり<rt>もりあがり</rt></ruby>'],
+  ['久しぶり', '<ruby>久<rt>ひさ</rt></ruby>しぶり'],
+  ['付き添う', '<ruby>付き添う<rt>つきそう</rt></ruby>'],
+  ['繰り返さ', '<ruby>繰り返さ<rt>くりかえさ</rt></ruby>'],
+  ['細かい', '<ruby>細<rt>こま</rt></ruby>かい'],
+  ['副作用', '<ruby>副作用<rt>ふくさよう</rt></ruby>'],
+  ['接する', '<ruby>接<rt>せっ</rt></ruby>する'],
+  ['第一歩', '<ruby>第一歩<rt>だいいっぽ</rt></ruby>'],
+  ['保育園', '<ruby>保育園<rt>ほいくえん</rt></ruby>'],
+  ['大丈夫', '<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>'],
+  ['詳しい', '<ruby>詳<rt>くわ</rt></ruby>しい'],
+  ['捨てる', '<ruby>捨<rt>す</rt></ruby>てる'],
+  ['片付い', '<ruby>片付<rt>かたづ</rt></ruby>い'],
+  ['腕前', '<ruby>腕前<rt>うでまえ</rt></ruby>'],
+  ['結果', '<ruby>結果<rt>けっか</rt></ruby>'],
+  ['泣き', '<ruby>泣<rt>な</rt></ruby>き'],
+  ['謝っ', '<ruby>謝<rt>あやま</rt></ruby>っ'],
+  ['営業', '<ruby>営業<rt>えいぎょう</rt></ruby>'],
+  ['事故', '<ruby>事故<rt>じこ</rt></ruby>'],
+  ['提案', '<ruby>提案<rt>ていあん</rt></ruby>'],
+  ['季節', '<ruby>季節<rt>きせつ</rt></ruby>'],
+  ['地域', '<ruby>地域<rt>ちいき</rt></ruby>'],
+  ['農業', '<ruby>農業<rt>のうぎょう</rt></ruby>'],
+  ['盛ん', '<ruby>盛<rt>さか</rt></ruby>ん'],
+  ['移し', '<ruby>移<rt>うつ</rt></ruby>し'],
+  ['積極', '<ruby>積極<rt>せっきょく</rt></ruby>'],
+  ['挨拶', '<ruby>挨拶<rt>あいさつ</rt></ruby>'],
+  ['準備', '<ruby>準備<rt>じゅんび</rt></ruby>'],
+  ['修理', '<ruby>修理<rt>しゅうり</rt></ruby>'],
+  ['豊富', '<ruby>豊富<rt>ほうふ</rt></ruby>'],
+  ['技術', '<ruby>技術<rt>ぎじゅつ</rt></ruby>'],
+  ['評判', '<ruby>評判<rt>ひょうばん</rt></ruby>'],
+  ['表彰', '<ruby>表彰<rt>ひょうしょう</rt></ruby>'],
+  ['自分', '<ruby>自分<rt>じぶん</rt></ruby>'],
+  ['周り', '<ruby>周<rt>まわ</rt></ruby>り'],
+  ['簡単', '<ruby>簡単<rt>かんたん</rt></ruby>'],
+  ['挑戦', '<ruby>挑戦<rt>ちょうせん</rt></ruby>'],
+  ['態度', '<ruby>態度<rt>たいど</rt></ruby>'],
+  ['練習', '<ruby>練習<rt>れんしゅう</rt></ruby>'],
+  ['把握', '<ruby>把握<rt>はあく</rt></ruby>'],
+  ['壊し', '<ruby>壊<rt>こわ</rt></ruby>し'],
+  ['磨く', '<ruby>磨<rt>みが</rt></ruby>く'],
+  ['服装', '<ruby>服装<rt>ふくそう</rt></ruby>'],
+  ['辺り', '<ruby>辺<rt>あた</rt></ruby>り'],
+  ['黙っ', '<ruby>黙<rt>だま</rt></ruby>っ'],
+  ['退屈', '<ruby>退屈<rt>たいくつ</rt></ruby>'],
+  ['丁寧', '<ruby>丁寧<rt>ていねい</rt></ruby>'],
+  ['我慢', '<ruby>我慢<rt>がまん</rt></ruby>'],
+  ['余裕', '<ruby>余裕<rt>よゆう</rt></ruby>'],
+  ['迷惑', '<ruby>迷惑<rt>めいわく</rt></ruby>'],
+  ['感謝', '<ruby>感謝<rt>かんしゃ</rt></ruby>'],
+  ['真剣', '<ruby>真剣<rt>しんけん</rt></ruby>'],
+  ['遠慮', '<ruby>遠慮<rt>えんりょ</rt></ruby>'],
+  ['特徴', '<ruby>特徴<rt>とくちょう</rt></ruby>'],
+  ['丈夫', '<ruby>丈夫<rt>じょうぶ</rt></ruby>'],
+  ['活躍', '<ruby>活躍<rt>かつやく</rt></ruby>'],
+  ['素直', '<ruby>素直<rt>すなお</rt></ruby>'],
+  ['目標', '<ruby>目標<rt>もくひょう</rt></ruby>'],
+  ['描く', '<ruby>描<rt>えが</rt></ruby>く'],
+  ['面接', '<ruby>面接<rt>めんせつ</rt></ruby>'],
+  ['材料', '<ruby>材料<rt>ざいりょう</rt></ruby>'],
+  ['混ぜ', '<ruby>混<rt>ま</rt></ruby>ぜ'],
+  ['焼く', '<ruby>焼<rt>や</rt></ruby>く'],
+  ['祭り', '<ruby>祭<rt>まつ</rt></ruby>り'],
+  ['建設', '<ruby>建設<rt>けんせつ</rt></ruby>'],
+  ['基本', '<ruby>基本<rt>きほん</rt></ruby>'],
+  ['弁当', '<ruby>弁当<rt>べんとう</rt></ruby>'],
+  ['改札', '<ruby>改札<rt>かいさつ</rt></ruby>'],
+  ['携帯', '<ruby>携帯<rt>けいたい</rt></ruby>'],
+  ['混ん', '<ruby>混<rt>こ</rt></ruby>ん'],
+  ['荷物', '<ruby>荷物<rt>にもつ</rt></ruby>'],
+  ['泣い', '<ruby>泣<rt>な</rt></ruby>い'],
+  ['緊張', '<ruby>緊張<rt>きんちょう</rt></ruby>'],
+  ['悩み', '<ruby>悩<rt>なや</rt></ruby>み'],
+  ['提出', '<ruby>提出<rt>ていしゅつ</rt></ruby>'],
+  ['健康', '<ruby>健康<rt>けんこう</rt></ruby>'],
+  ['野菜', '<ruby>野菜<rt>やさい</rt></ruby>'],
+  ['停電', '<ruby>停電<rt>ていでん</rt></ruby>'],
+  ['後悔', '<ruby>後悔<rt>こうかい</rt></ruby>'],
+  ['文章', '<ruby>文章<rt>ぶんしょう</rt></ruby>'],
+  ['環境', '<ruby>環境<rt>かんきょう</rt></ruby>'],
+  ['整っ', '<ruby>整<rt>ととの</rt></ruby>っ'],
+  ['授業', '<ruby>授業<rt>じゅぎょう</rt></ruby>'],
+  ['直接', '<ruby>直接<rt>ちょくせつ</rt></ruby>'],
+  ['対応', '<ruby>対応<rt>たいおう</rt></ruby>'],
+  ['沿い', '<ruby>沿<rt>ぞ</rt></ruby>い'],
+  ['好評', '<ruby>好評<rt>こうひょう</rt></ruby>'],
+  ['短い', '<ruby>短<rt>みじか</rt></ruby>い'],
+  ['案内', '<ruby>案内<rt>あんない</rt></ruby>'],
+  ['声援', '<ruby>声援<rt>せいえん</rt></ruby>'],
+  ['整理', '<ruby>整理<rt>せいり</rt></ruby>'],
+  ['効果', '<ruby>効果<rt>こうか</rt></ruby>'],
+  ['実践', '<ruby>実践<rt>じっせん</rt></ruby>'],
+  ['気分', '<ruby>気分<rt>きぶん</rt></ruby>'],
+  ['完璧', '<ruby>完璧<rt>かんぺき</rt></ruby>'],
+  ['導入', '<ruby>導入<rt>どうにゅう</rt></ruby>'],
+  ['企業', '<ruby>企業<rt>きぎょう</rt></ruby>'],
+  ['育児', '<ruby>育児<rt>いくじ</rt></ruby>'],
+  ['介護', '<ruby>介護<rt>かいご</rt></ruby>'],
+  ['課題', '<ruby>課題<rt>かだい</rt></ruby>'],
+  ['同僚', '<ruby>同僚<rt>どうりょう</rt></ruby>'],
+  ['減っ', '<ruby>減<rt>へ</rt></ruby>っ'],
+  ['孤独', '<ruby>孤独<rt>こどく</rt></ruby>'],
+  ['補お', '<ruby>補<rt>おぎな</rt></ruby>お'],
+  ['効率', '<ruby>効率<rt>こうりつ</rt></ruby>'],
+  ['区別', '<ruby>区別<rt>くべつ</rt></ruby>'],
+  ['誘っ', '<ruby>誘<rt>さそ</rt></ruby>っ'],
+  ['上司', '<ruby>上司<rt>じょうし</rt></ruby>'],
+  ['砂糖', '<ruby>砂糖<rt>さとう</rt></ruby>'],
+  ['壊れ', '<ruby>壊<rt>こわ</rt></ruby>れ'],
+  ['的', '<ruby>的<rt>てき</rt></ruby>'],
+  ['誰', '<ruby>誰<rt>だれ</rt></ruby>'],
+  ['分', '<ruby>分<rt>ふん</rt></ruby>'],
+  ['畑', '<ruby>畑<rt>はたけ</rt></ruby>'],
+  ['姿', '<ruby>姿<rt>すがた</rt></ruby>'],
+];
+function addRuby(text) {
+  let tokens = [{ type: 'text', val: text }];
+  for (const [word, rubyHtml] of RUBY_DICT) {
+    const next = [];
+    for (const tok of tokens) {
+      if (tok.type !== 'text') { next.push(tok); continue; }
+      const parts = tok.val.split(word);
+      for (let i = 0; i < parts.length; i++) {
+        if (parts[i]) next.push({ type: 'text', val: parts[i] });
+        if (i < parts.length - 1) next.push({ type: 'ruby', val: rubyHtml });
+      }
+    }
+    tokens = next;
+  }
+  return tokens.map(t => t.val).join('');
+}
 function renderQuestionText(text) {
-  const escaped = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  // __X__ → 下線付きテキスト
+  // 上位レベルの漢字にふりがなを付ける（エスケープは&のみ。<ruby>を残すため）
+  const withRuby = addRuby(text);
+  const escaped = withRuby.replace(/&(?!amp;|lt;|gt;)/g,'&amp;');
   let result = escaped.replace(/__(.+?)__/g, '<u style="text-decoration-thickness:2px;text-underline-offset:3px;font-weight:700;">$1</u>');
-  // ★ → 強調ボックス
-  result = result.replace(/★/g, '<span style="display:inline-block;background:#2D5A8E;color:#fff;font-weight:700;padding:1px 8px;border-radius:4px;font-size:15px;">★</span>');
-  // ①②③④⑤ → 空欄マーカー
-  result = result.replace(/([①②③④⑤])/g, '<span style="display:inline-block;background:#E8F0F8;border:2px solid #2D5A8E;border-radius:4px;padding:1px 10px;font-weight:700;color:#1A3A5C;min-width:40px;text-align:center;">$1</span>');
+  // 下線部（問われている語）の中のルビは答えになるので取り除く。下線部以外のルビは残す。
+  result = result.replace(/(<u[^>]*>)([\s\S]*?)(<\/u>)/g, function(m, open, inner, close){
+    return open + inner.replace(/<ruby>(.*?)<rt>.*?<\/rt><\/ruby>/g, '$1') + close;
+  });
+  result = result.replace(/★/g, '<span style="display:inline-block;background:#185FA5;color:#fff;font-weight:700;padding:1px 8px;border-radius:4px;font-size:15px;">★</span>');
+  result = result.replace(/([①②③④⑤])/g, '<span style="display:inline-block;background:#E6F1FB;border:2px solid #185FA5;border-radius:4px;padding:1px 10px;font-weight:700;color:#0C447C;min-width:40px;text-align:center;">$1</span>');
   return result.replace(/\n/g, '<br>');
 }
 

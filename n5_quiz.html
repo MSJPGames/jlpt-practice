@@ -762,6 +762,10 @@ function renderQuestionText(text) {
   const withRuby = addRuby(text);
   const escaped = withRuby.replace(/&(?!amp;|lt;|gt;)/g,'&amp;');
   let result = escaped.replace(/__(.+?)__/g, '<u style="text-decoration-thickness:2px;text-underline-offset:3px;font-weight:700;">$1</u>');
+  // 下線部（問われている語）の中のルビは答えになってしまうので取り除く。下線部以外のルビはそのまま残す。
+  result = result.replace(/(<u[^>]*>)([\s\S]*?)(<\/u>)/g, function(m, open, inner, close){
+    return open + inner.replace(/<ruby>(.*?)<rt>.*?<\/rt><\/ruby>/g, '$1') + close;
+  });
   result = result.replace(/★/g, '<span style="display:inline-block;background:#185FA5;color:#fff;font-weight:700;padding:1px 8px;border-radius:4px;font-size:15px;">★</span>');
   result = result.replace(/([①②③④⑤])/g, '<span style="display:inline-block;background:#E6F1FB;border:2px solid #185FA5;border-radius:4px;padding:1px 10px;font-weight:700;color:#0C447C;min-width:40px;text-align:center;">$1</span>');
   return result.replace(/\n/g, '<br>');

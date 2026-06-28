@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>あそんでなれる ｜ JLPT Practice</title>
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E2DDD6;
+    --text: #1C1C1C;
+    --text-muted: #6B6560;
+    --text-hint: #9E9890;
+    --radius: 16px;
+    --radius-lg: 22px;
+    /* ゲーム別アクセント（既存サイトのバッジ色と統一） */
+    --n5: #3B6D11; --n5-soft: #EAF3DE; --n5-deep:#2C520C;
+    --n4: #185FA5; --n4-soft: #E6F1FB; --n4-deep: #0E436F;
+    --n3: #3C3489; --n3-soft: #EEEDFE;
+    --n2: #854F0B; --n2-soft: #FAEEDA;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; padding: 0 1rem 2.5rem;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+
+  /* 戻る */
+  .topbar { display:flex; align-items:center; padding: 1.1rem 0 0; }
+  .back { font-size: 13px; color: var(--text-muted); text-decoration:none; font-weight:600; display:inline-flex; align-items:center; gap:4px; }
+  .back:active { opacity:.6; }
+
+  /* ヘッダー */
+  .head { text-align: center; padding: 1.4rem 0 0.5rem; }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: var(--text-hint); margin-bottom: 8px; }
+  .title { font-size: 30px; font-weight: 800; letter-spacing: 0.03em; }
+  .sub { font-size: 13px; color: var(--text-muted); margin-top: 8px; line-height: 1.7; }
+
+  /* セクションラベル */
+  .label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-hint);
+    margin: 1.8rem 0 0.8rem; text-transform: uppercase; }
+
+  /* ===== 主役カード ===== */
+  .hero {
+    display:block; text-decoration:none; color:inherit;
+    position: relative; overflow: hidden;
+    background: linear-gradient(145deg, #fff, #FBFAF6);
+    border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 22px 20px 20px;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.06);
+    transition: transform .12s, box-shadow .12s;
+  }
+  .hero:active { transform: scale(.985); }
+  .hero::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background: var(--n5); }
+
+  /* 背景に漂うかな */
+  .float-layer { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .float-kana { position:absolute; font-size:54px; font-weight:800; color: var(--n5); opacity:0.07; }
+  @media (prefers-reduced-motion: no-preference){
+    .float-kana { animation: drift 9s ease-in-out infinite; }
+    @keyframes drift { 0%,100%{transform:translateY(0) rotate(-4deg)} 50%{transform:translateY(-12px) rotate(4deg)} }
+  }
+
+  .hero-top { display:flex; align-items:center; gap:8px; position:relative; }
+  .pill { font-size:10px; font-weight:700; letter-spacing:0.06em; padding:3px 10px; border-radius:999px; }
+  .pill-live { background: var(--n5-soft); color: var(--n5-deep); }
+  .pill-time { background:#F0EEE8; color: var(--text-muted); }
+  .hero-name { font-size: 27px; font-weight: 800; margin-top: 12px; letter-spacing:0.02em; position:relative; }
+  .hero-en { font-size:11px; font-weight:700; letter-spacing:0.14em; color: var(--text-hint); margin-top:2px; position:relative; }
+  .hero-desc { font-size:13.5px; color: var(--text-muted); line-height:1.7; margin-top:12px; max-width: 300px; position:relative; }
+  .play-btn {
+    margin-top:18px; display:inline-flex; align-items:center; gap:8px;
+    background: var(--n5); color:#fff; font-weight:700; font-size:16px; letter-spacing:0.04em;
+    padding:13px 30px; border-radius:999px; position:relative;
+    box-shadow: 0 4px 0 var(--n5-deep);
+  }
+  .hero:active .play-btn { box-shadow: 0 2px 0 var(--n5-deep); transform: translateY(2px); }
+
+  /* カタカナ用ヒーロー（青） */
+  .hero-kata::before { background: var(--n4); }
+  .hero-kata .float-kana { color: var(--n4); }
+  .hero-kata .pill-live { background: var(--n4-soft); color: var(--n4-deep); }
+  .hero-kata .play-btn { background: var(--n4); box-shadow: 0 4px 0 var(--n4-deep); }
+  .hero-kata:active .play-btn { box-shadow: 0 2px 0 var(--n4-deep); transform: translateY(2px); }
+
+  /* ===== これからの枠 ===== */
+  .grid { display:flex; flex-direction:column; gap:10px; }
+  .game-card {
+    background: var(--surface); border:1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 16px; display:flex; align-items:center; gap:14px;
+    opacity:.62;
+  }
+  .game-badge {
+    width:50px; height:50px; border-radius:13px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; font-weight:800;
+  }
+  .b-kata { background: var(--n4-soft); color: var(--n4); }
+  .b-kanji { background: var(--n3-soft); color: var(--n3); }
+  .b-word { background: var(--n2-soft); color: var(--n2); }
+  .game-info { flex:1; min-width:0; }
+  .game-name { font-size:15px; font-weight:700; }
+  .game-desc { font-size:12px; color: var(--text-muted); margin-top:3px; line-height:1.5; }
+  .game-soon { font-size:10px; font-weight:700; color: var(--text-hint); background:#F0EEE8;
+    padding:2px 9px; border-radius:999px; display:inline-block; margin-top:6px; }
+  .game-soon.ready { background: var(--n4-soft); color: var(--n4); }
+
+  /* あそべるカード（カタカナラッシュ） */
+  .game-card.active { opacity:1; text-decoration:none; color:inherit; cursor:pointer;
+    transition: transform .12s, box-shadow .12s; }
+  .game-card.active:active { transform: scale(.985); }
+  .game-card.active:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .card-arrow { font-size:20px; color: var(--text-hint); flex-shrink:0; transition: transform .12s; }
+  .game-card.active:hover .card-arrow { transform: translateX(3px); }
+
+  .foot { text-align:center; font-size:11px; color: var(--text-hint); margin-top:2rem; line-height:1.9; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="../index.html" class="back">‹ レベル選択にもどる</a>
+  </div>
+
+  <div class="head">
+    <div class="logo">JLPT PRACTICE</div>
+    <div class="title">あそんでなれる</div>
+    <div class="sub">短い時間で、考えるより指で反応。<br>気がついたら日本語に慣れている。</div>
+  </div>
+
+  <div class="label">いま あそべる</div>
+
+  <!-- 主役：ひらがなラッシュ -->
+  <a href="kana_rush.html" class="hero">
+    <div class="float-layer">
+      <span class="float-kana" style="top:8px;right:18px;">あ</span>
+      <span class="float-kana" style="bottom:14px;right:64px;animation-delay:1.5s;">か</span>
+      <span class="float-kana" style="top:42px;right:120px;animation-delay:3s;font-size:38px;">ん</span>
+    </div>
+    <div class="hero-top">
+      <span class="pill pill-live">● あそべる</span>
+      <span class="pill pill-time">60秒</span>
+    </div>
+    <div class="hero-name">ひらがなラッシュ</div>
+    <div class="hero-en">HIRAGANA RUSH</div>
+    <div class="hero-desc">ひらがなをできるだけ早くタップ。連続で当てるとコンボがのびる。</div>
+    <span class="play-btn">▶ あそぶ</span>
+  </a>
+
+  <a href="katakana_rush.html" class="hero hero-kata" style="margin-top:10px;">
+    <div class="float-layer">
+      <span class="float-kana" style="top:8px;right:18px;">ア</span>
+      <span class="float-kana" style="bottom:14px;right:64px;animation-delay:1.5s;">カ</span>
+      <span class="float-kana" style="top:42px;right:120px;animation-delay:3s;font-size:38px;">ン</span>
+    </div>
+    <div class="hero-top">
+      <span class="pill pill-live">● あそべる</span>
+      <span class="pill pill-time">60秒</span>
+    </div>
+    <div class="hero-name">カタカナラッシュ</div>
+    <div class="hero-en">KATAKANA RUSH</div>
+    <div class="hero-desc">カタカナをできるだけ早くタップ。連続で当てるとコンボがのびる。</div>
+    <span class="play-btn">▶ あそぶ</span>
+  </a>
+
+  <div class="label">これから ふえる</div>
+
+  <div class="grid">
+
+    <div class="game-card">
+      <div class="game-badge b-kanji">読</div>
+      <div class="game-info">
+        <div class="game-name">漢字ハント</div>
+        <div class="game-desc">読みを聞いて、合う漢字をタップ。N5〜N4の漢字から</div>
+        <span class="game-soon">準備中</span>
+      </div>
+    </div>
+
+    <div class="game-card">
+      <div class="game-badge b-word">絵</div>
+      <div class="game-info">
+        <div class="game-name">ことばあて</div>
+        <div class="game-desc">絵を見て、合うことばをタップ。意味からおぼえる</div>
+        <span class="game-soon">準備中</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    遊びながら、ちょっとずつ。<br>
+    © 2025 JLPT Practice Quiz
+  </div>
+
+</div>
+</body>
+</html>

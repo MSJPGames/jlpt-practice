@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ひらがなラッシュ</title>
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E2DDD6;
+    --text: #1C1C1C;
+    --text-muted: #6B6560;
+    --text-hint: #9E9890;
+    --go: #3B6D11;
+    --go-soft: #EAF3DE;
+    --go-deep: #2C520C;
+    --miss: #C0432A;
+    --miss-soft: #FAECE7;
+    --gold: #B8860B;
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex; align-items: center; justify-content: center;
+    user-select: none;
+  }
+  .frame {
+    width: 100%; max-width: 460px; height: 100dvh; max-height: 880px;
+    display: flex; flex-direction: column; position: relative;
+    padding: 18px 18px 24px;
+  }
+
+  /* ====== 共通画面 ====== */
+  .screen { flex: 1; display: flex; flex-direction: column; }
+  .hidden { display: none !important; }
+
+  /* ====== スタート / 終了 ====== */
+  .center-card {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 22px; text-align: center;
+  }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; color: var(--text-hint); }
+  .big-title { font-size: 40px; font-weight: 800; letter-spacing: 0.04em; line-height: 1.1; }
+  .big-title small { display:block; font-size: 14px; font-weight:600; color: var(--text-muted); letter-spacing:0.08em; margin-top:8px; }
+  .lede { font-size: 14px; color: var(--text-muted); line-height: 1.8; max-width: 280px; }
+  .lede b { color: var(--go-deep); font-weight: 700; }
+
+  .btn {
+    border: none; cursor: pointer; font-family: inherit;
+    font-size: 17px; font-weight: 700; letter-spacing: 0.04em;
+    padding: 16px 44px; border-radius: 999px;
+    background: var(--go); color: #fff;
+    box-shadow: 0 6px 0 var(--go-deep), 0 10px 20px rgba(59,109,17,0.25);
+    transition: transform .08s, box-shadow .08s;
+  }
+  .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--go-deep), 0 4px 10px rgba(59,109,17,0.2); }
+  .btn-text {
+    background: none; border: none; cursor: pointer; font-family: inherit;
+    font-size: 14px; font-weight: 600; color: var(--text-muted);
+    text-decoration: none; padding: 6px 16px;
+  }
+  .btn-text:active { opacity: .6; }
+
+  .result-score { font-size: 54px; font-weight: 800; color: var(--go-deep); line-height: 1; }
+  .result-label { font-size: 13px; color: var(--text-hint); letter-spacing: 0.1em; font-weight: 700; }
+  .result-best { font-size: 13px; color: var(--gold); font-weight: 700; }
+  #endScreen .center-card { gap: 14px; }
+  #endScreen { overflow-y: auto; }
+
+  /* ベストスコア表 */
+  .board { width: 100%; max-width: 300px; display: flex; flex-direction: column; gap: 6px; }
+  .board-title { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-hint); margin-bottom: 2px; }
+  .brow {
+    display: flex; align-items: center; gap: 10px; padding: 7px 12px; text-align: left;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+  .brow.hi { background: var(--go-soft); border-color: var(--go); }
+  .brank { font-size: 13px; font-weight: 800; color: var(--text-hint); width: 18px; text-align: center; }
+  .brow.hi .brank { color: var(--go-deep); }
+  .bscore { font-size: 17px; font-weight: 800; flex: 1; }
+  .bscore small { font-size: 10px; font-weight: 700; color: var(--text-muted); margin-left: 2px; }
+  .bdate { font-size: 11px; color: var(--text-hint); }
+  .bnew { font-size: 9px; font-weight: 800; color: #fff; background: var(--go); padding: 2px 6px; border-radius: 6px; letter-spacing: 0.05em; }
+
+  /* ====== HUD ====== */
+  .hud { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+  .timebar-wrap { flex: 1; height: 10px; background: var(--border); border-radius: 999px; overflow: hidden; }
+  .timebar { height: 100%; width: 100%; background: var(--go);
+    border-radius: 999px; transition: width .25s linear, background .25s; }
+  .timebar.low { background: var(--miss); }
+  .hud-num { font-size: 20px; font-weight: 800; min-width: 56px; text-align: right; font-variant-numeric: tabular-nums; }
+  .hud-num small { font-size: 10px; font-weight: 700; color: var(--text-hint); display: block; letter-spacing: 0.08em; }
+  .quit {
+    width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text-muted); font-size: 16px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-family: inherit;
+  }
+  .quit:active { transform: scale(.92); }
+  .soundbtn {
+    width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text-muted); font-size: 15px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-family: inherit;
+  }
+  .soundbtn:active { transform: scale(.92); }
+  .soundbtn.off { opacity: .55; }
+  .game-back {
+    align-self: flex-start; font-size: 13px; font-weight: 600;
+    color: var(--text-muted); text-decoration: none; padding: 2px 0;
+  }
+  .game-back:active { opacity: .6; }
+
+  /* ====== お題 ====== */
+  .prompt-zone { text-align: center; padding: 22px 0 14px; position: relative; }
+  .prompt-label { font-size: 12px; color: var(--text-hint); font-weight: 700; letter-spacing: 0.12em; }
+  .prompt-target {
+    font-size: 58px; font-weight: 800; color: var(--text); line-height: 1.1;
+    letter-spacing: 0.02em;
+  }
+  .prompt-zone.pop .prompt-target { animation: targetpop .28s ease; }
+  @keyframes targetpop { 0%{transform:scale(.7);opacity:0} 60%{transform:scale(1.08)} 100%{transform:scale(1);opacity:1} }
+
+  /* コンボ表示 */
+  .combo {
+    position: absolute; top: 6px; left: 50%;
+    transform: translate(-50%,-50%) scale(.6);
+    font-size: 38px; font-weight: 800; color: var(--gold);
+    opacity: 0; pointer-events: none; white-space: nowrap;
+    text-shadow: 0 2px 10px rgba(184,134,11,0.28);
+  }
+  .combo.show { animation: comboflash .65s cubic-bezier(.2,.8,.3,1); }
+  @keyframes comboflash {
+    0%   { opacity: 0; transform: translate(-50%,-30%) scale(.5) rotate(-8deg); }
+    25%  { opacity: 1; transform: translate(-50%,-70%) scale(1.25) rotate(4deg); }
+    100% { opacity: 0; transform: translate(-50%,-150%) scale(1) rotate(0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .combo.show { animation: comboflashrm .65s ease; }
+    @keyframes comboflashrm { 0%{opacity:0} 25%{opacity:1} 100%{opacity:0} }
+  }
+
+  /* ====== グリッド ====== */
+  .grid {
+    flex: 1; display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px; align-content: center; padding: 6px 0;
+  }
+  .cell {
+    aspect-ratio: 1 / 1;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 38px; font-weight: 700; color: var(--text);
+    cursor: pointer; position: relative;
+    box-shadow: 0 2px 0 var(--border);
+    transition: transform .06s;
+    animation: cellin .22s cubic-bezier(.2,.9,.3,1.3) backwards;
+  }
+  @keyframes cellin { from{transform:scale(.4);opacity:0} to{transform:scale(1);opacity:1} }
+  .cell:active { transform: translateY(2px) scale(.97); }
+  .cell.correct { animation: hit .35s ease forwards; pointer-events:none; }
+  @keyframes hit {
+    0%{transform:scale(1);background:var(--go-soft);border-color:var(--go)}
+    40%{transform:scale(1.18);background:var(--go);color:#fff;border-color:var(--go)}
+    100%{transform:scale(.2);opacity:0}
+  }
+  .cell.wrong { animation: shake .4s ease; }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-8px);background:var(--miss-soft);border-color:var(--miss)}
+    40%{transform:translateX(8px)}
+    60%{transform:translateX(-6px)}
+    80%{transform:translateX(6px)}
+  }
+
+  /* 全画面フラッシュ */
+  .flash { position: absolute; inset: 0; pointer-events: none; opacity: 0; border-radius: var(--radius); }
+  .flash.go { background: radial-gradient(circle, rgba(59,109,17,0.18), transparent 70%); animation: flashout .4s ease; }
+  .flash.bad { background: radial-gradient(circle, rgba(192,67,42,0.18), transparent 70%); animation: flashout .4s ease; }
+  @keyframes flashout { from{opacity:1} to{opacity:0} }
+
+  /* パーティクル */
+  .particle { position: absolute; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--go); pointer-events: none; will-change: transform, opacity; }
+
+  .hint-row { text-align:center; font-size: 11px; color: var(--text-hint); margin-top: 6px; letter-spacing: 0.06em; }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- スタート画面 -->
+  <div id="startScreen" class="screen">
+    <a href="games.html" class="game-back">‹ もどる</a>
+    <div class="center-card">
+      <div class="logo">JLPT PRACTICE</div>
+      <div class="big-title">ひらがなラッシュ<small>HIRAGANA RUSH ・ 60秒</small></div>
+      <div class="lede"><b>ひらがな</b>をできるだけ早くタップ。<br>連続で当てると<b>コンボ</b>がのびる。</div>
+      <button class="btn" id="startBtn">スタート</button>
+      <div class="hint-row">考えるより、指で反応</div>
+    </div>
+  </div>
+
+  <!-- ゲーム画面 -->
+  <div id="gameScreen" class="screen hidden">
+    <div class="hud">
+      <button class="quit" id="quitBtn" aria-label="やめる">✕</button>
+      <button class="soundbtn" id="soundBtn" aria-label="読み上げのオンオフ">🔊</button>
+      <div class="timebar-wrap"><div class="timebar" id="timebar"></div></div>
+      <div class="hud-num"><small>せいかい</small><span id="scoreVal">0</span></div>
+    </div>
+
+    <div class="prompt-zone" id="promptZone">
+      <div class="prompt-label">この音は？</div>
+      <div class="prompt-target" id="promptTarget">ka</div>
+      <div class="combo" id="comboTag"></div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <div class="hint-row" id="streakHint">　</div>
+  </div>
+
+  <!-- 結果画面 -->
+  <div id="endScreen" class="screen hidden">
+    <div class="center-card">
+      <div class="result-label">せいかい</div>
+      <div class="result-score" id="finalScore">0</div>
+      <div class="result-best" id="bestLine">　</div>
+      <div class="board" id="board"></div>
+      <div class="lede" id="endMsg"></div>
+      <button class="btn" id="againBtn">もう一回</button>
+      <a href="games.html" class="btn-text">トップに戻る</a>
+      <a href="../learn/hiragana.html" class="btn-text">もっとくわしく学ぶ →</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  // 基本の五十音（よく使うもの中心）
+  const KANA = [
+    ['あ','a'],['い','i'],['う','u'],['え','e'],['お','o'],
+    ['か','ka'],['き','ki'],['く','ku'],['け','ke'],['こ','ko'],
+    ['さ','sa'],['し','shi'],['す','su'],['せ','se'],['そ','so'],
+    ['た','ta'],['ち','chi'],['つ','tsu'],['て','te'],['と','to'],
+    ['な','na'],['に','ni'],['ぬ','nu'],['ね','ne'],['の','no'],
+    ['は','ha'],['ひ','hi'],['ふ','fu'],['へ','he'],['ほ','ho'],
+    ['ま','ma'],['み','mi'],['む','mu'],['め','me'],['も','mo'],
+    ['や','ya'],['ゆ','yu'],['よ','yo'],
+    ['ら','ra'],['り','ri'],['る','ru'],['れ','re'],['ろ','ro'],
+    ['わ','wa'],['を','wo'],['ん','n']
+  ];
+  const ROUND_TIME = 60; // 秒
+  const CELLS = 9;
+  const COMBO_WINDOW = 2000; // この時間(ミリ秒)以内に正解するとコンボ継続。短くすると難しく、長くすると簡単になる
+
+  const $ = id => document.getElementById(id);
+  const startScreen=$('startScreen'), gameScreen=$('gameScreen'), endScreen=$('endScreen');
+  const grid=$('grid'), promptTarget=$('promptTarget'), promptZone=$('promptZone');
+  const scoreVal=$('scoreVal'), timebar=$('timebar'), comboTag=$('comboTag'), streakHint=$('streakHint');
+
+  let count=0, streak=0, maxStreak=0, timeLeft=0, timer=null, target=null, accepting=false, roundStart=0;
+
+  // ===== 読み上げ（ブラウザ内蔵の音声合成） =====
+  const speechOK = ('speechSynthesis' in window);
+  let soundOn = true;
+  function jaVoice(){
+    if(!speechOK) return null;
+    const ja = speechSynthesis.getVoices().filter(v=>/^ja(-|_)/i.test(v.lang) || (v.lang||'').toLowerCase().startsWith('ja'));
+    if(!ja.length) return null;
+    const bright = /female|kyoko|haruka|ayumi|nanami|sayaka|mizuki|google/i; // 明るめ・女性系を優先
+    return ja.find(v=>bright.test(v.name)) || ja[0];
+  }
+  function speak(text){
+    if(!speechOK || !soundOn) return;
+    try {
+      speechSynthesis.cancel();            // 連打しても溜まらないよう毎回リセット
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ja-JP'; u.rate = 1.05; u.pitch = 1.4;   // pitchを上げると明るく、下げると暗くなる
+      const v = jaVoice(); if(v) u.voice = v;
+      speechSynthesis.speak(u);
+    } catch(e){}
+  }
+  if(speechOK){ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = ()=>{ jaVoice(); }; }
+
+  // ===== ベストスコア保存（この端末のブラウザに保存） =====
+  const SCORE_KEY = 'hiragana_rush_scores';
+  let storageOK = true, memScores = [];
+  try { localStorage.setItem('__hr_t','1'); localStorage.removeItem('__hr_t'); } catch(e){ storageOK = false; }
+  function loadScores(){
+    if(!storageOK) return memScores.slice();
+    try { return JSON.parse(localStorage.getItem(SCORE_KEY)) || []; } catch(e){ return []; }
+  }
+  function saveScores(list){
+    if(!storageOK){ memScores = list.slice(); return; }
+    try { localStorage.setItem(SCORE_KEY, JSON.stringify(list)); } catch(e){}
+  }
+  function renderBoard(list, entry){
+    const board = $('board');
+    board.innerHTML = '<div class="board-title">ベストスコア TOP5</div>' +
+      list.map((s,i)=>{
+        const hi = (s===entry);
+        return '<div class="brow'+(hi?' hi':'')+'">'+
+          '<span class="brank">'+(i+1)+'</span>'+
+          '<span class="bscore">'+s.score+'<small>個</small></span>'+
+          '<span class="bdate">'+s.date+'</span>'+
+          (hi?'<span class="bnew">NEW</span>':'')+
+          '</div>';
+      }).join('');
+  }
+
+  function rand(n){ return Math.floor(Math.random()*n); }
+  function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=rand(i+1);[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+  function newRound(){
+    target = KANA[rand(KANA.length)];
+    promptTarget.textContent = target[1];               // ローマ字を提示
+    promptZone.classList.remove('pop'); void promptZone.offsetWidth; promptZone.classList.add('pop');
+
+    // 8個のダミー＋正解1個
+    const pool = shuffle(KANA.filter(k=>k[0]!==target[0])).slice(0, CELLS-1);
+    const cells = shuffle([target, ...pool]);
+
+    grid.innerHTML='';
+    cells.forEach((k,i)=>{
+      const c=document.createElement('div');
+      c.className='cell'; c.textContent=k[0];
+      c.style.animationDelay=(i*18)+'ms';
+      c.addEventListener('pointerdown', ()=>tap(k,c), {passive:true});
+      grid.appendChild(c);
+    });
+    accepting=true;
+    roundStart=performance.now();
+  }
+
+  function tap(k, cell){
+    if(!accepting) return;
+    if(k[0]===target[0]){
+      accepting=false;
+      count++;
+      scoreVal.textContent = count;
+      speak(target[0]);          // 正解したひらがなを発音
+      cell.classList.add('correct');
+      burst(cell);
+      flash('go');
+      // 速さでコンボ判定：規定時間内ならコンボ継続して表示、遅ければ0に戻す
+      const fast = (performance.now() - roundStart) <= COMBO_WINDOW;
+      if(fast){
+        streak++; if(streak>maxStreak) maxStreak=streak;
+        comboTag.textContent = '×'+streak;
+        comboTag.classList.remove('show'); void comboTag.offsetWidth; comboTag.classList.add('show');
+        streakHint.textContent = streak+'連続！';
+      } else {
+        streak=0;
+        streakHint.textContent='　';
+      }
+      setTimeout(newRound, 120);
+    } else {
+      streak=0;
+      streakHint.textContent='　';
+      cell.classList.remove('wrong'); void cell.offsetWidth; cell.classList.add('wrong');
+      flash('bad');
+    }
+  }
+
+  function burst(cell){
+    const r=cell.getBoundingClientRect(), f=document.querySelector('.frame').getBoundingClientRect();
+    const cx=r.left-f.left+r.width/2, cy=r.top-f.top+r.height/2;
+    const colors=['#3B6D11','#5C8F2A','#B8860B','#2C520C'];
+    for(let i=0;i<10;i++){
+      const p=document.createElement('div'); p.className='particle';
+      p.style.background=colors[rand(colors.length)];
+      p.style.left=cx+'px'; p.style.top=cy+'px';
+      document.querySelector('.frame').appendChild(p);
+      const ang=Math.random()*Math.PI*2, dist=40+Math.random()*60;
+      const dx=Math.cos(ang)*dist, dy=Math.sin(ang)*dist;
+      p.animate([
+        {transform:'translate(-50%,-50%) scale(1)', opacity:1},
+        {transform:`translate(${dx-4}px,${dy-4}px) scale(0)`, opacity:0}
+      ], {duration:480+Math.random()*200, easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>p.remove();
+    }
+  }
+
+  function flash(type){
+    const f=document.createElement('div');
+    f.className='flash '+(type==='go'?'go':'bad');
+    grid.appendChild(f); setTimeout(()=>f.remove(),400);
+  }
+
+  function tick(){
+    timeLeft -= 0.25;
+    const pct = Math.max(0, timeLeft/ROUND_TIME*100);
+    timebar.style.width = pct+'%';
+    timebar.classList.toggle('low', timeLeft<=10);
+    if(timeLeft<=0){ endGame(); }
+  }
+
+  function startGame(){
+    count=0; streak=0; maxStreak=0; timeLeft=ROUND_TIME;
+    scoreVal.textContent='0'; streakHint.textContent='　';
+    timebar.style.width='100%'; timebar.classList.remove('low');
+    startScreen.classList.add('hidden'); endScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+    newRound();
+    clearInterval(timer); timer=setInterval(tick,250);
+  }
+
+  function endGame(){
+    clearInterval(timer); accepting=false;
+    gameScreen.classList.add('hidden'); endScreen.classList.remove('hidden');
+    $('finalScore').textContent=count;
+
+    // 今回の記録を保存（ベスト判定は挿入前のリストで）
+    const list = loadScores();
+    const prevBest = list.reduce((m,s)=> Math.max(m, s.score||0), 0);
+    const d = new Date();
+    const entry = { score: count, date: (d.getMonth()+1)+'/'+d.getDate(), t: d.getTime() };
+    list.push(entry);
+    list.sort((a,b)=> (b.score-a.score) || (a.t-b.t)); // 高い順、同点は先に出した方が上
+    const top = list.slice(0,5);
+    saveScores(top);
+    renderBoard(top, top.indexOf(entry)>=0 ? entry : null);
+
+    const isBest = count > prevBest && count > 0;
+    $('bestLine').textContent = (maxStreak>=3) ? ('このプレイ 最高コンボ ×'+maxStreak) : '　';
+    let msg;
+    if(count>=40) msg='かな名人！指が覚えてる。';
+    else if(count>=25) msg='いい反応。コンボが効いてる。';
+    else if(count>=12) msg='その調子。もう一回いける。';
+    else msg='まずは音と形を合わせる感覚から。';
+    $('endMsg').innerHTML = msg + (isBest ? '<br><b style="color:#B8860B">自己ベスト更新！</b>' : '');
+  }
+
+  function quitGame(){
+    clearInterval(timer); accepting=false;
+    gameScreen.classList.add('hidden');
+    startScreen.classList.remove('hidden');
+  }
+
+  $('startBtn').addEventListener('click', startGame);
+  $('againBtn').addEventListener('click', startGame);
+  $('quitBtn').addEventListener('click', quitGame);
+  $('soundBtn').addEventListener('click', (e)=>{
+    soundOn = !soundOn;
+    e.currentTarget.textContent = soundOn ? '🔊' : '🔇';
+    e.currentTarget.classList.toggle('off', !soundOn);
+    if(!soundOn && speechOK) speechSynthesis.cancel();
+  });
+})();
+</script>
+</body>
+</html>

@@ -115,6 +115,46 @@
     text-align: center; font-size: 11px; color: var(--text-hint);
     margin-top: 2rem; line-height: 1.8;
   }
+
+  /* あそび場への入口バナー */
+  .play-banner {
+    display: flex; align-items: center; gap: 14px;
+    background: linear-gradient(135deg, #FFFFFF, #F2F7EA);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 16px; text-decoration: none; color: inherit;
+    position: relative; overflow: hidden;
+    transition: transform 0.12s, box-shadow 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .play-banner:active { transform: scale(0.98); }
+  .play-banner:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .play-banner::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: #3B6D11; border-radius: 3px 0 0 3px;
+  }
+  .pb-float { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .pb-float span { position: absolute; font-weight: 800; color: #3B6D11; opacity: 0.06; }
+  .pb-icon {
+    width: 52px; height: 52px; border-radius: 13px; flex-shrink: 0;
+    background: #EAF3DE; color: #3B6D11;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 800;
+  }
+  .pb-info { flex: 1; min-width: 0; position: relative; }
+  .pb-title { font-size: 15px; font-weight: 700; }
+  .pb-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .pb-pill {
+    display: inline-block; margin-top: 6px; font-size: 10px; font-weight: 700;
+    padding: 2px 9px; border-radius: 20px; background: #EAF3DE; color: #3B6D11;
+  }
+  .pb-arrow { font-size: 20px; color: #3B6D11; flex-shrink: 0; position: relative; transition: transform 0.12s; }
+  .play-banner:hover .pb-arrow { transform: translateX(3px); }
+  .play-banner.learn { background: linear-gradient(135deg, #FFFFFF, #F0EFFA); }
+  .play-banner.learn::before { background: #3C3489; }
+  .play-banner.learn .pb-icon { background: #EEEDFE; color: #3C3489; }
+  .play-banner.learn .pb-pill { background: #EEEDFE; color: #3C3489; }
+  .play-banner.learn .pb-arrow { color: #3C3489; }
+  .play-banner.learn .pb-float span { color: #3C3489; }
 </style>
 </head>
 <body>
@@ -125,6 +165,36 @@
     <div class="app-title">日本語能力試験<br>練習クイズ</div>
     <div class="app-sub">レベルを選んで練習をはじめましょう</div>
   </div>
+
+  <div class="section-label">あそぶ・まなぶ</div>
+
+  <a href="play/games.html" class="play-banner">
+    <div class="pb-float">
+      <span style="top:4px;right:18px;font-size:42px;">あ</span>
+      <span style="bottom:6px;right:58px;font-size:34px;">ア</span>
+    </div>
+    <div class="pb-icon">▶</div>
+    <div class="pb-info">
+      <div class="pb-title">あそんでなれる</div>
+      <div class="pb-desc">ゲームで気軽に。すきま時間で日本語に慣れる</div>
+      <span class="pb-pill">ゲーム ・ 2種類</span>
+    </div>
+    <span class="pb-arrow">›</span>
+  </a>
+
+  <a href="learn/hiragana.html" class="play-banner learn" style="margin-top:10px;">
+    <div class="pb-float">
+      <span style="top:4px;right:18px;font-size:42px;">書</span>
+      <span style="bottom:6px;right:58px;font-size:34px;">順</span>
+    </div>
+    <div class="pb-icon">本</div>
+    <div class="pb-info">
+      <div class="pb-title">じっくり学ぶ</div>
+      <div class="pb-desc">五十音を書き順・発音から。ひらがな・カタカナの解説</div>
+      <span class="pb-pill">解説 ・ ひらがな / カタカナ</span>
+    </div>
+    <span class="pb-arrow">›</span>
+  </a>
 
   <div class="section-label">レベルを選んでください</div>
 

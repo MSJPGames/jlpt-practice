@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>カタカナ五十音表（ローマ字・IPAつき）｜ JLPT Practice</title>
+<meta name="description" content="カタカナの五十音を、ローマ字と発音記号（IPA）つきの一覧で。外来語などに使うカタカナの読み方と形をまとめています。遊んで覚える『カタカナラッシュ』へのリンクつき。">
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E2DDD6;
+    --text: #1C1C1C;
+    --text-muted: #6B6560;
+    --text-hint: #9E9890;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --accent: #185FA5;
+    --accent-soft: #E6F1FB;
+    --accent-deep: #0E436F;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; padding: 0 1rem 2.5rem;
+    line-height: 1.6;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+
+  /* ヘッダー */
+  .topbar { display:flex; align-items:center; padding: 1.1rem 0 0; }
+  .back { font-size: 13px; color: var(--text-muted); text-decoration:none; font-weight:600; }
+  .back:active { opacity:.6; }
+
+  .head { text-align: center; padding: 1.4rem 0 0.5rem; }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: var(--text-hint); margin-bottom: 8px; }
+  .title { font-size: 28px; font-weight: 800; letter-spacing: 0.03em; }
+  .title small { display:block; font-size: 12px; font-weight:600; color: var(--text-hint); letter-spacing:0.14em; margin-top:6px; }
+  .sub { font-size: 13px; color: var(--text-muted); margin-top: 10px; line-height: 1.8; }
+
+  /* 本文 */
+  .intro { font-size: 14px; color: var(--text); line-height: 1.9; margin: 1.6rem 0 0.4rem; }
+  .intro b { color: var(--accent-deep); font-weight: 700; }
+
+  .label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-hint);
+    margin: 1.8rem 0 0.8rem; text-transform: uppercase; }
+
+  /* 五十音表 */
+  .goju { display: flex; flex-direction: column; gap: 6px; }
+  .grow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .vhead { margin-bottom: 2px; }
+  .vlabel { font-size: 10px; font-weight: 700; color: var(--text-hint);
+    text-align: center; letter-spacing: 0.1em; padding-bottom: 2px; }
+  .kcell {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 9px 4px 7px; text-align: center; line-height: 1.05;
+  }
+  .kcell .k { font-size: 24px; font-weight: 700; color: var(--text); }
+  .kcell .r { font-size: 10px; color: var(--text-muted); margin-top: 3px; letter-spacing: 0.04em; }
+  .kcell.empty { background: transparent; border: none; }
+  a.kcell { text-decoration: none; color: inherit; cursor: pointer; transition: transform .08s, border-color .1s; }
+  a.kcell:active { transform: scale(.95); }
+  a.kcell:hover { border-color: #C9C2B8; }
+  .kcell .ipa { font-size: 9px; color: var(--text-hint); margin-top: 3px; letter-spacing: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  .kcell.archaic { border-color: #D9D3CB; background: #FBFAF8; }
+  .kcell.archaic .k { color: var(--text-hint); font-size: 21px; }
+  .kcell.archaic .r { color: var(--text-hint); }
+
+  .note { font-size: 12px; color: var(--text-muted); line-height: 1.8; margin-top: 1rem;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
+  .note b { color: var(--text); font-weight: 700; }
+
+  /* 遊びへの導線 */
+  .play-link {
+    display: flex; align-items: center; gap: 14px; margin-top: 1.2rem;
+    background: linear-gradient(135deg, #FFFFFF, #EEF4FB);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 16px; text-decoration: none; color: inherit;
+    position: relative; overflow: hidden; transition: transform .12s, box-shadow .12s;
+  }
+  .play-link:active { transform: scale(.98); }
+  .play-link:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .play-link::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background: var(--accent); }
+  .pl-icon { width:48px; height:48px; border-radius:12px; flex-shrink:0; background: var(--accent-soft);
+    color: var(--accent); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:800; }
+  .pl-info { flex:1; min-width:0; }
+  .pl-title { font-size:14px; font-weight:700; }
+  .pl-desc { font-size:12px; color: var(--text-muted); margin-top:3px; line-height:1.5; }
+  .pl-arrow { font-size:20px; color: var(--accent); flex-shrink:0; }
+
+  .foot { text-align:center; font-size:11px; color: var(--text-hint); margin-top:2.5rem; line-height:1.9; }
+  .foot a { color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="../play/games.html" class="back">‹ あそび場へ</a>
+  </div>
+
+  <div class="head">
+    <div class="logo">JLPT PRACTICE ・ LEARN</div>
+    <div class="title">カタカナ 五十音<small>KATAKANA</small></div>
+    <div class="sub">外来語や擬音語などに使う文字。<br>音はひらがなと同じ、形だけがちがいます。</div>
+  </div>
+
+  <p class="intro">
+    カタカナは、おもに<b>外来語</b>・外国の地名や人名・擬音語などを書くときに使う文字です。
+    読み方（音）はひらがなと同じで、形だけがちがいます。全部で46字あり、ア行からワ行まで、
+    母音（a・i・u・e・o）の組み合わせで並んでいます。読み方（ローマ字）と発音記号（IPA）を併記し、古い文字の ヰ・ヱ も参考として載せています。
+  </p>
+
+  <div class="label">五十音表</div>
+
+  <div class="goju">
+
+    <div class="grow vhead">
+      <span class="vlabel">a</span>
+      <span class="vlabel">i</span>
+      <span class="vlabel">u</span>
+      <span class="vlabel">e</span>
+      <span class="vlabel">o</span>
+    </div>
+
+    <!-- ア行 -->
+    <div class="grow">
+      <a href="kata_a.html" class="kcell"><div class="k">ア</div><div class="r">a</div><div class="ipa">[a]</div></a>
+      <a href="kata_i.html" class="kcell"><div class="k">イ</div><div class="r">i</div><div class="ipa">[i]</div></a>
+      <a href="kata_u.html" class="kcell"><div class="k">ウ</div><div class="r">u</div><div class="ipa">[ɯ]</div></a>
+      <a href="kata_e.html" class="kcell"><div class="k">エ</div><div class="r">e</div><div class="ipa">[e]</div></a>
+      <a href="kata_o.html" class="kcell"><div class="k">オ</div><div class="r">o</div><div class="ipa">[o]</div></a>
+    </div>
+    <!-- カ行 -->
+    <div class="grow">
+      <a href="kata_ka.html" class="kcell"><div class="k">カ</div><div class="r">ka</div><div class="ipa">[ka]</div></a>
+      <a href="kata_ki.html" class="kcell"><div class="k">キ</div><div class="r">ki</div><div class="ipa">[ki]</div></a>
+      <a href="kata_ku.html" class="kcell"><div class="k">ク</div><div class="r">ku</div><div class="ipa">[kɯ]</div></a>
+      <a href="kata_ke.html" class="kcell"><div class="k">ケ</div><div class="r">ke</div><div class="ipa">[ke]</div></a>
+      <a href="kata_ko.html" class="kcell"><div class="k">コ</div><div class="r">ko</div><div class="ipa">[ko]</div></a>
+    </div>
+    <!-- サ行 -->
+    <div class="grow">
+      <a href="kata_sa.html" class="kcell"><div class="k">サ</div><div class="r">sa</div><div class="ipa">[sa]</div></a>
+      <a href="kata_shi.html" class="kcell"><div class="k">シ</div><div class="r">shi</div><div class="ipa">[ɕi]</div></a>
+      <a href="kata_su.html" class="kcell"><div class="k">ス</div><div class="r">su</div><div class="ipa">[sɯ]</div></a>
+      <a href="kata_se.html" class="kcell"><div class="k">セ</div><div class="r">se</div><div class="ipa">[se]</div></a>
+      <a href="kata_so.html" class="kcell"><div class="k">ソ</div><div class="r">so</div><div class="ipa">[so]</div></a>
+    </div>
+    <!-- タ行 -->
+    <div class="grow">
+      <a href="kata_ta.html" class="kcell"><div class="k">タ</div><div class="r">ta</div><div class="ipa">[ta]</div></a>
+      <a href="kata_chi.html" class="kcell"><div class="k">チ</div><div class="r">chi</div><div class="ipa">[tɕi]</div></a>
+      <a href="kata_tsu.html" class="kcell"><div class="k">ツ</div><div class="r">tsu</div><div class="ipa">[tsɯ]</div></a>
+      <a href="kata_te.html" class="kcell"><div class="k">テ</div><div class="r">te</div><div class="ipa">[te]</div></a>
+      <a href="kata_to.html" class="kcell"><div class="k">ト</div><div class="r">to</div><div class="ipa">[to]</div></a>
+    </div>
+    <!-- ナ行 -->
+    <div class="grow">
+      <a href="kata_na.html" class="kcell"><div class="k">ナ</div><div class="r">na</div><div class="ipa">[na]</div></a>
+      <a href="kata_ni.html" class="kcell"><div class="k">ニ</div><div class="r">ni</div><div class="ipa">[ɲi]</div></a>
+      <a href="kata_nu.html" class="kcell"><div class="k">ヌ</div><div class="r">nu</div><div class="ipa">[nɯ]</div></a>
+      <a href="kata_ne.html" class="kcell"><div class="k">ネ</div><div class="r">ne</div><div class="ipa">[ne]</div></a>
+      <a href="kata_no.html" class="kcell"><div class="k">ノ</div><div class="r">no</div><div class="ipa">[no]</div></a>
+    </div>
+    <!-- ハ行 -->
+    <div class="grow">
+      <a href="kata_ha.html" class="kcell"><div class="k">ハ</div><div class="r">ha</div><div class="ipa">[ha]</div></a>
+      <a href="kata_hi.html" class="kcell"><div class="k">ヒ</div><div class="r">hi</div><div class="ipa">[çi]</div></a>
+      <a href="kata_fu.html" class="kcell"><div class="k">フ</div><div class="r">fu</div><div class="ipa">[ɸɯ]</div></a>
+      <a href="kata_he.html" class="kcell"><div class="k">ヘ</div><div class="r">he</div><div class="ipa">[he]</div></a>
+      <a href="kata_ho.html" class="kcell"><div class="k">ホ</div><div class="r">ho</div><div class="ipa">[ho]</div></a>
+    </div>
+    <!-- マ行 -->
+    <div class="grow">
+      <a href="kata_ma.html" class="kcell"><div class="k">マ</div><div class="r">ma</div><div class="ipa">[ma]</div></a>
+      <a href="kata_mi.html" class="kcell"><div class="k">ミ</div><div class="r">mi</div><div class="ipa">[mi]</div></a>
+      <a href="kata_mu.html" class="kcell"><div class="k">ム</div><div class="r">mu</div><div class="ipa">[mɯ]</div></a>
+      <a href="kata_me.html" class="kcell"><div class="k">メ</div><div class="r">me</div><div class="ipa">[me]</div></a>
+      <a href="kata_mo.html" class="kcell"><div class="k">モ</div><div class="r">mo</div><div class="ipa">[mo]</div></a>
+    </div>
+    <!-- ヤ行 -->
+    <div class="grow">
+      <a href="kata_ya.html" class="kcell"><div class="k">ヤ</div><div class="r">ya</div><div class="ipa">[ja]</div></a>
+      <div class="kcell empty"></div>
+      <a href="kata_yu.html" class="kcell"><div class="k">ユ</div><div class="r">yu</div><div class="ipa">[jɯ]</div></a>
+      <div class="kcell empty"></div>
+      <a href="kata_yo.html" class="kcell"><div class="k">ヨ</div><div class="r">yo</div><div class="ipa">[jo]</div></a>
+    </div>
+    <!-- ラ行 -->
+    <div class="grow">
+      <a href="kata_ra.html" class="kcell"><div class="k">ラ</div><div class="r">ra</div><div class="ipa">[ɾa]</div></a>
+      <a href="kata_ri.html" class="kcell"><div class="k">リ</div><div class="r">ri</div><div class="ipa">[ɾi]</div></a>
+      <a href="kata_ru.html" class="kcell"><div class="k">ル</div><div class="r">ru</div><div class="ipa">[ɾɯ]</div></a>
+      <a href="kata_re.html" class="kcell"><div class="k">レ</div><div class="r">re</div><div class="ipa">[ɾe]</div></a>
+      <a href="kata_ro.html" class="kcell"><div class="k">ロ</div><div class="r">ro</div><div class="ipa">[ɾo]</div></a>
+    </div>
+    <!-- ワ行 -->
+    <div class="grow">
+      <a href="kata_wa.html" class="kcell"><div class="k">ワ</div><div class="r">wa</div><div class="ipa">[wa]</div></a>
+      <div class="kcell archaic"><div class="k">（ヰ）</div><div class="r">wi</div><div class="ipa">[wi]</div></div>
+      <div class="kcell empty"></div>
+      <div class="kcell archaic"><div class="k">（ヱ）</div><div class="r">we</div><div class="ipa">[we]</div></div>
+      <a href="kata_wo.html" class="kcell"><div class="k">ヲ</div><div class="r">wo</div><div class="ipa">[o]</div></a>
+    </div>
+    <!-- ン -->
+    <div class="grow">
+      <a href="kata_n.html" class="kcell"><div class="k">ン</div><div class="r">n</div><div class="ipa">[ɴ]</div></a>
+      <div class="kcell empty"></div>
+      <div class="kcell empty"></div>
+      <div class="kcell empty"></div>
+      <div class="kcell empty"></div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <b>（ ）の文字について。</b>
+    ヰ（wi）・ヱ（we）は、現代の日本語ではほぼ使われない古い文字です（古い文献や固有名詞などで見かけることがあります）。
+    ヲ（wo）も現代ではほとんど使われません（助詞は普通ひらがなの「を」で書きます）。発音は オ と同じ <span style="font-family:'Segoe UI',system-ui,sans-serif">[o]</span> です。
+    発音記号は標準的な発音を表したものです。
+  </div>
+
+  <div class="note">
+    <b>覚え方のヒント。</b>
+    一気に全部おぼえようとせず、ア行・カ行…と<b>1行ずつ</b>。
+    形が似ている字（シ／ツ、ソ／ン、ク／ワ）は、見分けの解説ページを順番に追加していきます。
+  </div>
+
+  <a href="../play/katakana_rush.html" class="play-link">
+    <div class="pl-icon">▶</div>
+    <div class="pl-info">
+      <div class="pl-title">遊んで定着させる</div>
+      <div class="pl-desc">「カタカナラッシュ」で、60秒・指で反応して慣れる</div>
+    </div>
+    <span class="pl-arrow">›</span>
+  </a>
+
+  <div class="foot">
+    つづいて、漢字の解説も追加予定。<br>
+    <a href="hiragana.html">ひらがな五十音表</a> ・ <a href="../play/games.html">あそび場にもどる</a><br>
+    © 2025 JLPT Practice
+  </div>
+
+</div>
+</body>
+</html>

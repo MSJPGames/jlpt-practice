@@ -228,6 +228,41 @@ var timer = null, dropMs = 700, running = false, CELL = 50;
 var resolving = false, comboLevel = 0;
 var POP_STAGGER = 75, POP_DUR = 300;   // 上→下に閉じるアニメ
 
+/* ===================== 効果音（Web Audio・外部ファイル不要） ===================== */
+var actx = null, sfxOff = false;
+try { sfxOff = localStorage.getItem('nnh_sfx_off')==='1'; } catch(e){}
+function audio(){
+  if(!actx){ try{ actx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ actx=null; } }
+  if(actx && actx.state==='suspended') actx.resume();
+  return actx;
+}
+function tone(opt){
+  if(sfxOff) return;
+  var c = audio(); if(!c) return;
+  var t = c.currentTime + (opt.delay||0);
+  var o = c.createOscillator(), g = c.createGain();
+  o.type = opt.type || 'triangle';
+  o.frequency.setValueAtTime(opt.f0, t);
+  o.frequency.exponentialRampToValueAtTime(opt.f1||opt.f0, t + opt.dur);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(opt.vol||0.4, t + 0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + opt.dur);
+  o.connect(g); g.connect(c.destination);
+  o.start(t); o.stop(t + opt.dur + 0.03);
+}
+function sndLock(){ tone({type:'square',  f0:300,  f1:170, dur:0.05, vol:0.15}); }            // 着地：コツッ
+function sndDrop(){ tone({type:'triangle',f0:520,  f1:150, dur:0.13, vol:0.32}); }            // ストン：下降スイープ
+function sndEgg(combo){                                                                        // たまご成立（連鎖で上昇）
+  var k = Math.pow(1.12, Math.max(0,(combo||1)-1));
+  tone({type:'triangle', f0:880*k,  f1:560*k, dur:0.08, vol:0.42});
+  tone({type:'triangle', f0:1180*k, f1:780*k, dur:0.14, vol:0.50, delay:0.06});
+}
+function sndOver(){                                                                            // ゲームオーバー：下降3音
+  tone({type:'triangle', f0:440, f1:392, dur:0.18, vol:0.40});
+  tone({type:'triangle', f0:330, f1:294, dur:0.20, vol:0.40, delay:0.16});
+  tone({type:'triangle', f0:220, f1:160, dur:0.34, vol:0.42, delay:0.34});
+}
+
 /* ===================== 補助 ===================== */
 function ri(n){ return Math.floor(Math.random()*n); }
 function activeRows(){ return ROWSETS[cfg.kana].slice(0, cfg.nrows); }
@@ -263,6 +298,7 @@ function resolveStep(onDone){
   var clears = findClears();
   if(!clears.length){ onDone(); return; }
   comboLevel++;
+  sndEgg(comboLevel);
   var maxDelay = 0;
   clears.forEach(function(cl){
     for(var r=0;r<=cl.to;r++){
@@ -364,6 +400,7 @@ function lockPiece(){
   var col = faller.col;
   if(grid[col].length >= ROWS){ faller=null; gameOver(); return; }
   grid[col].push(faller.piece);
+  sndLock();
   faller = null;
   resolving = true; comboLevel = 0;
   renderStack();
@@ -393,6 +430,7 @@ function softDrop(){
 }
 function hardDrop(){
   if(!running || !faller) return;
+  sndDrop();
   faller.y = grid[faller.col].length;
   renderFaller();
   lockPiece();
@@ -403,6 +441,7 @@ function speedUp(){
 }
 
 function startGame(){
+  audio();   // ユーザー操作で音声を有効化（モバイル対応）
   ACTIVE = activeRows();
   grid = []; for(var c=0;c<COLS;c++) grid.push([]);
   // 各列の一番下に「お段の巣」を固定配置。どの行かはランダム（全行が必ず出るよう割り当て）
@@ -420,6 +459,7 @@ function startGame(){
 }
 function gameOver(){
   running=false; if(timer){ clearInterval(timer); timer=null; }
+  sndOver();
   $('rScore').textContent = score;
   $('rEggs').textContent = stats.eggs;
   $('rCombo').textContent = stats.maxCombo;
@@ -506,6 +546,23 @@ renderLegend();
     try{ localStorage.setItem(KEY,h?'1':'0'); }catch(e){} paint(); });
   paint(); document.body.appendChild(b);
 })();
-</script>
+
+/* ===== 効果音トグル ===== */
+(function(){
+  var KEY='nnh_sfx_off';
+  var st=document.createElement('style');
+  st.textContent=".sfx-toggle{position:fixed;top:10px;right:64px;z-index:9999;font-family:inherit;font-size:13px;line-height:1;padding:6px 10px;border-radius:999px;border:1px solid #E2DDD6;background:rgba(255,255,255,.92);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);}"
+   +".sfx-toggle.off{opacity:.5;}";
+  document.head.appendChild(st);
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ b.className='sfx-toggle'+(sfxOff?' off':''); b.textContent=sfxOff?'🔇':'🔊';
+    b.title=sfxOff?'効果音：OFF':'効果音：ON'; }
+  b.addEventListener('click',function(){
+    sfxOff=!sfxOff; try{ localStorage.setItem(KEY, sfxOff?'1':'0'); }catch(e){}
+    paint();
+    if(!sfxOff){ audio(); tone({type:'triangle',f0:660,f1:880,dur:0.10,vol:0.3}); }  // ON確認音
+  });
+  paint(); document.body.appendChild(b);
+})();</script>
 </body>
 </html>

@@ -376,7 +376,7 @@
 
     <div class="section-label">て形・た形の作り方（音便）</div>
     <div class="note" style="margin-bottom:0.6rem;">
-      <b>1グループ動詞</b>のて形・た形は、語尾によって形が変わります。ここが日本語学習で一番むずかしいところ。下の表で確認しましょう。
+      <b>1グループ動詞</b>のて形・た形は、語尾によって形が変わります。下の表で確認しましょう。
     </div>
     <div class="onbin-card" id="onbinTable"></div>
   </div>
@@ -392,7 +392,7 @@
     <div class="section-label">丁寧形 ⇔ 普通形 ・ Plain ↔ Polite</div>
     <div id="iadjCorr"></div>
     <div class="note" style="margin-top:0.8rem;">
-      否定の丁寧形は <b>〜くありません</b>（現在）／<b>〜くありませんでした</b>（過去）とも言えます。意味は同じです。
+      否定の丁寧形は <b>〜くありません</b>（非過去）／<b>〜くありませんでした</b>（過去）とも言えます。意味は同じです。
     </div>
   </div>
 
@@ -583,8 +583,8 @@ function corrVerb(c){
   const m=c.masu;
   const t=(suf)=>({k:m.k.replace(/ます$/,suf), r:m.r.replace(/ます$/,suf)});
   return [
-    {t:'現在',p:'肯定',plain:c.dict,  polite:m},
-    {t:'現在',p:'否定',plain:c.nai,   polite:t('ません')},
+    {t:'非過去',p:'肯定',plain:c.dict,  polite:m},
+    {t:'非過去',p:'否定',plain:c.nai,   polite:t('ません')},
     {t:'過去',p:'肯定',plain:c.ta,    polite:t('ました')},
     {t:'過去',p:'否定',plain:c.nakatta,polite:t('ませんでした')},
   ];
@@ -592,8 +592,8 @@ function corrVerb(c){
 function corrIadj(c){
   const des=(o)=>({k:o.k+'です',r:o.r+'です'});
   return [
-    {t:'現在',p:'肯定',plain:c.plain,  polite:des(c.plain)},
-    {t:'現在',p:'否定',plain:c.neg,    polite:des(c.neg)},
+    {t:'非過去',p:'肯定',plain:c.plain,  polite:des(c.plain)},
+    {t:'非過去',p:'否定',plain:c.neg,    polite:des(c.neg)},
     {t:'過去',p:'肯定',plain:c.past,   polite:des(c.past)},
     {t:'過去',p:'否定',plain:c.pastneg,polite:des(c.pastneg)},
   ];
@@ -601,8 +601,8 @@ function corrIadj(c){
 function corrNaadj(a){
   const k=a.dict, r=a.kana, P=(s)=>({k:k+s,r:r+s});
   return [
-    {t:'現在',p:'肯定',plain:P('だ'),         polite:P('です')},
-    {t:'現在',p:'否定',plain:P('ではない'),   polite:P('ではありません')},
+    {t:'非過去',p:'肯定',plain:P('だ'),         polite:P('です')},
+    {t:'非過去',p:'否定',plain:P('ではない'),   polite:P('ではありません')},
     {t:'過去',p:'肯定',plain:P('だった'),     polite:P('でした')},
     {t:'過去',p:'否定',plain:P('ではなかった'),polite:P('ではありませんでした')},
   ];
@@ -705,7 +705,7 @@ const VERB_FORMS=[
   ]},
 ];
 const IADJ_FORMS=[
-  {key:'plain',jp:'現在',en:'Present (is ~)'},
+  {key:'plain',jp:'非過去',en:'Non-past (is ~)'},
   {key:'neg',jp:'否定',en:'Negative (is not ~)'},
   {key:'past',jp:'過去',en:'Past (was ~)'},
   {key:'pastneg',jp:'過去否定',en:'Past negative'},
@@ -714,7 +714,7 @@ const IADJ_FORMS=[
   {key:'ba',jp:'条件形',en:'Conditional ("if")'},
 ];
 const NAADJ_FORMS=[
-  {key:'plain',jp:'現在',en:'Present (is ~)'},
+  {key:'plain',jp:'非過去',en:'Non-past (is ~)'},
   {key:'neg',jp:'否定',en:'Negative (is not ~)'},
   {key:'past',jp:'過去',en:'Past (was ~)'},
   {key:'pastneg',jp:'過去否定',en:'Past negative'},

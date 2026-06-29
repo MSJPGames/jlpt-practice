@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>変形練習 ・ Conjugation Drill ・ 日本語の部屋</title>
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --g1: #185FA5; --g1-bg: #E6F1FB;
+    --g2: #3B6D11; --g2-bg: #EAF3DE;
+    --g3: #3C3489; --g3-bg: #EEEDFE;
+    --ia: #854F0B; --ia-bg: #FAEEDA;
+    --na: #1F6F6B; --na-bg: #DFF0EE;
+    --ok: #3B6D11; --ok-bg: #EAF3DE;
+    --ng: #993C1D; --ng-bg: #FAECE7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+  .app-header { text-align: center; padding: 1rem 0 0.5rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .app-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
+  .app-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--text-hint);
+    margin: 1.2rem 0 0.55rem; text-transform: uppercase;
+  }
+
+  /* 設定 */
+  .settings { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .set-block { padding: 12px 15px; border-top: 1px solid #F1EEE9; }
+  .set-block:first-child { border-top: none; }
+  .set-h { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; }
+  .seg { display: flex; gap: 5px; background: #ECE8E1; padding: 4px; border-radius: 11px; }
+  .seg button {
+    flex: 1; padding: 9px 4px; font-size: 13px; font-weight: 700; color: var(--text-muted);
+    background: transparent; border: none; border-radius: 8px; cursor: pointer; font-family: inherit;
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s; -webkit-tap-highlight-color: transparent;
+  }
+  .seg button small { display: block; font-size: 9px; font-weight: 600; color: var(--text-hint); margin-top: 2px; }
+  .seg button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+  .seg button:focus-visible { outline: 2px solid var(--g1); outline-offset: 1px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    border: 1px solid var(--border); background: var(--surface); border-radius: 18px;
+    padding: 6px 12px; font-size: 13px; font-weight: 600; color: var(--text);
+    cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent;
+    transition: transform 0.1s, border-color 0.12s, background 0.12s;
+  }
+  .chip:active { transform: scale(0.95); }
+  .chip:focus-visible { outline: 2px solid currentColor; outline-offset: 1px; }
+  .chip.on.cv { background: var(--g1-bg); border-color: var(--g1); color: var(--g1); }
+  .chip.on.ci { background: var(--ia-bg); border-color: var(--ia); color: var(--ia); }
+  .chip.on.cn { background: var(--na-bg); border-color: var(--na); color: var(--na); }
+  .chip.gp.on { background: var(--g1-bg); border-color: var(--g1); color: var(--g1); }
+  .cat-head { font-size: 11px; font-weight: 700; margin: 10px 0 6px; display: flex; align-items: center; gap: 6px; }
+  .cat-head:first-child { margin-top: 0; }
+  .dot { width: 8px; height: 8px; border-radius: 3px; }
+
+  .presets { display: flex; gap: 7px; margin-top: 11px; }
+  .preset {
+    font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--border); background: #FAF8F4; color: var(--text-muted); font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .preset:active { transform: scale(0.96); }
+
+  /* スコア */
+  .scorebar {
+    display: flex; align-items: center; gap: 14px; margin: 1.1rem 0 0.7rem;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 10px 15px;
+  }
+  .sc { font-size: 12px; color: var(--text-muted); }
+  .sc b { font-size: 17px; color: var(--text); font-weight: 700; }
+  .sc.ok b { color: var(--ok); }
+  .sc.streak b { color: var(--ia); }
+  .sc-reset {
+    margin-left: auto; font-size: 11px; font-weight: 600; color: var(--text-hint);
+    background: none; border: none; cursor: pointer; font-family: inherit; text-decoration: underline;
+  }
+
+  /* 問題カード */
+  .quiz {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 22px 18px 18px; text-align: center; position: relative; overflow: hidden;
+  }
+  .q-grouptag { position: absolute; top: 14px; right: 15px; font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+  .gt-1 { background: var(--g1-bg); color: var(--g1); } .gt-2 { background: var(--g2-bg); color: var(--g2); }
+  .gt-3 { background: var(--g3-bg); color: var(--g3); } .gt-i { background: var(--ia-bg); color: var(--ia); }
+  .gt-n { background: var(--na-bg); color: var(--na); }
+  .q-word { font-size: 34px; font-weight: 700; line-height: 1.15; }
+  .q-read { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  .q-en { font-size: 12px; color: var(--text-hint); margin-top: 2px; }
+  .q-arrow { font-size: 20px; color: var(--text-hint); margin: 10px 0 8px; }
+  .q-target {
+    display: inline-block; font-size: 17px; font-weight: 700;
+    padding: 7px 16px; border-radius: 11px; margin-bottom: 4px;
+  }
+  .tgt-v { background: var(--g1-bg); color: var(--g1); }
+  .tgt-i { background: var(--ia-bg); color: var(--ia); }
+  .tgt-n { background: var(--na-bg); color: var(--na); }
+  .q-hint { font-size: 11px; color: var(--text-hint); margin-top: 4px; }
+
+  .answer-area { margin-top: 16px; }
+  .ans-input {
+    width: 100%; font-family: inherit; font-size: 20px; font-weight: 600; text-align: center;
+    padding: 12px 14px; border: 2px solid var(--border); border-radius: var(--radius-sm);
+    background: #FCFBF9; color: var(--text); outline: none; transition: border-color 0.15s;
+  }
+  .ans-input:focus { border-color: var(--g1); }
+  .ans-input.correct { border-color: var(--ok); background: var(--ok-bg); }
+  .ans-input.wrong { border-color: var(--ng); background: var(--ng-bg); }
+
+  .btn {
+    width: 100%; margin-top: 12px; padding: 13px; font-size: 15px; font-weight: 700;
+    border: none; border-radius: var(--radius-sm); cursor: pointer; font-family: inherit;
+    -webkit-tap-highlight-color: transparent; transition: transform 0.1s, filter 0.12s;
+  }
+  .btn:active { transform: scale(0.99); }
+  .btn-primary { background: var(--text); color: #fff; }
+  .btn-primary:hover { filter: brightness(1.15); }
+  .btn-ghost { background: #FAF8F4; color: var(--text); border: 1px solid var(--border); }
+  .btn:focus-visible { outline: 2px solid var(--g1); outline-offset: 2px; }
+
+  .feedback { margin-top: 14px; }
+  .fb-label { font-size: 14px; font-weight: 700; }
+  .fb-label.ok { color: var(--ok); }
+  .fb-label.ng { color: var(--ng); }
+  .fb-answer {
+    margin-top: 8px; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 12px;
+  }
+  .fb-a-main { font-size: 22px; font-weight: 700; }
+  .fb-a-read { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  .empty-msg { text-align: center; color: var(--text-muted); font-size: 13px; padding: 30px 10px; line-height: 1.7; }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="index.html" class="back">‹ もどる</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">変形練習</div>
+    <div class="app-sub">活用の変形ドリル ・ Conjugation Drill</div>
+  </div>
+
+  <div class="section-label">設定 ・ Settings</div>
+  <div class="settings">
+    <div class="set-block">
+      <div class="set-h">モード ・ Mode</div>
+      <div class="seg" id="modeSeg">
+        <button data-mode="input" class="on">入力して確認<small>type &amp; check</small></button>
+        <button data-mode="reveal">めくって確認<small>flip card</small></button>
+      </div>
+    </div>
+    <div class="set-block">
+      <div class="set-h">動詞のグループ ・ Verb groups</div>
+      <div class="chips" id="groupChips"></div>
+    </div>
+    <div class="set-block">
+      <div class="set-h">出題する活用 ・ Forms to practice</div>
+      <div id="formChips"></div>
+      <div class="presets">
+        <button class="preset" data-preset="basic">基本</button>
+        <button class="preset" data-preset="all">全部</button>
+        <button class="preset" data-preset="clear">クリア</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="scorebar">
+    <span class="sc">出題 <b id="scAsked">0</b></span>
+    <span class="sc ok" id="scOkWrap">正解 <b id="scOk">0</b></span>
+    <span class="sc streak" id="scStreakWrap">連続 <b id="scStreak">0</b></span>
+    <button class="sc-reset" id="scReset">リセット</button>
+  </div>
+
+  <div id="quizArea"></div>
+
+  <div class="app-footer">
+    授業・自習用ドリル<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+/* ===================== 活用エンジン ===================== */
+const ENDING = {
+  'く':{a:'か',i:'き',u:'く',e:'け',o:'こ',te:'いて',ta:'いた'},
+  'ぐ':{a:'が',i:'ぎ',u:'ぐ',e:'げ',o:'ご',te:'いで',ta:'いだ'},
+  'す':{a:'さ',i:'し',u:'す',e:'せ',o:'そ',te:'して',ta:'した'},
+  'つ':{a:'た',i:'ち',u:'つ',e:'て',o:'と',te:'って',ta:'った'},
+  'ぬ':{a:'な',i:'に',u:'ぬ',e:'ね',o:'の',te:'んで',ta:'んだ'},
+  'ぶ':{a:'ば',i:'び',u:'ぶ',e:'べ',o:'ぼ',te:'んで',ta:'んだ'},
+  'む':{a:'ま',i:'み',u:'む',e:'め',o:'も',te:'んで',ta:'んだ'},
+  'る':{a:'ら',i:'り',u:'る',e:'れ',o:'ろ',te:'って',ta:'った'},
+  'う':{a:'わ',i:'い',u:'う',e:'え',o:'お',te:'って',ta:'った'},
+};
+function godan(v){
+  const e=ENDING[v.kana.slice(-1)], s=v.dict.slice(0,-1), ks=v.kana.slice(0,-1);
+  let te=e.te,ta=e.ta; if(v.dict==='行く'){te='って';ta='った';}
+  const M=(suf)=>({k:s+suf,r:ks+suf});
+  return {dict:{k:v.dict,r:v.kana},masu:M(e.i+'ます'),nai:M(e.a+'ない'),te:M(te),ta:M(ta),
+    nakatta:M(e.a+'なかった'),potential:M(e.e+'る'),volition:M(e.o+'う'),ba:M(e.e+'ば'),
+    imperative:M(e.e),passive:M(e.a+'れる'),causative:M(e.a+'せる')};
+}
+function ichidan(v){
+  const s=v.dict.slice(0,-1),ks=v.kana.slice(0,-1),T=(t)=>({k:s+t,r:ks+t});
+  return {dict:{k:v.dict,r:v.kana},masu:T('ます'),nai:T('ない'),te:T('て'),ta:T('た'),
+    nakatta:T('なかった'),potential:T('られる'),volition:T('よう'),ba:T('れば'),
+    imperative:T('ろ'),passive:T('られる'),causative:T('させる')};
+}
+function suru(v){
+  const b=v.dict.slice(0,-2),kb=v.kana.slice(0,-2),P=(x)=>({k:b+x,r:kb+x});
+  return {dict:{k:v.dict,r:v.kana},masu:P('します'),nai:P('しない'),te:P('して'),ta:P('した'),
+    nakatta:P('しなかった'),potential:P('できる'),volition:P('しよう'),ba:P('すれば'),
+    imperative:P('しろ'),passive:P('される'),causative:P('させる')};
+}
+function kuru(){const K=(k,r)=>({k,r});return {dict:K('来る','くる'),masu:K('来ます','きます'),
+  nai:K('来ない','こない'),te:K('来て','きて'),ta:K('来た','きた'),nakatta:K('来なかった','こなかった'),
+  potential:K('来られる','こられる'),volition:K('来よう','こよう'),ba:K('来れば','くれば'),
+  imperative:K('来い','こい'),passive:K('来られる','こられる'),causative:K('来させる','こさせる')};}
+function conjugateVerb(v){
+  let c; if(v.dict==='来る')c=kuru(); else if(v.group===3)c=suru(v); else if(v.group===2)c=ichidan(v); else c=godan(v);
+  c.prohibitive={k:c.dict.k+'な',r:c.dict.r+'な'}; return c;
+}
+function iadj(a){
+  let base,kb;
+  if(a.dict==='いい'||a.dict==='良い'){base=(a.dict==='良い'?'良':'よ');kb='よ';}
+  else {base=a.dict.slice(0,-1);kb=a.kana.slice(0,-1);}
+  const T=(t)=>({k:base+t,r:kb+t});
+  return {plain:{k:a.dict,r:a.kana},neg:T('くない'),past:T('かった'),pastneg:T('くなかった'),te:T('くて'),adv:T('く'),ba:T('ければ')};
+}
+function naadj(a){
+  const k=a.dict,r=a.kana,M=(x)=>({k:k+x,r:r+x});
+  return {plain:{...M('だ')},neg:{...M('ではない'),alt:k+'じゃない'},past:{...M('だった')},
+    pastneg:{...M('ではなかった'),alt:k+'じゃなかった'},te:M('で'),adv:M('に'),
+    noun:{k:k+'な',r:r+'な'},ba:{k:k+'なら',r:r+'なら'}};
+}
+
+/* ===================== データ ===================== */
+const VERBS=[
+  {dict:'書く',kana:'かく',en:'to write',group:1},{dict:'泳ぐ',kana:'およぐ',en:'to swim',group:1},
+  {dict:'話す',kana:'はなす',en:'to speak',group:1},{dict:'待つ',kana:'まつ',en:'to wait',group:1},
+  {dict:'死ぬ',kana:'しぬ',en:'to die',group:1},{dict:'遊ぶ',kana:'あそぶ',en:'to play',group:1},
+  {dict:'飲む',kana:'のむ',en:'to drink',group:1},{dict:'作る',kana:'つくる',en:'to make',group:1},
+  {dict:'買う',kana:'かう',en:'to buy',group:1},{dict:'行く',kana:'いく',en:'to go',group:1},
+  {dict:'帰る',kana:'かえる',en:'to go home',group:1},
+  {dict:'食べる',kana:'たべる',en:'to eat',group:2},{dict:'見る',kana:'みる',en:'to see',group:2},
+  {dict:'起きる',kana:'おきる',en:'to wake up',group:2},{dict:'寝る',kana:'ねる',en:'to sleep',group:2},
+  {dict:'教える',kana:'おしえる',en:'to teach',group:2},{dict:'借りる',kana:'かりる',en:'to borrow',group:2},
+  {dict:'する',kana:'する',en:'to do',group:3},{dict:'勉強する',kana:'べんきょうする',en:'to study',group:3},
+  {dict:'来る',kana:'くる',en:'to come',group:3},
+];
+const IADJ=[
+  {dict:'高い',kana:'たかい',en:'high / expensive'},{dict:'大きい',kana:'おおきい',en:'big'},
+  {dict:'新しい',kana:'あたらしい',en:'new'},{dict:'楽しい',kana:'たのしい',en:'fun'},
+  {dict:'おいしい',kana:'おいしい',en:'delicious'},{dict:'いい',kana:'いい',en:'good'},
+];
+const NAADJ=[
+  {dict:'静か',kana:'しずか',en:'quiet'},{dict:'きれい',kana:'きれい',en:'pretty / clean'},
+  {dict:'元気',kana:'げんき',en:'energetic'},{dict:'便利',kana:'べんり',en:'convenient'},
+  {dict:'好き',kana:'すき',en:'liked'},{dict:'有名',kana:'ゆうめい',en:'famous'},
+];
+const VFORMS=[['masu','ます形'],['te','て形'],['nai','ない形'],['ta','た形'],['nakatta','なかった形'],
+  ['potential','可能動詞'],['volition','意向形'],['ba','条件形'],['imperative','命令形'],
+  ['prohibitive','禁止形'],['passive','受身動詞'],['causative','使役動詞']];
+const IFORMS=[['neg','否定'],['past','過去'],['pastneg','過去否定'],['te','て形'],['adv','副詞形'],['ba','条件形']];
+const NFORMS=[['neg','否定'],['past','過去'],['pastneg','過去否定'],['te','て形'],['adv','副詞形'],['noun','名詞修飾'],['ba','条件形']];
+const HINTS={noun:'〜な＋名詞',adv:'〜く / 〜に',ba:'〜ば / 〜なら',volition:'〜う/よう',prohibitive:'〜な'};
+
+/* ===================== 状態 ===================== */
+const $=(id)=>document.getElementById(id);
+let mode='input';
+let groups=new Set([1,2,3]);
+let selected=new Set(['v:masu','v:te','v:nai','v:ta']);
+let score={asked:0,ok:0,streak:0};
+let current=null, answered=false;
+
+/* ===================== UI構築 ===================== */
+function renderGroupChips(){
+  $('groupChips').innerHTML=[[1,'1グループ'],[2,'2グループ'],[3,'3グループ']]
+    .map(([g,l])=>`<button class="chip gp ${groups.has(g)?'on':''}" data-g="${g}">${l}</button>`).join('');
+  $('groupChips').querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
+    const g=+c.dataset.g; groups.has(g)?groups.delete(g):groups.add(g); renderGroupChips(); newProblem();
+  });
+}
+function renderFormChips(){
+  const block=(cat,label,dot,forms,cls)=>`
+    <div class="cat-head"><span class="dot" style="background:${dot}"></span>${label}</div>
+    <div class="chips">${forms.map(([k,l])=>{
+      const id=cat+':'+k; return `<button class="chip ${cls} ${selected.has(id)?'on':''}" data-id="${id}">${l}</button>`;
+    }).join('')}</div>`;
+  $('formChips').innerHTML =
+    block('v','動詞','var(--g1)',VFORMS,'cv') +
+    block('i','い形容詞','var(--ia)',IFORMS,'ci') +
+    block('n','な形容詞','var(--na)',NFORMS,'cn');
+  $('formChips').querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
+    const id=c.dataset.id; selected.has(id)?selected.delete(id):selected.add(id); renderFormChips(); newProblem();
+  });
+}
+function applyPreset(p){
+  if(p==='clear') selected=new Set();
+  else if(p==='basic') selected=new Set(['v:masu','v:te','v:nai','v:ta']);
+  else if(p==='all'){ selected=new Set();
+    VFORMS.forEach(([k])=>selected.add('v:'+k));
+    IFORMS.forEach(([k])=>selected.add('i:'+k));
+    NFORMS.forEach(([k])=>selected.add('n:'+k));
+  }
+  renderFormChips(); newProblem();
+}
+
+/* ===================== 出題 ===================== */
+function specs(){
+  const out=[];
+  selected.forEach(id=>{
+    const [cat,key]=id.split(':');
+    if(cat==='v'){ const pool=VERBS.filter(w=>groups.has(w.group)); if(pool.length) out.push({cat,key,pool}); }
+    else if(cat==='i') out.push({cat,key,pool:IADJ});
+    else if(cat==='n') out.push({cat,key,pool:NAADJ});
+  });
+  return out;
+}
+function rand(a){ return a[Math.floor(Math.random()*a.length)]; }
+function makeAnswer(cat,key,word){
+  const c = cat==='v'?conjugateVerb(word) : cat==='i'?iadj(word) : naadj(word);
+  const ans=c[key]; const accept=[ans.k]; if(ans.r&&ans.r!==ans.k)accept.push(ans.r); if(ans.alt)accept.push(ans.alt);
+  return {k:ans.k,r:ans.r,alt:ans.alt,accept};
+}
+function newProblem(){
+  answered=false;
+  const sp=specs();
+  if(!sp.length){ current=null; renderQuiz(); return; }
+  const s=rand(sp); const word=rand(s.pool);
+  current={cat:s.cat,key:s.key,word,ans:makeAnswer(s.cat,s.key,word)};
+  renderQuiz();
+}
+const norm=s=>(s||'').replace(/\s/g,'').replace(/　/g,'');
+function labelFor(cat,key){
+  const L = cat==='v'?VFORMS : cat==='i'?IFORMS : NFORMS;
+  const f=L.find(x=>x[0]===key); return f?f[1]:key;
+}
+
+/* ===================== 描画 ===================== */
+function renderQuiz(){
+  const area=$('quizArea');
+  if(!current){ area.innerHTML=`<div class="quiz"><div class="empty-msg">出題する活用を1つ以上えらんでください。<br>（「設定 → 出題する活用」または「基本」ボタン）</div></div>`; return; }
+  const {cat,key,word,ans}=current;
+  const gtag = cat==='v' ? `<span class="q-grouptag gt-${word.group}">${word.group}グループ</span>`
+            : cat==='i' ? `<span class="q-grouptag gt-i">い形容詞</span>`
+            : `<span class="q-grouptag gt-n">な形容詞</span>`;
+  const tgtCls = cat==='v'?'tgt-v':cat==='i'?'tgt-i':'tgt-n';
+  const hint = HINTS[key] ? `<div class="q-hint">（${HINTS[key]}）</div>` : '';
+  let inner = `
+    ${gtag}
+    <div class="q-word">${word.dict}</div>
+    <div class="q-read">${word.kana}</div>
+    <div class="q-en">${word.en}</div>
+    <div class="q-arrow">↓</div>
+    <div class="q-target ${tgtCls}">${labelFor(cat,key)}</div>
+    ${hint}
+    <div class="answer-area" id="answerArea"></div>`;
+  area.innerHTML=`<div class="quiz">${inner}</div>`;
+  renderAnswerArea();
+}
+function renderAnswerArea(){
+  const a=$('answerArea'); if(!a) return;
+  if(mode==='input'){
+    if(!answered){
+      a.innerHTML=`<input class="ans-input" id="ansInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="答えを入力">
+        <button class="btn btn-primary" id="checkBtn">確認</button>`;
+      const inp=$('ansInput'); inp.focus();
+      inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); doCheck(); }});
+      $('checkBtn').onclick=doCheck;
+    } else { /* feedback rendered by doCheck */ }
+  } else {
+    if(!answered){
+      a.innerHTML=`<button class="btn btn-primary" id="revealBtn">答えを見る</button>`;
+      $('revealBtn').onclick=doReveal;
+    }
+  }
+}
+function answerBlock(){
+  const {ans}=current;
+  const main = ans.alt ? `${ans.k}<span style="color:var(--text-hint);font-weight:600">／</span>${ans.alt}` : ans.k;
+  return `<div class="fb-answer"><div class="fb-a-main">${main}</div>${ans.r&&ans.r!==ans.k?`<div class="fb-a-read">${ans.r}</div>`:''}</div>`;
+}
+function nextButton(){ return `<button class="btn btn-ghost" id="nextBtn">次へ ›</button>`; }
+function wireNext(){ const n=$('nextBtn'); if(n){ n.onclick=newProblem; n.focus(); } }
+
+function doCheck(){
+  if(answered||!current) return;
+  const inp=$('ansInput'); const val=inp.value;
+  const correct = current.ans.accept.map(norm).includes(norm(val));
+  answered=true;
+  score.asked++; if(correct){ score.ok++; score.streak++; } else { score.streak=0; }
+  updateScore();
+  inp.classList.add(correct?'correct':'wrong'); inp.disabled=true;
+  const a=$('answerArea');
+  a.innerHTML = `<input class="ans-input ${correct?'correct':'wrong'}" value="${val.replace(/"/g,'&quot;')}" disabled>
+    <div class="feedback">
+      <div class="fb-label ${correct?'ok':'ng'}">${correct?'◎ 正解！':'✕ 残念…'}</div>
+      ${correct?'':answerBlock()}
+      ${correct?answerBlock():''}
+    </div>
+    ${nextButton()}`;
+  wireNext();
+}
+function doReveal(){
+  if(answered||!current) return; answered=true;
+  score.asked++; updateScore();
+  $('answerArea').innerHTML = `<div class="feedback"><div class="fb-label">答え</div>${answerBlock()}</div>${nextButton()}`;
+  wireNext();
+}
+function updateScore(){
+  $('scAsked').textContent=score.asked; $('scOk').textContent=score.ok; $('scStreak').textContent=score.streak;
+}
+function setMode(m){
+  mode=m; answered=false;
+  $('modeSeg').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));
+  $('scOkWrap').style.display = m==='input'?'':'none';
+  $('scStreakWrap').style.display = m==='input'?'':'none';
+  if(current) renderQuiz();
+}
+
+/* ===================== 初期化 ===================== */
+renderGroupChips(); renderFormChips();
+$('modeSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+document.querySelectorAll('.preset').forEach(p=>p.onclick=()=>applyPreset(p.dataset.preset));
+$('scReset').onclick=()=>{ score={asked:0,ok:0,streak:0}; updateScore(); };
+// 全体Enter: 解答後は次へ
+document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&answered){ const n=$('nextBtn'); if(n){ e.preventDefault(); newProblem(); } }});
+newProblem();
+</script>
+</body>
+</html>

@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>もぐらたたき ・ なかまはずれを さがせ</title>
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E2DDD6;
+    --text: #1C1C1C;
+    --text-muted: #6B6560;
+    --text-hint: #9E9890;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --game: #3B6D11;
+    --game-soft: #EAF3DE;
+    --game-deep: #2C520C;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { overscroll-behavior: none; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 1rem 2rem;
+    -webkit-user-select: none; user-select: none;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+
+  /* ── トップバー ── */
+  .topbar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 1.1rem 0 0.4rem;
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 13px; font-weight: 700; color: var(--text-muted);
+    text-decoration: none; padding: 6px 10px 6px 6px; border-radius: 20px;
+    transition: background 0.12s;
+  }
+  .back-link:active { background: #ECE8E1; }
+  .topbar-spacer { flex: 1; }
+  .mute-btn {
+    border: 1px solid var(--border); background: var(--surface);
+    width: 38px; height: 38px; border-radius: 11px; font-size: 17px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    color: var(--text-muted);
+  }
+  .mute-btn:active { transform: scale(0.94); }
+
+  .app-head { text-align: center; padding: 0.4rem 0 0.2rem; }
+  .app-logo { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); }
+  .app-title { font-size: 24px; font-weight: 700; margin-top: 8px; letter-spacing: 0.02em; }
+  .app-title .em { color: var(--game); }
+  .app-sub { font-size: 12.5px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+
+  /* ── 画面の切り替え ── */
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* ── スタート画面 ── */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px;
+    margin-top: 14px;
+  }
+  .howto-title { font-size: 13px; font-weight: 700; color: var(--game-deep); margin-bottom: 10px; letter-spacing: 0.02em; }
+  .howto { display: flex; flex-direction: column; gap: 10px; }
+  .howto-row { display: flex; align-items: flex-start; gap: 11px; font-size: 13px; line-height: 1.55; color: var(--text); }
+  .howto-num {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 7px;
+    background: var(--game-soft); color: var(--game-deep);
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+  }
+  .howto-row b { color: var(--game-deep); }
+
+  .opt-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-hint); text-transform: uppercase; margin: 18px 0 8px; }
+  .seg {
+    display: flex; gap: 8px;
+  }
+  .seg button {
+    flex: 1; padding: 13px 8px; border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border); background: var(--surface);
+    font-family: inherit; font-size: 14px; font-weight: 700; color: var(--text-muted);
+    cursor: pointer; transition: all 0.12s; line-height: 1.35;
+  }
+  .seg button .sub { display: block; font-size: 10.5px; font-weight: 500; color: var(--text-hint); margin-top: 3px; }
+  .seg button:active { transform: scale(0.97); }
+  .seg button.on {
+    border-color: var(--game); background: var(--game-soft); color: var(--game-deep);
+  }
+  .seg button.on .sub { color: var(--game); }
+
+  .start-btn {
+    width: 100%; margin-top: 22px; padding: 16px; border: none; cursor: pointer;
+    border-radius: var(--radius); background: var(--game); color: #fff;
+    font-family: inherit; font-size: 16px; font-weight: 700; letter-spacing: 0.04em;
+    box-shadow: 0 4px 14px rgba(59,109,17,0.28);
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .start-btn:active { transform: translateY(1px) scale(0.99); box-shadow: 0 2px 8px rgba(59,109,17,0.28); }
+
+  /* ── プレイ画面 ── */
+  .hud {
+    display: flex; gap: 8px; margin-top: 14px; align-items: stretch;
+  }
+  .hud-cell {
+    flex: 1; background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 8px 6px; text-align: center;
+  }
+  .hud-k { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--text-hint); }
+  .hud-v { font-size: 21px; font-weight: 700; margin-top: 1px; font-variant-numeric: tabular-nums; }
+  .hud-cell.time .hud-v.warn { color: #C0392B; }
+  .hud-cell.combo .hud-v { color: var(--game); }
+
+  .rule-bar {
+    margin-top: 12px; text-align: center; padding: 11px;
+    border-radius: var(--radius-sm); background: var(--game-soft);
+    border: 1px solid #D5E6BF; font-size: 15px; font-weight: 700; color: var(--game-deep);
+  }
+  .rule-bar .tchar {
+    display: inline-block; min-width: 30px;
+    background: #fff; border-radius: 7px; padding: 1px 8px; margin: 0 2px;
+    color: var(--game-deep); border: 1.5px solid var(--game);
+  }
+
+  /* フィールド */
+  .field {
+    margin-top: 12px; border-radius: var(--radius);
+    background:
+      radial-gradient(120% 80% at 50% -10%, #FCFEF8 0%, #F1F7E7 55%, #E9F2D9 100%);
+    border: 1px solid #DCE7CC;
+    padding: 14px 12px 16px;
+    box-shadow: inset 0 1px 0 #fff;
+  }
+  .grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  }
+  .hole {
+    position: relative; aspect-ratio: 1 / 1.16; overflow: hidden;
+    cursor: pointer;
+  }
+  /* 穴のかげ */
+  .hole .opening {
+    position: absolute; left: 50%; bottom: 6%; transform: translateX(-50%);
+    width: 80%; height: 30%; border-radius: 50%;
+    background: radial-gradient(50% 60% at 50% 40%, #6B5536 0%, #4A3A24 70%, #3C2F1D 100%);
+  }
+  /* モグラ */
+  .hole .mole {
+    position: absolute; left: 50%; bottom: 2%; width: 86%;
+    transform: translateX(-50%) translateY(120%);
+    transition: transform 0.16s cubic-bezier(.34,1.5,.5,1);
+    will-change: transform;
+  }
+  .hole.up .mole { transform: translateX(-50%) translateY(0); }
+  .hole.bonk .mole {
+    transform: translateX(-50%) translateY(34%) scaleY(0.72) scaleX(1.08);
+    transition: transform 0.1s ease;
+  }
+  .hole .mole svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 3px 3px rgba(60,45,25,0.18)); }
+  /* 手前の土（足元をかくす） */
+  .hole .lip {
+    position: absolute; left: 50%; bottom: -8%; transform: translateX(-50%);
+    width: 108%; height: 26%; border-radius: 50%;
+    background: linear-gradient(#9C7A4E, #7E6038);
+    z-index: 3; box-shadow: inset 0 2px 2px rgba(255,255,255,0.18);
+  }
+  .hole.hit-wrong { animation: holeShake 0.3s; }
+  @keyframes holeShake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+
+  /* とびだすエフェクト */
+  .fx {
+    position: absolute; left: 50%; top: 14%; transform: translateX(-50%);
+    z-index: 5; pointer-events: none; font-weight: 800; font-size: 15px;
+    color: var(--game-deep);
+    animation: floatUp 0.7s ease forwards;
+  }
+  .fx.bad { color: #C0392B; }
+  @keyframes floatUp {
+    0% { opacity: 0; transform: translate(-50%, 6px) scale(0.7); }
+    25% { opacity: 1; transform: translate(-50%, -8px) scale(1.1); }
+    100% { opacity: 0; transform: translate(-50%, -34px) scale(1); }
+  }
+  .star {
+    position: absolute; z-index: 5; pointer-events: none;
+    font-size: 13px; color: #F2B705;
+    animation: starPop 0.55s ease forwards;
+  }
+  @keyframes starPop {
+    0% { opacity: 1; transform: translate(0,0) scale(0.4); }
+    100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.1); }
+  }
+
+  /* 学習フィードバック */
+  .feedback {
+    margin-top: 12px; min-height: 24px; text-align: center;
+    font-size: 13.5px; font-weight: 700; line-height: 1.5;
+    transition: opacity 0.2s; color: var(--text-muted);
+  }
+  .feedback .ok { color: var(--game); }
+  .feedback .ng { color: #C0392B; }
+  .feedback .rd { color: var(--text-hint); font-weight: 500; font-size: 12px; }
+
+  /* カウントダウン */
+  .countdown {
+    position: fixed; inset: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(247,245,240,0.82); backdrop-filter: blur(2px);
+  }
+  .countdown .num {
+    font-size: 92px; font-weight: 800; color: var(--game);
+    animation: cdPop 0.9s ease;
+  }
+  .countdown .go { font-size: 52px; }
+  @keyframes cdPop {
+    0% { opacity: 0; transform: scale(0.5); }
+    30% { opacity: 1; transform: scale(1.05); }
+    70% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.9); }
+  }
+
+  /* ── 結果画面 ── */
+  .result-card { text-align: center; }
+  .result-rank { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: var(--game); }
+  .result-emoji { font-size: 44px; margin: 6px 0 2px; }
+  .result-comment { font-size: 17px; font-weight: 700; }
+  .result-score-wrap { margin: 16px 0 4px; }
+  .result-score { font-size: 52px; font-weight: 800; color: var(--game); line-height: 1; font-variant-numeric: tabular-nums; }
+  .result-score-k { font-size: 12px; font-weight: 700; color: var(--text-hint); letter-spacing: 0.08em; }
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 18px; }
+  .stat { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 4px; }
+  .stat-v { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .stat-v.acc { color: var(--game); }
+  .stat-k { font-size: 10px; color: var(--text-hint); font-weight: 700; margin-top: 2px; }
+  .result-actions { display: flex; gap: 10px; margin-top: 20px; }
+  .btn-line {
+    flex: 1; padding: 14px; border-radius: var(--radius); cursor: pointer;
+    font-family: inherit; font-size: 14px; font-weight: 700; transition: transform 0.1s;
+  }
+  .btn-line:active { transform: scale(0.98); }
+  .btn-primary { border: none; background: var(--game); color: #fff; box-shadow: 0 4px 12px rgba(59,109,17,0.26); }
+  .btn-ghost { border: 1.5px solid var(--border); background: var(--surface); color: var(--text-muted); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 1.8rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .screen.active, .countdown .num, .fx, .star { animation: none !important; }
+    .hole .mole { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="games.html" class="back-link">‹ ゲーム一覧</a>
+    <div class="topbar-spacer"></div>
+    <button class="mute-btn" id="muteBtn" aria-label="音のオン・オフ">🔊</button>
+  </div>
+
+  <div class="app-head">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">もぐらたたき <span class="em">・ なかまはずれ</span></div>
+    <div class="app-sub">ヘルメットの文字をチェック。<br>まぎれこんだ「もうひとつの文字」を たたこう</div>
+  </div>
+
+  <!-- スタート画面 -->
+  <section class="screen active" id="screen-start">
+    <div class="card">
+      <div class="howto-title">あそびかた</div>
+      <div class="howto">
+        <div class="howto-row"><span class="howto-num">1</span><div>モグラが ヘルメットに 文字をのせて 顔を出すよ。</div></div>
+        <div class="howto-row"><span class="howto-num">2</span><div>たくさんの文字に まぎれた <b>ねらいの文字</b>だけを たたく。</div></div>
+        <div class="howto-row"><span class="howto-num">3</span><div>正解は「ぽこっ」と コンボがのびる。まちがいは コンボが0に。</div></div>
+      </div>
+
+      <div class="opt-label">なにを たたく？</div>
+      <div class="seg" id="seg-mode">
+        <button data-mode="kata" class="on">カタカナを たたく<span class="sub">ひらがなに まぎれた カタカナ</span></button>
+        <button data-mode="hira">ひらがなを たたく<span class="sub">カタカナに まぎれた ひらがな</span></button>
+      </div>
+
+      <div class="opt-label">むずかしさ</div>
+      <div class="seg" id="seg-diff">
+        <button data-diff="easy" class="on">やさしい<span class="sub">見わけやすい 文字</span></button>
+        <button data-diff="hard">むずかしい<span class="sub">にた形が ふえる</span></button>
+      </div>
+
+      <button class="start-btn" id="startBtn">スタート（60秒）</button>
+    </div>
+  </section>
+
+  <!-- プレイ画面 -->
+  <section class="screen" id="screen-play">
+    <div class="hud">
+      <div class="hud-cell"><div class="hud-k">スコア</div><div class="hud-v" id="hudScore">0</div></div>
+      <div class="hud-cell combo"><div class="hud-k">コンボ</div><div class="hud-v" id="hudCombo">0</div></div>
+      <div class="hud-cell time"><div class="hud-k">のこり</div><div class="hud-v" id="hudTime">60</div></div>
+    </div>
+
+    <div class="rule-bar" id="ruleBar"></div>
+
+    <div class="field">
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <div class="feedback" id="feedback">じゅんびOK！</div>
+  </section>
+
+  <!-- 結果画面 -->
+  <section class="screen" id="screen-result">
+    <div class="card result-card">
+      <div class="result-rank" id="rRank">RESULT</div>
+      <div class="result-emoji" id="rEmoji">🎉</div>
+      <div class="result-comment" id="rComment"></div>
+      <div class="result-score-wrap">
+        <div class="result-score" id="rScore">0</div>
+        <div class="result-score-k">スコア</div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat"><div class="stat-v" id="rHits">0</div><div class="stat-k">せいかい</div></div>
+        <div class="stat"><div class="stat-v acc" id="rAcc">0%</div><div class="stat-k">めいちゅう率</div></div>
+        <div class="stat"><div class="stat-v" id="rCombo">0</div><div class="stat-k">最大コンボ</div></div>
+      </div>
+      <div class="result-actions">
+        <button class="btn-line btn-ghost" id="menuBtn">メニュー</button>
+        <button class="btn-line btn-primary" id="retryBtn">もう一回</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="app-footer">© 2025 日本語の部屋</div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ── 文字データ（五十音。へ/ヘ は形が同じため除外）──
+  var SYL = [
+    {r:'a',h:'あ',k:'ア'},{r:'i',h:'い',k:'イ'},{r:'u',h:'う',k:'ウ'},{r:'e',h:'え',k:'エ'},{r:'o',h:'お',k:'オ'},
+    {r:'ka',h:'か',k:'カ',look:1},{r:'ki',h:'き',k:'キ',look:1},{r:'ku',h:'く',k:'ク',look:1},{r:'ke',h:'け',k:'ケ',look:1},{r:'ko',h:'こ',k:'コ'},
+    {r:'sa',h:'さ',k:'サ',look:1},{r:'shi',h:'し',k:'シ'},{r:'su',h:'す',k:'ス'},{r:'se',h:'せ',k:'セ',look:1},{r:'so',h:'そ',k:'ソ'},
+    {r:'ta',h:'た',k:'タ'},{r:'chi',h:'ち',k:'チ'},{r:'tsu',h:'つ',k:'ツ'},{r:'te',h:'て',k:'テ'},{r:'to',h:'と',k:'ト'},
+    {r:'na',h:'な',k:'ナ'},{r:'ni',h:'に',k:'ニ',look:1},{r:'nu',h:'ぬ',k:'ヌ'},{r:'ne',h:'ね',k:'ネ'},{r:'no',h:'の',k:'ノ'},
+    {r:'ha',h:'は',k:'ハ'},{r:'hi',h:'ひ',k:'ヒ'},{r:'fu',h:'ふ',k:'フ'},{r:'ho',h:'ほ',k:'ホ'},
+    {r:'ma',h:'ま',k:'マ'},{r:'mi',h:'み',k:'ミ'},{r:'mu',h:'む',k:'ム'},{r:'me',h:'め',k:'メ'},{r:'mo',h:'も',k:'モ',look:1},
+    {r:'ya',h:'や',k:'ヤ',look:1},{r:'yu',h:'ゆ',k:'ユ'},{r:'yo',h:'よ',k:'ヨ'},
+    {r:'ra',h:'ら',k:'ラ'},{r:'ri',h:'り',k:'リ',look:1},{r:'ru',h:'る',k:'ル'},{r:'re',h:'れ',k:'レ'},{r:'ro',h:'ろ',k:'ロ',look:1},
+    {r:'wa',h:'わ',k:'ワ'},{r:'wo',h:'を',k:'ヲ'},{r:'n',h:'ん',k:'ン',look:1}
+  ];
+
+  var HOLES = 9;
+  var GAME_TIME = 60;
+
+  // ── 状態 ──
+  var state = {
+    mode: 'kata',       // 'kata' = カタカナを たたく / 'hira' = ひらがなを たたく
+    diff: 'easy',
+    score: 0, combo: 0, maxCombo: 0,
+    hits: 0, wrongs: 0, missed: 0,
+    timeLeft: GAME_TIME,
+    running: false, muted: false
+  };
+  var holes = [];       // {el, moleEl, charEl, active, isTarget, syl, life}
+  var spawnTimer = null, gameTimer = null;
+
+  // ── DOM ──
+  var $ = function (id) { return document.getElementById(id); };
+  var screens = { start: $('screen-start'), play: $('screen-play'), result: $('screen-result') };
+  function show(name) {
+    for (var k in screens) screens[k].classList.toggle('active', k === name);
+  }
+
+  // ── サウンド（Web Audio。外部ファイル不要）──
+  var actx = null;
+  function audio() {
+    if (!actx) { try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+    if (actx && actx.state === 'suspended') actx.resume();
+    return actx;
+  }
+  function tone(opt) {
+    if (state.muted) return;
+    var c = audio(); if (!c) return;
+    var t = c.currentTime;
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = opt.type || 'triangle';
+    o.frequency.setValueAtTime(opt.f0, t);
+    o.frequency.exponentialRampToValueAtTime(opt.f1, t + opt.dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(opt.vol || 0.4, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + opt.dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t + opt.dur + 0.02);
+  }
+  // 「ぽこっ」… 軽い2音
+  function sndPoko() {
+    tone({ type:'triangle', f0:920, f1:560, dur:0.07, vol:0.45 });
+    setTimeout(function(){ tone({ type:'triangle', f0:680, f1:300, dur:0.13, vol:0.5 }); }, 55);
+  }
+  function sndWrong() {
+    tone({ type:'sawtooth', f0:200, f1:120, dur:0.18, vol:0.3 });
+    tone({ type:'square', f0:150, f1:90, dur:0.2, vol:0.18 });
+  }
+  function sndTick() { tone({ type:'sine', f0:660, f1:660, dur:0.08, vol:0.25 }); }
+  function sndStart() { tone({ type:'triangle', f0:520, f1:920, dur:0.25, vol:0.4 }); }
+  function sndEnd() {
+    [523, 659, 784, 1046].forEach(function (f, i) {
+      setTimeout(function () { tone({ type:'triangle', f0:f, f1:f, dur:0.18, vol:0.35 }); }, i * 120);
+    });
+  }
+
+  // ── モグラSVG（ヘルメットに文字）──
+  function moleSVG(ch) {
+    return '<svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+      '<ellipse cx="60" cy="118" rx="40" ry="34" fill="#9C6F44"/>' +
+      '<ellipse cx="60" cy="124" rx="24" ry="24" fill="#E7CBA0"/>' +
+      '<ellipse cx="32" cy="126" rx="8" ry="6.5" fill="#855B36"/>' +
+      '<ellipse cx="88" cy="126" rx="8" ry="6.5" fill="#855B36"/>' +
+      '<ellipse cx="60" cy="92" rx="33" ry="30" fill="#A9784C"/>' +
+      '<circle cx="40" cy="98" r="7" fill="#E79A86" opacity="0.55"/>' +
+      '<circle cx="80" cy="98" r="7" fill="#E79A86" opacity="0.55"/>' +
+      '<ellipse cx="49" cy="90" rx="5" ry="6.2" fill="#3A2A1A"/>' +
+      '<ellipse cx="71" cy="90" rx="5" ry="6.2" fill="#3A2A1A"/>' +
+      '<circle cx="50.6" cy="87.6" r="1.7" fill="#fff"/>' +
+      '<circle cx="72.6" cy="87.6" r="1.7" fill="#fff"/>' +
+      '<ellipse cx="60" cy="101" rx="5.5" ry="4" fill="#5A3D26"/>' +
+      '<ellipse cx="60" cy="68" rx="42" ry="8.5" fill="#E0A52E"/>' +
+      '<path d="M24,68 a36,40 0 0 1 72,0 Z" fill="#FFD24A"/>' +
+      '<path d="M24,68 a36,40 0 0 1 72,0" fill="none" stroke="#E0A52E" stroke-width="2.5"/>' +
+      '<text x="60" y="55" text-anchor="middle" font-size="40" font-weight="700" ' +
+        'fill="#3A2A1A" font-family="\'Noto Sans JP\',sans-serif">' + ch + '</text>' +
+      '</svg>';
+  }
+
+  // ── グリッド生成 ──
+  function buildGrid() {
+    var grid = $('grid'); grid.innerHTML = ''; holes = [];
+    for (var i = 0; i < HOLES; i++) {
+      var hole = document.createElement('div');
+      hole.className = 'hole';
+      hole.innerHTML =
+        '<div class="opening"></div>' +
+        '<div class="mole"></div>' +
+        '<div class="lip"></div>';
+      (function (idx, el) {
+        el.addEventListener('pointerdown', function (e) { e.preventDefault(); whack(idx); });
+      })(i, hole);
+      grid.appendChild(hole);
+      holes.push({ el: hole, moleEl: hole.querySelector('.mole'), active: false, isTarget: false, syl: null, life: null });
+    }
+  }
+
+  // ── 文字を1つ選ぶ ──
+  function pickSyl() {
+    var pool;
+    if (state.diff === 'hard') {
+      pool = Math.random() < 0.7 ? SYL.filter(function (s) { return s.look; }) : SYL;
+    } else {
+      pool = Math.random() < 0.8 ? SYL.filter(function (s) { return !s.look; }) : SYL;
+    }
+    return pool[(Math.random() * pool.length) | 0];
+  }
+
+  // ── モグラを出す ──
+  function spawn() {
+    var free = [];
+    for (var i = 0; i < holes.length; i++) if (!holes[i].active) free.push(i);
+    if (!free.length) return;
+    var idx = free[(Math.random() * free.length) | 0];
+    var h = holes[idx];
+
+    var syl = pickSyl();
+    var isTarget = Math.random() < 0.42;
+    // mode 'kata': ねらい=カタカナ, おとり=ひらがな
+    var showKata = (state.mode === 'kata') ? isTarget : !isTarget;
+    var ch = showKata ? syl.k : syl.h;
+
+    h.active = true; h.isTarget = isTarget; h.syl = syl; h.shownKata = showKata;
+    h.moleEl.innerHTML = moleSVG(ch);
+    h.el.classList.remove('bonk', 'hit-wrong');
+    // 二重RAFで確実にアニメ
+    requestAnimationFrame(function () { requestAnimationFrame(function () { h.el.classList.add('up'); }); });
+
+    var elapsed = GAME_TIME - state.timeLeft;
+    var life = 1650 - Math.min(elapsed, 50) * 11;   // だんだん短く
+    if (life < 950) life = 950;
+    h.life = setTimeout(function () { retreat(idx, true); }, life);
+  }
+
+  function retreat(idx, wasMissed) {
+    var h = holes[idx];
+    if (!h.active) return;
+    if (h.life) { clearTimeout(h.life); h.life = null; }
+    h.el.classList.remove('up');
+    if (wasMissed && h.isTarget) state.missed++;
+    var hadTarget = h.isTarget;
+    h.active = false; h.isTarget = false;
+    setTimeout(function () { if (!h.active) h.moleEl.innerHTML = ''; }, 200);
+    return hadTarget;
+  }
+
+  // ── たたく ──
+  function whack(idx) {
+    if (!state.running) return;
+    var h = holes[idx];
+    if (!h.active) return;
+    var syl = h.syl, wasKata = h.shownKata;
+
+    if (h.isTarget) {
+      // 正解
+      state.hits++;
+      state.combo++;
+      if (state.combo > state.maxCombo) state.maxCombo = state.combo;
+      var pts = 10 + Math.min(state.combo - 1, 10);
+      state.score += pts;
+      sndPoko();
+      h.el.classList.add('bonk');
+      burst(h.el, '+' + pts, false);
+      setFeedback('<span class="ok">せいかい！</span> <span class="rd">' +
+        charLabel(syl, wasKata) + '</span>');
+    } else {
+      // まちがい（おとりを たたいた）
+      state.wrongs++;
+      state.combo = 0;
+      state.score = Math.max(0, state.score - 5);
+      sndWrong();
+      h.el.classList.add('hit-wrong');
+      burst(h.el, '−5', true);
+      setFeedback('<span class="ng">ちがうよ</span> <span class="rd">' +
+        charLabel(syl, wasKata) + '</span>');
+    }
+    if (h.life) { clearTimeout(h.life); h.life = null; }
+    h.active = false; h.isTarget = false;
+    var moleEl = h.moleEl;
+    setTimeout(function () { h.el.classList.remove('up'); }, 90);
+    setTimeout(function () { if (!h.active) moleEl.innerHTML = ''; }, 260);
+    updateHUD();
+  }
+
+  function charLabel(syl, wasKata) {
+    var ch = wasKata ? syl.k : syl.h;
+    var name = wasKata ? 'カタカナ' : 'ひらがな';
+    return '「' + ch + '」は ' + name + ' (' + syl.r + ')';
+  }
+
+  // ── エフェクト ──
+  function burst(holeEl, text, bad) {
+    var fx = document.createElement('div');
+    fx.className = 'fx' + (bad ? ' bad' : '');
+    fx.textContent = text;
+    holeEl.appendChild(fx);
+    setTimeout(function () { fx.remove(); }, 720);
+    if (!bad) {
+      for (var i = 0; i < 5; i++) {
+        var s = document.createElement('div');
+        s.className = 'star'; s.textContent = '✦';
+        s.style.left = '50%'; s.style.top = '24%';
+        var a = (Math.PI * 2) * (i / 5) + Math.random();
+        s.style.setProperty('--dx', (Math.cos(a) * 34).toFixed(0) + 'px');
+        s.style.setProperty('--dy', (Math.sin(a) * 34 - 6).toFixed(0) + 'px');
+        holeEl.appendChild(s);
+        (function (el) { setTimeout(function () { el.remove(); }, 560); })(s);
+      }
+    }
+  }
+
+  var fbTimer = null;
+  function setFeedback(html) {
+    var f = $('feedback'); f.innerHTML = html; f.style.opacity = '1';
+    if (fbTimer) clearTimeout(fbTimer);
+    fbTimer = setTimeout(function () { f.style.opacity = '0.45'; }, 1400);
+  }
+
+  // ── HUD ──
+  function updateHUD() {
+    $('hudScore').textContent = state.score;
+    $('hudCombo').textContent = state.combo;
+    var t = $('hudTime'); t.textContent = state.timeLeft;
+    t.classList.toggle('warn', state.timeLeft <= 10);
+  }
+
+  // ── ルール表示 ──
+  function ruleText() {
+    var bar = $('ruleBar');
+    if (state.mode === 'kata') {
+      bar.innerHTML = '<span class="tchar">ア</span> カタカナを たたこう！';
+    } else {
+      bar.innerHTML = '<span class="tchar">あ</span> ひらがなを たたこう！';
+    }
+  }
+
+  // ── ゲーム進行 ──
+  function startGame() {
+    state.score = 0; state.combo = 0; state.maxCombo = 0;
+    state.hits = 0; state.wrongs = 0; state.missed = 0;
+    state.timeLeft = GAME_TIME; state.running = false;
+    ruleText(); updateHUD();
+    $('feedback').innerHTML = 'よく見て！'; $('feedback').style.opacity = '1';
+    show('play');
+    countdown(function () {
+      state.running = true;
+      sndStart();
+      loop();
+      gameTimer = setInterval(tick, 1000);
+    });
+  }
+
+  function loop() {
+    if (!state.running) return;
+    spawn();
+    var elapsed = GAME_TIME - state.timeLeft;
+    var interval = 900 - Math.min(elapsed, 45) * 8;   // だんだん速く
+    if (interval < 540) interval = 540;
+    spawnTimer = setTimeout(loop, interval);
+  }
+
+  function tick() {
+    state.timeLeft--;
+    updateHUD();
+    if (state.timeLeft <= 0) endGame();
+  }
+
+  function countdown(done) {
+    var overlay = document.createElement('div');
+    overlay.className = 'countdown';
+    document.body.appendChild(overlay);
+    var seq = ['3', '2', '1', 'スタート！'];
+    var i = 0;
+    function step() {
+      overlay.innerHTML = '<div class="num' + (i === 3 ? ' go' : '') + '">' + seq[i] + '</div>';
+      if (i < 3) sndTick(); else sndStart();
+      i++;
+      if (i <= seq.length) setTimeout(i <= seq.length - 1 ? step : function () { overlay.remove(); done(); }, i === 4 ? 600 : 700);
+    }
+    step();
+  }
+
+  function endGame() {
+    state.running = false;
+    clearTimeout(spawnTimer); clearInterval(gameTimer);
+    // 残りを ひっこめる
+    for (var i = 0; i < holes.length; i++) retreat(i, false);
+    sndEnd();
+    showResult();
+  }
+
+  // ── 結果 ──
+  function showResult() {
+    var taps = state.hits + state.wrongs;
+    var acc = taps ? Math.round(state.hits / taps * 100) : 0;
+    $('rScore').textContent = state.score;
+    $('rHits').textContent = state.hits;
+    $('rAcc').textContent = acc + '%';
+    $('rCombo').textContent = state.maxCombo;
+
+    var rank;
+    if (state.score >= 320) rank = { e:'🏆', t:'たつじん！', k:'MASTER' };
+    else if (state.score >= 220) rank = { e:'🎉', t:'とても上手！', k:'GREAT' };
+    else if (state.score >= 130) rank = { e:'😊', t:'いいね！', k:'GOOD' };
+    else if (state.score >= 60) rank = { e:'🌱', t:'その調子！', k:'NICE' };
+    else rank = { e:'💪', t:'もう一回 やってみよう', k:'TRY AGAIN' };
+    $('rEmoji').textContent = rank.e;
+    $('rComment').textContent = rank.t;
+    $('rRank').textContent = rank.k;
+    show('result');
+  }
+
+  // ── 設定UI ──
+  function bindSeg(segId, key, cb) {
+    var seg = $(segId);
+    seg.addEventListener('click', function (e) {
+      var btn = e.target.closest('button'); if (!btn) return;
+      Array.prototype.forEach.call(seg.children, function (b) { b.classList.remove('on'); });
+      btn.classList.add('on');
+      state[key] = btn.dataset[cb];
+    });
+  }
+  bindSeg('seg-mode', 'mode', 'mode');
+  bindSeg('seg-diff', 'diff', 'diff');
+
+  $('startBtn').addEventListener('click', function () { audio(); startGame(); });
+  $('retryBtn').addEventListener('click', startGame);
+  $('menuBtn').addEventListener('click', function () { show('start'); });
+
+  $('muteBtn').addEventListener('click', function () {
+    state.muted = !state.muted;
+    this.textContent = state.muted ? '🔇' : '🔊';
+    if (!state.muted) { audio(); sndTick(); }
+  });
+
+  // 初期化
+  buildGrid();
+})();
+</script>
+</body>
+</html>

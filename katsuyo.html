@@ -15,11 +15,13 @@
     --radius: 14px;
     --radius-sm: 10px;
 
-    --g1: #185FA5; --g1-bg: #E6F1FB;   /* 五段 */
-    --g2: #3B6D11; --g2-bg: #EAF3DE;   /* 一段 */
-    --g3: #3C3489; --g3-bg: #EEEDFE;   /* 不規則 */
+    --g1: #185FA5; --g1-bg: #E6F1FB;   /* 1グループ */
+    --g2: #3B6D11; --g2-bg: #EAF3DE;   /* 2グループ */
+    --g3: #3C3489; --g3-bg: #EEEDFE;   /* 3グループ */
     --ia: #854F0B; --ia-bg: #FAEEDA;   /* い形容詞 */
     --na: #1F6F6B; --na-bg: #DFF0EE;   /* ナ形容詞 */
+    --son: #9A3D1C; --son-bg: #FAECE7; /* 尊敬語 */
+    --ken: #185FA5; --ken-bg: #E6F1FB; /* 謙譲語 */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -73,17 +75,17 @@
 
   /* タブ */
   .tabs {
-    display: flex; gap: 6px; margin: 0.75rem 0 1.25rem;
+    display: flex; gap: 5px; margin: 0.75rem 0 1.25rem;
     background: #ECE8E1; padding: 4px; border-radius: 12px;
   }
   .tab {
-    flex: 1; text-align: center; padding: 9px 4px;
-    font-size: 13px; font-weight: 700; color: var(--text-muted);
+    flex: 1; text-align: center; padding: 9px 2px;
+    font-size: 12px; font-weight: 700; color: var(--text-muted);
     background: transparent; border: none; border-radius: 9px;
     cursor: pointer; transition: background 0.15s, color 0.15s, box-shadow 0.15s;
     -webkit-tap-highlight-color: transparent; line-height: 1.3;
   }
-  .tab small { display: block; font-size: 10px; font-weight: 600; color: var(--text-hint); margin-top: 2px; }
+  .tab small { display: block; font-size: 9px; font-weight: 600; color: var(--text-hint); margin-top: 2px; }
   .tab.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
   .tab.active small { color: var(--text-muted); }
   .tab:focus-visible { outline: 2px solid var(--g1); outline-offset: 1px; }
@@ -205,8 +207,8 @@
     background: var(--g1-bg); color: var(--g1);
     border-radius: 8px; text-align: center; padding: 5px 0;
   }
-  .onbin-row.g2 .ob-end { background: var(--g2-bg); color: var(--g2); }
-  .onbin-row.g3 .ob-end { background: var(--g3-bg); color: var(--g3); font-size: 13px; }
+  .onbin-row.g2 .ob-end { background: var(--g2-bg); color: var(--g2); font-size: 11px; }
+  .onbin-row.g3 .ob-end { background: var(--g3-bg); color: var(--g3); font-size: 11px; }
   .ob-arrow { color: var(--text-hint); font-weight: 700; }
   .ob-form { font-weight: 700; }
   .ob-ex { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
@@ -238,6 +240,41 @@
   .cc-read { font-size: 10.5px; color: var(--text-muted); margin-top: 1px; }
   .cc-roma { font-size: 10px; color: var(--text-hint); font-style: italic; margin-top: 1px; display: none; }
   body.show-roma .cc-roma { display: block; }
+
+  /* 敬語 */
+  .kg-list { display: flex; flex-direction: column; gap: 10px; }
+  .kg-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .kg-base { padding: 10px 15px; background: #FAF8F4; border-bottom: 1px solid var(--border); }
+  .kg-base-w { font-size: 16px; font-weight: 700; }
+  .kg-base-r { font-size: 11.5px; color: var(--text-muted); margin-left: 8px; }
+  .kg-base-en { font-size: 11px; color: var(--text-hint); margin-left: 8px; }
+  .kg-row { display: flex; align-items: flex-start; gap: 11px; padding: 10px 15px; border-top: 1px solid #F1EEE9; }
+  .kg-row:first-of-type { border-top: none; }
+  .kg-tag { flex: 0 0 auto; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; margin-top: 2px; }
+  .kg-tag.son { background: var(--son-bg); color: var(--son); }
+  .kg-tag.ken { background: var(--ken-bg); color: var(--ken); }
+  .kg-vals { flex: 1; min-width: 0; }
+  .kg-w { font-size: 16px; font-weight: 600; line-height: 1.4; word-break: break-word; }
+  .kg-w.empty { color: var(--text-hint); font-weight: 500; font-size: 14px; }
+  .kg-r { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+  .kg-roma { font-size: 10.5px; color: var(--text-hint); font-style: italic; margin-top: 1px; display: none; }
+  body.show-roma .kg-roma { display: block; }
+  .kg-hint { font-size: 10.5px; color: var(--text-hint); margin-top: 2px; }
+
+  .kg-pat {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 13px 15px 13px 17px; margin-bottom: 10px; position: relative; overflow: hidden;
+  }
+  .kg-pat::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
+  .kg-pat.son::before { background: var(--son); }
+  .kg-pat.ken::before { background: var(--ken); }
+  .kg-pat-h { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .kg-pat.son .kg-pat-h { color: var(--son); }
+  .kg-pat.ken .kg-pat-h { color: var(--ken); }
+  .kg-pat-row { font-size: 12.5px; line-height: 1.55; color: var(--text-muted); margin-top: 6px; }
+  .kg-pat-row .formula { font-weight: 700; color: var(--text); }
+  .kg-pat-row .eg { color: var(--text); }
+  .kg-pat-row b { color: var(--text); }
 
   .app-footer {
     text-align: center; font-size: 11px; color: var(--text-hint);
@@ -272,6 +309,7 @@
     <button class="tab active" data-tab="verb" role="tab">動詞<small>Verbs</small></button>
     <button class="tab" data-tab="iadj" role="tab">い形容詞<small>i-adj</small></button>
     <button class="tab" data-tab="naadj" role="tab">ナ形容詞<small>na-adj</small></button>
+    <button class="tab" data-tab="keigo" role="tab">敬語<small>keigo</small></button>
   </div>
 
   <!-- ===================== 動詞 ===================== -->
@@ -279,9 +317,9 @@
     <div class="note">
       日本語の動詞は<b>3つのグループ</b>に分かれ、グループごとに活用のしかたが決まっています。まず動詞を選んでください。
       <div class="group-legend">
-        <div class="gl-row"><span class="gl-tag tag-g1">五段 G1</span><span class="gl-txt"><b>u-verbs.</b> 語尾が <b>う・く・ぐ・す・つ・ぬ・ぶ・む・る</b> で終わる多くの動詞</span></div>
-        <div class="gl-row"><span class="gl-tag tag-g2">一段 G2</span><span class="gl-txt"><b>ru-verbs.</b> <b>〜いる / 〜える</b> で終わる動詞（例外あり：帰る・入るなどはG1）</span></div>
-        <div class="gl-row"><span class="gl-tag tag-g3">不規則 G3</span><span class="gl-txt"><b>irregular.</b> <b>する</b> と <b>来る</b> の2つだけ</span></div>
+        <div class="gl-row"><span class="gl-tag tag-g1">1グループ</span><span class="gl-txt"><b>1G・u-verbs。</b>語尾が <b>う・く・ぐ・す・つ・ぬ・ぶ・む・る</b> で終わる動詞（＝五段動詞）</span></div>
+        <div class="gl-row"><span class="gl-tag tag-g2">2グループ</span><span class="gl-txt"><b>2G・ru-verbs。</b><b>〜いる / 〜える</b> で終わる動詞（＝一段動詞）。例外：帰る・入るなどは1グループ</span></div>
+        <div class="gl-row"><span class="gl-tag tag-g3">3グループ</span><span class="gl-txt"><b>3G・irregular。</b><b>する</b> と <b>来る</b> の2つだけ（＝不規則動詞）</span></div>
       </div>
     </div>
 
@@ -289,12 +327,17 @@
 
     <div id="verbConj" class="conj-card"></div>
 
+    <div class="note" style="margin-top:0.8rem;">
+      <b>可能動詞・受身動詞・使役動詞</b>は、それ自体が動詞（2グループ）で、さらに活用します。<br>
+      例：書ける → 書け<b>ます</b>・書け<b>ない</b>・書け<b>て</b>
+    </div>
+
     <div class="section-label">丁寧形 ⇔ 普通形 ・ Plain ↔ Polite</div>
     <div id="verbCorr"></div>
 
     <div class="section-label">て形・た形の作り方（音便）</div>
     <div class="note" style="margin-bottom:0.6rem;">
-      <b>五段動詞</b>のて形・た形は、語尾によって形が変わります。ここが日本語学習で一番むずかしいところ。下の表で確認しましょう。
+      <b>1グループ動詞</b>のて形・た形は、語尾によって形が変わります。ここが日本語学習で一番むずかしいところ。下の表で確認しましょう。
     </div>
     <div class="onbin-card" id="onbinTable"></div>
   </div>
@@ -326,6 +369,43 @@
     <div id="naadjCorr"></div>
     <div class="note" style="margin-top:0.8rem;">
       <b>否定の2つの形：</b> <b>〜ではない</b>（書き言葉・ていねい）と <b>〜じゃない</b>（話し言葉）。意味は同じです。
+    </div>
+  </div>
+
+  <!-- ===================== 敬語 ===================== -->
+  <div class="panel" id="panel-keigo">
+    <div class="note">
+      日本語の<b>敬語</b>には3種類あります。<br>
+      <div class="group-legend">
+        <div class="gl-row"><span class="gl-tag" style="background:var(--son-bg);color:var(--son)">尊敬語</span><span class="gl-txt"><b>相手（目上の人）の動作</b>を高める。例：先生が<b>召し上がる</b></span></div>
+        <div class="gl-row"><span class="gl-tag" style="background:var(--ken-bg);color:var(--ken)">謙譲語</span><span class="gl-txt"><b>自分の動作</b>をへりくだる。例：私が<b>いただく</b></span></div>
+        <div class="gl-row"><span class="gl-tag" style="background:#F0EEE8;color:var(--text-hint)">丁寧語</span><span class="gl-txt"><b>です・ます</b>（このページの「丁寧形」）</span></div>
+      </div>
+    </div>
+
+    <div class="section-label">特定形の敬語動詞 ・ Special honorific verbs</div>
+    <div class="note" style="margin-bottom:0.85rem;">
+      よく使う動詞は、専用の敬語の形（特定形）に変わります。これは規則ではなく<b>暗記</b>します。
+    </div>
+    <div id="keigoList" class="kg-list"></div>
+
+    <div class="section-label">規則的な作り方 ・ Regular patterns</div>
+    <div class="kg-pat son">
+      <div class="kg-pat-h">尊敬語の作り方</div>
+      <div class="kg-pat-row"><span class="formula">お＋ます形＋になる</span><br><span class="eg">書く→お書きになる ／ 読む→お読みになる ／ 使う→お使いになる</span></div>
+      <div class="kg-pat-row"><span class="formula">〜（ら）れる</span>（受身と同じ形・軽い尊敬）<br><span class="eg">書く→書かれる ／ 来る→来られる</span></div>
+      <div class="kg-pat-row"><span class="formula">お＋ます形＋ください</span>（依頼）<br><span class="eg">待つ→お待ちください ／ 書く→お書きください</span></div>
+    </div>
+    <div class="kg-pat ken">
+      <div class="kg-pat-h">謙譲語の作り方</div>
+      <div class="kg-pat-row"><span class="formula">お＋ます形＋する</span><br><span class="eg">持つ→お持ちする ／ 届ける→お届けする ／ 知らせる→お知らせする</span></div>
+      <div class="kg-pat-row"><span class="formula">ご＋漢語＋する</span><br><span class="eg">案内する→ご案内する ／ 連絡する→ご連絡する ／ 説明する→ご説明する</span></div>
+    </div>
+
+    <div class="note" style="margin-top:0.4rem;">
+      <b>注意：ます形が不規則な敬語動詞</b><br>
+      <b>いらっしゃる・おっしゃる・なさる・くださる・ござる</b> は、ます形が <b>〜います</b> になります。<br>
+      例：いらっしゃ<b>います</b>（×いらっしゃります） ／ くださ<b>います</b> ／ おっしゃ<b>います</b>
     </div>
   </div>
 
@@ -512,6 +592,21 @@ const NAADJ=[
   {dict:'好き',kana:'すき',en:'liked / favorite'},
   {dict:'有名',kana:'ゆうめい',en:'famous ※'},
 ];
+const KEIGO=[
+  {base:'する',kana:'する',en:'to do',son:[['なさる','なさる']],ken:[['いたす','いたす']]},
+  {base:'いる',kana:'いる',en:'to be (exist)',son:[['いらっしゃる','いらっしゃる'],['おいでになる','おいでになる']],ken:[['おる','おる']]},
+  {base:'行く・来る',kana:'いく・くる',en:'to go / come',son:[['いらっしゃる','いらっしゃる'],['おいでになる','おいでになる']],ken:[['参る','まいる'],['伺う','うかがう']]},
+  {base:'言う',kana:'いう',en:'to say',son:[['おっしゃる','おっしゃる']],ken:[['申す','もうす'],['申し上げる','もうしあげる']]},
+  {base:'見る',kana:'みる',en:'to see',son:[['ご覧になる','ごらんになる']],ken:[['拝見する','はいけんする']]},
+  {base:'食べる・飲む',kana:'たべる・のむ',en:'to eat / drink',son:[['召し上がる','めしあがる']],ken:[['いただく','いただく']]},
+  {base:'もらう',kana:'もらう',en:'to receive',son:[],ken:[['いただく','いただく'],['頂戴する','ちょうだいする']]},
+  {base:'あげる',kana:'あげる',en:'to give',son:[],ken:[['差し上げる','さしあげる']]},
+  {base:'くれる',kana:'くれる',en:'to give (to me)',son:[['くださる','くださる']],ken:[]},
+  {base:'知っている',kana:'しっている',en:'to know',son:[['ご存じだ','ごぞんじだ']],ken:[['存じ上げる','ぞんじあげる'],['存じている','ぞんじている']]},
+  {base:'聞く',kana:'きく',en:'to ask / hear',son:[],ken:[['伺う','うかがう'],['拝聴する','はいちょうする']]},
+  {base:'会う',kana:'あう',en:'to meet',son:[],ken:[['お目にかかる','おめにかかる']]},
+  {base:'寝る',kana:'ねる',en:'to sleep',son:[['お休みになる','おやすみになる']],ken:[]},
+];
 
 const VERB_FORMS=[
   {section:'基本形 ・ Basic forms', items:[
@@ -522,13 +617,13 @@ const VERB_FORMS=[
     {key:'ta',jp:'た形',en:'Plain past'},
     {key:'nakatta',jp:'なかった形',en:'Plain past negative'},
   ]},
-  {section:'応用形 ・ Advanced forms', items:[
-    {key:'potential',jp:'可能形',en:'Potential ("can")'},
+  {section:'応用 ・ Advanced', items:[
+    {key:'potential',jp:'可能動詞',en:'Potential verb ("can")'},
     {key:'volition',jp:'意向形',en:'Volitional ("let\'s / shall")'},
     {key:'ba',jp:'ば形',en:'Conditional ("if")'},
     {key:'imperative',jp:'命令形',en:'Imperative (command)'},
-    {key:'passive',jp:'受身形',en:'Passive'},
-    {key:'causative',jp:'使役形',en:'Causative ("make / let do")'},
+    {key:'passive',jp:'受身動詞',en:'Passive verb'},
+    {key:'causative',jp:'使役動詞',en:'Causative verb ("make / let do")'},
   ]},
 ];
 const IADJ_FORMS=[
@@ -557,14 +652,14 @@ const ONBIN=[
   {cls:'',end:'む・ぶ・ぬ',form:'んで／んだ',ex:'飲む→<b>飲んで</b>／遊ぶ→<b>遊んで</b>'},
   {cls:'',end:'る・う・つ',form:'って／った',ex:'作る→<b>作って</b>／買う→<b>買って</b>'},
   {cls:'',end:'す',form:'して／した',ex:'話す→<b>話して</b>'},
-  {cls:'g2',end:'一段',form:'＋て／た',ex:'食べる→<b>食べて</b>（るを取るだけ）'},
+  {cls:'g2',end:'2グループ',form:'＋て／た',ex:'食べる→<b>食べて</b>（るを取るだけ）'},
   {cls:'g3',end:'する/来る',form:'して／来て',ex:'する→<b>して</b>／来る→<b>来て</b>'},
 ];
 
 /* ===================== 描画 ===================== */
 const $=(id)=>document.getElementById(id);
 const typeClass={1:'g1',2:'g2',3:'g3'};
-const typeLabel={1:'五段 G1',2:'一段 G2',3:'不規則 G3'};
+const typeLabel={1:'1グループ',2:'2グループ',3:'3グループ'};
 
 function valBlock(o){
   let html=`<div class="rv-main">${o.k}${o.tail?'<span style="font-size:12px;color:var(--text-hint);font-weight:500">'+o.tail+'</span>':''}</div>`;
@@ -606,7 +701,7 @@ function renderCorr(id,rows,tc){
 
 /* --- 動詞 --- */
 function renderVerbPicker(){
-  const groups=[{g:1,label:'五段動詞 ・ u-verbs',dot:'var(--g1)'},{g:2,label:'一段動詞 ・ ru-verbs',dot:'var(--g2)'},{g:3,label:'不規則動詞 ・ irregular',dot:'var(--g3)'}];
+  const groups=[{g:1,label:'1グループ ・ u-verbs',dot:'var(--g1)'},{g:2,label:'2グループ ・ ru-verbs',dot:'var(--g2)'},{g:3,label:'3グループ ・ irregular',dot:'var(--g3)'}];
   let html='';
   groups.forEach(gr=>{
     html+=`<div class="picker-group"><div class="pg-head" style="color:var(--${typeClass[gr.g]})"><span class="pg-dot" style="background:var(--${typeClass[gr.g]})"></span>${gr.label}</div><div class="chips">`;
@@ -674,12 +769,38 @@ function selectAdj(list,i,conjFn,forms,pickerId,cardId,tc){
   renderCorr(corrId, tc==='ia'?corrIadj(c):corrNaadj(a), tc);
 }
 
+/* --- 敬語 --- */
+function kgSide(arr, kind){
+  const tag = kind==='son' ? '尊敬語' : '謙譲語';
+  if(!arr.length){
+    const hint = kind==='son' ? '特定形なし → お〜になる など規則の形で' : '特定形なし → お〜する など規則の形で';
+    return `<div class="kg-row"><span class="kg-tag ${kind}">${tag}</span><div class="kg-vals"><div class="kg-w empty">—</div><div class="kg-hint">${hint}</div></div></div>`;
+  }
+  const words = arr.map(a=>a[0]).join('／');
+  const reads = arr.map(a=>a[1]).join('／');
+  const roma  = arr.map(a=>kanaToRomaji(a[1])).join(' / ');
+  return `<div class="kg-row"><span class="kg-tag ${kind}">${tag}</span><div class="kg-vals">
+    <div class="kg-w">${words}</div>
+    <div class="kg-r">${reads}</div>
+    <div class="kg-roma">${roma}</div>
+  </div></div>`;
+}
+function renderKeigo(){
+  document.getElementById('keigoList').innerHTML = KEIGO.map(v=>`
+    <div class="kg-card">
+      <div class="kg-base"><span class="kg-base-w">${v.base}</span><span class="kg-base-r">${v.kana}</span><span class="kg-base-en">${v.en}</span></div>
+      ${kgSide(v.son,'son')}
+      ${kgSide(v.ken,'ken')}
+    </div>`).join('');
+}
+
 /* ===================== 初期化 ===================== */
 renderVerbPicker(); selectVerb(0); renderOnbin();
 renderAdjPicker(IADJ,'iadjPicker','sel-ia',(i)=>selectAdj(IADJ,i,iadj,IADJ_FORMS,'iadjPicker','iadjConj','ia'));
 selectAdj(IADJ,0,iadj,IADJ_FORMS,'iadjPicker','iadjConj','ia');
 renderAdjPicker(NAADJ,'naadjPicker','sel-na',(i)=>selectAdj(NAADJ,i,naadj,NAADJ_FORMS,'naadjPicker','naadjConj','na'));
 selectAdj(NAADJ,0,naadj,NAADJ_FORMS,'naadjPicker','naadjConj','na');
+renderKeigo();
 
 // タブ
 document.querySelectorAll('.tab').forEach(t=>{

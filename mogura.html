@@ -296,6 +296,13 @@
         <button data-diff="hard">むずかしい<span class="sub">にた形が ふえる</span></button>
       </div>
 
+      <div class="opt-label">スピード</div>
+      <div class="seg" id="seg-speed">
+        <button data-speed="slow">ゆっくり<span class="sub">ゆったり</span></button>
+        <button data-speed="normal" class="on">ふつう<span class="sub">おすすめ</span></button>
+        <button data-speed="fast">はやい<span class="sub">上級者むけ</span></button>
+      </div>
+
       <button class="start-btn" id="startBtn">スタート（60秒）</button>
     </div>
   </section>
@@ -363,10 +370,20 @@
   var HOLES = 9;
   var GAME_TIME = 60;
 
+  // ── スピード設定 ──
+  // i0=開始時の出現間隔(ms) / iMin=最短間隔 / iK=だんだん速くなる量
+  // l0=開始時の表示時間(ms) / lMin=最短表示時間 / lK=だんだん短くなる量
+  var SPEED = {
+    slow:   { i0: 1500, iMin: 1180, iK: 6,  l0: 2800, lMin: 2300, lK: 8 },
+    normal: { i0: 1120, iMin: 780,  iK: 7,  l0: 2150, lMin: 1600, lK: 9 },
+    fast:   { i0: 900,  iMin: 540,  iK: 8,  l0: 1650, lMin: 950,  lK: 11 }
+  };
+
   // ── 状態 ──
   var state = {
     mode: 'kata',       // 'kata' = カタカナを たたく / 'hira' = ひらがなを たたく
     diff: 'easy',
+    speed: 'normal',    // 'slow' / 'normal' / 'fast'
     score: 0, combo: 0, maxCombo: 0,
     hits: 0, wrongs: 0, missed: 0,
     timeLeft: GAME_TIME,
@@ -493,8 +510,9 @@
     requestAnimationFrame(function () { requestAnimationFrame(function () { h.el.classList.add('up'); }); });
 
     var elapsed = GAME_TIME - state.timeLeft;
-    var life = 1650 - Math.min(elapsed, 50) * 11;   // だんだん短く
-    if (life < 950) life = 950;
+    var sp = SPEED[state.speed];
+    var life = sp.l0 - Math.min(elapsed, 50) * sp.lK;   // だんだん短く
+    if (life < sp.lMin) life = sp.lMin;
     h.life = setTimeout(function () { retreat(idx, true); }, life);
   }
 
@@ -620,8 +638,9 @@
     if (!state.running) return;
     spawn();
     var elapsed = GAME_TIME - state.timeLeft;
-    var interval = 900 - Math.min(elapsed, 45) * 8;   // だんだん速く
-    if (interval < 540) interval = 540;
+    var sp = SPEED[state.speed];
+    var interval = sp.i0 - Math.min(elapsed, 50) * sp.iK;   // だんだん速く
+    if (interval < sp.iMin) interval = sp.iMin;
     spawnTimer = setTimeout(loop, interval);
   }
 
@@ -688,6 +707,7 @@
   }
   bindSeg('seg-mode', 'mode', 'mode');
   bindSeg('seg-diff', 'diff', 'diff');
+  bindSeg('seg-speed', 'speed', 'speed');
 
   $('startBtn').addEventListener('click', function () { audio(); startGame(); });
   $('retryBtn').addEventListener('click', startGame);

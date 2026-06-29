@@ -335,6 +335,8 @@
   .pat-lvl.lvl-n5 { background: #EAF3DE; color: #3B6D11; }
   .pat-lvl.lvl-n4 { background: #E6F1FB; color: #185FA5; }
   .pat-lvl.lvl-n3 { background: #EEEDFE; color: #3C3489; }
+  .pat-lvl.lvl-n2 { background: #FAEEDA; color: #854F0B; }
+  .pat-lvl.lvl-n1 { background: #FAECE7; color: #993C1D; }
   .pat-mean { font-size: 10px; font-weight: 700; color: var(--text-hint); }
   .pat-en { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
   .pat-ex { font-size: 15px; font-weight: 600; margin-top: 4px; word-break: break-word; }
@@ -822,6 +824,7 @@ function vpat(c){
   const ns={k:c.nai.k.replace(/ない$/,''),r:c.nai.r.replace(/ない$/,'')};
   const A=(b,s)=>({k:b.k+s,r:b.r+s});
   const causeTe={k:c.causative.k.slice(0,-1)+'てください',r:c.causative.r.slice(0,-1)+'てください'};
+  const csp={k:c.causative.k.replace(/せる$/,'せられる'),r:c.causative.r.replace(/せる$/,'せられる')};
   const I=(p,mean,en,lvl,id,ex)=>({p,mean,en,lvl,id,ex});
   return [
     {form:'辞書形',items:[
@@ -829,12 +832,43 @@ function vpat(c){
       I('〜まえに','前','before doing','N4','dict-mae-ni',A(c.dict,'まえに')),
       I('〜とき','〜とき','when ~','N4','dict-toki',A(c.dict,'とき')),
       I('〜つもりです','意図','intend to','N4','dict-tsumori',A(c.dict,'つもりです')),
+      I('〜ために','目的','in order to ~','N3','tameni',A(c.dict,'ために')),
+      I('〜ところだ','直前','be about to ~','N3','tokoroda',A(c.dict,'ところだ')),
+      I('〜うちに','〜うちに','while ~','N3','uchini',A(c.dict,'うちに')),
+      I('〜ことにする','決定','decide to ~','N4','kotonisuru',A(c.dict,'ことにする')),
+      I('〜ことになる','決定','it\u2019s decided that ~','N4','kotoninaru',A(c.dict,'ことになる')),
+      I('〜べきだ','当然','should ~','N2','bekida',A(c.dict,'べきだ')),
+      I('〜ところだった','危機一髪','almost ~ed','N2','tokorodatta',A(c.dict,'ところだった')),
+    ]},
+    {form:'普通形（推量・伝聞）',items:[
+      I('〜そうだ','伝聞','I hear that ~','N3','souda-hearsay',A(c.dict,'そうだ')),
+      I('〜ようだ','推量','it seems ~','N3','youda',A(c.dict,'ようだ')),
+      I('〜らしい','推量','apparently ~','N3','rashii',A(c.dict,'らしい')),
+      I('〜はずだ','当然の予想','should be ~','N3','hazuda',A(c.dict,'はずだ')),
+      I('〜かもしれない','可能性','might ~','N3','kamoshirenai',A(c.dict,'かもしれない')),
+      I('〜だろう','推量','probably ~','N3','darou',A(c.dict,'だろう')),
+      I('〜にちがいない','確信','must be ~','N2','nichigainai',A(c.dict,'にちがいない')),
+      I('〜ものだ','一般論','should / used to ~','N2','monoda',A(c.dict,'ものだ')),
+    ]},
+    {form:'普通形（理由・逆接）',items:[
+      I('〜ので','理由','because ~','N3','node',A(c.dict,'ので')),
+      I('〜のに','逆接','although ~','N3','noni',A(c.dict,'のに')),
+      I('〜し','理由列挙','and (besides) ~','N3','shi',A(c.dict,'し')),
+      I('〜くせに','非難の逆接','even though ~','N2','kuseni',A(c.dict,'くせに')),
+      I('〜わけだ','納得','that\u2019s why ~','N2','wakeda',A(c.dict,'わけだ')),
     ]},
     {form:'ます形',items:[
       I('〜たいです','願望','want to ~','N5','masu-tai',A(ms,'たいです')),
       I('〜ながら','同時','while doing','N4','masu-nagara',A(ms,'ながら')),
       I('〜ましょう','勧誘','let\u2019s ~','N5','masu-mashou',A(ms,'ましょう')),
       I('〜やすいです','難易','easy to ~','N4','masu-yasui',A(ms,'やすいです')),
+      I('〜すぎる','過度','too much','N3','sugiru',A(ms,'すぎる')),
+      I('〜はじめる','開始','start ~ing','N3','hajimeru',A(ms,'始める')),
+      I('〜たがる','第三者の願望','(3rd person) wants to','N3','tagaru',A(ms,'たがる')),
+      I('〜なさい','やわらかい命令','(gentle) do ~','N4','nasai',A(ms,'なさい')),
+      I('〜ようがない','不可能','no way to ~','N2','youganai',A(ms,'ようがない')),
+      I('〜つつある','進行','be gradually ~ing','N1','tsutsuaru',A(ms,'つつある')),
+      I('〜かねる','不可能(婉曲)','cannot ~','N1','kaneru',A(ms,'かねる')),
     ]},
     {form:'て形',items:[
       I('〜てください','依頼','please do ~','N5','te-kudasai',A(c.te,'ください')),
@@ -842,18 +876,29 @@ function vpat(c){
       I('〜てはいけません','禁止','must not ~','N5','te-wa-ikenai',A(c.te,'はいけません')),
       I('〜ています','進行・状態','be ~ing / state','N5','te-iru',A(c.te,'います')),
       I('〜てから','後','after doing','N4','te-kara',A(c.te,'から')),
+      I('〜てみる','試み','try ~ing','N4','temiru',A(c.te,'みる')),
+      I('〜ても','逆接条件','even if ~','N3','temo',A(c.te,'も')),
+      I('〜てしまう','完了・後悔','completely / by mistake','N3','teshimau',A(c.te,'しまう')),
+      I('〜ておく','準備','do ~ in advance','N3','teoku',A(c.te,'おく')),
+      I('〜てほしい','他者への願望','want someone to ~','N3','tehoshii',A(c.te,'ほしい')),
     ]},
     {form:'ない形',items:[
       I('〜ないでください','禁止依頼','please don\u2019t ~','N5','nai-de-kudasai',A(c.nai,'でください')),
       I('〜なければなりません','義務','must ~','N4','nakereba-naranai',A(ns,'なければなりません')),
       I('〜なくてもいいです','不要','don\u2019t have to ~','N4','nakutemo-ii',A(ns,'なくてもいいです')),
       I('〜ないほうがいいです','助言','had better not ~','N4','nai-hou-ga-ii',A(c.nai,'ほうがいいです')),
+      I('〜ないと','義務(口語)','have to ~','N4','naito',A(c.nai,'と')),
+      I('〜なくなる','変化','come not to ~','N3','nakunaru',A(ns,'なくなる')),
     ]},
     {form:'た形',items:[
       I('〜たことがあります','経験','have done ~','N4','ta-koto-ga-aru',A(c.ta,'ことがあります')),
       I('〜たほうがいいです','助言','had better ~','N4','ta-hou-ga-ii',A(c.ta,'ほうがいいです')),
       I('〜たり〜たりします','列挙','do things like ~','N4','tari-tari',A(c.ta,'り…します')),
       I('〜たあとで','後','after ~','N4','ta-ato-de',A(c.ta,'あとで')),
+      I('〜たら','条件','if / when ~','N4','tara',A(c.ta,'ら')),
+      I('〜たところ','直後','just did ~','N3','tatokoro',A(c.ta,'ところ')),
+      I('〜たばかり','直後','just did ~','N3','tabakari',A(c.ta,'ばかり')),
+      I('〜たまま','放置','leaving ~ as is','N3','tamama',A(c.ta,'まま')),
     ]},
     {form:'意向形',items:[
       I('〜（よ）うと思います','意志','intend to ~','N4','you-to-omou',A(c.volition,'と思います')),
@@ -868,6 +913,7 @@ function vpat(c){
     ]},
     {form:'使役動詞',items:[
       I('〜（さ）せてください','許可願い','please let me ~','N4','sasete-kudasai',causeTe),
+      I('〜（さ）せられる','使役受身','be made to ~','N3','saserareru',csp),
     ]},
     {form:'命令形・禁止形',items:[
       I('〜ろ（命令）','強い命令','(blunt) command','N4','meirei-kinshi',A(c.imperative,'')),

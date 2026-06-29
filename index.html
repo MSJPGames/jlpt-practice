@@ -38,6 +38,17 @@
     text-transform: uppercase;
   }
 
+  /* グループ見出し（4分類） */
+  .group-head { display: flex; align-items: center; gap: 10px; margin: 1.9rem 0 0.85rem; }
+  .group-head:first-of-type { margin-top: 1.5rem; }
+  .gh-bar { width: 4px; height: 20px; border-radius: 2px; flex-shrink: 0; }
+  .gh-title { font-size: 16px; font-weight: 700; letter-spacing: 0.01em; }
+  .gh-en { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-hint); text-transform: uppercase; margin-left: 7px; }
+  .gh-bar.bar-game { background: #3B6D11; }
+  .gh-bar.bar-char { background: #1F6F6B; }
+  .gh-bar.bar-gram { background: #854F0B; }
+  .gh-bar.bar-test { background: #185FA5; }
+
   /* レベルリスト */
   .level-list { display: flex; flex-direction: column; gap: 10px; }
 
@@ -173,6 +184,12 @@
   .play-banner.drill .pb-pill { background: #FAECE7; color: #9A3D1C; }
   .play-banner.drill .pb-arrow { color: #9A3D1C; }
   .play-banner.drill .pb-float span { color: #9A3D1C; }
+  .play-banner.test { background: linear-gradient(135deg, #FFFFFF, #EAF1FA); }
+  .play-banner.test::before { background: #185FA5; }
+  .play-banner.test .pb-icon { background: #E6F1FB; color: #185FA5; }
+  .play-banner.test .pb-pill { background: #E6F1FB; color: #185FA5; }
+  .play-banner.test .pb-arrow { color: #185FA5; }
+  .play-banner.test .pb-float span { color: #185FA5; }
 </style>
 </head>
 <body>
@@ -184,7 +201,7 @@
     <div class="app-sub">あそんで まなぶ ・ Play &amp; Learn Japanese</div>
   </div>
 
-  <div class="section-label">あそぶ・まなぶ</div>
+  <div class="group-head"><div class="gh-bar bar-game"></div><span class="gh-title">ゲーム</span><span class="gh-en">Games</span></div>
 
   <a href="games.html" class="play-banner">
     <div class="pb-float">
@@ -200,14 +217,16 @@
     <span class="pb-arrow">›</span>
   </a>
 
-  <a href="hiragana.html" class="play-banner learn" style="margin-top:10px;">
+  <div class="group-head"><div class="gh-bar bar-char"></div><span class="gh-title">文字練習</span><span class="gh-en">Characters</span></div>
+
+  <a href="hiragana.html" class="play-banner learn">
     <div class="pb-float">
       <span style="top:4px;right:18px;font-size:42px;">書</span>
       <span style="bottom:6px;right:58px;font-size:34px;">順</span>
     </div>
     <div class="pb-icon">字</div>
     <div class="pb-info">
-      <div class="pb-title">じっくり学ぶ</div>
+      <div class="pb-title">かなを学ぶ</div>
       <div class="pb-desc">五十音を書き順・発音から。ひらがな・カタカナの解説</div>
       <span class="pb-pill">解説 ・ ひらがな / カタカナ</span>
     </div>
@@ -228,110 +247,39 @@
     <span class="pb-arrow">›</span>
   </a>
 
-  <a href="katsuyo.html" class="play-banner conj" style="margin-top:10px;">
+  <div class="group-head"><div class="gh-bar bar-gram"></div><span class="gh-title">文法</span><span class="gh-en">Grammar</span></div>
+
+  <a href="bunpou.html" class="play-banner conj">
     <div class="pb-float">
       <span style="top:4px;right:18px;font-size:42px;">活</span>
       <span style="bottom:6px;right:58px;font-size:34px;">用</span>
     </div>
     <div class="pb-icon">活</div>
     <div class="pb-info">
-      <div class="pb-title">活用を確認する</div>
-      <div class="pb-desc">動詞・形容詞の活用表。ます形・て形・ない形をまとめて確認</div>
-      <span class="pb-pill">活用表 ・ 動詞 / い・な形容詞</span>
+      <div class="pb-title">活用を学ぶ</div>
+      <div class="pb-desc">活用表で確認 → 変形ドリルで練習。動詞・形容詞・敬語に対応</div>
+      <span class="pb-pill">文法 ・ 確認 / 練習</span>
     </div>
     <span class="pb-arrow">›</span>
   </a>
 
-  <a href="renshu.html" class="play-banner drill" style="margin-top:10px;">
+  <div class="group-head"><div class="gh-bar bar-test"></div><span class="gh-title">テスト対策</span><span class="gh-en">JLPT</span></div>
+
+  <a href="taisaku.html" class="play-banner test">
     <div class="pb-float">
-      <span style="top:4px;right:18px;font-size:42px;">問</span>
-      <span style="bottom:6px;right:58px;font-size:34px;">答</span>
+      <span style="top:4px;right:18px;font-size:42px;">試</span>
+      <span style="bottom:6px;right:58px;font-size:34px;">験</span>
     </div>
-    <div class="pb-icon">✓</div>
+    <div class="pb-icon">試</div>
     <div class="pb-info">
-      <div class="pb-title">変形を練習する</div>
-      <div class="pb-desc">活用の変形ドリル。入力して自動採点、授業にも使える</div>
-      <span class="pb-pill">練習 ・ 動詞 / い・な形容詞</span>
+      <div class="pb-title">レベル別テスト</div>
+      <div class="pb-desc">N5〜N3で力だめし。レベルを選んで挑戦（N2・N1は準備中）</div>
+      <span class="pb-pill">JLPT ・ N5〜N1</span>
     </div>
     <span class="pb-arrow">›</span>
   </a>
-
-  <div class="section-label">レベルを選んでください</div>
-
-  <div class="level-list">
-
-    <!-- N5 -->
-    <a href="n5_quiz.html" class="level-card available card-n5">
-      <div class="level-badge badge-n5">N5</div>
-      <div class="level-info">
-        <div class="level-name">N5（初級）</div>
-        <div class="level-desc">基本的な日本語を理解できる</div>
-        <div class="level-meta">
-          <span class="status-pill pill-ready">利用可能</span>
-          <span class="level-count">7カテゴリ・計140問</span>
-        </div>
-      </div>
-      <span class="level-arrow">›</span>
-    </a>
-
-    <!-- N4 -->
-    <a href="n4_quiz.html" class="level-card available card-n4">
-      <div class="level-badge badge-n4">N4</div>
-      <div class="level-info">
-        <div class="level-name">N4（初中級）</div>
-        <div class="level-desc">基本的な日本語を幅広く理解できる</div>
-        <div class="level-meta">
-          <span class="status-pill pill-ready">利用可能</span>
-          <span class="level-count">8カテゴリ・計160問</span>
-        </div>
-      </div>
-      <span class="level-arrow">›</span>
-    </a>
-
-    <!-- N3（利用可能） -->
-    <a href="n3_quiz.html" class="level-card available card-n3">
-      <div class="level-badge badge-n3">N3</div>
-      <div class="level-info">
-        <div class="level-name">N3（中級）</div>
-        <div class="level-desc">日常的な場面で使われる日本語を理解できる</div>
-        <div class="level-meta">
-          <span class="status-pill pill-ready">利用可能</span>
-          <span class="level-count">8カテゴリ・計160問</span>
-        </div>
-      </div>
-      <span class="level-arrow">›</span>
-    </a>
-
-    <!-- N2 -->
-    <div class="level-card disabled">
-      <div class="level-badge badge-n2">N2</div>
-      <div class="level-info">
-        <div class="level-name">N2（中上級）</div>
-        <div class="level-desc">日常的な場面を含む幅広い場面で理解できる</div>
-        <div class="level-meta">
-          <span class="status-pill pill-coming">準備中</span>
-        </div>
-      </div>
-      <span class="level-arrow dim">›</span>
-    </div>
-
-    <!-- N1 -->
-    <div class="level-card disabled">
-      <div class="level-badge badge-n1">N1</div>
-      <div class="level-info">
-        <div class="level-name">N1（上級）</div>
-        <div class="level-desc">幅広い場面で使われる日本語を理解できる</div>
-        <div class="level-meta">
-          <span class="status-pill pill-coming">準備中</span>
-        </div>
-      </div>
-      <span class="level-arrow dim">›</span>
-    </div>
-
-  </div>
 
   <div class="app-footer">
-    N1・N2は準備中<br>
     © 2025 日本語の部屋
   </div>
 

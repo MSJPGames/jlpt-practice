@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文法 ・ Grammar ・ 日本語の部屋</title>
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 2rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+  .app-header { text-align: center; padding: 1.25rem 0 1rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .app-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
+  .app-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+
+  .play-banner {
+    display: flex; align-items: center; gap: 14px; margin-top: 10px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px; text-decoration: none; color: inherit;
+    position: relative; overflow: hidden;
+    transition: transform 0.12s, box-shadow 0.12s; -webkit-tap-highlight-color: transparent;
+  }
+  .play-banner:first-of-type { margin-top: 0; }
+  .play-banner:active { transform: scale(0.98); }
+  .play-banner:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .play-banner::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 3px 0 0 3px; }
+  .pb-float { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .pb-float span { position: absolute; font-weight: 800; opacity: 0.06; }
+  .pb-icon {
+    width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800;
+  }
+  .pb-info { flex: 1; min-width: 0; position: relative; }
+  .pb-title { font-size: 16px; font-weight: 700; }
+  .pb-desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+  .pb-pill { display: inline-block; margin-top: 7px; font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+  .pb-arrow { font-size: 22px; flex-shrink: 0; position: relative; transition: transform 0.12s; }
+  .play-banner:hover .pb-arrow { transform: translateX(3px); }
+
+  /* 確認（活用表）= 琥珀 */
+  .conj { background: linear-gradient(135deg, #FFFFFF, #FAF3E6); }
+  .conj::before { background: #854F0B; }
+  .conj .pb-icon { background: #FAEEDA; color: #854F0B; }
+  .conj .pb-pill { background: #FAEEDA; color: #854F0B; }
+  .conj .pb-arrow { color: #854F0B; }
+  .conj .pb-float span { color: #854F0B; }
+  /* 練習（ドリル）= ローズ */
+  .drill { background: linear-gradient(135deg, #FFFFFF, #FAEEEA); }
+  .drill::before { background: #9A3D1C; }
+  .drill .pb-icon { background: #FAECE7; color: #9A3D1C; }
+  .drill .pb-pill { background: #FAECE7; color: #9A3D1C; }
+  .drill .pb-arrow { color: #9A3D1C; }
+  .drill .pb-float span { color: #9A3D1C; }
+
+  .lead { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem; }
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2rem; line-height: 1.8; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="index.html" class="back">‹ もどる</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">文法</div>
+    <div class="app-sub">活用を まなぶ ・ Grammar</div>
+  </div>
+
+  <div class="lead">
+    動詞・形容詞の活用を、<b>確認</b>（活用表で形を調べる）と <b>練習</b>（変形ドリルで身につける）から選べます。
+  </div>
+
+  <a href="katsuyo.html" class="play-banner conj">
+    <div class="pb-float"><span style="top:4px;right:18px;font-size:46px;">活</span><span style="bottom:4px;right:62px;font-size:36px;">用</span></div>
+    <div class="pb-icon">活</div>
+    <div class="pb-info">
+      <div class="pb-title">確認する</div>
+      <div class="pb-desc">活用表で形を調べる。ます形・て形・ない形・敬語まで一覧で確認</div>
+      <span class="pb-pill">活用表 ・ 動詞 / い・な形容詞 / 敬語</span>
+    </div>
+    <span class="pb-arrow">›</span>
+  </a>
+
+  <a href="renshu.html" class="play-banner drill">
+    <div class="pb-float"><span style="top:4px;right:18px;font-size:46px;">問</span><span style="bottom:4px;right:62px;font-size:36px;">答</span></div>
+    <div class="pb-icon">✓</div>
+    <div class="pb-info">
+      <div class="pb-title">練習する</div>
+      <div class="pb-desc">変形ドリルで身につける。入力して自動採点、授業にも使える</div>
+      <span class="pb-pill">練習 ・ 動詞 / い・な形容詞</span>
+    </div>
+    <span class="pb-arrow">›</span>
+  </a>
+
+  <div class="app-footer">© 2025 日本語の部屋</div>
+
+</div>
+</body>
+</html>

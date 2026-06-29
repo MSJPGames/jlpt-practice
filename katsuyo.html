@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>活用表 ・ Conjugation ・ 日本語の部屋</title>
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E2DDD6;
+    --text: #1C1C1C;
+    --text-muted: #6B6560;
+    --text-hint: #9E9890;
+    --radius: 14px;
+    --radius-sm: 10px;
+
+    --g1: #185FA5; --g1-bg: #E6F1FB;   /* 五段 */
+    --g2: #3B6D11; --g2-bg: #EAF3DE;   /* 一段 */
+    --g3: #3C3489; --g3-bg: #EEEDFE;   /* 不規則 */
+    --ia: #854F0B; --ia-bg: #FAEEDA;   /* い形容詞 */
+    --na: #1F6F6B; --na-bg: #DFF0EE;   /* ナ形容詞 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 1rem 3rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+
+  /* 戻る */
+  .back {
+    display: inline-flex; align-items: center; gap: 5px;
+    margin-top: 1.25rem; font-size: 13px; font-weight: 600;
+    color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  /* ヘッダー */
+  .app-header { text-align: center; padding: 1.25rem 0 0.5rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .app-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
+  .app-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+
+  /* ローマ字トグル */
+  .roma-toggle {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; margin: 1rem 0 0.25rem;
+  }
+  .roma-toggle label {
+    font-size: 12px; font-weight: 600; color: var(--text-muted);
+    cursor: pointer; user-select: none;
+  }
+  .switch { position: relative; width: 42px; height: 24px; flex-shrink: 0; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; inset: 0; cursor: pointer;
+    background: #D8D3CB; border-radius: 24px; transition: background 0.18s;
+  }
+  .slider::before {
+    content: ''; position: absolute; height: 18px; width: 18px;
+    left: 3px; top: 3px; background: #fff; border-radius: 50%;
+    transition: transform 0.18s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .switch input:checked + .slider { background: var(--g2); }
+  .switch input:checked + .slider::before { transform: translateX(18px); }
+  .switch input:focus-visible + .slider { outline: 2px solid var(--g1); outline-offset: 2px; }
+
+  /* タブ */
+  .tabs {
+    display: flex; gap: 6px; margin: 0.75rem 0 1.25rem;
+    background: #ECE8E1; padding: 4px; border-radius: 12px;
+  }
+  .tab {
+    flex: 1; text-align: center; padding: 9px 4px;
+    font-size: 13px; font-weight: 700; color: var(--text-muted);
+    background: transparent; border: none; border-radius: 9px;
+    cursor: pointer; transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+    -webkit-tap-highlight-color: transparent; line-height: 1.3;
+  }
+  .tab small { display: block; font-size: 10px; font-weight: 600; color: var(--text-hint); margin-top: 2px; }
+  .tab.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+  .tab.active small { color: var(--text-muted); }
+  .tab:focus-visible { outline: 2px solid var(--g1); outline-offset: 1px; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* 説明カード */
+  .note {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 13px 15px;
+    font-size: 12.5px; line-height: 1.7; color: var(--text-muted);
+    margin-bottom: 1rem; position: relative; overflow: hidden;
+  }
+  .note b { color: var(--text); font-weight: 700; }
+  .note .accent { font-weight: 700; }
+
+  .group-legend { display: flex; flex-direction: column; gap: 7px; margin-top: 4px; }
+  .gl-row { display: flex; align-items: baseline; gap: 9px; }
+  .gl-tag {
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px;
+    flex-shrink: 0; min-width: 78px; text-align: center;
+  }
+  .tag-g1 { background: var(--g1-bg); color: var(--g1); }
+  .tag-g2 { background: var(--g2-bg); color: var(--g2); }
+  .tag-g3 { background: var(--g3-bg); color: var(--g3); }
+  .gl-txt { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .gl-txt b { color: var(--text); }
+
+  /* セクションラベル */
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--text-hint); margin: 1.4rem 0 0.6rem; text-transform: uppercase;
+  }
+
+  /* ピッカー */
+  .picker-group { margin-bottom: 0.85rem; }
+  .pg-head { font-size: 11px; font-weight: 700; margin-bottom: 7px; display: flex; align-items: center; gap: 7px; }
+  .pg-dot { width: 8px; height: 8px; border-radius: 3px; flex-shrink: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    border: 1px solid var(--border); background: var(--surface);
+    border-radius: 20px; padding: 7px 13px;
+    font-size: 14px; font-weight: 600; color: var(--text);
+    cursor: pointer; transition: transform 0.1s, border-color 0.12s, background 0.12s;
+    -webkit-tap-highlight-color: transparent; font-family: inherit;
+  }
+  .chip:active { transform: scale(0.95); }
+  .chip:focus-visible { outline: 2px solid currentColor; outline-offset: 1px; }
+  .chip .ex { font-size: 10px; color: var(--text-hint); margin-left: 4px; font-weight: 500; }
+
+  .chip.sel-g1 { background: var(--g1-bg); border-color: var(--g1); color: var(--g1); }
+  .chip.sel-g2 { background: var(--g2-bg); border-color: var(--g2); color: var(--g2); }
+  .chip.sel-g3 { background: var(--g3-bg); border-color: var(--g3); color: var(--g3); }
+  .chip.sel-ia { background: var(--ia-bg); border-color: var(--ia); color: var(--ia); }
+  .chip.sel-na { background: var(--na-bg); border-color: var(--na); color: var(--na); }
+  .chip.sel-g1 .ex, .chip.sel-g2 .ex, .chip.sel-g3 .ex,
+  .chip.sel-ia .ex, .chip.sel-na .ex { color: inherit; opacity: 0.65; }
+
+  /* 活用カード */
+  .conj-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; margin-top: 1rem;
+  }
+  .conj-head {
+    padding: 16px 16px 14px; border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .conj-head::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  }
+  .ch-g1::before { background: var(--g1); } .ch-g2::before { background: var(--g2); }
+  .ch-g3::before { background: var(--g3); } .ch-ia::before { background: var(--ia); }
+  .ch-na::before { background: var(--na); }
+  .conj-word { font-size: 26px; font-weight: 700; line-height: 1.2; }
+  .conj-read { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+  .conj-roma { font-size: 12px; color: var(--text-hint); font-style: italic; margin-top: 1px; display: none; }
+  body.show-roma .conj-roma { display: block; }
+  .conj-meta { display: flex; align-items: center; gap: 8px; margin-top: 9px; }
+  .conj-typetag { font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+  .tt-g1 { background: var(--g1-bg); color: var(--g1); } .tt-g2 { background: var(--g2-bg); color: var(--g2); }
+  .tt-g3 { background: var(--g3-bg); color: var(--g3); } .tt-ia { background: var(--ia-bg); color: var(--ia); }
+  .tt-na { background: var(--na-bg); color: var(--na); }
+  .conj-en { font-size: 12px; color: var(--text-muted); }
+
+  .sub-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--text-hint);
+    padding: 11px 16px 5px; text-transform: uppercase;
+  }
+
+  .row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 16px; border-top: 1px solid #F1EEE9;
+  }
+  .row:first-of-type { border-top: none; }
+  .row-label { flex: 0 0 38%; min-width: 0; }
+  .rl-jp { font-size: 13px; font-weight: 700; }
+  .rl-en { font-size: 10.5px; color: var(--text-hint); margin-top: 1px; line-height: 1.35; }
+  .row-val { flex: 1; min-width: 0; text-align: right; }
+  .rv-main { font-size: 17px; font-weight: 600; line-height: 1.3; word-break: break-word; }
+  .rv-read { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; }
+  .rv-roma { font-size: 11px; color: var(--text-hint); font-style: italic; margin-top: 1px; display: none; }
+  body.show-roma .rv-roma { display: block; }
+  .rv-polite { font-size: 11px; color: var(--text-hint); margin-top: 3px; }
+  .rv-polite span { color: var(--text-muted); font-weight: 600; }
+
+  /* 音便 表 */
+  .onbin-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; margin-top: 0.6rem;
+  }
+  .onbin-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 15px; border-top: 1px solid #F1EEE9; font-size: 13px;
+  }
+  .onbin-row:first-child { border-top: none; }
+  .ob-end {
+    flex: 0 0 64px; font-weight: 700; font-size: 15px;
+    background: var(--g1-bg); color: var(--g1);
+    border-radius: 8px; text-align: center; padding: 5px 0;
+  }
+  .onbin-row.g2 .ob-end { background: var(--g2-bg); color: var(--g2); }
+  .onbin-row.g3 .ob-end { background: var(--g3-bg); color: var(--g3); font-size: 13px; }
+  .ob-arrow { color: var(--text-hint); font-weight: 700; }
+  .ob-form { font-weight: 700; }
+  .ob-ex { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .ob-ex b { color: var(--text); font-weight: 600; }
+  .ob-body { flex: 1; min-width: 0; }
+  .ob-warn { color: #993C1D; font-weight: 600; }
+
+  /* 丁寧形⇔普通形 対応表 */
+  .corr-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; margin-top: 0.6rem;
+  }
+  .corr-row { display: flex; align-items: stretch; border-top: 1px solid #F1EEE9; }
+  .corr-row:first-child { border-top: none; }
+  .corr-head { background: #FAF8F4; }
+  .cc-label {
+    flex: 0 0 52px; padding: 10px 4px 10px 14px;
+    display: flex; flex-direction: column; justify-content: center; gap: 1px;
+  }
+  .cl-t { font-size: 11px; font-weight: 700; color: var(--text); }
+  .cl-p { font-size: 10px; font-weight: 600; color: var(--text-hint); }
+  .cl-p.neg { color: #993C1D; }
+  .cc-cell { flex: 1; min-width: 0; padding: 10px 12px; border-left: 1px solid #F1EEE9; }
+  .cc-h { display: flex; flex-direction: column; justify-content: center; font-size: 11px; font-weight: 700; color: var(--text-muted); }
+  .cc-h small { font-size: 9px; font-weight: 600; color: var(--text-hint); }
+  .cc-h-g1 { color: var(--g1); } .cc-h-g2 { color: var(--g2); } .cc-h-g3 { color: var(--g3); }
+  .cc-h-ia { color: var(--ia); } .cc-h-na { color: var(--na); }
+  .cc-main { font-size: 14px; font-weight: 600; line-height: 1.35; word-break: break-word; }
+  .cc-read { font-size: 10.5px; color: var(--text-muted); margin-top: 1px; }
+  .cc-roma { font-size: 10px; color: var(--text-hint); font-style: italic; margin-top: 1px; display: none; }
+  body.show-roma .cc-roma { display: block; }
+
+  .app-footer {
+    text-align: center; font-size: 11px; color: var(--text-hint);
+    margin-top: 2.5rem; line-height: 1.8;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="index.html" class="back">‹ もどる</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">活用表</div>
+    <div class="app-sub">どうし・けいようし の かつよう<br>Verb &amp; Adjective Conjugation</div>
+  </div>
+
+  <div class="roma-toggle">
+    <label for="romaSwitch">ローマ字をひょうじ ・ Show romaji</label>
+    <span class="switch">
+      <input type="checkbox" id="romaSwitch" aria-label="ローマ字表示">
+      <span class="slider"></span>
+    </span>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-tab="verb" role="tab">動詞<small>Verbs</small></button>
+    <button class="tab" data-tab="iadj" role="tab">い形容詞<small>i-adj</small></button>
+    <button class="tab" data-tab="naadj" role="tab">ナ形容詞<small>na-adj</small></button>
+  </div>
+
+  <!-- ===================== 動詞 ===================== -->
+  <div class="panel active" id="panel-verb">
+    <div class="note">
+      日本語の動詞は<b>3つのグループ</b>に分かれ、グループごとに活用のしかたが決まっています。まず動詞を選んでください。
+      <div class="group-legend">
+        <div class="gl-row"><span class="gl-tag tag-g1">五段 G1</span><span class="gl-txt"><b>u-verbs.</b> 語尾が <b>う・く・ぐ・す・つ・ぬ・ぶ・む・る</b> で終わる多くの動詞</span></div>
+        <div class="gl-row"><span class="gl-tag tag-g2">一段 G2</span><span class="gl-txt"><b>ru-verbs.</b> <b>〜いる / 〜える</b> で終わる動詞（例外あり：帰る・入るなどはG1）</span></div>
+        <div class="gl-row"><span class="gl-tag tag-g3">不規則 G3</span><span class="gl-txt"><b>irregular.</b> <b>する</b> と <b>来る</b> の2つだけ</span></div>
+      </div>
+    </div>
+
+    <div id="verbPicker"></div>
+
+    <div id="verbConj" class="conj-card"></div>
+
+    <div class="section-label">丁寧形 ⇔ 普通形 ・ Plain ↔ Polite</div>
+    <div id="verbCorr"></div>
+
+    <div class="section-label">て形・た形の作り方（音便）</div>
+    <div class="note" style="margin-bottom:0.6rem;">
+      <b>五段動詞</b>のて形・た形は、語尾によって形が変わります。ここが日本語学習で一番むずかしいところ。下の表で確認しましょう。
+    </div>
+    <div class="onbin-card" id="onbinTable"></div>
+  </div>
+
+  <!-- ===================== い形容詞 ===================== -->
+  <div class="panel" id="panel-iadj">
+    <div class="note">
+      <b class="accent" style="color:var(--ia)">い形容詞</b>は <b>〜い</b> で終わります。否定や過去にすると、最後の <b>い</b> が <b>く / かった</b> などに変わります（名詞のように <b>だ</b> は付きません）。
+      <br><br>※<b>いい（良い）</b>だけは <b>よ</b> から活用する不規則な形容詞です。
+    </div>
+    <div id="iadjPicker"></div>
+    <div id="iadjConj" class="conj-card"></div>
+    <div class="section-label">丁寧形 ⇔ 普通形 ・ Plain ↔ Polite</div>
+    <div id="iadjCorr"></div>
+    <div class="note" style="margin-top:0.8rem;">
+      否定の丁寧形は <b>〜くありません</b>（現在）／<b>〜くありませんでした</b>（過去）とも言えます。意味は同じです。
+    </div>
+  </div>
+
+  <!-- ===================== ナ形容詞 ===================== -->
+  <div class="panel" id="panel-naadj">
+    <div class="note">
+      <b class="accent" style="color:var(--na)">ナ形容詞</b>は名詞のように活用します。名詞の前では <b>〜な</b>（静か<b>な</b>部屋）、文の終わりでは <b>〜だ／です</b> になります。
+      <br><br>※<b>きれい・ゆうめい・きらい</b> は「い」で終わりますが<b>ナ形容詞</b>です。注意。
+    </div>
+    <div id="naadjPicker"></div>
+    <div id="naadjConj" class="conj-card"></div>
+    <div class="section-label">丁寧形 ⇔ 普通形 ・ Plain ↔ Polite</div>
+    <div id="naadjCorr"></div>
+    <div class="note" style="margin-top:0.8rem;">
+      <b>否定の2つの形：</b> <b>〜ではない</b>（書き言葉・ていねい）と <b>〜じゃない</b>（話し言葉）。意味は同じです。
+    </div>
+  </div>
+
+  <div class="app-footer">
+    活用は基本形のみ。実際には例外もあります<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+/* ===================== 活用エンジン ===================== */
+const ENDING = {
+  'く':{a:'か',i:'き',u:'く',e:'け',o:'こ',te:'いて',ta:'いた'},
+  'ぐ':{a:'が',i:'ぎ',u:'ぐ',e:'げ',o:'ご',te:'いで',ta:'いだ'},
+  'す':{a:'さ',i:'し',u:'す',e:'せ',o:'そ',te:'して',ta:'した'},
+  'つ':{a:'た',i:'ち',u:'つ',e:'て',o:'と',te:'って',ta:'った'},
+  'ぬ':{a:'な',i:'に',u:'ぬ',e:'ね',o:'の',te:'んで',ta:'んだ'},
+  'ぶ':{a:'ば',i:'び',u:'ぶ',e:'べ',o:'ぼ',te:'んで',ta:'んだ'},
+  'む':{a:'ま',i:'み',u:'む',e:'め',o:'も',te:'んで',ta:'んだ'},
+  'る':{a:'ら',i:'り',u:'る',e:'れ',o:'ろ',te:'って',ta:'った'},
+  'う':{a:'わ',i:'い',u:'う',e:'え',o:'お',te:'って',ta:'った'},
+};
+function godan(v){
+  const last=v.kana.slice(-1), e=ENDING[last];
+  const s=v.dict.slice(0,-1), ks=v.kana.slice(0,-1);
+  let te=e.te,ta=e.ta;
+  if(v.dict==='行く'){te='って';ta='った';}
+  const M=(suf)=>({k:s+suf,r:ks+suf});
+  return {
+    dict:{k:v.dict,r:v.kana},
+    masu:M(e.i+'ます'), nai:M(e.a+'ない'), te:M(te), ta:M(ta),
+    nakatta:M(e.a+'なかった'), potential:M(e.e+'る'), volition:M(e.o+'う'),
+    ba:M(e.e+'ば'), imperative:M(e.e), passive:M(e.a+'れる'), causative:M(e.a+'せる'),
+  };
+}
+function ichidan(v){
+  const s=v.dict.slice(0,-1), ks=v.kana.slice(0,-1);
+  const T=(t)=>({k:s+t,r:ks+t});
+  return {
+    dict:{k:v.dict,r:v.kana},
+    masu:T('ます'), nai:T('ない'), te:T('て'), ta:T('た'), nakatta:T('なかった'),
+    potential:T('られる'), volition:T('よう'), ba:T('れば'), imperative:T('ろ'),
+    passive:T('られる'), causative:T('させる'),
+  };
+}
+function suru(v){
+  const b=v.dict.slice(0,-2), kb=v.kana.slice(0,-2);
+  const P=(x)=>({k:b+x,r:kb+x});
+  return {
+    dict:{k:v.dict,r:v.kana},
+    masu:P('します'), nai:P('しない'), te:P('して'), ta:P('した'), nakatta:P('しなかった'),
+    potential:P('できる'), volition:P('しよう'), ba:P('すれば'), imperative:P('しろ'),
+    passive:P('される'), causative:P('させる'),
+  };
+}
+function kuru(){
+  const K=(k,r)=>({k,r});
+  return {
+    dict:K('来る','くる'), masu:K('来ます','きます'), nai:K('来ない','こない'),
+    te:K('来て','きて'), ta:K('来た','きた'), nakatta:K('来なかった','こなかった'),
+    potential:K('来られる','こられる'), volition:K('来よう','こよう'), ba:K('来れば','くれば'),
+    imperative:K('来い','こい'), passive:K('来られる','こられる'), causative:K('来させる','こさせる'),
+  };
+}
+function conjugateVerb(v){
+  if(v.dict==='来る')return kuru();
+  if(v.group===3)return suru(v);
+  if(v.group===2)return ichidan(v);
+  return godan(v);
+}
+function iadj(a){
+  let base,kb;
+  if(a.dict==='いい'||a.dict==='良い'){ base=(a.dict==='良い'?'良':'よ'); kb='よ'; }
+  else { base=a.dict.slice(0,-1); kb=a.kana.slice(0,-1); }
+  const T=(t)=>({k:base+t,r:kb+t});
+  return {
+    plain:{k:a.dict,r:a.kana}, neg:T('くない'), past:T('かった'), pastneg:T('くなかった'),
+    te:T('くて'), adv:T('く'), ba:T('ければ'),
+  };
+}
+function naadj(a){
+  const k=a.dict, r=a.kana;
+  const M=(x)=>({k:k+x,r:r+x});
+  return {
+    plain:{...M('だ'), polite:k+'です'},
+    neg:{...M('ではない'), polite:k+'ではありません', alt:k+'じゃない'},
+    past:{...M('だった'), polite:k+'でした'},
+    pastneg:{...M('ではなかった'), polite:k+'ではありませんでした', alt:k+'じゃなかった'},
+    te:M('で'),
+    adv:M('に'),
+    noun:{k:k+'な',r:r+'な', tail:' ＋名詞'},
+    ba:{k:k+'なら',r:r+'なら', tail:'（ば）'},
+  };
+}
+
+/* --- 丁寧形⇔普通形 対応表 --- */
+function corrVerb(c){
+  const m=c.masu;
+  const t=(suf)=>({k:m.k.replace(/ます$/,suf), r:m.r.replace(/ます$/,suf)});
+  return [
+    {t:'現在',p:'肯定',plain:c.dict,  polite:m},
+    {t:'現在',p:'否定',plain:c.nai,   polite:t('ません')},
+    {t:'過去',p:'肯定',plain:c.ta,    polite:t('ました')},
+    {t:'過去',p:'否定',plain:c.nakatta,polite:t('ませんでした')},
+  ];
+}
+function corrIadj(c){
+  const des=(o)=>({k:o.k+'です',r:o.r+'です'});
+  return [
+    {t:'現在',p:'肯定',plain:c.plain,  polite:des(c.plain)},
+    {t:'現在',p:'否定',plain:c.neg,    polite:des(c.neg)},
+    {t:'過去',p:'肯定',plain:c.past,   polite:des(c.past)},
+    {t:'過去',p:'否定',plain:c.pastneg,polite:des(c.pastneg)},
+  ];
+}
+function corrNaadj(a){
+  const k=a.dict, r=a.kana, P=(s)=>({k:k+s,r:r+s});
+  return [
+    {t:'現在',p:'肯定',plain:P('だ'),         polite:P('です')},
+    {t:'現在',p:'否定',plain:P('ではない'),   polite:P('ではありません')},
+    {t:'過去',p:'肯定',plain:P('だった'),     polite:P('でした')},
+    {t:'過去',p:'否定',plain:P('ではなかった'),polite:P('ではありませんでした')},
+  ];
+}
+
+/* ===================== ローマ字 ===================== */
+function kanaToRomaji(s){
+  s=s.replace(/では/g,'でわ');
+  const base={'あ':'a','い':'i','う':'u','え':'e','お':'o','か':'ka','き':'ki','く':'ku','け':'ke','こ':'ko','が':'ga','ぎ':'gi','ぐ':'gu','げ':'ge','ご':'go','さ':'sa','し':'shi','す':'su','せ':'se','そ':'so','ざ':'za','じ':'ji','ず':'zu','ぜ':'ze','ぞ':'zo','た':'ta','ち':'chi','つ':'tsu','て':'te','と':'to','だ':'da','ぢ':'ji','づ':'zu','で':'de','ど':'do','な':'na','に':'ni','ぬ':'nu','ね':'ne','の':'no','は':'ha','ひ':'hi','ふ':'fu','へ':'he','ほ':'ho','ば':'ba','び':'bi','ぶ':'bu','べ':'be','ぼ':'bo','ぱ':'pa','ぴ':'pi','ぷ':'pu','ぺ':'pe','ぽ':'po','ま':'ma','み':'mi','む':'mu','め':'me','も':'mo','や':'ya','ゆ':'yu','よ':'yo','ら':'ra','り':'ri','る':'ru','れ':'re','ろ':'ro','わ':'wa','を':'o','ん':'n'};
+  const yoonHead={'き':'ky','ぎ':'gy','し':'sh','じ':'j','ち':'ch','に':'ny','ひ':'hy','び':'by','ぴ':'py','み':'my','り':'ry'};
+  const yoon={'ゃ':'a','ゅ':'u','ょ':'o'};
+  let out='',i=0;
+  while(i<s.length){
+    const ch=s[i],nx=s[i+1];
+    if(ch==='っ'){ const r=base[nx]||''; out+=(r[0]||'t'); i++; continue; }
+    if(nx&&yoon[nx]&&yoonHead[ch]){
+      const h=yoonHead[ch],y=yoon[nx];
+      out+= h.endsWith('y') ? h.slice(0,-1)+'y'+y : h+y;
+      i+=2; continue;
+    }
+    if(base[ch]!==undefined){ out+=base[ch]; i++; continue; }
+    out+=ch; i++;
+  }
+  return out;
+}
+
+/* ===================== データ ===================== */
+const VERBS=[
+  {dict:'書く',kana:'かく',en:'to write',group:1},
+  {dict:'泳ぐ',kana:'およぐ',en:'to swim',group:1},
+  {dict:'話す',kana:'はなす',en:'to speak',group:1},
+  {dict:'待つ',kana:'まつ',en:'to wait',group:1},
+  {dict:'死ぬ',kana:'しぬ',en:'to die',group:1},
+  {dict:'遊ぶ',kana:'あそぶ',en:'to play',group:1},
+  {dict:'飲む',kana:'のむ',en:'to drink',group:1},
+  {dict:'作る',kana:'つくる',en:'to make',group:1},
+  {dict:'買う',kana:'かう',en:'to buy',group:1},
+  {dict:'行く',kana:'いく',en:'to go ※',group:1},
+  {dict:'帰る',kana:'かえる',en:'to go home ※',group:1},
+  {dict:'食べる',kana:'たべる',en:'to eat',group:2},
+  {dict:'見る',kana:'みる',en:'to see',group:2},
+  {dict:'起きる',kana:'おきる',en:'to wake up',group:2},
+  {dict:'寝る',kana:'ねる',en:'to sleep',group:2},
+  {dict:'教える',kana:'おしえる',en:'to teach',group:2},
+  {dict:'借りる',kana:'かりる',en:'to borrow',group:2},
+  {dict:'する',kana:'する',en:'to do',group:3},
+  {dict:'勉強する',kana:'べんきょうする',en:'to study',group:3},
+  {dict:'来る',kana:'くる',en:'to come',group:3},
+];
+const IADJ=[
+  {dict:'高い',kana:'たかい',en:'high / expensive'},
+  {dict:'大きい',kana:'おおきい',en:'big'},
+  {dict:'新しい',kana:'あたらしい',en:'new'},
+  {dict:'楽しい',kana:'たのしい',en:'fun'},
+  {dict:'おいしい',kana:'おいしい',en:'delicious'},
+  {dict:'いい',kana:'いい',en:'good ※irregular'},
+];
+const NAADJ=[
+  {dict:'静か',kana:'しずか',en:'quiet'},
+  {dict:'きれい',kana:'きれい',en:'pretty / clean ※'},
+  {dict:'元気',kana:'げんき',en:'energetic'},
+  {dict:'便利',kana:'べんり',en:'convenient'},
+  {dict:'好き',kana:'すき',en:'liked / favorite'},
+  {dict:'有名',kana:'ゆうめい',en:'famous ※'},
+];
+
+const VERB_FORMS=[
+  {section:'基本形 ・ Basic forms', items:[
+    {key:'dict',jp:'辞書形',en:'Dictionary (plain)'},
+    {key:'masu',jp:'ます形',en:'Polite (＋ません negative)'},
+    {key:'nai',jp:'ない形',en:'Plain negative'},
+    {key:'te',jp:'て形',en:'Te-form (and / request / -ing)'},
+    {key:'ta',jp:'た形',en:'Plain past'},
+    {key:'nakatta',jp:'なかった形',en:'Plain past negative'},
+  ]},
+  {section:'応用形 ・ Advanced forms', items:[
+    {key:'potential',jp:'可能形',en:'Potential ("can")'},
+    {key:'volition',jp:'意向形',en:'Volitional ("let\'s / shall")'},
+    {key:'ba',jp:'ば形',en:'Conditional ("if")'},
+    {key:'imperative',jp:'命令形',en:'Imperative (command)'},
+    {key:'passive',jp:'受身形',en:'Passive'},
+    {key:'causative',jp:'使役形',en:'Causative ("make / let do")'},
+  ]},
+];
+const IADJ_FORMS=[
+  {key:'plain',jp:'現在',en:'Present (is ~)'},
+  {key:'neg',jp:'否定',en:'Negative (is not ~)'},
+  {key:'past',jp:'過去',en:'Past (was ~)'},
+  {key:'pastneg',jp:'過去否定',en:'Past negative'},
+  {key:'te',jp:'て形',en:'Te-form ("~ and")'},
+  {key:'adv',jp:'副詞形',en:'Adverb ("~ly")'},
+  {key:'ba',jp:'ば形',en:'Conditional ("if")'},
+];
+const NAADJ_FORMS=[
+  {key:'plain',jp:'現在',en:'Present (is ~)'},
+  {key:'neg',jp:'否定',en:'Negative (is not ~)'},
+  {key:'past',jp:'過去',en:'Past (was ~)'},
+  {key:'pastneg',jp:'過去否定',en:'Past negative'},
+  {key:'te',jp:'て形',en:'Te-form ("~ and")'},
+  {key:'adv',jp:'副詞形',en:'Adverb ("~ly")'},
+  {key:'noun',jp:'名詞修飾',en:'Before a noun'},
+  {key:'ba',jp:'仮定形',en:'Conditional ("if")'},
+];
+
+const ONBIN=[
+  {cls:'',end:'く',form:'いて／いた',ex:'書く→<b>書いて</b>',warn:'例外：行く→行って／行った'},
+  {cls:'',end:'ぐ',form:'いで／いだ',ex:'泳ぐ→<b>泳いで</b>'},
+  {cls:'',end:'む・ぶ・ぬ',form:'んで／んだ',ex:'飲む→<b>飲んで</b>／遊ぶ→<b>遊んで</b>'},
+  {cls:'',end:'る・う・つ',form:'って／った',ex:'作る→<b>作って</b>／買う→<b>買って</b>'},
+  {cls:'',end:'す',form:'して／した',ex:'話す→<b>話して</b>'},
+  {cls:'g2',end:'一段',form:'＋て／た',ex:'食べる→<b>食べて</b>（るを取るだけ）'},
+  {cls:'g3',end:'する/来る',form:'して／来て',ex:'する→<b>して</b>／来る→<b>来て</b>'},
+];
+
+/* ===================== 描画 ===================== */
+const $=(id)=>document.getElementById(id);
+const typeClass={1:'g1',2:'g2',3:'g3'};
+const typeLabel={1:'五段 G1',2:'一段 G2',3:'不規則 G3'};
+
+function valBlock(o){
+  let html=`<div class="rv-main">${o.k}${o.tail?'<span style="font-size:12px;color:var(--text-hint);font-weight:500">'+o.tail+'</span>':''}</div>`;
+  if(o.r && o.r!==o.k) html+=`<div class="rv-read">${o.r}</div>`;
+  html+=`<div class="rv-roma">${kanaToRomaji(o.r||o.k)}</div>`;
+  if(o.alt) html+=`<div class="rv-polite"><span>話し言葉</span> ${o.alt}</div>`;
+  if(o.polite) html+=`<div class="rv-polite"><span>丁寧</span> ${o.polite}</div>`;
+  return html;
+}
+function row(form,o){
+  return `<div class="row">
+    <div class="row-label"><div class="rl-jp">${form.jp}</div><div class="rl-en">${form.en}</div></div>
+    <div class="row-val">${valBlock(o)}</div>
+  </div>`;
+}
+function corrCell(o){
+  let h=`<div class="cc-cell"><div class="cc-main">${o.k}</div>`;
+  if(o.r && o.r!==o.k) h+=`<div class="cc-read">${o.r}</div>`;
+  h+=`<div class="cc-roma">${kanaToRomaji(o.r||o.k)}</div></div>`;
+  return h;
+}
+function renderCorr(id,rows,tc){
+  let html=`<div class="corr-card">
+    <div class="corr-row corr-head">
+      <div class="cc-label"></div>
+      <div class="cc-cell cc-h">普通形<small>Plain</small></div>
+      <div class="cc-cell cc-h cc-h-${tc}">丁寧形<small>Polite</small></div>
+    </div>`;
+  rows.forEach(rw=>{
+    const neg = rw.p==='否定' ? ' neg' : '';
+    html+=`<div class="corr-row">
+      <div class="cc-label"><span class="cl-t">${rw.t}</span><span class="cl-p${neg}">${rw.p}</span></div>
+      ${corrCell(rw.plain)}${corrCell(rw.polite)}
+    </div>`;
+  });
+  html+=`</div>`;
+  document.getElementById(id).innerHTML=html;
+}
+
+/* --- 動詞 --- */
+function renderVerbPicker(){
+  const groups=[{g:1,label:'五段動詞 ・ u-verbs',dot:'var(--g1)'},{g:2,label:'一段動詞 ・ ru-verbs',dot:'var(--g2)'},{g:3,label:'不規則動詞 ・ irregular',dot:'var(--g3)'}];
+  let html='';
+  groups.forEach(gr=>{
+    html+=`<div class="picker-group"><div class="pg-head" style="color:var(--${typeClass[gr.g]})"><span class="pg-dot" style="background:var(--${typeClass[gr.g]})"></span>${gr.label}</div><div class="chips">`;
+    VERBS.filter(v=>v.group===gr.g).forEach(v=>{
+      const i=VERBS.indexOf(v);
+      html+=`<button class="chip" data-vi="${i}">${v.dict}<span class="ex">${v.en}</span></button>`;
+    });
+    html+=`</div></div>`;
+  });
+  $('verbPicker').innerHTML=html;
+  $('verbPicker').querySelectorAll('.chip').forEach(c=>{
+    c.addEventListener('click',()=>selectVerb(+c.dataset.vi));
+  });
+}
+function selectVerb(i){
+  const v=VERBS[i], c=conjugateVerb(v), tc=typeClass[v.group];
+  $('verbPicker').querySelectorAll('.chip').forEach(ch=>{
+    ch.className='chip'+(+ch.dataset.vi===i?' sel-'+tc:'');
+  });
+  let html=`<div class="conj-head ch-${tc}">
+    <div class="conj-word">${v.dict}</div>
+    <div class="conj-read">${v.kana}</div>
+    <div class="conj-roma">${kanaToRomaji(v.kana)}</div>
+    <div class="conj-meta"><span class="conj-typetag tt-${tc}">${typeLabel[v.group]}</span><span class="conj-en">${v.en}</span></div>
+  </div>`;
+  VERB_FORMS.forEach(sec=>{
+    html+=`<div class="sub-label">${sec.section}</div>`;
+    sec.items.forEach(f=>{ html+=row(f,c[f.key]); });
+  });
+  $('verbConj').innerHTML=html;
+  renderCorr('verbCorr', corrVerb(c), tc);
+}
+function renderOnbin(){
+  $('onbinTable').innerHTML=ONBIN.map(o=>`
+    <div class="onbin-row ${o.cls}">
+      <div class="ob-end">${o.end}</div>
+      <div class="ob-arrow">→</div>
+      <div class="ob-body">
+        <div class="ob-form">${o.form}</div>
+        <div class="ob-ex">${o.ex}${o.warn?` ・ <span class="ob-warn">${o.warn}</span>`:''}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* --- 形容詞 共通 --- */
+function renderAdjPicker(list,pickerId,selClass,onSel){
+  let html='<div class="chips">';
+  list.forEach((a,i)=>{ html+=`<button class="chip" data-ai="${i}">${a.dict}<span class="ex">${a.en}</span></button>`; });
+  html+='</div>';
+  $(pickerId).innerHTML=html;
+  $(pickerId).querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>onSel(+c.dataset.ai)));
+}
+function selectAdj(list,i,conjFn,forms,pickerId,cardId,tc){
+  const a=list[i], c=conjFn(a);
+  $(pickerId).querySelectorAll('.chip').forEach(ch=>{ ch.className='chip'+(+ch.dataset.ai===i?' sel-'+tc:''); });
+  let html=`<div class="conj-head ch-${tc}">
+    <div class="conj-word">${a.dict}</div>
+    <div class="conj-read">${a.kana}</div>
+    <div class="conj-roma">${kanaToRomaji(a.kana)}</div>
+    <div class="conj-meta"><span class="conj-typetag tt-${tc}">${tc==='ia'?'い形容詞':'ナ形容詞'}</span><span class="conj-en">${a.en}</span></div>
+  </div>`;
+  forms.forEach(f=>{ html+=row(f,c[f.key]); });
+  $(cardId).innerHTML=html;
+  const corrId=cardId.replace('Conj','Corr');
+  renderCorr(corrId, tc==='ia'?corrIadj(c):corrNaadj(a), tc);
+}
+
+/* ===================== 初期化 ===================== */
+renderVerbPicker(); selectVerb(0); renderOnbin();
+renderAdjPicker(IADJ,'iadjPicker','sel-ia',(i)=>selectAdj(IADJ,i,iadj,IADJ_FORMS,'iadjPicker','iadjConj','ia'));
+selectAdj(IADJ,0,iadj,IADJ_FORMS,'iadjPicker','iadjConj','ia');
+renderAdjPicker(NAADJ,'naadjPicker','sel-na',(i)=>selectAdj(NAADJ,i,naadj,NAADJ_FORMS,'naadjPicker','naadjConj','na'));
+selectAdj(NAADJ,0,naadj,NAADJ_FORMS,'naadjPicker','naadjConj','na');
+
+// タブ
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    $('panel-'+t.dataset.tab).classList.add('active');
+  });
+});
+// ローマ字トグル
+$('romaSwitch').addEventListener('change',e=>{
+  document.body.classList.toggle('show-roma',e.target.checked);
+});
+</script>
+</body>
+</html>

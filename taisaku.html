@@ -52,6 +52,7 @@
   .badge-n1 { background: #FAECE7; color: #993C1D; }
   .level-info { flex: 1; min-width: 0; }
   .level-name { font-size: 15px; font-weight: 700; color: var(--text); }
+  .level-en { font-size: 10.5px; font-weight: 600; letter-spacing: 0.03em; color: var(--text-hint); margin-top: 1px; }
   .level-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
   .level-meta { display: flex; align-items: center; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
   .status-pill { font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 20px; display: inline-block; }
@@ -80,7 +81,7 @@
     <div class="app-sub">JLPT レベル別 ・ Test Prep</div>
   </div>
 
-  <div class="lead">受けたい<b>レベル</b>を選んでください。</div>
+  <div class="lead">受けたい<b>レベル</b>を選んでください。<span class="en" style="font-size:12px;color:var(--text-hint)"><br>Choose the level you want to take.</span></div>
 
   <div class="level-list">
 
@@ -88,6 +89,7 @@
       <div class="level-badge badge-n5">N5</div>
       <div class="level-info">
         <div class="level-name">N5（初級）</div>
+        <div class="level-en">Beginner</div>
         <div class="level-desc">基本的な日本語を理解できる</div>
         <div class="level-meta">
           <span class="status-pill pill-ready">利用可能</span>
@@ -101,6 +103,7 @@
       <div class="level-badge badge-n4">N4</div>
       <div class="level-info">
         <div class="level-name">N4（初中級）</div>
+        <div class="level-en">Upper-beginner</div>
         <div class="level-desc">基本的な日本語を幅広く理解できる</div>
         <div class="level-meta">
           <span class="status-pill pill-ready">利用可能</span>
@@ -114,6 +117,7 @@
       <div class="level-badge badge-n3">N3</div>
       <div class="level-info">
         <div class="level-name">N3（中級）</div>
+        <div class="level-en">Intermediate</div>
         <div class="level-desc">日常的な場面で使われる日本語を理解できる</div>
         <div class="level-meta">
           <span class="status-pill pill-ready">利用可能</span>
@@ -127,6 +131,7 @@
       <div class="level-badge badge-n2">N2</div>
       <div class="level-info">
         <div class="level-name">N2（中上級）</div>
+        <div class="level-en">Upper-intermediate</div>
         <div class="level-desc">日常的な場面を含む幅広い場面で理解できる</div>
         <div class="level-meta">
           <span class="status-pill pill-coming">準備中</span>
@@ -139,6 +144,7 @@
       <div class="level-badge badge-n1">N1</div>
       <div class="level-info">
         <div class="level-name">N1（上級）</div>
+        <div class="level-en">Advanced</div>
         <div class="level-desc">幅広い場面で使われる日本語を理解できる</div>
         <div class="level-meta">
           <span class="status-pill pill-coming">準備中</span>
@@ -155,5 +161,37 @@
   </div>
 
 </div>
+<script>
+/* === EN表示トグル（英語補助の表示/非表示・localStorageで保持） === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en,body.hide-en .pb-en,body.hide-en .hero-desc-en,body.hide-en .game-en,"
+   +"body.hide-en .level-en,body.hide-en .en-sub,body.hide-en .en-i,body.hide-en .gh-en,"
+   +"body.hide-en .hero-en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3B6D11;"
+   +"margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';
+    b.setAttribute('aria-pressed', h?'false':'true');
+    b.title=h?'英語の補助：OFF（タップで表示 / show English）':'英語の補助：ON（タップで非表示 / hide English）'; }
+  b.addEventListener('click',function(){
+    var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){}
+    paint();
+  });
+  paint(); document.body.appendChild(b);
+})();
+</script>
 </body>
 </html>

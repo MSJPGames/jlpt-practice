@@ -153,6 +153,7 @@
   }
   .pb-info { flex: 1; min-width: 0; position: relative; }
   .pb-title { font-size: 15px; font-weight: 700; }
+  .pb-en { font-size: 10.5px; font-weight: 600; letter-spacing: 0.03em; color: var(--text-hint); margin-top: 1px; }
   .pb-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
   .pb-pill {
     display: inline-block; margin-top: 6px; font-size: 10px; font-weight: 700;
@@ -211,6 +212,7 @@
     <div class="pb-icon">▶</div>
     <div class="pb-info">
       <div class="pb-title">あそんでなれる</div>
+      <div class="pb-en">Games — quick daily practice</div>
       <div class="pb-desc">ゲームで気軽に。すきま時間で日本語に慣れる</div>
       <span class="pb-pill">ゲーム ・ 3種類</span>
     </div>
@@ -227,6 +229,7 @@
     <div class="pb-icon">字</div>
     <div class="pb-info">
       <div class="pb-title">かなを学ぶ</div>
+      <div class="pb-en">Learn kana — strokes &amp; sound</div>
       <div class="pb-desc">五十音を書き順・発音から。ひらがな・カタカナの解説</div>
       <span class="pb-pill">解説 ・ ひらがな / カタカナ</span>
     </div>
@@ -241,6 +244,7 @@
     <div class="pb-icon">漢</div>
     <div class="pb-info">
       <div class="pb-title">漢字を見る</div>
+      <div class="pb-en">Kanji — by JLPT / grade / Kanken</div>
       <div class="pb-desc">JLPT・学年・漢検の級で、漢字をまとめて見る</div>
       <span class="pb-pill">一覧 ・ N5〜N1 / 学年 / 漢検</span>
     </div>
@@ -257,6 +261,7 @@
     <div class="pb-icon">活</div>
     <div class="pb-info">
       <div class="pb-title">活用を学ぶ</div>
+      <div class="pb-en">Conjugation — reference &amp; drills</div>
       <div class="pb-desc">活用表で確認 → 変形ドリルで練習。動詞・形容詞・敬語に対応</div>
       <span class="pb-pill">文法 ・ 確認 / 練習</span>
     </div>
@@ -273,6 +278,7 @@
     <div class="pb-icon">試</div>
     <div class="pb-info">
       <div class="pb-title">レベル別テスト</div>
+      <div class="pb-en">JLPT level tests</div>
       <div class="pb-desc">N5〜N3で力だめし。レベルを選んで挑戦（N2・N1は準備中）</div>
       <span class="pb-pill">JLPT ・ N5〜N1</span>
     </div>
@@ -284,5 +290,37 @@
   </div>
 
 </div>
+<script>
+/* === EN表示トグル（英語補助の表示/非表示・localStorageで保持） === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en,body.hide-en .pb-en,body.hide-en .hero-desc-en,body.hide-en .game-en,"
+   +"body.hide-en .level-en,body.hide-en .en-sub,body.hide-en .en-i,body.hide-en .gh-en,"
+   +"body.hide-en .hero-en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3B6D11;"
+   +"margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';
+    b.setAttribute('aria-pressed', h?'false':'true');
+    b.title=h?'英語の補助：OFF（タップで表示 / show English）':'英語の補助：ON（タップで非表示 / hide English）'; }
+  b.addEventListener('click',function(){
+    var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){}
+    paint();
+  });
+  paint(); document.body.appendChild(b);
+})();
+</script>
 </body>
 </html>

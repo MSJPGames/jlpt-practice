@@ -257,6 +257,8 @@
     .screen.active, .countdown .num, .fx, .star { animation: none !important; }
     .hole .mole { transition: none; }
   }
+  .en-sub{color:#9E9890;font-size:11px;font-weight:600;letter-spacing:.02em;margin-top:2px;line-height:1.4;}
+  .en-i{color:#9E9890;font-weight:600;}
 </style>
 </head>
 <body>
@@ -271,39 +273,39 @@
   <div class="app-head">
     <div class="app-logo">NIHONGO NO HEYA</div>
     <div class="app-title">もぐらたたき <span class="em">・ なかまはずれ</span></div>
-    <div class="app-sub">ヘルメットの文字をチェック。<br>まぎれこんだ「もうひとつの文字」を たたこう</div>
+    <div class="app-sub">ヘルメットの文字をチェック。<br>まぎれこんだ「もうひとつの文字」を たたこう<span class="en-i"><br>Tap the “odd” kana hidden among the rest.</span></div>
   </div>
 
   <!-- スタート画面 -->
   <section class="screen active" id="screen-start">
     <div class="card">
-      <div class="howto-title">あそびかた</div>
+      <div class="howto-title">あそびかた<span class="en"> ・ How to play</span></div>
       <div class="howto">
-        <div class="howto-row"><span class="howto-num">1</span><div>モグラが ヘルメットに 文字をのせて 顔を出すよ。</div></div>
-        <div class="howto-row"><span class="howto-num">2</span><div>たくさんの文字に まぎれた <b>ねらいの文字</b>だけを たたく。</div></div>
-        <div class="howto-row"><span class="howto-num">3</span><div>正解は「ぽこっ」と コンボがのびる。まちがいは コンボが0に。</div></div>
+        <div class="howto-row"><span class="howto-num">1</span><div>モグラが ヘルメットに 文字をのせて 顔を出すよ。<div class="en-sub">Moles pop up wearing a kana on their helmet.</div></div></div>
+        <div class="howto-row"><span class="howto-num">2</span><div>たくさんの文字に まぎれた <b>ねらいの文字</b>だけを たたく。<div class="en-sub">Tap only the target kana hidden among the others.</div></div></div>
+        <div class="howto-row"><span class="howto-num">3</span><div>正解は「ぽこっ」と コンボがのびる。まちがいは コンボが0に。<div class="en-sub">Right = combo grows. Wrong = combo back to 0.</div></div></div>
       </div>
 
-      <div class="opt-label">なにを たたく？</div>
+      <div class="opt-label">なにを たたく？<span class="en"> ・ What to tap?</span></div>
       <div class="seg" id="seg-mode">
-        <button data-mode="kata" class="on">カタカナを たたく<span class="sub">ひらがなに まぎれた カタカナ</span></button>
-        <button data-mode="hira">ひらがなを たたく<span class="sub">カタカナに まぎれた ひらがな</span></button>
+        <button data-mode="kata" class="on">カタカナを たたく<span class="sub">ひらがなに まぎれた カタカナ<span class="en"> ・ Tap katakana</span></span></button>
+        <button data-mode="hira">ひらがなを たたく<span class="sub">カタカナに まぎれた ひらがな<span class="en"> ・ Tap hiragana</span></span></button>
       </div>
 
-      <div class="opt-label">むずかしさ</div>
+      <div class="opt-label">むずかしさ<span class="en"> ・ Difficulty</span></div>
       <div class="seg" id="seg-diff">
-        <button data-diff="easy" class="on">やさしい<span class="sub">見わけやすい 文字</span></button>
-        <button data-diff="hard">むずかしい<span class="sub">にた形が ふえる</span></button>
+        <button data-diff="easy" class="on">やさしい<span class="sub">見わけやすい 文字<span class="en"> ・ Easy</span></span></button>
+        <button data-diff="hard">むずかしい<span class="sub">にた形が ふえる<span class="en"> ・ Hard</span></span></button>
       </div>
 
-      <div class="opt-label">スピード</div>
+      <div class="opt-label">スピード<span class="en"> ・ Speed</span></div>
       <div class="seg" id="seg-speed">
-        <button data-speed="slow">ゆっくり<span class="sub">ゆったり</span></button>
-        <button data-speed="normal" class="on">ふつう<span class="sub">おすすめ</span></button>
-        <button data-speed="fast">はやい<span class="sub">上級者むけ</span></button>
+        <button data-speed="slow">ゆっくり<span class="sub">ゆったり<span class="en"> ・ Slow</span></span></button>
+        <button data-speed="normal" class="on">ふつう<span class="sub">おすすめ<span class="en"> ・ Normal</span></span></button>
+        <button data-speed="fast">はやい<span class="sub">上級者むけ<span class="en"> ・ Fast</span></span></button>
       </div>
 
-      <button class="start-btn" id="startBtn">スタート（60秒）</button>
+      <button class="start-btn" id="startBtn">スタート<span class="en"> START</span>（60秒）</button>
     </div>
   </section>
 
@@ -332,16 +334,16 @@
       <div class="result-comment" id="rComment"></div>
       <div class="result-score-wrap">
         <div class="result-score" id="rScore">0</div>
-        <div class="result-score-k">スコア</div>
+        <div class="result-score-k">スコア<span class="en"> ・ Score</span></div>
       </div>
       <div class="stat-grid">
-        <div class="stat"><div class="stat-v" id="rHits">0</div><div class="stat-k">せいかい</div></div>
-        <div class="stat"><div class="stat-v acc" id="rAcc">0%</div><div class="stat-k">めいちゅう率</div></div>
-        <div class="stat"><div class="stat-v" id="rCombo">0</div><div class="stat-k">最大コンボ</div></div>
+        <div class="stat"><div class="stat-v" id="rHits">0</div><div class="stat-k">せいかい<span class="en"> ・ Hits</span></div></div>
+        <div class="stat"><div class="stat-v acc" id="rAcc">0%</div><div class="stat-k">めいちゅう率<span class="en"> ・ Accuracy</span></div></div>
+        <div class="stat"><div class="stat-v" id="rCombo">0</div><div class="stat-k">最大コンボ<span class="en"> ・ Max combo</span></div></div>
       </div>
       <div class="result-actions">
-        <button class="btn-line btn-ghost" id="menuBtn">メニュー</button>
-        <button class="btn-line btn-primary" id="retryBtn">もう一回</button>
+        <button class="btn-line btn-ghost" id="menuBtn">メニュー<span class="en"> Menu</span></button>
+        <button class="btn-line btn-primary" id="retryBtn">もう一回<span class="en"> Retry</span></button>
       </div>
     </div>
   </section>
@@ -721,6 +723,38 @@
 
   // 初期化
   buildGrid();
+})();
+</script>
+<script>
+/* === EN表示トグル（英語補助の表示/非表示・localStorageで保持） === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en,body.hide-en .pb-en,body.hide-en .hero-desc-en,body.hide-en .game-en,"
+   +"body.hide-en .level-en,body.hide-en .en-sub,body.hide-en .en-i,body.hide-en .gh-en,"
+   +"body.hide-en .hero-en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3B6D11;"
+   +"margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';
+    b.setAttribute('aria-pressed', h?'false':'true');
+    b.title=h?'英語の補助：OFF（タップで表示 / show English）':'英語の補助：ON（タップで非表示 / hide English）'; }
+  b.addEventListener('click',function(){
+    var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){}
+    paint();
+  });
+  paint(); document.body.appendChild(b);
 })();
 </script>
 </body>

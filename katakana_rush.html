@@ -202,9 +202,9 @@
     <div class="center-card">
       <div class="logo">JLPT PRACTICE</div>
       <div class="big-title">カタカナラッシュ<small>KATAKANA RUSH ・ 60秒</small></div>
-      <div class="lede"><b>カタカナ</b>をできるだけ早くタップ。<br>連続で当てると<b>コンボ</b>がのびる。</div>
-      <button class="btn" id="startBtn">スタート</button>
-      <div class="hint-row">考えるより、指で反応</div>
+      <div class="lede"><b>カタカナ</b>をできるだけ早くタップ。<br>連続で当てると<b>コンボ</b>がのびる。<span class="en" style="font-size:12px;color:var(--text-hint)"><br>Tap the right katakana fast — chain hits for a combo.</span></div>
+      <button class="btn" id="startBtn">スタート<span class="en"> ・ START</span></button>
+      <div class="hint-row">考えるより、指で反応<span class="en"> ・ React, don’t overthink</span></div>
     </div>
   </div>
 
@@ -218,7 +218,7 @@
     </div>
 
     <div class="prompt-zone" id="promptZone">
-      <div class="prompt-label">この音は？</div>
+      <div class="prompt-label">この音は？<span class="en"> ・ Which kana?</span></div>
       <div class="prompt-target" id="promptTarget">ka</div>
       <div class="combo" id="comboTag"></div>
     </div>
@@ -230,13 +230,13 @@
   <!-- 結果画面 -->
   <div id="endScreen" class="screen hidden">
     <div class="center-card">
-      <div class="result-label">せいかい</div>
+      <div class="result-label">せいかい<span class="en"> ・ Hits</span></div>
       <div class="result-score" id="finalScore">0</div>
       <div class="result-best" id="bestLine">　</div>
       <div class="board" id="board"></div>
       <div class="lede" id="endMsg"></div>
-      <button class="btn" id="againBtn">もう一回</button>
-      <a href="games.html" class="btn-text">トップに戻る</a>
+      <button class="btn" id="againBtn">もう一回<span class="en"> ・ Retry</span></button>
+      <a href="games.html" class="btn-text">トップに戻る<span class="en"> ・ Back</span></a>
     </div>
   </div>
 
@@ -453,6 +453,38 @@
     e.currentTarget.classList.toggle('off', !soundOn);
     if(!soundOn && speechOK) speechSynthesis.cancel();
   });
+})();
+</script>
+<script>
+/* === EN表示トグル（英語補助の表示/非表示・localStorageで保持） === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en,body.hide-en .pb-en,body.hide-en .hero-desc-en,body.hide-en .game-en,"
+   +"body.hide-en .level-en,body.hide-en .en-sub,body.hide-en .en-i,body.hide-en .gh-en,"
+   +"body.hide-en .hero-en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3B6D11;"
+   +"margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';
+    b.setAttribute('aria-pressed', h?'false':'true');
+    b.title=h?'英語の補助：OFF（タップで表示 / show English）':'英語の補助：ON（タップで非表示 / hide English）'; }
+  b.addEventListener('click',function(){
+    var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){}
+    paint();
+  });
+  paint(); document.body.appendChild(b);
 })();
 </script>
 </body>

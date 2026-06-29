@@ -71,6 +71,8 @@
   .hero-name { font-size: 27px; font-weight: 800; margin-top: 12px; letter-spacing:0.02em; position:relative; }
   .hero-en { font-size:11px; font-weight:700; letter-spacing:0.14em; color: var(--text-hint); margin-top:2px; position:relative; }
   .hero-desc { font-size:13.5px; color: var(--text-muted); line-height:1.7; margin-top:12px; max-width: 300px; position:relative; }
+  .hero-desc-en { font-size:11.5px; color: var(--text-hint); line-height:1.5; margin-top:5px; max-width:300px; position:relative; }
+  .game-en { font-size:10.5px; font-weight:600; color: var(--text-hint); letter-spacing:0.03em; margin-top:1px; }
   .play-btn {
     margin-top:18px; display:inline-flex; align-items:center; gap:8px;
     background: var(--n5); color:#fff; font-weight:700; font-size:16px; letter-spacing:0.04em;
@@ -139,7 +141,7 @@
     <div class="sub">短い時間で、考えるより指で反応。<br>気がついたら日本語に慣れている。</div>
   </div>
 
-  <div class="label">いま あそべる</div>
+  <div class="label">いま あそべる<span class="en"> ・ Play now</span></div>
 
   <!-- 主役：ひらがなラッシュ -->
   <a href="kana_rush.html" class="hero">
@@ -155,6 +157,7 @@
     <div class="hero-name">ひらがなラッシュ</div>
     <div class="hero-en">HIRAGANA RUSH</div>
     <div class="hero-desc">ひらがなをできるだけ早くタップ。連続で当てるとコンボがのびる。</div>
+    <div class="hero-desc-en">Tap the right hiragana as fast as you can — build a combo.</div>
     <span class="play-btn">▶ あそぶ</span>
   </a>
 
@@ -171,6 +174,7 @@
     <div class="hero-name">カタカナラッシュ</div>
     <div class="hero-en">KATAKANA RUSH</div>
     <div class="hero-desc">カタカナをできるだけ早くタップ。連続で当てるとコンボがのびる。</div>
+    <div class="hero-desc-en">Tap the right katakana as fast as you can — build a combo.</div>
     <span class="play-btn">▶ あそぶ</span>
   </a>
 
@@ -187,10 +191,11 @@
     <div class="hero-name">もぐらたたき</div>
     <div class="hero-en">MOGURA TATAKI</div>
     <div class="hero-desc">出てきた文字の中から、なかまはずれを見つけてタップ。ひらがな・カタカナ。</div>
+    <div class="hero-desc-en">Spot and tap the odd one out among the kana.</div>
     <span class="play-btn">▶ あそぶ</span>
   </a>
 
-  <div class="label">これから ふえる</div>
+  <div class="label">これから ふえる<span class="en"> ・ Coming soon</span></div>
 
   <div class="grid">
 
@@ -198,6 +203,7 @@
       <div class="game-badge b-kanji">読</div>
       <div class="game-info">
         <div class="game-name">漢字ハント</div>
+        <div class="game-en">Kanji Hunt</div>
         <div class="game-desc">読みを聞いて、合う漢字をタップ。N5〜N4の漢字から</div>
         <span class="game-soon">準備中</span>
       </div>
@@ -207,6 +213,7 @@
       <div class="game-badge b-word">絵</div>
       <div class="game-info">
         <div class="game-name">ことばあて</div>
+        <div class="game-en">Word Match</div>
         <div class="game-desc">絵を見て、合うことばをタップ。意味からおぼえる</div>
         <span class="game-soon">準備中</span>
       </div>
@@ -220,5 +227,37 @@
   </div>
 
 </div>
+<script>
+/* === EN表示トグル（英語補助の表示/非表示・localStorageで保持） === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en,body.hide-en .pb-en,body.hide-en .hero-desc-en,body.hide-en .game-en,"
+   +"body.hide-en .level-en,body.hide-en .en-sub,body.hide-en .en-i,body.hide-en .gh-en,"
+   +"body.hide-en .hero-en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3B6D11;"
+   +"margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';
+    b.setAttribute('aria-pressed', h?'false':'true');
+    b.title=h?'英語の補助：OFF（タップで表示 / show English）':'英語の補助：ON（タップで非表示 / hide English）'; }
+  b.addEventListener('click',function(){
+    var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){}
+    paint();
+  });
+  paint(); document.body.appendChild(b);
+})();
+</script>
 </body>
 </html>

@@ -592,6 +592,7 @@ function conjugateVerb(v){
   else if(v.group===2) c=ichidan(v);
   else c=godan(v);
   c.prohibitive={k:c.dict.k+'な', r:c.dict.r+'な'};
+  c.renyo={k:c.masu.k.replace(/ます$/,''), r:c.masu.r.replace(/ます$/,'')};
   return c;
 }
 function iadj(a){
@@ -730,6 +731,7 @@ const VERB_FORMS=[
   {section:'基本形 ・ Basic forms', items:[
     {key:'dict',jp:'辞書形',en:'Dictionary (plain)'},
     {key:'masu',jp:'ます形',en:'Polite (＋ません negative)'},
+    {key:'renyo',jp:'連用形',en:'Stem (ます-form minus ます)'},
     {key:'nai',jp:'ない形',en:'Plain negative'},
     {key:'te',jp:'て形',en:'Te-form (and / request / -ing)'},
     {key:'ta',jp:'た形',en:'Plain past'},
@@ -751,7 +753,7 @@ const IADJ_FORMS=[
   {key:'past',jp:'過去',en:'Past (was ~)'},
   {key:'pastneg',jp:'過去否定',en:'Past negative'},
   {key:'te',jp:'て形',en:'Te-form ("~ and")'},
-  {key:'adv',jp:'副詞形',en:'Adverb ("~ly")'},
+  {key:'adv',jp:'連用形（副詞形）',en:'Continuative / adverb (〜く)'},
   {key:'ba',jp:'条件形',en:'Conditional ("if")'},
 ];
 const NAADJ_FORMS=[
@@ -760,7 +762,7 @@ const NAADJ_FORMS=[
   {key:'past',jp:'過去',en:'Past (was ~)'},
   {key:'pastneg',jp:'過去否定',en:'Past negative'},
   {key:'te',jp:'て形',en:'Te-form ("~ and")'},
-  {key:'adv',jp:'副詞形',en:'Adverb ("~ly")'},
+  {key:'adv',jp:'連用形（副詞形）',en:'Continuative / adverb (〜に)'},
   {key:'noun',jp:'名詞修飾',en:'Before a noun'},
   {key:'ba',jp:'条件形',en:'Conditional ("if")'},
 ];
@@ -857,7 +859,7 @@ function vpat(c){
       I('〜くせに','非難の逆接','even though ~','N2','kuseni',A(c.dict,'くせに')),
       I('〜わけだ','納得','that\u2019s why ~','N2','wakeda',A(c.dict,'わけだ')),
     ]},
-    {form:'ます形',items:[
+    {form:'連用形（ます形）',items:[
       I('〜たいです','願望','want to ~','N5','masu-tai',A(ms,'たいです')),
       I('〜ながら','同時','while doing','N4','masu-nagara',A(ms,'ながら')),
       I('〜ましょう','勧誘','let\u2019s ~','N5','masu-mashou',A(ms,'ましょう')),

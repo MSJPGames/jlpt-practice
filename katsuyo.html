@@ -19,7 +19,7 @@
     --g2: #3B6D11; --g2-bg: #EAF3DE;   /* 2グループ */
     --g3: #3C3489; --g3-bg: #EEEDFE;   /* 3グループ */
     --ia: #854F0B; --ia-bg: #FAEEDA;   /* い形容詞 */
-    --na: #1F6F6B; --na-bg: #DFF0EE;   /* ナ形容詞 */
+    --na: #1F6F6B; --na-bg: #DFF0EE;   /* な形容詞 */
     --son: #9A3D1C; --son-bg: #FAECE7;   /* 尊敬語 */
     --ken1: #185FA5; --ken1-bg: #E6F1FB; /* 謙譲語Ⅰ */
     --ken2: #1F6F6B; --ken2-bg: #DFF0EE; /* 謙譲語Ⅱ(丁重語) */
@@ -347,7 +347,7 @@
   <div class="tabs" role="tablist">
     <button class="tab active" data-tab="verb" role="tab">動詞<small>Verbs</small></button>
     <button class="tab" data-tab="iadj" role="tab">い形容詞<small>i-adj</small></button>
-    <button class="tab" data-tab="naadj" role="tab">ナ形容詞<small>na-adj</small></button>
+    <button class="tab" data-tab="naadj" role="tab">な形容詞<small>na-adj</small></button>
     <button class="tab" data-tab="keigo" role="tab">敬語<small>keigo</small></button>
   </div>
 
@@ -357,7 +357,7 @@
       日本語の動詞は<b>3つのグループ</b>に分かれ、グループごとに活用のしかたが決まっています。まず動詞を選んでください。
       <div class="group-legend">
         <div class="gl-row"><span class="gl-tag tag-g1">1グループ</span><span class="gl-txt"><b>1G・u-verbs。</b>語尾が <b>う・く・ぐ・す・つ・ぬ・ぶ・む・る</b> で終わる動詞（＝五段動詞）</span></div>
-        <div class="gl-row"><span class="gl-tag tag-g2">2グループ</span><span class="gl-txt"><b>2G・ru-verbs。</b><b>〜いる / 〜える</b> で終わる動詞（＝一段動詞）。例外：帰る・入るなどは1グループ</span></div>
+        <div class="gl-row"><span class="gl-tag tag-g2">2グループ</span><span class="gl-txt"><b>2G・ru-verbs。</b>る の前（語幹の最後の音）が <b>え段</b>、または一部の <b>い段</b> の動詞（＝一段動詞）。例：食べる（た<b>べ</b>る）・教える（おし<b>え</b>る）＝え段、見る（<b>み</b>る）・起きる（お<b>き</b>る）＝い段。※帰る・入る・走る・切る などは例外で1グループ</span></div>
         <div class="gl-row"><span class="gl-tag tag-g3">3グループ</span><span class="gl-txt"><b>3G・irregular。</b><b>する</b> と <b>来る</b> の2つだけ（＝不規則動詞）</span></div>
       </div>
     </div>
@@ -396,11 +396,11 @@
     </div>
   </div>
 
-  <!-- ===================== ナ形容詞 ===================== -->
+  <!-- ===================== な形容詞 ===================== -->
   <div class="panel" id="panel-naadj">
     <div class="note">
-      <b class="accent" style="color:var(--na)">ナ形容詞</b>は名詞のように活用します。名詞の前では <b>〜な</b>（静か<b>な</b>部屋）、文の終わりでは <b>〜だ／です</b> になります。
-      <br><br>※<b>きれい・ゆうめい・きらい</b> は「い」で終わりますが<b>ナ形容詞</b>です。注意。
+      <b class="accent" style="color:var(--na)">な形容詞</b>は名詞のように活用します。名詞の前では <b>〜な</b>（静か<b>な</b>部屋）、文の終わりでは <b>〜だ／です</b> になります。
+      <br><br>※<b>きれい・ゆうめい・きらい</b> は「い」で終わりますが<b>な形容詞</b>です。注意。
     </div>
     <div id="naadjPicker"></div>
     <div id="naadjConj" class="conj-card"></div>
@@ -694,7 +694,7 @@ const VERB_FORMS=[
   {section:'応用 ・ Advanced', items:[
     {key:'potential',jp:'可能動詞',en:'Potential verb ("can")'},
     {key:'volition',jp:'意向形',en:'Volitional ("let\'s / shall")'},
-    {key:'ba',jp:'ば形',en:'Conditional ("if")'},
+    {key:'ba',jp:'条件形',en:'Conditional ("if")'},
     {key:'imperative',jp:'命令形',en:'Imperative (command)'},
     {key:'passive',jp:'受身動詞',en:'Passive verb'},
     {key:'causative',jp:'使役動詞',en:'Causative verb ("make / let do")'},
@@ -707,7 +707,7 @@ const IADJ_FORMS=[
   {key:'pastneg',jp:'過去否定',en:'Past negative'},
   {key:'te',jp:'て形',en:'Te-form ("~ and")'},
   {key:'adv',jp:'副詞形',en:'Adverb ("~ly")'},
-  {key:'ba',jp:'ば形',en:'Conditional ("if")'},
+  {key:'ba',jp:'条件形',en:'Conditional ("if")'},
 ];
 const NAADJ_FORMS=[
   {key:'plain',jp:'現在',en:'Present (is ~)'},
@@ -717,7 +717,7 @@ const NAADJ_FORMS=[
   {key:'te',jp:'て形',en:'Te-form ("~ and")'},
   {key:'adv',jp:'副詞形',en:'Adverb ("~ly")'},
   {key:'noun',jp:'名詞修飾',en:'Before a noun'},
-  {key:'ba',jp:'仮定形',en:'Conditional ("if")'},
+  {key:'ba',jp:'条件形',en:'Conditional ("if")'},
 ];
 
 const ONBIN=[
@@ -835,7 +835,7 @@ function selectAdj(list,i,conjFn,forms,pickerId,cardId,tc){
     <div class="conj-word">${a.dict}</div>
     <div class="conj-read">${a.kana}</div>
     <div class="conj-roma">${kanaToRomaji(a.kana)}</div>
-    <div class="conj-meta"><span class="conj-typetag tt-${tc}">${tc==='ia'?'い形容詞':'ナ形容詞'}</span><span class="conj-en">${a.en}</span></div>
+    <div class="conj-meta"><span class="conj-typetag tt-${tc}">${tc==='ia'?'い形容詞':'な形容詞'}</span><span class="conj-en">${a.en}</span></div>
   </div>`;
   forms.forEach(f=>{ html+=row(f,c[f.key]); });
   $(cardId).innerHTML=html;

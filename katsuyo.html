@@ -327,14 +327,22 @@
   .pat-head.open .pat-chev { transform: rotate(90deg); }
   .pat-body { display: none; padding: 2px 15px 8px; }
   .pat-body.open { display: block; }
-  .pat-row { padding: 9px 0; border-top: 1px solid #F4F1EC; }
+  .pat-row { display: block; padding: 10px 18px 11px 0; border-top: 1px solid #F4F1EC; text-decoration: none; color: inherit; position: relative; -webkit-tap-highlight-color: transparent; }
   .pat-row:first-child { border-top: none; }
-  .pat-p { font-size: 13px; font-weight: 700; color: var(--text); }
-  .pat-mean { font-size: 10px; font-weight: 700; color: var(--text-hint); margin-left: 7px; background: #F7F5F0; padding: 1px 7px; border-radius: 10px; }
+  .pat-row:hover .pat-p, .pat-row:active .pat-p { color: var(--g1); }
+  .pat-p { font-size: 13px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .pat-lvl { font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 8px; }
+  .pat-lvl.lvl-n5 { background: #EAF3DE; color: #3B6D11; }
+  .pat-lvl.lvl-n4 { background: #E6F1FB; color: #185FA5; }
+  .pat-lvl.lvl-n3 { background: #EEEDFE; color: #3C3489; }
+  .pat-mean { font-size: 10px; font-weight: 700; color: var(--text-hint); }
+  .pat-en { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
   .pat-ex { font-size: 15px; font-weight: 600; margin-top: 4px; word-break: break-word; }
   .pat-ex-r { font-size: 11px; color: var(--text-muted); margin-left: 8px; font-weight: 400; }
   .pat-ex-roma { font-size: 10.5px; color: var(--text-hint); font-style: italic; margin-left: 8px; display: none; }
   body.show-roma .pat-ex-roma { display: inline; }
+  .pat-go { position: absolute; right: 0; top: 50%; transform: translateY(-50%); color: var(--text-hint); font-size: 17px; transition: transform 0.12s; }
+  .pat-row:hover .pat-go { transform: translateY(-50%) translateX(2px); color: var(--g1); }
 
   .app-footer {
     text-align: center; font-size: 11px; color: var(--text-hint);
@@ -397,7 +405,7 @@
 
     <div class="section-label">活用を使う文型 ・ Sentence patterns</div>
     <div class="note" style="margin-bottom:0.6rem;">
-      各活用形を使う代表的な文型です（『みんなの日本語』ほか）。形の名前をタップすると、選んだ語を当てはめた例が開きます。
+      各活用形を使う代表的な文型です（『みんなの日本語』ほか）。形の名前をタップで開き、各文型をタップすると<b>解説ページ</b>（接続・例文・英訳）へ飛びます。レベル（N5〜）と英語訳つき。
     </div>
     <div id="verbPatterns"></div>
 
@@ -814,34 +822,82 @@ function vpat(c){
   const ns={k:c.nai.k.replace(/ない$/,''),r:c.nai.r.replace(/ない$/,'')};
   const A=(b,s)=>({k:b.k+s,r:b.r+s});
   const causeTe={k:c.causative.k.slice(0,-1)+'てください',r:c.causative.r.slice(0,-1)+'てください'};
+  const I=(p,mean,en,lvl,id,ex)=>({p,mean,en,lvl,id,ex});
   return [
-    {form:'辞書形',items:[['〜ことができる','可能',A(c.dict,'ことができます')],['〜まえに','前',A(c.dict,'まえに')],['〜とき','〜とき',A(c.dict,'とき')],['〜つもりです','意図',A(c.dict,'つもりです')]]},
-    {form:'ます形',items:[['〜たいです','願望',A(ms,'たいです')],['〜ながら','同時',A(ms,'ながら')],['〜ましょう','勧誘',A(ms,'ましょう')],['〜やすいです','難易',A(ms,'やすいです')]]},
-    {form:'て形',items:[['〜てください','依頼',A(c.te,'ください')],['〜てもいいです','許可',A(c.te,'もいいです')],['〜てはいけません','禁止',A(c.te,'はいけません')],['〜ています','進行・状態',A(c.te,'います')],['〜てから','後',A(c.te,'から')]]},
-    {form:'ない形',items:[['〜ないでください','禁止依頼',A(c.nai,'でください')],['〜なければなりません','義務',A(ns,'なければなりません')],['〜なくてもいいです','不要',A(ns,'なくてもいいです')],['〜ないほうがいいです','助言',A(c.nai,'ほうがいいです')]]},
-    {form:'た形',items:[['〜たことがあります','経験',A(c.ta,'ことがあります')],['〜たほうがいいです','助言',A(c.ta,'ほうがいいです')],['〜たり〜たりします','列挙',A(c.ta,'り…します')],['〜たあとで','後',A(c.ta,'あとで')]]},
-    {form:'意向形',items:[['〜（よ）うと思います','意志',A(c.volition,'と思います')],['〜（よ）うとします','試み',A(c.volition,'とします')]]},
-    {form:'条件形',items:[['〜ば、…','条件',A(c.ba,'、…')],['〜ばよかった','後悔',A(c.ba,'よかった')]]},
-    {form:'可能動詞',items:[['〜ようになります','変化',A(c.potential,'ようになります')]]},
-    {form:'使役動詞',items:[['〜（さ）せてください','許可願い',causeTe]]},
-    {form:'命令形・禁止形',items:[['〜ろ（命令）','強い命令',A(c.imperative,'')],['〜な（禁止）','強い禁止',A(c.prohibitive,'')]]},
+    {form:'辞書形',items:[
+      I('〜ことができる','可能','can do ~','N4','dict-koto-dekiru',A(c.dict,'ことができます')),
+      I('〜まえに','前','before doing','N4','dict-mae-ni',A(c.dict,'まえに')),
+      I('〜とき','〜とき','when ~','N4','dict-toki',A(c.dict,'とき')),
+      I('〜つもりです','意図','intend to','N4','dict-tsumori',A(c.dict,'つもりです')),
+    ]},
+    {form:'ます形',items:[
+      I('〜たいです','願望','want to ~','N5','masu-tai',A(ms,'たいです')),
+      I('〜ながら','同時','while doing','N4','masu-nagara',A(ms,'ながら')),
+      I('〜ましょう','勧誘','let\u2019s ~','N5','masu-mashou',A(ms,'ましょう')),
+      I('〜やすいです','難易','easy to ~','N4','masu-yasui',A(ms,'やすいです')),
+    ]},
+    {form:'て形',items:[
+      I('〜てください','依頼','please do ~','N5','te-kudasai',A(c.te,'ください')),
+      I('〜てもいいです','許可','may ~ / it\u2019s OK','N5','te-mo-ii',A(c.te,'もいいです')),
+      I('〜てはいけません','禁止','must not ~','N5','te-wa-ikenai',A(c.te,'はいけません')),
+      I('〜ています','進行・状態','be ~ing / state','N5','te-iru',A(c.te,'います')),
+      I('〜てから','後','after doing','N4','te-kara',A(c.te,'から')),
+    ]},
+    {form:'ない形',items:[
+      I('〜ないでください','禁止依頼','please don\u2019t ~','N5','nai-de-kudasai',A(c.nai,'でください')),
+      I('〜なければなりません','義務','must ~','N4','nakereba-naranai',A(ns,'なければなりません')),
+      I('〜なくてもいいです','不要','don\u2019t have to ~','N4','nakutemo-ii',A(ns,'なくてもいいです')),
+      I('〜ないほうがいいです','助言','had better not ~','N4','nai-hou-ga-ii',A(c.nai,'ほうがいいです')),
+    ]},
+    {form:'た形',items:[
+      I('〜たことがあります','経験','have done ~','N4','ta-koto-ga-aru',A(c.ta,'ことがあります')),
+      I('〜たほうがいいです','助言','had better ~','N4','ta-hou-ga-ii',A(c.ta,'ほうがいいです')),
+      I('〜たり〜たりします','列挙','do things like ~','N4','tari-tari',A(c.ta,'り…します')),
+      I('〜たあとで','後','after ~','N4','ta-ato-de',A(c.ta,'あとで')),
+    ]},
+    {form:'意向形',items:[
+      I('〜（よ）うと思います','意志','intend to ~','N4','you-to-omou',A(c.volition,'と思います')),
+      I('〜（よ）うとします','試み','try to ~','N4','you-to-suru',A(c.volition,'とします')),
+    ]},
+    {form:'条件形',items:[
+      I('〜ば、…','条件','if ~','N4','ba',A(c.ba,'、…')),
+      I('〜ばよかった','後悔','should have ~','N3','ba-yokatta',A(c.ba,'よかった')),
+    ]},
+    {form:'可能動詞',items:[
+      I('〜ようになります','変化','come to be able','N4','you-ni-naru',A(c.potential,'ようになります')),
+    ]},
+    {form:'使役動詞',items:[
+      I('〜（さ）せてください','許可願い','please let me ~','N4','sasete-kudasai',causeTe),
+    ]},
+    {form:'命令形・禁止形',items:[
+      I('〜ろ（命令）','強い命令','(blunt) command','N4','meirei-kinshi',A(c.imperative,'')),
+      I('〜な（禁止）','強い禁止','(blunt) don\u2019t','N4','meirei-kinshi',A(c.prohibitive,'')),
+    ]},
   ];
 }
 function iapat(c){
   const A=(b,s)=>({k:b.k+s,r:b.r+s});
+  const I=(p,mean,en,lvl,id,ex)=>({p,mean,en,lvl,id,ex});
   return [
-    {form:'て形',items:[['〜くて、…','並列・理由',A(c.te,'、…')]]},
-    {form:'副詞形',items:[['〜くなります','変化',A(c.adv,'なります')],['〜くする','変化(他動)',A(c.adv,'する')]]},
-    {form:'条件形',items:[['〜ければ、…','条件',A(c.ba,'、…')]]},
+    {form:'て形',items:[I('〜くて、…','並列・理由','~ and / because','N5','i-te',A(c.te,'、…'))]},
+    {form:'副詞形',items:[
+      I('〜くなります','変化','become ~','N4','i-ku-naru',A(c.adv,'なります')),
+      I('〜くする','変化(他動)','make it ~','N4','i-ku-suru',A(c.adv,'する')),
+    ]},
+    {form:'条件形',items:[I('〜ければ、…','条件','if ~','N4','i-kereba',A(c.ba,'、…'))]},
   ];
 }
 function napat(c){
   const A=(b,s)=>({k:b.k+s,r:b.r+s});
+  const I=(p,mean,en,lvl,id,ex)=>({p,mean,en,lvl,id,ex});
   return [
-    {form:'て形',items:[['〜で、…','並列・理由',A(c.te,'、…')]]},
-    {form:'副詞形',items:[['〜になります','変化',A(c.adv,'なります')],['〜にする','変化(他動)',A(c.adv,'する')]]},
-    {form:'名詞修飾',items:[['〜な＋名詞','修飾',A(c.noun,'…')]]},
-    {form:'条件形',items:[['〜なら、…','条件・主題',A(c.ba,'、…')]]},
+    {form:'て形',items:[I('〜で、…','並列・理由','~ and / because','N5','na-de',A(c.te,'、…'))]},
+    {form:'副詞形',items:[
+      I('〜になります','変化','become ~','N4','na-ni-naru',A(c.adv,'なります')),
+      I('〜にする','変化(他動)','make it ~','N4','na-ni-suru',A(c.adv,'する')),
+    ]},
+    {form:'名詞修飾',items:[I('〜な＋名詞','修飾','modifies a noun','N5','na-shuushoku',A(c.noun,'…'))]},
+    {form:'条件形',items:[I('〜なら、…','条件・主題','if / as for ~','N4','na-nara',A(c.ba,'、…'))]},
   ];
 }
 function renderPatterns(id, groups){
@@ -854,10 +910,12 @@ function renderPatterns(id, groups){
         <span class="pat-count">${g.items.length}</span>
         <span class="pat-chev">›</span>
       </button>
-      <div class="pat-body">${g.items.map(it=>`<div class="pat-row">
-        <div class="pat-p">${it[0]}<span class="pat-mean">${it[1]}</span></div>
-        <div class="pat-ex">${it[2].k}<span class="pat-ex-r">${it[2].r}</span><span class="pat-ex-roma">${kanaToRomaji(it[2].r)}</span></div>
-      </div>`).join('')}</div>
+      <div class="pat-body">${g.items.map(it=>`<a class="pat-row" href="bunkei.html#${it.id}">
+        <div class="pat-p">${it.p}<span class="pat-lvl lvl-${it.lvl.toLowerCase()}">${it.lvl}</span><span class="pat-mean">${it.mean}</span></div>
+        <div class="pat-en">${it.en}</div>
+        <div class="pat-ex">${it.ex.k}<span class="pat-ex-r">${it.ex.r}</span><span class="pat-ex-roma">${kanaToRomaji(it.ex.r)}</span></div>
+        <span class="pat-go">›</span>
+      </a>`).join('')}</div>
     </div>`;
   });
   html+='</div>';

@@ -74,6 +74,41 @@
   .bk-note b { color: var(--text-muted); }
 
   .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  /* 検索窓 */
+  .search-wrap { position: relative; margin: 1.1rem 0 0.7rem; }
+  .search-wrap .s-ico { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--text-hint); pointer-events: none; }
+  #search {
+    width: 100%; font-family: inherit; font-size: 15px; color: var(--text);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 11px;
+    padding: 12px 40px; -webkit-appearance: none; appearance: none; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  #search:focus { border-color: var(--n4); box-shadow: 0 0 0 3px var(--n4-bg); }
+  #search::placeholder { color: var(--text-hint); }
+  #search::-webkit-search-cancel-button { display: none; }
+  .s-clear {
+    position: absolute; right: 9px; top: 50%; transform: translateY(-50%);
+    width: 26px; height: 26px; border: none; background: #ECE8E1; color: var(--text-muted);
+    border-radius: 50%; font-size: 16px; line-height: 1; cursor: pointer; padding: 0;
+    display: none; align-items: center; justify-content: center;
+  }
+  .s-clear.show { display: flex; }
+
+  .result-meta { font-size: 11px; color: var(--text-hint); margin: 0 2px 1rem; }
+
+  /* 五十音の行見出し */
+  .goju-head {
+    display: inline-block; font-size: 14px; font-weight: 800; color: var(--n4);
+    background: var(--n4-bg); padding: 2px 13px; border-radius: 999px; margin: 1.4rem 0 0.6rem;
+  }
+  .goju-head:first-of-type { margin-top: 0.2rem; }
+
+  /* カードの分類タグ */
+  .bk-cat { font-size: 10px; font-weight: 700; color: var(--text-hint); letter-spacing: 0.03em; margin-bottom: 5px; }
+  .bk-cat b { color: var(--text-muted); font-weight: 700; }
+
+  .no-result { text-align: center; color: var(--text-muted); padding: 36px 10px; font-size: 14px; line-height: 1.7; }
 </style>
 </head>
 <body>
@@ -87,6 +122,12 @@
     <div class="app-sub">活用を使う文型 ・ Grammar Patterns</div>
   </div>
 
+  <div class="search-wrap">
+    <span class="s-ico">🔍</span>
+    <input id="search" type="search" inputmode="search" autocomplete="off" placeholder="文型をさがす（例：たい・ながら・ので）">
+    <button id="sClear" class="s-clear" type="button" aria-label="消す">×</button>
+  </div>
+
   <div class="filter" id="filter">
     <button data-lv="all" class="on">すべて</button>
     <button data-lv="N5">N5</button>
@@ -95,6 +136,8 @@
     <button data-lv="N2">N2</button>
     <button data-lv="N1">N1</button>
   </div>
+
+  <div class="result-meta" id="meta"></div>
 
   <div id="list"></div>
 
@@ -200,17 +243,38 @@ const D=[
   {cat:'な形容詞',form:'条件形',id:'na-nara',p:'〜なら、…',lvl:'N4',en:'if ~ / as for ~',setu:'な形容詞：語幹 ＋ なら',ex:[['ひまなら、手伝ってください。',"If you're free, please help me."]],note:'相手の話を受けて言うことが多い。'},
 ];
 
-function render(filter){
+/* --- 五十音順ソート・検索 --- */
+function toHira(s){ return s.replace(/[\u30A1-\u30F6]/g, c=>String.fromCharCode(c.charCodeAt(0)-0x60)); }
+function yomiKey(p){ return toHira(p.replace(/^[〜～\s]+/,'').replace(/[（）()]/g,'')); }
+const GOJU=[
+  ['あ','あいうえおぁぃぅぇぉ'],['か','かきくけこがぎぐげご'],['さ','さしすせそざじずぜぞ'],
+  ['た','たちつてとだぢづでどっ'],['な','なにぬねの'],['は','はひふへほばびぶべぼぱぴぷぺぽ'],
+  ['ま','まみむめも'],['や','やゆよゃゅょ'],['ら','らりるれろ'],['わ','わをん']
+];
+function rowLabel(key){ const c=key[0]||''; for(const [lab,set] of GOJU){ if(set.indexOf(c)>=0) return lab; } return 'その他'; }
+const CATSHORT={'動詞':'動詞','い形容詞':'い形容詞','な形容詞':'な形容詞'};
+const SORTED=[...D].map(d=>({...d,_key:yomiKey(d.p)}))
+  .sort((a,b)=> a._key<b._key?-1 : a._key>b._key?1 : 0);
+
+function matches(d,q){
+  if(!q) return true;
+  const hay = toHira(d.p+' '+d.en+' '+d.setu+' '+(d.note||'')+' '+d._key).toLowerCase();
+  return hay.indexOf(q)>=0;
+}
+
+let curLevel='all', curQuery='';
+function render(){
   const list=document.getElementById('list');
-  let html=''; let curCat='', curForm='';
-  const rows = filter==='all' ? D : D.filter(d=>d.lvl===filter);
-  if(!rows.length){ list.innerHTML='<div style="text-align:center;color:var(--text-muted);padding:30px;">この級の文型はありません。</div>'; return; }
+  const rows=SORTED.filter(d=>(curLevel==='all'||d.lvl===curLevel)&&matches(d,curQuery));
+  document.getElementById('meta').textContent = rows.length+' 件'+(curLevel!=='all'?' ・ '+curLevel:'');
+  if(!rows.length){ list.innerHTML='<div class="no-result">見つかりませんでした。<br>ことばを変えてさがしてみてください。</div>'; return; }
+  let html='', curRow='';
   rows.forEach(d=>{
-    if(d.cat!==curCat){ curCat=d.cat; curForm='';
-      html+=`<div class="cat-head"><span class="cat-bar" style="background:${CATBAR[d.cat]}"></span>${d.cat}</div>`; }
-    if(d.form!==curForm){ curForm=d.form; html+=`<div class="form-head">${d.form}</div>`; }
+    const rl=rowLabel(d._key);
+    if(rl!==curRow){ curRow=rl; html+=`<div class="goju-head">${rl}</div>`; }
     const ex=d.ex.map(e=>`<div class="bk-ex-item"><div class="bk-ex-ja">${e[0]}</div><div class="bk-ex-en">${e[1]}</div></div>`).join('');
     html+=`<div class="bk-card" id="${d.id}">
+      <div class="bk-cat"><b>${CATSHORT[d.cat]}</b> ・ ${d.form}</div>
       <div class="bk-top"><span class="bk-p">${d.p}</span><span class="bk-lvl lvl-${d.lvl.toLowerCase()}">${d.lvl}</span></div>
       <div class="bk-en">${d.en}</div>
       <div class="bk-setsuzoku"><b>接続：</b>${d.setu}</div>
@@ -220,14 +284,25 @@ function render(filter){
   });
   list.innerHTML=html;
 }
-render('all');
+render();
+
+// レベルフィルタ
 document.getElementById('filter').querySelectorAll('button').forEach(b=>{
   b.onclick=()=>{
     document.getElementById('filter').querySelectorAll('button').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on'); render(b.dataset.lv);
+    b.classList.add('on'); curLevel=b.dataset.lv; render();
   };
 });
-// ハッシュがあれば、その文型へスクロール（フィルタはすべて表示のまま）
+// 検索
+const sIn=document.getElementById('search'), sClear=document.getElementById('sClear');
+sIn.addEventListener('input',()=>{
+  curQuery=toHira(sIn.value.trim()).toLowerCase();
+  sClear.classList.toggle('show', sIn.value.length>0);
+  render();
+});
+sClear.addEventListener('click',()=>{ sIn.value=''; curQuery=''; sClear.classList.remove('show'); render(); sIn.focus(); });
+
+// ハッシュがあれば、その文型へスクロール
 if(location.hash){ const el=document.getElementById(location.hash.slice(1)); if(el){ el.scrollIntoView(); } }
 </script>
 </body>

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>かなたまご ｜ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --ok:#3B6D11; --ng:#993C1D;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 1.5rem;line-height:1.5;
+    -webkit-text-size-adjust:100%;overscroll-behavior:none;}
+  .container{max-width:480px;margin:0 auto;}
+  .topbar{display:flex;align-items:center;padding:1rem 0 0;}
+  .back{font-size:13px;color:var(--text-muted);text-decoration:none;font-weight:600;}
+  .back:active{opacity:.6;}
+
+  .head{text-align:center;padding:1rem 0 .3rem;}
+  .logo{font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--text-hint);}
+  .title{font-size:30px;font-weight:800;letter-spacing:.02em;margin-top:6px;}
+  .title small{display:block;font-size:12px;font-weight:600;color:var(--text-hint);letter-spacing:.12em;margin-top:5px;}
+  .sub{font-size:13px;color:var(--text-muted);margin-top:8px;line-height:1.7;}
+
+  .screen{display:none;}
+  .screen.on{display:block;}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-top:14px;}
+  .howto-title{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--text-hint);margin-bottom:10px;text-transform:uppercase;}
+  .howto-row{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--text);margin-bottom:9px;line-height:1.6;}
+  .howto-num{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--ok);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .en-sub{color:var(--text-hint);font-size:11px;font-weight:600;margin-top:2px;line-height:1.4;}
+
+  .opt-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--text-hint);margin:14px 0 7px;text-transform:uppercase;}
+  .seg{display:flex;gap:8px;}
+  .seg button{flex:1;padding:11px 6px;font-family:inherit;font-size:14px;font-weight:700;color:var(--text-muted);
+    background:#F2EFE9;border:1px solid var(--border);border-radius:10px;cursor:pointer;line-height:1.3;transition:.12s;}
+  .seg button .s{display:block;font-size:10px;font-weight:600;color:var(--text-hint);margin-top:2px;}
+  .seg button.on{background:var(--surface);color:var(--text);border-color:#C9C2B8;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+
+  .legend{margin-top:14px;display:flex;flex-direction:column;gap:6px;}
+  .leg-row{display:flex;align-items:center;gap:6px;font-size:15px;}
+  .leg-cell{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;border:1px solid var(--border);background:var(--surface);}
+  .leg-cell.s{border-bottom-width:4px;}
+  .leg-cell.e{border-top-width:4px;}
+  .leg-mark{font-size:10px;color:var(--text-hint);margin-left:4px;}
+
+  .start-btn{width:100%;margin-top:16px;padding:15px;font-size:17px;font-weight:800;letter-spacing:.04em;
+    background:var(--ok);color:#fff;border:none;border-radius:12px;cursor:pointer;box-shadow:0 4px 0 #2C520C;}
+  .start-btn:active{box-shadow:0 2px 0 #2C520C;transform:translateY(2px);}
+
+  /* ===== プレイ画面 ===== */
+  .hud{display:flex;gap:8px;margin-top:14px;}
+  .hud-cell{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:8px 6px;text-align:center;}
+  .hud-cell.next{flex:0 0 64px;}
+  .hud-k{font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--text-hint);text-transform:uppercase;}
+  .hud-v{font-size:21px;font-weight:800;margin-top:1px;}
+  .hud-cell.combo .hud-v{color:var(--ok);}
+  .next-tile{width:34px;height:34px;margin:2px auto 0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;border:1px solid var(--border);}
+
+  .leg-strip{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:10px;justify-content:center;font-size:13px;color:var(--text-muted);}
+  .leg-strip .chip{display:inline-flex;align-items:center;gap:3px;}
+  .leg-strip .dot{width:11px;height:11px;border-radius:3px;display:inline-block;}
+
+  .board-wrap{margin-top:10px;display:flex;justify-content:center;}
+  #board{position:relative;background:#EFEBE4;border:1px solid var(--border);border-radius:12px;overflow:hidden;touch-action:none;}
+  .gridline{position:absolute;background:rgba(0,0,0,0.035);}
+  .tile{position:absolute;display:flex;align-items:center;justify-content:center;font-weight:800;border-radius:8px;
+    border:1px solid rgba(0,0,0,0.08);}
+  .tile.start{border-bottom-width:5px;}
+  .tile.end{border-top-width:5px;}
+  .tile.base{border-bottom-width:5px;}
+  .tile.cap{border-top-width:5px;}
+  #faller{position:absolute;display:flex;align-items:center;justify-content:center;font-weight:800;border-radius:8px;
+    border:1px solid rgba(0,0,0,0.08);transition:top .12s linear, left .08s ease;z-index:3;}
+  #faller.start{border-bottom-width:5px;}
+  #faller.end{border-top-width:5px;}
+  #faller.base{border-bottom-width:5px;}
+  #faller.cap{border-top-width:5px;}
+  .tile.pop{animation:eggpop .3s ease forwards;z-index:2;}
+  @keyframes eggpop{0%{transform:scale(1);opacity:1}45%{transform:scale(1.14);opacity:1}100%{transform:scale(.08);opacity:0}}
+
+  .controls{display:flex;gap:8px;margin-top:12px;}
+  .ctrl{flex:1;padding:15px 0;font-size:20px;font-weight:800;background:var(--surface);border:1px solid var(--border);
+    border-radius:12px;cursor:pointer;color:var(--text);user-select:none;}
+  .ctrl:active{background:#F2EFE9;transform:scale(.97);}
+  .ctrl.drop{flex:1.3;font-size:15px;background:#FAF3E6;border-color:#E7D9BD;color:#854F0B;}
+  .ctrl-hint{text-align:center;font-size:11px;color:var(--text-hint);margin-top:8px;}
+
+  /* ===== 結果画面 ===== */
+  .result-card{text-align:center;}
+  .result-emoji{font-size:54px;}
+  .result-rank{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--text-hint);}
+  .result-score{font-size:48px;font-weight:800;margin-top:4px;line-height:1;}
+  .result-score-k{font-size:11px;color:var(--text-hint);letter-spacing:.1em;margin-top:3px;}
+  .stat-grid{display:flex;gap:8px;margin-top:16px;}
+  .stat{flex:1;background:#FAF8F4;border:1px solid var(--border);border-radius:10px;padding:9px 4px;}
+  .stat-v{font-size:19px;font-weight:800;}
+  .stat-k{font-size:10px;color:var(--text-hint);margin-top:1px;}
+  .result-actions{display:flex;gap:10px;margin-top:18px;}
+  .btn-line{flex:1;padding:13px;font-size:15px;font-weight:700;border-radius:11px;cursor:pointer;font-family:inherit;border:1px solid var(--border);}
+  .btn-ghost{background:#FAF8F4;color:var(--text);}
+  .btn-primary{background:var(--text);color:#fff;border-color:var(--text);}
+
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.6rem;line-height:1.8;}
+  .foot a{color:var(--text-muted);}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar"><a href="games.html" class="back">‹ ゲーム一覧</a></div>
+
+  <!-- ============ スタート画面 ============ -->
+  <section class="screen on" id="screen-start">
+    <div class="head">
+      <div class="logo">NIHONGO NO HEYA</div>
+      <div class="title">かなたまご<small>KANA TAMAGO</small></div>
+      <div class="sub">各列の一番下は<b>お段</b>の巣。同じ行の<b>あ段</b>でフタをすれば、間の字が何でも、巣ごとまとめてたまごに。巣はそのつどランダムで入れ替わる。<br>
+        <span class="en-sub">Cap an お-row nest with its matching あ-row kana — everything between (and the nest) clears, then a new random nest appears.</span></div>
+    </div>
+
+    <div class="card">
+      <div class="howto-title">あそびかた ・ How to play</div>
+      <div class="howto-row"><span class="howto-num">1</span><div>各列の一番下に <b>お段の巣</b>。たまごを作るたびに、新しい巣がランダムで出る（毎回ちがう）。
+        <div class="en-sub">Each column has an お-row nest at the bottom; it changes to a random row after each egg.</div></div></div>
+      <div class="howto-row"><span class="howto-num">2</span><div>落ちてくる <b>中身</b> と <b>あ段のフタ</b> を左右で動かして積む。
+        <div class="en-sub">Move the falling middles and あ-row caps left/right to stack.</div></div></div>
+      <div class="howto-row"><span class="howto-num">3</span><div>巣と <b>同じ行のあ段</b> でフタをすると、間の字が何でも・巣ごと、上から下へ閉じて消える。はさんだ数が多いほど高得点・連鎖で加点。
+        <div class="en-sub">Cap with the nest’s matching あ kana: everything between (and the nest) closes top-down. More inside = more points; chains add bonus.</div></div></div>
+
+      <div class="opt-label">かな ・ Script</div>
+      <div class="seg" id="seg-kana">
+        <button data-kana="hira" class="on">ひらがな<span class="s">Hiragana</span></button>
+        <button data-kana="kata">カタカナ<span class="s">Katakana</span></button>
+      </div>
+
+      <div class="opt-label">むずかしさ（行の数） ・ Difficulty</div>
+      <div class="seg" id="seg-diff">
+        <button data-rows="3" class="on">やさしい<span class="s">3 rows</span></button>
+        <button data-rows="4">ふつう<span class="s">4 rows</span></button>
+        <button data-rows="5">むずかしい<span class="s">5 rows</span></button>
+      </div>
+
+      <div class="opt-label">この回に出る行 ・ Rows in play</div>
+      <div class="legend" id="legend"></div>
+
+      <button class="start-btn" id="startBtn">スタート ・ START</button>
+    </div>
+  </section>
+
+  <!-- ============ プレイ画面 ============ -->
+  <section class="screen" id="screen-play">
+    <div class="hud">
+      <div class="hud-cell"><div class="hud-k">Score</div><div class="hud-v" id="hScore">0</div></div>
+      <div class="hud-cell combo"><div class="hud-k">Combo</div><div class="hud-v" id="hCombo">0</div></div>
+      <div class="hud-cell"><div class="hud-k">たまご Eggs</div><div class="hud-v" id="hEggs">0</div></div>
+      <div class="hud-cell next"><div class="hud-k">Next</div><div class="next-tile" id="nextTile">あ</div></div>
+    </div>
+    <div class="leg-strip" id="legStrip"></div>
+    <div class="board-wrap"><div id="board"><div id="faller"></div></div></div>
+    <div class="controls">
+      <button class="ctrl" id="bLeft" aria-label="左">◀</button>
+      <button class="ctrl" id="bDown" aria-label="下">▼</button>
+      <button class="ctrl" id="bRight" aria-label="右">▶</button>
+      <button class="ctrl drop" id="bDrop" aria-label="ストン">ストン ↓</button>
+    </div>
+    <div class="ctrl-hint">← → 移動 ・ ↓ 速く落とす ・ Space ストン落とし（キーボードも可）</div>
+  </section>
+
+  <!-- ============ 結果画面 ============ -->
+  <section class="screen" id="screen-result">
+    <div class="card result-card">
+      <div class="result-emoji" id="rEmoji">🥚</div>
+      <div class="result-rank" id="rRank">RESULT</div>
+      <div class="result-score" id="rScore">0</div>
+      <div class="result-score-k">スコア ・ Score</div>
+      <div class="stat-grid">
+        <div class="stat"><div class="stat-v" id="rEggs">0</div><div class="stat-k">たまご ・ Eggs</div></div>
+        <div class="stat"><div class="stat-v" id="rCombo">0</div><div class="stat-k">最大連鎖 ・ Max chain</div></div>
+        <div class="stat"><div class="stat-v" id="rBig">0</div><div class="stat-k">最大たまご ・ Biggest</div></div>
+      </div>
+      <div class="result-actions">
+        <button class="btn-line btn-ghost" id="menuBtn">メニュー ・ Menu</button>
+        <button class="btn-line btn-primary" id="retryBtn">もう一回 ・ Retry</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <a href="games.html">‹ ゲーム一覧にもどる</a><br>© 2025 日本語の部屋
+  </div>
+</div>
+
+<script>
+/* ===================== データ ===================== */
+var ROWSETS = {
+  hira: [
+    {id:'a', c:'#3B6D11', s:'#EAF3DE', d:'#2C520C', k:['あ','い','う','え','お']},
+    {id:'ka',c:'#185FA5', s:'#E6F1FB', d:'#0E436F', k:['か','き','く','け','こ']},
+    {id:'sa',c:'#854F0B', s:'#FAEEDA', d:'#5E3707', k:['さ','し','す','せ','そ']},
+    {id:'ta',c:'#3C3489', s:'#EEEDFE', d:'#2A2566', k:['た','ち','つ','て','と']},
+    {id:'na',c:'#1F6F6B', s:'#DFF0EE', d:'#124D4A', k:['な','に','ぬ','ね','の']}
+  ],
+  kata: [
+    {id:'a', c:'#3B6D11', s:'#EAF3DE', d:'#2C520C', k:['ア','イ','ウ','エ','オ']},
+    {id:'ka',c:'#185FA5', s:'#E6F1FB', d:'#0E436F', k:['カ','キ','ク','ケ','コ']},
+    {id:'sa',c:'#854F0B', s:'#FAEEDA', d:'#5E3707', k:['サ','シ','ス','セ','ソ']},
+    {id:'ta',c:'#3C3489', s:'#EEEDFE', d:'#2A2566', k:['タ','チ','ツ','テ','ト']},
+    {id:'na',c:'#1F6F6B', s:'#DFF0EE', d:'#124D4A', k:['ナ','ニ','ヌ','ネ','ノ']}
+  ]
+};
+
+var COLS = 6, ROWS = 11;
+var $ = function(id){ return document.getElementById(id); };
+
+var cfg = { kana:'hira', nrows:3 };
+var ACTIVE = [];               // 出題する行（ROWSETSの一部）
+var grid = [];                 // grid[col] = 下から上のタイル配列
+var faller = null;             // {col, y, piece}
+var nextPiece = null;
+var score = 0, level = 1;
+var stats = { eggs:0, maxCombo:0, biggest:0 };
+var timer = null, dropMs = 700, running = false, CELL = 50;
+var resolving = false, comboLevel = 0;
+var POP_STAGGER = 75, POP_DUR = 300;   // 上→下に閉じるアニメ
+
+/* ===================== 補助 ===================== */
+function ri(n){ return Math.floor(Math.random()*n); }
+function activeRows(){ return ROWSETS[cfg.kana].slice(0, cfg.nrows); }
+
+function makePiece(){   // 落ちてくるのは「中身(い・う・え段)」と「フタ(あ段)」だけ
+  var r = ri(ACTIVE.length), rd = ACTIVE[r], roll = Math.random(), pos, k;
+  if(roll < 0.36){ pos='cap'; k=rd.k[0]; }       // あ段 ＝ ふた
+  else { pos='mid'; k=rd.k[1+ri(3)]; }           // い・う・え段 ＝ 中身
+  return { row:r, pos:pos, k:k, c:rd };
+}
+function makeBase(r){ var rd=ACTIVE[r]; return { row:r, pos:'base', k:rd.k[4], c:rd }; } // お段＝下の巣
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=ri(i+1), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+/* 1列の判定：一番下の「巣(お段・R行)」の上に、R行の「ふた(あ段)」があれば、間の中身が何でも成立。 */
+function columnClear(st){
+  if(st.length < 2 || st[0].pos !== 'base') return null;
+  var R = st[0].row;
+  for(var j=1;j<st.length;j++){
+    if(st[j].pos==='cap' && st[j].row===R) return { to:j, row:R };
+  }
+  return null;
+}
+
+/* 全列を解決（連鎖・加点）。消えたタイルの位置リストも返す（演出用） */
+/* 全列の成立を探す */
+function findClears(){
+  var out=[];
+  for(var c=0;c<COLS;c++){ var cl=columnClear(grid[c]); if(cl) out.push({col:c, to:cl.to}); }
+  return out;
+}
+/* 上から下へ「卵が閉じる」アニメ → 消去 → 巣をランダム補充 → 連鎖（再帰） */
+function resolveStep(onDone){
+  var clears = findClears();
+  if(!clears.length){ onDone(); return; }
+  comboLevel++;
+  var maxDelay = 0;
+  clears.forEach(function(cl){
+    for(var r=0;r<=cl.to;r++){
+      var d = (cl.to - r) * POP_STAGGER;     // 上(=cl.to)が先・下(=0)が最後
+      grid[cl.col][r]._pop = d;
+      if(d > maxDelay) maxDelay = d;
+    }
+  });
+  renderStack();
+  setTimeout(function(){
+    clears.forEach(function(cl){
+      var size = cl.to - 1;                   // 間にはさんだ数
+      score += (40 + size*size*30) * comboLevel;
+      stats.eggs++;
+      stats.biggest = Math.max(stats.biggest, size);
+      stats.maxCombo = Math.max(stats.maxCombo, comboLevel);
+      grid[cl.col] = grid[cl.col].slice(cl.to+1);          // 巣～ふたまで全部消す
+      grid[cl.col].unshift(makeBase(ri(ACTIVE.length)));   // 新しい巣をランダムに補充
+    });
+    level = 1 + Math.floor(stats.eggs/6);
+    renderHUD(); $('hCombo').textContent = comboLevel;
+    renderStack();
+    resolveStep(onDone);                       // 連鎖チェック
+  }, maxDelay + POP_DUR);
+}
+
+/* ===================== 描画 ===================== */
+function sizeBoard(){
+  var wrap = document.querySelector('.board-wrap');
+  var w = wrap.clientWidth || 360;
+  CELL = Math.floor(Math.min(w, 360) / COLS);
+  var bw = CELL*COLS, bh = CELL*ROWS;
+  var b = $('board'); b.style.width = bw+'px'; b.style.height = bh+'px';
+  // グリッド線
+  var lines = '';
+  for(var c=1;c<COLS;c++) lines += '<div class="gridline" style="left:'+(c*CELL-0.5)+'px;top:0;width:1px;height:'+bh+'px"></div>';
+  for(var r=1;r<ROWS;r++) lines += '<div class="gridline" style="top:'+(r*CELL-0.5)+'px;left:0;height:1px;width:'+bw+'px"></div>';
+  // 既存のgridlineを消して入れ直し（fallerは残す）
+  [].slice.call(b.querySelectorAll('.gridline,.tile')).forEach(function(e){e.remove();});
+  b.insertAdjacentHTML('afterbegin', lines);
+}
+function tileStyle(t){ return 'background:'+t.c.s+';color:'+t.c.d+';border-color:'+t.c.c+';'; }
+function px(n){ return n+'px'; }
+
+function renderStack(){
+  var b = $('board');
+  [].slice.call(b.querySelectorAll('.tile')).forEach(function(e){e.remove();});
+  var html='';
+  for(var c=0;c<COLS;c++){
+    for(var r=0;r<grid[c].length;r++){
+      var t = grid[c][r];
+      var left = c*CELL, top = (ROWS-1-r)*CELL;
+      var popCls = (t._pop!=null) ? ' pop' : '';
+      var popStl = (t._pop!=null) ? 'animation-delay:'+t._pop+'ms;' : '';
+      html += '<div class="tile '+t.pos+popCls+'" style="'+tileStyle(t)+popStl+
+        'left:'+left+'px;top:'+top+'px;width:'+CELL+'px;height:'+CELL+'px;font-size:'+(CELL*0.5)+'px">'+t.k+'</div>';
+    }
+  }
+  b.insertAdjacentHTML('beforeend', html);
+}
+function renderFaller(){
+  var f = $('faller');
+  if(!faller){ f.style.display='none'; return; }
+  var t = faller.piece;
+  f.style.display='flex';
+  f.className = t.pos;
+  f.style.cssText += '';
+  f.setAttribute('style', tileStyle(t)+
+    'display:flex;left:'+(faller.col*CELL)+'px;top:'+((ROWS-1-faller.y)*CELL)+'px;'+
+    'width:'+CELL+'px;height:'+CELL+'px;font-size:'+(CELL*0.5)+'px;');
+  f.textContent = t.k;
+}
+function renderNext(){
+  var n = $('nextTile'), t = nextPiece;
+  n.textContent = t.k; n.setAttribute('style', tileStyle(t));
+}
+function renderHUD(){
+  $('hScore').textContent = score;
+  $('hEggs').textContent = stats.eggs;
+}
+function renderLegStrip(){
+  var html = ACTIVE.map(function(rd){
+    return '<span class="chip"><span class="dot" style="background:'+rd.c+'"></span>'+rd.k[0]+rd.k[4]+'</span>';
+  }).join('');
+  $('legStrip').innerHTML = html;
+}
+
+/* ===================== ゲーム進行 ===================== */
+function spawn(){
+  faller = { col:Math.floor(COLS/2), y:ROWS-1, piece:nextPiece };
+  nextPiece = makePiece();
+  renderNext();
+  if(grid[faller.col].length >= ROWS){ faller=null; gameOver(); return; }
+  // 重なり回避：spawn列が高い場合は即ロック判定へ
+  renderFaller();
+}
+function canFall(){ return faller && (faller.y > grid[faller.col].length); }
+function lockPiece(){
+  var col = faller.col;
+  if(grid[col].length >= ROWS){ faller=null; gameOver(); return; }
+  grid[col].push(faller.piece);
+  faller = null;
+  resolving = true; comboLevel = 0;
+  renderStack();
+  resolveStep(function(){
+    resolving = false;
+    speedUp();
+    spawn();
+    renderStack();
+  });
+}
+function step(){
+  if(!running || resolving || !faller) return;
+  if(canFall()){ faller.y--; renderFaller(); }
+  else { lockPiece(); }
+}
+function move(dir){
+  if(!running || !faller) return;
+  var nc = faller.col + dir;
+  if(nc<0 || nc>=COLS) return;
+  if(grid[nc].length > faller.y) return;   // 高い積みには入れない
+  faller.col = nc; renderFaller();
+}
+function softDrop(){
+  if(!running || !faller) return;
+  if(canFall()){ faller.y--; renderFaller(); }
+  else { lockPiece(); }
+}
+function hardDrop(){
+  if(!running || !faller) return;
+  faller.y = grid[faller.col].length;
+  renderFaller();
+  lockPiece();
+}
+function speedUp(){
+  var ms = Math.max(180, 700 - (level-1)*45);
+  if(ms !== dropMs){ dropMs = ms; if(timer){ clearInterval(timer); timer=setInterval(step, dropMs); } }
+}
+
+function startGame(){
+  ACTIVE = activeRows();
+  grid = []; for(var c=0;c<COLS;c++) grid.push([]);
+  // 各列の一番下に「お段の巣」を固定配置。どの行かはランダム（全行が必ず出るよう割り当て）
+  var order=[]; for(var i=0;i<ACTIVE.length;i++) order.push(i); shuffle(order);
+  for(var cc=0;cc<COLS;cc++) grid[cc].push(makeBase(order[cc%ACTIVE.length]));
+  score=0; level=1; dropMs=700; stats={eggs:0,maxCombo:0,biggest:0};
+  $('hScore').textContent='0'; $('hCombo').textContent='0'; $('hEggs').textContent='0';
+  show('play');
+  sizeBoard(); renderLegStrip();
+  nextPiece = makePiece();
+  running = true;
+  spawn(); renderStack();
+  if(timer) clearInterval(timer);
+  timer = setInterval(step, dropMs);
+}
+function gameOver(){
+  running=false; if(timer){ clearInterval(timer); timer=null; }
+  $('rScore').textContent = score;
+  $('rEggs').textContent = stats.eggs;
+  $('rCombo').textContent = stats.maxCombo;
+  $('rBig').textContent = stats.biggest;
+  var emoji='🥚', rank='RESULT';
+  if(score>=2000){ emoji='🐣'; rank='たまご名人 ・ EGG MASTER'; }
+  else if(score>=900){ emoji='🍳'; rank='いい調子 ・ NICE'; }
+  else if(score>=300){ emoji='🥚'; rank='その調子 ・ KEEP GOING'; }
+  else { emoji='🐤'; rank='これから ・ WARM-UP'; }
+  $('rEmoji').textContent=emoji; $('rRank').textContent=rank;
+  show('result');
+}
+
+/* ===================== 画面・入力 ===================== */
+function show(name){
+  ['start','play','result'].forEach(function(s){ $('screen-'+s).classList.toggle('on', s===name); });
+}
+function renderLegend(){
+  ACTIVE = activeRows();
+  var html = ACTIVE.map(function(rd){
+    var cells = rd.k.map(function(k,idx){
+      var cls = idx===4?'leg-cell s':(idx===0?'leg-cell e':'leg-cell');
+      var stl = (idx===0||idx===4) ? 'background:'+rd.s+';color:'+rd.d+';border-color:'+rd.c : '';
+      return '<span class="'+cls+'" style="'+stl+'">'+k+'</span>';
+    }).join('');
+    return '<div class="leg-row">'+cells+'<span class="leg-mark">お＝巣 と あ＝ふた を同じ行でそろえる</span></div>';
+  }).join('');
+  $('legend').innerHTML = html;
+}
+
+function bindSeg(id, key, after){
+  $(id).querySelectorAll('button').forEach(function(b){
+    b.onclick=function(){
+      $(id).querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on');
+      cfg[key] = b.dataset[key==='kana'?'kana':'rows'];
+      if(key==='nrows') cfg.nrows = parseInt(b.dataset.rows,10);
+      if(after) after();
+    };
+  });
+}
+bindSeg('seg-kana','kana', renderLegend);
+$('seg-diff').querySelectorAll('button').forEach(function(b){
+  b.onclick=function(){
+    $('seg-diff').querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cfg.nrows = parseInt(b.dataset.rows,10); renderLegend();
+  };
+});
+$('startBtn').onclick = startGame;
+$('menuBtn').onclick = function(){ show('start'); };
+$('retryBtn').onclick = startGame;
+$('bLeft').onclick = function(){ move(-1); };
+$('bRight').onclick = function(){ move(1); };
+$('bDown').onclick = softDrop;
+$('bDrop').onclick = hardDrop;
+document.addEventListener('keydown', function(e){
+  if(!running) return;
+  if(e.key==='ArrowLeft'){ e.preventDefault(); move(-1); }
+  else if(e.key==='ArrowRight'){ e.preventDefault(); move(1); }
+  else if(e.key==='ArrowDown'){ e.preventDefault(); softDrop(); }
+  else if(e.key===' '){ e.preventDefault(); hardDrop(); }
+});
+window.addEventListener('resize', function(){ if(running){ sizeBoard(); renderStack(); renderFaller(); } });
+
+/* 初期化 */
+renderLegend();
+
+/* ===== EN表示トグル ===== */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent="body.hide-en .en-sub,body.hide-en .title small,body.hide-en .seg button .s{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3B6D11;margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';
+    b.title=h?'英語の補助：OFF':'英語の補助：ON'; }
+  b.addEventListener('click',function(){ var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY,h?'1':'0'); }catch(e){} paint(); });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

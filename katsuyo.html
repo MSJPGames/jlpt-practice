@@ -545,10 +545,13 @@ function kuru(){
   };
 }
 function conjugateVerb(v){
-  if(v.dict==='来る')return kuru();
-  if(v.group===3)return suru(v);
-  if(v.group===2)return ichidan(v);
-  return godan(v);
+  let c;
+  if(v.dict==='来る') c=kuru();
+  else if(v.group===3) c=suru(v);
+  else if(v.group===2) c=ichidan(v);
+  else c=godan(v);
+  c.prohibitive={k:c.dict.k+'な', r:c.dict.r+'な'};
+  return c;
 }
 function iadj(a){
   let base,kb;
@@ -696,6 +699,7 @@ const VERB_FORMS=[
     {key:'volition',jp:'意向形',en:'Volitional ("let\'s / shall")'},
     {key:'ba',jp:'条件形',en:'Conditional ("if")'},
     {key:'imperative',jp:'命令形',en:'Imperative (command)'},
+    {key:'prohibitive',jp:'禁止形',en:'Prohibitive ("don\'t ~")'},
     {key:'passive',jp:'受身動詞',en:'Passive verb'},
     {key:'causative',jp:'使役動詞',en:'Causative verb ("make / let do")'},
   ]},

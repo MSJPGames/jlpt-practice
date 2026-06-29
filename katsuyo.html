@@ -315,6 +315,27 @@
   .kg-pat-row .eg { color: var(--text); }
   .kg-pat-row b { color: var(--text); }
 
+  /* 活用を使う文型 */
+  .pat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .pat-group { border-top: 1px solid #F1EEE9; }
+  .pat-group:first-child { border-top: none; }
+  .pat-head { width: 100%; display: flex; align-items: center; gap: 9px; padding: 12px 15px; background: none; border: none; cursor: pointer; font-family: inherit; text-align: left; -webkit-tap-highlight-color: transparent; }
+  .pat-head:focus-visible { outline: 2px solid var(--g1); outline-offset: -2px; }
+  .pat-form { font-size: 14px; font-weight: 700; color: var(--text); }
+  .pat-count { font-size: 10px; font-weight: 700; color: var(--text-hint); background: #F0EEE8; border-radius: 10px; padding: 1px 7px; }
+  .pat-chev { margin-left: auto; font-size: 18px; color: var(--text-hint); transition: transform 0.15s; }
+  .pat-head.open .pat-chev { transform: rotate(90deg); }
+  .pat-body { display: none; padding: 2px 15px 8px; }
+  .pat-body.open { display: block; }
+  .pat-row { padding: 9px 0; border-top: 1px solid #F4F1EC; }
+  .pat-row:first-child { border-top: none; }
+  .pat-p { font-size: 13px; font-weight: 700; color: var(--text); }
+  .pat-mean { font-size: 10px; font-weight: 700; color: var(--text-hint); margin-left: 7px; background: #F7F5F0; padding: 1px 7px; border-radius: 10px; }
+  .pat-ex { font-size: 15px; font-weight: 600; margin-top: 4px; word-break: break-word; }
+  .pat-ex-r { font-size: 11px; color: var(--text-muted); margin-left: 8px; font-weight: 400; }
+  .pat-ex-roma { font-size: 10.5px; color: var(--text-hint); font-style: italic; margin-left: 8px; display: none; }
+  body.show-roma .pat-ex-roma { display: inline; }
+
   .app-footer {
     text-align: center; font-size: 11px; color: var(--text-hint);
     margin-top: 2.5rem; line-height: 1.8;
@@ -374,6 +395,12 @@
     <div class="section-label">丁寧形 ⇔ 普通形 ・ Plain ↔ Polite</div>
     <div id="verbCorr"></div>
 
+    <div class="section-label">活用を使う文型 ・ Sentence patterns</div>
+    <div class="note" style="margin-bottom:0.6rem;">
+      各活用形を使う代表的な文型です（『みんなの日本語』ほか）。形の名前をタップすると、選んだ語を当てはめた例が開きます。
+    </div>
+    <div id="verbPatterns"></div>
+
     <div class="section-label">て形・た形の作り方（音便）</div>
     <div class="note" style="margin-bottom:0.6rem;">
       <b>1グループ動詞</b>のて形・た形は、語尾によって形が変わります。下の表で確認しましょう。
@@ -394,6 +421,8 @@
     <div class="note" style="margin-top:0.8rem;">
       否定の丁寧形は <b>〜くありません</b>（非過去）／<b>〜くありませんでした</b>（過去）とも言えます。意味は同じです。
     </div>
+    <div class="section-label">活用を使う文型 ・ Sentence patterns</div>
+    <div id="iadjPatterns"></div>
   </div>
 
   <!-- ===================== な形容詞 ===================== -->
@@ -409,6 +438,8 @@
     <div class="note" style="margin-top:0.8rem;">
       <b>否定の2つの形：</b> <b>〜ではない</b>（書き言葉・ていねい）と <b>〜じゃない</b>（話し言葉）。意味は同じです。
     </div>
+    <div class="section-label">活用を使う文型 ・ Sentence patterns</div>
+    <div id="naadjPatterns"></div>
   </div>
 
   <!-- ===================== 敬語 ===================== -->
@@ -777,6 +808,66 @@ function renderCorr(id,rows,tc){
   document.getElementById(id).innerHTML=html;
 }
 
+/* --- 活用を使う文型 --- */
+function vpat(c){
+  const ms={k:c.masu.k.replace(/ます$/,''),r:c.masu.r.replace(/ます$/,'')};
+  const ns={k:c.nai.k.replace(/ない$/,''),r:c.nai.r.replace(/ない$/,'')};
+  const A=(b,s)=>({k:b.k+s,r:b.r+s});
+  const causeTe={k:c.causative.k.slice(0,-1)+'てください',r:c.causative.r.slice(0,-1)+'てください'};
+  return [
+    {form:'辞書形',items:[['〜ことができる','可能',A(c.dict,'ことができます')],['〜まえに','前',A(c.dict,'まえに')],['〜とき','〜とき',A(c.dict,'とき')],['〜つもりです','意図',A(c.dict,'つもりです')]]},
+    {form:'ます形',items:[['〜たいです','願望',A(ms,'たいです')],['〜ながら','同時',A(ms,'ながら')],['〜ましょう','勧誘',A(ms,'ましょう')],['〜やすいです','難易',A(ms,'やすいです')]]},
+    {form:'て形',items:[['〜てください','依頼',A(c.te,'ください')],['〜てもいいです','許可',A(c.te,'もいいです')],['〜てはいけません','禁止',A(c.te,'はいけません')],['〜ています','進行・状態',A(c.te,'います')],['〜てから','後',A(c.te,'から')]]},
+    {form:'ない形',items:[['〜ないでください','禁止依頼',A(c.nai,'でください')],['〜なければなりません','義務',A(ns,'なければなりません')],['〜なくてもいいです','不要',A(ns,'なくてもいいです')],['〜ないほうがいいです','助言',A(c.nai,'ほうがいいです')]]},
+    {form:'た形',items:[['〜たことがあります','経験',A(c.ta,'ことがあります')],['〜たほうがいいです','助言',A(c.ta,'ほうがいいです')],['〜たり〜たりします','列挙',A(c.ta,'り…します')],['〜たあとで','後',A(c.ta,'あとで')]]},
+    {form:'意向形',items:[['〜（よ）うと思います','意志',A(c.volition,'と思います')],['〜（よ）うとします','試み',A(c.volition,'とします')]]},
+    {form:'条件形',items:[['〜ば、…','条件',A(c.ba,'、…')],['〜ばよかった','後悔',A(c.ba,'よかった')]]},
+    {form:'可能動詞',items:[['〜ようになります','変化',A(c.potential,'ようになります')]]},
+    {form:'使役動詞',items:[['〜（さ）せてください','許可願い',causeTe]]},
+    {form:'命令形・禁止形',items:[['〜ろ（命令）','強い命令',A(c.imperative,'')],['〜な（禁止）','強い禁止',A(c.prohibitive,'')]]},
+  ];
+}
+function iapat(c){
+  const A=(b,s)=>({k:b.k+s,r:b.r+s});
+  return [
+    {form:'て形',items:[['〜くて、…','並列・理由',A(c.te,'、…')]]},
+    {form:'副詞形',items:[['〜くなります','変化',A(c.adv,'なります')],['〜くする','変化(他動)',A(c.adv,'する')]]},
+    {form:'条件形',items:[['〜ければ、…','条件',A(c.ba,'、…')]]},
+  ];
+}
+function napat(c){
+  const A=(b,s)=>({k:b.k+s,r:b.r+s});
+  return [
+    {form:'て形',items:[['〜で、…','並列・理由',A(c.te,'、…')]]},
+    {form:'副詞形',items:[['〜になります','変化',A(c.adv,'なります')],['〜にする','変化(他動)',A(c.adv,'する')]]},
+    {form:'名詞修飾',items:[['〜な＋名詞','修飾',A(c.noun,'…')]]},
+    {form:'条件形',items:[['〜なら、…','条件・主題',A(c.ba,'、…')]]},
+  ];
+}
+function renderPatterns(id, groups){
+  const cont=document.getElementById(id); if(!cont) return;
+  let html='<div class="pat-card">';
+  groups.forEach(g=>{
+    html+=`<div class="pat-group">
+      <button class="pat-head" aria-expanded="false">
+        <span class="pat-form">${g.form}</span>
+        <span class="pat-count">${g.items.length}</span>
+        <span class="pat-chev">›</span>
+      </button>
+      <div class="pat-body">${g.items.map(it=>`<div class="pat-row">
+        <div class="pat-p">${it[0]}<span class="pat-mean">${it[1]}</span></div>
+        <div class="pat-ex">${it[2].k}<span class="pat-ex-r">${it[2].r}</span><span class="pat-ex-roma">${kanaToRomaji(it[2].r)}</span></div>
+      </div>`).join('')}</div>
+    </div>`;
+  });
+  html+='</div>';
+  cont.innerHTML=html;
+  cont.querySelectorAll('.pat-head').forEach(h=>{
+    h.onclick=()=>{ const b=h.nextElementSibling; const open=!h.classList.contains('open');
+      h.classList.toggle('open',open); b.classList.toggle('open',open); h.setAttribute('aria-expanded',open?'true':'false'); };
+  });
+}
+
 /* --- 動詞 --- */
 function renderVerbPicker(){
   const groups=[{g:1,label:'1グループ ・ u-verbs',dot:'var(--g1)'},{g:2,label:'2グループ ・ ru-verbs',dot:'var(--g2)'},{g:3,label:'3グループ ・ irregular',dot:'var(--g3)'}];
@@ -811,6 +902,7 @@ function selectVerb(i){
   });
   $('verbConj').innerHTML=html;
   renderCorr('verbCorr', corrVerb(c), tc);
+  renderPatterns('verbPatterns', vpat(c));
 }
 function renderOnbin(){
   $('onbinTable').innerHTML=ONBIN.map(o=>`
@@ -845,6 +937,7 @@ function selectAdj(list,i,conjFn,forms,pickerId,cardId,tc){
   $(cardId).innerHTML=html;
   const corrId=cardId.replace('Conj','Corr');
   renderCorr(corrId, tc==='ia'?corrIadj(c):corrNaadj(a), tc);
+  renderPatterns(tc==='ia'?'iadjPatterns':'naadjPatterns', tc==='ia'?iapat(c):napat(c));
 }
 
 /* --- 敬語 --- */

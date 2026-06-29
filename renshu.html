@@ -153,6 +153,16 @@
 
   .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
 
+  /* 音声入力 */
+  .ans-btns { display: flex; gap: 10px; margin-top: 12px; }
+  .ans-btns .btn { margin-top: 0; width: auto; flex: 1; }
+  .btn-mic { flex: 0 0 auto; background: #FAF8F4; color: var(--text); border: 1px solid var(--border); }
+  .btn-mic:hover { filter: none; background: #F2EFE9; }
+  .btn-mic.listening { background: var(--ng-bg); border-color: var(--ng); color: var(--ng); animation: micpulse 1.1s ease-in-out infinite; }
+  @keyframes micpulse { 0%,100% { box-shadow: 0 0 0 0 rgba(153,60,29,0); } 50% { box-shadow: 0 0 0 4px var(--ng-bg); } }
+  .mic-status { font-size: 11.5px; color: var(--text-muted); margin-top: 8px; text-align: center; min-height: 14px; line-height: 1.5; }
+  @media (prefers-reduced-motion: reduce) { .btn-mic.listening { animation: none; } }
+
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
@@ -359,7 +369,22 @@ function newProblem(){
   current={cat:s.cat,key:s.key,word,ans:makeAnswer(s.cat,s.key,word)};
   renderQuiz();
 }
-const norm=s=>(s||'').replace(/\s/g,'').replace(/　/g,'');
+const norm=s=>(s||'').replace(/[\s　。、，．・！？!?,.「」『』〜～]/g,'');
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const VOICE_OK = !!SR;
+let activeRec = null;
+// 認識結果の漢字を、この練習の語彙からひらがな読みへ直すための対応表
+const KANA_MAP={};
+(function buildKanaMap(){
+  const add=c=>{ if(!c) return; Object.keys(c).forEach(k=>{ const o=c[k];
+    if(o&&typeof o==='object'&&'k'in o&&o.r){ KANA_MAP[norm(o.k)]=o.r; if(o.alt) KANA_MAP[norm(o.alt)]=o.r; } }); };
+  try{
+    VERBS.forEach(w=>add(conjugateVerb(w)));
+    IADJ.forEach(w=>add(iadj(w)));
+    NAADJ.forEach(w=>add(naadj(w)));
+  }catch(e){}
+})();
+function toKanaDisplay(t){ const k=norm(t); return KANA_MAP[k]||t; }
 function labelFor(cat,key){
   const L = cat==='v'?VFORMS : cat==='i'?IFORMS : NFORMS;
   const f=L.find(x=>x[0]===key); return f?f[1]:key;
@@ -391,11 +416,14 @@ function renderAnswerArea(){
   const a=$('answerArea'); if(!a) return;
   if(mode==='input'){
     if(!answered){
+      const micHtml = VOICE_OK ? `<button class="btn btn-mic" id="micBtn" type="button" aria-label="音声で入力">🎤 はなす</button>` : '';
       a.innerHTML=`<input class="ans-input" id="ansInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="答えを入力">
-        <button class="btn btn-primary" id="checkBtn">確認</button>`;
+        <div class="ans-btns">${micHtml}<button class="btn btn-primary" id="checkBtn">確認</button></div>
+        ${VOICE_OK ? '<div class="mic-status" id="micStatus"></div>' : ''}`;
       const inp=$('ansInput'); inp.focus();
       inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); doCheck(); }});
       $('checkBtn').onclick=doCheck;
+      if(VOICE_OK){ const m=$('micBtn'); if(m) m.onclick=startVoice; }
     } else { /* feedback rendered by doCheck */ }
   } else {
     if(!answered){
@@ -412,8 +440,31 @@ function answerBlock(){
 function nextButton(){ return `<button class="btn btn-ghost" id="nextBtn">次へ ›</button>`; }
 function wireNext(){ const n=$('nextBtn'); if(n){ n.onclick=newProblem; n.focus(); } }
 
+function startVoice(){
+  if(!VOICE_OK) return;
+  const inp=$('ansInput'), mic=$('micBtn'), st=$('micStatus');
+  if(!inp||!mic) return;
+  if(activeRec){ try{ activeRec.stop(); }catch(e){} return; }  // 押している間に再度押す → 停止
+  let rec; try{ rec=new SR(); }catch(e){ return; }
+  rec.lang='ja-JP'; rec.interimResults=false; rec.maxAlternatives=1;
+  let got=false;
+  const reset=()=>{ mic.classList.remove('listening'); mic.textContent='🎤 はなす'; };
+  rec.onresult=(e)=>{ got=true; const raw=(e.results[0][0].transcript||'').trim(); const t=toKanaDisplay(raw); inp.value=t;
+    if(st) st.textContent = (t!==raw)
+      ? '「'+t+'」と聞きました（'+raw+'→ひらがな）。直したら「確認」を。'
+      : '「'+t+'」と聞きました。直したら「確認」を押してください。'; };
+  rec.onerror=(e)=>{ const map={'not-allowed':'マイクの使用が許可されていません。設定をご確認ください。',
+    'service-not-allowed':'マイクの使用が許可されていません。','no-speech':'声が聞き取れませんでした。もう一度どうぞ。',
+    'audio-capture':'マイクが見つかりません。','network':'ネットワークエラーです。','aborted':''};
+    if(st) st.textContent = (e.error in map)?map[e.error]:('認識に失敗しました（'+e.error+'）。'); };
+  rec.onend=()=>{ activeRec=null; reset(); if(got) inp.focus(); };
+  activeRec=rec;
+  mic.classList.add('listening'); mic.textContent='● きいています…'; if(st) st.textContent='いま、答えを話してください。';
+  try{ rec.start(); }catch(e){ activeRec=null; reset(); if(st) st.textContent='音声入力を開始できませんでした。'; }
+}
 function doCheck(){
   if(answered||!current) return;
+  if(activeRec){ try{ activeRec.stop(); }catch(e){} }
   const inp=$('ansInput'); const val=inp.value;
   const correct = current.ans.accept.map(norm).includes(norm(val));
   answered=true;

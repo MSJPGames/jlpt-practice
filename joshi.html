@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>助詞・助動詞 ・ Particles — 日本語の部屋</title>
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E2DDD6;
+    --text: #1C1C1C;
+    --text-muted: #6B6560;
+    --text-hint: #9E9890;
+    --radius: 14px;
+    --radius-sm: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 1rem 3rem;
+  }
+  .container { max-width: 500px; margin: 0 auto; }
+
+  /* トップバー */
+  .topbar { display: flex; align-items: center; padding: 14px 0 2px; }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 13px; font-weight: 700; color: var(--text-muted);
+    text-decoration: none; padding: 6px 13px 6px 9px;
+    border: 1px solid var(--border); border-radius: 999px;
+    background: var(--surface); -webkit-tap-highlight-color: transparent;
+    transition: transform 0.12s;
+  }
+  .back-link:active { transform: scale(0.97); }
+  .back-arrow { font-size: 16px; line-height: 1; }
+
+  /* ヘッダー */
+  .page-header { text-align: center; padding: 1.3rem 0 0.3rem; }
+  .ph-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: #854F0B; margin-bottom: 8px; }
+  .ph-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
+  .ph-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+
+  /* 説明ノート */
+  .note {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px 15px;
+    font-size: 12.5px; color: var(--text-muted); line-height: 1.75;
+    margin-top: 1.1rem;
+  }
+  .note b { color: var(--text); font-weight: 700; }
+  .note .en { display: block; color: var(--text-hint); margin-top: 4px; }
+
+  /* ジャンプナビ（横スクロール・sticky） */
+  .jnav {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; gap: 7px; overflow-x: auto;
+    margin: 0.8rem -1rem 0; padding: 10px 1rem;
+    background: linear-gradient(var(--bg) 78%, rgba(247,245,240,0));
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .jnav::-webkit-scrollbar { display: none; }
+  .jnav a {
+    flex: 0 0 auto; font-size: 12px; font-weight: 700;
+    text-decoration: none; color: var(--text-muted);
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 999px; padding: 6px 13px;
+    -webkit-tap-highlight-color: transparent; transition: transform 0.12s;
+  }
+  .jnav a:active { transform: scale(0.96); }
+
+  /* グループ */
+  .jgroup { scroll-margin-top: 54px; }
+  .group-head { display: flex; align-items: center; gap: 10px; margin: 1.9rem 0 0.35rem; }
+  .gh-bar { width: 4px; height: 22px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .gh-title { font-size: 17px; font-weight: 700; letter-spacing: 0.01em; }
+  .gh-en { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-hint); text-transform: uppercase; }
+  .gh-note { font-size: 12px; color: var(--text-muted); margin: 0 0 0.9rem 14px; line-height: 1.65; }
+  .gh-note .en { display: block; color: var(--text-hint); margin-top: 2px; }
+
+  /* グループ別アクセント */
+  .g-kaku     { --accent: #1F6F6B; --accent-bg: #DFF0EE; }
+  .g-heiritsu { --accent: #185FA5; --accent-bg: #E6F1FB; }
+  .g-fuku     { --accent: #854F0B; --accent-bg: #FAEEDA; }
+  .g-setsu    { --accent: #3B6D11; --accent-bg: #EAF3DE; }
+  .g-shu      { --accent: #3C3489; --accent-bg: #EEEDFE; }
+  .g-jodo     { --accent: #9A3D1C; --accent-bg: #FAECE7; }
+
+  /* 助詞カード */
+  .jlist { display: flex; flex-direction: column; gap: 10px; }
+  .jcard {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px; display: flex; gap: 13px;
+  }
+  .jchip {
+    min-width: 48px; height: 48px; padding: 0 9px;
+    border-radius: 12px; background: var(--accent-bg); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; flex-shrink: 0;
+    letter-spacing: 0.01em; white-space: nowrap;
+  }
+  .g-jodo .jchip { font-size: 15px; }
+  .jbody { flex: 1; min-width: 0; }
+  .jhead { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .jread { font-size: 15px; font-weight: 700; color: var(--text); }
+  .jtag {
+    font-size: 10.5px; font-weight: 700; color: var(--accent);
+    background: var(--accent-bg); padding: 2px 8px; border-radius: 20px;
+    line-height: 1.5;
+  }
+  .jdesc { font-size: 12.5px; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+  .jdesc .en { display: block; color: var(--text-hint); margin-top: 2px; }
+  .jex { list-style: none; margin-top: 9px; display: flex; flex-direction: column; gap: 7px; }
+  .jex li { font-size: 13.5px; line-height: 1.55; padding-left: 13px; position: relative; }
+  .jex li::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 4px; height: 4px; border-radius: 50%; background: var(--accent);
+  }
+  .jex .jp { color: var(--text); }
+  .jex b { color: var(--accent); font-weight: 700; }
+  .jex .en { display: block; font-size: 11.5px; color: var(--text-hint); margin-top: 1px; line-height: 1.5; }
+
+  /* フッター */
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.4rem; line-height: 1.8; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="index.html" class="back-link"><span class="back-arrow">‹</span>もどる<span class="en" style="color:inherit;margin-left:3px;">/ Home</span></a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">BUNPOU ・ JOSHI</div>
+    <div class="ph-title">助詞・助動詞</div>
+    <div class="ph-sub">種類別に見る、意味・用法・用例<br><span class="en">Particles &amp; auxiliaries — by type, with usage and examples</span></div>
+  </div>
+
+  <div class="note">
+    <b>助詞</b>は、語と語の関係を示したり、意味を付け加えたりする語です。ここでは学校文法をもとに <b>格助詞・並立助詞・副助詞・接続助詞・終助詞</b> の5種類に分け、活用する付属語である <b>助動詞</b> も加えました。
+    <span class="en">Particles show relationships between words or add nuance. They are grouped here into five types (case, parallel, adverbial, conjunctive, sentence-final), plus auxiliary verbs. Tap “EN” (top-right) to hide English.</span>
+  </div>
+
+  <nav class="jnav">
+    <a href="#kaku">格助詞</a>
+    <a href="#heiritsu">並立助詞</a>
+    <a href="#fuku">副助詞</a>
+    <a href="#setsu">接続助詞</a>
+    <a href="#shu">終助詞</a>
+    <a href="#jodo">助動詞</a>
+  </nav>
+
+  <!-- ============ 格助詞 ============ -->
+  <section id="kaku" class="jgroup g-kaku">
+    <div class="group-head"><div class="gh-bar"></div><span class="gh-title">格助詞</span><span class="gh-en">Case</span></div>
+    <div class="gh-note">主に体言（名詞）について、文の中での関係（主語・目的・場所など）を示す。<span class="en">Attach to nouns to mark grammatical roles: subject, object, place, direction, and so on.</span></div>
+    <div class="jlist">
+
+      <div class="jcard">
+        <div class="jchip">が</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">が</span><span class="jtag">主語・対象</span></div>
+          <div class="jdesc">主語を示す。「好き・ほしい・できる」など、感情・願望・能力の対象も示す。<span class="en">Marks the subject; also the object of liking, wanting, or ability.</span></div>
+          <ul class="jex">
+            <li><span class="jp">雨<b>が</b>降る。</span><span class="en">It's raining.</span></li>
+            <li><span class="jp">私は犬<b>が</b>好きです。</span><span class="en">I like dogs.</span></li>
+            <li><span class="jp">英語<b>が</b>話せる。</span><span class="en">I can speak English.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">を</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">を</span><span class="jtag">目的・経路・起点</span></div>
+          <div class="jdesc">動作の直接の対象を示す。移動を表す動詞では、通る場所や離れる場所も示す。<span class="en">Marks the direct object; with motion verbs, the path or point of departure.</span></div>
+          <ul class="jex">
+            <li><span class="jp">パン<b>を</b>食べる。</span><span class="en">I eat bread.</span></li>
+            <li><span class="jp">公園<b>を</b>散歩する。</span><span class="en">I walk through the park.</span></li>
+            <li><span class="jp">家<b>を</b>出る。</span><span class="en">I leave the house.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">に</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">に</span><span class="jtag">場所・時・相手・帰着点</span></div>
+          <div class="jdesc">存在の場所、時刻、方向・帰着点、動作の相手、目的、受身・使役の相手など、幅広く使う。<span class="en">Location of existence, time, direction/goal, the recipient of an action, purpose, and the agent in passive/causative.</span></div>
+          <ul class="jex">
+            <li><span class="jp">教室<b>に</b>いる。</span><span class="en">I'm in the classroom.</span></li>
+            <li><span class="jp">七時<b>に</b>起きる。</span><span class="en">I get up at seven.</span></li>
+            <li><span class="jp">友達<b>に</b>会う。</span><span class="en">I meet a friend.</span></li>
+            <li><span class="jp">買い物<b>に</b>行く。</span><span class="en">I go shopping.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">へ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">へ</span><span class="jtag">方向</span></div>
+          <div class="jdesc">動作の向かう方向を示す。「に」より方向性を強調する。読みは「え」。<span class="en">Marks direction (toward); emphasizes movement more than に. Read as “e”.</span></div>
+          <ul class="jex">
+            <li><span class="jp">東京<b>へ</b>行く。</span><span class="en">I head to Tokyo.</span></li>
+            <li><span class="jp">母<b>へ</b>の手紙。</span><span class="en">A letter to my mother.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">と</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">と</span><span class="jtag">相手・引用・条件</span></div>
+          <div class="jdesc">共同の相手、発言・思考の引用、当然そうなる条件（〜と）などを示す。<span class="en">Marks a companion, a quotation, or an automatic condition (“when / whenever”).</span></div>
+          <ul class="jex">
+            <li><span class="jp">友達<b>と</b>遊ぶ。</span><span class="en">I play with my friend.</span></li>
+            <li><span class="jp">「行く」<b>と</b>言った。</span><span class="en">He said, “I'll go.”</span></li>
+            <li><span class="jp">春になる<b>と</b>暖かくなる。</span><span class="en">When spring comes, it gets warm.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">で</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">で</span><span class="jtag">場所・手段・原因</span></div>
+          <div class="jdesc">動作が行われる場所、手段・道具、原因・理由、材料、範囲・期限などを示す。<span class="en">Marks where an action occurs, the means/tool, the cause, the material, or a limit.</span></div>
+          <ul class="jex">
+            <li><span class="jp">図書館<b>で</b>勉強する。</span><span class="en">I study at the library.</span></li>
+            <li><span class="jp">バス<b>で</b>行く。</span><span class="en">I go by bus.</span></li>
+            <li><span class="jp">病気<b>で</b>休む。</span><span class="en">I'm absent because of illness.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">から</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">から</span><span class="jtag">起点・出所・原料</span></div>
+          <div class="jdesc">時間・場所の起点、原料、受身の動作主を示す。（理由の「から」は接続助詞）<span class="en">Marks a starting point in time or space, a raw material, or the agent in passive. (“Because” から is a conjunctive particle.)</span></div>
+          <ul class="jex">
+            <li><span class="jp">九時<b>から</b>始まる。</span><span class="en">It starts at nine.</span></li>
+            <li><span class="jp">駅<b>から</b>歩く。</span><span class="en">I walk from the station.</span></li>
+            <li><span class="jp">米<b>から</b>酒を造る。</span><span class="en">Sake is made from rice.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">より</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">より</span><span class="jtag">比較・起点</span></div>
+          <div class="jdesc">比較の基準（〜より…）を示す。起点を表す文語的な言い方もある。<span class="en">Marks the standard of comparison (“than”); also a formal “from”.</span></div>
+          <ul class="jex">
+            <li><span class="jp">兄は私<b>より</b>背が高い。</span><span class="en">My brother is taller than me.</span></li>
+            <li><span class="jp">三時<b>より</b>開始いたします。</span><span class="en">We will begin from three o'clock. (formal)</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">まで</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">まで</span><span class="jtag">到達点・範囲</span></div>
+          <div class="jdesc">時間・場所・程度の到達点や限界を示す。（「〜からまで」で範囲）<span class="en">Marks the end point or limit in time, space, or degree.</span></div>
+          <ul class="jex">
+            <li><span class="jp">駅<b>まで</b>歩く。</span><span class="en">I walk up to the station.</span></li>
+            <li><span class="jp">五時<b>まで</b>待つ。</span><span class="en">I wait until five.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">の</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">の</span><span class="jtag">連体・所有・準体</span></div>
+          <div class="jdesc">名詞をつないで所有・所属・性質を示す。従属節内では「が」の代わりに、また「〜のもの／こと」の意でも使う。<span class="en">Links nouns (possession/attribute); replaces が inside clauses; nominalizes (“the one that…”).</span></div>
+          <ul class="jex">
+            <li><span class="jp">私<b>の</b>本。</span><span class="en">My book.</span></li>
+            <li><span class="jp">日本語<b>の</b>先生。</span><span class="en">A teacher of Japanese.</span></li>
+            <li><span class="jp">赤い<b>の</b>がいい。</span><span class="en">The red one is good.</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 並立助詞 ============ -->
+  <section id="heiritsu" class="jgroup g-heiritsu">
+    <div class="group-head"><div class="gh-bar"></div><span class="gh-title">並立助詞</span><span class="gh-en">Parallel</span></div>
+    <div class="gh-note">複数の語を対等に並べて、列挙・選択を表す。<span class="en">Join words on equal footing to list or offer choices.</span></div>
+    <div class="jlist">
+
+      <div class="jcard">
+        <div class="jchip">と</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">と</span><span class="jtag">全部を列挙</span></div>
+          <div class="jdesc">挙げるものを全部並べる（完全列挙）。<span class="en">Lists items exhaustively (“and”).</span></div>
+          <ul class="jex"><li><span class="jp">パン<b>と</b>牛乳を買う。</span><span class="en">I buy bread and milk.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">や</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">や</span><span class="jtag">例示（〜など）</span></div>
+          <div class="jdesc">代表を挙げ、他にもあることを含める（不完全列挙）。<span class="en">Lists examples, implying “and others”.</span></div>
+          <ul class="jex"><li><span class="jp">本<b>や</b>ノートを買う。</span><span class="en">I buy books, notebooks, and so on.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">か</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">か</span><span class="jtag">選択</span></div>
+          <div class="jdesc">どれか一つを選ぶことを表す。<span class="en">Presents a choice (“or”).</span></div>
+          <ul class="jex"><li><span class="jp">コーヒー<b>か</b>紅茶を飲む。</span><span class="en">I drink coffee or tea.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">とか</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">とか</span><span class="jtag">くだけた例示</span></div>
+          <div class="jdesc">会話でよく使う、やわらかい例示。<span class="en">A casual “things like…”.</span></div>
+          <ul class="jex"><li><span class="jp">映画<b>とか</b>音楽<b>とか</b>が好き。</span><span class="en">I like things like movies and music.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">だの</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">だの</span><span class="jtag">列挙（雑多・不満）</span></div>
+          <div class="jdesc">あれこれ並べ、わずらわしさや不満の気持ちを含むことが多い。<span class="en">Lists items, often with a nuance of complaint.</span></div>
+          <ul class="jex"><li><span class="jp">高い<b>だの</b>重い<b>だの</b>と文句を言う。</span><span class="en">He complains it's expensive, heavy, and so on.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">なり</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">〜なり〜なり</span><span class="jtag">選択</span></div>
+          <div class="jdesc">「どちらでもよい」という選択を表す。<span class="en">Offers alternatives (“…or …, whichever”).</span></div>
+          <ul class="jex"><li><span class="jp">電話<b>なり</b>メール<b>なり</b>で連絡して。</span><span class="en">Contact me by phone or email, either way.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">やら</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">〜やら〜やら</span><span class="jtag">列挙（不確か）</span></div>
+          <div class="jdesc">いろいろあって落ち着かない様子を表す。<span class="en">Lists things amid confusion or fuss.</span></div>
+          <ul class="jex"><li><span class="jp">泣く<b>やら</b>笑う<b>やら</b>で大変だった。</span><span class="en">There was crying and laughing—what a fuss.</span></li></ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 副助詞 ============ -->
+  <section id="fuku" class="jgroup g-fuku">
+    <div class="group-head"><div class="gh-bar"></div><span class="gh-title">副助詞</span><span class="gh-en">Adverbial / Focus</span></div>
+    <div class="gh-note">いろいろな語について、限定・強調・程度などの意味を付け加える（とりたて助詞）。<span class="en">Attach to various words to add meaning: topic, limitation, emphasis, degree. Also called “focus” particles.</span></div>
+    <div class="jlist">
+
+      <div class="jcard">
+        <div class="jchip">は</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">は</span><span class="jtag">主題・対比</span></div>
+          <div class="jdesc">話題（主題）を示す。他と比べる「対比」も表す。読みは「わ」。<span class="en">Marks the topic (“as for…”); also contrast. Read as “wa”.</span></div>
+          <ul class="jex">
+            <li><span class="jp">私<b>は</b>学生です。</span><span class="en">As for me, I'm a student.</span></li>
+            <li><span class="jp">魚<b>は</b>食べるが、肉<b>は</b>食べない。</span><span class="en">I eat fish, but not meat.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">も</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">も</span><span class="jtag">同類・添加・強調</span></div>
+          <div class="jdesc">「〜も」で同じ類のものを付け加える。数量と使うと強調になる。<span class="en">Adds “also/too”; with amounts, emphasizes (“even”).</span></div>
+          <ul class="jex">
+            <li><span class="jp">私<b>も</b>行く。</span><span class="en">I'll go too.</span></li>
+            <li><span class="jp">一円<b>も</b>ない。</span><span class="en">I don't have even one yen.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">こそ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">こそ</span><span class="jtag">強調</span></div>
+          <div class="jdesc">「まさに、他でもなく」と強く取り立てる。<span class="en">Emphasizes: “precisely this / this very…”.</span></div>
+          <ul class="jex">
+            <li><span class="jp">今度<b>こそ</b>勝つ。</span><span class="en">This time for sure, I'll win.</span></li>
+            <li><span class="jp">こちら<b>こそ</b>。</span><span class="en">The pleasure is mine. / Likewise.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">さえ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">さえ</span><span class="jtag">極端な例・最低条件</span></div>
+          <div class="jdesc">極端な例を挙げる（〜さえ）。「〜さえ…ば」で「それだけあれば」の意。<span class="en">“Even…”; with …ば, “as long as / if only”.</span></div>
+          <ul class="jex">
+            <li><span class="jp">子ども<b>さえ</b>知っている。</span><span class="en">Even a child knows it.</span></li>
+            <li><span class="jp">お金<b>さえ</b>あればいい。</span><span class="en">As long as I have money, it's fine.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">でも</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">でも</span><span class="jtag">例示・極端</span></div>
+          <div class="jdesc">軽い例を挙げる（〜でも）。極端な例を挙げて「〜でさえ」の意にもなる。<span class="en">Suggests an example (“…or something”); also “even…”.</span></div>
+          <ul class="jex">
+            <li><span class="jp">お茶<b>でも</b>飲もう。</span><span class="en">Let's have some tea or something.</span></li>
+            <li><span class="jp">子ども<b>でも</b>できる。</span><span class="en">Even a child can do it.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">しか</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">しか</span><span class="jtag">限定（+否定）</span></div>
+          <div class="jdesc">必ず打消しを伴い、「それ以外はない」と限定する。<span class="en">Always with a negative: “only / nothing but”.</span></div>
+          <ul class="jex"><li><span class="jp">千円<b>しか</b>ない。</span><span class="en">I only have 1,000 yen.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">だけ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">だけ</span><span class="jtag">限定</span></div>
+          <div class="jdesc">範囲を「それだけ」に限る。<span class="en">Limits to “only / just”.</span></div>
+          <ul class="jex">
+            <li><span class="jp">一人<b>だけ</b>来た。</span><span class="en">Only one person came.</span></li>
+            <li><span class="jp">見る<b>だけ</b>です。</span><span class="en">I'm just looking.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">ばかり</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">ばかり</span><span class="jtag">限定・程度・完了直後</span></div>
+          <div class="jdesc">「〜だけ」の限定、おおよその程度、「〜たばかり」で動作の直後を表す。<span class="en">“Only/nothing but”, an approximate amount, or “just did” (right after an action).</span></div>
+          <ul class="jex">
+            <li><span class="jp">遊んで<b>ばかり</b>いる。</span><span class="en">He does nothing but play.</span></li>
+            <li><span class="jp">着いた<b>ばかり</b>だ。</span><span class="en">I've just arrived.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">ほど</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">ほど</span><span class="jtag">程度・比較</span></div>
+          <div class="jdesc">程度の目安を示す。「〜ほど…ない」で比較の基準にもなる。<span class="en">Indicates degree; with a negative, marks a comparison (“not as … as”).</span></div>
+          <ul class="jex">
+            <li><span class="jp">泣く<b>ほど</b>痛い。</span><span class="en">It hurts enough to make me cry.</span></li>
+            <li><span class="jp">前<b>ほど</b>寒くない。</span><span class="en">It's not as cold as before.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">くらい</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">くらい／ぐらい</span><span class="jtag">程度・おおよそ</span></div>
+          <div class="jdesc">だいたいの数量や程度を示す。<span class="en">Marks an approximate amount or degree (“about”).</span></div>
+          <ul class="jex">
+            <li><span class="jp">三十分<b>くらい</b>待った。</span><span class="en">I waited about thirty minutes.</span></li>
+            <li><span class="jp">これ<b>ぐらい</b>簡単だ。</span><span class="en">It's about this easy.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">など</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">など</span><span class="jtag">例示・軽視</span></div>
+          <div class="jdesc">例を挙げて「〜等」を示す。軽んじる気持ちを表すこともある。<span class="en">“Etc.”; can also express a dismissive tone.</span></div>
+          <ul class="jex">
+            <li><span class="jp">果物<b>など</b>を買う。</span><span class="en">I buy fruit and such.</span></li>
+            <li><span class="jp">冗談<b>など</b>言わない。</span><span class="en">I would never joke.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">なんて</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">なんて／なんか</span><span class="jtag">意外・軽視</span></div>
+          <div class="jdesc">意外な気持ちや、軽く見る気持ちを表す、くだけた言い方。<span class="en">Casual; expresses surprise or a belittling attitude.</span></div>
+          <ul class="jex"><li><span class="jp">勉強<b>なんて</b>したくない。</span><span class="en">I don't want to study or anything like it.</span></li></ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 接続助詞 ============ -->
+  <section id="setsu" class="jgroup g-setsu">
+    <div class="group-head"><div class="gh-bar"></div><span class="gh-title">接続助詞</span><span class="gh-en">Conjunctive</span></div>
+    <div class="gh-note">主に活用語（動詞・形容詞など）について、前後の文をつなぐ。理由・逆接・仮定などを表す。<span class="en">Attach to verbs/adjectives to link clauses: reason, contrast, condition, and so on.</span></div>
+    <div class="jlist">
+
+      <div class="jcard">
+        <div class="jchip">て</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">て／で</span><span class="jtag">継起・並列・原因</span></div>
+          <div class="jdesc">動作の順序、並列、原因・手段などをつなぐ。最も基本的な接続。<span class="en">Links actions in sequence, in parallel, or by cause/means.</span></div>
+          <ul class="jex">
+            <li><span class="jp">起き<b>て</b>、顔を洗う。</span><span class="en">I get up and wash my face.</span></li>
+            <li><span class="jp">安く<b>て</b>おいしい。</span><span class="en">Cheap and tasty.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">から</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">から</span><span class="jtag">理由（主観的）</span></div>
+          <div class="jdesc">話し手の判断による理由を示す。命令・依頼にも続けやすい。<span class="en">Gives a subjective reason (“because”).</span></div>
+          <ul class="jex"><li><span class="jp">寒い<b>から</b>、上着を着る。</span><span class="en">Because it's cold, I put on a jacket.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">ので</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">ので</span><span class="jtag">理由（客観的・丁寧）</span></div>
+          <div class="jdesc">自然な成り行きとしての理由。「から」よりやわらかく丁寧。<span class="en">Gives an objective, softer reason (“since/as”).</span></div>
+          <ul class="jex"><li><span class="jp">雨が降った<b>ので</b>、中止した。</span><span class="en">It was canceled because it rained.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">のに</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">のに</span><span class="jtag">逆接（意外・不満）</span></div>
+          <div class="jdesc">予想に反する結果を表し、不満や意外の気持ちを含む。<span class="en">Contrast with a nuance of dissatisfaction or surprise (“even though”).</span></div>
+          <ul class="jex"><li><span class="jp">頑張った<b>のに</b>、負けた。</span><span class="en">Even though I tried hard, I lost.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">けれど</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">けれど(も)／けど</span><span class="jtag">逆接・前置き</span></div>
+          <div class="jdesc">逆接のほか、話を切り出す前置きにも使う。<span class="en">Contrast (“but”); also a softening preface.</span></div>
+          <ul class="jex"><li><span class="jp">難しい<b>けど</b>、やってみる。</span><span class="en">It's hard, but I'll try.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">が</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">が</span><span class="jtag">逆接・前置き</span></div>
+          <div class="jdesc">「けれど」と同様。ややあらたまった言い方。<span class="en">Like けれど; slightly more formal (“but / and”).</span></div>
+          <ul class="jex"><li><span class="jp">すみません<b>が</b>、質問があります。</span><span class="en">Excuse me, but I have a question.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">し</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">し</span><span class="jtag">並列・理由の列挙</span></div>
+          <div class="jdesc">理由や事柄を並べて挙げる。「〜し、〜し」で複数を示す。<span class="en">Lists reasons or facts (“and… and…, so”).</span></div>
+          <ul class="jex"><li><span class="jp">安い<b>し</b>、おいしい<b>し</b>、また来たい。</span><span class="en">It's cheap and tasty, so I'd like to come again.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">ば</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">ば</span><span class="jtag">仮定条件</span></div>
+          <div class="jdesc">「もし〜なら」という仮定・条件を示す。<span class="en">Marks a hypothetical condition (“if”).</span></div>
+          <ul class="jex"><li><span class="jp">春になれ<b>ば</b>、花が咲く。</span><span class="en">When spring comes, flowers bloom.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">ても</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">ても／でも</span><span class="jtag">逆接の仮定</span></div>
+          <div class="jdesc">「たとえ〜しても」という逆接の仮定を示す。<span class="en">Concessive condition (“even if”).</span></div>
+          <ul class="jex"><li><span class="jp">雨が降っ<b>ても</b>、行く。</span><span class="en">Even if it rains, I'll go.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">たり</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">たり</span><span class="jtag">例示・列挙</span></div>
+          <div class="jdesc">動作を代表例として並べる。「〜たり〜たりする」の形。<span class="en">Lists representative actions (“doing things like…”).</span></div>
+          <ul class="jex"><li><span class="jp">泣い<b>たり</b>笑っ<b>たり</b>する。</span><span class="en">Laughing and crying and so on.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">ながら</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">ながら</span><span class="jtag">同時・逆接</span></div>
+          <div class="jdesc">二つの動作の同時進行（〜しながら）。逆接（〜のに）の意もある。<span class="en">Two actions at once (“while”); also concession (“although”).</span></div>
+          <ul class="jex">
+            <li><span class="jp">音楽を聞き<b>ながら</b>勉強する。</span><span class="en">I study while listening to music.</span></li>
+            <li><span class="jp">知ってい<b>ながら</b>黙っていた。</span><span class="en">He kept quiet even though he knew.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">つつ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">つつ</span><span class="jtag">同時・逆接（文語的）</span></div>
+          <div class="jdesc">「ながら」の文章的な言い方。同時進行や逆接を表す。<span class="en">A literary “while / although”.</span></div>
+          <ul class="jex"><li><span class="jp">悪いと知り<b>つつ</b>続けた。</span><span class="en">He continued while knowing it was wrong.</span></li></ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 終助詞 ============ -->
+  <section id="shu" class="jgroup g-shu">
+    <div class="group-head"><div class="gh-bar"></div><span class="gh-title">終助詞</span><span class="gh-en">Sentence-final</span></div>
+    <div class="gh-note">文の終わりについて、疑問・感動・念押し・禁止など、話し手の気持ちを添える。<span class="en">Come at the end of a sentence to add feeling: question, emphasis, confirmation, prohibition.</span></div>
+    <div class="jlist">
+
+      <div class="jcard">
+        <div class="jchip">か</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">か</span><span class="jtag">疑問</span></div>
+          <div class="jdesc">質問・疑問を表す。<span class="en">Marks a question.</span></div>
+          <ul class="jex"><li><span class="jp">行きます<b>か</b>。</span><span class="en">Will you go?</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">ね</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">ね／ねえ</span><span class="jtag">確認・同意</span></div>
+          <div class="jdesc">相手に確認したり、同意を求めたりする。<span class="en">Seeks confirmation or agreement (“…, right?”).</span></div>
+          <ul class="jex"><li><span class="jp">いい天気です<b>ね</b>。</span><span class="en">Nice weather, isn't it?</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">よ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">よ</span><span class="jtag">主張・伝達</span></div>
+          <div class="jdesc">相手が知らないことを教える、強く伝える。<span class="en">Asserts or informs (“you know / I tell you”).</span></div>
+          <ul class="jex"><li><span class="jp">もう時間です<b>よ</b>。</span><span class="en">It's time, you know.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">な</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">な／なあ</span><span class="jtag">感嘆・禁止</span></div>
+          <div class="jdesc">「なあ」で感動・詠嘆。動詞の終止形＋「な」は禁止を表す。<span class="en">なあ = admiration; dictionary form + な = prohibition (“don't”).</span></div>
+          <ul class="jex">
+            <li><span class="jp">きれいだ<b>なあ</b>。</span><span class="en">How beautiful!</span></li>
+            <li><span class="jp">行く<b>な</b>。</span><span class="en">Don't go.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">わ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">わ</span><span class="jtag">やわらかい主張</span></div>
+          <div class="jdesc">軽い主張・感動。話し言葉で、やわらかい響き（方言では強調にも）。<span class="en">A soft assertion or emotion in speech.</span></div>
+          <ul class="jex"><li><span class="jp">私も行く<b>わ</b>。</span><span class="en">I'll go too.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">ぞ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">ぞ／ぜ</span><span class="jtag">強い主張（くだけた）</span></div>
+          <div class="jdesc">強く言い切る、注意を促す。くだけた場面で使う。<span class="en">Strong, casual assertion or warning.</span></div>
+          <ul class="jex"><li><span class="jp">行く<b>ぞ</b>。</span><span class="en">Here we go! / I'm going!</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">さ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">さ</span><span class="jtag">軽い断定</span></div>
+          <div class="jdesc">気軽に言い切る。話の調子を整える働きもある。<span class="en">A light, casual assertion.</span></div>
+          <ul class="jex"><li><span class="jp">大丈夫<b>さ</b>。</span><span class="en">It'll be fine.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">かな</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">かな／かしら</span><span class="jtag">疑問・願望</span></div>
+          <div class="jdesc">「〜だろうか」と自問する。「かしら」はやわらかい響き。<span class="en">“I wonder…”; かしら has a softer tone.</span></div>
+          <ul class="jex"><li><span class="jp">明日晴れる<b>かな</b>。</span><span class="en">I wonder if it'll be sunny tomorrow.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">っけ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">っけ</span><span class="jtag">確認・想起</span></div>
+          <div class="jdesc">忘れかけたことを思い出そうと確認する。<span class="en">Confirms something half-forgotten (“…again?”).</span></div>
+          <ul class="jex"><li><span class="jp">約束は何時だ<b>っけ</b>。</span><span class="en">What time was the appointment again?</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">もん</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">もの／もん</span><span class="jtag">理由・弁解</span></div>
+          <div class="jdesc">理由を述べて弁解・甘えの気持ちを表す、くだけた言い方。<span class="en">Casual; gives a reason as an excuse (“…because, you see”).</span></div>
+          <ul class="jex"><li><span class="jp">だって、忙しいんだ<b>もん</b>。</span><span class="en">But I'm busy, you see.</span></li></ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 助動詞 ============ -->
+  <section id="jodo" class="jgroup g-jodo">
+    <div class="group-head"><div class="gh-bar"></div><span class="gh-title">助動詞</span><span class="gh-en">Auxiliary</span></div>
+    <div class="gh-note">活用する付属語。動詞・形容詞などについて、受身・使役・否定・過去・推量などの意味を付け加える。<span class="en">Inflecting helpers that attach to verbs/adjectives, adding passive, causative, negative, past, conjecture, and more.</span></div>
+    <div class="jlist">
+
+      <div class="jcard">
+        <div class="jchip">られる</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">れる・られる</span><span class="jtag">受身・可能・尊敬・自発</span></div>
+          <div class="jdesc">動詞について四つの意味を表す。文脈で見分ける。<span class="en">Adds passive, potential, honorific, or spontaneous meaning—told apart by context.</span></div>
+          <ul class="jex">
+            <li><span class="jp">先生に褒め<b>られた</b>。</span><span class="en">I was praised by the teacher. (passive)</span></li>
+            <li><span class="jp">朝早く起き<b>られる</b>。</span><span class="en">I can get up early. (potential)</span></li>
+            <li><span class="jp">先生が来<b>られる</b>。</span><span class="en">The teacher comes. (honorific)</span></li>
+            <li><span class="jp">昔が思い出さ<b>れる</b>。</span><span class="en">The past comes to mind. (spontaneous)</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">させる</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">せる・させる</span><span class="jtag">使役</span></div>
+          <div class="jdesc">「〜させる」で、他にその動作をさせる意味を表す。<span class="en">Causative: “make/let someone do”.</span></div>
+          <ul class="jex"><li><span class="jp">子どもに野菜を食べ<b>させる</b>。</span><span class="en">I make the child eat vegetables.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">ない</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">ない・ぬ(ん)</span><span class="jtag">否定（打消し）</span></div>
+          <div class="jdesc">打消しの意味を表す。「ぬ／ん」は文語的・改まった言い方。<span class="en">Negation; ぬ/ん is more literary.</span></div>
+          <ul class="jex">
+            <li><span class="jp">分から<b>ない</b>。</span><span class="en">I don't understand.</span></li>
+            <li><span class="jp">知ら<b>ぬ</b>。</span><span class="en">I don't know. (literary)</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">たい</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">たい・たがる</span><span class="jtag">希望</span></div>
+          <div class="jdesc">「たい」は話し手の希望、「たがる」は第三者の様子を表す。<span class="en">たい = speaker's wish; たがる = a third person's apparent wish.</span></div>
+          <ul class="jex">
+            <li><span class="jp">水が飲み<b>たい</b>。</span><span class="en">I want to drink water.</span></li>
+            <li><span class="jp">弟は行き<b>たがる</b>。</span><span class="en">My little brother wants to go.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">う</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">う・よう</span><span class="jtag">意志・勧誘・推量</span></div>
+          <div class="jdesc">話し手の意志、相手への勧誘、推量を表す。<span class="en">Volition, invitation (“let's”), or conjecture.</span></div>
+          <ul class="jex">
+            <li><span class="jp">行こ<b>う</b>。</span><span class="en">Let's go. / I'll go.</span></li>
+            <li><span class="jp">食べ<b>よう</b>。</span><span class="en">Let's eat.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">まい</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">まい</span><span class="jtag">打消しの意志・推量</span></div>
+          <div class="jdesc">「〜しないつもりだ」「〜しないだろう」を表す、やや文語的な語。<span class="en">Negative volition (“won't”) or negative conjecture (“probably won't”).</span></div>
+          <ul class="jex">
+            <li><span class="jp">二度と行く<b>まい</b>。</span><span class="en">I'll never go again.</span></li>
+            <li><span class="jp">雨は降る<b>まい</b>。</span><span class="en">It probably won't rain.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">た</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">た(だ)</span><span class="jtag">過去・完了</span></div>
+          <div class="jdesc">過去や完了、動作の結果の存続などを表す。<span class="en">Past, completion, or a resulting state.</span></div>
+          <ul class="jex"><li><span class="jp">昨日、映画を見<b>た</b>。</span><span class="en">I watched a movie yesterday.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">ます</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">ます</span><span class="jtag">丁寧</span></div>
+          <div class="jdesc">聞き手への丁寧さを表す。<span class="en">Adds politeness toward the listener.</span></div>
+          <ul class="jex"><li><span class="jp">毎日、勉強し<b>ます</b>。</span><span class="en">I study every day.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">です</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">だ・です</span><span class="jtag">断定（コピュラ）</span></div>
+          <div class="jdesc">「〜である」と言い切る。「です」は丁寧な形。<span class="en">Assertion (“is/are”); です is the polite form.</span></div>
+          <ul class="jex"><li><span class="jp">これは本<b>です</b>。</span><span class="en">This is a book.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">そうだ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">そうだ（伝聞）</span><span class="jtag">伝聞</span></div>
+          <div class="jdesc">人から聞いた内容を伝える。終止形につく。<span class="en">Reports hearsay (“I hear that…”). Follows the plain form.</span></div>
+          <ul class="jex"><li><span class="jp">明日は雨だ<b>そうだ</b>。</span><span class="en">I hear it will rain tomorrow.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">そうだ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">そうだ（様態）</span><span class="jtag">様態</span></div>
+          <div class="jdesc">見た目からの推量。連用形につく（伝聞と接続が違う）。<span class="en">Conjecture from appearance (“looks like…”). Attaches differently from the hearsay そうだ.</span></div>
+          <ul class="jex"><li><span class="jp">雨が降り<b>そうだ</b>。</span><span class="en">It looks like it's going to rain.</span></li></ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">ようだ</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">ようだ・みたいだ</span><span class="jtag">推量・比況</span></div>
+          <div class="jdesc">根拠にもとづく推量や、「まるで〜のようだ」という例え（比況）を表す。<span class="en">Evidence-based conjecture (“it seems…”) or likeness (“like…”). みたいだ is casual.</span></div>
+          <ul class="jex">
+            <li><span class="jp">誰か来た<b>ようだ</b>。</span><span class="en">It seems someone came.</span></li>
+            <li><span class="jp">夢<b>みたいだ</b>。</span><span class="en">It's like a dream.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="jcard">
+        <div class="jchip">らしい</div>
+        <div class="jbody">
+          <div class="jhead"><span class="jread">らしい</span><span class="jtag">推量・典型</span></div>
+          <div class="jdesc">客観的な根拠にもとづく推量（〜らしい）。「いかにも〜だ」の典型の意もある。<span class="en">Conjecture from outside evidence (“apparently”); also “typical of…”.</span></div>
+          <ul class="jex">
+            <li><span class="jp">彼は来ない<b>らしい</b>。</span><span class="en">Apparently he isn't coming.</span></li>
+            <li><span class="jp">男<b>らしい</b>。</span><span class="en">Manly / like a man.</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="app-footer">
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+<script>
+/* === EN表示トグル（英語補助の表示/非表示・localStorageで保持） === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en,body.hide-en .pb-en,body.hide-en .hero-desc-en,body.hide-en .game-en,"
+   +"body.hide-en .level-en,body.hide-en .en-sub,body.hide-en .en-i,body.hide-en .gh-en,"
+   +"body.hide-en .hero-en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3B6D11;"
+   +"margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';
+    b.setAttribute('aria-pressed', h?'false':'true');
+    b.title=h?'英語の補助：OFF（タップで表示 / show English）':'英語の補助：ON（タップで非表示 / hide English）'; }
+  b.addEventListener('click',function(){
+    var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){}
+    paint();
+  });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

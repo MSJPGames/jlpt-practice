@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JLPT N1 対策クイズ</title>
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --accent: #993C1D; --accent-light: #FAECE7; --accent-dark: #6E2A14;
+    --success: #2A7A4B; --success-light: #E8F5ED;
+    --danger: #B03A2E; --danger-light: #FDECEA;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 12px; --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 1rem; }
+  .container { max-width: 480px; margin: 0 auto; }
+  .app-header { text-align: center; padding: 1.5rem 0 1rem; }
+  .app-title { font-size: 22px; font-weight: 700; color: var(--accent-dark); letter-spacing: 0.02em; }
+  .app-sub { font-size: 12px; color: var(--text-hint); margin-top: 4px; }
+
+  /* Stats */
+  .stats-bar { display: flex; gap: 8px; margin-bottom: 1.25rem; }
+  .stat-box { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 8px; text-align: center; }
+  .stat-num { font-size: 20px; font-weight: 700; color: var(--accent); }
+  .stat-lbl { font-size: 10px; color: var(--text-hint); margin-top: 2px; }
+
+  /* Section selector (home) */
+  .section-label { font-size: 12px; font-weight: 700; color: var(--text-hint); letter-spacing: 0.08em; margin-bottom: 8px; margin-top: 1.25rem; }
+  .main-cats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+  .main-cat-btn {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 10px 12px; cursor: pointer; text-align: center;
+    transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+    position: relative; overflow: hidden;
+  }
+  .main-cat-btn::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); transform: scaleX(0); transition: transform 0.15s; }
+  .main-cat-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-color: var(--accent); }
+  .main-cat-btn:hover::before { transform: scaleX(1); }
+  .main-cat-btn.active { border-color: var(--accent); background: var(--accent-light); }
+  .main-cat-btn.active::before { transform: scaleX(1); }
+  .cat-icon { font-size: 22px; margin-bottom: 6px; }
+  .cat-name { font-size: 13px; font-weight: 700; color: var(--text); }
+  .cat-sub { font-size: 10px; color: var(--text-hint); margin-top: 3px; }
+  .cat-count { font-size: 10px; color: var(--accent); margin-top: 4px; font-weight: 500; }
+
+  /* Vocab sub-types */
+  .vocab-sub { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 1rem; display: none; }
+  .vocab-sub.show { display: block; }
+  .vocab-sub-title { font-size: 12px; font-weight: 700; color: var(--text-hint); letter-spacing: 0.06em; margin-bottom: 10px; }
+  .vocab-sub-grid { display: flex; flex-direction: column; gap: 6px; }
+  .vocab-sub-btn {
+    background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 10px 14px; text-align: left; cursor: pointer; font-size: 13px;
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif; color: var(--text);
+    display: flex; justify-content: space-between; align-items: center;
+    transition: background 0.12s, border-color 0.12s;
+  }
+  .vocab-sub-btn:hover { background: var(--accent-light); border-color: var(--accent); }
+  .vocab-sub-btn .tag { font-size: 10px; color: var(--accent); font-weight: 700; }
+
+  .hint-text { font-size: 12px; color: var(--text-hint); text-align: center; margin-top: 0.5rem; }
+
+  /* Quiz screen */
+  .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .q-counter { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+  .section-pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--accent-light); color: var(--accent); letter-spacing: 0.03em; }
+  .timer-box { font-size: 13px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; letter-spacing: 0.05em; }
+  .quiz-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .progress-track { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 1.25rem; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; }
+  .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem; font-size: 15px; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
+  .choices { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem; }
+  .choice-btn {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 13px 14px; text-align: left; cursor: pointer; font-size: 14px;
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif; color: var(--text);
+    display: flex; align-items: center; gap: 10px;
+    transition: border-color 0.1s, background 0.1s; width: 100%;
+  }
+  .choice-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-light); }
+  .choice-btn.correct { background: var(--success-light); border-color: var(--success); }
+  .choice-btn.wrong { background: var(--danger-light); border-color: var(--danger); }
+  .choice-label { width: 24px; height: 24px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--text-muted); flex-shrink: 0; }
+  .choice-btn.correct .choice-label { background: var(--success); border-color: var(--success); color: #fff; }
+  .choice-btn.wrong .choice-label { background: var(--danger); border-color: var(--danger); color: #fff; }
+  .choice-btn.correct .choice-text { color: var(--success); font-weight: 500; }
+  .choice-btn.wrong .choice-text { color: var(--danger); }
+  .feedback-box { border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; line-height: 1.7; margin-bottom: 1rem; display: none; }
+  .feedback-box.show { display: block; }
+  .feedback-box.correct { background: var(--success-light); color: var(--success); border: 1px solid #A8D5BC; }
+  .feedback-box.wrong { background: var(--danger-light); color: var(--danger); border: 1px solid #F0B8B2; }
+  .feedback-label { font-weight: 700; margin-bottom: 4px; font-size: 14px; }
+  .next-btn { width: 100%; padding: 14px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 700; font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif; cursor: pointer; display: none; transition: background 0.15s; }
+  .next-btn.show { display: block; }
+  .next-btn:hover { background: var(--accent-dark); }
+
+  /* ── 文の文法2 並べ替えパズル UI ── */
+  .puzzle-sentence { font-size:16px; line-height:2; text-align:left; margin-bottom:12px; }
+  .puzzle-slot-row { display:flex; align-items:center; gap:5px; flex-wrap:wrap; justify-content:center; margin:12px 0 6px; }
+  .puzzle-slot { min-width:60px; height:42px; padding:0 10px; border:2px dashed var(--border); border-radius:8px; display:inline-flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:var(--text-main); background:var(--bg); transition:border-color .15s,background .15s; cursor:default; position:relative; }
+  .puzzle-slot.star-slot { border-color:#2D5A8E; background:#E8F0F8; }
+  .puzzle-slot.star-slot::after { content:'★'; position:absolute; top:-12px; left:50%; transform:translateX(-50%); font-size:11px; color:#2D5A8E; background:var(--card-bg); padding:0 3px; }
+  .puzzle-slot.filled { border-style:solid; border-color:#2D5A8E; background:#dce9f8; cursor:pointer; }
+  .puzzle-slot.filled:hover { background:#c8daf4; }
+  .puzzle-slot.correct-slot { border-color:#27ae60; background:#d4edda; color:#1a7a3c; border-style:solid; }
+  .puzzle-slot.wrong-slot { border-color:#c0392b; background:#fde8e6; color:#a02020; border-style:solid; }
+  .puzzle-tiles { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:14px 0 4px; min-height:48px; }
+  .puzzle-tile { padding:10px 16px; border-radius:10px; background:var(--accent); color:#fff; font-size:15px; font-weight:700; cursor:pointer; border:none; box-shadow:0 2px 6px rgba(0,0,0,.18); transition:transform .1s,opacity .15s; touch-action:manipulation; }
+  .puzzle-tile:hover { transform:translateY(-2px); }
+  .puzzle-tile:active { transform:scale(.95); }
+  .puzzle-tile.used { opacity:0; pointer-events:none; }
+  .puzzle-check-btn { display:block; margin:14px auto 0; padding:12px 36px; border-radius:24px; background:#27ae60; color:#fff; font-size:16px; font-weight:700; border:none; cursor:pointer; transition:opacity .15s; }
+  .puzzle-check-btn:disabled { opacity:.4; cursor:not-allowed; }
+  .quit-btn { display: block; width: 100%; margin-top: 10px; padding: 11px; background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif; color: var(--text-muted); cursor: pointer; transition: background 0.15s, color 0.15s; }
+  .quit-btn:hover { background: var(--danger-light); color: var(--danger); border-color: var(--danger); }
+
+  /* Confirm overlay */
+  .confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 1rem; }
+  .confirm-box { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; width: 100%; max-width: 320px; text-align: center; }
+  .confirm-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .confirm-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 1.25rem; line-height: 1.6; }
+  .confirm-actions { display: flex; gap: 8px; }
+  .confirm-actions button { flex: 1; padding: 11px; border-radius: var(--radius-sm); font-size: 14px; font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif; cursor: pointer; font-weight: 500; }
+  .confirm-cancel { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+  .confirm-ok { background: var(--danger); border: none; color: #fff; }
+  .confirm-ok:hover { background: #8B2D23; }
+
+  /* Result */
+  .result-wrap { text-align: center; padding: 1.5rem 0; }
+  .result-circle { width: 110px; height: 110px; border-radius: 50%; background: var(--accent-light); border: 3px solid var(--accent); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+  .result-score { font-size: 30px; font-weight: 700; color: var(--accent); line-height: 1; }
+  .result-of { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .result-time { font-size: 14px; color: var(--accent-dark); font-weight: 700; margin-bottom: 4px; }
+  .result-pct { font-size: 15px; font-weight: 700; color: var(--accent-dark); margin-bottom: 1rem; }
+  .result-comment { font-size: 14px; color: var(--text); line-height: 1.8; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 1.5rem; text-align: left; }
+  .result-actions { display: flex; flex-direction: column; gap: 8px; }
+  .btn-primary { padding: 13px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 700; font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif; cursor: pointer; }
+  .btn-primary:hover { background: var(--accent-dark); }
+  .btn-secondary { padding: 13px; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; font-weight: 500; font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif; cursor: pointer; }
+  .btn-secondary:hover { background: var(--bg); }
+  .hidden { display: none !important; }
+
+  /* Report button */
+  .report-btn { background: none; border: none; font-size: 11px; color: var(--text-hint); cursor: pointer; padding: 4px 8px; border-radius: 4px; font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif; margin-top: 6px; text-decoration: underline; }
+  .report-btn:hover { color: var(--danger); }
+
+  /* Report modal */
+  .report-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 1rem; }
+  .report-box { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; width: 100%; max-width: 340px; }
+  .report-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .report-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6; }
+  .report-textarea { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 13px; font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif; color: var(--text); resize: none; height: 100px; background: var(--bg); }
+  .report-textarea:focus { outline: none; border-color: var(--accent); }
+  .report-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .report-actions button { flex: 1; padding: 11px; border-radius: var(--radius-sm); font-size: 13px; font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif; cursor: pointer; font-weight: 500; }
+  .report-cancel { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+  .report-send { background: var(--accent); border: none; color: #fff; }
+  .report-send:hover { opacity: 0.9; }
+  .report-sent { text-align: center; padding: 1rem 0; }
+  .report-sent-icon { font-size: 36px; margin-bottom: 8px; }
+  .report-sent-msg { font-size: 14px; color: var(--text); font-weight: 500; }
+
+</style>
+</head>
+<body>
+  <div style="padding:10px 1rem 0;">
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--text-muted);text-decoration:none;font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;">
+      <span style="font-size:16px;">←</span> レベル選択に戻る
+    </a>
+  </div>
+<div class="container">
+  <div class="app-header">
+    <div class="app-title">JLPT N1 対策クイズ</div>
+    <div class="app-sub">N1合格を目指して毎日練習しよう（文字・語彙）</div>
+  </div>
+
+  <!-- Home screen -->
+  <div id="home-screen">
+    <div id="stats-bar" class="stats-bar hidden">
+      <div class="stat-box"><div class="stat-num" id="stat-total">0</div><div class="stat-lbl">累計問題数</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-correct">0</div><div class="stat-lbl">正解数</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-rate">-</div><div class="stat-lbl">正答率</div></div>
+    </div>
+
+    <div class="section-label">カテゴリを選んでください</div>
+    <div class="main-cats">
+      <button class="main-cat-btn" id="cat-vocab" onclick="toggleVocab()">
+        <div class="cat-icon">📖</div>
+        <div class="cat-name">文字・語彙</div>
+        <div class="cat-sub">4種類の問題形式</div>
+        <div class="cat-count">計78問収録</div>
+      </button>
+    </div>
+
+    <!-- Vocab sub-menu -->
+    <div id="vocab-sub" class="vocab-sub">
+      <div class="vocab-sub-title">問題の種類を選んでください</div>
+      <div class="vocab-sub-grid">
+                <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '漢字読み')">
+          <span>問題１ 漢字読み<br><span style="font-size:11px;color:var(--text-hint)">漢字で書かれた語を読む</span></span>
+          <span class="tag">22問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '文脈規定')">
+          <span>問題２ 文脈規定<br><span style="font-size:11px;color:var(--text-hint)">文脈に合う語彙を選ぶ</span></span>
+          <span class="tag">24問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '言い換え類義')">
+          <span>問題３ 言い換え類義<br><span style="font-size:11px;color:var(--text-hint)">下線部と同じ意味を選ぶ</span></span>
+          <span class="tag">18問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '用法')">
+          <span>問題４ 用法<br><span style="font-size:11px;color:var(--text-hint)">正しい使い方の文を選ぶ</span></span>
+          <span class="tag">14問</span>
+        </button>
+      </div>
+    </div>
+    <!-- Grammar sub-menu -->
+    <div id="grammar-sub" class="vocab-sub">
+      <div class="vocab-sub-title">問題の種類を選んでください</div>
+      <div class="vocab-sub-grid">
+        <button class="vocab-sub-btn" onclick="startQuiz('文法', '文の文法1')">
+          <span>問題１ 文の文法１<br><span style="font-size:11px;color:var(--text-hint)">文法形式の判断（空欄補充）</span></span>
+          <span class="tag">20問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('文法', '文の文法2')">
+          <span>問題２ 文の文法２<br><span style="font-size:11px;color:var(--text-hint)">文の組み立て（並べ替え）</span></span>
+          <span class="tag">20問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('文法', '文章の文法')">
+          <span>問題３ 文章の文法<br><span style="font-size:11px;color:var(--text-hint)">文章の流れに合う文法選択</span></span>
+          <span class="tag">20問</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="reading-sub" class="vocab-sub">
+      <div class="vocab-sub-title">問題の種類を選んでください</div>
+      <div class="vocab-sub-grid">
+        <button class="vocab-sub-btn" onclick="startQuiz('読解', '内容理解（短文）')">
+          <span>内容理解（短文）<br><span style="font-size:11px;color:var(--text-hint)">短い文章から内容を理解する</span></span>
+          <span class="tag">4問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('読解', '内容理解（中文）')">
+          <span>内容理解（中文）<br><span style="font-size:11px;color:var(--text-hint)">中程度の文章から内容を理解する</span></span>
+          <span class="tag">3問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('読解', '内容理解（長文）')">
+          <span>内容理解（長文）<br><span style="font-size:11px;color:var(--text-hint)">長い文章から要旨・主張を理解する</span></span>
+          <span class="tag">4問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('読解', '情報検索')">
+          <span>情報検索<br><span style="font-size:11px;color:var(--text-hint)">お知らせから必要な情報を探す</span></span>
+          <span class="tag">10問</span>
+        </button>
+      </div>
+    </div>
+    <div class="hint-text">各セッション10問・約5〜10分</div>
+    <div style="text-align:center;margin-top:18px">
+      <span onclick="openEditor()" style="color:var(--text-hint);font-size:11px;cursor:pointer;opacity:0.4;user-select:none;padding:6px 10px;display:inline-block">✎</span>
+    </div>
+  </div>
+
+  <!-- Editor screen -->
+  <div id="editor-screen" class="hidden">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <button onclick="closeEditor()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-main)">←</button>
+      <h2 style="margin:0;font-size:18px;font-weight:700">問題エディタ</h2>
+    </div>
+
+    <!-- Category selector -->
+    <div style="margin-bottom:14px">
+      <select id="editor-cat" onchange="loadEditorList()" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-main);font-size:14px;font-family:inherit">
+        <option value="文字・語彙/漢字読み">文字・語彙 ＞ 漢字読み</option>
+        <option value="文字・語彙/文脈規定">文字・語彙 ＞ 文脈規定</option>
+        <option value="文字・語彙/言い換え類義">文字・語彙 ＞ 言い換え類義</option>
+        <option value="文字・語彙/用法">文字・語彙 ＞ 用法</option>
+      </select>
+    </div>
+
+    <!-- Question list -->
+    <div id="editor-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:80px"></div>
+
+    <!-- Edit modal overlay -->
+    <div id="edit-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;overflow-y:auto;padding:16px;box-sizing:border-box">
+      <div style="background:var(--card-bg);border-radius:14px;padding:20px;max-width:540px;margin:0 auto;position:relative">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <strong id="edit-modal-title" style="font-size:16px">問題を編集</strong>
+          <button onclick="closeEditModal()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-hint);line-height:1">✕</button>
+        </div>
+
+        <div style="margin-bottom:12px">
+          <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:4px">問題文（設問の後の本文のみ。\\nで改行）</label>
+          <textarea id="edit-question" rows="5" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit;resize:vertical"></textarea>
+        </div>
+
+        <div id="edit-choices-wrap" style="margin-bottom:12px">
+          <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:6px">選択肢（並べ替え問題は文中の順番通りに）</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div><span style="font-size:11px;color:var(--text-hint)">①</span><input id="edit-c1" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit"></div>
+            <div><span style="font-size:11px;color:var(--text-hint)">②</span><input id="edit-c2" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit"></div>
+            <div><span style="font-size:11px;color:var(--text-hint)">③ ★正解</span><input id="edit-c3" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:2px solid #2D5A8E;background:#E8F0F8;color:var(--text-main);font-size:14px;font-family:inherit;font-weight:700"></div>
+            <div><span style="font-size:11px;color:var(--text-hint)">④</span><input id="edit-c4" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit"></div>
+          </div>
+          <div id="edit-answer-note" style="font-size:11px;color:var(--text-hint);margin-top:6px"></div>
+        </div>
+
+        <div style="margin-bottom:16px">
+          <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:4px">解説</label>
+          <textarea id="edit-explanation" rows="3" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit;resize:vertical"></textarea>
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <button onclick="saveEdit()" style="flex:1;padding:12px;background:#2D5A8E;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer">保存する</button>
+          <button onclick="closeEditModal()" style="flex:1;padding:12px;background:var(--border);color:var(--text-main);border:none;border-radius:8px;font-size:15px;font-family:inherit;cursor:pointer">キャンセル</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz screen -->
+  <div id="quiz-screen" class="hidden">
+    <div class="quiz-meta-row">
+      <span class="q-counter" id="q-counter">問題 1 / 10</span>
+      <span class="timer-box" id="timer-box">00:00</span>
+    </div>
+    <div class="quiz-meta-row" style="margin-bottom:10px">
+      <span class="section-pill" id="section-pill">文字・語彙</span>
+      <span style="font-size:11px;color:var(--text-hint)" id="subtype-label"></span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:10%"></div>
+    </div>
+    <div id="question-card" class="question-card"></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback-box" id="feedback-box"></div>
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">次の問題へ →</button>
+    <button class="quit-btn" onclick="confirmQuit()">中断してトップに戻る</button>
+  </div>
+
+  
+  <!-- Report modal -->
+  <div id="report-overlay" class="report-overlay hidden">
+    <div class="report-box">
+      <div id="report-form-area">
+        <div class="report-title">🚩 問題を報告する</div>
+        <div class="report-sub" id="report-q-info"></div>
+        <textarea class="report-textarea" id="report-textarea" placeholder="気になる点をご記入ください（例：正解が違う、解説が分かりにくい、など）"></textarea>
+        <div class="report-actions">
+          <button class="report-cancel" onclick="closeReport()">キャンセル</button>
+          <button class="report-send" onclick="sendReport()">送信する</button>
+        </div>
+      </div>
+      <div id="report-sent-area" class="report-sent hidden">
+        <div class="report-sent-icon">✅</div>
+        <div class="report-sent-msg">ご報告ありがとうございます！</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm overlay -->
+  <div id="confirm-overlay" class="confirm-overlay hidden">
+    <div class="confirm-box">
+      <div class="confirm-title">クイズを中断しますか？</div>
+      <div class="confirm-sub">現在の進捗は保存されません。<br>トップページに戻りますか？</div>
+      <div class="confirm-actions">
+        <button class="confirm-cancel" onclick="cancelQuit()">続ける</button>
+        <button class="confirm-ok" onclick="doQuit()">中断する</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result screen -->
+  <div id="result-screen" class="hidden">
+    <div class="result-wrap">
+      <div class="result-circle">
+        <div class="result-score" id="r-score"></div>
+        <div class="result-of" id="r-of"></div>
+      </div>
+      <div class="result-time" id="r-time"></div>
+      <div class="result-pct" id="r-pct"></div>
+      <div class="result-comment" id="r-comment"></div>
+      <div class="result-actions">
+        <button class="btn-primary" onclick="retrySection()">同じ種類をもう一度</button>
+        <button class="btn-secondary" onclick="goHome()">カテゴリ選択に戻る</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// <DATA>
+const vocabQuestions = {"漢字読み": [{"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n組織の問題点が次々と__露呈__した。", "choices": ["ろてい", "ろけん", "ろじょう", "ろちょう"], "answer": "ろてい", "group": "音読み・難漢語", "explanation": "「露呈」は「ろてい」。表に現れ出ること。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n多くの国民が国の将来を__憂慮__している。", "choices": ["ゆうりょ", "ゆうりょう", "うれい", "ゆうろ"], "answer": "ゆうりょ", "group": "音読み・難漢語", "explanation": "「憂慮」は「ゆうりょ」。心配して思いわずらうこと。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n責任者は現状を正確に__把握__する必要がある。", "choices": ["はあく", "はおく", "はにぎり", "ほあく"], "answer": "はあく", "group": "音読み・難漢語", "explanation": "「把握」は「はあく」。しっかり理解すること。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n与えられた任務を最後まで__遂行__した。", "choices": ["すいこう", "ついこう", "すいぎょう", "たいこう"], "answer": "すいこう", "group": "音読み・難漢語", "explanation": "「遂行」は「すいこう」。やり遂げること。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n不要な記録をデータから__抹消__する。", "choices": ["まっしょう", "まつしょう", "まっそう", "ばっしょう"], "answer": "まっしょう", "group": "音読み・難漢語", "explanation": "「抹消」は「まっしょう」。消し去ること。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n長年にわたり__培__ってきた信頼を大切にする。", "choices": ["つちかって", "やしなって", "つのって", "たくわって"], "answer": "つちかって", "group": "訓読み・和語動詞", "explanation": "「培う」は「つちかう」。少しずつ育て養うこと。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n資金不足で経営が危機に__陥__った。", "choices": ["おちいって", "おとしいって", "くぼって", "はまって"], "answer": "おちいって", "group": "訓読み・和語動詞", "explanation": "「陥る」は「おちいる」。よくない状態になること。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n彼の研究はこれまでの定説を__覆__した。", "choices": ["くつがえした", "ひるがえした", "くずした", "おおいかくした"], "answer": "くつがえした", "group": "訓読み・和語動詞", "explanation": "「覆す」は「くつがえす」。ひっくり返すこと。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n大会の費用は寄付で__賄__う予定だ。", "choices": ["まかなう", "つぐなう", "やしなう", "あがなう"], "answer": "まかなう", "group": "訓読み・和語動詞", "explanation": "「賄う」は「まかなう」。やりくりして間に合わせること。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n手続きが__滞__って、計画が遅れている。", "choices": ["とどこおって", "とどまって", "たまって", "なめらって"], "answer": "とどこおって", "group": "訓読み・和語動詞", "explanation": "「滞る」は「とどこおる」。物事が順調に進まないこと。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n彼の思い違いも__甚だしい__。", "choices": ["はなはだしい", "おびただしい", "はげしい", "はなばなしい"], "answer": "はなはだしい", "group": "訓読み・形容詞", "explanation": "「甚だしい」は「はなはだしい」。程度がひどいこと。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n__煩わしい__手続きを簡略化したい。", "choices": ["わずらわしい", "まぎらわしい", "うたがわしい", "いまわしい"], "answer": "わずらわしい", "group": "訓読み・形容詞", "explanation": "「煩わしい」は「わずらわしい」。面倒なこと。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n負けを認めて謝る__潔い__態度に好感を持った。", "choices": ["いさぎよい", "きよい", "たくましい", "すがすがしい"], "answer": "いさぎよい", "group": "訓読み・形容詞", "explanation": "「潔い」は「いさぎよい」。思い切りがよいこと。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n両者の主張には__著しい__隔たりがある。", "choices": ["いちじるしい", "はなはだしい", "めざましい", "のぞましい"], "answer": "いちじるしい", "group": "訓読み・形容詞", "explanation": "「著しい」は「いちじるしい」。はっきり目立つこと。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n百年以上続く__老舗__の菓子店を訪ねた。", "choices": ["しにせ", "ろうほ", "ろうてん", "おいてん"], "answer": "しにせ", "group": "熟字訓・当て字", "explanation": "「老舗」は「しにせ」と読む熟字訓。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n__吹雪__のため、視界がほとんどきかない。", "choices": ["ふぶき", "すいせつ", "ふきゆき", "ふうせつ"], "answer": "ふぶき", "group": "熟字訓・当て字", "explanation": "「吹雪」は「ふぶき」と読む熟字訓。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n__為替__レートの変動が輸出に影響する。", "choices": ["かわせ", "ためかえ", "いがえ", "かえせ"], "answer": "かわせ", "group": "熟字訓・当て字", "explanation": "「為替」は「かわせ」と読む熟字訓。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n温泉地に近づくと__硫黄__のにおいがした。", "choices": ["いおう", "りゅうき", "りゅうおう", "いこう"], "answer": "いおう", "group": "熟字訓・当て字", "explanation": "「硫黄」は「いおう」と読む特別な読み。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n応募条件に__該当__する人だけが申し込める。", "choices": ["がいとう", "かいとう", "がいとお", "こうとう"], "answer": "がいとう", "group": "同音異義・難漢語", "explanation": "「該当」は「がいとう」。条件に当てはまること。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n市は外部の専門家に調査を__委嘱__した。", "choices": ["いしょく", "いぞく", "いちょく", "かんしょく"], "answer": "いしょく", "group": "同音異義・難漢語", "explanation": "「委嘱」は「いしょく」。仕事を任せ頼むこと。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n両国は解決に向けて__折衝__を重ねた。", "choices": ["せっしょう", "おりしょう", "せつどう", "せっちゅう"], "answer": "せっしょう", "group": "同音異義・難漢語", "explanation": "「折衝」は「せっしょう」。利害の異なる相手と交渉すること。"}, {"question": "＿＿の言葉の読み方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n被害の拡大を防ぐため、迅速な__措置__をとった。", "choices": ["そち", "しょち", "そうち", "さくち"], "answer": "そち", "group": "同音異義・難漢語", "explanation": "「措置」は「そち」。とりはからい・処置のこと。"}], "文脈規定": [{"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n地域間の経済格差を（　）するための政策が求められている。", "choices": ["是正", "是認", "改訂", "撤回"], "answer": "是正", "group": "難漢語(する動詞)", "explanation": "不公平を正すのは「是正」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n意見が真っ向から対立し、交渉はついに（　）した。", "choices": ["決裂", "妥結", "合致", "融和"], "answer": "決裂", "group": "難漢語(する動詞)", "explanation": "話し合いが物別れになるのは「決裂」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n膠着した事態を（　）する糸口がようやく見つかった。", "choices": ["打開", "打診", "撤退", "放棄"], "answer": "打開", "group": "難漢語(する動詞)", "explanation": "行き詰まりを切り開くのは「打開」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\nその計画は費用の面から見ても（　）を欠いている。", "choices": ["妥当性", "積極性", "柔軟性", "可能性"], "answer": "妥当性", "group": "抽象名詞", "explanation": "適切さ・道理にかなう度合いは「妥当性」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n彼の何気ない一言が、事業を始める（　）となった。", "choices": ["契機", "経緯", "過程", "動機"], "answer": "契機", "group": "抽象名詞", "explanation": "きっかけの意は「契機」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n彼の説明は（　）を欠いており、話の筋が通らない。", "choices": ["一貫性", "具体性", "積極性", "独創性"], "answer": "一貫性", "group": "抽象名詞", "explanation": "始めから終わりまで筋が通ることは「一貫性」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\nどんな批判を受けても、彼は（　）動じなかった。", "choices": ["いささかも", "もはや", "かねて", "あえて"], "answer": "いささかも", "group": "副詞(程度・呼応)", "explanation": "「いささかも〜ない」で少しも〜ないの意。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n難航すると思われた交渉が、（　）まとまった。", "choices": ["あっさり", "じっくり", "がっちり", "めっきり"], "answer": "あっさり", "group": "副詞(程度・呼応)", "explanation": "簡単に・拍子抜けするほど容易にの意は「あっさり」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n秋も深まり、朝晩は（　）冷え込むようになった。", "choices": ["めっきり", "めったに", "もっぱら", "やんわり"], "answer": "めっきり", "group": "副詞(程度・呼応)", "explanation": "変化がはっきり感じられる様子は「めっきり」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n反論を許さない口調に、彼は（　）した顔つきになった。", "choices": ["むっと", "にやり", "うっとり", "ほっと"], "answer": "むっと", "group": "擬態語・擬音語", "explanation": "不快で不機嫌になる様子は「むっと」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n徹夜が続き、頭が（　）してうまく働かない。", "choices": ["ぼうっと", "すっきり", "はっきり", "ずばり"], "answer": "ぼうっと", "group": "擬態語・擬音語", "explanation": "意識がぼやける様子は「ぼうっと」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n歩くたびに床が（　）ときしむ古い旅館だった。", "choices": ["ぎしぎし", "つるつる", "ふわふわ", "からから"], "answer": "ぎしぎし", "group": "擬態語・擬音語", "explanation": "固い物がきしむ音は「ぎしぎし」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n開発の前に、まず製品の（　）を明確にすべきだ。", "choices": ["コンセプト", "コンプレックス", "コントラスト", "コレクション"], "answer": "コンセプト", "group": "カタカナ語", "explanation": "基本的な考え方・概念は「コンセプト」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n彼はその分野の（　）として広く知られている。", "choices": ["エキスパート", "アマチュア", "ボランティア", "スポンサー"], "answer": "エキスパート", "group": "カタカナ語", "explanation": "専門家の意は「エキスパート」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\nこの事業には資金面での（　）が少なくない。", "choices": ["リスク", "チャンス", "バランス", "プロセス"], "answer": "リスク", "group": "カタカナ語", "explanation": "危険・損失の可能性は「リスク」。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n長年の努力がついに（　）を結んだ。", "choices": ["実", "花", "根", "芽"], "answer": "実", "group": "慣用・コロケーション", "explanation": "「実を結ぶ」で努力が成果につながること。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n議論は結論が出ないまま（　）に乗り上げた。", "choices": ["暗礁", "軌道", "本題", "佳境"], "answer": "暗礁", "group": "慣用・コロケーション", "explanation": "「暗礁に乗り上げる」で物事が行き詰まること。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n彼の提案は、停滞した議論に（　）を投じた。", "choices": ["一石", "終止符", "拍車", "水泡"], "answer": "一石", "group": "慣用・コロケーション", "explanation": "「一石を投じる」で反響を呼ぶ問題提起をすること。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n資金繰りに失敗し、計画は途中で（　）しまった。", "choices": ["行き詰まって", "立ち会って", "割り込んで", "見合わせて"], "answer": "行き詰まって", "group": "複合動詞", "explanation": "「行き詰まる」で進められなくなること。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n数々の困難を（　）、彼は目標を達成した。", "choices": ["乗り越えて", "取り消して", "打ち明けて", "見送って"], "answer": "乗り越えて", "group": "複合動詞", "explanation": "「乗り越える」で困難を克服すること。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n専門家が長時間かけて、事故の原因を（　）。", "choices": ["突き止めた", "打ち切った", "取り次いだ", "立て替えた"], "answer": "突き止めた", "group": "複合動詞", "explanation": "「突き止める」で徹底的に調べて明らかにすること。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n自分の失敗の責任を人に（　）べきではない。", "choices": ["なすりつける", "打ち明ける", "引き受ける", "なだめる"], "answer": "なすりつける", "group": "和語動詞のニュアンス", "explanation": "「なすりつける」で責任を他人に押しつけること。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n彼女は込み上げる涙を（　）、気丈にふるまった。", "choices": ["こらえて", "たどって", "もてなして", "うながして"], "answer": "こらえて", "group": "和語動詞のニュアンス", "explanation": "「こらえる」で感情を必死に抑えること。"}, {"question": "（ ）に入れるのに最もよいものを、１・２・３・４から一つえらびなさい。\n\n先輩は、私の小さなミスをそっと（　）くれた。", "choices": ["かばって", "そむいて", "つのって", "まぬがれて"], "answer": "かばって", "group": "和語動詞のニュアンス", "explanation": "「かばう」で他人を守ろうとすること。"}], "言い換え類義": [{"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n新しい制度の導入は__難航__している。", "choices": ["うまく進んでいない", "ほぼ終わった", "中止された", "順調だ"], "answer": "うまく進んでいない", "group": "難漢語→平易語", "explanation": "「難航する」は物事がなかなか進まないこと。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n彼の指示はいつも__的確__だ。", "choices": ["要点をとらえている", "分かりにくい", "遠回しだ", "あいまいだ"], "answer": "要点をとらえている", "group": "難漢語→平易語", "explanation": "「的確」は要点を外さず正しいこと。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n打ち合わせは__円滑__に進んだ。", "choices": ["スムーズに", "停滞して", "強引に", "にぎやかに"], "answer": "スムーズに", "group": "難漢語→平易語", "explanation": "「円滑」は物事がなめらかに運ぶこと。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n用意した資料は__ことごとく__役に立たなかった。", "choices": ["全部", "たまに", "なんとか", "かろうじて"], "answer": "全部", "group": "副詞の言い換え", "explanation": "「ことごとく」は一つ残らず全部の意。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n作業は__おおむね__予定どおり終わった。", "choices": ["だいたい", "まったく", "意外に", "ようやく"], "answer": "だいたい", "group": "副詞の言い換え", "explanation": "「おおむね」はだいたい・大部分での意。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n危険を感じて__とっさに__身をかわした。", "choices": ["瞬間的に", "ゆっくり", "前もって", "何度も"], "answer": "瞬間的に", "group": "副詞の言い換え", "explanation": "「とっさに」はその瞬間に反射的にの意。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n同じ話が続き、聞いていて__うんざり__した。", "choices": ["あきあきした", "感心した", "緊張した", "満足した"], "answer": "あきあきした", "group": "慣用・オノマトペ", "explanation": "「うんざり」は飽きて嫌になること。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n上司に、遅刻しないよう__くぎを刺された__。", "choices": ["前もって強く注意された", "強くほめられた", "相談された", "見放された"], "answer": "前もって強く注意された", "group": "慣用・オノマトペ", "explanation": "「くぎを刺す」は念のため強く注意しておくこと。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n看病のため、彼は母に__つきっきり__だった。", "choices": ["ずっと離れずにいた", "時々だけ関わった", "全く関わらなかった", "急いでいた"], "answer": "ずっと離れずにいた", "group": "慣用・オノマトペ", "explanation": "「つきっきり」はそばを離れず世話をすること。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n彼は約束を__ないがしろにする__ところがある。", "choices": ["大切にしない", "必ず守る", "忘れやすい", "急に変える"], "answer": "大切にしない", "group": "和語動詞", "explanation": "「ないがしろにする」は軽く扱い大切にしないこと。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n都合により、開始時刻を__繰り上げた__。", "choices": ["早めた", "遅らせた", "取り消した", "延ばした"], "answer": "早めた", "group": "和語動詞", "explanation": "「繰り上げる」は予定を前に早めること。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n委員会は彼の提案を__退けた__。", "choices": ["受け入れず断った", "高く評価した", "保留にした", "支持した"], "answer": "受け入れず断った", "group": "和語動詞", "explanation": "「退ける」は要求などを拒み断ること。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\nこれは非常に__デリケート__な問題だ。", "choices": ["微妙で扱いにくい", "単純で簡単な", "重大で深刻な", "有名でよく知られた"], "answer": "微妙で扱いにくい", "group": "カタカナ語", "explanation": "「デリケート」は微妙で慎重を要する様子。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n彼は交渉の__イニシアチブ__をとった。", "choices": ["主導権", "責任", "許可", "記録"], "answer": "主導権", "group": "カタカナ語", "explanation": "「イニシアチブ」は主導権のこと。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n彼女は__コンスタント__に成果を出している。", "choices": ["安定して", "急に", "まれに", "一度だけ"], "answer": "安定して", "group": "カタカナ語", "explanation": "「コンスタント」は一定して変わらない様子。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\nその決定に__異議__を唱えた。", "choices": ["反対の意見", "賛成の意見", "素朴な疑問", "強い賛同"], "answer": "反対の意見", "group": "類義の使い分け", "explanation": "「異議」は反対の意見のこと。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n両者の実力には__歴然__とした差がある。", "choices": ["はっきりした", "わずかな", "意外な", "小さな"], "answer": "はっきりした", "group": "類義の使い分け", "explanation": "「歴然」は明白ではっきりしている様子。"}, {"question": "＿＿の言葉に意味が最も近いものを、１・２・３・４から一つえらびなさい。\n\n契約をいったん__白紙に戻す__ことになった。", "choices": ["なかったことにする", "正式に結ぶ", "少し変更する", "公開する"], "answer": "なかったことにする", "group": "類義の使い分け", "explanation": "「白紙に戻す」は元の何もない状態に戻すこと。"}], "用法": [{"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【打診】", "choices": ["先方に会議の日程を打診したところ、快く応じてもらえた。", "傷の具合を打診して薬をぬった。", "声を打診して遠くまで届かせた。", "打診な性格で、誰とでもすぐ打ち解ける。"], "answer": "先方に会議の日程を打診したところ、快く応じてもらえた。", "group": "難漢語(名詞・する動詞)", "explanation": "「打診」は相手の意向をそれとなく探ること。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【緩和】", "choices": ["政府は輸入の規制を緩和する方針を示した。", "緩和な道が続いていて歩きやすい。", "彼は緩和して毎日走っている。", "料理が緩和な味でおいしかった。"], "answer": "政府は輸入の規制を緩和する方針を示した。", "group": "難漢語(名詞・する動詞)", "explanation": "「緩和」は厳しさや程度をやわらげること。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【真価】", "choices": ["困難なときにこそ、その人の真価が問われる。", "真価を持って学校へ向かった。", "彼は真価が高くて力持ちだ。", "真価な天気になり出かけた。"], "answer": "困難なときにこそ、その人の真価が問われる。", "group": "抽象名詞", "explanation": "「真価」は本当の値打ちのこと。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【対価】", "choices": ["提供した技術の対価として報酬を受け取った。", "対価を開けて中身を確かめた。", "彼は対価して丁寧にあいさつした。", "対価な場所で静かに休んだ。"], "answer": "提供した技術の対価として報酬を受け取った。", "group": "抽象名詞", "explanation": "「対価」は何かの見返りとして払う金品。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【おのずと】", "choices": ["努力を積み重ねれば、結果はおのずとついてくる。", "おのずとした部屋でゆっくり休んだ。", "彼はおのずとな人で親切だ。", "荷物をおのずと運んで片づけた。"], "answer": "努力を積み重ねれば、結果はおのずとついてくる。", "group": "副詞", "explanation": "「おのずと」は自然にひとりでにの意。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【あえて】", "choices": ["反対を承知の上で、あえて自分の意見を述べた。", "道があえて混雑していて進めない。", "彼はあえてな性格でよく笑う。", "冷たい水をあえて飲みほした。"], "answer": "反対を承知の上で、あえて自分の意見を述べた。", "group": "副詞", "explanation": "「あえて」は無理を承知でわざわの意。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【煩雑】", "choices": ["手続きが煩雑で、思いのほか時間がかかった。", "煩雑な空を見上げて考えこんだ。", "彼は煩雑に廊下を走っていった。", "この料理は煩雑な味で人気がある。"], "answer": "手続きが煩雑で、思いのほか時間がかかった。", "group": "形容詞・形容動詞", "explanation": "「煩雑」は込み入っていてわずらわしい様子。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【露骨】", "choices": ["彼は露骨に嫌そうな顔をしてみせた。", "露骨な坂道を上って山頂に着いた。", "時間が露骨に過ぎて夜になった。", "露骨な料理を作って客に出した。"], "answer": "彼は露骨に嫌そうな顔をしてみせた。", "group": "形容詞・形容動詞", "explanation": "「露骨」は感情などをあからさまに出す様子。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【見込む】", "choices": ["来期は業績の回復が見込まれている。", "駅の方まで見込んで帰宅した。", "冷たい水を見込んで一気に飲んだ。", "彼を見込んで駅前で会った。"], "answer": "来期は業績の回復が見込まれている。", "group": "複合動詞・和語動詞", "explanation": "「見込む」は予想する・当てにするの意。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【損なう】", "choices": ["睡眠不足は健康を損なう大きな原因になる。", "古い道を損なってまっすぐ歩いた。", "彼は損なって夜遅くまで勉強した。", "スープを損なって熱いうちに飲んだ。"], "answer": "睡眠不足は健康を損なう大きな原因になる。", "group": "複合動詞・和語動詞", "explanation": "「損なう」は傷つける・悪くするの意。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【念を押す】", "choices": ["約束に遅れないよう、何度も念を押しておいた。", "念を押して大きな荷物を運び上げた。", "彼は念を押すが強くて頼もしい。", "今日は念を押すな一日で疲れた。"], "answer": "約束に遅れないよう、何度も念を押しておいた。", "group": "慣用表現", "explanation": "「念を押す」は間違いのないよう重ねて確かめること。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【骨が折れる】", "choices": ["大量の資料を一人でまとめるのは骨が折れる仕事だ。", "転んで骨が折れる料理を注文した。", "骨が折れる坂道を自転車で下った。", "彼は骨が折れると笑って手をたたいた。"], "answer": "大量の資料を一人でまとめるのは骨が折れる仕事だ。", "group": "慣用表現", "explanation": "「骨が折れる」は苦労が多く大変なこと。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【携わる】", "choices": ["彼は長年、地域医療に携わってきた。", "重い荷物を携わって階段を上った。", "知らない道を携わって進んでいった。", "冷たい水を携わって一気に飲んだ。"], "answer": "彼は長年、地域医療に携わってきた。", "group": "類義語の使い分け", "explanation": "「携わる」はある仕事に関わり従事すること。"}, {"question": "つぎの言葉の使い方として最もよいものを、１・２・３・４から一つえらびなさい。\n\n【顧みる】", "choices": ["失敗したときこそ、自分の行動を顧みるべきだ。", "古い道を顧みてまっすぐ歩いた。", "料理を顧みて熱いうちに食べた。", "彼を顧みて駅で待ち合わせた。"], "answer": "失敗したときこそ、自分の行動を顧みるべきだ。", "group": "類義語の使い分け", "explanation": "「顧みる」は過去を振り返る・反省するの意。"}]};
+const grammarQuestions = {};
+const readingQuestions = {};
+const otherQuestions = {"読解":[],"聴解":[]};
+// </DATA>
+
+const TOTAL_Q = 10;
+let section = '';
+let subtype = null;
+let pool = [];
+let actualTotal = 10;
+let current = 0;
+let correct = 0;
+let answered = false;
+let timerInterval = null;
+let elapsedSeconds = 0;
+let stats = JSON.parse(localStorage.getItem('jlpt_n1_stats') || '{"total":0,"correct":0}');
+let vocabExpanded = false;
+
+function spreadGroups(arr) {
+  if (arr.length < 3) return arr;
+  const items = arr.slice();
+  const out = [];
+  let lastG = null;
+  while (items.length) {
+    const counts = {};
+    items.forEach(q => { const g = q.group || ''; counts[g] = (counts[g] || 0) + 1; });
+    let best = -1, bestC = -1;
+    for (let i = 0; i < items.length; i++) {
+      const g = items[i].group || '';
+      if (g === lastG) continue;
+      if (counts[g] > bestC) { bestC = counts[g]; best = i; }
+    }
+    if (best === -1) best = 0;
+    out.push(items[best]); lastG = items[best].group || ''; items.splice(best, 1);
+  }
+  return out;
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function show(id) { document.getElementById(id).classList.remove('hidden'); }
+function hide(id) { document.getElementById(id).classList.add('hidden'); }
+
+function updateStatsBar() {
+  if (stats.total === 0) return;
+  document.getElementById('stats-bar').classList.remove('hidden');
+  document.getElementById('stat-total').textContent = stats.total;
+  document.getElementById('stat-correct').textContent = stats.correct;
+  document.getElementById('stat-rate').textContent = Math.round(stats.correct / stats.total * 100) + '%';
+}
+
+
+function toggleReading() {
+  const el = document.getElementById('reading-sub');
+  const btn = document.getElementById('cat-reading');
+  const vEl = document.getElementById('vocab-sub');
+  const gEl = document.getElementById('grammar-sub');
+  const vBtn = document.getElementById('cat-vocab');
+  const gBtn = document.getElementById('cat-grammar');
+  const isOpen = el && el.classList.contains('show');
+  if (el) el.classList.toggle('show', !isOpen);
+  if (btn) btn.classList.toggle('active', !isOpen);
+  if (vEl) vEl.classList.remove('show');
+  if (gEl) gEl.classList.remove('show');
+  if (vBtn) vBtn.classList.remove('active');
+  if (gBtn) gBtn.classList.remove('active');
+}
+function toggleGrammar() {
+  const sub = document.getElementById('grammar-sub');
+  const btn = document.getElementById('cat-grammar');
+  const isExpanded = sub.classList.contains('show');
+  // close others
+  document.getElementById('vocab-sub').classList.remove('show');
+  document.getElementById('cat-vocab').classList.remove('active');
+  const rSub = document.getElementById('reading-sub');
+  const rBtn = document.getElementById('cat-reading');
+  if (rSub) rSub.classList.remove('show');
+  if (rBtn) rBtn.classList.remove('active');
+  if (!isExpanded) {
+    sub.classList.add('show');
+    btn.classList.add('active');
+  } else {
+    sub.classList.remove('show');
+    btn.classList.remove('active');
+  }
+}
+
+function toggleVocab() {
+  vocabExpanded = !vocabExpanded;
+  const sub = document.getElementById('vocab-sub');
+  const btn = document.getElementById('cat-vocab');
+  // close grammar if open
+  const _gSub = document.getElementById('grammar-sub'); if (_gSub) _gSub.classList.remove('show');
+  const _gBtn = document.getElementById('cat-grammar'); if (_gBtn) _gBtn.classList.remove('active');
+  const readingSub = document.getElementById('reading-sub');
+  if (readingSub) readingSub.classList.remove('show');
+  const catReading = document.getElementById('cat-reading');
+  if (catReading) catReading.classList.remove('active');
+  if (vocabExpanded) {
+    sub.classList.add('show');
+    btn.classList.add('active');
+  } else {
+    sub.classList.remove('show');
+    btn.classList.remove('active');
+  }
+}
+
+function startQuiz(sec, sub) {
+  section = sec;
+  subtype = sub;
+  vocabExpanded = false;
+  document.getElementById('vocab-sub').classList.remove('show');
+  document.getElementById('cat-vocab').classList.remove('active');
+  const _gSub = document.getElementById('grammar-sub'); if (_gSub) _gSub.classList.remove('show');
+  const _gBtn = document.getElementById('cat-grammar'); if (_gBtn) _gBtn.classList.remove('active');
+  const readingSub = document.getElementById('reading-sub');
+  if (readingSub) readingSub.classList.remove('show');
+  const catReading = document.getElementById('cat-reading');
+  if (catReading) catReading.classList.remove('active');
+
+  let sourcePool;
+  if (sec === '文字・語彙' && sub) {
+    sourcePool = vocabQuestions[sub] || [];
+  } else if (sec === '文法' && sub) {
+    sourcePool = grammarQuestions[sub] || [];
+  } else if (sec === '読解' && sub) {
+    sourcePool = readingQuestions[sub] || [];
+  } else if (sec === '読解') {
+    sourcePool = Object.values(readingQuestions).flat();
+  } else {
+    sourcePool = otherQuestions[sec] || [];
+  }
+
+  sourcePool = sourcePool.filter(q => !q.hidden);
+  if (sourcePool.length === 0) { alert('この種類は ひょうじ できる もんだいが ありません（すべて 非表示です）。'); goHome(); return; }
+
+  // 文章の文法は5問ずつのセット（文章単位）でシャッフルし、セット内は順序固定
+  if (sub === '文章の文法') {
+    const PASSAGE_SIZE = 5;
+    const passages = [];
+    for (let i = 0; i < sourcePool.length; i += PASSAGE_SIZE) {
+      passages.push(sourcePool.slice(i, i + PASSAGE_SIZE));
+    }
+    const shuffledPassages = shuffle(passages);
+    // 必要な文章数だけ取り（10問なら2文章分）
+    const needed = Math.ceil(TOTAL_Q / PASSAGE_SIZE);
+    pool = shuffledPassages.slice(0, needed).flat().slice(0, TOTAL_Q);
+  } else {
+    pool = shuffle(sourcePool).slice(0, TOTAL_Q);
+    pool = spreadGroups(pool);
+  }
+  // 実際のpool数に合わせてTOTAL_Qを調整
+  actualTotal = pool.length;
+  current = 0;
+  correct = 0;
+  answered = false;
+  elapsedSeconds = 0;
+
+  hide('home-screen');
+  hide('result-screen');
+  show('quiz-screen');
+
+  const pillLabel = sub ? sub : sec;
+  document.getElementById('section-pill').textContent = sec;
+  document.getElementById('subtype-label').textContent = sub ? '問題種別：' + sub : '';
+
+  startTimer();
+  renderQuestion();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  elapsedSeconds = 0;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    elapsedSeconds++;
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+function updateTimerDisplay() {
+  const m = String(Math.floor(elapsedSeconds / 60)).padStart(2, '0');
+  const s = String(elapsedSeconds % 60).padStart(2, '0');
+  document.getElementById('timer-box').textContent = m + ':' + s;
+}
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  if (m === 0) return s + '秒';
+  return m + '分' + s + '秒';
+}
+
+function renderQuestionText(text) {
+  const escaped = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // __X__ → 下線付きテキスト
+  let result = escaped.replace(/__(.+?)__/g, '<u style="text-decoration-thickness:2px;text-underline-offset:3px;font-weight:700;">$1</u>');
+  // ★ → 強調ボックス
+  result = result.replace(/★/g, '<span style="display:inline-block;background:#2D5A8E;color:#fff;font-weight:700;padding:1px 8px;border-radius:4px;font-size:15px;">★</span>');
+  // ①②③④⑤ → 空欄マーカー
+  result = result.replace(/([①②③④⑤])/g, '<span style="display:inline-block;background:#E8F0F8;border:2px solid #2D5A8E;border-radius:4px;padding:1px 10px;font-weight:700;color:#1A3A5C;min-width:40px;text-align:center;">$1</span>');
+  return result.replace(/\n/g, '<br>');
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = pool[current];
+  if (!q) { showResult(); return; }
+  const num = current + 1;
+  document.getElementById('q-counter').textContent = '問題 ' + num + ' / ' + actualTotal;
+  document.getElementById('progress-fill').style.width = Math.round(num / actualTotal * 100) + '%';
+  document.getElementById('feedback-box').className = 'feedback-box';
+  document.getElementById('feedback-box').innerHTML = '';
+  document.getElementById('next-btn').className = 'next-btn';
+
+  if (section === '文法' && subtype === '文の文法2') {
+    renderPuzzle(q);
+  } else {
+    renderChoices(q);
+  }
+}
+
+function renderChoices(q) {
+  // visual HTML（情報検索問題のお知らせ表示）
+  let visualDiv = '';
+  try {
+    const visualKey = q.visual || null;
+    if (visualKey && typeof visualHTML !== 'undefined' && visualHTML[visualKey]) {
+      visualDiv = '<div style="margin-bottom:12px;overflow-x:auto">' + visualHTML[visualKey] + '</div>';
+    }
+  } catch(e) { visualDiv = ''; }
+
+  // 問題カードと選択肢を必ずリセット
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+  document.getElementById('question-card').innerHTML = visualDiv + renderQuestionText(q.question);
+
+  const labels = ['１', '２', '３', '４'];
+  shuffle(q.choices).forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.dataset.value = c;
+    btn.innerHTML = '<span class="choice-label">' + labels[i] + '</span><span class="choice-text">' + c + '</span>';
+    btn.addEventListener('click', () => selectAnswer(c, q, btn, choicesEl));
+    choicesEl.appendChild(btn);
+  });
+}
+
+function renderPuzzle(q) {
+  const STAR_POS = 2;
+  const allLines = q.question.split('\n');
+  const instructionLine = allLines[0] || '';
+
+  // 下線部行のインデックスを特定
+  const underlineLineIdx = allLines.findIndex(l => l.includes('__１__'));
+
+  // 前件：instruction行の次から下線部行の直前まで（空行除く）
+  const preLines = allLines.slice(1, underlineLineIdx).filter(l => l.trim() !== '');
+
+  // 後件：下線部行の次から末尾まで（空行除く、下線を含む行は除く）
+  const tailLines = allLines.slice(underlineLineIdx + 1).filter(l => l.trim() !== '');
+
+  const slotContents = [null, null, null, null];
+  const tiles = shuffle([...q.choices]);
+
+  // ── question-card ──
+  const card = document.getElementById('question-card');
+  card.innerHTML = '';
+
+  const instr = document.createElement('div');
+  instr.style.cssText = 'font-size:13px;color:var(--text-hint);margin-bottom:10px;';
+  instr.textContent = instructionLine;
+  card.appendChild(instr);
+
+  const sentDiv = document.createElement('div');
+  sentDiv.className = 'puzzle-sentence';
+  sentDiv.style.lineHeight = '2.2';
+
+  // 前件を追加（複数行対応）
+  preLines.forEach((line, idx) => {
+    sentDiv.appendChild(document.createTextNode(line.trim()));
+    sentDiv.appendChild(document.createElement('br'));
+  });
+
+  // スロット行
+  const slotRow = document.createElement('div');
+  slotRow.className = 'puzzle-slot-row';
+  const slotEls = [];
+
+  for (let i = 0; i < 4; i++) {
+    const slot = document.createElement('span');
+    slot.className = 'puzzle-slot' + (i === STAR_POS ? ' star-slot' : '');
+    slot.dataset.idx = i;
+    slot.addEventListener('click', () => {
+      if (!slot.classList.contains('filled') || answered) return;
+      const word = slotContents[i];
+      slotContents[i] = null;
+      slot.textContent = '';
+      slot.classList.remove('filled');
+      const tileEl = document.querySelector(`.puzzle-tile[data-word="${word}"]`);
+      if (tileEl) { tileEl.classList.remove('used'); tileEl.disabled = false; }
+      updateCheckBtn();
+    });
+    slotEls.push(slot);
+    slotRow.appendChild(slot);
+    if (i < 3) {
+      const sep = document.createElement('span');
+      sep.style.cssText = 'color:var(--text-hint);font-size:18px;line-height:1;margin:0 1px;';
+      sep.textContent = '―';
+      slotRow.appendChild(sep);
+    }
+  }
+  sentDiv.appendChild(slotRow);
+
+  // 後件を追加（複数行対応）
+  tailLines.forEach((line, idx) => {
+    if (idx > 0) sentDiv.appendChild(document.createElement('br'));
+    sentDiv.appendChild(document.createTextNode(line.trim()));
+  });
+
+  card.appendChild(sentDiv);
+
+  // ── choices area: tiles + check button ──
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+
+  const tilesDiv = document.createElement('div');
+  tilesDiv.className = 'puzzle-tiles';
+  tiles.forEach(word => {
+    const tile = document.createElement('button');
+    tile.className = 'puzzle-tile';
+    tile.textContent = word;
+    tile.dataset.word = word;
+    tile.addEventListener('click', () => {
+      if (answered || tile.classList.contains('used')) return;
+      const emptyIdx = slotContents.findIndex(s => s === null);
+      if (emptyIdx === -1) return;
+      slotContents[emptyIdx] = word;
+      slotEls[emptyIdx].textContent = word;
+      slotEls[emptyIdx].classList.add('filled');
+      tile.classList.add('used');
+      tile.disabled = true;
+      updateCheckBtn();
+    });
+    tilesDiv.appendChild(tile);
+  });
+  choicesEl.appendChild(tilesDiv);
+
+  const checkBtn = document.createElement('button');
+  checkBtn.className = 'puzzle-check-btn';
+  checkBtn.textContent = '確認する';
+  checkBtn.disabled = true;
+  choicesEl.appendChild(checkBtn);
+
+  function updateCheckBtn() {
+    checkBtn.disabled = slotContents.some(s => s === null);
+  }
+
+  checkBtn.addEventListener('click', () => {
+    if (answered) return;
+    answered = true;
+    const starWord = slotContents[STAR_POS];
+    const isCorrect = starWord === q.answer;
+    if (isCorrect) correct++;
+    stats.total++; if (isCorrect) stats.correct++;
+    localStorage.setItem('jlpt_n1_stats', JSON.stringify(stats));
+
+    slotEls[STAR_POS].classList.add(isCorrect ? 'correct-slot' : 'wrong-slot');
+    document.querySelectorAll('.puzzle-tile').forEach(t => { t.disabled = true; });
+    checkBtn.disabled = true;
+
+    const fb = document.getElementById('feedback-box');
+    fb.innerHTML = '<div class="feedback-label">' + (isCorrect ? '✓ 正解！' : '✗ 不正解') + '</div>' +
+      (!isCorrect ? '<div style="margin-bottom:6px">★の正解：<strong>' + q.answer + '</strong></div>' : '') +
+      '<div>' + q.explanation + '</div>';
+    fb.className = 'feedback-box show ' + (isCorrect ? 'correct' : 'wrong');
+  const reportBtn = document.createElement('button');
+  reportBtn.className = 'report-btn';
+  reportBtn.textContent = '🚩 この問題を報告する';
+  reportBtn.onclick = openReport;
+  fb.appendChild(reportBtn);
+    document.getElementById('next-btn').className = 'next-btn show';
+  });
+}
+
+
+function selectAnswer(selected, q, btn, choicesEl) {
+  if (answered) return;
+  answered = true;
+  const isCorrect = selected === q.answer;
+  if (isCorrect) correct++;
+  stats.total++;
+  if (isCorrect) stats.correct++;
+  localStorage.setItem('jlpt_n1_stats', JSON.stringify(stats));
+
+  Array.from(choicesEl.children).forEach(b => {
+    b.disabled = true;
+    const val = b.dataset.value || b.querySelector('.choice-text').textContent;
+    if (val === q.answer) b.classList.add('correct');
+    else if (b === btn && !isCorrect) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('feedback-box');
+  fb.innerHTML = '<div class="feedback-label">' + (isCorrect ? '✓ 正解！' : '✗ 不正解') + '</div>' +
+    (!isCorrect ? '<div style="margin-bottom:4px">正解：' + q.answer + '</div>' : '') +
+    '<div>' + q.explanation + '</div>';
+  fb.className = 'feedback-box show ' + (isCorrect ? 'correct' : 'wrong');
+  const reportBtn = document.createElement('button');
+  reportBtn.className = 'report-btn';
+  reportBtn.textContent = '🚩 この問題を報告する';
+  reportBtn.onclick = openReport;
+  fb.appendChild(reportBtn);
+  document.getElementById('next-btn').className = 'next-btn show';
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= actualTotal) showResult();
+  else renderQuestion();
+}
+
+function showResult() {
+  stopTimer();
+  hide('quiz-screen');
+  show('result-screen');
+  const pct = Math.round(correct / actualTotal * 100);
+  document.getElementById('r-score').textContent = correct + '問';
+  document.getElementById('r-of').textContent = actualTotal + '問中';
+  document.getElementById('r-time').textContent = '⏱ ' + formatTime(elapsedSeconds) + 'で完了';
+  document.getElementById('r-pct').textContent = '正答率 ' + pct + '%';
+  const msg = pct >= 90 ? 'すばらしい！この種類の問題はほぼ完璧です。他の種類にも挑戦してみましょう！'
+    : pct >= 70 ? 'よくできました！間違えた問題の解説をもう一度確認してみましょう。'
+    : pct >= 50 ? 'もう少しです！苦手な部分を集中して練習するとさらに伸びます。'
+    : '焦らず少しずつ進めましょう。毎日練習することが合格への近道です！';
+  document.getElementById('r-comment').textContent = msg;
+  updateStatsBar();
+}
+
+function retrySection() { startQuiz(section, subtype); }
+
+function goHome() {
+  stopTimer();
+  hide('result-screen');
+  hide('quiz-screen');
+  show('home-screen');
+  updateStatsBar();
+}
+
+function confirmQuit() { show('confirm-overlay'); }
+function cancelQuit() { hide('confirm-overlay'); }
+function doQuit() {
+  hide('confirm-overlay');
+  stopTimer();
+  hide('quiz-screen');
+  show('home-screen');
+  updateStatsBar();
+}
+
+// ── エディタ機能 ──────────────────────────────
+let editingCat = null;
+let editingKey = null;
+let editingIdx = null;
+
+// 確認済みフラグをlocalStorageで管理
+// キー形式: "reviewed:{catStr}:{idx}"
+function getReviewedKey(catStr, idx) { return `reviewed:${catStr}:${idx}`; }
+function isReviewed(catStr, idx) { return localStorage.getItem(getReviewedKey(catStr, idx)) === '1'; }
+function setReviewed(catStr, idx, val) {
+  if (val) localStorage.setItem(getReviewedKey(catStr, idx), '1');
+  else localStorage.removeItem(getReviewedKey(catStr, idx));
+}
+
+function openEditor() {
+  const input = prompt('パスワードを入力してください：');
+  if (!input) return;
+  const HASH = '81b05204f10c10a100d03aef959546cef59357c8177aa3779265b048ac75757e';
+  crypto.subtle.digest('SHA-256', new TextEncoder().encode(input)).then(buf => {
+    const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    if (hex === HASH) {
+      hide('home-screen');
+      show('editor-screen');
+      loadEditorList();
+    } else {
+      alert('パスワードが違います。');
+    }
+  });
+}
+
+function closeEditor() {
+  hide('editor-screen');
+  show('home-screen');
+}
+
+function getEditorPool(catStr) {
+  const [cat, key] = catStr.split('/');
+  if (cat === '文法') return { pool: grammarQuestions[key] || [], key };
+  if (cat === '文字・語彙') return { pool: vocabQuestions[key] || [], key };
+  if (cat === '読解') return { pool: readingQuestions[key] || [], key };
+  return { pool: [], key };
+}
+
+function loadEditorList() {
+  const catStr = document.getElementById('editor-cat').value;
+  const { pool, key } = getEditorPool(catStr);
+  const isG2 = (key === '文の文法2');
+  const listEl = document.getElementById('editor-list');
+  listEl.innerHTML = '';
+
+  const hiddenCount = pool.filter(q => q.hidden).length;
+  const bar = document.createElement('div');
+  bar.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:12px';
+  bar.innerHTML = `<div style="font-size:12px;color:var(--text-hint)">この種類：全 ${pool.length} 問 ／ <span style="color:#2D5A8E;font-weight:700">非表示 ${hiddenCount} 問</span></div>`
+    + `<button onclick="exportHTML()" style="padding:8px 14px;border-radius:8px;background:#2D5A8E;color:#fff;border:none;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer">\u{1F4BE} 修正版HTMLをダウンロード</button>`;
+  listEl.appendChild(bar);
+
+  // 未確認を先に、確認済みを後に並べる
+  const indexed = pool.map((q, i) => ({ q, i, reviewed: isReviewed(catStr, i) }));
+  indexed.sort((a, b) => a.reviewed - b.reviewed);
+
+  // セパレーター用フラグ
+  let shownUnreviewed = false;
+  let shownReviewed = false;
+
+  indexed.forEach(({ q, i, reviewed }) => {
+    // セクションヘッダー
+    if (!reviewed && !shownUnreviewed) {
+      shownUnreviewed = true;
+      const hdr = document.createElement('div');
+      hdr.style.cssText = 'font-size:12px;font-weight:700;color:var(--danger);padding:4px 0 2px;';
+      hdr.textContent = '── 未確認';
+      listEl.appendChild(hdr);
+    }
+    if (reviewed && !shownReviewed) {
+      shownReviewed = true;
+      const hdr = document.createElement('div');
+      hdr.style.cssText = 'font-size:12px;font-weight:700;color:#27ae60;padding:10px 0 2px;';
+      hdr.textContent = '── 確認済み ✓';
+      listEl.appendChild(hdr);
+    }
+
+    const card = document.createElement('div');
+    card.style.cssText = `background:var(--card-bg);border:1px ${q.hidden ? 'dashed #999' : 'solid ' + (reviewed ? '#27ae60' : 'var(--danger)')};border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;opacity:${q.hidden ? '0.45' : (reviewed ? '0.65' : '1')}`;
+
+    const lines = q.question.split('\n').filter(l => l.trim() && !l.includes('えらびなさい'));
+    const preview = lines.join(' ').replace(/__[１２★４]__/g,'＿').replace(/　/g,' ').substring(0,65) + '…';
+    const choicesHtml = q.choices.map((c,ci) =>
+      `<span style="font-size:12px;padding:2px 7px;border-radius:4px;background:${ci===2?'#2D5A8E':'var(--bg)'};color:${ci===2?'#fff':'var(--text-hint)'};border:1px solid var(--border)">${c}</span>`
+    ).join('');
+    const badge = reviewed
+      ? `<span style="font-size:11px;color:#27ae60;font-weight:700">✓ 確認済み</span>`
+      : `<span style="font-size:11px;color:var(--danger);font-weight:700">● 未確認</span>`;
+
+    card.innerHTML = `
+      <div style="flex:1;min-width:0">
+        <div style="font-size:11px;color:var(--text-hint);margin-bottom:3px;display:flex;gap:8px;align-items:center">
+          <span style="font-weight:700">${key} #${i+1}</span>${badge}${q.hidden ? ' <span style="font-size:10px;color:#fff;background:#777;border-radius:4px;padding:1px 6px;font-weight:700">\u{1F6AB} 非表示</span>' : ''}
+        </div>
+        <div style="font-size:14px;line-height:1.5;word-break:break-all;margin-bottom:5px">${preview}</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap">${choicesHtml}</div>
+        ${!isG2 ? `<div style="font-size:12px;color:#27ae60;margin-top:4px">✓ 正解：${q.answer}</div>` : ''}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+        <button onclick="openEditModal('${catStr}',${i})" style="padding:7px 14px;border-radius:7px;background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer">編集</button>
+        <button onclick="toggleReviewed('${catStr}',${i})" style="padding:5px 10px;border-radius:7px;background:${reviewed?'#eee':'#27ae60'};color:${reviewed?'var(--text-hint)':'#fff'};border:none;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer">${reviewed?'未確認に戻す':'✓ 確認済みに'}</button>
+        <button onclick="toggleHidden('${catStr}',${i})" style="padding:5px 10px;border-radius:7px;background:${q.hidden?'#2D5A8E':'#eee'};color:${q.hidden?'#fff':'var(--text-hint)'};border:none;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer">${q.hidden?'表示に戻す':'\u{1F6AB} 非表示にする'}</button>
+      </div>`;
+    listEl.appendChild(card);
+  });
+
+  if (pool.length === 0) {
+    listEl.innerHTML = '<div style="color:var(--text-hint);text-align:center;padding:20px">問題がありません</div>';
+  }
+}
+
+function toggleReviewed(catStr, idx) {
+  setReviewed(catStr, idx, !isReviewed(catStr, idx));
+  loadEditorList();
+}
+
+function openEditModal(catStr, idx) {
+  const { pool, key } = getEditorPool(catStr);
+  const q = pool[idx];
+  if (!q) return;
+  editingCat = catStr;
+  editingKey = key;
+  editingIdx = idx;
+  const isG2 = (key === '文の文法2');
+
+  const bodyLines = q.question.split('\n').slice(1);
+  document.getElementById('edit-question').value = bodyLines.join('\n');
+  document.getElementById('edit-c1').value = q.choices[0] || '';
+  document.getElementById('edit-c2').value = q.choices[1] || '';
+  document.getElementById('edit-c3').value = q.choices[2] || '';
+  document.getElementById('edit-c4').value = q.choices[3] || '';
+  document.getElementById('edit-explanation').value = q.explanation || '';
+
+  const note = document.getElementById('edit-answer-note');
+  if (isG2) {
+    note.textContent = '⚠ 並べ替え問題：③が★（正解）になります。文中の正しい語順通りに①②③④を入力してください。';
+    note.style.color = '#2D5A8E';
+  } else {
+    note.textContent = '※ 正解は③の選択肢に自動設定されます。正解にしたい語を③に入力してください。';
+    note.style.color = 'var(--text-hint)';
+  }
+
+  document.getElementById('edit-modal-title').textContent = `問${idx+1} を編集`;
+  document.getElementById('edit-overlay').style.display = 'block';
+}
+
+function closeEditModal() {
+  document.getElementById('edit-overlay').style.display = 'none';
+}
+
+function saveEdit() {
+  const { pool } = getEditorPool(editingCat);
+  const q = pool[editingIdx];
+  if (!q) return;
+
+  const firstLine = q.question.split('\n')[0];
+  q.question    = firstLine + '\n' + document.getElementById('edit-question').value;
+  const c1 = document.getElementById('edit-c1').value.trim();
+  const c2 = document.getElementById('edit-c2').value.trim();
+  const c3 = document.getElementById('edit-c3').value.trim();
+  const c4 = document.getElementById('edit-c4').value.trim();
+  q.choices     = [c1, c2, c3, c4];
+  q.answer      = c3;
+  q.explanation = document.getElementById('edit-explanation').value.trim();
+
+  // 編集したら自動的に未確認に戻す
+  setReviewed(editingCat, editingIdx, false);
+
+  closeEditModal();
+  loadEditorList();
+}
+
+function toggleHidden(catStr, idx) {
+  const { pool } = getEditorPool(catStr);
+  const q = pool[idx];
+  if (!q) return;
+  if (q.hidden) delete q.hidden; else q.hidden = true;
+  loadEditorList();
+}
+
+async function exportHTML() {
+  let src;
+  try {
+    const res = await fetch(location.href, { cache: 'no-store' });
+    src = await res.text();
+  } catch (e) {
+    src = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  }
+  const ser =
+    'const vocabQuestions = ' + JSON.stringify(vocabQuestions) + ';\n' +
+    'const grammarQuestions = ' + JSON.stringify(grammarQuestions) + ';\n' +
+    'const readingQuestions = ' + JSON.stringify(readingQuestions) + ';\n' +
+    'const otherQuestions = ' + JSON.stringify(otherQuestions) + ';';
+  const re = /\/\/ <DATA>[\s\S]*?\/\/ <\/DATA>/;
+  if (!re.test(src)) { alert('データ範囲の マーカーが 見つかりません。GitHub Pages（サーバー）から ひらいて、もう一度 おためし ください。'); return; }
+  src = src.replace(re, '// <DATA>\n' + ser + '\n// </DATA>');
+  const blob = new Blob([src], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'n1_quiz.html';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+// ────────────────────────────────────────────────
+
+
+// ── Report function ──────────────────────────────
+let reportingQ = null;
+
+function openReport() {
+  const q = pool[current];
+  reportingQ = q;
+  document.getElementById('report-q-info').textContent = '問題：' + q.question.slice(0, 40) + '…';
+  document.getElementById('report-textarea').value = '';
+  document.getElementById('report-form-area').classList.remove('hidden');
+  document.getElementById('report-sent-area').classList.add('hidden');
+  document.getElementById('report-overlay').classList.remove('hidden');
+}
+
+function closeReport() {
+  document.getElementById('report-overlay').classList.add('hidden');
+}
+
+async function sendReport() {
+  const msg = document.getElementById('report-textarea').value.trim();
+  if (!msg) { alert('コメントを入力してください。'); return; }
+  const q = reportingQ;
+  const body = {
+    message: msg,
+    question: q ? q.question : '',
+    answer: q ? q.answer : '',
+    section: section + (subtype ? ' / ' + subtype : ''),
+  };
+  try {
+    const res = await fetch('https://formspree.io/f/xlgygdzd', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (res.ok) {
+      document.getElementById('report-form-area').classList.add('hidden');
+      document.getElementById('report-sent-area').classList.remove('hidden');
+      setTimeout(closeReport, 2000);
+    } else {
+      alert('送信に失敗しました。もう一度お試しください。');
+    }
+  } catch(e) {
+    alert('送信に失敗しました。ネットワークを確認してください。');
+  }
+}
+// ─────────────────────────────────────────────────
+
+
+
+
+
+
+const visualHTML = (function() {
+  var eiga = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;background:#0a0a14;border-radius:12px;overflow:hidden;border:2px solid #c8a020;margin:0 0 12px\"><div style=\"displ"+"ay:flex;background:#111;border-bottom:2px solid #c8a020;overflow:hidden;height:22px;align-items:center;padding:0 4px;gap:3px\"><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;fl"+"ex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"><"+"/div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div styl"+"e=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;"+"height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;ba"+"ckground:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a"+"14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radi"+"us:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-sh"+"rink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div>"+"<div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div></div><div sty"+"le=\"background:linear-gradient(180deg,#1a2f6e 0%,#0d1b3e 100%);padding:18px 16px 12px;text-align:center;border-bottom:1px solid #c8a020;position:relative;overflow:hidden\"><svg style=\"position:absolute"+";inset:0;pointer-events:none\" viewBox=\"0 0 360 100\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"30\" cy=\"20\" r=\"1.5\" fill=\"#c8a020\" opacity=\".6\"/><circle cx=\"80\" cy=\"10\" r=\"1\" fill=\"#fff\" opacity=\"."+"4\"/><circle cx=\"140\" cy=\"30\" r=\"1.5\" fill=\"#c8a020\" opacity=\".5\"/><circle cx=\"200\" cy=\"8\" r=\"1\" fill=\"#fff\" opacity=\".3\"/><circle cx=\"260\" cy=\"25\" r=\"2\" fill=\"#c8a020\" opacity=\".4\"/><circle cx=\"320\" c"+"y=\"12\" r=\"1.5\" fill=\"#fff\" opacity=\".5\"/><circle cx=\"50\" cy=\"60\" r=\"1\" fill=\"#c8a020\" opacity=\".3\"/><circle cx=\"170\" cy=\"70\" r=\"1.5\" fill=\"#fff\" opacity=\".3\"/><circle cx=\"300\" cy=\"55\" r=\"1\" fill=\"#c8a"+"020\" opacity=\".4\"/></svg><div style=\"font-size:9px;letter-spacing:.25em;color:#c8a020;border:1px solid #c8a020;padding:2px 10px;display:inline-block;margin-bottom:10px;position:relative\">NOW SHOWING</"+"div><div style=\"font-size:22px;font-weight:700;color:#fff;letter-spacing:.12em;text-shadow:0 0 20px rgba(200,160,32,.3);position:relative\">シネマ <span style=\"color:#c8a020\">みどり</span></div><div style=\"f"+"ont-size:10px;color:#888;letter-spacing:.18em;margin-top:6px;position:relative\">CINEMA MIDORI &#x2014; &#x4E0A;&#x6620;&#x30B9;&#x30B1;&#x30B8;&#x30E5;&#x30FC;&#x30EB;</div></div><div style=\"padding:1"+"2px 16px;background:#0a0a14\"><div style=\"display:grid;grid-template-columns:1fr 90px 65px;font-size:9px;letter-spacing:.12em;color:#c8a020;border-bottom:.5px solid #c8a020;padding-bottom:5px;margin-bo"+"ttom:6px\"><div>&#x4F5C;&#x54C1;&#x540D;</div><div style=\"text-align:center\">&#x4E0A;&#x6620;&#x6642;&#x9593;</div><div style=\"text-align:right\">&#x6599;&#x91D1;</div></div><div style=\"display:grid;gri"+"d-template-columns:1fr 90px 65px;padding:7px 0;border-bottom:.5px solid #1e1e2e;align-items:center\"><div style=\"font-size:12px;color:#e8e8e8;font-weight:500\">A&#x300C;&#x305F;&#x306E;&#x3057;&#x3044; "+"&#x3069;&#x3046;&#x3076;&#x3064;&#x300D;</div><div style=\"text-align:center;font-size:11px;color:#aaa;line-height:1.6\">10:00<br>14:00</div><div style=\"text-align:right;font-size:13px;font-weight:700;c"+"olor:#c8a020\">800&#x5186;</div></div><div style=\"display:grid;grid-template-columns:1fr 90px 65px;padding:7px 0;border-bottom:.5px solid #1e1e2e;align-items:center\"><div style=\"font-size:12px;color:#e"+"8e8e8;font-weight:500\">B&#x300C;&#x3046;&#x307F;&#x306E; &#x307C;&#x3046;&#x3051;&#x3093;&#x300D;</div><div style=\"text-align:center;font-size:11px;color:#aaa;line-height:1.6\">11:00<br>15:00</div><div"+" style=\"text-align:right;font-size:13px;font-weight:700;color:#c8a020\">1,000&#x5186;</div></div><div style=\"display:grid;grid-template-columns:1fr 90px 65px;padding:7px 0;border-bottom:.5px solid #1e1"+"e2e;align-items:center\"><div style=\"font-size:12px;color:#e8e8e8;font-weight:500\">C&#x300C;&#x3084;&#x307E;&#x306E; &#x304D;&#x305B;&#x3064;&#x300D;</div><div style=\"text-align:center;font-size:11px;c"+"olor:#aaa;line-height:1.6\">13:00<br>17:00</div><div style=\"text-align:right;font-size:13px;font-weight:700;color:#c8a020\">900&#x5186;</div></div><div style=\"display:grid;grid-template-columns:1fr 90px"+" 65px;padding:7px 0;align-items:center\"><div style=\"font-size:12px;color:#e8e8e8;font-weight:500\">D&#x300C;&#x307E;&#x3061;&#x306E; &#x3072;&#x307F;&#x3064;&#x300D;</div><div style=\"text-align:center;"+"font-size:11px;color:#aaa;line-height:1.6\">12:00<br>18:00</div><div style=\"text-align:right;font-size:13px;font-weight:700;color:#c8a020\">1,200&#x5186;</div></div></div><div style=\"background:#050510;"+"border-top:1px solid #222;padding:10px 16px\"><div style=\"display:flex;gap:10px;margin-bottom:8px\"><div style=\"background:#1a1a2e;border:.5px solid #333;border-radius:4px;padding:5px 8px;font-size:10px"+";color:#bbb;line-height:1.6;flex:1\"><strong style=\"display:block;font-size:9px;color:#c8a020;letter-spacing:.1em;margin-bottom:2px\">&#x3053;&#x3069;&#x3082;&#x6599;&#x91D1;</strong>&#x901A;&#x5E38;&#x"+"306E; &#x306F;&#x3093;&#x304C;&#x304F;</div><div style=\"background:#1a1a2e;border:.5px solid #333;border-radius:4px;padding:5px 8px;font-size:10px;color:#bbb;line-height:1.6;flex:1\"><strong style=\"dis"+"play:block;font-size:9px;color:#c8a020;letter-spacing:.1em;margin-bottom:2px\">&#x4F1A;&#x54E1;&#x5272;&#x5F15;</strong>200&#x5186; &#x3084;&#x3059;&#x304F;&#x306A;&#x308A;&#x307E;&#x3059;</div></div><"+"div style=\"font-size:9px;color:#555;line-height:1.8;border-top:.5px solid #1e1e2e;padding-top:7px\">&#x203B; &#x30C1;&#x30B1;&#x30C3;&#x30C8;&#x306F;&#x5F53;&#x65E5;&#x7A93;&#x53E3;&#x306B;&#x3066;&#x3"+"04A;&#x8CB7;&#x3044;&#x6C42;&#x3081;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;<br>&#x203B; &#x304A;&#x554F;&#x3044;&#x5408;&#x308F;&#x305B;&#xFF1A;&#x30B7;&#x30CD;&#x30DE;&#x307F;&#x3069;&#x308A; Tel. 0"+"42-000-0000</div></div><div style=\"display:flex;background:#111;border-top:2px solid #c8a020;overflow:hidden;height:22px;align-items:center;padding:0 4px;gap:3px\"><div style=\"width:12px;height:10px;ba"+"ckground:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a"+"14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radi"+"us:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-sh"+"rink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div>"+"<div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"wi"+"dth:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;heigh"+"t:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;backgro"+"und:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;bo"+"rder-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2px;flex-shrink:0\"></div><div style=\"width:12px;height:10px;background:#0a0a14;border-radius:2p"+"x;flex-shrink:0\"></div></div></div>";
+  var bus = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #006400;margin:0 0 12px\"><div style=\"background:#006400;color"+":#fff;padding:10px 14px;display:flex;align-items:center;gap:10px\"><div style=\"width:36px;height:36px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrin"+"k:0;font-size:20px\">&#x1F68C;</div><div><div style=\"font-size:15px;font-weight:700;letter-spacing:.05em\">&#x3048;&#x304D;&#x307E;&#x3048; &#x767A; &#x30D0;&#x30B9;&#x6642;&#x523B;&#x8868;</div><div st"+"yle=\"font-size:10px;color:#90ee90;margin-top:2px\">&#x5E73;&#x65E5;&#x30FB;&#x571F;&#x66DC;&#x65E5;&#x30C0;&#x30A4;&#x30E4;</div></div></div><div style=\"background:#004d00;padding:6px 14px;display:flex"+";align-items:center;gap:8px;font-size:11px;color:#90ee90;border-bottom:1px solid #006400\">&#x1F6A5; &#x3048;&#x304D;&#x307E;&#x3048; &#x2192; &#x5404;&#x65B9;&#x9762;</div><div style=\"background:#fff\""+"><table style=\"width:100%;border-collapse:collapse;font-size:12px\"><thead><tr style=\"background:#e8f5e9\"><th style=\"padding:7px 10px;text-align:center;color:#006400;font-weight:700;font-size:11px;bord"+"er-bottom:1.5px solid #006400;width:44px\">&#x756A;&#x53F7;</th><th style=\"padding:7px 10px;text-align:center;color:#006400;font-weight:700;font-size:11px;border-bottom:1.5px solid #006400\">&#x884C;&#x"+"304D;&#x5148;</th><th style=\"padding:7px 10px;text-align:center;color:#006400;font-weight:700;font-size:11px;border-bottom:1.5px solid #006400\">&#x767A;&#x8ECA;&#x6642;&#x523B;</th></tr></thead><tbody"+"><tr><td style=\"padding:8px 10px;border-bottom:.5px solid #e0e0e0;text-align:center\"><span style=\"display:inline-block;width:28px;height:28px;background:#006400;color:#fff;border-radius:50%;font-size:"+"12px;font-weight:700;line-height:28px;text-align:center\">1</span></td><td style=\"padding:8px 10px;border-bottom:.5px solid #e0e0e0;font-weight:500;font-size:13px\">&#x3053;&#x3046;&#x3048;&#x3093;&#x30"+"7E;&#x3048;</td><td style=\"padding:8px 10px;border-bottom:.5px solid #e0e0e0;font-size:11px;color:#555;line-height:1.7\">7:00 / 9:00<br>11:00 / 13:00</td></tr><tr><td style=\"padding:8px 10px;border-bot"+"tom:.5px solid #e0e0e0;text-align:center\"><span style=\"display:inline-block;width:28px;height:28px;background:#006400;color:#fff;border-radius:50%;font-size:12px;font-weight:700;line-height:28px;text-"+"align:center\">2</span></td><td style=\"padding:8px 10px;border-bottom:.5px solid #e0e0e0;font-weight:500;font-size:13px\">&#x3073;&#x3087;&#x3046;&#x3044;&#x3093;&#x307E;&#x3048;</td><td style=\"padding:"+"8px 10px;border-bottom:.5px solid #e0e0e0;font-size:11px;color:#555;line-height:1.7\">7:30 / 9:30<br>11:30 / 13:30</td></tr><tr><td style=\"padding:8px 10px;border-bottom:.5px solid #e0e0e0;text-align:c"+"enter\"><span style=\"display:inline-block;width:28px;height:28px;background:#006400;color:#fff;border-radius:50%;font-size:12px;font-weight:700;line-height:28px;text-align:center\">3</span></td><td styl"+"e=\"padding:8px 10px;border-bottom:.5px solid #e0e0e0;font-weight:500;font-size:13px\">&#x3060;&#x3044;&#x304C;&#x304F;&#x307E;&#x3048;</td><td style=\"padding:8px 10px;border-bottom:.5px solid #e0e0e0;f"+"ont-size:11px;color:#555;line-height:1.7\">8:00 / 10:00<br>12:00 / 14:00</td></tr><tr><td style=\"padding:8px 10px;text-align:center\"><span style=\"display:inline-block;width:28px;height:28px;background:"+"#006400;color:#fff;border-radius:50%;font-size:12px;font-weight:700;line-height:28px;text-align:center\">4</span></td><td style=\"padding:8px 10px;font-weight:500;font-size:13px\">&#x30B9;&#x30FC;&#x30D1"+";&#x30FC;&#x307E;&#x3048;</td><td style=\"padding:8px 10px;font-size:11px;color:#555;line-height:1.7\">8:30 / 10:30<br>12:30 / 14:30</td></tr></tbody></table></div><div style=\"background:#e8f5e9;border-"+"top:1.5px solid #006400;padding:7px 14px;font-size:10px;color:#2e5c00;line-height:1.8\">&#x1F6AB; &#x3069;&#x3088;&#x3046;&#x3073;&#x30FB;&#x306B;&#x3061;&#x3088;&#x3046;&#x3073;&#x306F; &#x3046;&#x305"+"4;&#x304D;&#x307E;&#x305B;&#x3093;</div></div>";
+  var sports = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #1565c0;margin:0 0 12px\"><div style=\"background:linear-gradie"+"nt(135deg,#1565c0,#0d47a1);color:#fff;padding:12px 14px;position:relative;overflow:hidden\"><svg style=\"position:absolute;right:-10px;top:-10px;opacity:.15\" width=\"80\" height=\"80\" viewBox=\"0 0 80 80\"><"+"circle cx=\"40\" cy=\"40\" r=\"35\" stroke=\"#fff\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"40\" cy=\"40\" r=\"25\" stroke=\"#fff\" stroke-width=\"2\" fill=\"none\"/><line x1=\"5\" y1=\"40\" x2=\"75\" y2=\"40\" stroke=\"#fff\" "+"stroke-width=\"2\"/><line x1=\"40\" y1=\"5\" x2=\"40\" y2=\"75\" stroke=\"#fff\" stroke-width=\"2\"/></svg><div style=\"font-size:16px;font-weight:700;letter-spacing:.05em;position:relative\">&#x1F3C3; &#x30B9;&#x30D"+"D;&#x30FC;&#x30C4;&#x30BB;&#x30F3;&#x30BF;&#x30FC;&#x3000;&#x3054;&#x6848;&#x5185;</div><div style=\"font-size:10px;color:#90caf9;margin-top:3px;letter-spacing:.1em;position:relative\">SPORTS CENTER GUI"+"DE</div></div><div style=\"background:#fff\"><table style=\"width:100%;border-collapse:collapse;font-size:12px\"><tr style=\"background:#e3f2fd\"><th style=\"padding:6px 8px;text-align:left;color:#1565c0;fon"+"t-size:10px;font-weight:700;border-bottom:1.5px solid #1565c0\">&#x65BD;&#x8A2D;</th><th style=\"padding:6px 8px;text-align:center;color:#1565c0;font-size:10px;font-weight:700;border-bottom:1.5px solid "+"#1565c0\">&#x4F1A;&#x54E1;</th><th style=\"padding:6px 8px;text-align:center;color:#1565c0;font-size:10px;font-weight:700;border-bottom:1.5px solid #1565c0\">&#x4E00;&#x822C;</th><th style=\"padding:6px 8"+"px;text-align:center;color:#1565c0;font-size:10px;font-weight:700;border-bottom:1.5px solid #1565c0\">&#x6642;&#x9593;</th></tr><tr><td style=\"padding:8px;border-bottom:.5px solid #e3f2fd;font-weight:5"+"00\">&#x1F3CA; &#x30D7;&#x30FC;&#x30EB;</td><td style=\"padding:8px;border-bottom:.5px solid #e3f2fd;text-align:center;color:#1565c0;font-weight:700\">500&#x5186;</td><td style=\"padding:8px;border-bottom"+":.5px solid #e3f2fd;text-align:center;color:#555\">800&#x5186;</td><td style=\"padding:8px;border-bottom:.5px solid #e3f2fd;text-align:center;font-size:10px;color:#666\">6:00&#xFF5E;22:00</td></tr><tr st"+"yle=\"background:#f5f9ff\"><td style=\"padding:8px;border-bottom:.5px solid #e3f2fd;font-weight:500\">&#x1F3BE; &#x30C6;&#x30CB;&#x30B9;</td><td style=\"padding:8px;border-bottom:.5px solid #e3f2fd;text-al"+"ign:center;color:#1565c0;font-weight:700\">600&#x5186;</td><td style=\"padding:8px;border-bottom:.5px solid #e3f2fd;text-align:center;color:#555\">1,000&#x5186;</td><td style=\"padding:8px;border-bottom:."+"5px solid #e3f2fd;text-align:center;font-size:10px;color:#666\">6:00&#xFF5E;22:00</td></tr><tr><td style=\"padding:8px;border-bottom:.5px solid #e3f2fd;font-weight:500\">&#x1F4AA; &#x30B8;&#x30E0;</td><t"+"d style=\"padding:8px;border-bottom:.5px solid #e3f2fd;text-align:center;color:#1565c0;font-weight:700\">400&#x5186;</td><td style=\"padding:8px;border-bottom:.5px solid #e3f2fd;text-align:center;color:#"+"555\">700&#x5186;</td><td style=\"padding:8px;border-bottom:.5px solid #e3f2fd;text-align:center;font-size:10px;color:#666\">6:00&#xFF5E;22:00</td></tr><tr style=\"background:#f5f9ff\"><td style=\"padding:8"+"px;font-weight:500\">&#x1F3C0; &#x4F53;&#x80B2;&#x9928;</td><td style=\"padding:8px;text-align:center;color:#1565c0;font-weight:700\">300&#x5186;</td><td style=\"padding:8px;text-align:center;color:#555\">"+"500&#x5186;</td><td style=\"padding:8px;text-align:center;font-size:10px;color:#666\">6:00&#xFF5E;22:00</td></tr></table><div style=\"background:#1565c0;color:#fff;padding:7px 12px;display:flex;justify-c"+"ontent:space-between;align-items:center\"><div><div style=\"font-size:9px;color:#90caf9\">&#x6708;&#x4F1A;&#x8CB9;</div><div style=\"font-size:14px;font-weight:700\">3,000&#x5186;</div></div><div style=\"fo"+"nt-size:10px;color:#90caf9;text-align:right\">&#x4F1A;&#x54E1;&#x306F;&#x3059;&#x3079;&#x3066;&#x306E;&#x65BD;&#x8A2D;&#x3092;<br>&#x5272;&#x5F15;&#x6599;&#x91D1;&#x3067;&#x5229;&#x7528;&#x3067;&#x304D"+";&#x307E;&#x3059;</div></div></div><div style=\"background:#e3f2fd;border-top:1.5px solid #1565c0;padding:7px 12px;font-size:10px;color:#0d47a1;line-height:1.8\">&#x26A0;&#xFE0F; &#x6C34;&#x66DC;15&#x66"+"42;&#xFF5E;&#x30D7;&#x30FC;&#x30EB;&#x6E05;&#x6383;&#x306E;&#x305F;&#x3081;&#x4F11;&#x6B62;&#x3000;&#x1F4DE; Tel. 042-000-0000</div></div>";
+  var midori = "<div style=\"font-family:'Hiragino Mincho ProN','Yu Mincho','Georgia',serif;max-width:100%;border-radius:6px;overflow:hidden;border:1.5px solid #555;background:#faf9f4;margin:0 0 12px\"><div style=\"heig"+"ht:6px;background:repeating-linear-gradient(90deg,#8b0000 0,#8b0000 30px,#fff 30px,#fff 32px,#c8a020 32px,#c8a020 62px,#fff 62px,#fff 64px)\"></div><div style=\"padding:12px 16px 10px;border-bottom:2px "+"solid #333\"><div style=\"font-size:10px;color:#666;letter-spacing:.1em;font-family:'Hiragino Sans','Yu Gothic',sans-serif\">&#x307F;&#x3069;&#x308A;&#x5E02;&#x6559;&#x80B2;&#x59D4;&#x54E1;&#x4F1A;&#x300"+"0;&#x751F;&#x6DAF;&#x5B66;&#x7FD2;&#x8AB2;</div><div style=\"display:flex;justify-content:space-between;align-items:flex-start;margin-top:4px\"><div><div style=\"font-size:18px;font-weight:700;color:#111"+";letter-spacing:.06em;line-height:1.3\">&#x307F;&#x3069;&#x308A;&#x5E02;&#x6587;&#x5316;&#x30BB;&#x30F3;&#x30BF;&#x30FC;<br>&#x6625;&#x306E;&#x30A4;&#x30D9;&#x30F3;&#x30C8;&#x306E;&#x3054;&#x6848;&#x51"+"85;</div><div style=\"font-size:9px;color:#888;letter-spacing:.15em;font-family:'Hiragino Sans',sans-serif;margin-top:3px\">MIDORI CULTURAL CENTER &#x2014; SPRING EVENTS</div></div><div style=\"width:38p"+"x;height:38px;border:2px solid #8b0000;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#8b0000;font-size:8px;line-height:1.4;text-align:center;font-family:serif;flex-shr"+"ink:0;margin-left:8px\">&#x307F;&#x3069;&#x308A;&#x5E02;<br>&#x6559;&#x80B2;&#x59D4;</div></div></div><div style=\"padding:10px 16px\"><div style=\"font-size:11px;color:#333;line-height:1.9;margin-bottom:"+"10px;border-left:3px solid #8b0000;padding-left:8px;font-family:'Hiragino Sans','Yu Gothic',sans-serif\">&#x5E02;&#x6C11;&#x306E;&#x76BA;&#x69D8;&#x306E;&#x3054;&#x53C2;&#x52A0;&#x3092;&#x304A;&#x5F85;"+"&#x3061;&#x3057;&#x3066;&#x304A;&#x308A;&#x307E;&#x3059;&#x3002;&#x304A;&#x7533;&#x3057;&#x8FBC;&#x307F;&#x306F;&#x30E1;&#x30FC;&#x30EB;&#x306B;&#x3066;&#x304A;&#x9858;&#x3044;&#x3044;&#x305F;&#x3057;"+"&#x307E;&#x3059;&#x3002;</div><table style=\"width:100%;border-collapse:collapse;font-size:11px\"><tr><th style=\"background:#333;color:#fff;padding:6px 8px;font-weight:500;text-align:center;font-family:"+"'Hiragino Sans',sans-serif;font-size:10px;letter-spacing:.08em\">&#x540D;&#x3000;&#x79F0;</th><th style=\"background:#333;color:#fff;padding:6px 8px;font-weight:500;text-align:center;font-family:'Hiragi"+"no Sans',sans-serif;font-size:10px;letter-spacing:.08em\">&#x6708;&#x30FB;&#x65E5;</th><th style=\"background:#333;color:#fff;padding:6px 8px;font-weight:500;text-align:center;font-family:'Hiragino Sans"+"',sans-serif;font-size:10px;letter-spacing:.08em\">&#x6642;&#x3000;&#x9593;</th><th style=\"background:#333;color:#fff;padding:6px 8px;font-weight:500;text-align:center;font-family:'Hiragino Sans',sans-"+"serif;font-size:10px;letter-spacing:.08em\">&#x6599;&#x3000;&#x91D1;</th></tr><tr><td style=\"padding:6px 8px;border:1px solid #ccc;font-weight:700;color:#8b0000;text-align:center\">&#x2460;&#x6599;&#x74"+"06;&#x6559;&#x5BA4;</td><td style=\"padding:6px 8px;border:1px solid #ccc;font-family:'Hiragino Sans',sans-serif;text-align:center\">4/5&#xFF08;&#x571F;&#xFF09;</td><td style=\"padding:6px 8px;border:1px"+" solid #ccc;font-family:'Hiragino Sans',sans-serif;text-align:center\">10&#xFF5E;13&#x6642;</td><td style=\"padding:6px 8px;border:1px solid #ccc;font-family:'Hiragino Sans',sans-serif;text-align:right\""+">800&#x5186;</td></tr><tr style=\"background:#f0ede4\"><td style=\"padding:6px 8px;border:1px solid #ccc;font-weight:700;color:#8b0000;text-align:center\">&#x2461;&#x97F3;&#x697D;&#x4F1A;</td><td style=\"p"+"adding:6px 8px;border:1px solid #ccc;font-family:'Hiragino Sans',sans-serif;text-align:center\">4/12&#xFF08;&#x571F;&#xFF09;</td><td style=\"padding:6px 8px;border:1px solid #ccc;font-family:'Hiragino S"+"ans',sans-serif;text-align:center\">14&#xFF5E;16&#x6642;</td><td style=\"padding:6px 8px;border:1px solid #ccc;font-family:'Hiragino Sans',sans-serif;text-align:right\">600&#x5186;</td></tr><tr><td style"+"=\"padding:6px 8px;border:1px solid #ccc;font-weight:700;color:#8b0000;text-align:center\">&#x2462;&#x5199;&#x771F;&#x5C55;</td><td style=\"padding:6px 8px;border:1px solid #ccc;font-family:'Hiragino San"+"s',sans-serif;text-align:center\">4/19&#xFF08;&#x65E5;&#xFF09;</td><td style=\"padding:6px 8px;border:1px solid #ccc;font-family:'Hiragino Sans',sans-serif;text-align:center\">10&#xFF5E;17&#x6642;</td><t"+"d style=\"padding:6px 8px;border:1px solid #ccc;color:#2e5c00;font-weight:700;font-family:'Hiragino Sans',sans-serif;text-align:center\">&#x7121;&#x6599;</td></tr><tr style=\"background:#f0ede4\"><td styl"+"e=\"padding:6px 8px;border:1px solid #ccc;font-weight:700;color:#8b0000;text-align:center\">&#x2463;&#x6620;&#x753B;&#x4F1A;</td><td style=\"padding:6px 8px;border:1px solid #ccc;font-family:'Hiragino Sa"+"ns',sans-serif;text-align:center\">4/26&#xFF08;&#x571F;&#xFF09;</td><td style=\"padding:6px 8px;border:1px solid #ccc;font-family:'Hiragino Sans',sans-serif;text-align:center\">14&#xFF5E;17&#x6642;</td><"+"td style=\"padding:6px 8px;border:1px solid #ccc;font-family:'Hiragino Sans',sans-serif;text-align:right\">500&#x5186;</td></tr><tr><td style=\"padding:6px 8px;border:1px solid #ccc;font-weight:700;color"+":#8b0000;text-align:center\">&#x2464;&#x8336;&#x9053;&#x4F53;&#x9A13;</td><td style=\"padding:6px 8px;border:1px solid #ccc;font-family:'Hiragino Sans',sans-serif;text-align:center\">4/29&#xFF08;&#x706B;"+"&#xFF09;</td><td style=\"padding:6px 8px;border:1px solid #ccc;font-family:'Hiragino Sans',sans-serif;text-align:center\">10&#xFF5E;12&#x6642;</td><td style=\"padding:6px 8px;border:1px solid #ccc;font-f"+"amily:'Hiragino Sans',sans-serif;text-align:right\">1,000&#x5186;</td></tr></table></div><div style=\"background:#f0ede4;border-top:1px solid #ccc;padding:8px 16px;font-size:10px;color:#444;line-height:"+"1.9;font-family:'Hiragino Sans','Yu Gothic',sans-serif\">&#x25C6; &#x7533;&#x3057;&#x8FBC;&#x307F;&#xFF1A;info@midori-center.jp<br>&#x25C6; &#x5B9A;&#x54E1;&#x306B;&#x306A;&#x308A;&#x6B21;&#x7B2C;&#x30"+"01;&#x7DE0;&#x3081;&#x5207;&#x3089;&#x305B;&#x3066;&#x3044;&#x305F;&#x3060;&#x304D;&#x307E;&#x3059;&#x3002;<br>&#x25C6; &#x8907;&#x6570;&#x306E;&#x30A4;&#x30D9;&#x30F3;&#x30C8;&#x3078;&#x306E;&#x304A;"+"&#x7533;&#x3057;&#x8FBC;&#x307F;&#x304C;&#x53EF;&#x80FD;&#x3067;&#x3059;&#x3002;</div></div>";
+  var gym = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #212121;background:#fff;margin:0 0 12px\"><div style=\"backgrou"+"nd:#212121;color:#fff;padding:14px 16px 10px\"><div style=\"display:flex;align-items:center;gap:10px;margin-bottom:6px\"><div style=\"font-size:28px\">&#x1F4AA;</div><div><div style=\"font-size:18px;font-we"+"ight:700;letter-spacing:.05em\">&#x3048;&#x304D;&#x524D;&#x30B9;&#x30DD;&#x30FC;&#x30C4;&#x30B8;&#x30E0;</div><div style=\"font-size:9px;color:#888;letter-spacing:.2em\">EKI-MAE SPORTS GYM</div></div></d"+"iv><div style=\"font-size:10px;color:#bbb;letter-spacing:.1em;border-top:.5px solid #444;padding-top:6px\">24&#x6642;&#x9593;&#x55B6;&#x696D;&#x30FB;&#x5E74;&#x4E2D;&#x7121;&#x4F11;&#x3000;&#xFF0D;&#x30"+"00;&#x6700;&#x65B0;&#x8A2D;&#x5099;&#x3067;&#x30C8;&#x30EC;&#x30FC;&#x30CB;&#x30F3;&#x30B0;</div></div><div style=\"padding:10px 14px;border-bottom:.5px solid #f0f0f0\"><div style=\"font-size:9px;font-we"+"ight:700;letter-spacing:.15em;color:#888;text-transform:uppercase;margin-bottom:6px\">&#x65BD;&#x8A2D;&#x30FB;&#x6599;&#x91D1;&#x6848;&#x5185;</div><div style=\"display:flex;align-items:center;justify-c"+"ontent:space-between;padding:5px 0;border-bottom:.5px solid #f5f5f5;font-size:12px\"><div style=\"display:flex;align-items:center;gap:6px;font-weight:500;color:#222\"><span style=\"font-size:14px\">&#x1F3C"+"B;&#xFE0F;</span>&#x30B8;&#x30E0;</div><div style=\"display:flex;gap:8px;align-items:center\"><span style=\"font-size:11px;background:#e8f5e9;color:#2e7d32;border-radius:3px;padding:1px 6px;font-weight:7"+"00\">&#x4F1A;&#x54E1; &#x7121;&#x6599;</span><span style=\"color:#ddd;font-size:10px\">|</span><span style=\"font-size:11px;color:#888\">&#x4E00;&#x822C; 800&#x5186;</span></div></div><div style=\"display:f"+"lex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:.5px solid #f5f5f5;font-size:12px\"><div style=\"display:flex;align-items:center;gap:6px;font-weight:500;color:#222\"><spa"+"n style=\"font-size:14px\">&#x1F3CA;</span>&#x30D7;&#x30FC;&#x30EB;</div><div style=\"display:flex;gap:8px;align-items:center\"><span style=\"font-size:12px;color:#1565c0;font-weight:700\">&#x4F1A;&#x54E1; "+"500&#x5186;</span><span style=\"color:#ddd;font-size:10px\">|</span><span style=\"font-size:11px;color:#888\">&#x4E00;&#x822C; 1,000&#x5186;</span></div></div><div style=\"display:flex;align-items:center;j"+"ustify-content:space-between;padding:5px 0;font-size:12px\"><div style=\"display:flex;align-items:center;gap:6px;font-weight:500;color:#222\"><span style=\"font-size:14px\">&#x1F3B5;</span>&#x30B9;&#x30BF;"+"&#x30B8;&#x30AA;</div><div style=\"display:flex;gap:8px;align-items:center\"><span style=\"font-size:11px;background:#e8f5e9;color:#2e7d32;border-radius:3px;padding:1px 6px;font-weight:700\">&#x4F1A;&#x54"+"E1; &#x7121;&#x6599;</span><span style=\"color:#ddd;font-size:10px\">|</span><span style=\"font-size:11px;color:#888\">&#x4E00;&#x822C; 600&#x5186;</span></div></div></div><div style=\"background:#212121;c"+"olor:#fff;padding:8px 14px;display:flex;justify-content:space-between;align-items:center\"><div><div style=\"font-size:10px;color:#bbb\">&#x6708;&#x4F1A;&#x8CB9;</div><div style=\"font-size:14px;font-weig"+"ht:700\">5,000&#x5186;</div></div><div style=\"font-size:10px;color:#bbb;text-align:right\">&#x30B8;&#x30E0;&#x30FB;&#x30B9;&#x30BF;&#x30B8;&#x30AA;&#x4F7F;&#x3044;&#x653E;&#x984C;<br>&#x30D7;&#x30FC;&#x"+"30EB;&#x5272;&#x5F15;&#x3042;&#x308A;</div></div><div style=\"background:#f9f9f9;border-top:.5px solid #eee;padding:7px 14px;font-size:10px;color:#777;line-height:1.8\">&#x26A0;&#xFE0F; &#x6C34;&#x66DC;"+"15:00&#xFF5E; &#x30D7;&#x30FC;&#x30EB;&#x4F11;&#x6B62;&#xFF08;&#x6E05;&#x6383;&#xFF09;&#x3000;&#x1F4DE; 03-0000-0000</div></div>";
+  var nihongo = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #4a148c;background:#fff;margin:0 0 12px\"><div style=\"backgrou"+"nd:linear-gradient(135deg,#4a148c,#6a1b9a);color:#fff;padding:14px 16px;text-align:center\"><div style=\"font-size:28px;margin-bottom:4px\">&#x1F4DA;</div><div style=\"font-size:17px;font-weight:700;lette"+"r-spacing:.06em\">&#x307F;&#x3069;&#x308A;&#x65E5;&#x672C;&#x8A9E;&#x6559;&#x5BA4;</div><div style=\"font-size:10px;color:#ce93d8;margin-top:4px;letter-spacing:.1em\">MIDORI JAPANESE LANGUAGE SCHOOL</div"+"></div><div style=\"padding:10px 14px\"><table style=\"width:100%;border-collapse:collapse;font-size:11px\"><tr><th style=\"background:#4a148c;color:#fff;padding:6px 8px;text-align:center;font-size:10px;fo"+"nt-weight:500;letter-spacing:.05em;width:36px\">&#x30AF;&#x30E9;&#x30B9;</th><th style=\"background:#4a148c;color:#fff;padding:6px 8px;text-align:center;font-size:10px;font-weight:500;letter-spacing:.05"+"em\">&#x30EC;&#x30D9;&#x30EB;</th><th style=\"background:#4a148c;color:#fff;padding:6px 8px;text-align:center;font-size:10px;font-weight:500;letter-spacing:.05em\">&#x66DC;&#x65E5;&#x30FB;&#x6642;&#x9593"+";</th><th style=\"background:#4a148c;color:#fff;padding:6px 8px;text-align:center;font-size:10px;font-weight:500;letter-spacing:.05em\">&#x6708;&#x8B1D;</th></tr><tr><td style=\"padding:7px 8px;border-bo"+"ttom:.5px solid #f3e5f5;text-align:center\"><span style=\"display:inline-flex;width:22px;height:22px;background:#4a148c;color:#fff;border-radius:50%;font-size:11px;font-weight:700;align-items:center;jus"+"tify-content:center\">A</span></td><td style=\"padding:7px 8px;border-bottom:.5px solid #f3e5f5;text-align:center\"><span style=\"display:inline-block;background:#f3e5f5;color:#4a148c;border-radius:3px;pa"+"dding:1px 5px;font-size:10px;font-weight:700\">N5</span></td><td style=\"padding:7px 8px;border-bottom:.5px solid #f3e5f5;color:#333\">&#x6708;&#x30FB;&#x6728;<br><span style=\"font-size:10px;color:#888\">"+"10:00&#xFF5E;12:00</span></td><td style=\"padding:7px 8px;border-bottom:.5px solid #f3e5f5;font-weight:700;color:#4a148c;text-align:right\">4,000&#x5186;</td></tr><tr style=\"background:#faf5ff\"><td styl"+"e=\"padding:7px 8px;border-bottom:.5px solid #f3e5f5;text-align:center\"><span style=\"display:inline-flex;width:22px;height:22px;background:#4a148c;color:#fff;border-radius:50%;font-size:11px;font-weigh"+"t:700;align-items:center;justify-content:center\">B</span></td><td style=\"padding:7px 8px;border-bottom:.5px solid #f3e5f5;text-align:center\"><span style=\"display:inline-block;background:#f3e5f5;color:"+"#4a148c;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700\">N4&#xFF5E;N3</span></td><td style=\"padding:7px 8px;border-bottom:.5px solid #f3e5f5;color:#333\">&#x706B;&#x30FB;&#x6C34;<br><s"+"pan style=\"font-size:10px;color:#888\">14:00&#xFF5E;16:00</span></td><td style=\"padding:7px 8px;border-bottom:.5px solid #f3e5f5;font-weight:700;color:#4a148c;text-align:right\">5,000&#x5186;</td></tr><"+"tr><td style=\"padding:7px 8px;text-align:center\"><span style=\"display:inline-flex;width:22px;height:22px;background:#4a148c;color:#fff;border-radius:50%;font-size:11px;font-weight:700;align-items:cent"+"er;justify-content:center\">C</span></td><td style=\"padding:7px 8px;text-align:center\"><span style=\"display:inline-block;background:#f3e5f5;color:#4a148c;border-radius:3px;padding:1px 5px;font-size:10p"+"x;font-weight:700\">N4&#xFF5E;N2</span></td><td style=\"padding:7px 8px;color:#333\">&#x6708;&#x30FB;&#x91D1;<br><span style=\"font-size:10px;color:#888\">19:00&#xFF5E;21:00</span></td><td style=\"padding:7"+"px 8px;font-weight:700;color:#4a148c;text-align:right\">5,500&#x5186;</td></tr></table></div><div style=\"background:#f3e5f5;border-top:1px solid #ce93d8;padding:8px 14px;font-size:10px;color:#4a148c;li"+"ne-height:1.8\">&#x1F4E7; &#x7533;&#x3057;&#x8FBC;&#x307F;&#xFF1A;midori-nihongo@example.jp<br>&#x2728; &#x4F53;&#x9A13;&#x30EC;&#x30C3;&#x30B9;&#x30F3;&#xFF08;&#x7121;&#x6599;&#xFF09;&#x3082;&#x53D7;&"+"#x3051;&#x4ED8;&#x3051;&#x3066;&#x3044;&#x307E;&#x3059;</div></div>";
+  var pool = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #0277bd;margin:0 0 12px\"><div style=\"background:linear-gradie"+"nt(180deg,#0288d1,#01579b);color:#fff;padding:12px 14px;text-align:center;position:relative;overflow:hidden\"><svg style=\"position:absolute;bottom:0;left:0;right:0\" viewBox=\"0 0 360 20\" preserveAspectR"+"atio=\"none\"><path d=\"M0,10 Q45,0 90,10 Q135,20 180,10 Q225,0 270,10 Q315,20 360,10 L360,20 L0,20 Z\" fill=\"rgba(255,255,255,0.1)\"/></svg><div style=\"font-size:17px;font-weight:700;letter-spacing:.06em;"+"position:relative\">&#x1F3CA; &#x307F;&#x3069;&#x308A;&#x5E02;&#x6C11;&#x30D7;&#x30FC;&#x30EB;</div><div style=\"font-size:10px;color:#b3e5fc;position:relative;margin-top:3px;letter-spacing:.1em\">MIDORI"+" PUBLIC SWIMMING POOL</div></div><div style=\"background:#01579b;color:#b3e5fc;font-size:11px;padding:5px 14px;text-align:center;letter-spacing:.05em\">&#x1F550; &#x55B6;&#x696D;&#x6642;&#x9593;&#xFF1A;"+"9:00&#xFF5E;21:00&#x3000;&#xFF08;&#x6700;&#x7D42;&#x5165;&#x9928; 20:00&#xFF09;</div><div style=\"background:#fff;padding:10px 14px\"><table style=\"width:100%;border-collapse:collapse;font-size:12px\"><t"+"r style=\"background:#e1f5fe\"><th style=\"padding:6px;text-align:left;color:#01579b;font-size:10px;font-weight:700;border-bottom:1.5px solid #0277bd\">&#x533A;&#x3000;&#x5206;</th><th style=\"padding:6px;"+"text-align:center;color:#01579b;font-size:10px;font-weight:700;border-bottom:1.5px solid #0277bd\">&#x6599;&#x3000;&#x91D1;</th></tr><tr><td style=\"padding:8px 6px;border-bottom:.5px solid #e1f5fe;font"+"-weight:500\">&#x5927;&#x4EBA;&#xFF08;&#x9AD8;&#x6821;&#x751F;&#x4EE5;&#x4E0A;&#xFF09;</td><td style=\"padding:8px 6px;border-bottom:.5px solid #e1f5fe;text-align:center;color:#0277bd;font-weight:700\">5"+"00&#x5186;</td></tr><tr style=\"background:#f0f9ff\"><td style=\"padding:8px 6px;border-bottom:.5px solid #e1f5fe;font-weight:500\">&#x5B50;&#x3069;&#x3082;&#xFF08;&#x4E2D;&#x5B66;&#x751F;&#x672A;&#x6E80;"+"&#xFF09;</td><td style=\"padding:8px 6px;border-bottom:.5px solid #e1f5fe;text-align:center;color:#0277bd;font-weight:700\">200&#x5186;</td></tr><tr><td style=\"padding:8px 6px;font-weight:500\">65&#x6B73"+";&#x4EE5;&#x4E0A;</td><td style=\"padding:8px 6px;text-align:center;color:#0277bd;font-weight:700\">300&#x5186;</td></tr></table></div><div style=\"background:#e1f5fe;border-top:1.5px solid #0277bd;paddi"+"ng:7px 14px;font-size:10px;color:#01579b;line-height:1.8\">&#x1F6AB; &#x6BCE;&#x9031;&#x6708;&#x66DC;&#x65E5;&#x30FB;&#x5E74;&#x672B;&#x5E74;&#x59CB;&#x306F;&#x4F11;&#x9928;<br>&#x1F459; &#x6C34;&#x774"+"0;&#x30FB;&#x6C34;&#x6CF3;&#x5E3D;&#x5B50;&#x306E;&#x7740;&#x7528;&#x304C;&#x5FC5;&#x8981;&#x3067;&#x3059;<br>&#x1F4DE; Tel. 042-000-0000</div></div>";
+  var sakura = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #c62828;margin:0 0 12px\"><div style=\"background:linear-gradie"+"nt(135deg,#c62828,#b71c1c);color:#fff;padding:14px 16px 10px;text-align:center;position:relative;overflow:hidden\"><div style=\"position:absolute;top:-20px;right:-20px;opacity:.1;font-size:80px\">&#x1F33"+"8;</div><div style=\"font-size:24px;margin-bottom:4px;position:relative\">&#x1F338;</div><div style=\"font-size:18px;font-weight:700;letter-spacing:.06em;position:relative\">&#x3055;&#x304F;&#x3089;&#x65E"+"5;&#x672C;&#x8A9E;&#x5B66;&#x6821;</div><div style=\"font-size:10px;color:#ffcdd2;margin-top:4px;letter-spacing:.1em;position:relative\">SAKURA JAPANESE LANGUAGE SCHOOL</div></div><div style=\"background"+":#b71c1c;border-top:.5px solid #e53935;border-bottom:.5px solid #e53935;padding:6px 16px;display:flex;justify-content:center;align-items:center;gap:8px\"><span style=\"background:#fff;color:#c62828;font"+"-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;letter-spacing:.05em\">&#x1F342; &#x79CB;&#x306E;&#x7279;&#x5225;&#x8B1B;&#x5EA7;&#x3000;&#x53D7;&#x8B1B;&#x751F;&#x52DF;&#x96C6;&#x4E2D;&"+"#xFF01;</span></div><div style=\"background:#fff;padding:10px 14px\"><table style=\"width:100%;border-collapse:collapse;font-size:11px\"><tr><th style=\"background:#c62828;color:#fff;padding:6px 8px;text-a"+"lign:left;font-size:10px;font-weight:500;letter-spacing:.05em\">&#x8B1B;&#x3000;&#x5EA7;</th><th style=\"background:#c62828;color:#fff;padding:6px 8px;text-align:center;font-size:10px;font-weight:500;le"+"tter-spacing:.05em\">&#x6599;&#x3000;&#x91D1;</th><th style=\"background:#c62828;color:#fff;padding:6px 8px;text-align:center;font-size:10px;font-weight:500;letter-spacing:.05em\">&#x65E5;&#x3000;&#x6642"+";</th><th style=\"background:#c62828;color:#fff;padding:6px 8px;text-align:center;font-size:10px;font-weight:500;letter-spacing:.05em\">&#x5B9A;&#x54E1;</th></tr><tr><td style=\"padding:7px 8px;border-bo"+"ttom:.5px solid #ffebee\"><div style=\"display:flex;align-items:center;gap:5px\"><span style=\"display:inline-flex;width:20px;height:20px;background:#c62828;color:#fff;border-radius:50%;font-size:10px;fon"+"t-weight:700;align-items:center;justify-content:center\">&#x2460;</span><span style=\"font-weight:500;color:#111;font-size:12px\">&#x4F1A;&#x8A71;&#x529B;&#x30A2;&#x30C3;&#x30D7;</span></div></td><td sty"+"le=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-weight:700;color:#c62828;font-size:12px;text-align:center\">3,000&#x5186;</td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-"+"size:10px;color:#666;text-align:center\">10/4&#xFF08;&#x571F;&#xFF09;<br>10:00&#xFF5E;12:00</td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;text-align:center;font-size:11px;color:#888\">"+"20&#x540D;</td></tr><tr style=\"background:#fff8f8\"><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee\"><div style=\"display:flex;align-items:center;gap:5px\"><span style=\"display:inline-flex;wi"+"dth:20px;height:20px;background:#c62828;color:#fff;border-radius:50%;font-size:10px;font-weight:700;align-items:center;justify-content:center\">&#x2461;</span><span style=\"font-weight:500;color:#111;fo"+"nt-size:12px\">&#x30D3;&#x30B8;&#x30CD;&#x30B9;&#x65E5;&#x672C;&#x8A9E;</span></div></td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-weight:700;color:#c62828;font-size:12px;text-al"+"ign:center\">5,000&#x5186;</td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-size:10px;color:#666;text-align:center\">10/11&#xFF08;&#x571F;&#xFF09;<br>14:00&#xFF5E;16:00</td><td style"+"=\"padding:7px 8px;border-bottom:.5px solid #ffebee;text-align:center;font-size:11px;color:#888\">15&#x540D;</td></tr><tr><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee\"><div style=\"display"+":flex;align-items:center;gap:5px\"><span style=\"display:inline-flex;width:20px;height:20px;background:#c62828;color:#fff;border-radius:50%;font-size:10px;font-weight:700;align-items:center;justify-cont"+"ent:center\">&#x2462;</span><span style=\"font-weight:500;color:#111;font-size:12px\">&#x6F22;&#x5B57;&#x30C1;&#x30E3;&#x30EC;&#x30F3;&#x30B8;</span></div></td><td style=\"padding:7px 8px;border-bottom:.5"+"px solid #ffebee;font-weight:700;color:#c62828;font-size:12px;text-align:center\">2,000&#x5186;</td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-size:10px;color:#666;text-align:cent"+"er\">10/18&#xFF08;&#x571F;&#xFF09;<br>10:00&#xFF5E;12:00</td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;text-align:center;font-size:11px;color:#888\">25&#x540D;</td></tr><tr style=\"back"+"ground:#fff8f8\"><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee\"><div style=\"display:flex;align-items:center;gap:5px\"><span style=\"display:inline-flex;width:20px;height:20px;background:#c6"+"2828;color:#fff;border-radius:50%;font-size:10px;font-weight:700;align-items:center;justify-content:center\">&#x2463;</span><span style=\"font-weight:500;color:#111;font-size:12px\">&#x8AAD;&#x89E3;&#x30"+"C8;&#x30EC;&#x30FC;&#x30CB;&#x30F3;&#x30B0;</span></div></td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-weight:700;color:#c62828;font-size:12px;text-align:center\">3,500&#x5186;</"+"td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-size:10px;color:#666;text-align:center\">10/18&#xFF08;&#x571F;&#xFF09;<br>14:00&#xFF5E;16:00</td><td style=\"padding:7px 8px;border-bo"+"ttom:.5px solid #ffebee;text-align:center;font-size:11px;color:#888\">20&#x540D;</td></tr><tr><td style=\"padding:7px 8px\"><div style=\"display:flex;align-items:center;gap:5px\"><span style=\"display:inlin"+"e-flex;width:20px;height:20px;background:#c62828;color:#fff;border-radius:50%;font-size:10px;font-weight:700;align-items:center;justify-content:center\">&#x2464;</span><span style=\"font-weight:500;colo"+"r:#111;font-size:12px\">JLPT&#x6A21;&#x64EC;&#x8A66;&#x9A13;</span></div></td><td style=\"padding:7px 8px;font-weight:700;color:#c62828;font-size:12px;text-align:center\">1,500&#x5186;</td><td style=\"pad"+"ding:7px 8px;font-size:10px;color:#666;text-align:center\">10/25&#xFF08;&#x571F;&#xFF09;<br>10:00&#xFF5E;13:00</td><td style=\"padding:7px 8px;text-align:center;font-size:11px;color:#888\">30&#x540D;</td"+"></tr></table></div><div style=\"background:#ffebee;border-top:1px solid #ffcdd2;padding:8px 14px;font-size:10px;color:#c62828;line-height:1.8\">&#x1F4E7; &#x7533;&#x3057;&#x8FBC;&#x307F;&#xFF1A;info@sa"+"kura-school.jp<br>&#x25C6; &#x5B9A;&#x54E1;&#x306B;&#x306A;&#x308A;&#x6B21;&#x7B2C;&#x3001;&#x7DE0;&#x3081;&#x5207;&#x308A;&#x307E;&#x3059;&#x3002;&#x8907;&#x6570;&#x306E;&#x8B1B;&#x5EA7;&#x306B;&#x75"+"33;&#x3057;&#x8FBC;&#x3081;&#x307E;&#x3059;&#x3002;</div></div>";
+  var event = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:3px solid #e65100;margin:0 0 12px\"><div style=\"background:linear-gradie"+"nt(180deg,#ff6d00,#e65100);padding:0;text-align:center;position:relative;overflow:hidden\"><div style=\"padding:16px 16px 12px\"><div style=\"font-size:11px;color:#ffcc80;letter-spacing:.3em;margin-bottom"+":6px\">&#x2015;&#x2015; AUTUMN EVENT &#x2015;&#x2015;</div><div style=\"font-size:22px;font-weight:700;color:#fff;letter-spacing:.06em;text-shadow:1px 2px 4px rgba(0,0,0,.3);line-height:1.2\">&#x5730;&#x"+"57DF;&#x30BB;&#x30F3;&#x30BF;&#x30FC;<br>&#x79CB;&#x306E;&#x30A4;&#x30D9;&#x30F3;&#x30C8;</div><div style=\"font-size:22px;margin-top:4px\">&#x1F341; &#x1F342; &#x1F341;</div></div><div style=\"backgroun"+"d:#bf360c;padding:7px 14px;display:flex;justify-content:center;gap:16px\"><div style=\"text-align:center\"><div style=\"font-size:9px;color:#ffcc80;letter-spacing:.1em\">OPEN</div><div style=\"font-size:13p"+"x;font-weight:700;color:#fff\">&#x6BCE;&#x9031;&#x958B;&#x50AC;</div></div><div style=\"text-align:center\"><div style=\"font-size:9px;color:#ffcc80;letter-spacing:.1em\">PLACE</div><div style=\"font-size:1"+"3px;font-weight:700;color:#fff\">&#x5730;&#x57DF;&#x30BB;&#x30F3;&#x30BF;&#x30FC;</div></div><div style=\"text-align:center\"><div style=\"font-size:9px;color:#ffcc80;letter-spacing:.1em\">ACCESS</div><div"+" style=\"font-size:13px;font-weight:700;color:#fff\">&#x99C5;&#x3088;&#x308A;5&#x5206;</div></div></div></div><div style=\"background:#fff;padding:10px 14px\"><div style=\"display:flex;align-items:center;g"+"ap:8px;padding:7px 0;border-bottom:.5px solid #fff3e0\"><div style=\"width:30px;height:30px;border-radius:50%;background:#f44336;display:flex;align-items:center;justify-content:center;font-size:13px;fon"+"t-weight:700;flex-shrink:0;color:#fff\">&#x2460;</div><div style=\"flex:1\"><div style=\"font-size:13px;font-weight:500;color:#222\">&#x1F373; &#x6599;&#x7406;&#x30EF;&#x30FC;&#x30AF;&#x30B7;&#x30E7;&#x30C"+"3;&#x30D7;</div><div style=\"font-size:10px;color:#888;margin-top:1px\">&#x6BCE;&#x9031;&#x571F;&#x66DC; 10:00&#xFF5E;12:00</div></div><div style=\"font-size:12px;font-weight:700;flex-shrink:0;color:#e65"+"100\">500&#x5186;</div></div><div style=\"display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:.5px solid #fff3e0\"><div style=\"width:30px;height:30px;border-radius:50%;background:#4caf50;"+"display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:#fff\">&#x2461;</div><div style=\"flex:1\"><div style=\"font-size:13px;font-weight:500;color:#222\""+">&#x1F4F7; &#x5199;&#x771F;&#x5C55;</div><div style=\"font-size:10px;color:#888;margin-top:1px\">&#x6708;&#xFF5E;&#x91D1; 9:00&#xFF5E;17:00</div></div><div style=\"font-size:12px;font-weight:700;flex-shr"+"ink:0;color:#2e7d32\">&#x7121;&#x6599;</div></div><div style=\"display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:.5px solid #fff3e0\"><div style=\"width:30px;height:30px;border-radius:50"+"%;background:#2196f3;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:#fff\">&#x2462;</div><div style=\"flex:1\"><div style=\"font-size:13px;font-w"+"eight:500;color:#222\">&#x1F6CD; &#x30D5;&#x30EA;&#x30FC;&#x30DE;&#x30FC;&#x30B1;&#x30C3;&#x30C8;</div><div style=\"font-size:10px;color:#888;margin-top:1px\">&#x6BCE;&#x9031;&#x65E5;&#x66DC; 10:00&#xFF5"+"E;15:00</div></div><div style=\"font-size:12px;font-weight:700;flex-shrink:0;color:#2e7d32\">&#x7121;&#x6599;</div></div><div style=\"display:flex;align-items:center;gap:8px;padding:7px 0\"><div style=\"wi"+"dth:30px;height:30px;border-radius:50%;background:#9c27b0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:#fff\">&#x2463;</div><div style=\"flex"+":1\"><div style=\"font-size:13px;font-weight:500;color:#222\">&#x1F3AC; &#x6620;&#x753B;&#x9D91;&#x8CDE;&#x4F1A;</div><div style=\"font-size:10px;color:#888;margin-top:1px\">&#x6BCE;&#x9031;&#x706B;&#x66DC"+"; 19:00&#xFF5E;21:00</div></div><div style=\"font-size:12px;font-weight:700;flex-shrink:0;color:#e65100\">300&#x5186;</div></div></div><div style=\"background:#fff3e0;border-top:1px solid #ffe0b2;padding"+":7px 14px;font-size:10px;color:#bf360c;line-height:1.8\">&#x1F4E7; &#x8A73;&#x7D30;&#x30FB;&#x7533;&#x8FBC;&#xFF1A;chiiki-center@example.jp</div></div>";
+  var shisetsu = "<div style=\"font-family:'Hiragino Mincho ProN','Yu Mincho',serif;max-width:100%;border-radius:6px;overflow:hidden;border:2px solid #424242;background:#faf9f4;margin:0 0 12px\"><div style=\"height:5px;ba"+"ckground:#424242\"></div><div style=\"padding:12px 16px 8px;border-bottom:2.5px double #424242\"><div style=\"font-size:9px;color:#666;letter-spacing:.12em;font-family:'Hiragino Sans','Yu Gothic',sans-ser"+"if;margin-bottom:4px\">&#x307F;&#x3069;&#x308A;&#x5E02;&#x3000;&#x5E02;&#x6C11;&#x4F1A;&#x9928;</div><div style=\"display:flex;justify-content:space-between;align-items:flex-start\"><div><div style=\"font"+"-size:17px;font-weight:700;color:#111;letter-spacing:.06em;line-height:1.3\">&#x4F1A;&#x8B70;&#x5BA4;&#x3000;&#x5229;&#x7528;&#x306E;&#x3054;&#x6848;&#x5185;</div><div style=\"font-size:10px;color:#888;"+"font-family:'Hiragino Sans',sans-serif;margin-top:3px;letter-spacing:.1em\">CONFERENCE ROOM GUIDE</div></div><div style=\"width:38px;height:38px;border:2px solid #8b0000;border-radius:50%;display:flex;a"+"lign-items:center;justify-content:center;color:#8b0000;font-size:8px;line-height:1.4;text-align:center;font-family:serif;flex-shrink:0;margin-left:8px\">&#x307F;&#x3069;&#x308A;&#x5E02;<br>&#x5E02;&#x6"+"C11;&#x9928;</div></div></div><div style=\"padding:10px 16px\"><div style=\"font-size:9px;font-weight:700;letter-spacing:.15em;color:#8b0000;border-bottom:1px solid #8b0000;padding-bottom:3px;margin:0 0 "+"6px;font-family:'Hiragino Sans',sans-serif\">&#x25A0; &#x6599;&#x91D1;&#x8868;&#xFF081&#x6642;&#x9593;&#x3042;&#x305F;&#x308A;&#xFF09;</div><table style=\"width:100%;border-collapse:collapse;font-size:1"+"1px\"><tr><th style=\"background:#424242;color:#fff;padding:5px 8px;text-align:left;font-size:10px;font-weight:500;font-family:'Hiragino Sans',sans-serif;letter-spacing:.06em\">&#x90E8;&#x3000;&#x5C4B;</"+"th><th style=\"background:#424242;color:#fff;padding:5px 8px;text-align:center;font-size:10px;font-weight:500;font-family:'Hiragino Sans',sans-serif;letter-spacing:.06em\">&#x5B9A;&#x3000;&#x54E1;</th><"+"th style=\"background:#424242;color:#fff;padding:5px 8px;text-align:center;font-size:10px;font-weight:500;font-family:'Hiragino Sans',sans-serif;letter-spacing:.06em\">&#x6599;&#x3000;&#x91D1;</th><th s"+"tyle=\"background:#424242;color:#fff;padding:5px 8px;text-align:center;font-size:10px;font-weight:500;font-family:'Hiragino Sans',sans-serif;letter-spacing:.06em\">&#x8A2D;&#x3000;&#x5099;</th></tr><tr>"+"<td style=\"padding:6px 8px;border:1px solid #ccc;font-weight:700\">&#x5C0F;&#x4F1A;&#x8B70;&#x5BA4;&#xFF08;A&#xFF09;</td><td style=\"padding:6px 8px;border:1px solid #ccc;text-align:center;font-family:'"+"Hiragino Sans',sans-serif\">10&#x540D;</td><td style=\"padding:6px 8px;border:1px solid #ccc;text-align:right;font-family:'Hiragino Sans',sans-serif\">500&#x5186;</td><td style=\"padding:6px 8px;border:1p"+"x solid #ccc;text-align:center;font-size:10px;font-family:'Hiragino Sans',sans-serif\">PJ</td></tr><tr style=\"background:#f0ede4\"><td style=\"padding:6px 8px;border:1px solid #ccc;font-weight:700\">&#x4E"+"2D;&#x4F1A;&#x8B70;&#x5BA4;&#xFF08;B&#xFF09;</td><td style=\"padding:6px 8px;border:1px solid #ccc;text-align:center;font-family:'Hiragino Sans',sans-serif\">20&#x540D;</td><td style=\"padding:6px 8px;bo"+"rder:1px solid #ccc;text-align:right;font-family:'Hiragino Sans',sans-serif\">1,000&#x5186;</td><td style=\"padding:6px 8px;border:1px solid #ccc;text-align:center;font-size:10px;font-family:'Hiragino S"+"ans',sans-serif\">PJ&#x30FB;&#x97F3;&#x97FF;</td></tr><tr><td style=\"padding:6px 8px;border:1px solid #ccc;font-weight:700\">&#x5927;&#x4F1A;&#x8B70;&#x5BA4;&#xFF08;C&#xFF09;</td><td style=\"padding:6px "+"8px;border:1px solid #ccc;text-align:center;font-family:'Hiragino Sans',sans-serif\">50&#x540D;</td><td style=\"padding:6px 8px;border:1px solid #ccc;text-align:right;font-family:'Hiragino Sans',sans-se"+"rif\">1,000&#x5186;</td><td style=\"padding:6px 8px;border:1px solid #ccc;text-align:center;font-size:10px;font-family:'Hiragino Sans',sans-serif\">PJ&#x30FB;&#x97F3;&#x97FF;&#x30FB;&#x821E;&#x53F0;</td>"+"</tr></table><div style=\"font-size:9px;font-weight:700;letter-spacing:.15em;color:#8b0000;border-bottom:1px solid #8b0000;padding-bottom:3px;margin:10px 0 6px;font-family:'Hiragino Sans',sans-serif\">&"+"#x25A0; &#x3054;&#x5229;&#x7528;&#x4E0A;&#x306E;&#x3054;&#x6CE8;&#x610F;</div><div style=\"font-family:'Hiragino Sans',sans-serif\"><div style=\"font-size:10px;color:#333;padding:3px 0;border-bottom:.5px"+" solid #e0e0e0;line-height:1.7\">&#x25C6; &#x3054;&#x5229;&#x7528;&#x306E;3&#x65E5;&#x524D;&#x307E;&#x3067;&#x306B;&#x3054;&#x4E88;&#x7D04;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</div><div style=\"font"+"-size:10px;color:#333;padding:3px 0;border-bottom:.5px solid #e0e0e0;line-height:1.7\">&#x25C6; &#x304A;&#x98F2;&#x307F;&#x7269;&#x306E;&#x6301;&#x3061;&#x8FBC;&#x307F;&#x306F;&#x53EF;&#x80FD;&#x3067;&"+"#x3059;&#x304C;&#x3001;&#x98DF;&#x3079;&#x7269;&#x306F;&#x3054;&#x9060;&#x616E;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</div><div style=\"font-size:10px;color:#333;padding:3px 0;line-height:1.7\">&#x25C"+"6; &#x55B6;&#x696D;&#x6642;&#x9593;&#xFF1A;9:00&#xFF5E;21:00&#xFF08;&#x65E5;&#x66DC;&#x30FB;&#x795D;&#x65E5;&#x3082;&#x55B6;&#x696D;&#xFF09;</div></div></div><div style=\"background:#f0ede4;border-top:"+"1px solid #bbb;padding:7px 16px;font-size:10px;color:#555;line-height:1.8;font-family:'Hiragino Sans',sans-serif\">&#x4E88;&#x7D04;&#x30FB;&#x304A;&#x554F;&#x3044;&#x5408;&#x308F;&#x305B;&#xFF1A;&#x307"+"F;&#x3069;&#x308A;&#x5E02;&#x5E02;&#x6C11;&#x4F1A;&#x9928;&#x3000;Tel. 042-000-0000<br>E&#x30E1;&#x30FC;&#x30EB;&#xFF1A;shisetsu@midori-city.jp</div></div>";
+  return {eiga:eiga, bus:bus, sports:sports, midori:midori, gym:gym, nihongo:nihongo, pool:pool, sakura:sakura, event:event, shisetsu:shisetsu};
+})();
+updateStatsBar();
+</script>
+</body>
+</html>

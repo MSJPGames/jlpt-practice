@@ -168,7 +168,7 @@
       <button class="ctrl" id="bRight" aria-label="右">▶</button>
       <button class="ctrl drop" id="bDrop" aria-label="ストン">ストン ↓</button>
     </div>
-    <div class="ctrl-hint">← → 移動 ・ ↓ 速く落とす ・ Space ストン落とし（キーボードも可）</div>
+    <div class="ctrl-hint">スマホ：盤面を<b>タップ</b>でその列へ移動 ・ 下に<b>スワイプ</b>でストン落とし<br>PC：← → 移動 ・ ↓ 速く落とす ・ Space ストン落とし</div>
   </section>
 
   <!-- ============ 結果画面 ============ -->
@@ -423,6 +423,19 @@ function move(dir){
   if(grid[nc].length > faller.y) return;   // 高い積みには入れない
   faller.col = nc; renderFaller();
 }
+function moveTo(col){                       // タップした列まで、行けるところまでスライド
+  if(!running || !faller) return;
+  col = Math.max(0, Math.min(COLS-1, col));
+  var guard = 0;
+  while(faller.col !== col && guard < COLS){
+    var dir = col > faller.col ? 1 : -1;
+    var nc = faller.col + dir;
+    if(nc<0 || nc>=COLS) break;
+    if(grid[nc].length > faller.y) break;   // 高い積みでせき止められたらそこで停止
+    faller.col = nc; guard++;
+  }
+  renderFaller();
+}
 function softDrop(){
   if(!running || !faller) return;
   if(canFall()){ faller.y--; renderFaller(); }
@@ -522,6 +535,38 @@ document.addEventListener('keydown', function(e){
   else if(e.key==='ArrowDown'){ e.preventDefault(); softDrop(); }
   else if(e.key===' '){ e.preventDefault(); hardDrop(); }
 });
+
+/* ===== 盤面のタップ／スワイプ操作（スマホ向け） =====
+   ・タップ … その列までブロックが横移動
+   ・同じ列をタップ … 一段ぶん下げる
+   ・下にスワイプ … ストン落とし                             */
+(function(){
+  var board = $('board');
+  if(!board) return;
+  var sx=0, sy=0, active=false;
+  board.addEventListener('touchstart', function(e){
+    if(!running || !faller) return;
+    var t = e.changedTouches[0];
+    sx = t.clientX; sy = t.clientY; active = true;
+  }, {passive:true});
+  board.addEventListener('touchend', function(e){
+    if(!active) return; active = false;
+    if(!running || !faller) return;
+    e.preventDefault();                         // ゴーストクリック防止
+    var t = e.changedTouches[0];
+    var dx = t.clientX - sx, dy = t.clientY - sy;
+    // 下方向へはっきりスワイプ → ストン落とし
+    if(dy > 36 && Math.abs(dy) > Math.abs(dx)){ hardDrop(); return; }
+    // それ以外はタップ扱い → タップした列へ移動
+    var rect = board.getBoundingClientRect();
+    var x = t.clientX - rect.left;
+    var targetCol = Math.floor(x / (rect.width / COLS));
+    targetCol = Math.max(0, Math.min(COLS-1, targetCol));
+    if(targetCol === faller.col) softDrop();     // 同じ列なら一段下げる
+    else moveTo(targetCol);
+  }, {passive:false});
+})();
+
 window.addEventListener('resize', function(){ if(running){ sizeBoard(); renderStack(); renderFaller(); } });
 
 /* 初期化 */

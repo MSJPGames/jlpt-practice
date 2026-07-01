@@ -536,35 +536,47 @@ document.addEventListener('keydown', function(e){
   else if(e.key===' '){ e.preventDefault(); hardDrop(); }
 });
 
-/* ===== 盤面のタップ／スワイプ操作（スマホ向け） =====
+/* ===== 盤面のタップ／スワイプ操作（スマホ・マウス両対応） =====
    ・タップ … その列までブロックが横移動
    ・同じ列をタップ … 一段ぶん下げる
-   ・下にスワイプ … ストン落とし                             */
+   ・下にスワイプ … ストン落とし
+   PointerEvent を主に使い、非対応端末は touch にフォールバック。   */
 (function(){
   var board = $('board');
   if(!board) return;
-  var sx=0, sy=0, active=false;
-  board.addEventListener('touchstart', function(e){
+  var sx=0, sy=0, down=false;
+
+  function begin(x, y){
     if(!running || !faller) return;
-    var t = e.changedTouches[0];
-    sx = t.clientX; sy = t.clientY; active = true;
-  }, {passive:true});
-  board.addEventListener('touchend', function(e){
-    if(!active) return; active = false;
+    sx = x; sy = y; down = true;
+  }
+  function finish(x, y){
+    if(!down) return; down = false;
     if(!running || !faller) return;
-    e.preventDefault();                         // ゴーストクリック防止
-    var t = e.changedTouches[0];
-    var dx = t.clientX - sx, dy = t.clientY - sy;
+    var dx = x - sx, dy = y - sy;
     // 下方向へはっきりスワイプ → ストン落とし
-    if(dy > 36 && Math.abs(dy) > Math.abs(dx)){ hardDrop(); return; }
-    // それ以外はタップ扱い → タップした列へ移動
+    if(dy > 34 && Math.abs(dy) > Math.abs(dx)){ hardDrop(); return; }
+    // それ以外はタップ扱い → タップした列へ
     var rect = board.getBoundingClientRect();
-    var x = t.clientX - rect.left;
-    var targetCol = Math.floor(x / (rect.width / COLS));
-    targetCol = Math.max(0, Math.min(COLS-1, targetCol));
-    if(targetCol === faller.col) softDrop();     // 同じ列なら一段下げる
-    else moveTo(targetCol);
-  }, {passive:false});
+    var col = Math.floor((x - rect.left) / (rect.width / COLS));
+    col = Math.max(0, Math.min(COLS-1, col));
+    if(col === faller.col) softDrop();
+    else moveTo(col);
+  }
+
+  if(window.PointerEvent){
+    board.addEventListener('pointerdown', function(e){ begin(e.clientX, e.clientY); });
+    board.addEventListener('pointerup',   function(e){ finish(e.clientX, e.clientY); });
+    board.addEventListener('pointercancel', function(){ down = false; });
+  } else {
+    board.addEventListener('touchstart', function(e){
+      var t = e.changedTouches[0]; begin(t.clientX, t.clientY);
+    }, {passive:true});
+    board.addEventListener('touchend', function(e){
+      e.preventDefault();
+      var t = e.changedTouches[0]; finish(t.clientX, t.clientY);
+    }, {passive:false});
+  }
 })();
 
 window.addEventListener('resize', function(){ if(running){ sizeBoard(); renderStack(); renderFaller(); } });

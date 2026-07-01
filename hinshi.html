@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>品詞分類 ・ Parts of Speech — 日本語の部屋</title>
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E2DDD6;
+    --text: #1C1C1C;
+    --text-muted: #6B6560;
+    --text-hint: #9E9890;
+    --radius: 14px;
+    --radius-sm: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 1rem 3rem;
+  }
+  .container { max-width: 500px; margin: 0 auto; }
+
+  /* トップバー */
+  .topbar { display: flex; align-items: center; padding: 14px 0 2px; }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 13px; font-weight: 700; color: var(--text-muted);
+    text-decoration: none; padding: 6px 13px 6px 9px;
+    border: 1px solid var(--border); border-radius: 999px;
+    background: var(--surface); -webkit-tap-highlight-color: transparent;
+    transition: transform 0.12s;
+  }
+  .back-link:active { transform: scale(0.97); }
+  .back-arrow { font-size: 16px; line-height: 1; }
+
+  /* ヘッダー */
+  .page-header { text-align: center; padding: 1.3rem 0 0.3rem; }
+  .ph-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: #854F0B; margin-bottom: 8px; }
+  .ph-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
+  .ph-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+
+  /* 説明ノート */
+  .note {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px 15px;
+    font-size: 12.5px; color: var(--text-muted); line-height: 1.75;
+    margin-top: 1.1rem;
+  }
+  .note b { color: var(--text); font-weight: 700; }
+  .note .en { display: block; color: var(--text-hint); margin-top: 4px; }
+
+  /* セクション見出し */
+  .section-head { display: flex; align-items: center; gap: 10px; margin: 1.9rem 0 0.9rem; }
+  .sh-bar { width: 4px; height: 20px; border-radius: 2px; background: #854F0B; flex-shrink: 0; }
+  .sh-title { font-size: 15px; font-weight: 700; }
+  .sh-en { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-hint); text-transform: uppercase; }
+
+  /* === 品詞分類ツリー === */
+  .tree-wrap {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 14px 18px; margin-top: 0.4rem;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree ul { margin: 2px 0 2px 9px; padding-left: 16px; border-left: 2px solid var(--border); }
+  .tree li { position: relative; padding: 5px 0; }
+  .tree ul > li::before {
+    content: ''; position: absolute; left: -16px; top: 16px;
+    width: 13px; height: 2px; background: var(--border);
+  }
+  .tree ul > li:last-child::after {
+    content: ''; position: absolute; left: -18px; top: 17px; bottom: -5px;
+    width: 4px; background: var(--surface);
+  }
+  .node { display: block; }
+  .pill {
+    display: inline-block; font-size: 13.5px; font-weight: 700; color: var(--text);
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 9px; padding: 4px 10px; line-height: 1.4;
+  }
+  .pill.root { background: #EFEBE3; border-color: #D8D1C6; }
+  .cond { display: block; font-size: 11px; color: var(--text-hint); margin: 3px 0 0 2px; line-height: 1.5; }
+  a.node { text-decoration: none; -webkit-tap-highlight-color: transparent; }
+  a.node.leaf { display: inline-flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  a.node.leaf .pill { background: var(--accent-bg); color: var(--accent); border-color: transparent; }
+  a.node.leaf:active .pill { transform: scale(0.97); }
+  a.node.leaf .ex { font-size: 11px; color: var(--text-hint); }
+
+  /* 品詞ごとのアクセント色 */
+  .c-doushi       { --accent: #3B6D11; --accent-bg: #EAF3DE; }
+  .c-keiyoushi    { --accent: #854F0B; --accent-bg: #FAEEDA; }
+  .c-keiyoudoushi { --accent: #9A3D1C; --accent-bg: #FAECE7; }
+  .c-meishi       { --accent: #1F6F6B; --accent-bg: #DFF0EE; }
+  .c-fukushi      { --accent: #185FA5; --accent-bg: #E6F1FB; }
+  .c-rentaishi    { --accent: #3C3489; --accent-bg: #EEEDFE; }
+  .c-setsuzokushi { --accent: #6E5B10; --accent-bg: #F2EFD9; }
+  .c-kandoushi    { --accent: #97406A; --accent-bg: #F7E8F0; }
+  .c-jodoushi     { --accent: #8A4A24; --accent-bg: #F4E9E1; }
+  .c-joshi        { --accent: #7A5A12; --accent-bg: #F3EEDB; }
+
+  .tree-hint { font-size: 11px; color: var(--text-hint); margin: 8px 2px 0; line-height: 1.6; }
+
+  /* === 詳細カード === */
+  .dlist-wrap { display: flex; flex-direction: column; gap: 10px; margin-top: 0.3rem; }
+  .dcard {
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 4px solid var(--accent); border-radius: var(--radius);
+    padding: 14px 15px; scroll-margin-top: 14px;
+  }
+  .dhead { display: flex; align-items: center; gap: 10px; }
+  .dchip {
+    min-width: 46px; height: 42px; padding: 0 10px; border-radius: 11px;
+    background: var(--accent-bg); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700; flex-shrink: 0; white-space: nowrap;
+  }
+  .dtitle { font-size: 13px; font-weight: 700; color: var(--text-muted); line-height: 1.4; }
+  .dtitle .en { color: var(--text-hint); }
+  .ddef { font-size: 12.5px; color: var(--text-muted); line-height: 1.7; margin-top: 9px; }
+  .ddef .en { display: block; color: var(--text-hint); margin-top: 2px; }
+  .dsub { font-size: 10.5px; font-weight: 700; letter-spacing: 0.09em; color: var(--accent); margin-top: 12px; text-transform: uppercase; }
+  .drow { list-style: none; margin-top: 6px; display: flex; flex-direction: column; gap: 5px; }
+  .drow li { font-size: 13px; line-height: 1.6; padding-left: 13px; position: relative; color: var(--text); }
+  .drow li::before { content: ''; position: absolute; left: 0; top: 8px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+  .drow .k { font-weight: 700; color: var(--accent); }
+  .drow .ex { color: var(--text-muted); }
+  .dlink {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 12px;
+    font-size: 12.5px; font-weight: 700; color: var(--accent);
+    background: var(--accent-bg); border-radius: 999px; padding: 7px 14px;
+    text-decoration: none; -webkit-tap-highlight-color: transparent;
+  }
+  .dlink:active { transform: scale(0.98); }
+
+  /* フッター */
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.4rem; line-height: 1.8; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="index.html" class="back-link"><span class="back-arrow">‹</span>もどる<span class="en" style="color:inherit;margin-left:3px;">/ Home</span></a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">BUNPOU ・ HINSHI</div>
+    <div class="ph-title">品詞分類</div>
+    <div class="ph-sub">ことばの種類を、枝分かれで見わける<br><span class="en">Parts of speech — a branching classification of words</span></div>
+  </div>
+
+  <div class="note">
+    単語は、まず <b>自立語</b>（それだけで文節を作れる）と <b>付属語</b>（他の語について使う）に分かれ、次に <b>活用の有無</b> などで分けていきます。この図でたどると、日本語の <b>十品詞</b> に行きつきます。品詞名をタップすると、下の解説にジャンプします。
+    <span class="en">Words split first into independent vs. dependent, then by whether they inflect, and so on—arriving at the ten parts of speech. Tap a name to jump to its notes. Tap “EN” (top-right) to hide English.</span>
+  </div>
+
+  <div class="section-head"><div class="sh-bar"></div><span class="sh-title">分類ツリー</span><span class="sh-en">Chart</span></div>
+
+  <div class="tree-wrap">
+    <ul class="tree">
+      <li>
+        <div class="node"><span class="pill root">単語</span><span class="cond">まず「自立語」か「付属語」かで分ける</span></div>
+        <ul>
+          <li>
+            <div class="node"><span class="pill">自立語</span><span class="cond">単独で文節を作れる。活用の有無で分ける</span></div>
+            <ul>
+              <li>
+                <div class="node"><span class="pill">活用がある（用言）</span><span class="cond">述語になれる。言い切りの形で分ける</span></div>
+                <ul>
+                  <li><a class="node leaf c-doushi" href="#d-doushi"><span class="pill">動詞</span><span class="ex">ウ段で終わる／走る・食べる</span></a></li>
+                  <li><a class="node leaf c-keiyoushi" href="#d-keiyoushi"><span class="pill">形容詞</span><span class="ex">「い」で終わる／高い・楽しい</span></a></li>
+                  <li><a class="node leaf c-keiyoudoushi" href="#d-keiyoudoushi"><span class="pill">形容動詞</span><span class="ex">「だ」で終わる／静かだ・好きだ</span></a></li>
+                </ul>
+              </li>
+              <li>
+                <div class="node"><span class="pill">活用がない</span><span class="cond">主語になれるか（体言か）で分ける</span></div>
+                <ul>
+                  <li><a class="node leaf c-meishi" href="#d-meishi"><span class="pill">名詞</span><span class="ex">主語になれる＝体言／本・私・三つ</span></a></li>
+                  <li>
+                    <div class="node"><span class="pill">主語になれない</span><span class="cond">修飾語になるか、つなぐ・独立するか</span></div>
+                    <ul>
+                      <li>
+                        <div class="node"><span class="pill">修飾語になる</span><span class="cond">何を修飾するか</span></div>
+                        <ul>
+                          <li><a class="node leaf c-fukushi" href="#d-fukushi"><span class="pill">副詞</span><span class="ex">主に用言を修飾／とても・ゆっくり</span></a></li>
+                          <li><a class="node leaf c-rentaishi" href="#d-rentaishi"><span class="pill">連体詞</span><span class="ex">体言だけを修飾／この・大きな</span></a></li>
+                        </ul>
+                      </li>
+                      <li>
+                        <div class="node"><span class="pill">修飾語にならない</span><span class="cond">前後をつなぐか、独立して使うか</span></div>
+                        <ul>
+                          <li><a class="node leaf c-setsuzokushi" href="#d-setsuzokushi"><span class="pill">接続詞</span><span class="ex">前後をつなぐ／そして・しかし</span></a></li>
+                          <li><a class="node leaf c-kandoushi" href="#d-kandoushi"><span class="pill">感動詞</span><span class="ex">独立して使う／はい・ああ</span></a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <div class="node"><span class="pill">付属語</span><span class="cond">単独では文節を作れない。活用の有無で分ける</span></div>
+            <ul>
+              <li><a class="node leaf c-jodoushi" href="#d-jodoushi"><span class="pill">助動詞</span><span class="ex">活用がある／れる・た・ない</span></a></li>
+              <li><a class="node leaf c-joshi" href="#d-joshi"><span class="pill">助詞</span><span class="ex">活用がない／が・を・は・ね</span></a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <div class="tree-hint">※ 学校文法（口語）にもとづく分類です。横に長い場合は左右にスクロールできます。</div>
+  </div>
+
+  <!-- ===== 自立語 ===== -->
+  <div class="section-head"><div class="sh-bar" style="background:#3B6D11;"></div><span class="sh-title">自立語</span><span class="sh-en">Independent</span></div>
+  <div class="dlist-wrap">
+
+    <div class="dcard c-doushi" id="d-doushi">
+      <div class="dhead"><span class="dchip">動詞</span><span class="dtitle">どうし<span class="en"> ・ Verb</span></span></div>
+      <div class="ddef">動作・変化・存在を表す。言い切りがウ段の音で終わり、活用する。<span class="en">Expresses action, change, or existence; ends in an -u sound and inflects.</span></div>
+      <div class="dsub">分類の観点</div>
+      <ul class="drow">
+        <li><span class="k">動作／状態</span> <span class="ex">走る・食べる ／ ある・いる</span></li>
+        <li><span class="k">意志／無意志</span> <span class="ex">食べる ／ 降る・ある</span></li>
+        <li><span class="k">自動詞／他動詞</span> <span class="ex">開く ／ 開ける</span></li>
+        <li><span class="k">本動詞／補助動詞</span> <span class="ex">「食べている」＝本動詞「食べ」＋補助動詞「いる」</span></li>
+        <li><span class="k">単純／複合</span> <span class="ex">取る ／ 取り出す</span></li>
+        <li><span class="k">継続／瞬間</span> <span class="ex">楽しむ・読む ／ 座る・着く</span></li>
+        <li><span class="k">その他</span> <span class="ex">授受動詞（あげる・もらう）、移動動詞（行く・来る）、相互動詞（結婚する・約束する）</span></li>
+      </ul>
+    </div>
+
+    <div class="dcard c-keiyoushi" id="d-keiyoushi">
+      <div class="dhead"><span class="dchip">形容詞</span><span class="dtitle">けいようし<span class="en"> ・ i-adjective</span></span></div>
+      <div class="ddef">物事の性質・状態や感情を表す。言い切りが「い」で終わり、活用する。<span class="en">Describes qualities, states, or feelings; ends in “i” and inflects.</span></div>
+      <div class="dsub">おもな種類</div>
+      <ul class="drow">
+        <li><span class="k">感情形容詞</span> <span class="ex">うれしい・楽しい・悲しい・こわい（対象は「〜が」：水がほしい）</span></li>
+        <li><span class="k">属性形容詞</span> <span class="ex">長い・高い・黒い・いい・悪い</span></li>
+        <li><span class="k">両用</span> <span class="ex">この町はさびしい ／ このプレゼントはうれしい</span></li>
+      </ul>
+    </div>
+
+    <div class="dcard c-keiyoudoushi" id="d-keiyoudoushi">
+      <div class="dhead"><span class="dchip">形容動詞</span><span class="dtitle">けいようどうし<span class="en"> ・ na-adjective</span></span></div>
+      <div class="ddef">形容詞と同じく性質・状態を表すが、言い切りが「だ」で終わる（＝な形容詞）。活用する。<span class="en">Like an adjective but ends in “da” (the na-adjective). Inflects.</span></div>
+      <div class="dsub">おもな種類</div>
+      <ul class="drow">
+        <li><span class="k">感情</span> <span class="ex">好きだ・嫌いだ・不安だ・心配だ</span></li>
+        <li><span class="k">属性</span> <span class="ex">静かだ・きれいだ・便利だ・元気だ</span></li>
+        <li><span class="k">両用</span> <span class="ex">あのプレーは好きだ ／ あの行為は迷惑だ</span></li>
+      </ul>
+    </div>
+
+    <div class="dcard c-meishi" id="d-meishi">
+      <div class="dhead"><span class="dchip">名詞</span><span class="dtitle">めいし<span class="en"> ・ Noun</span></span></div>
+      <div class="ddef">人・物・事柄などの名前を表す。活用せず、主語になれる（体言）。<span class="en">Names people, things, or matters; does not inflect and can be a subject.</span></div>
+      <div class="dsub">おもな種類</div>
+      <ul class="drow">
+        <li><span class="k">普通名詞／固有名詞</span> <span class="ex">本・机 ／ 佐藤・富士山</span></li>
+        <li><span class="k">代名詞</span> <span class="ex">わたし・あなた・かれ（人称）、これ・そこ（指示）</span></li>
+        <li><span class="k">数詞</span> <span class="ex">一冊・二時・三万円</span></li>
+      </ul>
+    </div>
+
+    <div class="dcard c-fukushi" id="d-fukushi">
+      <div class="dhead"><span class="dchip">副詞</span><span class="dtitle">ふくし<span class="en"> ・ Adverb</span></span></div>
+      <div class="ddef">主に用言を修飾する（連用修飾）。活用しない。<span class="en">Mainly modifies verbs and adjectives; does not inflect.</span></div>
+      <div class="dsub">おもな種類</div>
+      <ul class="drow">
+        <li><span class="k">状態の副詞</span> <span class="ex">（擬声語・擬態語）のそのそ・さらさら・きらきら</span></li>
+        <li><span class="k">程度の副詞</span> <span class="ex">たいへん・とても・ずいぶん・かなり</span></li>
+        <li><span class="k">呼応（陳述）の副詞</span> <span class="ex">決して〜ない／たぶん〜だろう／たとえ〜ても／なぜ〜か／どうか〜ください／まるで〜ようだ</span></li>
+      </ul>
+    </div>
+
+    <div class="dcard c-rentaishi" id="d-rentaishi">
+      <div class="dhead"><span class="dchip">連体詞</span><span class="dtitle">れんたいし<span class="en"> ・ Adnominal</span></span></div>
+      <div class="ddef">体言（名詞）だけを修飾する（連体修飾）。活用しない。<span class="en">Modifies only nouns; does not inflect.</span></div>
+      <div class="dsub">例</div>
+      <ul class="drow">
+        <li><span class="ex">この・その・あの ／ 大きな・小さな・おかしな ／ あらゆる・いわゆる</span></li>
+      </ul>
+    </div>
+
+    <div class="dcard c-setsuzokushi" id="d-setsuzokushi">
+      <div class="dhead"><span class="dchip">接続詞</span><span class="dtitle">せつぞくし<span class="en"> ・ Conjunction</span></span></div>
+      <div class="ddef">前後の語や文をつなぐ。活用しない。<span class="en">Connects words or sentences; does not inflect.</span></div>
+      <div class="dsub">例</div>
+      <ul class="drow">
+        <li><span class="ex">そして・だから・それで（順接） ／ でも・しかし・ところが（逆接） ／ また・および・つまり</span></li>
+      </ul>
+    </div>
+
+    <div class="dcard c-kandoushi" id="d-kandoushi">
+      <div class="dhead"><span class="dchip">感動詞</span><span class="dtitle">かんどうし<span class="en"> ・ Interjection</span></span></div>
+      <div class="ddef">感動・呼びかけ・応答などを表し、独立して使う。活用しない。<span class="en">Expresses feeling, calls, or responses; stands alone and does not inflect.</span></div>
+      <div class="dsub">例</div>
+      <ul class="drow">
+        <li><span class="ex">ああ・おや（感動） ／ ねえ・もしもし（呼びかけ） ／ はい・いいえ・ええ（応答） ／ おはよう（あいさつ）</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ===== 付属語 ===== -->
+  <div class="section-head"><div class="sh-bar" style="background:#8A4A24;"></div><span class="sh-title">付属語</span><span class="sh-en">Dependent</span></div>
+  <div class="dlist-wrap">
+
+    <div class="dcard c-jodoushi" id="d-jodoushi">
+      <div class="dhead"><span class="dchip">助動詞</span><span class="dtitle">じょどうし<span class="en"> ・ Auxiliary verb</span></span></div>
+      <div class="ddef">付属語で、活用する。用言などについて、いろいろな意味を付け加える。<span class="en">A dependent word that inflects; attaches to verbs/adjectives to add meaning.</span></div>
+      <div class="dsub">おもな意味</div>
+      <ul class="drow">
+        <li><span class="k">れる・られる</span> <span class="ex">受身・可能・自発・尊敬</span></li>
+        <li><span class="k">せる・させる</span> <span class="ex">使役</span></li>
+        <li><span class="k">ない・ぬ</span> <span class="ex">打消し</span></li>
+        <li><span class="k">う・よう／まい</span> <span class="ex">推量・意志・勧誘 ／ 打消しの推量・意志</span></li>
+        <li><span class="k">たい・たがる／ます</span> <span class="ex">希望 ／ 丁寧</span></li>
+        <li><span class="k">た</span> <span class="ex">過去・完了・存続・確認</span></li>
+        <li><span class="k">そうだ・ようだ・らしい</span> <span class="ex">様態・伝聞 ／ たとえ・推定・例示 ／ 推定</span></li>
+        <li><span class="k">だ・です</span> <span class="ex">断定・丁寧な断定</span></li>
+      </ul>
+      <a class="dlink" href="joshi.html#jodo">用例つきの詳しい解説へ ›</a>
+    </div>
+
+    <div class="dcard c-joshi" id="d-joshi">
+      <div class="dhead"><span class="dchip">助詞</span><span class="dtitle">じょし<span class="en"> ・ Particle</span></span></div>
+      <div class="ddef">付属語で、活用しない。語と語の関係を示したり、意味を付け加えたりする。<span class="en">A dependent word that does not inflect; shows relationships or adds nuance.</span></div>
+      <div class="dsub">おもな種類</div>
+      <ul class="drow">
+        <li><span class="k">格助詞</span> <span class="ex">が・を・に・へ・と・で・から・より・の（主に体言について関係を示す）</span></li>
+        <li><span class="k">接続助詞</span> <span class="ex">て・から・ので・のに・ば・と・ても・たり・ながら…（文と文をつなぐ）</span></li>
+        <li><span class="k">副助詞（とりたて）</span> <span class="ex">は・も・こそ・さえ・しか・だけ・ばかり・ほど・など…</span></li>
+        <li><span class="k">終助詞</span> <span class="ex">か・ね・よ・な・わ・ぞ・の・さ…（文末で気持ちを添える）</span></li>
+      </ul>
+      <div class="ddef" style="margin-top:9px;">※「や・と」などの並立の用法を「並立助詞」として分けることもあります。<span class="en">The parallel uses of や/と are sometimes split off as “parallel particles.”</span></div>
+      <a class="dlink" href="joshi.html">用例つきの詳しい解説へ ›</a>
+    </div>
+
+  </div>
+
+  <div class="app-footer">
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+<script>
+/* === EN表示トグル（英語補助の表示/非表示・localStorageで保持） === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en,body.hide-en .pb-en,body.hide-en .hero-desc-en,body.hide-en .game-en,"
+   +"body.hide-en .level-en,body.hide-en .en-sub,body.hide-en .en-i,body.hide-en .gh-en,"
+   +"body.hide-en .sh-en,body.hide-en .hero-en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3B6D11;"
+   +"margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';
+    b.setAttribute('aria-pressed', h?'false':'true');
+    b.title=h?'英語の補助：OFF（タップで表示 / show English）':'英語の補助：ON（タップで非表示 / hide English）'; }
+  b.addEventListener('click',function(){
+    var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){}
+    paint();
+  });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

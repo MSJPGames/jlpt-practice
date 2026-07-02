@@ -114,6 +114,11 @@
   .tag-g1 { background: var(--g1-bg); color: var(--g1); }
   .tag-g2 { background: var(--g2-bg); color: var(--g2); }
   .tag-g3 { background: var(--g3-bg); color: var(--g3); }
+  .vg { border-radius: 4px; padding: 0 1px; }
+  .vg-g1 { color: var(--g1); background: var(--g1-bg); }
+  .vg-g2 { color: var(--g2); background: var(--g2-bg); }
+  .vg-g3 { color: var(--g3); background: var(--g3-bg); }
+  .gl-note { font-size: 12px; color: var(--muted, #6B6560); margin-top: 6px; line-height: 1.8; }
   .gl-txt { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
   .gl-txt b { color: var(--text); }
 
@@ -390,6 +395,7 @@
         <div class="gl-row"><span class="gl-tag tag-g1">1グループ</span><span class="gl-txt"><b>1G・u-verbs。</b>語尾が <b>う・く・ぐ・す・つ・ぬ・ぶ・む・る</b> で終わる動詞（＝五段動詞）</span></div>
         <div class="gl-row"><span class="gl-tag tag-g2">2グループ</span><span class="gl-txt"><b>2G・ru-verbs。</b>る の前（語幹の最後の音）が <b>え段</b>、または一部の <b>い段</b> の動詞（＝一段動詞）。例：食べる（た<b>べ</b>る）・教える（おし<b>え</b>る）＝え段、見る（<b>み</b>る）・起きる（お<b>き</b>る）＝い段。※帰る・入る・走る・切る などは例外で1グループ</span></div>
         <div class="gl-row"><span class="gl-tag tag-g3">3グループ</span><span class="gl-txt"><b>3G・irregular。</b><b>する</b> と <b>来る</b> の2つだけ（＝不規則動詞）</span></div>
+        <div class="gl-note">色のハイライト位置でグループが分かります：<b>1G＝</b>書<span class="vg vg-g1">く</span>（活用語尾）、<b>2G＝</b><span class="vg vg-g2">食べ</span>る（語幹）、<b>3G＝</b><span class="vg vg-g3">する</span>（全体）。</div>
       </div>
     </div>
 
@@ -694,6 +700,12 @@ const VERBS=[
   {dict:'勉強する',kana:'べんきょうする',en:'to study',group:3},
   {dict:'来る',kana:'くる',en:'to come',group:3},
 ];
+// グループ別ハイライト：1G=活用語尾のみ／2G=語幹のみ／3G=全体
+function gcolor(str, group){
+  if(group===1) return str.slice(0,-1) + '<span class="vg vg-g1">'+str.slice(-1)+'</span>';
+  if(group===2) return '<span class="vg vg-g2">'+str.slice(0,-1)+'</span>' + str.slice(-1);
+  return '<span class="vg vg-g3">'+str+'</span>';
+}
 const IADJ=[
   {dict:'高い',kana:'たかい',en:'high / expensive'},
   {dict:'大きい',kana:'おおきい',en:'big'},
@@ -982,7 +994,7 @@ function renderVerbPicker(){
     html+=`<div class="picker-group"><div class="pg-head" style="color:var(--${typeClass[gr.g]})"><span class="pg-dot" style="background:var(--${typeClass[gr.g]})"></span>${gr.label}</div><div class="chips">`;
     VERBS.filter(v=>v.group===gr.g).forEach(v=>{
       const i=VERBS.indexOf(v);
-      html+=`<button class="chip" data-vi="${i}">${v.dict}<span class="ex">${v.en}</span></button>`;
+      html+=`<button class="chip" data-vi="${i}">${gcolor(v.dict,v.group)}<span class="ex">${v.en}</span></button>`;
     });
     html+=`</div></div>`;
   });
@@ -997,8 +1009,8 @@ function selectVerb(i){
     ch.className='chip'+(+ch.dataset.vi===i?' sel-'+tc:'');
   });
   let html=`<div class="conj-head ch-${tc}">
-    <div class="conj-word">${v.dict}</div>
-    <div class="conj-read">${v.kana}</div>
+    <div class="conj-word">${gcolor(v.dict,v.group)}</div>
+    <div class="conj-read">${gcolor(v.kana,v.group)}</div>
     <div class="conj-roma">${kanaToRomaji(v.kana)}</div>
     <div class="conj-meta"><span class="conj-typetag tt-${tc}">${typeLabel[v.group]}</span><span class="conj-en">${v.en}</span></div>
   </div>`;

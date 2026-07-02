@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>言語の基礎 ・ 日本語の部屋</title>
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #2F7168; --accent-bg: #DDEEE7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+  }
+  .container { max-width: 520px; margin: 0 auto; }
+
+  .topbar { display: flex; align-items: center; gap: 8px; padding: 14px 0 2px; flex-wrap: wrap; }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 13px; font-weight: 700; color: var(--text-muted); text-decoration: none;
+    padding: 6px 13px 6px 9px; border: 1px solid var(--border); border-radius: 999px;
+    background: var(--surface); -webkit-tap-highlight-color: transparent; transition: transform 0.12s;
+  }
+  .back-link:active { transform: scale(0.97); }
+  .back-arrow { font-size: 16px; line-height: 1; }
+
+  .lang-header {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 5px solid var(--accent); border-radius: var(--radius);
+    padding: 16px; margin-top: 1rem;
+  }
+  .lh-chip {
+    min-width: 56px; height: 56px; padding: 0 10px; border-radius: 14px;
+    background: var(--accent-bg); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 700; flex-shrink: 0; white-space: nowrap;
+  }
+  .lh-name { flex: 1; min-width: 0; }
+  .lh-jp { font-size: 20px; font-weight: 700; }
+  .lh-native { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+  .lh-native .en { color: var(--text-hint); }
+
+  .facts { display: grid; grid-template-columns: auto 1fr; gap: 5px 12px; margin-top: 14px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 15px; font-size: 12.5px; }
+  .facts dt { color: var(--text-hint); font-weight: 700; white-space: nowrap; }
+  .facts dd { color: var(--text); line-height: 1.5; }
+  .facts .tagrow { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ftag { font-size: 10.5px; font-weight: 700; padding: 2px 9px; border-radius: 20px; background: var(--accent-bg); color: var(--accent); }
+  .ftag.g { background: #F0EEE8; color: var(--text-hint); }
+
+  .sec-head { display: flex; align-items: center; gap: 9px; margin: 1.8rem 0 0.7rem; }
+  .sec-bar { width: 4px; height: 18px; border-radius: 2px; background: var(--accent); }
+  .sec-title { font-size: 15px; font-weight: 700; }
+  .sec-en { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-hint); text-transform: uppercase; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 4px; }
+
+  /* フレーズ行 */
+  .prow { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .prow:last-child { border-bottom: none; }
+  .p-ja { font-size: 11.5px; color: var(--text-hint); min-width: 74px; flex-shrink: 0; }
+  .p-main { flex: 1; min-width: 0; }
+  .p-native { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.4; }
+  .p-kana { font-size: 11.5px; color: var(--text-hint); margin-top: 1px; }
+  .say {
+    flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid var(--border); background: var(--surface); color: var(--accent);
+    font-size: 16px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    display: flex; align-items: center; justify-content: center; transition: transform 0.1s, background 0.1s;
+  }
+  .say:active { transform: scale(0.9); }
+  .say.playing { background: var(--accent-bg); }
+
+  /* 数字グリッド */
+  .numgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .num {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 11px;
+  }
+  .num-i { width: 24px; height: 24px; border-radius: 7px; background: var(--accent-bg); color: var(--accent);
+    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .num-main { flex: 1; min-width: 0; }
+  .num-native { font-size: 14.5px; font-weight: 700; }
+  .num-kana { font-size: 10.5px; color: var(--text-hint); }
+  .num .say { width: 30px; height: 30px; font-size: 13px; }
+
+  .tips { list-style: none; }
+  .tips li { font-size: 13px; line-height: 1.7; padding: 4px 12px 4px 25px; position: relative; }
+  .tips li::before { content: ''; position: absolute; left: 12px; top: 12px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+  .hint { font-size: 11px; color: var(--text-hint); margin: 8px 2px 0; line-height: 1.6; }
+
+  /* 支援リンク */
+  .links { display: flex; flex-direction: column; gap: 9px; }
+  .link {
+    display: flex; align-items: center; gap: 11px; text-decoration: none; color: inherit;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px;
+    -webkit-tap-highlight-color: transparent; transition: transform 0.12s, box-shadow 0.12s;
+  }
+  .link:active { transform: scale(0.99); }
+  .link:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+  .link-ic { width: 34px; height: 34px; border-radius: 9px; background: var(--accent-bg); color: var(--accent);
+    display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .link-t { flex: 1; min-width: 0; }
+  .link-n { font-size: 13.5px; font-weight: 700; }
+  .link-d { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; line-height: 1.4; }
+  .link-a { color: var(--text-hint); font-size: 18px; }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.4rem; line-height: 1.8; }
+  .notfound { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; margin-top: 1.5rem; color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="container" id="app">
+  <div class="topbar">
+    <a href="gaikokugo.html" class="back-link"><span class="back-arrow">‹</span>一覧へ</a>
+    <a href="index.html" class="back-link">ホーム<span class="en" style="color:inherit;margin-left:3px;">/ Home</span></a>
+  </div>
+  <div id="content"></div>
+  <div class="app-footer">© 2025 日本語の部屋</div>
+</div>
+
+<script src="langdata.js"></script>
+<script>
+/* ---- 音声読み上げ（Web Speech API） ---- */
+function speak(text, lang, btn){
+  if(!('speechSynthesis' in window)){ return; }
+  try{
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = lang; u.rate = 0.9;
+    if(btn){ btn.classList.add('playing'); u.onend = function(){ btn.classList.remove('playing'); }; u.onerror = function(){ btn.classList.remove('playing'); }; }
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+window.__speak = speak;
+
+/* ---- パラメータから言語を特定 ---- */
+function getParam(name){
+  var m = new RegExp('[?&]' + name + '=([^&]*)').exec(location.search);
+  return m ? decodeURIComponent(m[1]) : null;
+}
+var code = getParam('code');
+var L = (window.LANGS || []).filter(function(x){ return x.code === code; })[0];
+var content = document.getElementById('content');
+
+if(!L){
+  document.title = '言語が見つかりません ・ 日本語の部屋';
+  content.innerHTML = '<div class="notfound">言語が指定されていません。<br><a href="gaikokugo.html" style="color:#2F7168;font-weight:700;">一覧から選んでください ›</a></div>';
+} else {
+  document.title = L.jp + ' の基礎 ・ 日本語の部屋';
+  document.documentElement.style.setProperty('--accent', L.accent);
+  document.documentElement.style.setProperty('--accent-bg', L.bg);
+
+  var esc = function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+  var sayBtn = function(text){ return '<button type="button" class="say" aria-label="読み上げ" onclick="__speak(\'' + esc(text).replace(/'/g,'\\\'') + '\',\'' + L.tts + '\',this)">🔊</button>'; };
+
+  var tags = '';
+  if(L.core) tags += '<span class="ftag">重点5言語</span>';
+  if(L.resRank) tags += '<span class="ftag g">在留' + L.resRank + '</span>';
+  if(L.learnRank) tags += '<span class="ftag g">学習者' + L.learnRank + '</span>';
+
+  var phrasesHtml = L.phrases.map(function(p){
+    return '<div class="prow"><div class="p-ja">' + esc(p[0]) + '</div>'
+      + '<div class="p-main"><div class="p-native">' + esc(p[1]) + '</div><div class="p-kana">' + esc(p[2]) + '</div></div>'
+      + sayBtn(p[1]) + '</div>';
+  }).join('');
+
+  var numsHtml = L.numbers.map(function(n, i){
+    return '<div class="num"><div class="num-i">' + (i+1) + '</div>'
+      + '<div class="num-main"><div class="num-native">' + esc(n[0]) + '</div><div class="num-kana">' + esc(n[1]) + '</div></div>'
+      + sayBtn(n[0]) + '</div>';
+  }).join('');
+
+  var introHtml = L.selfintro.map(function(p){
+    return '<div class="prow"><div class="p-ja">' + esc(p[0]) + '</div>'
+      + '<div class="p-main"><div class="p-native">' + esc(p[1]) + '</div><div class="p-kana">' + esc(p[2]) + '</div></div>'
+      + sayBtn(p[1]) + '</div>';
+  }).join('');
+
+  var tipsHtml = L.tips.map(function(t){ return '<li>' + esc(t) + '</li>'; }).join('');
+
+  var supportHtml =
+      link('https://www.moj.go.jp/isa/support/portal/index.html', '外国人生活支援ポータルサイト', '入管庁。生活のルールや手続きを多言語で案内')
+    + link('https://www.moj.go.jp/isa/support/portal/guidebook_all.html', '生活・就労ガイドブック（多言語）', '入管庁。各言語版をダウンロードできる')
+    + link('https://casta-net.mext.go.jp/', 'かすたねっと（文部科学省）', '外国人の子ども向け教材・多言語の学校文書を検索');
+
+  content.innerHTML =
+      '<div class="lang-header"><div class="lh-chip">' + esc(L.chip) + '</div>'
+      + '<div class="lh-name"><div class="lh-jp">' + esc(L.jp) + '</div>'
+      + '<div class="lh-native">' + esc(L.autonym) + ' <span class="en">・ ' + esc(L.en) + '</span></div></div></div>'
+
+    + '<dl class="facts">'
+      + '<dt>地域</dt><dd>' + esc(L.region) + '</dd>'
+      + '<dt>文字</dt><dd>' + esc(L.script) + '</dd>'
+      + '<dt>語族</dt><dd>' + esc(L.family) + '</dd>'
+      + '<dt>語順</dt><dd>' + esc(L.order) + '</dd>'
+      + (tags ? '<dt>目安</dt><dd class="tagrow">' + tags + '</dd>' : '')
+    + '</dl>'
+
+    + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">あいさつ</span><span class="sec-en">Greetings</span></div>'
+    + '<div class="card">' + phrasesHtml + '</div>'
+    + '<div class="hint">🔊は端末の音声エンジンを使います。対応する音声が入っていない言語では再生されないことがあります。カナ読みはおおよその目安です。</div>'
+
+    + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">数字（1〜10）</span><span class="sec-en">Numbers</span></div>'
+    + '<div class="numgrid">' + numsHtml + '</div>'
+
+    + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">自己紹介</span><span class="sec-en">Self-intro</span></div>'
+    + '<div class="card">' + introHtml + '</div>'
+    + '<div class="hint">〇〇 に名前を入れて使います。</div>'
+
+    + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">学習のワンポイント</span><span class="sec-en">Notes</span></div>'
+    + '<div class="card"><ul class="tips">' + tipsHtml + '</ul></div>'
+
+    + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">生活・就学の支援（多言語）</span><span class="sec-en">Support</span></div>'
+    + '<div class="links">' + supportHtml + '</div>'
+    + '<div class="hint">各サイトで表示言語を選べます。就学案内・相談窓口・生活情報などを母語で確認できます。</div>';
+}
+
+function link(url, name, desc){
+  return '<a class="link" href="' + url + '" target="_blank" rel="noopener">'
+    + '<div class="link-ic">🌐</div>'
+    + '<div class="link-t"><div class="link-n">' + name + '</div><div class="link-d">' + desc + '</div></div>'
+    + '<span class="link-a">›</span></a>';
+}
+</script>
+
+<script>
+/* === EN表示トグル === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en,body.hide-en .pb-en,body.hide-en .sec-en,body.hide-en .gh-en,"
+   +"body.hide-en .sh-en,body.hide-en .level-en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2F7168;"
+   +"margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';
+    b.title=h?'英語の補助：OFF':'英語の補助：ON'; }
+  b.addEventListener('click',function(){
+    var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){}
+    paint();
+  });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

@@ -6,112 +6,109 @@
 <title>外国語 ・ Foreign Languages — 日本語の部屋</title>
 <style>
   :root {
-    --bg: #F7F5F0;
-    --surface: #FFFFFF;
-    --border: #E2DDD6;
-    --text: #1C1C1C;
-    --text-muted: #6B6560;
-    --text-hint: #9E9890;
-    --radius: 14px;
-    --radius-sm: 10px;
-    --brand: #2F7168;
-    --brand-bg: #DDEEE7;
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px; --brand: #2F7168; --brand-bg: #DDEEE7;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 0 1rem 3rem;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
   }
   .container { max-width: 520px; margin: 0 auto; }
 
-  /* トップバー */
   .topbar { display: flex; align-items: center; padding: 14px 0 2px; }
   .back-link {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: 13px; font-weight: 700; color: var(--text-muted);
-    text-decoration: none; padding: 6px 13px 6px 9px;
-    border: 1px solid var(--border); border-radius: 999px;
-    background: var(--surface); -webkit-tap-highlight-color: transparent;
-    transition: transform 0.12s;
+    display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 700;
+    color: var(--text-muted); text-decoration: none; padding: 6px 13px 6px 9px;
+    border: 1px solid var(--border); border-radius: 999px; background: var(--surface);
+    -webkit-tap-highlight-color: transparent; transition: transform 0.12s;
   }
   .back-link:active { transform: scale(0.97); }
   .back-arrow { font-size: 16px; line-height: 1; }
 
-  /* ヘッダー */
   .page-header { text-align: center; padding: 1.3rem 0 0.3rem; }
   .ph-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--brand); margin-bottom: 8px; }
   .ph-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
   .ph-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
 
-  /* 説明ノート */
   .note {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 12px 15px;
-    font-size: 12.5px; color: var(--text-muted); line-height: 1.75;
-    margin-top: 1.1rem;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 12px 15px; font-size: 12.5px; color: var(--text-muted); line-height: 1.75; margin-top: 1.1rem;
   }
   .note b { color: var(--text); font-weight: 700; }
   .note .en { display: block; color: var(--text-hint); margin-top: 4px; }
   .note .src { display: block; color: var(--text-hint); font-size: 11px; margin-top: 6px; line-height: 1.6; }
 
+  /* 比較図 */
+  .sec-head { display: flex; align-items: center; gap: 9px; margin: 1.7rem 0 0.7rem; }
+  .sec-bar { width: 4px; height: 18px; border-radius: 2px; background: var(--brand); }
+  .sec-title { font-size: 15px; font-weight: 700; }
+  .sec-en { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-hint); text-transform: uppercase; }
+
+  .cmp { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 15px; }
+  .cmp-block + .cmp-block { margin-top: 16px; padding-top: 15px; border-top: 1px solid var(--border); }
+  .cmp-h { font-size: 12.5px; font-weight: 700; margin-bottom: 10px; }
+  .cmp-h span { font-weight: 400; color: var(--text-hint); font-size: 11px; }
+  .bar-row { margin-bottom: 8px; }
+  .bar-top { display: flex; align-items: baseline; gap: 6px; font-size: 12px; }
+  .bar-rank { width: 16px; color: var(--text-hint); font-weight: 700; flex-shrink: 0; }
+  .bar-top b { font-weight: 700; }
+  .bar-lang { font-size: 11px; font-weight: 700; }
+  .bar-num { margin-left: auto; font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .bar-track { height: 7px; border-radius: 4px; background: #F0EEE8; margin-top: 3px; margin-left: 22px; overflow: hidden; }
+  .bar-fill { display: block; height: 100%; border-radius: 4px; }
+  .cmp-legend { font-size: 11px; color: var(--text-hint); margin-top: 12px; line-height: 1.6; }
+  .cmp-legend .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--brand); margin-right: 4px; vertical-align: middle; }
+  .cmp-legend .dot.g { background: #C9C2B8; }
+
   /* フィルタ */
   .filters {
-    position: sticky; top: 0; z-index: 40;
-    display: flex; gap: 7px; overflow-x: auto;
-    margin: 0.9rem -1rem 0; padding: 10px 1rem 8px;
+    position: sticky; top: 0; z-index: 40; display: flex; gap: 7px; overflow-x: auto;
+    margin: 1.4rem -1rem 0; padding: 10px 1rem 8px;
     background: linear-gradient(var(--bg) 80%, rgba(247,245,240,0));
     -webkit-overflow-scrolling: touch; scrollbar-width: none;
   }
   .filters::-webkit-scrollbar { display: none; }
   .fbtn {
-    flex: 0 0 auto; font-size: 12px; font-weight: 700;
-    color: var(--text-muted); background: var(--surface);
-    border: 1px solid var(--border); border-radius: 999px;
-    padding: 7px 13px; cursor: pointer; -webkit-tap-highlight-color: transparent;
-    transition: transform 0.1s;
+    flex: 0 0 auto; font-size: 12px; font-weight: 700; color: var(--text-muted);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
+    padding: 7px 13px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 0.1s;
   }
   .fbtn:active { transform: scale(0.96); }
   .fbtn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
   .fcount { font-size: 11px; color: var(--text-hint); margin: 2px 2px 10px; }
 
-  /* 言語カード */
+  /* 言語カード（リンク） */
   .lang-grid { display: flex; flex-direction: column; gap: 12px; }
   .lc {
-    background: var(--surface); border: 1px solid var(--border);
-    border-left: 4px solid var(--accent); border-radius: var(--radius);
-    padding: 14px 15px;
+    display: block; text-decoration: none; color: inherit;
+    background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent);
+    border-radius: var(--radius); padding: 14px 15px; position: relative;
+    -webkit-tap-highlight-color: transparent; transition: transform 0.12s, box-shadow 0.12s;
   }
+  .lc:active { transform: scale(0.99); }
+  .lc:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
   .lc-head { display: flex; align-items: center; gap: 12px; }
   .lc-chip {
-    min-width: 46px; height: 46px; padding: 0 8px; border-radius: 12px;
-    background: var(--accent-bg); color: var(--accent);
-    display: flex; align-items: center; justify-content: center;
+    min-width: 46px; height: 46px; padding: 0 8px; border-radius: 12px; background: var(--accent-bg);
+    color: var(--accent); display: flex; align-items: center; justify-content: center;
     font-size: 19px; font-weight: 700; flex-shrink: 0; white-space: nowrap;
   }
   .lc-name { flex: 1; min-width: 0; }
   .lc-jp { font-size: 16px; font-weight: 700; }
   .lc-native { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
   .lc-native .en { color: var(--text-hint); }
+  .lc-go { color: var(--accent); font-size: 20px; flex-shrink: 0; transition: transform 0.12s; }
+  .lc:hover .lc-go { transform: translateX(3px); }
   .lc-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
   .lc-tag { font-size: 10.5px; font-weight: 700; padding: 2px 9px; border-radius: 20px; background: var(--accent-bg); color: var(--accent); }
   .lc-tag.g { background: #F0EEE8; color: var(--text-hint); }
   .lc-info { display: grid; grid-template-columns: auto 1fr; gap: 5px 12px; margin-top: 11px; font-size: 12.5px; }
   .lc-k { color: var(--text-hint); font-weight: 700; white-space: nowrap; }
   .lc-v { color: var(--text); line-height: 1.5; }
-  .lc-greet { margin-top: 11px; display: flex; flex-direction: column; gap: 5px; font-size: 13.5px; }
-  .lc-greet > div { display: flex; align-items: baseline; gap: 8px; }
-  .lc-greet .g-jp { font-size: 11px; color: var(--text-hint); min-width: 62px; }
-  .lc-greet b { color: var(--accent); font-weight: 700; }
-  .lc-greet .rd { font-size: 11.5px; color: var(--text-hint); font-weight: 400; }
-  .lc-note {
-    margin-top: 11px; font-size: 12px; color: var(--text-muted); line-height: 1.65;
-    background: var(--accent-bg); border-radius: 9px; padding: 8px 11px;
-  }
+  .lc-note { margin-top: 11px; font-size: 12px; color: var(--text-muted); line-height: 1.65; background: var(--accent-bg); border-radius: 9px; padding: 8px 11px; }
 
-  /* フッター */
   .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.4rem; line-height: 1.8; }
 </style>
 </head>
@@ -125,112 +122,62 @@
   <div class="page-header">
     <div class="ph-eyebrow">TAGENGO ・ LANGUAGES</div>
     <div class="ph-title">外国語</div>
-    <div class="ph-sub">学習者の母語と、在日外国人の言語をまとめて<br><span class="en">Learners’ first languages &amp; languages spoken by residents in Japan</span></div>
+    <div class="ph-sub">学習者の母語と、在日外国人の言語をまとめて<br><span class="en">Learners&rsquo; first languages &amp; languages spoken by residents in Japan</span></div>
   </div>
 
   <div class="note">
-    海外の日本語学習者が多い国と、日本で暮らす外国人が多い国の <b>両方</b> に登場する言語を中心にまとめました。<b>日本語教員</b>（学習者の母語を知る）にも、<b>在日外国人の子弟支援</b>（継承語の入口）にも使えます。ボタンで絞り込めます。
-    <span class="en">A cross-reference of the languages that matter most to Japanese teachers and to children of foreign residents. Use the buttons to filter. Tap “EN” (top-right) to hide English.</span>
-    <span class="src">出典：国際交流基金「2024年度 海外日本語教育機関調査」／出入国在留管理庁「令和7年末（2025年末）在留外国人数」。順位はこの2調査の国・地域別データにもとづきます（母語は各国の代表的な言語を示したもので、多言語国家では他の言語も話されます）。</span>
+    海外の日本語学習者が多い国と、日本で暮らす外国人が多い国の <b>両方</b> に登場する言語を中心にまとめました。<b>日本語教員</b>（学習者の母語を知る）にも、<b>在日外国人の子弟支援</b>（継承語の入口）にも使えます。言語カードを開くと、あいさつ・数字・自己紹介（音声つき）や支援リンクが見られます。
+    <span class="en">A cross-reference of the languages that matter most to Japanese teachers and to children of foreign residents. Open a card for greetings, numbers, self-intro (with audio) and support links. Tap &ldquo;EN&rdquo; (top-right) to hide English.</span>
+    <span class="src">出典：国際交流基金「2024年度 海外日本語教育機関調査」／出入国在留管理庁「令和7年末（2025年末）在留外国人数」。順位・人数はこの2調査にもとづきます（母語は各国の代表的な言語で、多言語国家では他の言語も話されます）。</span>
   </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">学習者 × 在留 の比較</span><span class="sec-en">Compare</span></div>
+  <div class="cmp" id="cmp"></div>
 
   <div class="filters" id="filters"></div>
   <div class="fcount" id="count"></div>
 
   <div class="lang-grid" id="grid"></div>
 
-  <div class="app-footer">
-    © 2025 日本語の部屋
-  </div>
+  <div class="app-footer">© 2025 日本語の部屋</div>
 
 </div>
 
+<script src="langdata.js"></script>
 <script>
-/* =========================================================================
-   言語データ（汎用）：1言語＝1オブジェクト。ここに項目を足すだけで増やせます。
-   core=重点5(両調査の上位10に共通)／resident=在留上位／learner=海外学習者上位／
-   sov=語順が日本語(SOV)に近い
-   ========================================================================= */
-var LANGS = [
-  { jp:'中国語', autonym:'中文 / 普通話', en:'Chinese (Mandarin)', chip:'中',
-    region:'中国・台湾・シンガポール ほか', script:'漢字（簡体字／繁体字）', family:'シナ・チベット語族', order:'SVO',
-    resRank:'1位', learnRank:'1位', hello:{native:'你好',read:'Nǐ hǎo'}, thanks:{native:'谢谢',read:'Xièxie'},
-    note:'漢字の知識は有利。ただし声調（4声）と簡体字、日中で意味の異なる漢語に注意。',
-    core:true, resident:true, learner:true, sov:false, accent:'#9A3D1C', bg:'#FAECE7' },
+/* ===== 比較図データ（2調査の上位10）===== */
+var CMP = {
+  learn: [[1,'中国','中国語',1019197],[2,'インドネシア','インドネシア語',732914],[3,'韓国','韓国語',555396],[4,'オーストラリア','英語',424316],[5,'タイ','タイ語',194366],[6,'ベトナム','ベトナム語',164495],[7,'米国','英語',134096],[8,'台湾','中国語',124149],[9,'ミャンマー','ビルマ語',100315],[10,'インド','ヒンディー語',52946]],
+  res:   [[1,'中国','中国語',930428],[2,'ベトナム','ベトナム語',681100],[3,'韓国','韓国語',407341],[4,'フィリピン','フィリピノ語',356579],[5,'ネパール','ネパール語',300992],[6,'インドネシア','インドネシア語',266069],[7,'ブラジル','ポルトガル語',210014],[8,'ミャンマー','ビルマ語',182567],[9,'スリランカ','シンハラ/タミル語',79128],[10,'台湾','中国語',73256]]
+};
+var LANGCOLOR = {'中国語':'#9A3D1C','インドネシア語':'#1F6F6B','韓国語':'#185FA5','英語':'#3C3489','タイ語':'#97406A','ベトナム語':'#3B6D11','ビルマ語':'#854F0B','ヒンディー語':'#6E5B10','フィリピノ語':'#8A4A24','ネパール語':'#7A5A12','ポルトガル語':'#185FA5','シンハラ/タミル語':'#3C3489'};
+var CORE = {'中国語':1,'韓国語':1,'ベトナム語':1,'インドネシア語':1,'ビルマ語':1};
 
-  { jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
-    region:'韓国・北朝鮮', script:'ハングル', family:'朝鮮語族（系統は諸説）', order:'SOV（日本語型）',
-    resRank:'3位', learnRank:'3位', hello:{native:'안녕하세요',read:'Annyeong-haseyo'}, thanks:{native:'감사합니다',read:'Gamsa-hamnida'},
-    note:'語順・助詞・敬語が日本語と対応しやすく、相互に学びやすい言語。',
-    core:true, resident:true, learner:true, sov:true, accent:'#185FA5', bg:'#E6F1FB' },
+function commas(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
 
-  { jp:'ベトナム語', autonym:'Tiếng Việt', en:'Vietnamese', chip:'Vi',
-    region:'ベトナム', script:'ラテン文字（声調符号つき）', family:'オーストロアジア語族', order:'SVO',
-    resRank:'2位', learnRank:'6位', hello:{native:'Xin chào',read:null}, thanks:{native:'Cảm ơn',read:null},
-    note:'6声調が最大の難関。孤立語で語形変化は少ない。国内の子弟支援で需要が大きい。',
-    core:true, resident:true, learner:true, sov:false, accent:'#3B6D11', bg:'#EAF3DE' },
+function bars(rows){
+  var max = Math.max.apply(null, rows.map(function(r){ return r[3]; }));
+  return rows.map(function(r){
+    var rank=r[0], country=r[1], lang=r[2], num=r[3];
+    var shared = CORE[lang] ? true : false;
+    var color = shared ? (LANGCOLOR[lang] || '#2F7168') : '#C9C2B8';
+    var w = Math.max(3, Math.round(num / max * 100));
+    return '<div class="bar-row">'
+      + '<div class="bar-top"><span class="bar-rank">' + rank + '</span>'
+      + '<b>' + country + '</b> <span class="bar-lang" style="color:' + color + '">' + lang + '</span>'
+      + '<span class="bar-num">' + commas(num) + '</span></div>'
+      + '<div class="bar-track"><span class="bar-fill" style="width:' + w + '%;background:' + color + '"></span></div>'
+      + '</div>';
+  }).join('');
+}
 
-  { jp:'インドネシア語', autonym:'Bahasa Indonesia', en:'Indonesian', chip:'Id',
-    region:'インドネシア（共通語）', script:'ラテン文字', family:'オーストロネシア語族', order:'SVO',
-    resRank:'6位', learnRank:'2位', hello:{native:'Halo',read:null}, thanks:{native:'Terima kasih',read:null},
-    note:'つづりが表音的で読みやすく、文法は比較的平易。声調はなし。',
-    core:true, resident:true, learner:true, sov:false, accent:'#1F6F6B', bg:'#DFF0EE' },
+document.getElementById('cmp').innerHTML =
+    '<div class="cmp-block"><div class="cmp-h">海外の日本語学習者 <span>／ 国際交流基金 2024</span></div>' + bars(CMP.learn) + '</div>'
+  + '<div class="cmp-block"><div class="cmp-h">在留外国人 <span>／ 入管庁 2025年末</span></div>' + bars(CMP.res) + '</div>'
+  + '<div class="cmp-legend"><span class="dot"></span>色つき＝両調査の上位に共通する言語（重点5：中国語・韓国語・ベトナム語・インドネシア語・ビルマ語）　<span class="dot g"></span>その他</div>';
 
-  { jp:'ビルマ語', autonym:'မြန်မာဘာသာ', en:'Burmese', chip:'မ',
-    region:'ミャンマー', script:'ビルマ文字', family:'シナ・チベット語族', order:'SOV（日本語型）',
-    resRank:'8位', learnRank:'9位', hello:{native:'မင်္ဂလာပါ',read:'Mingalaba'}, thanks:{native:'ကျေးဇူးတင်ပါတယ်',read:'Kyeːzù tin-ba-deh'},
-    note:'語順が日本語型でとっつきやすい一方、独特の文字と声調が難関。両調査で急伸中。',
-    core:true, resident:true, learner:true, sov:true, accent:'#854F0B', bg:'#FAEEDA' },
-
-  { jp:'英語', autonym:'English', en:'English', chip:'En',
-    region:'豪・米・比 ほか世界各地', script:'ラテン文字', family:'インド・ヨーロッパ語族', order:'SVO',
-    resRank:null, learnRank:'豪4・米7位', hello:{native:'Hello',read:null}, thanks:{native:'Thank you',read:null},
-    note:'共通語・媒介語として有用。冠詞・時制・複数が日本語話者のつまずきどころ。',
-    core:false, resident:false, learner:true, sov:false, accent:'#3C3489', bg:'#EEEDFE' },
-
-  { jp:'タイ語', autonym:'ภาษาไทย', en:'Thai', chip:'ไ',
-    region:'タイ', script:'タイ文字', family:'タイ・カダイ語族', order:'SVO',
-    resRank:null, learnRank:'5位', hello:{native:'สวัสดี',read:'Sawatdii'}, thanks:{native:'ขอบคุณ',read:'Khɔ̀ɔp-khun'},
-    note:'5声調と独特の文字が特徴。語順はSVO。',
-    core:false, resident:false, learner:true, sov:false, accent:'#97406A', bg:'#F7E8F0' },
-
-  { jp:'ヒンディー語', autonym:'हिन्दी', en:'Hindi', chip:'हि',
-    region:'インド北部', script:'デーヴァナーガリー文字', family:'インド・ヨーロッパ語族', order:'SOV（日本語型）',
-    resRank:null, learnRank:'10位（インド）', hello:{native:'नमस्ते',read:'Namaste'}, thanks:{native:'धन्यवाद',read:'Dhanyavaad'},
-    note:'語順がSOVで日本語に近い。名詞の後ろに置く後置詞は助詞に似た働き。',
-    core:false, resident:false, learner:true, sov:true, accent:'#6E5B10', bg:'#F2EFD9' },
-
-  { jp:'フィリピノ語（タガログ語）', autonym:'Tagalog / Filipino', en:'Filipino (Tagalog)', chip:'Tl',
-    region:'フィリピン', script:'ラテン文字', family:'オーストロネシア語族', order:'述語先頭（VSO型）',
-    resRank:'4位', learnRank:null, hello:{native:'Kumusta',read:null}, thanks:{native:'Salamat',read:null},
-    note:'動詞中心のフォーカス（態）体系が独特。英語からの借用語も多い。',
-    core:false, resident:true, learner:false, sov:false, accent:'#8A4A24', bg:'#F4E9E1' },
-
-  { jp:'ネパール語', autonym:'नेपाली', en:'Nepali', chip:'ने',
-    region:'ネパール', script:'デーヴァナーガリー文字', family:'インド・ヨーロッパ語族', order:'SOV（日本語型）',
-    resRank:'5位', learnRank:null, hello:{native:'नमस्ते',read:'Namaste'}, thanks:{native:'धन्यवाद',read:'Dhanyabaad'},
-    note:'SOV・後置詞で日本語に近い構造。敬語の区別あり。近年、学齢期の子どもが急増。',
-    core:false, resident:true, learner:false, sov:true, accent:'#7A5A12', bg:'#F3EEDB' },
-
-  { jp:'ポルトガル語', autonym:'Português', en:'Portuguese', chip:'Pt',
-    region:'ブラジル・ポルトガル ほか', script:'ラテン文字', family:'インド・ヨーロッパ語族', order:'SVO',
-    resRank:'7位（ブラジル）', learnRank:null, hello:{native:'Olá',read:null}, thanks:{native:'Obrigado / Obrigada',read:'男／女'},
-    note:'日系ブラジル人子弟の継承語支援で需要大（静岡・愛知・群馬など）。動詞活用と名詞の性が特徴。',
-    core:false, resident:true, learner:false, sov:false, accent:'#185FA5', bg:'#E6F1FB' },
-
-  { jp:'シンハラ語', autonym:'සිංහල', en:'Sinhala', chip:'සි',
-    region:'スリランカ', script:'シンハラ文字', family:'インド・ヨーロッパ語族', order:'SOV（日本語型）',
-    resRank:'9位（スリランカ）', learnRank:null, hello:{native:'ආයුබෝවන්',read:'Ayubowan'}, thanks:{native:'ස්තූතියි',read:'Sthuutiyi'},
-    note:'SOVで語順は日本語に近い。話し言葉と書き言葉の差が大きい点に注意。',
-    core:false, resident:true, learner:false, sov:true, accent:'#3C3489', bg:'#EEEDFE' },
-
-  { jp:'タミル語', autonym:'தமிழ்', en:'Tamil', chip:'த',
-    region:'スリランカ・インド南部', script:'タミル文字', family:'ドラヴィダ語族', order:'SOV（日本語型）',
-    resRank:'9位（スリランカ）', learnRank:null, hello:{native:'வணக்கம்',read:'Vanakkam'}, thanks:{native:'நன்றி',read:'Nandri'},
-    note:'膠着語でSOV。語順・膠着性が日本語と似る。スリランカのタミル系などが話す。',
-    core:false, resident:true, learner:false, sov:true, accent:'#97406A', bg:'#F7E8F0' }
-];
-
+/* ===== 言語カード＆フィルタ ===== */
+var LANGS = window.LANGS || [];
 var FILTERS = [
   { key:'all',      label:'すべて',            fn:function(l){ return true; } },
   { key:'core',     label:'重点5言語',          fn:function(l){ return l.core; } },
@@ -240,39 +187,31 @@ var FILTERS = [
 ];
 var current = 'all';
 
-function greet(o){
-  return o.read ? (o.native + ' <span class="rd">(' + o.read + ')</span>') : o.native;
-}
-
 function card(l){
   var tags = '';
   if (l.core)      tags += '<span class="lc-tag">重点5言語</span>';
   if (l.resRank)   tags += '<span class="lc-tag g">在留' + l.resRank + '</span>';
   if (l.learnRank) tags += '<span class="lc-tag g">学習者' + l.learnRank + '</span>';
-  return '<div class="lc" style="--accent:' + l.accent + ';--accent-bg:' + l.bg + '">'
+  return '<a class="lc" href="lang.html?code=' + l.code + '" style="--accent:' + l.accent + ';--accent-bg:' + l.bg + '">'
     + '<div class="lc-head"><div class="lc-chip">' + l.chip + '</div>'
     + '<div class="lc-name"><div class="lc-jp">' + l.jp + '</div>'
-    + '<div class="lc-native">' + l.autonym + ' <span class="en">・ ' + l.en + '</span></div></div></div>'
+    + '<div class="lc-native">' + l.autonym + ' <span class="en">・ ' + l.en + '</span></div></div>'
+    + '<span class="lc-go">›</span></div>'
     + (tags ? '<div class="lc-tags">' + tags + '</div>' : '')
     + '<div class="lc-info">'
       + '<div class="lc-k">地域</div><div class="lc-v">' + l.region + '</div>'
       + '<div class="lc-k">文字</div><div class="lc-v">' + l.script + '</div>'
-      + '<div class="lc-k">語族</div><div class="lc-v">' + l.family + '</div>'
       + '<div class="lc-k">語順</div><div class="lc-v">' + l.order + '</div>'
     + '</div>'
-    + '<div class="lc-greet">'
-      + '<div><span class="g-jp">こんにちは</span> <b>' + greet(l.hello) + '</b></div>'
-      + '<div><span class="g-jp">ありがとう</span> <b>' + greet(l.thanks) + '</b></div>'
-    + '</div>'
     + '<div class="lc-note">' + l.note + '</div>'
-  + '</div>';
+  + '</a>';
 }
 
 function render(){
   var f = FILTERS.filter(function(x){ return x.key === current; })[0];
   var list = LANGS.filter(f.fn);
   document.getElementById('grid').innerHTML = list.map(card).join('');
-  document.getElementById('count').textContent = list.length + ' 言語を表示中';
+  document.getElementById('count').textContent = list.length + ' 言語を表示中（カードをタップで詳しく）';
   var btns = document.querySelectorAll('.fbtn');
   for (var i=0;i<btns.length;i++){
     btns[i].className = 'fbtn' + (btns[i].getAttribute('data-key') === current ? ' active' : '');
@@ -293,14 +232,13 @@ function render(){
 </script>
 
 <script>
-/* === EN表示トグル（英語補助の表示/非表示・localStorageで保持） === */
+/* === EN表示トグル === */
 (function(){
   var KEY='nnh_en_off';
   var st=document.createElement('style');
   st.textContent=
-    "body.hide-en .en,body.hide-en .pb-en,body.hide-en .hero-desc-en,body.hide-en .game-en,"
-   +"body.hide-en .level-en,body.hide-en .en-sub,body.hide-en .en-i,body.hide-en .gh-en,"
-   +"body.hide-en .sh-en,body.hide-en .hero-en{display:none!important;}"
+    "body.hide-en .en,body.hide-en .pb-en,body.hide-en .sec-en,body.hide-en .gh-en,"
+   +"body.hide-en .sh-en,body.hide-en .level-en{display:none!important;}"
    +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
    +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
    +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
@@ -314,8 +252,7 @@ function render(){
   var b=document.createElement('button'); b.type='button';
   function paint(){ var h=document.body.classList.contains('hide-en');
     b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';
-    b.setAttribute('aria-pressed', h?'false':'true');
-    b.title=h?'英語の補助：OFF（タップで表示 / show English）':'英語の補助：ON（タップで非表示 / hide English）'; }
+    b.title=h?'英語の補助：OFF':'英語の補助：ON'; }
   b.addEventListener('click',function(){
     var h=document.body.classList.toggle('hide-en');
     try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){}

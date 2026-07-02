@@ -310,13 +310,14 @@ let groups=new Set([1,2,3]);
 let selected=new Set(['v:masu','v:te','v:nai','v:ta']);
 let score={asked:0,ok:0,streak:0};
 let current=null, answered=false;
+let suppressFocus=false; // 設定変更時はフォーカス（自動スクロール）しない
 
 /* ===================== UI構築 ===================== */
 function renderGroupChips(){
   $('groupChips').innerHTML=[[1,'1グループ'],[2,'2グループ'],[3,'3グループ']]
     .map(([g,l])=>`<button class="chip gp ${groups.has(g)?'on':''}" data-g="${g}">${l}</button>`).join('');
   $('groupChips').querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
-    const g=+c.dataset.g; groups.has(g)?groups.delete(g):groups.add(g); renderGroupChips(); newProblem();
+    const g=+c.dataset.g; groups.has(g)?groups.delete(g):groups.add(g); renderGroupChips(); suppressFocus=true; newProblem(); suppressFocus=false;
   });
 }
 function renderFormChips(){
@@ -330,7 +331,7 @@ function renderFormChips(){
     block('i','い形容詞','var(--ia)',IFORMS,'ci') +
     block('n','な形容詞','var(--na)',NFORMS,'cn');
   $('formChips').querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
-    const id=c.dataset.id; selected.has(id)?selected.delete(id):selected.add(id); renderFormChips(); newProblem();
+    const id=c.dataset.id; selected.has(id)?selected.delete(id):selected.add(id); renderFormChips(); suppressFocus=true; newProblem(); suppressFocus=false;
   });
 }
 function applyPreset(p){
@@ -341,7 +342,7 @@ function applyPreset(p){
     IFORMS.forEach(([k])=>selected.add('i:'+k));
     NFORMS.forEach(([k])=>selected.add('n:'+k));
   }
-  renderFormChips(); newProblem();
+  renderFormChips(); suppressFocus=true; newProblem(); suppressFocus=false;
 }
 
 /* ===================== 出題 ===================== */
@@ -420,7 +421,7 @@ function renderAnswerArea(){
       a.innerHTML=`<input class="ans-input" id="ansInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="答えを入力">
         <div class="ans-btns">${micHtml}<button class="btn btn-primary" id="checkBtn">確認</button></div>
         ${VOICE_OK ? '<div class="mic-status" id="micStatus"></div>' : ''}`;
-      const inp=$('ansInput'); inp.focus();
+      const inp=$('ansInput'); if(!suppressFocus) inp.focus({preventScroll:true});
       inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); doCheck(); }});
       $('checkBtn').onclick=doCheck;
       if(VOICE_OK){ const m=$('micBtn'); if(m) m.onclick=startVoice; }
@@ -438,7 +439,7 @@ function answerBlock(){
   return `<div class="fb-answer"><div class="fb-a-main">${main}</div>${ans.r&&ans.r!==ans.k?`<div class="fb-a-read">${ans.r}</div>`:''}</div>`;
 }
 function nextButton(){ return `<button class="btn btn-ghost" id="nextBtn">次へ ›</button>`; }
-function wireNext(){ const n=$('nextBtn'); if(n){ n.onclick=newProblem; n.focus(); } }
+function wireNext(){ const n=$('nextBtn'); if(n){ n.onclick=newProblem; n.focus({preventScroll:true}); } }
 
 function startVoice(){
   if(!VOICE_OK) return;
@@ -457,7 +458,7 @@ function startVoice(){
     'service-not-allowed':'マイクの使用が許可されていません。','no-speech':'声が聞き取れませんでした。もう一度どうぞ。',
     'audio-capture':'マイクが見つかりません。','network':'ネットワークエラーです。','aborted':''};
     if(st) st.textContent = (e.error in map)?map[e.error]:('認識に失敗しました（'+e.error+'）。'); };
-  rec.onend=()=>{ activeRec=null; reset(); if(got) inp.focus(); };
+  rec.onend=()=>{ activeRec=null; reset(); if(got) inp.focus({preventScroll:true}); };
   activeRec=rec;
   mic.classList.add('listening'); mic.textContent='● きいています…'; if(st) st.textContent='いま、答えを話してください。';
   try{ rec.start(); }catch(e){ activeRec=null; reset(); if(st) st.textContent='音声入力を開始できませんでした。'; }

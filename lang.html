@@ -124,6 +124,15 @@
   .moji-cta .mc-a { color: var(--accent); font-size: 20px; }
   .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.4rem; line-height: 1.8; }
   .notfound { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; margin-top: 1.5rem; color: var(--text-muted); }
+  .bp{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:12px;padding:12px 13px;margin-bottom:8px;}
+  .bp-h{display:flex;align-items:center;gap:8px;}
+  .bp-chip{width:26px;height:26px;border-radius:8px;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;}
+  .bp-t{font-size:13px;font-weight:700;}
+  .bp-native{font-size:16px;font-weight:700;margin-top:8px;line-height:1.45;}
+  .bp-read{font-size:11.5px;color:var(--text-hint);margin-top:1px;}
+  .bp-ja{font-size:12px;color:var(--text-muted);margin-top:3px;}
+  .bp-note{font-size:11.5px;color:var(--text-muted);margin-top:7px;background:var(--accent-bg);border-radius:8px;padding:6px 9px;line-height:1.55;}
+  .bp-link{display:inline-flex;align-items:center;gap:5px;margin-top:4px;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-bg);border-radius:999px;padding:7px 13px;text-decoration:none;}
 </style>
 </head>
 <body>
@@ -137,6 +146,7 @@
 </div>
 
 <script src="langdata.js"></script>
+<script src="patterns.js"></script>
 <script>
 /* ---- 音声読み上げ（Web Speech API） ---- */
 function speak(text, lang, btn){
@@ -201,6 +211,18 @@ if(!L){
     + link('https://www.moj.go.jp/isa/support/portal/guidebook_all.html', '生活・就労ガイドブック（多言語）', '入管庁。各言語版をダウンロードできる')
     + link('https://casta-net.mext.go.jp/', 'かすたねっと（文部科学省）', '外国人の子ども向け教材・多言語の学校文書を検索');
 
+  var P = (window.PATTERNS||{})[code];
+  var patHtml = '';
+  if(P){
+    var pt=[['名','名詞文','meishi'],['動','動詞文','doushi'],['形','形容詞文','keiyo']];
+    patHtml = '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">基本文型</span><span class="sec-en">Basic sentences</span></div>'
+      + pt.map(function(t){ var d=P[t[2]]; if(!d) return '';
+          var rd = d[1] ? '<div class="bp-read">'+esc(d[1])+'</div>' : '';
+          return '<div class="bp"><div class="bp-h"><span class="bp-chip">'+t[0]+'</span><span class="bp-t">'+t[1]+'</span></div>'
+            + '<div class="bp-native">'+esc(d[0])+'</div>'+rd
+            + '<div class="bp-ja">'+esc(d[2])+'</div><div class="bp-note">'+esc(d[3])+'</div></div>'; }).join('')
+      + '<a class="bp-link" href="kihon_bunkei.html">日本語の基本文型と見くらべる ›</a>';
+  }
   content.innerHTML =
       '<div class="lang-header"><div class="lh-chip">' + esc(L.chip) + '</div>'
       + '<div class="lh-name"><div class="lh-jp">' + esc(L.jp) + '</div>'
@@ -228,6 +250,8 @@ if(!L){
     + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">自己紹介</span><span class="sec-en">Self-intro</span></div>'
     + '<div class="card">' + introHtml + '</div>'
     + '<div class="hint">〇〇 に名前を入れて使います。</div>'
+
+    + patHtml
 
     + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">学習のワンポイント</span><span class="sec-en">Notes</span></div>'
     + '<div class="card"><ul class="tips">' + tipsHtml + '</ul></div>'

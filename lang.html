@@ -111,6 +111,17 @@
   .link-d { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; line-height: 1.4; }
   .link-a { color: var(--text-hint); font-size: 18px; }
 
+  .moji-cta {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    margin-top: 14px; text-decoration: none; color: inherit;
+    background: var(--accent-bg); border: 1px solid var(--accent); border-radius: var(--radius);
+    padding: 13px 16px; -webkit-tap-highlight-color: transparent; transition: transform 0.12s, box-shadow 0.12s;
+  }
+  .moji-cta:active { transform: scale(0.99); }
+  .moji-cta:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+  .moji-cta .mc-t { font-size: 14px; font-weight: 700; color: var(--accent); }
+  .moji-cta .mc-d { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; }
+  .moji-cta .mc-a { color: var(--accent); font-size: 20px; }
   .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.4rem; line-height: 1.8; }
   .notfound { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; margin-top: 1.5rem; color: var(--text-muted); }
 </style>
@@ -202,6 +213,10 @@ if(!L){
       + '<dt>語順</dt><dd>' + esc(L.order) + '</dd>'
       + (tags ? '<dt>目安</dt><dd class="tagrow">' + tags + '</dd>' : '')
     + '</dl>'
+
+    + '<a class="moji-cta" href="moji.html?code=' + L.code + '">'
+      + '<div><div class="mc-t">✎ 文字を見て、なぞり書きする</div><div class="mc-d">' + esc(L.script) + ' の字母を練習</div></div>'
+      + '<span class="mc-a">›</span></a>'
 
     + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">あいさつ</span><span class="sec-en">Greetings</span></div>'
     + '<div class="card">' + phrasesHtml + '</div>'

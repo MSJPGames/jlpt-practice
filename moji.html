@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文字となぞり書き ・ 日本語の部屋</title>
+<style>
+  :root {
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#2F7168; --accent-bg:#DDEEE7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+  }
+  .container { max-width: 520px; margin: 0 auto; }
+
+  .topbar { display:flex; align-items:center; gap:8px; padding:14px 0 2px; flex-wrap:wrap; }
+  .back-link {
+    display:inline-flex; align-items:center; gap:5px; font-size:13px; font-weight:700;
+    color:var(--text-muted); text-decoration:none; padding:6px 13px 6px 9px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface);
+    -webkit-tap-highlight-color:transparent; transition:transform .12s;
+  }
+  .back-link:active { transform:scale(.97); }
+  .back-arrow { font-size:16px; line-height:1; }
+
+  .lang-header {
+    display:flex; align-items:center; gap:14px; background:var(--surface);
+    border:1px solid var(--border); border-left:5px solid var(--accent);
+    border-radius:var(--radius); padding:16px; margin-top:1rem;
+  }
+  .lh-chip {
+    min-width:56px; height:56px; padding:0 10px; border-radius:14px; background:var(--accent-bg);
+    color:var(--accent); display:flex; align-items:center; justify-content:center;
+    font-size:24px; font-weight:700; flex-shrink:0; white-space:nowrap;
+  }
+  .lh-jp { font-size:20px; font-weight:700; }
+  .lh-sub { font-size:12.5px; color:var(--text-muted); margin-top:2px; }
+
+  .intro {
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:13px 15px; margin-top:14px; font-size:12.5px; color:var(--text-muted); line-height:1.75;
+  }
+  .intro b { color:var(--text); }
+  .intro .type { display:inline-block; font-size:11px; font-weight:700; color:var(--accent);
+    background:var(--accent-bg); padding:2px 10px; border-radius:20px; margin-bottom:7px; }
+
+  .sec-head { display:flex; align-items:center; gap:9px; margin:1.7rem 0 .7rem; }
+  .sec-bar { width:4px; height:18px; border-radius:2px; background:var(--accent); }
+  .sec-title { font-size:15px; font-weight:700; }
+  .sec-en { font-size:10px; font-weight:700; letter-spacing:.1em; color:var(--text-hint); text-transform:uppercase; }
+
+  /* 文字グリッド */
+  .chargrid { display:grid; grid-template-columns:repeat(auto-fill, minmax(58px, 1fr)); gap:8px; }
+  .ch {
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm);
+    padding:8px 4px 6px; text-align:center; cursor:pointer; -webkit-tap-highlight-color:transparent;
+    transition:transform .1s, border-color .1s, box-shadow .1s;
+  }
+  .ch:active { transform:scale(.95); }
+  .ch.sel { border-color:var(--accent); box-shadow:0 0 0 2px var(--accent-bg); }
+  .ch-c { font-size:24px; line-height:1.25; color:var(--text); }
+  .ch.sel .ch-c { color:var(--accent); }
+  .ch-r { font-size:10px; color:var(--text-hint); margin-top:2px; word-break:break-all; }
+
+  /* なぞり書き */
+  .tracer { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; text-align:center; }
+  .stage {
+    position:relative; width:min(300px, 78vw); aspect-ratio:1/1; margin:0 auto;
+    border:2px solid var(--border); border-radius:12px; background:
+      linear-gradient(var(--border),var(--border)) center/100% 1px no-repeat,
+      linear-gradient(var(--border),var(--border)) center/1px 100% no-repeat,
+      #FFFFFF;
+    overflow:hidden; touch-action:none;
+  }
+  .guide {
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:190px; line-height:1; color:#E7E2DA; user-select:none; -webkit-user-select:none; pointer-events:none;
+  }
+  .guide.hidden { display:none; }
+  canvas#pad { position:absolute; inset:0; width:100%; height:100%; touch-action:none; cursor:crosshair; }
+
+  .tr-read { margin-top:12px; font-size:13px; color:var(--text-muted); }
+  .tr-read b { color:var(--accent); font-size:18px; }
+  .tr-ctrl { display:flex; gap:8px; justify-content:center; margin-top:12px; flex-wrap:wrap; }
+  .btn {
+    font-family:inherit; font-size:13px; font-weight:700; border:1px solid var(--border);
+    background:var(--surface); color:var(--text-muted); border-radius:999px; padding:8px 16px;
+    cursor:pointer; -webkit-tap-highlight-color:transparent; transition:transform .1s;
+  }
+  .btn:active { transform:scale(.96); }
+  .btn.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .tr-opt { margin-top:10px; font-size:11.5px; color:var(--text-hint); display:flex; align-items:center; justify-content:center; gap:6px; }
+  .tr-opt input { width:15px; height:15px; accent-color:var(--accent); }
+
+  .hint { font-size:11px; color:var(--text-hint); margin:10px 2px 0; line-height:1.6; }
+  .app-footer { text-align:center; font-size:11px; color:var(--text-hint); margin-top:2.4rem; line-height:1.8; }
+  .notfound { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px; text-align:center; margin-top:1.5rem; color:var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <a id="backlang" class="back-link" href="gaikokugo.html"><span class="back-arrow">‹</span>言語ページへ</a>
+    <a href="gaikokugo.html" class="back-link">一覧</a>
+    <a href="index.html" class="back-link">ホーム</a>
+  </div>
+  <div id="content"></div>
+  <div class="app-footer">© 2025 日本語の部屋</div>
+</div>
+
+<script src="langdata.js"></script>
+<script src="chardata.js"></script>
+<script>
+function getParam(n){ var m=new RegExp('[?&]'+n+'=([^&]*)').exec(location.search); return m?decodeURIComponent(m[1]):null; }
+var code = getParam('code');
+var L = (window.LANGS||[]).filter(function(x){return x.code===code;})[0];
+var C = (window.CHARS||{})[code];
+var content = document.getElementById('content');
+
+if(!L || !C){
+  document.title = '文字ページ ・ 日本語の部屋';
+  content.innerHTML = '<div class="notfound">言語が指定されていません。<br><a href="gaikokugo.html" style="color:#2F7168;font-weight:700;">一覧から選んでください ›</a></div>';
+} else {
+  document.title = L.jp + ' の文字となぞり書き ・ 日本語の部屋';
+  document.documentElement.style.setProperty('--accent', L.accent);
+  document.documentElement.style.setProperty('--accent-bg', L.bg);
+  document.getElementById('backlang').href = 'lang.html?code=' + L.code;
+
+  var esc=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');};
+
+  var grid = C.chars.map(function(c,i){
+    return '<div class="ch" data-i="'+i+'"><div class="ch-c">'+esc(c[0])+'</div><div class="ch-r">'+esc(c[1])+'</div></div>';
+  }).join('');
+
+  content.innerHTML =
+      '<div class="lang-header"><div class="lh-chip">'+esc(L.chip)+'</div>'
+      + '<div><div class="lh-jp">'+esc(L.jp)+' の文字</div><div class="lh-sub">'+esc(L.autonym)+'</div></div></div>'
+    + '<div class="intro"><span class="type">'+esc(C.type)+'</span><br>'+esc(C.intro)+'</div>'
+    + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">文字を選ぶ</span><span class="sec-en">Characters</span></div>'
+    + '<div class="chargrid" id="chargrid">'+grid+'</div>'
+    + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">なぞり書き練習</span><span class="sec-en">Trace</span></div>'
+    + '<div class="tracer">'
+      + '<div class="stage"><div class="guide" id="guide"></div><canvas id="pad"></canvas></div>'
+      + '<div class="tr-read" id="tread"></div>'
+      + '<div class="tr-ctrl">'
+        + '<button class="btn" id="prev">‹ 前</button>'
+        + '<button class="btn primary" id="clear">消す</button>'
+        + '<button class="btn" id="next">次 ›</button>'
+      + '</div>'
+      + '<label class="tr-opt"><input type="checkbox" id="guidechk" checked> お手本を表示</label>'
+    + '</div>'
+    + '<div class="hint">お手本の上を、指やマウスでなぞって練習します。書き順の矢印は表示されません（形をなぞる練習です）。文字を選ぶと切り替わります。</div>';
+
+  /* ===== なぞり書きロジック ===== */
+  var chars = C.chars, idx = 0;
+  var guide = document.getElementById('guide');
+  var tread = document.getElementById('tread');
+  var pad = document.getElementById('pad');
+  var ctx = pad.getContext('2d');
+  var drawing = false, dpr = window.devicePixelRatio || 1;
+
+  function sizeCanvas(){
+    var r = pad.getBoundingClientRect();
+    pad.width = Math.round(r.width * dpr);
+    pad.height = Math.round(r.height * dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.lineCap='round'; ctx.lineJoin='round';
+    ctx.lineWidth=13; ctx.strokeStyle=L.accent;
+  }
+  function clearPad(){ ctx.clearRect(0,0,pad.width,pad.height); }
+  function setChar(i){
+    idx=(i+chars.length)%chars.length;
+    guide.textContent=chars[idx][0];
+    tread.innerHTML='<b>'+esc(chars[idx][0])+'</b>　'+esc(chars[idx][1]);
+    clearPad();
+    var tiles=document.querySelectorAll('.ch');
+    for(var k=0;k<tiles.length;k++){ tiles[k].className='ch'+(k===idx?' sel':''); }
+  }
+  function pos(e){
+    var r=pad.getBoundingClientRect();
+    var p=(e.touches&&e.touches[0])?e.touches[0]:e;
+    return { x:p.clientX-r.left, y:p.clientY-r.top };
+  }
+  function start(e){ e.preventDefault(); drawing=true; var q=pos(e); ctx.beginPath(); ctx.moveTo(q.x,q.y); }
+  function move(e){ if(!drawing)return; e.preventDefault(); var q=pos(e); ctx.lineTo(q.x,q.y); ctx.stroke(); }
+  function end(){ drawing=false; }
+
+  pad.addEventListener('pointerdown', start);
+  pad.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', end);
+  pad.addEventListener('touchstart', start, {passive:false});
+  pad.addEventListener('touchmove', move, {passive:false});
+  window.addEventListener('touchend', end);
+
+  document.getElementById('chargrid').addEventListener('click', function(e){
+    var t=e.target.closest('.ch'); if(!t)return; setChar(parseInt(t.getAttribute('data-i'),10));
+    document.querySelector('.tracer').scrollIntoView({behavior:'smooth', block:'center'});
+  });
+  document.getElementById('prev').addEventListener('click', function(){ setChar(idx-1); });
+  document.getElementById('next').addEventListener('click', function(){ setChar(idx+1); });
+  document.getElementById('clear').addEventListener('click', clearPad);
+  document.getElementById('guidechk').addEventListener('change', function(e){ guide.classList.toggle('hidden', !e.target.checked); });
+  window.addEventListener('resize', function(){ sizeCanvas(); });
+
+  sizeCanvas(); setChar(0);
+}
+</script>
+
+<script>
+/* === EN表示トグル === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en,body.hide-en .sec-en,body.hide-en .gh-en,body.hide-en .sh-en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2F7168;margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>'; }
+  b.addEventListener('click',function(){ var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){} paint(); });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

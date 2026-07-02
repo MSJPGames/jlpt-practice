@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>基本文型（名詞文・動詞文・形容詞文）・ Basic Sentence Patterns ・ 日本語の部屋</title>
+<meta name="description" content="日本語の基本文型を、述語のタイプ別に。名詞文・動詞文・形容詞文（い形容詞・な形容詞）の形と、丁寧形・普通形の活用、用例をまとめています。">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.6;}
+  .container{max-width:520px;margin:0 auto;}
+
+  .topbar{display:flex;align-items:center;gap:8px;padding:14px 0 2px;flex-wrap:wrap;}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--text-muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);transition:transform .12s;}
+  .back-link:active{transform:scale(.97);}
+  .back-arrow{font-size:16px;line-height:1;}
+
+  .page-header{text-align:center;padding:1.3rem 0 .3rem;}
+  .ph-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:#854F0B;margin-bottom:8px;}
+  .ph-title{font-size:24px;font-weight:700;letter-spacing:.02em;}
+  .ph-sub{font-size:13px;color:var(--text-muted);margin-top:6px;line-height:1.6;}
+
+  .note{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:12px 15px;font-size:12.5px;color:var(--text-muted);line-height:1.8;margin-top:1.1rem;}
+  .note b{color:var(--text);font-weight:700;}
+  .note .en{display:block;color:var(--text-hint);margin-top:4px;}
+  .note .fx{display:inline-block;font-weight:700;color:#1C1C1C;background:#F0EEE8;border-radius:6px;padding:0 6px;margin:0 1px;}
+
+  /* タイプカード */
+  .type{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:var(--radius);padding:15px 16px;margin-top:14px;}
+  .type-head{display:flex;align-items:center;gap:12px;}
+  .type-chip{width:44px;height:44px;border-radius:12px;background:var(--accent-bg);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex-shrink:0;}
+  .type-name{font-size:17px;font-weight:700;}
+  .type-en{font-size:11.5px;color:var(--text-hint);}
+  .pattern{margin-top:11px;font-size:15px;font-weight:700;color:var(--accent);
+    background:var(--accent-bg);border-radius:9px;padding:9px 12px;text-align:center;letter-spacing:.02em;}
+  .exs{margin-top:11px;display:flex;flex-direction:column;gap:6px;}
+  .ex{font-size:14px;line-height:1.5;padding-left:13px;position:relative;}
+  .ex::before{content:'';position:absolute;left:0;top:9px;width:4px;height:4px;border-radius:50%;background:var(--accent);}
+  .ex b{color:var(--accent);font-weight:700;}
+  .ex .en{display:block;font-size:11.5px;color:var(--text-hint);margin-top:1px;}
+
+  .sub-label{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--accent);margin:14px 0 6px;}
+  .conj{display:grid;grid-template-columns:auto 1fr 1fr;gap:1px;background:var(--border);
+    border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:8px;}
+  .conj>div{background:var(--surface);padding:7px 9px;font-size:12.5px;line-height:1.45;}
+  .conj .ch{background:var(--accent-bg);color:var(--accent);font-weight:700;font-size:11px;text-align:center;}
+  .conj .ck{color:var(--text-hint);font-weight:700;font-size:11px;white-space:nowrap;display:flex;align-items:center;}
+  .conj .cv{color:var(--text);}
+  .conj .cv small{color:var(--text-hint);font-size:10.5px;}
+
+  .tip{margin-top:11px;font-size:12px;color:var(--text-muted);line-height:1.7;background:var(--accent-bg);border-radius:9px;padding:9px 11px;}
+  .tip .en{display:block;color:var(--text-hint);margin-top:2px;}
+
+  .more{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:1.4rem;
+    text-decoration:none;color:inherit;background:linear-gradient(135deg,#FFFFFF,#FAF3E6);
+    border:1px solid #854F0B;border-radius:var(--radius);padding:13px 16px;transition:transform .12s,box-shadow .12s;}
+  .more:active{transform:scale(.99);} .more:hover{box-shadow:0 3px 12px rgba(0,0,0,.06);}
+  .more .m-t{font-size:14px;font-weight:700;color:#854F0B;}
+  .more .m-d{font-size:11.5px;color:var(--text-muted);margin-top:1px;}
+  .more .m-a{color:#854F0B;font-size:20px;}
+
+  /* タイプ別アクセント */
+  .t-meishi{--accent:#1F6F6B;--accent-bg:#DFF0EE;}
+  .t-doushi{--accent:#185FA5;--accent-bg:#E6F1FB;}
+  .t-keiyo{--accent:#854F0B;--accent-bg:#FAEEDA;}
+
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2.4rem;line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="bunkei_top.html" class="back-link"><span class="back-arrow">‹</span>文型を学ぶ</a>
+    <a href="index.html" class="back-link">ホーム</a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">BUNPOU ・ KIHON BUNKEI</div>
+    <div class="ph-title">基本文型</div>
+    <div class="ph-sub">述語のタイプでわかる、3つの文の形<br><span class="en">Basic sentence patterns — noun, verb &amp; adjective</span></div>
+  </div>
+
+  <div class="note">
+    日本語の文は、多くが <span class="fx">〜は</span> ＋ <span class="fx">述語</span> の形です。この <b>述語が「名詞・動詞・形容詞」のどれか</b>で、文は3つの基本形に分かれます。まずはこの3つの形と、丁寧形・普通形の変化をおさえましょう。
+    <span class="en">Most Japanese sentences are “topic + predicate.” Whether the predicate is a noun, a verb, or an adjective gives three basic patterns. Tap “EN” (top-right) to hide English.</span>
+  </div>
+
+  <!-- ① 名詞文 -->
+  <div class="type t-meishi">
+    <div class="type-head"><div class="type-chip">名</div>
+      <div><div class="type-name">名詞文</div><div class="type-en">Noun predicate</div></div></div>
+    <div class="pattern">〜は ＋ 名詞 ＋ です／だ</div>
+    <div class="exs">
+      <div class="ex">わたし<b>は</b>学生<b>です</b>。<span class="en">I am a student.</span></div>
+      <div class="ex">これ<b>は</b>本<b>です</b>。<span class="en">This is a book.</span></div>
+      <div class="ex">田中さん<b>は</b>先生<b>ではありません</b>。<span class="en">Mr. Tanaka is not a teacher.</span></div>
+    </div>
+    <div class="sub-label">活用（例：学生）</div>
+    <div class="conj">
+      <div class="ch"></div><div class="ch">丁寧（です体）</div><div class="ch">普通（だ体）</div>
+      <div class="ck">現在・肯定</div><div class="cv">学生です</div><div class="cv">学生だ</div>
+      <div class="ck">現在・否定</div><div class="cv">学生ではありません<br><small>（じゃないです）</small></div><div class="cv">学生ではない<br><small>（じゃない）</small></div>
+      <div class="ck">過去・肯定</div><div class="cv">学生でした</div><div class="cv">学生だった</div>
+      <div class="ck">過去・否定</div><div class="cv">学生ではありませんでした</div><div class="cv">学生ではなかった</div>
+    </div>
+    <div class="tip">述語は「名詞＋です／だ」。「は」は主題（〜について言うと）を示します。会話では「では」→「じゃ」。
+      <span class="en">Predicate = noun + copula (です/だ). In speech, では often becomes じゃ.</span></div>
+  </div>
+
+  <!-- ② 動詞文 -->
+  <div class="type t-doushi">
+    <div class="type-head"><div class="type-chip">動</div>
+      <div><div class="type-name">動詞文</div><div class="type-en">Verb predicate</div></div></div>
+    <div class="pattern">〜は （〜を） ＋ 動詞</div>
+    <div class="exs">
+      <div class="ex">わたし<b>は</b>本<b>を</b>読み<b>ます</b>。<span class="en">I read a book.</span></div>
+      <div class="ex">毎朝コーヒー<b>を</b>飲み<b>ます</b>。<span class="en">I drink coffee every morning.</span></div>
+      <div class="ex">きのう映画を見<b>ました</b>。<span class="en">I watched a movie yesterday.</span></div>
+    </div>
+    <div class="sub-label">活用（例：読む）</div>
+    <div class="conj">
+      <div class="ch"></div><div class="ch">丁寧（ます体）</div><div class="ch">普通（辞書形）</div>
+      <div class="ck">現在・肯定</div><div class="cv">読みます</div><div class="cv">読む</div>
+      <div class="ck">現在・否定</div><div class="cv">読みません</div><div class="cv">読まない</div>
+      <div class="ck">過去・肯定</div><div class="cv">読みました</div><div class="cv">読んだ</div>
+      <div class="ck">過去・否定</div><div class="cv">読みませんでした</div><div class="cv">読まなかった</div>
+    </div>
+    <div class="tip">動詞は文の<b>最後</b>に来ます。動作の対象（目的語）は「を」で示します。動詞の変化はグループで異なります（詳しくは「活用を学ぶ」へ）。
+      <span class="en">The verb comes last; を marks the object. Conjugation depends on the verb group.</span></div>
+  </div>
+
+  <!-- ③ 形容詞文 -->
+  <div class="type t-keiyo">
+    <div class="type-head"><div class="type-chip">形</div>
+      <div><div class="type-name">形容詞文</div><div class="type-en">Adjective predicate</div></div></div>
+    <div class="pattern">〜は ＋ 形容詞（い形／な形）</div>
+    <div class="exs">
+      <div class="ex">この本<b>は</b>面白<b>いです</b>。<span class="en">This book is interesting. (i-adj)</span></div>
+      <div class="ex">この町<b>は</b>静か<b>です</b>。<span class="en">This town is quiet. (na-adj)</span></div>
+    </div>
+
+    <div class="sub-label">い形容詞（例：高い）</div>
+    <div class="conj">
+      <div class="ch"></div><div class="ch">丁寧</div><div class="ch">普通</div>
+      <div class="ck">現在・肯定</div><div class="cv">高いです</div><div class="cv">高い</div>
+      <div class="ck">現在・否定</div><div class="cv">高くないです<br><small>（高くありません）</small></div><div class="cv">高くない</div>
+      <div class="ck">過去・肯定</div><div class="cv">高かったです</div><div class="cv">高かった</div>
+      <div class="ck">過去・否定</div><div class="cv">高くなかったです</div><div class="cv">高くなかった</div>
+    </div>
+
+    <div class="sub-label">な形容詞（例：静か）</div>
+    <div class="conj">
+      <div class="ch"></div><div class="ch">丁寧</div><div class="ch">普通</div>
+      <div class="ck">現在・肯定</div><div class="cv">静かです</div><div class="cv">静かだ</div>
+      <div class="ck">現在・否定</div><div class="cv">静かではありません<br><small>（じゃないです）</small></div><div class="cv">静かではない</div>
+      <div class="ck">過去・肯定</div><div class="cv">静かでした</div><div class="cv">静かだった</div>
+      <div class="ck">過去・否定</div><div class="cv">静かではありませんでした</div><div class="cv">静かではなかった</div>
+    </div>
+
+    <div class="tip"><b>い形容詞</b>は自分で活用し、「です」は丁寧さだけ（×面白いだ）。<b>な形容詞</b>は名詞と同じく「です／だ」を使い、名詞を修飾するときは <span class="fx">静かな</span>部屋 のように「な」が付きます。
+      <span class="en">i-adjectives inflect by themselves (です is only politeness). na-adjectives use です/だ like nouns, and take な before a noun.</span></div>
+  </div>
+
+  <a href="bunkei.html" class="more">
+    <div><div class="m-t">さらに：文型解説（活用を使う文型）</div><div class="m-d">〜たい・〜ながら・〜ので… をレベル別に検索</div></div>
+    <span class="m-a">›</span>
+  </a>
+
+  <div class="app-footer">© 2025 日本語の部屋</div>
+
+</div>
+<script>
+/* === EN表示トグル === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#854F0B;margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>'; }
+  b.addEventListener('click',function(){ var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){} paint(); });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

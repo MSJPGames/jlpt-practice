@@ -110,6 +110,8 @@
   .lc-note { margin-top: 11px; font-size: 12px; color: var(--text-muted); line-height: 1.65; background: var(--accent-bg); border-radius: 9px; padding: 8px 11px; }
 
   .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.4rem; line-height: 1.8; }
+  .grp-head{margin:22px 2px 2px;padding-top:16px;border-top:1px solid #E2DDD6;font-size:14px;font-weight:700;color:#1C1C1C;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .grp-head span{font-size:11px;font-weight:600;color:#6B6560;}
 </style>
 </head>
 <body>
@@ -210,7 +212,17 @@ function card(l){
 function render(){
   var f = FILTERS.filter(function(x){ return x.key === current; })[0];
   var list = LANGS.filter(f.fn);
-  document.getElementById('grid').innerHTML = list.map(card).join('');
+  var flat=[], groups={}, gorder=[];
+  list.forEach(function(l){
+    if(l.group){ if(!groups[l.group]){ groups[l.group]=[]; gorder.push(l.group); } groups[l.group].push(l); }
+    else flat.push(l);
+  });
+  var GDESC = {'漢語':'中国語系（シナ語派）の変種'};
+  var html = flat.map(card).join('');
+  gorder.forEach(function(g){
+    html += '<div class="grp-head">' + g + '<span>・' + (GDESC[g]||'') + '</span></div>' + groups[g].map(card).join('');
+  });
+  document.getElementById('grid').innerHTML = html;
   document.getElementById('count').textContent = list.length + ' 言語を表示中（カードをタップで詳しく）';
   var btns = document.querySelectorAll('.fbtn');
   for (var i=0;i<btns.length;i++){

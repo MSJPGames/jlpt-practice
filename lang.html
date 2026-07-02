@@ -133,6 +133,21 @@
   .bp-ja{font-size:12px;color:var(--text-muted);margin-top:3px;}
   .bp-note{font-size:11.5px;color:var(--text-muted);margin-top:7px;background:var(--accent-bg);border-radius:8px;padding:6px 9px;line-height:1.55;}
   .bp-link{display:inline-flex;align-items:center;gap:5px;margin-top:4px;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-bg);border-radius:999px;padding:7px 13px;text-decoration:none;}
+  .tone-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:2px;}
+  .tone-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 10px 9px;}
+  .tone-head{display:flex;align-items:baseline;justify-content:space-between;gap:6px;}
+  .tone-name{font-size:12px;font-weight:700;color:var(--accent);}
+  .tone-mark{font-size:15px;color:var(--text-muted);letter-spacing:-1px;}
+  .tone-svg{width:100%;height:auto;display:block;margin:5px 0 3px;}
+  .tref{stroke:#EEEAE3;stroke-width:1;}
+  .tpath{fill:none;stroke:var(--accent);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;}
+  .tdot{fill:var(--accent);}
+  .tone-ex{font-size:14px;line-height:1.35;text-align:center;}
+  .tone-ex .tr{color:var(--text-muted);font-size:12px;}
+  .tone-ex .tm{color:var(--text-hint);font-size:11px;}
+  .tone-btns{display:flex;gap:6px;margin-top:7px;}
+  .tone-btn{flex:1;font-family:inherit;font-size:11.5px;font-weight:700;border:1px solid var(--border);background:#F2EFE9;color:var(--text-muted);border-radius:999px;padding:6px 3px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .1s;}
+  .tone-btn:active{transform:scale(.95);}
 </style>
 </head>
 <body>
@@ -147,6 +162,7 @@
 
 <script src="langdata.js"></script>
 <script src="patterns.js"></script>
+<script src="tones.js"></script>
 <script>
 /* ---- 音声読み上げ（Web Speech API） ---- */
 function speak(text, lang, btn){
@@ -160,6 +176,21 @@ function speak(text, lang, btn){
   }catch(e){}
 }
 window.__speak = speak;
+window.__tone = function(str){
+  try{
+    if(!window.__actx){ window.__actx = new (window.AudioContext||window.webkitAudioContext)(); }
+    var c=window.__actx; if(c.state==='suspended') c.resume();
+    var pts=str.split(',').map(Number);
+    var o=c.createOscillator(), g=c.createGain(); o.type='sine';
+    var t0=c.currentTime, dur=0.78, f=function(p){ return 196*Math.pow(330/196,(p-1)/4); };
+    o.frequency.setValueAtTime(f(pts[0]), t0);
+    if(pts.length<2){ o.frequency.setValueAtTime(f(pts[0]), t0+dur); }
+    else { for(var i=1;i<pts.length;i++){ o.frequency.linearRampToValueAtTime(f(pts[i]), t0+dur*i/(pts.length-1)); } }
+    g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.3,t0+0.03);
+    g.gain.setValueAtTime(0.3,t0+dur-0.08); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+    o.connect(g); g.connect(c.destination); o.start(t0); o.stop(t0+dur+0.03);
+  }catch(e){}
+};
 
 /* ---- パラメータから言語を特定 ---- */
 function getParam(name){
@@ -223,6 +254,32 @@ if(!L){
             + '<div class="bp-ja">'+esc(d[2])+'</div><div class="bp-note">'+esc(d[3])+'</div></div>'; }).join('')
       + '<a class="bp-link" href="kihon_bunkei.html">日本語の基本文型と見くらべる ›</a>';
   }
+  var TN = (window.TONES||{})[code];
+  var toneHtml = '';
+  if(TN){
+    toneHtml = '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">声調</span><span class="sec-en">Tones</span></div>'
+      + '<div class="hint">' + esc(TN.system) + ' ・ ' + esc(TN.note) + '</div>'
+      + '<div class="tone-wrap">'
+      + TN.tones.map(function(t){
+          var pts=t.contour, n=pts.length;
+          var px=function(i){ return (n>1)?(12+72*i/(n-1)):48; };
+          var py=function(i){ return 46-(pts[i]-1)*8; };
+          var poly=''; for(var i=0;i<n;i++){ poly+=(i?' L':'M')+px(i).toFixed(1)+' '+py(i).toFixed(1); }
+          var refs=''; for(var p=1;p<=5;p++){ var y=46-(p-1)*8; refs+='<line x1="10" y1="'+y+'" x2="86" y2="'+y+'" class="tref"/>'; }
+          var svg='<svg class="tone-svg" viewBox="0 0 96 56">'+refs+'<path d="'+poly+'" class="tpath"/><circle cx="'+px(0).toFixed(1)+'" cy="'+py(0).toFixed(1)+'" r="3.6" class="tdot"/></svg>';
+          var ex=t.ex;
+          return '<div class="tone-card"><div class="tone-head"><span class="tone-name">'+esc(t.name)+'</span><span class="tone-mark">'+esc(t.mark)+'</span></div>'
+            + svg
+            + '<div class="tone-ex"><b>'+esc(ex[0])+'</b> <span class="tr">'+esc(ex[1])+'</span><br><span class="tm">'+esc(ex[2])+'</span></div>'
+            + '<div class="tone-btns"><button type="button" class="tone-btn" data-tone="'+pts.join(',')+'">🔊 声調</button>'
+            + '<button type="button" class="tone-btn" data-say="'+esc(ex[0])+'">🗣 例</button></div></div>';
+        }).join('')
+      + '</div>';
+    content.addEventListener('click', function(e){
+      var a=e.target.closest('[data-tone]'); if(a){ window.__tone(a.getAttribute('data-tone')); return; }
+      var b=e.target.closest('[data-say]'); if(b){ speak(b.getAttribute('data-say'), L.tts, b); }
+    });
+  }
   content.innerHTML =
       '<div class="lang-header"><div class="lh-chip">' + esc(L.chip) + '</div>'
       + '<div class="lh-name"><div class="lh-jp">' + esc(L.jp) + '</div>'
@@ -252,6 +309,8 @@ if(!L){
     + '<div class="hint">〇〇 に名前を入れて使います。</div>'
 
     + patHtml
+
+    + toneHtml
 
     + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">学習のワンポイント</span><span class="sec-en">Notes</span></div>'
     + '<div class="card"><ul class="tips">' + tipsHtml + '</ul></div>'

@@ -133,6 +133,13 @@
   .bp-ja{font-size:12px;color:var(--text-muted);margin-top:3px;}
   .bp-note{font-size:11.5px;color:var(--text-muted);margin-top:7px;background:var(--accent-bg);border-radius:8px;padding:6px 9px;line-height:1.55;}
   .bp-link{display:inline-flex;align-items:center;gap:5px;margin-top:4px;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-bg);border-radius:999px;padding:7px 13px;text-decoration:none;}
+  .bp-legend{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:2px 0 10px;font-size:11px;color:var(--text-hint);}
+  .pw{font-weight:700;border-radius:4px;padding:0 3px;}
+  .pw-S{color:#155FA8;background:#DCEAF7;}
+  .pw-V{color:#B5430F;background:#FBE3D3;}
+  .pw-O{color:#0C7268;background:#D3EEE9;}
+  .pw-C{color:#824099;background:#EFE0F5;}
+  .pw-P{color:#8C6210;background:#F6E9C8;}
   .tone-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:2px;}
   .tone-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 10px 9px;}
   .tone-head{display:flex;align-items:baseline;justify-content:space-between;gap:6px;}
@@ -164,6 +171,11 @@
   .conj-table td.cf{cursor:pointer;}
   .conj-table td.cf:active{background:var(--accent-bg);}
   .conj-t2label{font-size:11px;font-weight:700;color:var(--text-hint);margin:9px 2px 3px;}
+  .cj-tabs{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 7px;}
+  .cj-tab{font-family:inherit;font-size:11px;font-weight:700;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);border-radius:999px;padding:5px 11px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .1s;}
+  .cj-tab:active{transform:scale(.96);}
+  .cj-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .cj-view[hidden]{display:none;}
 </style>
 </head>
 <body>
@@ -262,13 +274,15 @@ if(!L){
   var P = (window.PATTERNS||{})[code];
   var patHtml = '';
   if(P){
+    var colorize = function(str){ var out='', re=/\{([SVOCP])\|([^}]*)\}/g, last=0, m; while((m=re.exec(str))){ out+=esc(str.slice(last,m.index)); out+='<span class="pw pw-'+m[1]+'">'+esc(m[2])+'</span>'; last=m.index+m[0].length; } out+=esc(str.slice(last)); return out; };
     var pt=[['名','名詞文','meishi'],['動','動詞文','doushi'],['形','形容詞文','keiyo']];
     patHtml = '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">基本文型</span><span class="sec-en">Basic sentences</span></div>'
+      + '<div class="bp-legend">色分け：<span class="pw pw-S">主語</span><span class="pw pw-V">述語（動詞）</span><span class="pw pw-O">目的語</span><span class="pw pw-C">コピュラ</span><span class="pw pw-P">補語</span></div>'
       + pt.map(function(t){ var d=P[t[2]]; if(!d) return '';
           var rd = d[1] ? '<div class="bp-read">'+esc(d[1])+'</div>' : '';
           return '<div class="bp"><div class="bp-h"><span class="bp-chip">'+t[0]+'</span><span class="bp-t">'+t[1]+'</span></div>'
-            + '<div class="bp-native">'+esc(d[0])+'</div>'+rd
-            + '<div class="bp-ja">'+esc(d[2])+'</div><div class="bp-note">'+esc(d[3])+'</div></div>'; }).join('')
+            + '<div class="bp-native">'+colorize(d[0])+'</div>'+rd
+            + '<div class="bp-ja">'+colorize(d[2])+'</div><div class="bp-note">'+esc(d[3])+'</div></div>'; }).join('')
       + '<a class="bp-link" href="kihon_bunkei.html">日本語の基本文型と見くらべる ›</a>';
   }
   var TN = (window.TONES||{})[code];
@@ -307,17 +321,29 @@ if(!L){
       }).join('');
       return '<div class="conj-scroll"><table class="conj-table"><thead>'+head+'</thead><tbody>'+body+'</tbody></table></div>';
     };
+    var balSplit = function(n){ var nv=Math.ceil(n/4), per=Math.ceil(n/nv), out=[]; for(var i=0;i<n;i+=per){ out.push([i, Math.min(i+per,n)]); } return out; };
     var vtab = function(v){
       var grp = v.group ? '<span class="conj-grp">'+esc(v.group)+'</span>' : '';
-      var out = '<div class="conj-verb"><div class="conj-h"><span class="conj-inf">'+esc(v.inf)+'</span>'+grp+'<span class="conj-mean">'+esc(v.meaning)+'</span></div>' + cjTbl(CJ.tenses, v.forms);
-      if(v.forms2 && CJ.tenses2){ out += '<div class="conj-t2label">接続法・命令法 ・ Subjunctive &amp; Imperative</div>' + cjTbl(CJ.tenses2, v.forms2); }
-      return out + '</div>';
+      var views = [];
+      balSplit(CJ.tenses.length).forEach(function(rng,k,ar){
+        views.push({ label:(ar.length>1?'直説法 '+'①②③④'[k]:'直説法'), tenses:CJ.tenses.slice(rng[0],rng[1]), cols:v.forms.slice(rng[0],rng[1]) });
+      });
+      if(v.forms2 && CJ.tenses2){
+        balSplit(CJ.tenses2.length).forEach(function(rng,k,ar){
+          views.push({ label:(ar.length>1?'接続法・命令法 '+'①②③④'[k]:'接続法・命令法'), tenses:CJ.tenses2.slice(rng[0],rng[1]), cols:v.forms2.slice(rng[0],rng[1]) });
+        });
+      }
+      var tabs = views.map(function(vw,i){ return '<button type="button" class="cj-tab'+(i===0?' active':'')+'" data-v="'+i+'">'+esc(vw.label)+'</button>'; }).join('');
+      var bodies = views.map(function(vw,i){ return '<div class="cj-view" data-v="'+i+'"'+(i===0?'':' hidden')+'>'+cjTbl(vw.tenses, vw.cols)+'</div>'; }).join('');
+      return '<div class="conj-verb"><div class="conj-h"><span class="conj-inf">'+esc(v.inf)+'</span>'+grp+'<span class="conj-mean">'+esc(v.meaning)+'</span></div>'
+        + '<div class="cj-tabs">'+tabs+'</div>' + bodies + '</div>';
     };
     conjHtml = '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">動詞の活用</span><span class="sec-en">Verb conjugation</span></div>'
-      + '<div class="hint">規則活用と、よく使う不規則動詞。活用形を<b>タップすると読み上げ</b>ます。' + (CJ.note?esc(CJ.note):'') + '</div>'
+      + '<div class="hint">規則活用と、よく使う不規則動詞。<b>時制はタブで切り替え</b>、活用形を<b>タップすると読み上げ</b>ます。' + (CJ.note?esc(CJ.note):'') + '</div>'
       + '<div class="conj-sub">規則活用 ・ Regular</div>' + CJ.regular.map(vtab).join('')
       + '<div class="conj-sub">不規則活用 ・ Irregular</div>' + CJ.irregular.map(vtab).join('');
     content.addEventListener('click', function(e){ var c=e.target.closest('.cf[data-say]'); if(c){ speak(c.getAttribute('data-say'), L.tts, c); } });
+    content.addEventListener('click', function(e){ var tab=e.target.closest('.cj-tab'); if(!tab) return; var verb=tab.closest('.conj-verb'); var vv=tab.getAttribute('data-v'); var ts=verb.querySelectorAll('.cj-tab'); for(var i=0;i<ts.length;i++){ ts[i].className='cj-tab'+(ts[i]===tab?' active':''); } var vs=verb.querySelectorAll('.cj-view'); for(var j=0;j<vs.length;j++){ vs[j].hidden=(vs[j].getAttribute('data-v')!==vv); } });
   }
   content.innerHTML =
       '<div class="lang-header"><div class="lh-chip">' + esc(L.chip) + '</div>'

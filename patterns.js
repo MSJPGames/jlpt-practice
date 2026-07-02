@@ -54,5 +54,11 @@ window.PATTERNS = {
         keiyo:['呢本書好大。','Nī bún syū hóu daaih.','この本は大きいです。','形容詞述語は「好＋形容詞」。'] },
   es:{ meishi:['Esto es un libro.','','これは本です。','コピュラ「es」(ser)を使う。'],
        doushi:['Yo bebo agua.','','わたしは水を飲みます。','SVO。動詞は主語で活用。'],
-       keiyo:['Este libro es grande.','','この本は大きいです。','形容詞述語にもコピュラ「es」。性・数一致。'] }
+       keiyo:['Este libro es grande.','','この本は大きいです。','形容詞述語にもコピュラ「es」。性・数一致。'] },
+  fr:{ meishi:['C’est un livre.','','これは本です。','コピュラは être（c’est）。'],
+       doushi:['Je bois de l’eau.','','わたしは水を飲みます。','SVO。'],
+       keiyo:['Ce livre est grand.','','この本は大きいです。','形容詞述語にも être。性・数一致。'] },
+  it:{ meishi:['Questo è un libro.','','これは本です。','コピュラは essere。'],
+       doushi:['Bevo acqua.','','わたしは水を飲みます。','SVO・主語代名詞は省略できる。'],
+       keiyo:['Questo libro è grande.','','この本は大きいです。','形容詞述語にも essere。性・数一致。'] }
 };

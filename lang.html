@@ -161,6 +161,9 @@
   .conj-table thead .tn2{font-weight:400;font-size:9.5px;color:var(--text-muted);}
   .conj-table tbody th{color:var(--text-hint);font-weight:600;font-size:11px;}
   .conj-table tbody tr:last-child td,.conj-table tbody tr:last-child th{border-bottom:none;}
+  .conj-table td.cf{cursor:pointer;}
+  .conj-table td.cf:active{background:var(--accent-bg);}
+  .conj-t2label{font-size:11px;font-weight:700;color:var(--text-hint);margin:9px 2px 3px;}
 </style>
 </head>
 <body>
@@ -297,19 +300,24 @@ if(!L){
   var CJ = (window.CONJ||{})[code];
   var conjHtml = '';
   if(CJ){
-    var vtab = function(v){
-      var head = '<tr><th></th>' + CJ.tenses.map(function(t){ return '<th>'+esc(t[0])+'<br><span class="tn2">'+esc(t[1])+'</span></th>'; }).join('') + '</tr>';
+    var cjTbl = function(tenses, forms){
+      var head = '<tr><th></th>' + tenses.map(function(t){ return '<th>'+esc(t[0])+'<br><span class="tn2">'+esc(t[1])+'</span></th>'; }).join('') + '</tr>';
       var body = CJ.persons.map(function(pn,pi){
-        return '<tr><th>'+esc(pn)+'</th>' + v.forms.map(function(row){ return '<td>'+esc(row[pi])+'</td>'; }).join('') + '</tr>';
+        return '<tr><th>'+esc(pn)+'</th>' + forms.map(function(row){ var f=row[pi]; var cl=(f&&f!=='—')?' class="cf" data-say="'+esc(f)+'"':''; return '<td'+cl+'>'+esc(f)+'</td>'; }).join('') + '</tr>';
       }).join('');
+      return '<div class="conj-scroll"><table class="conj-table"><thead>'+head+'</thead><tbody>'+body+'</tbody></table></div>';
+    };
+    var vtab = function(v){
       var grp = v.group ? '<span class="conj-grp">'+esc(v.group)+'</span>' : '';
-      return '<div class="conj-verb"><div class="conj-h"><span class="conj-inf">'+esc(v.inf)+'</span>'+grp+'<span class="conj-mean">'+esc(v.meaning)+'</span></div>'
-        + '<div class="conj-scroll"><table class="conj-table"><thead>'+head+'</thead><tbody>'+body+'</tbody></table></div></div>';
+      var out = '<div class="conj-verb"><div class="conj-h"><span class="conj-inf">'+esc(v.inf)+'</span>'+grp+'<span class="conj-mean">'+esc(v.meaning)+'</span></div>' + cjTbl(CJ.tenses, v.forms);
+      if(v.forms2 && CJ.tenses2){ out += '<div class="conj-t2label">接続法・命令法 ・ Subjunctive &amp; Imperative</div>' + cjTbl(CJ.tenses2, v.forms2); }
+      return out + '</div>';
     };
     conjHtml = '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">動詞の活用</span><span class="sec-en">Verb conjugation</span></div>'
-      + '<div class="hint">規則活用（-ar / -er / -ir）と、よく使う不規則動詞。' + (CJ.note?esc(CJ.note):'') + '</div>'
+      + '<div class="hint">規則活用と、よく使う不規則動詞。活用形を<b>タップすると読み上げ</b>ます。' + (CJ.note?esc(CJ.note):'') + '</div>'
       + '<div class="conj-sub">規則活用 ・ Regular</div>' + CJ.regular.map(vtab).join('')
       + '<div class="conj-sub">不規則活用 ・ Irregular</div>' + CJ.irregular.map(vtab).join('');
+    content.addEventListener('click', function(e){ var c=e.target.closest('.cf[data-say]'); if(c){ speak(c.getAttribute('data-say'), L.tts, c); } });
   }
   content.innerHTML =
       '<div class="lang-header"><div class="lh-chip">' + esc(L.chip) + '</div>'

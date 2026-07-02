@@ -260,5 +260,35 @@ window.LANGS = [
     numbers:[['uno','ウノ'],['dos','ドス'],['tres','トレス'],['cuatro','クアトロ'],['cinco','シンコ'],['seis','セイス'],['siete','シエテ'],['ocho','オチョ'],['nueve','ヌエベ'],['diez','ディエス']],
     selfintro:[['はじめまして','Mucho gusto','ムチョ グスト'],['私は〇〇です','Me llamo 〇〇','メ ジャモ 〇〇']],
     tips:['SVO。動詞は主語で活用し、名詞・形容詞に性・数がある。','つづりはほぼ表音的で読みやすい。疑問文・感嘆文は ¿ ? ・ ¡ ! で囲む。']
+  },
+  {
+    code:'fr', jp:'フランス語', autonym:'Français', en:'French', chip:'Fr',
+    region:'フランス・カナダ・アフリカ他', script:'ラテン文字', family:'インド・ヨーロッパ語族（ロマンス）', order:'SVO',
+    tts:'fr-FR', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
+    accent:'#2E5AAC', bg:'#E5ECF7',
+    note:'名詞に性があり、動詞は主語で活用。つづりと発音のずれが大きく、リエゾンで単語がつながる。',
+    phrases:[
+      ['こんにちは','Bonjour','ボンジュール'],['ありがとう','Merci','メルシー'],
+      ['はい','Oui','ウィ'],['いいえ','Non','ノン'],
+      ['すみません','Pardon','パルドン'],['さようなら','Au revoir','オ ルヴォワール']
+    ],
+    numbers:[['un','アン'],['deux','ドゥ'],['trois','トロワ'],['quatre','キャトル'],['cinq','サンク'],['six','シス'],['sept','セット'],['huit','ユイット'],['neuf','ヌフ'],['dix','ディス']],
+    selfintro:[['はじめまして','Enchanté(e)','アンシャンテ'],['私は〇〇です','Je m’appelle 〇〇','ジュ マペル 〇〇']],
+    tips:['SVO。名詞に性、動詞は主語で活用。','つづりと発音のずれが大きい。母音の前でリエゾン（連音）する。']
+  },
+  {
+    code:'it', jp:'イタリア語', autonym:'Italiano', en:'Italian', chip:'It',
+    region:'イタリア・スイス他', script:'ラテン文字', family:'インド・ヨーロッパ語族（ロマンス）', order:'SVO',
+    tts:'it-IT', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
+    accent:'#2E8B57', bg:'#E3F1E9',
+    note:'名詞に性があり、動詞は主語で活用。つづりと発音がほぼ規則的で読みやすい。',
+    phrases:[
+      ['こんにちは','Ciao','チャオ'],['ありがとう','Grazie','グラツィエ'],
+      ['はい','Sì','スィ'],['いいえ','No','ノ'],
+      ['すみません','Scusi','スクーズィ'],['さようなら','Arrivederci','アッリヴェデルチ']
+    ],
+    numbers:[['uno','ウーノ'],['due','ドゥーエ'],['tre','トレ'],['quattro','クアットロ'],['cinque','チンクエ'],['sei','セイ'],['sette','セッテ'],['otto','オット'],['nove','ノーヴェ'],['dieci','ディエチ']],
+    selfintro:[['はじめまして','Piacere','ピアチェーレ'],['私は〇〇です','Mi chiamo 〇〇','ミ キアーモ 〇〇']],
+    tips:['SVO。名詞に性、動詞は主語で活用。','つづりと発音がほぼ規則的で読みやすい。']
   }
 ];

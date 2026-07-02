@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>かなたまご ｜ 日本語の部屋</title>
+<title>かなバーガー ｜ 日本語の部屋</title>
 <style>
   :root{
     --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
@@ -108,6 +108,10 @@
 
   .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.6rem;line-height:1.8;}
   .foot a{color:var(--text-muted);}
+
+  /* ===== ハンバーガーのバンズ（上＝あ段のフタ／下＝お段の巣） ===== */
+  .tile.cap, #faller.cap{ background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2040%2040%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20d%3D%27M1%2039%20L1%2020%20C1%206%2013%202%2020%202%20C27%202%2039%206%2039%2020%20L39%2039%20Z%27%20fill%3D%27%23E19A3C%27%2F%3E%3Cpath%20d%3D%27M1%2020%20C1%208%2012%203%2020%203%20C28%203%2039%208%2039%2020%20C39%2014%2030%2011%2020%2011%20C10%2011%201%2014%201%2020%20Z%27%20fill%3D%27%23F0BC68%27%2F%3E%3Cpath%20d%3D%27M1%2032%20L39%2032%20L39%2039%20L1%2039%20Z%27%20fill%3D%27%23C67F2E%27%2F%3E%3Cellipse%20cx%3D%2712%27%20cy%3D%2719%27%20rx%3D%272.5%27%20ry%3D%271.6%27%20fill%3D%27%23FBEBCB%27%20transform%3D%27rotate%28-20%2012%2019%29%27%2F%3E%3Cellipse%20cx%3D%2720%27%20cy%3D%2715%27%20rx%3D%272.5%27%20ry%3D%271.6%27%20fill%3D%27%23FBEBCB%27%20transform%3D%27rotate%284%2020%2015%29%27%2F%3E%3Cellipse%20cx%3D%2728%27%20cy%3D%2719%27%20rx%3D%272.5%27%20ry%3D%271.6%27%20fill%3D%27%23FBEBCB%27%20transform%3D%27rotate%2822%2028%2019%29%27%2F%3E%3C%2Fsvg%3E") !important; background-repeat:no-repeat;background-position:center; background-size:100% 100%; color:#4A2A0C !important;text-shadow:0 1px 0 rgba(255,255,255,.55); }
+  .tile.base, #faller.base{ background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2040%2040%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20d%3D%27M1%201%20L39%201%20L39%2021%20C39%2033%2028%2038%2020%2038%20C12%2038%201%2033%201%2021%20Z%27%20fill%3D%27%23E0AE62%27%2F%3E%3Cpath%20d%3D%27M1%201%20L39%201%20L39%209%20C39%2011%2030%2012%2020%2012%20C10%2012%201%2011%201%209%20Z%27%20fill%3D%27%23F3DBA6%27%2F%3E%3C%2Fsvg%3E") !important; background-repeat:no-repeat;background-position:center; background-size:100% 100%; color:#4A2A0C !important;text-shadow:0 1px 0 rgba(255,255,255,.55); }
 </style>
 </head>
 <body>
@@ -118,19 +122,19 @@
   <section class="screen on" id="screen-start">
     <div class="head">
       <div class="logo">NIHONGO NO HEYA</div>
-      <div class="title">かなたまご<small>KANA TAMAGO</small></div>
-      <div class="sub">各列の一番下は<b>お段</b>の巣。同じ行の<b>あ段</b>でフタをすれば、間の字が何でも、巣ごとまとめてたまごに。巣はそのつどランダムで入れ替わる。<br>
-        <span class="en-sub">Cap an お-row nest with its matching あ-row kana — everything between (and the nest) clears, then a new random nest appears.</span></div>
+      <div class="title">かなバーガー<small>KANA BURGER</small></div>
+      <div class="sub">各列の一番下は<b>下のバンズ（お段）</b>。同じ行の<b>上のバンズ（あ段）</b>ではさめば、間の<b>具</b>ごと、まとめてバーガー完成で消える。下のバンズはそのつどランダムで入れ替わる。<br>
+        <span class="en-sub">Sandwich an お-row bottom bun with its matching あ-row top bun — the fillings between clear as a burger, then a new random bottom bun appears.</span></div>
     </div>
 
     <div class="card">
       <div class="howto-title">あそびかた ・ How to play</div>
-      <div class="howto-row"><span class="howto-num">1</span><div>各列の一番下に <b>お段の巣</b>。たまごを作るたびに、新しい巣がランダムで出る（毎回ちがう）。
-        <div class="en-sub">Each column has an お-row nest at the bottom; it changes to a random row after each egg.</div></div></div>
-      <div class="howto-row"><span class="howto-num">2</span><div>落ちてくる <b>中身</b> と <b>あ段のフタ</b> を左右で動かして積む。
-        <div class="en-sub">Move the falling middles and あ-row caps left/right to stack.</div></div></div>
-      <div class="howto-row"><span class="howto-num">3</span><div>巣と <b>同じ行のあ段</b> でフタをすると、間の字が何でも・巣ごと、上から下へ閉じて消える。はさんだ数が多いほど高得点・連鎖で加点。
-        <div class="en-sub">Cap with the nest’s matching あ kana: everything between (and the nest) closes top-down. More inside = more points; chains add bonus.</div></div></div>
+      <div class="howto-row"><span class="howto-num">1</span><div>各列の一番下に <b>下のバンズ（お段）</b>。バーガーを作るたびに、新しいバンズがランダムで出る（毎回ちがう）。
+        <div class="en-sub">Each column has an お-row bottom bun; it changes to a random row after each burger.</div></div></div>
+      <div class="howto-row"><span class="howto-num">2</span><div>落ちてくる <b>具（い・う・え段）</b> と <b>上のバンズ（あ段）</b> を左右に動かして積む。
+        <div class="en-sub">Move the falling fillings and あ-row top buns left/right to stack.</div></div></div>
+      <div class="howto-row"><span class="howto-num">3</span><div>下のバンズと <b>同じ行の上のバンズ（あ段）</b> ではさむと、間の具が何でも・バンズごと、上から下へ閉じて消える。はさんだ具が多いほど高得点・連鎖で加点。
+        <div class="en-sub">Sandwich with the matching あ-row top bun: everything between (and the buns) closes top-down. More fillings = more points; chains add bonus.</div></div></div>
 
       <div class="opt-label">かな ・ Script</div>
       <div class="seg" id="seg-kana">
@@ -157,7 +161,7 @@
     <div class="hud">
       <div class="hud-cell"><div class="hud-k">Score</div><div class="hud-v" id="hScore">0</div></div>
       <div class="hud-cell combo"><div class="hud-k">Combo</div><div class="hud-v" id="hCombo">0</div></div>
-      <div class="hud-cell"><div class="hud-k">たまご Eggs</div><div class="hud-v" id="hEggs">0</div></div>
+      <div class="hud-cell"><div class="hud-k">バーガー Burgers</div><div class="hud-v" id="hEggs">0</div></div>
       <div class="hud-cell next"><div class="hud-k">Next</div><div class="next-tile" id="nextTile">あ</div></div>
     </div>
     <div class="leg-strip" id="legStrip"></div>
@@ -174,14 +178,14 @@
   <!-- ============ 結果画面 ============ -->
   <section class="screen" id="screen-result">
     <div class="card result-card">
-      <div class="result-emoji" id="rEmoji">🥚</div>
+      <div class="result-emoji" id="rEmoji">🍔</div>
       <div class="result-rank" id="rRank">RESULT</div>
       <div class="result-score" id="rScore">0</div>
       <div class="result-score-k">スコア ・ Score</div>
       <div class="stat-grid">
-        <div class="stat"><div class="stat-v" id="rEggs">0</div><div class="stat-k">たまご ・ Eggs</div></div>
+        <div class="stat"><div class="stat-v" id="rEggs">0</div><div class="stat-k">バーガー ・ Burgers</div></div>
         <div class="stat"><div class="stat-v" id="rCombo">0</div><div class="stat-k">最大連鎖 ・ Max chain</div></div>
-        <div class="stat"><div class="stat-v" id="rBig">0</div><div class="stat-k">最大たまご ・ Biggest</div></div>
+        <div class="stat"><div class="stat-v" id="rBig">0</div><div class="stat-k">最大バーガー ・ Biggest</div></div>
       </div>
       <div class="result-actions">
         <button class="btn-line btn-ghost" id="menuBtn">メニュー ・ Menu</button>
@@ -199,18 +203,18 @@
 /* ===================== データ ===================== */
 var ROWSETS = {
   hira: [
-    {id:'a', c:'#3B6D11', s:'#EAF3DE', d:'#2C520C', k:['あ','い','う','え','お']},
-    {id:'ka',c:'#185FA5', s:'#E6F1FB', d:'#0E436F', k:['か','き','く','け','こ']},
-    {id:'sa',c:'#854F0B', s:'#FAEEDA', d:'#5E3707', k:['さ','し','す','せ','そ']},
-    {id:'ta',c:'#3C3489', s:'#EEEDFE', d:'#2A2566', k:['た','ち','つ','て','と']},
-    {id:'na',c:'#1F6F6B', s:'#DFF0EE', d:'#124D4A', k:['な','に','ぬ','ね','の']}
+    {id:'a', c:'#5C8A28', s:'#A5D168', d:'#25400F', k:['あ','い','う','え','お']},
+    {id:'ka',c:'#C4482E', s:'#E8886F', d:'#5A1E12', k:['か','き','く','け','こ']},
+    {id:'sa',c:'#D9A21E', s:'#FBD25A', d:'#6E4A00', k:['さ','し','す','せ','そ']},
+    {id:'ta',c:'#8A5A2E', s:'#C6976A', d:'#3E2611', k:['た','ち','つ','て','と']},
+    {id:'na',c:'#9B62A8', s:'#CFA0D6', d:'#472153', k:['な','に','ぬ','ね','の']}
   ],
   kata: [
-    {id:'a', c:'#3B6D11', s:'#EAF3DE', d:'#2C520C', k:['ア','イ','ウ','エ','オ']},
-    {id:'ka',c:'#185FA5', s:'#E6F1FB', d:'#0E436F', k:['カ','キ','ク','ケ','コ']},
-    {id:'sa',c:'#854F0B', s:'#FAEEDA', d:'#5E3707', k:['サ','シ','ス','セ','ソ']},
-    {id:'ta',c:'#3C3489', s:'#EEEDFE', d:'#2A2566', k:['タ','チ','ツ','テ','ト']},
-    {id:'na',c:'#1F6F6B', s:'#DFF0EE', d:'#124D4A', k:['ナ','ニ','ヌ','ネ','ノ']}
+    {id:'a', c:'#5C8A28', s:'#A5D168', d:'#25400F', k:['ア','イ','ウ','エ','オ']},
+    {id:'ka',c:'#C4482E', s:'#E8886F', d:'#5A1E12', k:['カ','キ','ク','ケ','コ']},
+    {id:'sa',c:'#D9A21E', s:'#FBD25A', d:'#6E4A00', k:['サ','シ','ス','セ','ソ']},
+    {id:'ta',c:'#8A5A2E', s:'#C6976A', d:'#3E2611', k:['タ','チ','ツ','テ','ト']},
+    {id:'na',c:'#9B62A8', s:'#CFA0D6', d:'#472153', k:['ナ','ニ','ヌ','ネ','ノ']}
   ]
 };
 
@@ -477,11 +481,11 @@ function gameOver(){
   $('rEggs').textContent = stats.eggs;
   $('rCombo').textContent = stats.maxCombo;
   $('rBig').textContent = stats.biggest;
-  var emoji='🥚', rank='RESULT';
-  if(score>=2000){ emoji='🐣'; rank='たまご名人 ・ EGG MASTER'; }
-  else if(score>=900){ emoji='🍳'; rank='いい調子 ・ NICE'; }
-  else if(score>=300){ emoji='🥚'; rank='その調子 ・ KEEP GOING'; }
-  else { emoji='🐤'; rank='これから ・ WARM-UP'; }
+  var emoji='🍔', rank='RESULT';
+  if(score>=2000){ emoji='🍔'; rank='バーガー名人 ・ BURGER MASTER'; }
+  else if(score>=900){ emoji='🍟'; rank='いい調子 ・ NICE'; }
+  else if(score>=300){ emoji='🍔'; rank='その調子 ・ KEEP GOING'; }
+  else { emoji='🥯'; rank='これから ・ WARM-UP'; }
   $('rEmoji').textContent=emoji; $('rRank').textContent=rank;
   show('result');
 }
@@ -498,7 +502,7 @@ function renderLegend(){
       var stl = (idx===0||idx===4) ? 'background:'+rd.s+';color:'+rd.d+';border-color:'+rd.c : '';
       return '<span class="'+cls+'" style="'+stl+'">'+k+'</span>';
     }).join('');
-    return '<div class="leg-row">'+cells+'<span class="leg-mark">お＝巣 と あ＝ふた を同じ行でそろえる</span></div>';
+    return '<div class="leg-row">'+cells+'<span class="leg-mark">お＝下バンズ と あ＝上バンズ を同じ行でそろえる</span></div>';
   }).join('');
   $('legend').innerHTML = html;
 }

@@ -99,6 +99,15 @@
   .hint { font-size:11px; color:var(--text-hint); margin:10px 2px 0; line-height:1.6; }
   .app-footer { text-align:center; font-size:11px; color:var(--text-hint); margin-top:2.4rem; line-height:1.8; }
   .notfound { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px; text-align:center; margin-top:1.5rem; color:var(--text-muted); }
+  .gline{stroke:#E7E2DB;stroke-width:1;stroke-dasharray:3 4;}
+  #tracepad{width:min(72vw,260px);aspect-ratio:1;background:var(--surface);border:1px solid var(--border);border-radius:18px;touch-action:none;display:block;margin:0 auto;}
+  .tracewrap{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .t-dot{fill:var(--accent);}
+  .t-dot.pulse{animation:tpulse 1s ease-in-out infinite;}
+  @keyframes tpulse{0%,100%{r:5}50%{r:7}}
+  .t-msg{font-size:13px;font-weight:700;color:var(--text-muted);min-height:20px;text-align:center;}
+  .t-msg.ok{color:var(--accent);} .t-msg.win{color:#B8860B;}
+  .trace-ctrl{display:flex;gap:10px;justify-content:center;}
 </style>
 </head>
 <body>
@@ -114,6 +123,79 @@
 
 <script src="langdata.js"></script>
 <script src="chardata.js"></script>
+<script src="strokes.js"></script>
+<script>/* JLPTTrace: 指でなぞる練習の共通エンジン。viewBox 0 0 109 109 のSVGに描く。 */
+function JLPTTrace(cfg){
+  var NS='http://www.w3.org/2000/svg';
+  var svg=cfg.svg, msg=cfg.msg||null, prog=cfg.prog||null;
+  var START_TOL=cfg.startTol||11, TOL=cfg.tol||13, WIN=cfg.window||8;
+  var accent=cfg.accent||'#3B6D11', curGhost=cfg.curGhost||'#D9EBC4';
+  var onClear=cfg.onClear||function(){}, onStroke=cfg.onStroke||function(){};
+  var ghostG=document.createElementNS(NS,'g');ghostG.setAttribute('class','t-ghost');var inkG=document.createElementNS(NS,'g');inkG.setAttribute('class','t-ink');
+  var dot=document.createElementNS(NS,'circle');
+  dot.setAttribute('r',5); dot.setAttribute('class','t-dot');
+  svg.appendChild(ghostG); svg.appendChild(inkG); svg.appendChild(dot);
+
+  var paths=[],ghost=[],ink=[],lens=[],samples=[],s=0,progressIdx=0,tracing=false,won=false;
+
+  function mk(d,stroke){var p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('fill','none');
+    p.setAttribute('stroke',stroke);p.setAttribute('stroke-width',6.5);p.setAttribute('stroke-linecap','round');
+    p.setAttribute('stroke-linejoin','round');return p;}
+  function clear(){while(ghostG.firstChild)ghostG.removeChild(ghostG.firstChild);while(inkG.firstChild)inkG.removeChild(inkG.firstChild);ghost=[];ink=[];lens=[];samples=[];}
+
+  function load(ps,opts){
+    opts=opts||{}; if(opts.accent)accent=opts.accent; if(opts.curGhost)curGhost=opts.curGhost;
+    clear(); paths=ps; s=0;progressIdx=0;tracing=false;won=false;
+    dot.setAttribute('fill',accent);
+    ps.forEach(function(d){
+      var g=mk(d,'#ECE8E1');ghostG.appendChild(g);ghost.push(g);
+      var k=mk(d,accent);inkG.appendChild(k);ink.push(k);
+      var L=k.getTotalLength();lens.push(L);k.style.strokeDasharray=L;k.style.strokeDashoffset=L;
+      var n=Math.max(24,Math.min(80,Math.round(L/2.2))),pts=[];
+      for(var j=0;j<n;j++){var p=k.getPointAtLength(L*j/(n-1));pts.push({x:p.x,y:p.y});}
+      samples.push(pts);
+    });
+    setup();
+  }
+  function setup(){
+    ghost.forEach(function(g,i){g.setAttribute('stroke',i===s?curGhost:'#ECE8E1');});
+    if(s<paths.length){var p0=samples[s][0];dot.setAttribute('cx',p0.x);dot.setAttribute('cy',p0.y);
+      dot.style.display='';dot.classList.add('pulse');if(prog)prog.textContent=(s+1)+' / '+paths.length+' 画';}
+    else{dot.style.display='none';}
+  }
+  function dist(a,b){var dx=a.x-b.x,dy=a.y-b.y;return Math.sqrt(dx*dx+dy*dy);}
+  function svgPt(e){var r=svg.getBoundingClientRect();var sc=109/r.width;return{x:(e.clientX-r.left)*sc,y:(e.clientY-r.top)*sc};}
+  function draw(){var L=lens[s];ink[s].style.strokeDashoffset=L*(1-progressIdx/(samples[s].length-1));}
+  function advance(pt){var best=progressIdx,lim=Math.min(samples[s].length-1,progressIdx+WIN);
+    for(var j=progressIdx;j<=lim;j++){if(dist(pt,samples[s][j])<=TOL)best=j;}
+    if(best>progressIdx){progressIdx=best;draw();}}
+  function complete(){
+    ink[s].style.strokeDashoffset=0;ink[s].setAttribute('stroke','#1C1C1C');
+    s++;progressIdx=0;tracing=false;onStroke(s,paths.length);
+    if(s>=paths.length){won=true;dot.style.display='none';dot.classList.remove('pulse');if(msg){msg.textContent='クリア！🎉 よくできました';msg.className='t-msg win';}onClear();}
+    else{if(msg){msg.textContent='いいね！つぎは '+(s+1)+'画目';msg.className='t-msg ok';}setup();}
+  }
+  function down(e){if(won)return;e.preventDefault();var pt=svgPt(e);
+    if(dist(pt,samples[s][0])<=START_TOL){tracing=true;progressIdx=0;dot.classList.remove('pulse');
+      try{svg.setPointerCapture(e.pointerId);}catch(_){}advance(pt);if(msg){msg.textContent='そのまま、線にそって…';msg.className='t-msg';}}
+    else{if(msg){msg.textContent='さいしょの丸から はじめてね';msg.className='t-msg';}}}
+  function move(e){if(!tracing||won)return;e.preventDefault();advance(svgPt(e));if(progressIdx>=samples[s].length-2)complete();}
+  function up(){if(won)return;if(tracing&&progressIdx<samples[s].length-2){progressIdx=0;ink[s].style.strokeDashoffset=lens[s];
+    if(msg){msg.textContent='とちゅうで はなれたよ。もう一度なぞってね';msg.className='t-msg';}setup();}tracing=false;}
+
+  svg.addEventListener('pointerdown',down);svg.addEventListener('pointermove',move);
+  svg.addEventListener('pointerup',up);svg.addEventListener('pointercancel',up);
+
+  function demo(){if(won||s>=paths.length)return;var L=lens[s],k=ink[s];
+    k.style.transition='none';k.style.strokeDashoffset=L;void k.getBBox();
+    k.style.transition='stroke-dashoffset '+Math.max(500,L*9)+'ms linear';k.style.strokeDashoffset=0;
+    setTimeout(function(){if(s<ink.length&&ink[s]===k){k.style.transition='none';k.style.strokeDashoffset=L;}},Math.max(500,L*9)+250);
+    if(msg){msg.textContent='これが '+(s+1)+'画目。同じようになぞってね';msg.className='t-msg';}}
+  function reset(){load(paths,{accent:accent,curGhost:curGhost});if(msg){msg.textContent='さいしょの丸から、なぞってね';msg.className='t-msg';}}
+
+  return {load:load, demo:demo, reset:reset, isWon:function(){return won;}};
+}
+</script>
 <script>
 function getParam(n){ var m=new RegExp('[?&]'+n+'=([^&]*)').exec(location.search); return m?decodeURIComponent(m[1]):null; }
 var code = getParam('code');
@@ -144,69 +226,78 @@ if(!L || !C){
     + '<div class="chargrid" id="chargrid">'+grid+'</div>'
     + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">なぞり書き練習</span><span class="sec-en">Trace</span></div>'
     + '<div class="tracer">'
-      + '<div class="stage"><div class="guide" id="guide"></div><canvas id="pad"></canvas></div>'
-      + '<div class="tr-read" id="tread"></div>'
-      + '<div class="tr-ctrl">'
-        + '<button class="btn" id="prev">‹ 前</button>'
-        + '<button class="btn primary" id="clear">消す</button>'
-        + '<button class="btn" id="next">次 ›</button>'
+      + '<div id="strokeMode" style="display:none">'
+        + '<div class="tracewrap">'
+          + '<svg id="tracepad" viewBox="0 0 109 109" xmlns="http://www.w3.org/2000/svg">'
+            + '<line class="gline" x1="54.5" y1="6" x2="54.5" y2="103"/><line class="gline" x1="6" y1="54.5" x2="103" y2="54.5"/>'
+          + '</svg>'
+          + '<div class="t-msg" id="tmsg">さいしょの丸から、線にそってなぞってね</div>'
+          + '<div class="trace-ctrl"><button class="btn" id="sdemo">おてほん</button><button class="btn primary" id="sreset">やりなおし</button></div>'
+        + '</div>'
       + '</div>'
-      + '<label class="tr-opt"><input type="checkbox" id="guidechk" checked> お手本を表示</label>'
+      + '<div id="shapeMode">'
+        + '<div class="stage"><div class="guide" id="guide"></div><canvas id="pad"></canvas></div>'
+        + '<div class="tr-ctrl" style="justify-content:center"><button class="btn primary" id="clear">消す</button></div>'
+        + '<label class="tr-opt"><input type="checkbox" id="guidechk" checked> お手本を表示</label>'
+      + '</div>'
+      + '<div class="tr-read" id="tread"></div>'
+      + '<div class="tr-ctrl" style="justify-content:center"><button class="btn" id="prev">‹ 前</button><button class="btn" id="next">次 ›</button></div>'
     + '</div>'
-    + '<div class="hint">お手本の上を、指やマウスでなぞって練習します。書き順の矢印は表示されません（形をなぞる練習です）。文字を選ぶと切り替わります。</div>';
+    + '<div class="hint" id="thint"></div>';
 
-  /* ===== なぞり書きロジック ===== */
+  /* ===== なぞり書き（形＆書き順） ===== */
   var chars = C.chars, idx = 0;
   var guide = document.getElementById('guide');
   var tread = document.getElementById('tread');
+  var thint = document.getElementById('thint');
+  var strokeMode = document.getElementById('strokeMode');
+  var shapeMode = document.getElementById('shapeMode');
   var pad = document.getElementById('pad');
   var ctx = pad.getContext('2d');
   var drawing = false, dpr = window.devicePixelRatio || 1;
+  var pad2 = (window.JLPTTrace) ? JLPTTrace({ svg:document.getElementById('tracepad'), msg:document.getElementById('tmsg'), accent:L.accent, curGhost:L.bg }) : null;
 
   function sizeCanvas(){
-    var r = pad.getBoundingClientRect();
-    pad.width = Math.round(r.width * dpr);
-    pad.height = Math.round(r.height * dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    ctx.lineCap='round'; ctx.lineJoin='round';
+    var r = pad.getBoundingClientRect(); if(!r.width) return;
+    pad.width = Math.round(r.width*dpr); pad.height = Math.round(r.height*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0); ctx.lineCap='round'; ctx.lineJoin='round';
     ctx.lineWidth=13; ctx.strokeStyle=L.accent;
   }
   function clearPad(){ ctx.clearRect(0,0,pad.width,pad.height); }
+
   function setChar(i){
     idx=(i+chars.length)%chars.length;
-    guide.textContent=chars[idx][0];
-    tread.innerHTML='<b>'+esc(chars[idx][0])+'</b>　'+esc(chars[idx][1]);
-    clearPad();
+    var ch=chars[idx][0];
+    tread.innerHTML='<b>'+esc(ch)+'</b>　'+esc(chars[idx][1]);
     var tiles=document.querySelectorAll('.ch');
     for(var k=0;k<tiles.length;k++){ tiles[k].className='ch'+(k===idx?' sel':''); }
+    if(pad2 && window.STROKES && STROKES[ch]){
+      shapeMode.style.display='none'; strokeMode.style.display='';
+      thint.textContent='「おてほん」で書き順を確認 → 数字の順に、線にそってなぞってね。';
+      pad2.load(STROKES[ch], {accent:L.accent, curGhost:L.bg});
+    } else {
+      strokeMode.style.display='none'; shapeMode.style.display='';
+      thint.textContent='お手本の上を、指やマウスでなぞって練習します（この文字は書き順ガイド未対応・形をなぞる練習です）。';
+      guide.textContent=ch; sizeCanvas(); clearPad();
+    }
   }
-  function pos(e){
-    var r=pad.getBoundingClientRect();
-    var p=(e.touches&&e.touches[0])?e.touches[0]:e;
-    return { x:p.clientX-r.left, y:p.clientY-r.top };
-  }
-  function start(e){ e.preventDefault(); drawing=true; var q=pos(e); ctx.beginPath(); ctx.moveTo(q.x,q.y); }
-  function move(e){ if(!drawing)return; e.preventDefault(); var q=pos(e); ctx.lineTo(q.x,q.y); ctx.stroke(); }
-  function end(){ drawing=false; }
+  function pos(e){ var r=pad.getBoundingClientRect(); var q=(e.touches&&e.touches[0])?e.touches[0]:e; return {x:q.clientX-r.left,y:q.clientY-r.top}; }
+  function dstart(e){ e.preventDefault(); drawing=true; var q=pos(e); ctx.beginPath(); ctx.moveTo(q.x,q.y); }
+  function dmove(e){ if(!drawing)return; e.preventDefault(); var q=pos(e); ctx.lineTo(q.x,q.y); ctx.stroke(); }
+  function dend(){ drawing=false; }
+  pad.addEventListener('pointerdown', dstart); pad.addEventListener('pointermove', dmove); window.addEventListener('pointerup', dend);
+  pad.addEventListener('touchstart', dstart, {passive:false}); pad.addEventListener('touchmove', dmove, {passive:false}); window.addEventListener('touchend', dend);
 
-  pad.addEventListener('pointerdown', start);
-  pad.addEventListener('pointermove', move);
-  window.addEventListener('pointerup', end);
-  pad.addEventListener('touchstart', start, {passive:false});
-  pad.addEventListener('touchmove', move, {passive:false});
-  window.addEventListener('touchend', end);
-
-  document.getElementById('chargrid').addEventListener('click', function(e){
-    var t=e.target.closest('.ch'); if(!t)return; setChar(parseInt(t.getAttribute('data-i'),10));
-    document.querySelector('.tracer').scrollIntoView({behavior:'smooth', block:'center'});
-  });
+  document.getElementById('chargrid').addEventListener('click', function(e){ var t=e.target.closest('.ch'); if(!t)return; setChar(parseInt(t.getAttribute('data-i'),10)); document.querySelector('.tracer').scrollIntoView({behavior:'smooth',block:'center'}); });
   document.getElementById('prev').addEventListener('click', function(){ setChar(idx-1); });
   document.getElementById('next').addEventListener('click', function(){ setChar(idx+1); });
   document.getElementById('clear').addEventListener('click', clearPad);
   document.getElementById('guidechk').addEventListener('change', function(e){ guide.classList.toggle('hidden', !e.target.checked); });
-  window.addEventListener('resize', function(){ sizeCanvas(); });
+  document.getElementById('sdemo').addEventListener('click', function(){ if(pad2) pad2.demo(); });
+  document.getElementById('sreset').addEventListener('click', function(){ if(pad2) pad2.reset(); });
+  window.addEventListener('resize', function(){ if(shapeMode.style.display!=='none') sizeCanvas(); });
 
-  sizeCanvas(); setChar(0);
+  setChar(0);
 }
 </script>
 

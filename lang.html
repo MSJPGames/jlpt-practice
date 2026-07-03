@@ -140,6 +140,8 @@
   .pw-O{color:#0C7268;background:#D3EEE9;}
   .pw-C{color:#824099;background:#EFE0F5;}
   .pw-P{color:#8C6210;background:#F6E9C8;}
+  .bp-extra{margin-top:9px;padding-top:8px;border-top:1px dashed var(--border);}
+  .bp-ex-label{font-size:10.5px;font-weight:700;color:var(--accent);margin-bottom:3px;}
   .tone-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:2px;}
   .tone-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 10px 9px;}
   .tone-head{display:flex;align-items:baseline;justify-content:space-between;gap:6px;}
@@ -280,9 +282,10 @@ if(!L){
       + '<div class="bp-legend">色分け：<span class="pw pw-S">主語</span><span class="pw pw-V">述語（動詞）</span><span class="pw pw-O">目的語</span><span class="pw pw-C">コピュラ</span><span class="pw pw-P">補語</span></div>'
       + pt.map(function(t){ var d=P[t[2]]; if(!d) return '';
           var rd = d[1] ? '<div class="bp-read">'+esc(d[1])+'</div>' : '';
+          var ex = d[4] ? ('<div class="bp-extra"><div class="bp-ex-label">＋ '+esc(d[4].label)+'</div><div class="bp-native">'+colorize(d[4].native)+'</div>'+(d[4].read?'<div class="bp-read">'+esc(d[4].read)+'</div>':'')+'<div class="bp-ja">'+colorize(d[4].ja)+'</div><div class="bp-note">'+esc(d[4].note)+'</div></div>') : '';
           return '<div class="bp"><div class="bp-h"><span class="bp-chip">'+t[0]+'</span><span class="bp-t">'+t[1]+'</span></div>'
             + '<div class="bp-native">'+colorize(d[0])+'</div>'+rd
-            + '<div class="bp-ja">'+colorize(d[2])+'</div><div class="bp-note">'+esc(d[3])+'</div></div>'; }).join('')
+            + '<div class="bp-ja">'+colorize(d[2])+'</div><div class="bp-note">'+esc(d[3])+'</div>'+ex+'</div>'; }).join('')
       + '<a class="bp-link" href="kihon_bunkei.html">日本語の基本文型と見くらべる ›</a>';
   }
   var TN = (window.TONES||{})[code];

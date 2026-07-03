@@ -147,6 +147,7 @@ window.LANGS = [
     tts:'ne-NP', resRank:'5位', learnRank:null, core:false, resident:true, learner:false, sov:true,
     accent:'#7A5A12', bg:'#F3EEDB',
     note:'SOV・後置詞で日本語に近い構造。コピュラは हो（〜だ）と छ（ある・状態）の2種類。敬語が3段階あり、動詞は主語に一致。近年、学齢期の子どもが急増。',
+    grammar:'ne_grammar.html',
     phrases:[
       ['こんにちは','नमस्ते','ナマステ'],['ありがとう','धन्यवाद','ダンニャバード'],
       ['はい','हो','ホ'],['いいえ','होइन','ホイナ'],

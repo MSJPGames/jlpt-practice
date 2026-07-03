@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ネパール語 文法解説 ・ Nepali Grammar ・ 日本語の部屋</title>
+<meta name="description" content="ネパール語の文法解説：現在分詞・第一過去分詞・進行分詞（進行相）・形容詞文・動詞の全体像（時制/相/法/態）・格。">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --accent:#7A5A12; --accent-bg:#F3EEDB; --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.65;padding:0 1rem 3rem;}
+  .container{max-width:560px;margin:0 auto;}
+
+  .topbar{display:flex;align-items:center;gap:8px;padding:14px 0 2px;flex-wrap:wrap;}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--text-muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);}
+  .back-link:active{transform:scale(.97);}
+  .back-arrow{font-size:16px;line-height:1;}
+
+  .page-header{text-align:center;padding:1.2rem 0 .4rem;}
+  .ph-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--accent);margin-bottom:8px;}
+  .ph-title{font-size:23px;font-weight:700;}
+  .ph-title .np{font-family:'Noto Sans Devanagari',serif;}
+  .ph-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px;}
+
+  .toc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-top:1rem;}
+  .toc-t{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--text-hint);margin-bottom:6px;}
+  .toc a{display:inline-block;font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;
+    background:var(--accent-bg);border-radius:999px;padding:4px 11px;margin:3px 4px 3px 0;}
+
+  .gsec{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:var(--radius);padding:15px 16px;margin-top:14px;}
+  .gsec-h{display:flex;align-items:baseline;gap:9px;}
+  .gsec-no{width:26px;height:26px;flex-shrink:0;border-radius:8px;background:var(--accent-bg);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;}
+  .gsec-t{font-size:17px;font-weight:700;}
+  .gsec-t small{font-size:11px;font-weight:600;color:var(--text-hint);margin-left:6px;}
+
+  .gpat{margin-top:11px;background:var(--accent-bg);border-radius:10px;padding:9px 12px;font-size:14px;font-weight:700;
+    color:#5C420C;line-height:1.7;}
+  .gpat .m{color:var(--accent);background:#fff;border-radius:5px;padding:0 5px;margin:0 1px;}
+
+  .gsub{font-size:13px;font-weight:700;color:var(--accent);margin:14px 0 4px;padding-left:9px;border-left:3px solid var(--accent);}
+  .gnote{font-size:12.5px;color:var(--text-muted);line-height:1.8;margin-top:8px;}
+  .gnote b{color:var(--text);} .gnote .np{font-weight:700;}
+  ul.gl{list-style:none;margin-top:8px;}
+  ul.gl>li{font-size:13px;color:var(--text-muted);line-height:1.75;padding-left:20px;position:relative;margin-bottom:3px;}
+  ul.gl>li::before{content:attr(data-n);position:absolute;left:0;top:0;color:var(--accent);font-weight:700;font-size:12px;}
+  ul.gl>li b{color:var(--text);}
+
+  .ex{margin-top:9px;}
+  .ex-row{padding:7px 0;border-top:1px solid #F0ECE2;}
+  .ex-row:first-child{border-top:none;}
+  .ex-np{font-size:15px;font-weight:700;line-height:1.5;}
+  .ex-ja{font-size:12.5px;color:var(--text-muted);margin-top:2px;}
+  .np{font-family:'Noto Sans Devanagari','Noto Sans JP',serif;}
+  em.hl{font-style:normal;color:var(--accent);background:var(--accent-bg);border-radius:4px;padding:0 3px;font-weight:700;}
+
+  table.gtbl{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.5px;}
+  table.gtbl th,table.gtbl td{border:1px solid var(--border);padding:6px 8px;text-align:left;vertical-align:top;}
+  table.gtbl thead th{background:var(--accent-bg);color:var(--accent);font-size:11.5px;font-weight:700;}
+  table.gtbl tbody th{background:#FBFAF6;color:var(--text-muted);font-weight:600;font-size:11.5px;white-space:nowrap;}
+  table.gtbl .np{font-weight:700;}
+
+  .chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;}
+  .chip{font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-bg);border-radius:999px;padding:4px 11px;}
+
+  .foot{font-size:11.5px;color:var(--text-hint);text-align:center;margin-top:2rem;line-height:1.8;}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.4rem;}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="lang.html?code=ne" class="back-link"><span class="back-arrow">‹</span>ネパール語</a>
+    <a href="gaikokugo.html" class="back-link">多言語</a>
+    <a href="index.html" class="back-link">ホーム</a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">NEPALI GRAMMAR</div>
+    <div class="ph-title">ネパール語 文法解説 <span class="np">नेपाली</span></div>
+    <div class="ph-sub">分詞・時制・相・法・態・格をまとめて</div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-t">もくじ</div>
+    <a href="#v">動詞の全体像</a><a href="#p1">現在分詞 -ने</a><a href="#p2">第一過去分詞 -एको</a>
+    <a href="#p3">進行分詞 -दै/दा/दो/द</a><a href="#asp">進行相</a><a href="#adj">形容詞文</a><a href="#case">格</a>
+  </div>
+
+  <!-- 0. 動詞の全体像 -->
+  <div class="gsec" id="v">
+    <div class="gsec-h"><span class="gsec-no">0</span><span class="gsec-t">動詞の全体像<small>Verbs overview</small></span></div>
+    <div class="gnote">
+      ネパール語の動詞は大きく2種類。<b>コピュラ動詞</b>＝<span class="np">हुनु</span> の1語だけ（<span class="np">हुनु</span>動詞。助動詞のような働きもする）と、<b>一般動詞</b>。動詞は<b>時制・相・法・態・主語</b>によって活用します。
+    </div>
+    <div class="gsub">時制（Tense）</div>
+    <div class="gnote">現在（<span class="np">हो</span>型／<span class="np">छ</span>型／<span class="np">हुन्छ</span>型）・過去（<span class="np">थियो</span>型／<span class="np">भयो</span>型）・未来（<span class="np">हुनेछ</span>型）。</div>
+    <div class="gsub">相（Aspect）</div>
+    <div class="gnote">単純相／完了相（<span class="np">पूर्ण परिपूर्ण</span>）／進行相・未完了相／未知相・発見相。</div>
+    <div class="gsub">法（Mood）＝話し手の判断・認識を伝える方法</div>
+    <div class="gnote"><b>直説法</b>（事実だと判断）／<b>仮定法・接続法</b>（想定・推測だと判断）／<b>命令法</b>／<b>希求法・願望法</b>。</div>
+    <div class="gsub">態（Voice）</div>
+    <div class="gnote">
+      <b>主動態</b>：主語が行為を行う（例：私はリンゴを食べる）。<br>
+      <b>受動態</b>：主語が行為の対象になる（例：リンゴが食べられた）。<br>
+      <b>使役態</b>：他者に行為を強制する（例：私は彼にリンゴを食べさせた）。
+    </div>
+  </div>
+
+  <!-- 1. 現在分詞 -->
+  <div class="gsec" id="p1">
+    <div class="gsec-h"><span class="gsec-no">1</span><span class="gsec-t">現在分詞<small>-ने</small></span></div>
+    <div class="gpat">肯定：<span class="m np">動詞語幹＋ने</span>　／　否定：<span class="m np">न＋動詞語幹＋ने</span></div>
+    <div class="gnote">※第三接続型動詞は語幹として<b>基本語幹</b>を使う。※他動詞の動作主には <span class="np">ले</span> を付けても付けなくてもよい。</div>
+    <div class="gsub">用法</div>
+    <ul class="gl">
+      <li data-n="①">名詞を修飾する。</li>
+      <li data-n="②">名詞句を作る。</li>
+      <li data-n="③">文の主動詞になる。</li>
+      <li data-n="④">他の語とともに、いろいろな時制等をつくる。</li>
+      <li data-n="⑤">熟語を作る。<b>【<span class="np">न</span> 不定詞＋<span class="np">त</span>＋<span class="np">ने</span> 不定詞】</b>＝［部分否定］「VするのはVするが」</li>
+    </ul>
+    <div class="ex">
+      <div class="ex-row"><div class="ex-np np">जा<em class="hl">ने</em> बेला</div><div class="ex-ja">出発する時間（①名詞修飾）</div></div>
+      <div class="ex-row"><div class="ex-np np">जाने बेला भयो?</div><div class="ex-ja">出発する時間になりましたか。（②名詞句）</div></div>
+      <div class="ex-row"><div class="ex-np np">उ कति बजे आउने रे?</div><div class="ex-ja">彼は何時に来るという話ですか。（③主動詞）</div></div>
+      <div class="ex-row"><div class="ex-np np">जान त जा<em class="hl">ने</em></div><div class="ex-ja">行くことは行きます。（⑤部分否定）</div></div>
+    </div>
+  </div>
+
+  <!-- 2. 第一過去分詞 -->
+  <div class="gsec" id="p2">
+    <div class="gsec-h"><span class="gsec-no">2</span><span class="gsec-t">第一過去分詞<small>-एको</small></span></div>
+    <div class="gpat">肯定：<span class="m np">動詞語幹＋एको型</span>　／　否定：<span class="m np">न＋動詞語幹＋एको型</span></div>
+    <div class="gnote">
+      ※第三接続型の <span class="np">हुनु</span> は <span class="np">भ</span> を用いる → 肯定 <span class="np">भएको</span>／否定 <span class="np">नभएको</span>。<br>
+      ※語尾は性数変化（女性形 <span class="np">एकी</span>・複数形 <span class="np">एका</span>）するが、人間が主語・動作主のとき部分的に用いる。<br>
+      ※他動詞なら動作主に <span class="np">ले</span> が付き、自動詞の主語には付かない。<br>
+      ※尊敬形：肯定【<span class="np">नु</span> 不定詞＋<span class="np">हुनु</span> の第一過去分詞（<span class="np">-भएको</span>）】／否定【<span class="np">न＋नु</span> 不定詞＋<span class="np">-भएको</span>】。
+    </div>
+    <div class="gsub">用法</div>
+    <ul class="gl">
+      <li data-n="①">文の主動詞：Vした</li>
+      <li data-n="②">連体形化：VしたところのN</li>
+      <li data-n="③">名詞句化：VしたN</li>
+      <li data-n="④">別の文の前に置く：Vしたのに（意外な結果）</li>
+      <li data-n="⑤">いろいろな完了時制をつくる</li>
+      <li data-n="⑥">熟語中に用いる：<span class="np">-एको हुनाले</span>／<span class="np">-एकोले</span>＝Vしたので、<span class="np">-एको (धेरै दिन) भयो</span>＝Vして（何日も）たった</li>
+    </ul>
+    <div class="ex">
+      <div class="ex-row"><div class="ex-np np">धेरै पैसा कमाएको मान्छे</div><div class="ex-ja">たくさんお金をかせいだ人（②連体形）</div></div>
+      <div class="ex-row"><div class="ex-np np">कमाएको पैसा</div><div class="ex-ja">かせいだお金</div></div>
+      <div class="ex-row"><div class="ex-np np">उसले पालेको गाई</div><div class="ex-ja">彼が飼っている雌牛</div></div>
+      <div class="ex-row"><div class="ex-np np">मसला हालेको चिया पठाएको, अझै पाउनुभएको छैन?</div><div class="ex-ja">香辛料を入れたお茶を送ったのに、まだ入手なさっていませんか。（④意外な結果）</div></div>
+    </div>
+    <div class="gsub">構文①　【<span class="np">-एको</span>＋期間＋<span class="np">भयो</span>】＝Vして（期間）になった</div>
+    <div class="ex">
+      <div class="ex-row"><div class="ex-np np">म यहाँ आएको ६ दिन भयो।</div><div class="ex-ja">私がここに来て6日たちました（6日になります）。</div></div>
+      <div class="ex-row"><div class="ex-np np">मैले किताप पाएको दुइ हप्ता भयो।</div><div class="ex-ja">私が本を手に入れて2週間になります。</div></div>
+      <div class="ex-row"><div class="ex-np np">उ जन्मेको (मरेको) १ वर्ष भयो।</div><div class="ex-ja">彼が生まれて（死んで）1年になります。</div></div>
+    </div>
+    <div class="gsub">構文②　【<span class="np">-एको</span>＋<span class="np">हुनाले</span>】＝［理由・原因］〜ので</div>
+    <div class="ex">
+      <div class="ex-row"><div class="ex-np np">ज्वरो आएको हुनाले दिनभरि घरै बसें।</div><div class="ex-ja">熱が出たので一日中家にいました。</div></div>
+    </div>
+  </div>
+
+  <!-- 3. 進行分詞 -->
+  <div class="gsec" id="p3">
+    <div class="gsec-h"><span class="gsec-no">3</span><span class="gsec-t">進行分詞<small>-दै / -दा / -दो / -द</small></span></div>
+    <div class="gpat">肯定：<span class="m np">動詞語幹＋दै・दा・दो・द</span>　／　否定：<span class="m np">न＋動詞語幹＋…</span></div>
+    <div class="gnote">
+      動作の継続・同時進行・恒常的状態・意味の強調などを表す。<br>
+      <b>基本形</b>：①語幹が子音で終わる動詞は【語幹＋進行分詞】、②母音で終わる動詞も【語幹＋進行分詞】（※語幹の母音が鼻母音化する）。<br>
+      ※自動詞は主語に <span class="np">ले</span> なし、他動詞は動作主に <span class="np">ले</span> 任意（付ければ動作主を強調）。尊敬形【<span class="np">नु</span> 不定詞＋<span class="np">हुँदै</span>】。
+    </div>
+
+    <div class="gsub"><span class="np">दै</span> 型の用法</div>
+    <div class="ex">
+      <div class="ex-row"><div class="ex-np np">काम गर्दा गर्<em class="hl">दै</em> धेरै दिन बित्यो।</div><div class="ex-ja">〔<span class="np">दा…दै</span>〕仕事をしているうちに何日も日が経ちました。</div></div>
+      <div class="ex-row"><div class="ex-np np">भात छँदै छ नि। नकराउ।</div><div class="ex-ja">〔<span class="np">छँदै छ</span>＝ちゃんとある〕ご飯はちゃんとあるじゃないの。ぎゃあぎゃあ言わないで。</div></div>
+      <div class="ex-row"><div class="ex-np np">भात खाँ<em class="hl">दै गर</em>।</div><div class="ex-ja">〔<span class="np">दै गर्नु</span>＝Vし続ける〕ご飯を食べていなさい。</div></div>
+      <div class="ex-row"><div class="ex-np np">काम गर्<em class="hl">दै जाऊ</em>।</div><div class="ex-ja">〔<span class="np">दै जानु</span>＝Vし続ける〕仕事をやり続けなさい。</div></div>
+      <div class="ex-row"><div class="ex-np np">उ आइपुग्दा नपुग्दै म फर्किसक्छु।</div><div class="ex-ja">〔<span class="np">दा न…दै</span>＝するかしないかのうちに〕彼が到着するかしないかのうちに私は帰ってきてしまいます。</div></div>
+      <div class="ex-row"><div class="ex-np np">उ काम गर्दै गर्दैन।</div><div class="ex-ja">〔<span class="np">दै</span>＋同動詞の否定＝全然Vしない〕彼は仕事を全然しません。</div></div>
+      <div class="ex-row"><div class="ex-np np">तिमीले त्यसो भन्दैमा म मान्छु र?</div><div class="ex-ja">〔<span class="np">भन्दैमा</span>＝〜といって〕君がそう言ったからといって、私が聞かねばならないわけではないだろう。</div></div>
+      <div class="ex-row"><div class="ex-np np">चल्दैको घडी(लाई) नबिगार।</div><div class="ex-ja">〔<span class="np">दैको</span>＝Vしている（ところの）〕動いている時計を壊すな。</div></div>
+      <div class="ex-row"><div class="ex-np np">तिनीहरूसित समय हुँदै हुँदैन।</div><div class="ex-ja">〔<span class="np">दै</span>＋<span class="np">दै</span>否定＝絶対〜ない〕彼らには時間が全くない。</div></div>
+      <div class="ex-row"><div class="ex-np np">उमेर खाँदैमा मानिस बुद्धिमान् हुँदैन रहेछ।</div><div class="ex-ja">〔<span class="np">दैमा</span>型・否定＝ただ〜だけでは…ない〕ただ年を取れば人は賢くなるのではありません。</div></div>
+      <div class="ex-row"><div class="ex-np np">प्रयास गर्दागर्दै पनि चुक्नु सामान्य कुरा हो।</div><div class="ex-ja">〔<span class="np">दा＋दै＋पनि</span>＝〜していても（予想外）〕努力していても失敗するのはよくあることだ。</div></div>
+      <div class="ex-row"><div class="ex-np np">समय बित्दै जाँदा</div><div class="ex-ja">〔<span class="np">दै＋जाँदा</span>＝〜していくと・につれて〕時がたつにつれて</div></div>
+      <div class="ex-row"><div class="ex-np np">पढ्दै गर्दा</div><div class="ex-ja">〔<span class="np">दै＋गर्दा</span>＝〜している間・中に〕勉強中に</div></div>
+    </div>
+
+    <div class="gsub"><span class="np">दा</span> 型の用法</div>
+    <div class="ex">
+      <div class="ex-row"><div class="ex-np np">भात खाँदा (खेरि) धेरै कुरा गर्नु हुन्न।</div><div class="ex-ja">〔<span class="np">दा(खेरि)</span>＝Vしている時〕ご飯を食べている時にあまりおしゃべりをしてはいけません。</div></div>
+      <div class="ex-row"><div class="ex-np np">गुलियो खानाले गर्दा दाँत बिग्र्यो।</div><div class="ex-ja">〔<span class="np">ले गर्दा</span>＝Nのせいで〕甘い食べ物のせいで歯がダメになりました。</div></div>
+      <div class="ex-row"><div class="ex-np np">जति खादापनी उ मोटाउँदैन।</div><div class="ex-ja">〔<span class="np">दापनि</span>＝Vしても〕いくら食べても彼は太りません。</div></div>
+    </div>
+
+    <div class="gsub"><span class="np">दो</span> 型の用法（〜のように見える・思える）</div>
+    <div class="ex">
+      <div class="ex-row"><div class="ex-np np">यो काम गाह्रो हुँदो रहेछ।</div><div class="ex-ja">この仕事は難しいようです。（<span class="np">दो＋रहेछ</span>）</div></div>
+      <div class="ex-row"><div class="ex-np np">उ रक्सी पिउँदो रहेछ।</div><div class="ex-ja">彼は酒を飲む（人の）ようです。</div></div>
+    </div>
+
+    <div class="gsub"><span class="np">द</span> 型の用法（婉曲的・恒常的で丁寧）</div>
+    <div class="gnote"><span class="np">द</span> は <span class="np">दै</span> より婉曲的・恒常的な意味を強めるため、<span class="np">गर्छु</span> より丁寧な表現になる。</div>
+    <div class="ex">
+      <div class="ex-row"><div class="ex-np np">यसको जवाफ चाँडै दिन अनुरोध गर्दछु।</div><div class="ex-ja">この返事をすぐにくださるようお願いいたします。</div></div>
+    </div>
+  </div>
+
+  <!-- 4. 進行相 -->
+  <div class="gsec" id="asp">
+    <div class="gsec-h"><span class="gsec-no">4</span><span class="gsec-t">進行相（現在・過去）<small>Progressive</small></span></div>
+    <div class="gpat">現在：<span class="m np">主語＋दै型分詞＋छ型動詞</span>　／　過去：<span class="m np">主語＋दै型分詞＋थियो型動詞</span></div>
+    <div class="gnote">現在進行相＝①〜しているところ、②もうすぐ〜する。過去進行相＝①〜していた、②〜しようとしていた。</div>
+    <div class="ex">
+      <div class="ex-row"><div class="ex-np np">म जाँदै छु।</div><div class="ex-ja">私は行くところです。（現在・肯定）</div></div>
+      <div class="ex-row"><div class="ex-np np">म सुन्दै छैनँ।</div><div class="ex-ja">私は聞いていません。（現在・否定）</div></div>
+      <div class="ex-row"><div class="ex-np np">म सुन्दै थिएँ।</div><div class="ex-ja">私は聞いていました。（過去・肯定）</div></div>
+      <div class="ex-row"><div class="ex-np np">म नेपाल जाँदै थिएँ।</div><div class="ex-ja">私はネパールに行こうとしていました。（過去②）</div></div>
+    </div>
+
+    <div class="gsub">接尾辞（丁寧さによる形）</div>
+    <table class="gtbl">
+      <thead><tr><th>主語</th><th>肯定</th><th>否定</th></tr></thead>
+      <tbody>
+        <tr><th>2・3人称 敬意-上 以外</th><td class="np">दै</td><td class="np">न … दै</td></tr>
+        <tr><th>2・3人称 敬意-上</th><td class="np">नुहुँदै</td><td class="np">न … नुहुँदै</td></tr>
+      </tbody>
+    </table>
+    <div class="gnote">※進行相文のときは、2・3人称 敬意-上 が主語でも <span class="np">दै</span> を使う。</div>
+
+    <div class="gsub">人称別の活用（現在進行相）</div>
+    <table class="gtbl">
+      <thead><tr><th>主語</th><th>自動詞（行く）</th><th>他動詞（仕事をする・<span class="np">ले</span>）</th></tr></thead>
+      <tbody>
+        <tr><th>1人称 単数</th><td class="np">म जाँदै छु।</td><td class="np">मैले काम गर्दै छु।</td></tr>
+        <tr><th>1人称 複数</th><td class="np">हामी जाँदै छौँ।</td><td class="np">हामीले काम गर्दै छौँ।</td></tr>
+        <tr><th>2人称 単数（敬意-上）</th><td class="np">तपाईं जाँदै हुनुहुन्छ।</td><td class="np">तपाईंले काम गर्दै हुनुहुन्छ।</td></tr>
+        <tr><th>2人称 単数（敬意-中）</th><td class="np">तिमी जाँदै छौ।</td><td class="np">तिमीले काम गर्दै छौ।</td></tr>
+        <tr><th>3人称 単数（敬意-上）</th><td class="np">उहाँ जाँदै हुनुहुन्छ।</td><td class="np">उहाँ काम गर्दै हुनुहुन्छ।</td></tr>
+        <tr><th>3人称 単数（敬意-中）</th><td class="np">उनी जाँदै छन्।<br><span style="color:#9E9890">（女性 छिन्）</span></td><td class="np">उनले काम गर्दै छन्।<br><span style="color:#9E9890">（女性 छिन्）</span></td></tr>
+        <tr><th>3人称 単数（敬意-下）</th><td class="np">यो जाँदै छ।<br><span style="color:#9E9890">（女性 ऊ … छे।）</span></td><td class="np">यसले काम गर्दै छ।<br><span style="color:#9E9890">（女性 उसले … छे।）</span></td></tr>
+      </tbody>
+    </table>
+    <div class="gnote">過去進行相は上の <span class="np">छ</span> 型を <span class="np">थियो</span> 型（<span class="np">थिएँ／थियौ／थिए</span> …）に置き換える。</div>
+
+    <div class="gsub">別の作り方　【<span class="np">動詞語幹＋इ-रहनु</span>】＝Vし続ける</div>
+    <div class="ex">
+      <div class="ex-row"><div class="ex-np np">उ दिनभरि खेलिरहन्छ।</div><div class="ex-ja">彼は一日中遊び続けます。（一般的習慣）</div></div>
+      <div class="ex-row"><div class="ex-np np">उ दिनभरि खेलिरहेको छ।</div><div class="ex-ja">彼は一日中遊び続けています。（現在の叙述）</div></div>
+      <div class="ex-row"><div class="ex-np np">चूप लागेर बसिरह।</div><div class="ex-ja">黙って座っていなさい。</div></div>
+    </div>
+  </div>
+
+  <!-- 5. 形容詞文 -->
+  <div class="gsec" id="adj">
+    <div class="gsec-h"><span class="gsec-no">5</span><span class="gsec-t">形容詞文<small>Adjective sentence</small></span></div>
+    <div class="gpat">基本：<span class="m np">主語＋形容詞＋छ の活用形</span>（過去は <span class="np">थियो</span> の活用形）<br>強調：<span class="m np">主語＋形容詞＋हो の活用形</span></div>
+    <div class="gnote">形容詞の述語には、状態のコピュラ <span class="np">छ</span>（過去 <span class="np">थियो</span>）を使う。<span class="np">हो</span> を使うと<b>強調構文</b>になる。</div>
+    <div class="ex">
+      <div class="ex-row"><div class="ex-np np">यो किताब ठूलो <em class="hl">छ</em>।</div><div class="ex-ja">この本は大きいです。（基本・現在）</div></div>
+      <div class="ex-row"><div class="ex-np np">यो किताब ठूलो <em class="hl">थियो</em>।</div><div class="ex-ja">この本は大きかったです。（基本・過去）</div></div>
+      <div class="ex-row"><div class="ex-np np">यो किताब ठूलो <em class="hl">हो</em>।</div><div class="ex-ja">この本は（まさに）大きいのです。（強調）</div></div>
+    </div>
+  </div>
+
+  <!-- 6. 格 -->
+  <div class="gsec" id="case">
+    <div class="gsec-h"><span class="gsec-no">6</span><span class="gsec-t">格<small>Case</small></span></div>
+    <div class="gnote">ネパール語には<b>7つの格</b>がある。指示語・人称代名詞は、格マーカーが付くとき<b>変形（語幹）に接続</b>する。</div>
+    <div class="gsub">格マーカーが付くときの語幹変形</div>
+    <table class="gtbl">
+      <thead><tr><th>基本形</th><th>→ 変形語幹</th></tr></thead>
+      <tbody>
+        <tr><td class="np">यो</td><td class="np">यस</td></tr>
+        <tr><td class="np">त्यो</td><td class="np">त्यस</td></tr>
+        <tr><td class="np">ऊ</td><td class="np">उस</td></tr>
+        <tr><td class="np">उनी</td><td class="np">उन</td></tr>
+        <tr><td class="np">तिनी</td><td class="np">तिन</td></tr>
+      </tbody>
+    </table>
+    <div class="gsub">不規則変化</div>
+    <div class="gnote">
+      ※<b>主格</b>では <span class="np">म</span> も不規則： <span class="np">म → मैले</span>。<br>
+      ※<b>属格</b>では次の3つが不規則： <span class="np">म → मेरो</span>、 <span class="np">हामी → हाम्रो</span>、 <span class="np">तिमी → तिम्रो</span>。
+    </div>
+  </div>
+
+  <div class="foot">この解説は、日本語の部屋の作成者（現役の日本語教師）によるネパール語学習ノートをもとに構成しています。<br>用例・表記はノートに準拠。誤り等はフィードバックでお知らせください。</div>
+  <div class="app-footer">© 2025 日本語の部屋</div>
+
+</div>
+</body>
+</html>

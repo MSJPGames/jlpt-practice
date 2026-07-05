@@ -1150,5 +1150,49 @@ const visualHTML = (function() {
 })();
 updateStatsBar();
 </script>
+<!--auto-count-injected--><script>
+/* 収録問題数をデータから自動集計して表示（ハードコード値のズレ防止・全カテゴリ対応） */
+(function(){
+  function objTotal(o){ var t=0; if(o&&typeof o==='object'){ for(var k in o){ if(o.hasOwnProperty(k)&&o[k]&&o[k].length) t+=o[k].length; } } return t; }
+  var V=(typeof vocabQuestions!=='undefined')?vocabQuestions:null;
+  var G=(typeof grammarQuestions!=='undefined')?grammarQuestions:null;
+  var R=(typeof readingQuestions!=='undefined')?readingQuestions:null;
+  var L=(typeof listeningQuestions!=='undefined')?listeningQuestions:null;
+  function subCount(cat,sub){
+    if(cat==='文字・語彙') return (V&&V[sub])?V[sub].length:0;
+    if(cat==='文法') return (G&&G[sub])?G[sub].length:0;
+    if(cat==='読解') return (R&&R[sub])?R[sub].length:0;
+    if(cat==='聴解'){ if(!L||!L.length) return 0; var m=(sub||'').match(/(\d+)/); if(m){var n=parseInt(m[1],10); return L.filter(function(q){return q.mondai===n;}).length;} return L.length; }
+    return 0;
+  }
+  function catTotal(cat){
+    if(cat==='文字・語彙') return objTotal(V);
+    if(cat==='文法') return objTotal(G);
+    if(cat==='読解') return objTotal(R);
+    if(cat==='聴解') return (L&&L.length)?L.length:0;
+    return 0;
+  }
+  try{
+    var btns=document.querySelectorAll('[onclick]');
+    for(var i=0;i<btns.length;i++){
+      var oc=btns[i].getAttribute('onclick')||'';
+      var m=oc.match(/startQuiz\(\s*'([^']*)'\s*,\s*'([^']*)'\s*\)/);
+      if(!m) continue;
+      var tag=btns[i].querySelector('.tag');
+      if(!tag) continue;
+      tag.textContent=subCount(m[1],m[2])+'問';
+    }
+    var cards=document.querySelectorAll('.main-cat-btn');
+    for(var j=0;j<cards.length;j++){
+      var cc=cards[j].querySelector('.cat-count'); if(!cc) continue;
+      var oc2=cards[j].getAttribute('onclick')||''; var cat=null;
+      var mm=oc2.match(/startQuiz\(\s*'([^']*)'/); if(mm) cat=mm[1];
+      if(!cat){ var id=cards[j].id||''; if(id==='cat-vocab')cat='文字・語彙'; else if(id==='cat-grammar')cat='文法'; else if(id==='cat-reading')cat='読解'; else if(id==='cat-listening')cat='聴解'; }
+      if(!cat) continue;
+      cc.textContent='計'+catTotal(cat)+'問収録';
+    }
+  }catch(e){}
+})();
+</script>
 </body>
 </html>

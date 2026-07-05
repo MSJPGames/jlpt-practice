@@ -222,15 +222,15 @@
       <div class="vocab-sub-grid">
         <button class="vocab-sub-btn" onclick="startQuiz('文法', '文の文法1')">
           <span>問題１ 文の文法１<br><span style="font-size:11px;color:var(--text-hint)">文法形式の判断（空欄補充）</span></span>
-          <span class="tag">20問</span>
+          <span class="tag" id="cnt-g1">20問</span>
         </button>
         <button class="vocab-sub-btn" onclick="startQuiz('文法', '文の文法2')">
           <span>問題２ 文の文法２<br><span style="font-size:11px;color:var(--text-hint)">文の組み立て（並べ替え）</span></span>
-          <span class="tag">20問</span>
+          <span class="tag" id="cnt-g2">20問</span>
         </button>
         <button class="vocab-sub-btn" onclick="startQuiz('文法', '文章の文法')">
           <span>問題３ 文章の文法<br><span style="font-size:11px;color:var(--text-hint)">文章の流れに合う文法選択</span></span>
-          <span class="tag">20問</span>
+          <span class="tag" id="cnt-g3">20問</span>
         </button>
       </div>
     </div>
@@ -240,19 +240,19 @@
       <div class="vocab-sub-grid">
         <button class="vocab-sub-btn" onclick="startQuiz('読解', '内容理解（短文）')">
           <span>内容理解（短文）<br><span style="font-size:11px;color:var(--text-hint)">短い文章から内容を理解する</span></span>
-          <span class="tag">4問</span>
+          <span class="tag" id="cnt-r1">4問</span>
         </button>
         <button class="vocab-sub-btn" onclick="startQuiz('読解', '内容理解（中文）')">
           <span>内容理解（中文）<br><span style="font-size:11px;color:var(--text-hint)">中程度の文章から内容を理解する</span></span>
-          <span class="tag">3問</span>
+          <span class="tag" id="cnt-r2">3問</span>
         </button>
         <button class="vocab-sub-btn" onclick="startQuiz('読解', '内容理解（長文）')">
           <span>内容理解（長文）<br><span style="font-size:11px;color:var(--text-hint)">長い文章から要旨・主張を理解する</span></span>
-          <span class="tag">4問</span>
+          <span class="tag" id="cnt-r3">4問</span>
         </button>
         <button class="vocab-sub-btn" onclick="startQuiz('読解', '情報検索')">
           <span>情報検索<br><span style="font-size:11px;color:var(--text-hint)">お知らせから必要な情報を探す</span></span>
-          <span class="tag">10問</span>
+          <span class="tag" id="cnt-r4">10問</span>
         </button>
       </div>
     </div>
@@ -1142,19 +1142,35 @@ updateStatsBar();
 </script>
 <script>
 // 収録問題数をデータから自動集計して表示（ハードコード値のズレ防止）
-(function updateVocabCounts(){
+(function updateAllCounts(){
+  function setText(id, txt){ var el = document.getElementById(id); if (el) el.textContent = txt; }
+  function countOf(obj, key){
+    try { return (obj && obj[key] ? obj[key].length : 0); } catch(e){ return 0; }
+  }
   try {
-    if (typeof vocabQuestions === 'undefined') return;
-    var idmap = {'漢字読み':'count-kanji','文脈規定':'count-bunmyaku','言い換え類義':'count-iikae','用法':'count-youhou'};
-    var total = 0;
-    Object.keys(vocabQuestions).forEach(function(k){
-      var n = (vocabQuestions[k] || []).length;
-      total += n;
-      var el = document.getElementById(idmap[k]);
-      if (el) el.textContent = n + '問';
-    });
-    var t = document.getElementById('vocab-total-count');
-    if (t) t.textContent = '計' + total + '問収録';
+    // 文字・語彙
+    if (typeof vocabQuestions !== 'undefined') {
+      var vmap = {'漢字読み':'count-kanji','文脈規定':'count-bunmyaku','言い換え類義':'count-iikae','用法':'count-youhou'};
+      var vtotal = 0;
+      Object.keys(vocabQuestions).forEach(function(k){
+        var n = (vocabQuestions[k] || []).length; vtotal += n;
+        setText(vmap[k], n + '問');
+      });
+      setText('vocab-total-count', '計' + vtotal + '問収録');
+    }
+    // 文法
+    if (typeof grammarQuestions !== 'undefined') {
+      setText('cnt-g1', countOf(grammarQuestions, '文の文法1') + '問');
+      setText('cnt-g2', countOf(grammarQuestions, '文の文法2') + '問');
+      setText('cnt-g3', countOf(grammarQuestions, '文章の文法') + '問');
+    }
+    // 読解
+    if (typeof readingQuestions !== 'undefined') {
+      setText('cnt-r1', countOf(readingQuestions, '内容理解（短文）') + '問');
+      setText('cnt-r2', countOf(readingQuestions, '内容理解（中文）') + '問');
+      setText('cnt-r3', countOf(readingQuestions, '内容理解（長文）') + '問');
+      setText('cnt-r4', countOf(readingQuestions, '情報検索') + '問');
+    }
   } catch (e) { /* no-op */ }
 })();
 </script>

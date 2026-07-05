@@ -190,7 +190,7 @@
         <div class="cat-icon">📖</div>
         <div class="cat-name">文字・語彙</div>
         <div class="cat-sub">4種類の問題形式</div>
-        <div class="cat-count">計78問収録</div>
+        <div class="cat-count" id="vocab-total-count">計78問収録</div>
       </button>
     </div>
 
@@ -200,19 +200,19 @@
       <div class="vocab-sub-grid">
                 <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '漢字読み')">
           <span>問題１ 漢字読み<br><span style="font-size:11px;color:var(--text-hint)">漢字で書かれた語を読む</span></span>
-          <span class="tag">22問</span>
+          <span class="tag" id="count-kanji">22問</span>
         </button>
         <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '文脈規定')">
           <span>問題２ 文脈規定<br><span style="font-size:11px;color:var(--text-hint)">文脈に合う語彙を選ぶ</span></span>
-          <span class="tag">24問</span>
+          <span class="tag" id="count-bunmyaku">24問</span>
         </button>
         <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '言い換え類義')">
           <span>問題３ 言い換え類義<br><span style="font-size:11px;color:var(--text-hint)">下線部と同じ意味を選ぶ</span></span>
-          <span class="tag">18問</span>
+          <span class="tag" id="count-iikae">18問</span>
         </button>
         <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '用法')">
           <span>問題４ 用法<br><span style="font-size:11px;color:var(--text-hint)">正しい使い方の文を選ぶ</span></span>
-          <span class="tag">14問</span>
+          <span class="tag" id="count-youhou">14問</span>
         </button>
       </div>
     </div>
@@ -1139,6 +1139,24 @@ const visualHTML = (function() {
   return {eiga:eiga, bus:bus, sports:sports, midori:midori, gym:gym, nihongo:nihongo, pool:pool, sakura:sakura, event:event, shisetsu:shisetsu};
 })();
 updateStatsBar();
+</script>
+<script>
+// 収録問題数をデータから自動集計して表示（ハードコード値のズレ防止）
+(function updateVocabCounts(){
+  try {
+    if (typeof vocabQuestions === 'undefined') return;
+    var idmap = {'漢字読み':'count-kanji','文脈規定':'count-bunmyaku','言い換え類義':'count-iikae','用法':'count-youhou'};
+    var total = 0;
+    Object.keys(vocabQuestions).forEach(function(k){
+      var n = (vocabQuestions[k] || []).length;
+      total += n;
+      var el = document.getElementById(idmap[k]);
+      if (el) el.textContent = n + '問';
+    });
+    var t = document.getElementById('vocab-total-count');
+    if (t) t.textContent = '計' + total + '問収録';
+  } catch (e) { /* no-op */ }
+})();
 </script>
 </body>
 </html>

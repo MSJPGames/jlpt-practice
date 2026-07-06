@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ゴミ分別ゲーム ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --green:#3B6D11; --green-bg:#EAF3DE;
+    --blue:#185FA5; --blue-bg:#E6F1FB;
+    --teal:#1F6F6B; --teal-bg:#DFF0EE;
+    --brown:#854F0B; --brown-bg:#FAEEDA;
+    --red:#993C1D; --red-bg:#FAECE7;
+    --purple:#3C3489; --purple-bg:#EEEDFE;
+    --slate:#4A5568; --slate-bg:#ECEEF1;
+    --ok:#3B6D11; --ng:#C0392B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg); color:var(--text); min-height:100vh; padding:0 1rem 2.5rem;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .container{max-width:480px;margin:0 auto;}
+
+  /* topbar / back */
+  .topbar{display:flex;align-items:center;padding:14px 0 0;}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--text-muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);
+    transition:transform .12s;}
+  .back-link:active{transform:scale(.97);}
+  .back-arrow{font-size:16px;line-height:1;}
+
+  /* header */
+  .app-header{text-align:center;padding:1.4rem 0 .6rem;}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px;}
+  .app-title{font-size:24px;font-weight:700;letter-spacing:.02em;}
+  .app-sub{font-size:13px;color:var(--text-muted);margin-top:6px;line-height:1.6;}
+  .app-sub .en{display:block;font-size:11px;color:var(--text-hint);margin-top:2px;letter-spacing:.03em;}
+
+  .section-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--text-hint);
+    margin:1.5rem 0 .75rem;text-transform:uppercase;}
+
+  /* generic card */
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+  .lead{font-size:14px;line-height:1.85;color:var(--text-muted);}
+  .lead b{color:var(--text);}
+
+  /* buttons */
+  .btn{display:block;width:100%;border:none;border-radius:var(--radius);padding:15px 16px;font-family:inherit;
+    font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s,box-shadow .12s;text-align:center;}
+  .btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--green);color:#fff;box-shadow:0 3px 12px rgba(59,109,17,.22);}
+  .btn-ghost{background:var(--surface);color:var(--text);border:1px solid var(--border);}
+  .btn-sub{font-size:11px;font-weight:600;color:var(--text-hint);margin-top:4px;}
+  .btn-row{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+
+  /* city cards */
+  .city-list{display:flex;flex-direction:column;gap:10px;}
+  .city-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:14px 15px;display:flex;align-items:center;gap:14px;cursor:pointer;position:relative;overflow:hidden;
+    transition:transform .12s,box-shadow .12s;text-align:left;width:100%;font-family:inherit;}
+  .city-card:active{transform:scale(.985);}
+  .city-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);}
+  .city-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;background:var(--green);}
+  .city-card.cleared::after{content:'クリア';position:absolute;top:10px;right:12px;font-size:10px;font-weight:700;
+    color:var(--green);background:var(--green-bg);padding:2px 8px;border-radius:20px;}
+  .city-badge{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+    font-size:24px;flex-shrink:0;background:var(--green-bg);}
+  .city-info{flex:1;min-width:0;}
+  .city-name{font-size:15px;font-weight:700;}
+  .city-region{font-size:11px;color:var(--text-hint);margin-left:6px;font-weight:600;}
+  .city-tag{font-size:12px;color:var(--text-muted);margin-top:3px;line-height:1.5;}
+  .city-arrow{font-size:20px;color:var(--text-hint);flex-shrink:0;}
+  .city-card.special::before{background:var(--purple);}
+  .city-card.special .city-badge{background:var(--purple-bg);}
+  .lvl-pill{display:inline-block;font-size:9.5px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:6px;vertical-align:middle;}
+  .lvl-normal{background:var(--green-bg);color:var(--green);}
+  .lvl-hard{background:var(--purple-bg);color:var(--purple);}
+
+  /* game HUD */
+  .hud{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:1rem 0 .9rem;}
+  .hud-left{display:flex;align-items:center;gap:8px;min-width:0;}
+  .hud-city{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hud-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+  .lives{font-size:15px;letter-spacing:1px;}
+  .progress{font-size:12px;font-weight:700;color:var(--text-hint);}
+  .manual-btn{border:1px solid var(--border);background:var(--surface);border-radius:999px;font-family:inherit;
+    font-size:11px;font-weight:700;color:var(--green);padding:5px 11px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;}
+  .manual-btn:active{transform:scale(.97);}
+
+  .progressbar{height:6px;background:#ECE8E1;border-radius:6px;overflow:hidden;margin-bottom:1.1rem;}
+  .progressbar > i{display:block;height:100%;background:var(--green);border-radius:6px;transition:width .25s;}
+
+  /* item card */
+  .item-stage{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:22px 16px 20px;text-align:center;margin-bottom:14px;position:relative;}
+  .item-q{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--text-hint);}
+  .item-emoji{font-size:60px;line-height:1;margin:10px 0 8px;}
+  .item-name{font-size:20px;font-weight:800;}
+  .item-en{font-size:11px;color:var(--text-hint);margin-top:2px;letter-spacing:.03em;}
+
+  /* bins */
+  .bins{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;}
+  .bin{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);
+    padding:11px 10px;cursor:pointer;font-family:inherit;text-align:center;transition:transform .1s,box-shadow .1s;
+    position:relative;overflow:hidden;min-height:60px;display:flex;flex-direction:column;justify-content:center;gap:2px;}
+  .bin:active{transform:scale(.97);}
+  .bin::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;}
+  .bin-label{font-size:13.5px;font-weight:800;line-height:1.25;}
+  .bin-en{font-size:9px;color:var(--text-hint);font-weight:600;letter-spacing:.02em;}
+  .bin.disabled{pointer-events:none;opacity:.55;}
+  .bin.pick-ok{animation:flashok .5s;}
+  .bin.pick-ng{animation:flashng .5s;}
+  @keyframes flashok{0%{box-shadow:0 0 0 0 rgba(59,109,17,.5);}100%{box-shadow:0 0 0 8px rgba(59,109,17,0);}}
+  @keyframes flashng{0%,60%{transform:translateX(0);}15%{transform:translateX(-5px);}45%{transform:translateX(5px);}}
+  /* bin colors */
+  .c-burn{ }.c-burn::before{background:var(--green);}.c-burn .bin-label{color:var(--green);}
+  .c-nonburn::before{background:var(--slate);}.c-nonburn .bin-label{color:var(--slate);}
+  .c-plastic::before{background:var(--teal);}.c-plastic .bin-label{color:var(--teal);}
+  .c-shigen::before{background:var(--blue);}.c-shigen .bin-label{color:var(--blue);}
+  .c-paper::before{background:var(--brown);}.c-paper .bin-label{color:var(--brown);}
+  .c-hazard::before{background:var(--red);}.c-hazard .bin-label{color:var(--red);}
+  .c-a::before{background:var(--purple);}.c-a .bin-label{color:var(--purple);}
+  .c-b::before{background:#B08900;}.c-b .bin-label{color:#8A6D00;}
+
+  /* feedback banner */
+  .feedback{border-radius:var(--radius);padding:13px 15px;margin-top:14px;font-size:13.5px;line-height:1.7;display:none;}
+  .feedback.show{display:block;animation:rise .25s;}
+  @keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .feedback.ok{background:var(--green-bg);border:1px solid #CFE3B6;}
+  .feedback.ng{background:var(--red-bg);border:1px solid #F0D2C6;}
+  .fb-head{font-weight:800;font-size:14px;margin-bottom:3px;}
+  .feedback.ok .fb-head{color:var(--ok);}
+  .feedback.ng .fb-head{color:var(--ng);}
+  .fb-body b{color:var(--text);}
+  .next-btn{margin-top:12px;}
+
+  /* result */
+  .result{text-align:center;}
+  .result-emoji{font-size:66px;line-height:1;margin:.4rem 0 .2rem;}
+  .result-title{font-size:22px;font-weight:800;margin-bottom:6px;}
+  .result-score{font-size:14px;color:var(--text-muted);margin-bottom:2px;}
+  .lesson{background:var(--purple-bg);border:1px solid #DAD6F2;border-radius:var(--radius);padding:14px 15px;
+    margin:16px 0;text-align:left;font-size:13.5px;line-height:1.8;}
+  .lesson .lh{font-weight:800;color:var(--purple);margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+  .lesson.warn{background:#FFF6E9;border-color:#F0DCB4;}
+  .lesson.warn .lh{color:var(--brown);}
+
+  /* manual modal */
+  .overlay{position:fixed;inset:0;background:rgba(28,28,28,.5);display:none;align-items:flex-end;justify-content:center;
+    z-index:100;padding:0;}
+  .overlay.show{display:flex;animation:fade .2s;}
+  @keyframes fade{from{opacity:0;}to{opacity:1;}}
+  .sheet{background:var(--bg);width:100%;max-width:480px;border-radius:18px 18px 0 0;max-height:82vh;overflow-y:auto;
+    padding:8px 16px 24px;animation:slideup .28s cubic-bezier(.2,.8,.2,1);}
+  @keyframes slideup{from{transform:translateY(100%);}to{transform:translateY(0);}}
+  .sheet-grip{width:38px;height:4px;background:#D6D0C7;border-radius:4px;margin:8px auto 12px;}
+  .sheet-title{font-size:16px;font-weight:800;text-align:center;}
+  .sheet-sub{font-size:12px;color:var(--text-muted);text-align:center;margin:3px 0 14px;line-height:1.6;}
+  .m-bin{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;margin-bottom:9px;position:relative;overflow:hidden;}
+  .m-bin::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;}
+  .m-bin.c-burn::before{background:var(--green);}.m-bin.c-nonburn::before{background:var(--slate);}
+  .m-bin.c-plastic::before{background:var(--teal);}.m-bin.c-shigen::before{background:var(--blue);}
+  .m-bin.c-paper::before{background:var(--brown);}.m-bin.c-hazard::before{background:var(--red);}
+  .m-bin.c-a::before{background:var(--purple);}.m-bin.c-b::before{background:#B08900;}
+  .m-bin-label{font-size:13.5px;font-weight:800;}
+  .m-bin-items{font-size:12px;color:var(--text-muted);margin-top:3px;line-height:1.6;}
+  .sheet-close{margin-top:8px;}
+
+  .foot-note{font-size:11px;color:var(--text-hint);line-height:1.75;margin-top:1.4rem;text-align:center;}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2rem;line-height:1.8;}
+
+  .hidden{display:none!important;}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar"><a href="games.html" class="back-link"><span class="back-arrow">‹</span>もどる</a></div>
+
+  <div class="app-header">
+    <div class="app-logo">GARBAGE SORTING</div>
+    <div class="app-title">ゴミ分別ゲーム</div>
+    <div class="app-sub">日本のゴミ分別ルールに慣れよう
+      <span class="en">Learn how Japan sorts its trash — one town at a time</span>
+    </div>
+  </div>
+
+  <!-- ============ INTRO ============ -->
+  <div id="screen-intro">
+    <div class="card">
+      <p class="lead">
+        あなたは <b>ハナコ</b>。日本のある街に引っ越してきました。<br>
+        でも街によって、ゴミの捨て方は <b>びっくりするほど違います</b>。<br><br>
+        まずは <b>役所（やくしょ）でごみ分別マニュアル</b> をもらってから、
+        出されたゴミを正しい箱に分けましょう。<br>
+        <span style="color:var(--text-hint);font-size:12.5px;">
+        ※ 同じ「缶」や「プラ」でも、街が変われば入れる箱も変わります。
+        </span>
+      </p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="go('city')">▶ 引っ越し先を選ぶ</button>
+    </div>
+    <p class="foot-note">
+      現実と同じく、分別ルールは自治体（じちたい）ごとに異なります。<br>
+      このゲームは代表的な都市の「特徴的なルール」をもとにした学習用の簡易版です。
+    </p>
+  </div>
+
+  <!-- ============ CITY SELECT ============ -->
+  <div id="screen-city" class="hidden">
+    <div class="section-label">住む街をえらぶ ・ Choose your town</div>
+    <div class="city-list" id="cityList"></div>
+    <p class="foot-note">
+      迷ったら、まずは <b>東京</b> か <b>福岡</b> がおすすめ。<br>
+      <b>上勝町</b> は「45分別」の超上級です（本物の一部を体験）。
+    </p>
+  </div>
+
+  <!-- ============ OFFICE ============ -->
+  <div id="screen-office" class="hidden">
+    <div class="section-label">まちの役所 ・ City office</div>
+    <div class="card">
+      <p class="lead" id="officeText"></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="startRound(true)">🏢 役所でマニュアルをもらう
+        <span class="btn-sub" style="color:#EAF3DE;">おすすめ ・ get the sorting manual</span>
+      </button>
+      <button class="btn btn-ghost" onclick="startRound(false)">もらわずに始める
+        <span class="btn-sub">※ マニュアルなしだと、かなり難しいよ</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ GAME ============ -->
+  <div id="screen-game" class="hidden">
+    <div class="hud">
+      <div class="hud-left">
+        <span class="hud-city" id="hudCity">—</span>
+        <button class="manual-btn hidden" id="manualBtn" onclick="openManual()">📖 マニュアル</button>
+      </div>
+      <div class="hud-right">
+        <span class="progress" id="hudProgress">0/0</span>
+        <span class="lives" id="hudLives">❤️❤️❤️</span>
+      </div>
+    </div>
+    <div class="progressbar"><i id="hudBar" style="width:0%"></i></div>
+
+    <div class="item-stage">
+      <div class="item-q">このゴミ、どの箱に入れる？</div>
+      <div class="item-emoji" id="itemEmoji">🗑️</div>
+      <div class="item-name" id="itemName">—</div>
+      <div class="item-en" id="itemEn"></div>
+    </div>
+
+    <div class="bins" id="bins"></div>
+
+    <div class="feedback" id="feedback">
+      <div class="fb-head" id="fbHead"></div>
+      <div class="fb-body" id="fbBody"></div>
+      <button class="btn btn-primary next-btn" id="nextBtn" onclick="nextItem()">つぎへ ›</button>
+    </div>
+  </div>
+
+  <!-- ============ RESULT ============ -->
+  <div id="screen-result" class="hidden">
+    <div class="result">
+      <div class="result-emoji" id="rEmoji">🎉</div>
+      <div class="result-title" id="rTitle">クリア！</div>
+      <div class="result-score" id="rScore"></div>
+      <div id="rLesson"></div>
+      <div class="btn-row" id="rButtons"></div>
+    </div>
+  </div>
+
+  <div class="app-footer">© 2025 日本語の部屋</div>
+</div>
+
+<!-- manual sheet -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeManual()">
+  <div class="sheet">
+    <div class="sheet-grip"></div>
+    <div class="sheet-title" id="mTitle">ごみ分別マニュアル</div>
+    <div class="sheet-sub" id="mSub"></div>
+    <div id="mBins"></div>
+    <button class="btn btn-ghost sheet-close" onclick="closeManual()">とじる</button>
+  </div>
+</div>
+
+<script>
+/* ===================== データ ===================== */
+/* 品目マスター（同じ品目が街ごとに違う箱に入る） */
+const ITEMS = {
+  pet:   {name:'ペットボトル',            en:'PET bottle',        emoji:'🧴'},
+  cap:   {name:'ペットボトルのキャップ',   en:'bottle cap (plastic)', emoji:'🔵'},
+  can:   {name:'アルミ缶',               en:'aluminium can',     emoji:'🥫'},
+  bin:   {name:'ガラスびん（透明）',       en:'glass bottle',      emoji:'🍶'},
+  nama:  {name:'生ごみ（野菜くず）',       en:'food scraps',       emoji:'🥬'},
+  bento: {name:'プラスチックの弁当容器',   en:'plastic lunch box', emoji:'🍱'},
+  cup:   {name:'カップめんの容器',         en:'cup-noodle cup',    emoji:'🍜'},
+  news:  {name:'新聞紙',                 en:'newspaper',         emoji:'📰'},
+  cardb: {name:'段ボール',               en:'cardboard',         emoji:'📦'},
+  omutsu:{name:'紙おむつ',               en:'paper diaper',      emoji:'🧷'},
+  glass: {name:'割れたガラスのコップ',     en:'broken glass',      emoji:'💥'},
+  spray: {name:'スプレー缶（中身なし）',   en:'spray can (empty)', emoji:'🧴'},
+  cloth: {name:'古着（Tシャツ）',         en:'old clothes',       emoji:'👕'},
+  tray:  {name:'発泡スチロールのトレイ',   en:'foam food tray',    emoji:'🍢'},
+  bucket:{name:'プラスチックのバケツ',     en:'plastic bucket',    emoji:'🪣'}
+};
+
+/* 各街：bins（箱の定義）と answers（品目→箱）と why（特筆ポイントの解説） */
+const CITIES = [
+  {
+    id:'tokyo', name:'東京（新宿区モデル）', region:'東京都', emoji:'🗼',
+    tag:'標準的。ただしプラの分別が近年スタート。',
+    special:false,
+    fact:'東京23区は近年、プラスチックを別に集める区が急増中（新宿区は2024年に製品プラの分別を開始）。ペットボトルは「資源」、プラ容器は「プラ資源」です。',
+    lesson:'東京では、プラスチック容器は「プラ資源」、ペットボトルは「びん・缶・ペットボトル（資源）」と、分けて出すのがポイント。区によってルールが違うので、引っ越したら区役所で確認を。',
+    bins:[
+      {id:'burn',    label:'可燃ごみ',        en:'Burnable',    cls:'c-burn',    ex:'生ごみ・紙おむつ・汚れた紙'},
+      {id:'nonburn', label:'不燃ごみ',        en:'Non-burnable',cls:'c-nonburn', ex:'割れたガラス・金属・スプレー缶（キケン表示）'},
+      {id:'plastic', label:'プラ資源',        en:'Plastic',     cls:'c-plastic', ex:'プラ容器・キャップ・トレイ'},
+      {id:'shigen',  label:'びん・缶・ペット', en:'Bottles/Cans',cls:'c-shigen',  ex:'ガラスびん・缶・ペットボトル本体'},
+      {id:'paper',   label:'古紙・古布',      en:'Paper/Cloth', cls:'c-paper',   ex:'新聞・段ボール・古着'}
+    ],
+    answers:{pet:'shigen',cap:'plastic',can:'shigen',bin:'shigen',nama:'burn',bento:'plastic',
+      cup:'plastic',news:'paper',cardb:'paper',omutsu:'burn',glass:'nonburn',spray:'nonburn',cloth:'paper',tray:'plastic',bucket:'plastic'},
+    why:{spray:'中身を使い切り、「キケン」と表示して不燃ごみへ。',
+      cap:'キャップとラベルはプラ資源。本体（ペットボトル）だけ資源へ。',
+      bucket:'プラ製品も「プラ資源」に出せます（新宿区は2024年に開始）。',
+      cloth:'古着・古布は資源（集団回収）に出せます。'}
+  },
+  {
+    id:'osaka', name:'大阪市', region:'大阪府', emoji:'🐙',
+    tag:'缶・びん・ペットを ぜんぶ「資源ごみ」に一括！',
+    special:false,
+    fact:'大阪市は、空き缶・空きびん・ペットボトル・金属を「資源ごみ」ひとつにまとめて出します。意外とおおざっぱ？でもこれが大阪流。',
+    lesson:'大阪市の最大の特徴は、缶・びん・ペットボトルを分けずに「資源ごみ」1袋にまとめること。プラスチック容器だけは別（プラスチック資源）です。',
+    bins:[
+      {id:'burn',    label:'普通ごみ',              en:'General',   cls:'c-burn',    ex:'生ごみ・紙おむつ・割れた食器'},
+      {id:'shigen',  label:'資源ごみ',              en:'Recyclable',cls:'c-shigen',  ex:'缶・びん・ペットボトル・金属（まとめて）'},
+      {id:'plastic', label:'プラスチック資源',       en:'Plastic',   cls:'c-plastic', ex:'プラ容器・キャップ・トレイ'},
+      {id:'paper',   label:'古紙・衣類',            en:'Paper/Cloth',cls:'c-paper',  ex:'新聞・段ボール・古着'}
+    ],
+    answers:{pet:'shigen',cap:'plastic',can:'shigen',bin:'shigen',nama:'burn',bento:'plastic',
+      cup:'plastic',news:'paper',cardb:'paper',omutsu:'burn',glass:'burn',spray:'shigen',cloth:'paper',tray:'plastic',bucket:'plastic'},
+    why:{pet:'大阪市では、缶・びん・ペットボトルは分けずに「資源ごみ」へ一緒に！',
+      can:'缶も「資源ごみ」。びん・ペットと同じ袋でOK。',
+      bin:'びんも「資源ごみ」。缶・ペットと一緒に。',
+      spray:'スプレー缶は中身を使い切り、別袋にして「資源ごみ」の日に。',
+      glass:'割れたガラスのコップは資源にできず、「普通ごみ」へ。'}
+  },
+  {
+    id:'nagoya', name:'名古屋市', region:'愛知県', emoji:'🏯',
+    tag:'分別が細かい。「発火性危険ごみ」に注意！',
+    special:false,
+    fact:'名古屋市は1999年の「ごみ非常事態宣言」以降、分別がとても細かいことで有名。スプレー缶・ライター・電池は「発火性危険ごみ」という専用カテゴリです。',
+    lesson:'名古屋市は分別が細かい街。とくにスプレー缶やライターは、可燃でも不燃でもなく「発火性危険ごみ」に出すのが特徴です。',
+    bins:[
+      {id:'burn',    label:'可燃ごみ',        en:'Burnable',    cls:'c-burn',    ex:'生ごみ・紙おむつ'},
+      {id:'nonburn', label:'不燃ごみ',        en:'Non-burnable',cls:'c-nonburn', ex:'割れたガラス・陶器'},
+      {id:'hazard',  label:'発火性危険ごみ',   en:'Flammable-hazard',cls:'c-hazard',ex:'スプレー缶・ライター・乾電池'},
+      {id:'plastic', label:'容器包装プラ',     en:'Plastic',     cls:'c-plastic', ex:'プラ容器・キャップ・トレイ'},
+      {id:'shigen',  label:'空き缶・びん・ペット',en:'Cans/Bottles',cls:'c-shigen',ex:'缶・びん・ペットボトル'},
+      {id:'paper',   label:'紙・布',          en:'Paper/Cloth', cls:'c-paper',   ex:'新聞・段ボール・古着'}
+    ],
+    answers:{pet:'shigen',cap:'plastic',can:'shigen',bin:'shigen',nama:'burn',bento:'plastic',
+      cup:'plastic',news:'paper',cardb:'paper',omutsu:'burn',glass:'nonburn',spray:'hazard',cloth:'paper',tray:'plastic',bucket:'nonburn'},
+    why:{spray:'名古屋市では、スプレー缶は「発火性危険ごみ」！ 可燃でも不燃でもありません。',
+      bucket:'容器包装でないプラ製品（バケツ等）は「不燃ごみ」へ。',
+      cloth:'古着・古布は資源（紙・布）として出せます。'}
+  },
+  {
+    id:'fukuoka', name:'福岡市', region:'福岡県', emoji:'🌃',
+    tag:'夜に出す！プラは燃える・缶は燃えない。',
+    special:false,
+    fact:'福岡市はごみを「夜」に出す街（日没後〜夜0時）。分別は3種類とシンプルですが、プラは「燃えるごみ」、缶は「燃えないごみ」、びんとペットボトルは一緒、という独特のルールです。',
+    lesson:'福岡市は夜間収集。プラスチックは「燃えるごみ」で燃やし、缶は「燃えないごみ」。びんとペットボトルだけ1袋にまとめます。他の街とかなり違うので要注意。',
+    bins:[
+      {id:'burn',    label:'燃えるごみ',          en:'Burnable',   cls:'c-burn',   ex:'生ごみ・プラ全般・紙・古着'},
+      {id:'nonburn', label:'燃えないごみ',        en:'Non-burnable',cls:'c-nonburn',ex:'缶・割れ物・金属・スプレー缶'},
+      {id:'shigen',  label:'空きびん・ペットボトル',en:'Bottles+PET',cls:'c-shigen', ex:'びんとペットボトル（2つで1袋）'}
+    ],
+    answers:{pet:'shigen',cap:'burn',can:'nonburn',bin:'shigen',nama:'burn',bento:'burn',
+      cup:'burn',news:'burn',cardb:'burn',omutsu:'burn',glass:'nonburn',spray:'nonburn',cloth:'burn',tray:'burn',bucket:'burn'},
+    why:{bento:'福岡市ではプラスチックは「燃えるごみ」。燃やして発電に使います。',
+      cup:'プラの容器も「燃えるごみ」でOK。',
+      can:'缶は「燃えないごみ」。びん・ペットとは別なので注意！',
+      cap:'キャップ（プラ）は「燃えるごみ」へ。',
+      news:'古紙は定期収集がなく、基本は集団回収へ（燃えるごみにも出せます）。',
+      spray:'スプレー缶は中身を使い切って「燃えないごみ」。穴あけは不要。'}
+  },
+  {
+    id:'shunan', name:'周南市', region:'山口県', emoji:'🏭',
+    tag:'プラを2種類に分ける！分別しっかり都市。',
+    special:false,
+    fact:'周南市（山口県）は分別がやや細かい街。最大の特徴は、プラスチックを「容器包装プラスチック（プラマークあり）」と「その他プラスチック（プラマークなし・バケツ等の製品プラ）」の2種類に分けること。びんと缶は一緒の袋ですが、ペットボトルは別。乾電池・ライター・スプレー缶などは「処理困難物」に集めます。',
+    lesson:'周南市のポイントは2つ。①プラをプラマークの有無で「容器包装プラ」と「その他プラ」に分ける。②びん・缶は一緒でも、ペットボトルは別に出す。こわれ物や危険物は「処理困難物」にまとめます。',
+    bins:[
+      {id:'burn',    label:'燃やせるごみ',   en:'Burnable',    cls:'c-burn',    ex:'生ごみ・紙おむつ・汚れた布'},
+      {id:'nonburn', label:'燃やせないごみ', en:'Non-burnable',cls:'c-nonburn', ex:'金属製品・フライパン・傘'},
+      {id:'paper',   label:'古紙・衣類',     en:'Paper/Cloth', cls:'c-paper',   ex:'新聞・段ボール・着られる古着'},
+      {id:'petb',    label:'ペットボトル',   en:'PET bottle',  cls:'c-shigen',  ex:'ペットボトル本体（単独で）'},
+      {id:'bincan',  label:'びん・缶類',     en:'Bottles+Cans',cls:'c-a',       ex:'ガラスびん・アルミ/スチール缶（一緒に）'},
+      {id:'yoki',    label:'容器包装プラ',   en:'Container plastic',cls:'c-plastic',ex:'プラマークのある容器・包装・トレイ'},
+      {id:'otherpla',label:'その他プラ',     en:'Other plastic',cls:'c-b',      ex:'プラマークのない製品プラ（バケツ等）'},
+      {id:'hazard',  label:'処理困難物',     en:'Hard-to-process',cls:'c-hazard',ex:'乾電池・ライター・スプレー缶・刃物・こわれ物'}
+    ],
+    answers:{pet:'petb',cap:'yoki',can:'bincan',bin:'bincan',nama:'burn',bento:'yoki',
+      cup:'yoki',news:'paper',cardb:'paper',omutsu:'burn',glass:'hazard',spray:'hazard',cloth:'paper',tray:'yoki',bucket:'otherpla'},
+    why:{can:'周南市では、びんと缶を一緒の袋に。ただしペットボトルは別！',
+      bin:'びんと缶は同じ袋でOK。ペットボトルとは分けます。',
+      pet:'ペットボトルは、びん・缶とは分けて単独で出します。',
+      bucket:'プラマークのない製品プラ（バケツ等）は「その他プラ」。周南市はプラを2種類に分けます。',
+      tray:'プラマークのある容器・トレイは「容器包装プラ」へ。',
+      spray:'スプレー缶（ボンベ類）・ライター・乾電池・刃物は「処理困難物」に集めます。',
+      glass:'割れたガラスや陶磁器は「処理困難物」へ。'}
+  },
+  {
+    id:'kamikatsu', name:'上勝町', region:'徳島県', emoji:'♻️',
+    tag:'伝説の「45分別」。ごみ収集車も来ない町。',
+    special:true, hard:true,
+    fact:'上勝町（かみかつちょう）は日本初の「ゼロ・ウェイスト宣言」の町。収集車は来ず、住民が自分でゴミステーションに運び、なんと13分類・45品目に分けます。ここでは、その一部を体験！',
+    lesson:'上勝町は本当は「45分別」。缶はアルミとスチールで別、びんは色で別…と、極限まで細かく分けます。ここまで来ると分別は文化。「混ぜればごみ、分ければ資源」が合言葉です。',
+    bins:[
+      {id:'nama',    label:'生ごみ（堆肥へ）',   en:'Compost',     cls:'c-burn',    ex:'各家庭で堆肥に'},
+      {id:'burn',    label:'燃やすごみ',        en:'Burnable',    cls:'c-nonburn', ex:'紙おむつ・ゴム・使えない布など'},
+      {id:'plastic', label:'その他プラ',        en:'Other plastic',cls:'c-plastic',ex:'洗ったプラ容器・トレイ'},
+      {id:'alu',     label:'アルミ缶',          en:'Aluminium',   cls:'c-shigen',  ex:'アルミの缶'},
+      {id:'steel',   label:'スチール缶',        en:'Steel can',   cls:'c-a',       ex:'スチールの缶・スプレー缶'},
+      {id:'clearbin',label:'透明びん',          en:'Clear glass', cls:'c-b',       ex:'透明なガラスびん'},
+      {id:'petb',    label:'ペットボトル',       en:'PET bottle',  cls:'c-shigen',  ex:'ボトル本体'},
+      {id:'petcap',  label:'ペットのキャップ',   en:'PET cap',     cls:'c-plastic', ex:'キャップだけ'},
+      {id:'paper',   label:'新聞・雑誌',        en:'Paper',       cls:'c-paper',   ex:'新聞・雑誌・チラシ'},
+      {id:'cardb',   label:'段ボール',          en:'Cardboard',   cls:'c-paper',   ex:'段ボール'}
+    ],
+    answers:{pet:'petb',cap:'petcap',can:'alu',bin:'clearbin',nama:'nama',bento:'plastic',
+      cup:'plastic',news:'paper',cardb:'cardb',omutsu:'burn',glass:'burn',spray:'steel',cloth:'burn',tray:'plastic',bucket:'plastic'},
+    why:{can:'上勝町ではアルミ缶とスチール缶を分けます。これはアルミ！',
+      spray:'スプレー缶は金属。ここではスチール缶と同じ仲間に（穴あけて）。',
+      bin:'びんは色ごとに分別。これは透明びん。',
+      nama:'生ごみは収集せず、各家庭で堆肥にします。',
+      cloth:'まだ使える服は「くるくるショップ」へ。使えない布は燃やすごみ。'}
+  }
+];
+
+/* 何品目出題するか */
+const ROUND_SIZE = 10;
+
+/* ===================== 状態 ===================== */
+let state = {city:null, hasManual:false, queue:[], idx:0, lives:3, correct:0, cleared:new Set(), answered:false};
+
+/* ===================== 画面遷移 ===================== */
+const screens = ['intro','city','office','game','result'];
+function go(name){
+  screens.forEach(s=>document.getElementById('screen-'+s).classList.toggle('hidden', s!==name));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* 街カード描画 */
+function renderCities(){
+  const list = document.getElementById('cityList');
+  list.innerHTML = '';
+  CITIES.forEach(c=>{
+    const b = document.createElement('button');
+    b.className = 'city-card'+(c.special?' special':'')+(state.cleared.has(c.id)?' cleared':'');
+    b.onclick = ()=>chooseCity(c.id);
+    b.innerHTML =
+      '<div class="city-badge">'+c.emoji+'</div>'+
+      '<div class="city-info">'+
+        '<div class="city-name">'+c.name+
+          '<span class="city-region">'+c.region+'</span>'+
+          '<span class="lvl-pill '+(c.hard?'lvl-hard">超上級':'lvl-normal">ふつう')+'</span>'+
+        '</div>'+
+        '<div class="city-tag">'+c.tag+'</div>'+
+      '</div>'+
+      '<span class="city-arrow">›</span>';
+    list.appendChild(b);
+  });
+}
+
+function chooseCity(id){
+  state.city = CITIES.find(c=>c.id===id);
+  document.getElementById('officeText').innerHTML =
+    '<b>'+state.city.name+'</b> に引っ越してきました。<br><br>'+ state.city.fact +
+    '<br><br>まずはどうする？';
+  go('office');
+}
+
+/* ===================== ゲーム進行 ===================== */
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function startRound(hasManual){
+  state.hasManual = hasManual;
+  state.idx = 0; state.lives = 3; state.correct = 0; state.answered = false;
+  const keys = shuffle(Object.keys(ITEMS)).slice(0, Math.min(ROUND_SIZE, Object.keys(ITEMS).length));
+  state.queue = keys;
+  document.getElementById('hudCity').textContent = state.city.emoji+' '+state.city.name;
+  document.getElementById('manualBtn').classList.toggle('hidden', !hasManual);
+  renderBins();
+  buildManual();
+  go('game');
+  showItem();
+}
+
+function renderBins(){
+  const wrap = document.getElementById('bins');
+  wrap.innerHTML = '';
+  state.city.bins.forEach(bin=>{
+    const el = document.createElement('button');
+    el.className = 'bin '+bin.cls;
+    el.dataset.bin = bin.id;
+    el.onclick = ()=>pick(bin.id);
+    el.innerHTML = '<div class="bin-label">'+bin.label+'</div><div class="bin-en">'+bin.en+'</div>';
+    wrap.appendChild(el);
+  });
+}
+
+function showItem(){
+  state.answered = false;
+  const key = state.queue[state.idx];
+  const it = ITEMS[key];
+  document.getElementById('itemEmoji').textContent = it.emoji;
+  document.getElementById('itemName').textContent = it.name;
+  document.getElementById('itemEn').textContent = it.en;
+  document.getElementById('hudProgress').textContent = (state.idx+1)+'/'+state.queue.length;
+  document.getElementById('hudLives').textContent = '❤️'.repeat(state.lives)+'🤍'.repeat(3-state.lives);
+  document.getElementById('hudBar').style.width = ((state.idx)/state.queue.length*100)+'%';
+  document.getElementById('feedback').className = 'feedback';
+  document.querySelectorAll('.bin').forEach(b=>{b.className='bin '+binCls(b.dataset.bin);});
+}
+function binCls(id){return state.city.bins.find(b=>b.id===id).cls;}
+function binLabel(id){return state.city.bins.find(b=>b.id===id).label;}
+
+function pick(binId){
+  if(state.answered) return;
+  state.answered = true;
+  const key = state.queue[state.idx];
+  const correctBin = state.city.answers[key];
+  const it = ITEMS[key];
+  const bins = document.querySelectorAll('.bin');
+  bins.forEach(b=>b.classList.add('disabled'));
+  const picked = [...bins].find(b=>b.dataset.bin===binId);
+
+  const fb = document.getElementById('feedback');
+  const head = document.getElementById('fbHead');
+  const body = document.getElementById('fbBody');
+  const why = (state.city.why && state.city.why[key]) ? state.city.why[key]
+              : (it.name+'は「'+binLabel(correctBin)+'」に出します。');
+
+  if(binId===correctBin){
+    state.correct++;
+    picked.classList.add('pick-ok');
+    fb.className = 'feedback ok show';
+    head.textContent = '⭕ せいかい！';
+    body.innerHTML = '<b>'+it.name+'</b> → 「'+binLabel(correctBin)+'」<br>'+why;
+  }else{
+    state.lives--;
+    picked.classList.add('pick-ng');
+    const correctEl = [...bins].find(b=>b.dataset.bin===correctBin);
+    if(correctEl) correctEl.classList.add('pick-ok');
+    fb.className = 'feedback ng show';
+    head.textContent = '❌ ざんねん…';
+    body.innerHTML = '<b>'+it.name+'</b> は「'+binLabel(binId)+'」ではなく<br>'+
+      '正しくは <b>「'+binLabel(correctBin)+'」</b>。<br>'+why;
+  }
+  document.getElementById('hudLives').textContent = '❤️'.repeat(state.lives)+'🤍'.repeat(3-state.lives);
+
+  const last = (state.idx >= state.queue.length-1);
+  const dead = (state.lives<=0);
+  document.getElementById('nextBtn').textContent = (dead||last) ? '結果を見る ›' : 'つぎへ ›';
+}
+
+function nextItem(){
+  if(state.lives<=0){ return endRound(false); }
+  if(state.idx >= state.queue.length-1){ return endRound(true); }
+  state.idx++;
+  showItem();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ===================== 結果 ===================== */
+function endRound(finished){
+  const win = finished && state.lives>0;
+  if(win) state.cleared.add(state.city.id);
+
+  document.getElementById('rEmoji').textContent = win ? '🎉' : '😵';
+  document.getElementById('rTitle').textContent = win ? 'クリア！' : 'ゲームオーバー';
+  document.getElementById('rScore').textContent =
+    '正解 '+state.correct+' ／ '+state.queue.length+'　（'+state.city.name+'）';
+
+  const lessonBox = document.getElementById('rLesson');
+  let html = '';
+  if(win){
+    html += '<div class="lesson"><div class="lh">📗 この街のポイント</div>'+state.city.lesson+'</div>';
+  }else if(!state.hasManual){
+    // マニュアルなしで失敗 → 学習フック
+    html += '<div class="lesson warn"><div class="lh">💡 大事な教訓</div>'+
+      '引っ越したら、まず <b>役所でごみ分別マニュアルをもらおう</b>！<br>'+
+      '街ごとにルールがまったく違うので、自己流だとうまくいきません。'+
+      '</div>';
+  }else{
+    html += '<div class="lesson"><div class="lh">📗 もう一歩！</div>'+state.city.lesson+
+      '<br><br>マニュアルを見ながら、もう一度ちょうせんしてみよう。</div>';
+  }
+  lessonBox.innerHTML = html;
+
+  const btns = document.getElementById('rButtons');
+  btns.innerHTML = '';
+  if(!win && !state.hasManual){
+    btns.appendChild(mkBtn('🏢 役所へ行ってやり直す','btn-primary',()=>startRound(true)));
+  }else{
+    btns.appendChild(mkBtn(win?'🔁 もう一度':'🔁 もう一度ちょうせん','btn-primary',()=>startRound(state.hasManual)));
+  }
+  btns.appendChild(mkBtn('🗺️ 別の街をえらぶ','btn-ghost',()=>{renderCities();go('city');}));
+  go('result');
+}
+function mkBtn(text,cls,fn){const b=document.createElement('button');b.className='btn '+cls;b.textContent=text;b.onclick=fn;return b;}
+
+/* ===================== マニュアル ===================== */
+function buildManual(){
+  document.getElementById('mTitle').textContent = state.city.name+'　ごみ分別マニュアル';
+  document.getElementById('mSub').textContent = state.city.fact;
+  const wrap = document.getElementById('mBins');
+  wrap.innerHTML = '';
+  state.city.bins.forEach(bin=>{
+    const d = document.createElement('div');
+    d.className = 'm-bin '+bin.cls;
+    d.innerHTML = '<div class="m-bin-label">'+bin.label+'</div><div class="m-bin-items">'+bin.ex+'</div>';
+    wrap.appendChild(d);
+  });
+}
+function openManual(){document.getElementById('overlay').classList.add('show');}
+function closeManual(){document.getElementById('overlay').classList.remove('show');}
+
+/* ===================== 初期化 ===================== */
+renderCities();
+
+/* === EN表示トグル（サイト共通の挙動に合わせる） === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en,body.hide-en .item-en,body.hide-en .bin-en,body.hide-en .btn-sub{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3B6D11;margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{off=localStorage.getItem(KEY)==='1';}catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';}
+  b.addEventListener('click',function(){
+    var h=document.body.classList.toggle('hide-en');
+    try{localStorage.setItem(KEY,h?'1':'0');}catch(e){}
+    paint();
+  });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

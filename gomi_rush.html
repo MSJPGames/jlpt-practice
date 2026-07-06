@@ -63,6 +63,18 @@
   .city-region{font-size:11px;color:var(--text-hint);margin-left:6px;font-weight:600;}
   .city-tag{font-size:12px;color:var(--text-muted);margin-top:3px;line-height:1.5;}
   .city-arrow{font-size:20px;color:var(--text-hint);flex-shrink:0;}
+  .mode-cards{display:flex;flex-direction:column;gap:12px;}
+  .mode-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:18px 16px;display:flex;align-items:center;gap:15px;cursor:pointer;position:relative;overflow:hidden;
+    transition:transform .1s,box-shadow .1s;text-align:left;width:100%;font-family:inherit;}
+  .mode-card:active{transform:scale(.985);}
+  .mode-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);}
+  .mode-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--teal);}
+  .mode-ic{width:54px;height:54px;border-radius:14px;background:var(--teal-soft);display:flex;align-items:center;
+    justify-content:center;font-size:28px;flex-shrink:0;}
+  .mode-info{flex:1;min-width:0;}
+  .mode-name{font-size:16px;font-weight:800;}
+  .mode-desc{font-size:12px;color:var(--text-muted);margin-top:4px;line-height:1.55;}
   .hud{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:.6rem 0 .5rem;}
   .hud-city{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .hud-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
@@ -192,7 +204,26 @@
   <div id="s-city" class="hidden">
     <div class="label">住む街をえらぶ ・ Choose your town</div>
     <div class="city-list" id="cityList"></div>
-    <p class="foot">街をえらぶと、モードと難易度をえらべます。</p>
+    <p class="foot">街をえらぶと、遊びかた（モード）と難易度をえらべます。</p>
+  </div>
+
+  <div id="s-mode" class="hidden">
+    <div class="label"><span id="modeCityName">街</span> ・ 遊びかたをえらぶ</div>
+    <div class="mode-cards">
+      <button class="mode-card" onclick="chooseMode('rush')">
+        <div class="mode-ic">🍣</div>
+        <div class="mode-info"><div class="mode-name">回転寿司型（レーン式）</div>
+          <div class="mode-desc">流れてくるゴミをタップ → 正しいゴミ袋へ。時間制限あり・チャレンジ向き</div></div>
+        <span class="city-arrow">›</span>
+      </button>
+      <button class="mode-card" onclick="chooseMode('quiz')">
+        <div class="mode-ic">📝</div>
+        <div class="mode-info"><div class="mode-name">選択型（確認テスト）</div>
+          <div class="mode-desc">1問ずつ、じっくり確かめる。時間制限なし・かくにん向き</div></div>
+        <span class="city-arrow">›</span>
+      </button>
+    </div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="show('city')">‹ 街をえらびなおす</button></div>
   </div>
 
   <div id="s-game" class="hidden">
@@ -399,12 +430,12 @@ function itemPool(city,diff){const ids={};binsShown(city,diff).forEach(b=>ids[b.
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
 /* ============ 画面 ============ */
-const SCREENS=['intro','city','game'];
+const SCREENS=['intro','city','mode','game'];
 function show(name){SCREENS.forEach(s=>document.getElementById('s-'+s).classList.toggle('hidden',s!==name));window.scrollTo(0,0);}
 function renderCities(){
   const L=document.getElementById('cityList');L.innerHTML='';
   CITIES.forEach(c=>{
-    const b=document.createElement('button');b.className='city-card';b.onclick=()=>openRules(c);
+    const b=document.createElement('button');b.className='city-card';b.onclick=()=>chooseCity(c);
     b.innerHTML='<div class="city-badge">'+c.emoji+'</div><div class="city-info"><div class="city-name">'+c.name+
       '<span class="city-region">'+c.region+'</span></div><div class="city-tag">'+c.tag+'</div></div><span class="city-arrow">›</span>';
     L.appendChild(b);
@@ -427,13 +458,15 @@ function refreshRulePreview(){
   document.getElementById('ovCounts').textContent='ゴミ '+ni+'種類　／　ゴミ袋 '+nb+'種類';
   renderBinsList(document.getElementById('ovBins'),pendingCity,selDiff);
 }
+function chooseCity(city){pendingCity=city;document.getElementById('modeCityName').textContent=city.emoji+' '+city.name;show('mode');}
+function chooseMode(m){selMode=m;openRules(pendingCity);}
 function openRules(city){
   pendingCity=city;
-  document.getElementById('ovTitle').textContent=city.name+'　分別ルール';
+  document.getElementById('ovTitle').textContent=city.name+'（'+(selMode==='rush'?'🍣 回転寿司型':'📝 選択型')+'）';
   document.getElementById('ovStart').classList.remove('hidden');
   document.getElementById('ovResume').classList.add('hidden');
-  document.getElementById('ovMode').classList.remove('hidden');
-  document.getElementById('ovModeLabel').classList.remove('hidden');
+  document.getElementById('ovMode').classList.add('hidden');
+  document.getElementById('ovModeLabel').classList.add('hidden');
   document.getElementById('ovSeg').classList.remove('hidden');
   document.getElementById('ovDiffLabel').classList.remove('hidden');
   document.getElementById('ovModeNote').classList.remove('hidden');

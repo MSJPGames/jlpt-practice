@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ゴミ分別ラッシュ（試作版）｜ JLPT Practice</title>
+<title>ゴミ分別ゲーム（試作版）｜ JLPT Practice</title>
 <style>
   :root{
     --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
@@ -29,7 +29,7 @@
   .back:active{opacity:.6;}
   .head{text-align:center;padding:1.2rem 0 .4rem;}
   .logo{font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--text-hint);margin-bottom:8px;}
-  .title{font-size:27px;font-weight:800;letter-spacing:.02em;}
+  .title{font-size:26px;font-weight:800;letter-spacing:.02em;}
   .proto{display:inline-block;font-size:10px;font-weight:700;color:var(--teal-deep);background:var(--teal-soft);
     padding:2px 9px;border-radius:999px;margin-left:6px;vertical-align:middle;}
   .sub{font-size:13px;color:var(--text-muted);margin-top:8px;line-height:1.7;}
@@ -38,10 +38,11 @@
   .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 16px;}
   .lead{font-size:13.5px;line-height:1.9;color:var(--text-muted);}
   .lead b{color:var(--text);}
-  .step{display:flex;gap:10px;align-items:flex-start;margin-top:10px;}
-  .step .no{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--teal);color:#fff;
-    font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px;}
-  .step .tx{font-size:13px;color:var(--text);line-height:1.6;}
+  .modeline{display:flex;gap:10px;align-items:flex-start;margin-top:10px;}
+  .modeline .ic{flex-shrink:0;width:34px;height:34px;border-radius:10px;background:var(--teal-soft);color:var(--teal-deep);
+    display:flex;align-items:center;justify-content:center;font-size:17px;}
+  .modeline .tx{font-size:13px;line-height:1.6;color:var(--text);}
+  .modeline .tx b{font-weight:800;}
   .btn{display:block;width:100%;border:none;border-radius:var(--radius);padding:15px 16px;font-family:inherit;
     font-size:15px;font-weight:800;cursor:pointer;transition:transform .1s,box-shadow .1s;text-align:center;letter-spacing:.02em;}
   .btn:active{transform:translateY(2px);}
@@ -66,8 +67,8 @@
   .hud-city{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .hud-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
   .hud-score{font-size:13px;font-weight:800;color:var(--teal-deep);}
-  .hud-combo{font-size:12px;font-weight:800;color:var(--brown);min-width:34px;text-align:right;}
-  .hud-lives{font-size:14px;letter-spacing:1px;}
+  .hud-combo{font-size:12px;font-weight:800;color:var(--brown);min-width:20px;text-align:right;}
+  .hud-lives{font-size:13px;font-weight:800;letter-spacing:1px;}
   .hud-help{border:1px solid var(--border);background:var(--surface);border-radius:999px;font-family:inherit;
     font-size:12px;font-weight:800;color:var(--teal-deep);width:26px;height:26px;cursor:pointer;line-height:1;}
   .stage{position:relative;width:100%;height:520px;background:linear-gradient(#FBFAF6,#F4F1EA);
@@ -77,6 +78,8 @@
   .belt.run{animation:beltmove 1s linear infinite;}
   @keyframes beltmove{from{background-position:0 0;}to{background-position:-44px 0;}}
   .belt-label{position:absolute;top:30px;left:10px;font-size:10px;font-weight:700;color:var(--text-hint);letter-spacing:.06em;}
+  .q-banner{position:absolute;top:34px;left:0;right:0;text-align:center;font-size:11px;font-weight:800;color:var(--text-hint);letter-spacing:.06em;display:none;}
+  .stage.quiz .q-banner{display:block;}
   .plate{position:absolute;top:46px;left:0;width:66px;height:66px;will-change:transform;cursor:pointer;}
   .plate .dish{position:absolute;inset:0;border-radius:50%;background:#fff;border:2px solid #E2DDD6;
     box-shadow:0 3px 6px rgba(0,0,0,.10);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .08s;}
@@ -114,6 +117,7 @@
   .c-kaden{background:var(--navy-bg);border-color:var(--navy);color:var(--navy);} .c-kaden .mouth{background:var(--navy);}
   .c-depot{background:var(--orange-bg);border-color:var(--orange);color:var(--orange);} .c-depot .mouth{background:var(--orange);}
   .c-pc{background:var(--gray-bg);border-color:var(--gray);color:var(--gray);} .c-pc .mouth{background:var(--gray);}
+  .bin.mark-ok{box-shadow:0 0 0 3px rgba(59,109,17,.4);} .bin.mark-ng{box-shadow:0 0 0 3px rgba(153,60,29,.4);}
   .fly{position:absolute;width:38px;height:38px;z-index:9;pointer-events:none;}
   .fly .dish{position:absolute;inset:0;border-radius:50%;background:#fff;border:2px solid #E2DDD6;display:flex;align-items:center;justify-content:center;font-size:19px;box-shadow:0 3px 6px rgba(0,0,0,.12);}
   .pf{position:absolute;font-size:12.5px;font-weight:800;z-index:10;pointer-events:none;padding:3px 9px;border-radius:999px;animation:pfrise 1s ease forwards;white-space:nowrap;max-width:90%;text-align:center;}
@@ -123,17 +127,25 @@
   @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
   .ctip{text-align:center;font-size:12px;color:var(--text-muted);margin-top:10px;line-height:1.7;}
   .ctip b{color:var(--teal-deep);}
+  /* 選択式フィードバック */
+  .qfb{display:none;margin-top:10px;border-radius:14px;padding:12px 15px;border:1px solid var(--border);background:var(--surface);}
+  .qfb.show{display:block;animation:rise .2s;}
+  @keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .qfb.ok{background:var(--green-bg);border-color:#CFE3B6;} .qfb.ng{background:var(--red-bg);border-color:#F0D2C6;}
+  .qfb-head{font-weight:800;font-size:15px;margin-bottom:3px;} .qfb.ok .qfb-head{color:var(--green);} .qfb.ng .qfb-head{color:var(--red);}
+  .qfb-body{font-size:13px;line-height:1.7;color:var(--text-muted);} .qfb-body b{color:var(--text);}
+  .qfb .btn{margin-top:10px;}
   .overlay{position:fixed;inset:0;background:rgba(28,28,28,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:1rem;}
   .overlay.show{display:flex;animation:fade .2s;}
   @keyframes fade{from{opacity:0;}to{opacity:1;}}
   .sheet{background:var(--bg);width:100%;max-width:410px;border-radius:18px;padding:20px 18px;max-height:88vh;overflow-y:auto;}
   .sheet-title{font-size:18px;font-weight:800;text-align:center;}
-  .sheet-sub{font-size:12px;color:var(--text-muted);text-align:center;margin:4px 0 12px;line-height:1.6;}
-  .seg{display:flex;gap:6px;margin:0 0 6px;}
+  .seg{display:flex;gap:6px;margin:12px 0 4px;}
   .segb{flex:1;padding:9px 4px;border:1px solid var(--border);border-radius:10px;background:var(--surface);
     font-family:inherit;font-weight:800;font-size:13px;color:var(--text-muted);cursor:pointer;}
   .segb.on{background:var(--teal);color:#fff;border-color:var(--teal);}
-  .segnote{font-size:11px;color:var(--text-hint);text-align:center;margin:4px 0 12px;line-height:1.5;}
+  .seglabel{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--text-hint);margin-top:8px;}
+  .segnote{font-size:11px;color:var(--text-hint);text-align:center;margin:6px 0 10px;line-height:1.5;}
   .m-bin{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:9px 12px;margin-bottom:7px;position:relative;overflow:hidden;}
   .m-bin::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;}
   .m-bin.c-burn::before{background:var(--green);}.m-bin.c-nonburn::before{background:var(--slate);}
@@ -158,20 +170,19 @@
 <div class="container">
   <div class="topbar"><a href="games.html" class="back">‹ あそび場へ</a></div>
   <div class="head">
-    <div class="logo">GOMI RUSH</div>
-    <div class="title">ゴミ分別ラッシュ<span class="proto">試作版</span></div>
-    <div class="sub">流れてくるゴミをタップ → 正しいゴミ袋をタップ！<br>
-      <span class="en">Tap the flowing trash, then tap the right bag.</span>
+    <div class="logo">GOMI GAME</div>
+    <div class="title">ゴミ分別ゲーム<span class="proto">試作版</span></div>
+    <div class="sub">日本のゴミ分別に慣れよう。2つのモードで遊べる。<br>
+      <span class="en">Learn Japan's trash sorting — two play modes.</span>
     </div>
   </div>
 
   <div id="s-intro">
     <div class="card">
-      <p class="lead">ベルトコンベアで <b>ゴミが流れて</b> きます。2ステップで分別しよう。</p>
-      <div class="step"><div class="no">1</div><div class="tx"><b>流れてくるゴミをタップ</b>して選ぶ</div></div>
-      <div class="step"><div class="no">2</div><div class="tx"><b>正しいゴミ袋をタップ</b>して捨てる</div></div>
-      <p class="lead" style="margin-top:12px;">選ばずに流れきると <b>ミス</b>。ライフは3つ。<br>
-        難易度が上がると、ゴミの種類も、ゴミ袋の種類も増えます。<b>むずかしい</b>では
+      <p class="lead">街をえらぶと、<b>2つのモード</b>から選べます。</p>
+      <div class="modeline"><div class="ic">📝</div><div class="tx"><b>選択式</b>（確認テスト）<br>時間制限なし。1問ずつ、じっくり確かめながら。</div></div>
+      <div class="modeline"><div class="ic">🌊</div><div class="tx"><b>レーン式</b>（チャレンジ）<br>ゴミが流れてくる。時間制限あり、テンポよく！</div></div>
+      <p class="lead" style="margin-top:12px;">難易度が上がると、ゴミの種類も、ゴミ袋の種類も増えます。<b>むずかしい</b>では
         粗大ごみ（役所に申込）や家電リサイクル（店へ）なども登場！</p>
     </div>
     <div class="btn-row"><button class="btn btn-primary" onclick="show('city')">▶ 街をえらぶ</button></div>
@@ -181,7 +192,7 @@
   <div id="s-city" class="hidden">
     <div class="label">住む街をえらぶ ・ Choose your town</div>
     <div class="city-list" id="cityList"></div>
-    <p class="foot">街をえらぶと、難易度をえらべます。</p>
+    <p class="foot">街をえらぶと、モードと難易度をえらべます。</p>
   </div>
 
   <div id="s-game" class="hidden">
@@ -196,10 +207,16 @@
     </div>
     <div class="stage" id="stage">
       <div class="belt" id="belt"><span class="belt-label">▶ 流れてくる（タップで選ぶ）</span></div>
+      <div class="q-banner" id="qBanner">このゴミは どのゴミ袋？</div>
       <div class="tray" id="tray"><span class="tray-hint">🖐 流れてくるゴミをタップ</span></div>
       <div class="arrow-down">▼</div>
     </div>
-    <div class="ctip"><b>①</b> ゴミをタップ → <b>②</b> ゴミ袋をタップ</div>
+    <div class="ctip" id="ctip"><b>①</b> ゴミをタップ → <b>②</b> ゴミ袋をタップ</div>
+    <div class="qfb" id="qfb">
+      <div class="qfb-head" id="qfbHead"></div>
+      <div class="qfb-body" id="qfbBody"></div>
+      <button class="btn btn-primary" id="qfbNext">つぎへ ›</button>
+    </div>
   </div>
 
   <div class="foot" id="pageFoot">© 2025 JLPT Practice</div>
@@ -208,6 +225,13 @@
 <div class="overlay" id="ovRules">
   <div class="sheet">
     <div class="sheet-title" id="ovTitle">分別ルール</div>
+    <div class="seglabel" id="ovModeLabel">モード</div>
+    <div class="seg" id="ovMode">
+      <button class="segb on" data-m="quiz">📝 選択式</button>
+      <button class="segb" data-m="rush">🌊 レーン式</button>
+    </div>
+    <div class="segnote" id="ovModeNote">選択式：時間制限なし・確認テスト</div>
+    <div class="seglabel" id="ovDiffLabel">難易度</div>
     <div class="seg" id="ovSeg">
       <button class="segb" data-d="1">やさしい</button>
       <button class="segb on" data-d="2">ふつう</button>
@@ -233,26 +257,25 @@
 
 <script>
 /* ============ ゴミ（具体的・材質つき・レベルつき） ============ */
-/* mat=材質, lv=最低難易度(1やさしい/2ふつう/3むずかしい) */
 const ITEMS = {
   nama:{name:'生ごみ（野菜くず）',emoji:'🥬',mat:'food',lv:1},
   pet:{name:'ペットボトル本体',emoji:'🥤',mat:'pet',lv:1},
   can:{name:'アルミ缶',emoji:'🥫',mat:'can',lv:1},
   bine:{name:'ガラスびん',emoji:'🍶',mat:'glass',lv:1},
   bento:{name:'プラの弁当容器',emoji:'🍱',mat:'plastic_pack',lv:1},
-  cap:{name:'ペットのキャップ',emoji:'🔵',mat:'plastic_pack',lv:1},
+  cap:{name:'ペットボトルのキャップ',emoji:'🔵',mat:'plastic_pack',lv:1},
 
   news:{name:'新聞紙',emoji:'📰',mat:'paper_rec',lv:2},
   cardb:{name:'段ボール',emoji:'📦',mat:'paper_rec',lv:2},
   zasshi:{name:'読み終わった雑誌',emoji:'📖',mat:'paper_rec',lv:2},
-  milk:{name:'牛乳パック（洗って開く）',emoji:'🥛',mat:'paper_rec',lv:2},
-  tray:{name:'食品トレイ（発泡）',emoji:'🍥',mat:'plastic_pack',lv:2},
+  milk:{name:'牛乳などの紙パック',emoji:'🧃',mat:'paper_rec',lv:2},
+  tray:{name:'食品トレイ（発泡）',emoji:'🍽️',mat:'plastic_pack',lv:2},
   cupmen:{name:'カップ麺の容器',emoji:'🍜',mat:'plastic_pack',lv:2},
-  okashi:{name:'お菓子の袋',emoji:'🍬',mat:'plastic_pack',lv:2},
-  omutsu:{name:'使用済み紙おむつ',emoji:'🧷',mat:'paper_burn',lv:2},
+  okashi:{name:'お菓子の袋（プラ）',emoji:'🍬',mat:'plastic_pack',lv:2},
+  omutsu:{name:'使用済み紙おむつ',emoji:'👶',mat:'paper_burn',lv:2},
   tissue:{name:'使ったティッシュ',emoji:'🤧',mat:'paper_burn',lv:2},
   glassbroken:{name:'割れたガラスのコップ',emoji:'💥',mat:'broken',lv:2},
-  chawan:{name:'割れた茶わん（陶器）',emoji:'🍵',mat:'broken',lv:2},
+  chawan:{name:'割れた茶わん（陶器）',emoji:'🥣',mat:'broken',lv:2},
   spray:{name:'スプレー缶（中身なし）',emoji:'🧴',mat:'spray',lv:2},
   cloth:{name:'古着（着られるTシャツ）',emoji:'👕',mat:'cloth',lv:2},
   frypan:{name:'使い古したフライパン',emoji:'🍳',mat:'metal',lv:2},
@@ -272,8 +295,6 @@ const ITEMS = {
   fluor:{name:'切れた蛍光灯',emoji:'💡',mat:'depot',lv:3},
   pc:{name:'こわれたノートパソコン',emoji:'💻',mat:'pc',lv:3}
 };
-
-/* 全国共通の特別なゴミ袋（むずかしいで登場） */
 const SPECIAL_MATS=['bulky','kaden','depot','pc'];
 const SPECIAL_BINS=[
   {id:'bulky',label:'粗大ごみ',cls:'c-bulky',ex:'布団・自転車・イスなど（役所に申込・有料）'},
@@ -288,8 +309,6 @@ const MAT_WHY={
   depot:'乾電池・ライター・蛍光灯などは、お店や施設の回収ボックスへ（拠点回収）。',
   spray:'スプレー缶は中身を使い切ってから。街によって出す場所が違うので注意。'
 };
-
-/* 街ごと：core bins（levelつき）と matMap（材質→袋id） */
 const CITIES=[
   {
     id:'fukuoka', name:'福岡市', region:'福岡県', emoji:'🌃', tag:'プラは燃える・缶は燃えない',
@@ -340,22 +359,44 @@ const CITIES=[
     ],
     matMap:{food:'burn',pet:'shigen',plastic_pack:'plastic',plastic_prod:'nonburn',can:'shigen',glass:'shigen',
       broken:'nonburn',paper_rec:'paper',paper_burn:'burn',cloth:'paper',metal:'nonburn',spray:'hazard'}
+  },
+  {
+    id:'shunan', name:'周南市', region:'山口県', emoji:'🏭', tag:'プラを2種類に分ける！分別しっかり都市',
+    lesson:'周南市はプラを「容器包装プラ（プラマークあり）」と「その他プラ（製品プラ）」に分けます。びんと缶は一緒でもペットボトルは別。乾電池・ライター・こわれ物は「処理困難物」へ。',
+    bins:[
+      {id:'burn',label:'燃やせる',cls:'c-burn',ex:'生ごみ・紙おむつ・汚れた布',lv:1},
+      {id:'petb',label:'ペットボトル',cls:'c-shigen',ex:'ペットボトル本体（単独で）',lv:1},
+      {id:'yoki',label:'容器包装プラ',cls:'c-plastic',ex:'プラマークのある容器・トレイ',lv:1},
+      {id:'bincan',label:'びん・缶類',cls:'c-shigen',ex:'びんとアルミ/スチール缶（一緒に）',lv:2},
+      {id:'otherpla',label:'その他プラ',cls:'c-depot',ex:'プラマークのない製品プラ（バケツ等）',lv:2},
+      {id:'nonburn',label:'燃やせない',cls:'c-nonburn',ex:'金属・フライパン・傘',lv:2},
+      {id:'paper',label:'古紙・衣類',cls:'c-paper',ex:'新聞・段ボール・古着',lv:2},
+      {id:'hazard',label:'処理困難物',cls:'c-hazard',ex:'乾電池・ライター・スプレー缶・こわれ物',lv:2}
+    ],
+    matMap:{food:'burn',pet:'petb',plastic_pack:'yoki',plastic_prod:'otherpla',can:'bincan',glass:'bincan',
+      broken:'hazard',paper_rec:'paper',paper_burn:'burn',cloth:'paper',metal:'nonburn',spray:'hazard'},
+    special:{depot:'hazard'}
   }
 ];
-
 const DIFF={1:{name:'やさしい',speed:46,cap:92,gap:220},2:{name:'ふつう',speed:56,cap:120,gap:200},3:{name:'むずかしい',speed:64,cap:150,gap:184}};
+const QUIZ_N=10;
 
-function resolveBinId(city,item){return SPECIAL_MATS.indexOf(item.mat)>=0?item.mat:city.matMap[item.mat];}
+function resolveBinId(city,item){
+  if(SPECIAL_MATS.indexOf(item.mat)>=0){
+    if(city.special && city.special[item.mat]!==undefined) return city.special[item.mat];
+    return item.mat;
+  }
+  return city.matMap[item.mat];
+}
 function binDef(city,id){return city.bins.find(b=>b.id===id)||SPECIAL_BINS.find(b=>b.id===id);}
 function binsShown(city,diff){
-  let arr=city.bins.filter(b=>b.lv<=diff);
-  if(diff>=3)arr=arr.concat(SPECIAL_BINS);
-  return arr;
+  let a=city.bins.filter(b=>b.lv<=diff);
+  if(diff>=3)SPECIAL_BINS.forEach(sb=>{if(!(city.special&&city.special[sb.id]!==undefined))a=a.concat([sb]);});
+  return a;
 }
-function itemPool(city,diff){
-  const ids={}; binsShown(city,diff).forEach(b=>ids[b.id]=1);
-  return Object.keys(ITEMS).filter(k=>ITEMS[k].lv<=diff && ids[resolveBinId(city,ITEMS[k])]);
-}
+function itemPool(city,diff){const ids={};binsShown(city,diff).forEach(b=>ids[b.id]=1);
+  return Object.keys(ITEMS).filter(k=>ITEMS[k].lv<=diff&&ids[resolveBinId(city,ITEMS[k])]);}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
 /* ============ 画面 ============ */
 const SCREENS=['intro','city','game'];
@@ -370,15 +411,18 @@ function renderCities(){
   });
 }
 
-/* ============ ルール＋難易度 ============ */
-let pendingCity=null, selDiff=2;
+/* ============ モード＋難易度＋ルール ============ */
+let pendingCity=null, selDiff=2, selMode='quiz';
+const MODE_NOTE={quiz:'選択式：時間制限なし・確認テスト',rush:'レーン式：流れてくる・時間制限あり・チャレンジ'};
 function renderBinsList(el,city,diff){
   el.innerHTML='';
   binsShown(city,diff).forEach(bn=>{const d=document.createElement('div');d.className='m-bin '+bn.cls;
     d.innerHTML='<div class="m-bl">'+bn.label+'</div><div class="m-ex">'+bn.ex+'</div>';el.appendChild(d);});
 }
 function refreshRulePreview(){
+  document.querySelectorAll('#ovMode .segb').forEach(x=>x.classList.toggle('on',x.dataset.m===selMode));
   document.querySelectorAll('#ovSeg .segb').forEach(x=>x.classList.toggle('on',+x.dataset.d===selDiff));
+  document.getElementById('ovModeNote').textContent=MODE_NOTE[selMode];
   const nb=binsShown(pendingCity,selDiff).length, ni=itemPool(pendingCity,selDiff).length;
   document.getElementById('ovCounts').textContent='ゴミ '+ni+'種類　／　ゴミ袋 '+nb+'種類';
   renderBinsList(document.getElementById('ovBins'),pendingCity,selDiff);
@@ -388,12 +432,17 @@ function openRules(city){
   document.getElementById('ovTitle').textContent=city.name+'　分別ルール';
   document.getElementById('ovStart').classList.remove('hidden');
   document.getElementById('ovResume').classList.add('hidden');
+  document.getElementById('ovMode').classList.remove('hidden');
+  document.getElementById('ovModeLabel').classList.remove('hidden');
   document.getElementById('ovSeg').classList.remove('hidden');
+  document.getElementById('ovDiffLabel').classList.remove('hidden');
+  document.getElementById('ovModeNote').classList.remove('hidden');
   refreshRulePreview();
   document.getElementById('ovRules').classList.add('show');
 }
+document.querySelectorAll('#ovMode .segb').forEach(x=>x.onclick=()=>{selMode=x.dataset.m;refreshRulePreview();});
 document.querySelectorAll('#ovSeg .segb').forEach(x=>x.onclick=()=>{selDiff=+x.dataset.d;refreshRulePreview();});
-document.getElementById('ovStart').onclick=function(){document.getElementById('ovRules').classList.remove('show');startGame(pendingCity,selDiff);};
+document.getElementById('ovStart').onclick=function(){document.getElementById('ovRules').classList.remove('show');startGame(pendingCity,selMode,selDiff);};
 document.getElementById('ovResume').onclick=function(){document.getElementById('ovRules').classList.remove('show');resumeGame();};
 
 /* ============ ゲーム ============ */
@@ -401,18 +450,28 @@ const stage=document.getElementById('stage'), belt=document.getElementById('belt
 let G=null, raf=null, lastT=0;
 const PLATE_W=66;
 
-function startGame(city,diff){
+function startGame(city,mode,diff){
   stage.querySelectorAll('.plate,.fly,.pf,.bin').forEach(e=>e.remove());
   show('game');
   const d=DIFF[diff];
-  G={city,diff,pool:itemPool(city,diff),shown:binsShown(city,diff),
+  G={city,mode,diff,pool:itemPool(city,diff),shown:binsShown(city,diff),
      plates:[],selected:null,lives:3,score:0,combo:0,bestCombo:0,
-     speed:d.speed,cap:d.cap,gap:d.gap,running:true,paused:false};
+     speed:d.speed,cap:d.cap,gap:d.gap,running:true,paused:false,
+     queue:[],qi:0,correct:0,answered:false};
   layoutBins();
-  stage.classList.remove('has-sel'); renderTray();
+  hideQfb();
   document.getElementById('hudCity').textContent=city.emoji+' '+city.name+'・'+d.name;
-  belt.classList.add('run'); updateHUD();
-  lastT=performance.now(); cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
+  if(mode==='rush'){
+    stage.classList.remove('quiz'); belt.style.display=''; belt.classList.add('run');
+    stage.classList.remove('has-sel'); renderTray();
+    document.getElementById('ctip').innerHTML='<b>①</b> ゴミをタップ → <b>②</b> ゴミ袋をタップ';
+    updateHUD();
+    lastT=performance.now(); cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
+  }else{
+    stage.classList.add('quiz'); belt.classList.remove('run'); belt.style.display='none';
+    document.getElementById('ctip').innerHTML='この <b>ゴミ</b> を、正しい <b>ゴミ袋</b> にタップ';
+    buildQueue(); updateHUD(); showQuestion();
+  }
 }
 
 function layoutBins(){
@@ -438,7 +497,6 @@ function layoutBins(){
     stage.appendChild(d); bn._el=d;
   });
 }
-
 function renderTray(){
   const t=document.getElementById('tray');
   if(G&&G.selected){
@@ -448,7 +506,28 @@ function renderTray(){
       '<div class="tray-txt"><b>'+it.name+'</b><span>→ 正しいゴミ袋をタップ</span></div>';
   }else{t.className='tray';t.innerHTML='<span class="tray-hint">🖐 流れてくるゴミをタップ</span>';}
 }
+function hideQfb(){const q=document.getElementById('qfb');q.className='qfb';}
+function flyTo(it,binEl){
+  const tray=document.getElementById('tray');
+  const sx=tray.offsetLeft+tray.offsetWidth/2, sy=tray.offsetTop+tray.offsetHeight/2;
+  const ex=binEl.offsetLeft+binEl.offsetWidth/2, ey=binEl.offsetTop+10;
+  const fly=document.createElement('div');fly.className='fly';fly.innerHTML='<div class="dish">'+it.emoji+'</div>';
+  fly.style.left=(sx-19)+'px';fly.style.top=(sy-19)+'px';stage.appendChild(fly);
+  fly.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+(ex-sx)+'px,'+(ey-sy)+'px) scale(.5)',opacity:.3}],
+    {duration:280,easing:'cubic-bezier(.4,0,.6,1)'}).onfinish=()=>fly.remove();
+}
+function updateHUD(){
+  document.getElementById('hudScore').textContent=G.score;
+  if(G.mode==='rush'){
+    document.getElementById('hudCombo').textContent=G.combo>1?('🔥'+G.combo):'';
+    document.getElementById('hudLives').textContent='❤️'.repeat(Math.max(0,G.lives))+'🤍'.repeat(Math.max(0,3-G.lives));
+  }else{
+    document.getElementById('hudCombo').textContent='';
+    document.getElementById('hudLives').textContent='問 '+Math.min(G.qi+1,G.queue.length)+'/'+G.queue.length;
+  }
+}
 
+/* ---- レーン式 ---- */
 function spawnPlate(){
   const W=stage.clientWidth;
   const key=G.pool[(Math.random()*G.pool.length)|0];
@@ -461,45 +540,13 @@ function spawnPlate(){
   stage.appendChild(el); G.plates.push(p);
 }
 function selectPlate(p){
-  if(!G||!G.running||G.paused||G.selected)return;
+  if(!G||!G.running||G.paused||G.mode!=='rush'||G.selected)return;
   if(!G.plates.includes(p))return;
   p.el.remove(); G.plates=G.plates.filter(x=>x!==p);
   G.selected=p.key; stage.classList.add('has-sel'); renderTray();
 }
-
-function dropToBin(idx,e){
-  if(e&&e.preventDefault)e.preventDefault();
-  if(!G||!G.running||G.paused)return;
-  if(!G.selected){const t=document.getElementById('tray');t.classList.add('shake');setTimeout(()=>t.classList.remove('shake'),300);return;}
-  const bin=G.shown[idx], key=G.selected, it=ITEMS[key];
-  const correctId=resolveBinId(G.city,it);
-  const correct=(correctId===bin.id);
-  G.selected=null; stage.classList.remove('has-sel'); renderTray();
-
-  const tray=document.getElementById('tray');
-  const sx=tray.offsetLeft+tray.offsetWidth/2, sy=tray.offsetTop+tray.offsetHeight/2;
-  const ex=bin._el.offsetLeft+bin._el.offsetWidth/2, ey=bin._el.offsetTop+10;
-  const fly=document.createElement('div');fly.className='fly';fly.innerHTML='<div class="dish">'+it.emoji+'</div>';
-  fly.style.left=(sx-19)+'px';fly.style.top=(sy-19)+'px';stage.appendChild(fly);
-  fly.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+(ex-sx)+'px,'+(ey-sy)+'px) scale(.5)',opacity:.3}],
-    {duration:280,easing:'cubic-bezier(.4,0,.6,1)'}).onfinish=()=>fly.remove();
-
-  const why=MAT_WHY[it.mat];
-  if(correct){
-    G.combo++; G.bestCombo=Math.max(G.bestCombo,G.combo);
-    const gain=10+(G.combo-1)*2; G.score+=gain; G.speed=Math.min(G.cap,G.speed+2);
-    popup(ex,'＋'+gain+(G.combo>1?' '+G.combo+'コンボ':''),'ok');
-  }else{
-    G.lives--; G.combo=0;
-    popup(ex,'✗ 正しくは「'+binDef(G.city,correctId).label+'」','ng');
-    stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);
-  }
-  updateHUD();
-  if(G.lives<=0)gameOver();
-}
-
 function loop(now){
-  if(!G||!G.running)return;
+  if(!G||!G.running||G.mode!=='rush')return;
   if(G.paused){lastT=now;raf=requestAnimationFrame(loop);return;}
   let dt=(now-lastT)/1000; if(dt>0.05)dt=0.05; lastT=now;
   const W=stage.clientWidth;
@@ -515,21 +562,81 @@ function miss(){
   stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);
   updateHUD(); if(G.lives<=0)gameOver();
 }
+
+/* ---- 選択式 ---- */
+function buildQueue(){
+  let q=[],bag=[];
+  while(q.length<QUIZ_N){ if(bag.length===0)bag=shuffle(G.pool.slice()); q.push(bag.pop()); }
+  G.queue=q; G.qi=0; G.correct=0;
+}
+function showQuestion(){
+  G.answered=false; G.selected=G.queue[G.qi];
+  stage.querySelectorAll('.bin').forEach(b=>b.classList.remove('mark-ok','mark-ng'));
+  renderTray(); stage.classList.add('has-sel'); hideQfb(); updateHUD();
+}
+
+/* ---- 共通：ゴミ袋タップ ---- */
+function dropToBin(idx,e){
+  if(e&&e.preventDefault)e.preventDefault();
+  if(!G||!G.running||G.paused)return;
+  const bin=G.shown[idx];
+  if(G.mode==='quiz'){
+    if(G.answered||!G.selected)return;
+    const key=G.selected, it=ITEMS[key], correctId=resolveBinId(G.city,it), correct=(correctId===bin.id);
+    G.answered=true; stage.classList.remove('has-sel');
+    bin._el.classList.add(correct?'mark-ok':'mark-ng');
+    if(!correct)binDef(G.city,correctId)._el&&binDef(G.city,correctId)._el.classList.add('mark-ok');
+    flyTo(it,bin._el);
+    let why=MAT_WHY[it.mat];
+    if(G.city.special && G.city.special[it.mat]!==undefined) why=null;
+    if(!why) why='この街では「'+binDef(G.city,correctId).label+'」に出します。';
+    const q=document.getElementById('qfb');
+    if(correct){G.correct++;G.score+=10;
+      document.getElementById('qfbHead').textContent='⭕ せいかい！';
+      document.getElementById('qfbBody').innerHTML='<b>'+it.name+'</b> → 「'+bin.label+'」<br>'+why;
+      q.className='qfb ok show';
+    }else{
+      document.getElementById('qfbHead').textContent='❌ ざんねん…';
+      document.getElementById('qfbBody').innerHTML='<b>'+it.name+'</b> は「'+bin.label+'」ではなく<br>正しくは <b>「'+binDef(G.city,correctId).label+'」</b>。<br>'+why;
+      q.className='qfb ng show';
+    }
+    updateHUD();
+    return;
+  }
+  /* rush */
+  if(!G.selected){const t=document.getElementById('tray');t.classList.add('shake');setTimeout(()=>t.classList.remove('shake'),300);return;}
+  const key=G.selected, it=ITEMS[key], correctId=resolveBinId(G.city,it), correct=(correctId===bin.id);
+  G.selected=null; stage.classList.remove('has-sel'); renderTray(); flyTo(it,bin._el);
+  if(correct){
+    G.combo++; G.bestCombo=Math.max(G.bestCombo,G.combo);
+    const gain=10+(G.combo-1)*2; G.score+=gain; G.speed=Math.min(G.cap,G.speed+2);
+    popup(bin._el.offsetLeft+bin._el.offsetWidth/2,'＋'+gain+(G.combo>1?' '+G.combo+'コンボ':''),'ok');
+  }else{
+    G.lives--; G.combo=0;
+    popup(bin._el.offsetLeft+bin._el.offsetWidth/2,'✗ 正しくは「'+binDef(G.city,correctId).label+'」','ng');
+    stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);
+  }
+  updateHUD(); if(G.lives<=0)gameOver();
+}
+document.getElementById('qfbNext').onclick=function(){
+  hideQfb(); G.qi++;
+  if(G.qi>=G.queue.length)quizResult(); else showQuestion();
+};
+
 function popup(x,text,cls){
   const el=document.createElement('div');el.className='pf '+cls;el.textContent=text;
   el.style.left=Math.max(60,Math.min(stage.clientWidth-60,x))+'px';el.style.bottom='210px';
   stage.appendChild(el);setTimeout(()=>el.remove(),1000);
 }
-function updateHUD(){
-  document.getElementById('hudScore').textContent=G.score;
-  document.getElementById('hudCombo').textContent=G.combo>1?('🔥'+G.combo):'';
-  document.getElementById('hudLives').textContent='❤️'.repeat(Math.max(0,G.lives))+'🤍'.repeat(Math.max(0,3-G.lives));
-}
 function pauseGame(){
   if(!G||!G.running)return;
   G.paused=true;
   document.getElementById('ovTitle').textContent=G.city.name+'　分別ルール';
+  document.getElementById('ovMode').classList.add('hidden');
+  document.getElementById('ovModeLabel').classList.add('hidden');
   document.getElementById('ovSeg').classList.add('hidden');
+  document.getElementById('ovDiffLabel').classList.add('hidden');
+  document.getElementById('ovModeNote').classList.add('hidden');
   document.getElementById('ovCounts').textContent='一時停止中';
   renderBinsList(document.getElementById('ovBins'),G.city,G.diff);
   document.getElementById('ovStart').classList.add('hidden');
@@ -537,16 +644,30 @@ function pauseGame(){
   document.getElementById('ovRules').classList.add('show');
 }
 function resumeGame(){if(G){G.paused=false;lastT=performance.now();}}
-function bestScore(v){try{const k='gomi_rush_best';const cur=+(localStorage.getItem(k)||0);if(v>cur){localStorage.setItem(k,v);return v;}return cur;}catch(e){return v;}}
+function bestScore(v){try{const k='gomi_best';const cur=+(localStorage.getItem(k)||0);if(v>cur){localStorage.setItem(k,v);return v;}return cur;}catch(e){return v;}}
+
 function gameOver(){
   G.running=false;belt.classList.remove('run');stage.classList.remove('has-sel');cancelAnimationFrame(raf);
   const best=bestScore(G.score);
   document.getElementById('rEmoji').textContent=G.score>=120?'🎉':'😵';
   document.getElementById('rTitle').textContent=G.score>=120?'おみごと！':'ゲームオーバー';
   document.getElementById('rStats').innerHTML='スコア <b>'+G.score+'</b><br>最高コンボ '+G.bestCombo+'　／　ベスト '+best;
-  document.getElementById('rLesson').innerHTML='<div class="lesson"><div class="lh">📗 '+G.city.name+'のポイント</div>'+G.city.lesson+'</div>';
-  document.getElementById('rRetry').onclick=()=>{document.getElementById('ovResult').classList.remove('show');startGame(G.city,G.diff);};
+  showResultLesson();
+  document.getElementById('rRetry').onclick=()=>{document.getElementById('ovResult').classList.remove('show');startGame(G.city,'rush',G.diff);};
   document.getElementById('ovResult').classList.add('show');
+}
+function quizResult(){
+  G.running=false;stage.classList.remove('has-sel');
+  const pct=Math.round(G.correct/G.queue.length*100);
+  document.getElementById('rEmoji').textContent=pct>=80?'🎉':(pct>=50?'😊':'😵');
+  document.getElementById('rTitle').textContent=pct>=80?'よくできました！':'おつかれさま';
+  document.getElementById('rStats').innerHTML='正解 <b>'+G.correct+'</b> ／ '+G.queue.length+'　（'+pct+'%）';
+  showResultLesson();
+  document.getElementById('rRetry').onclick=()=>{document.getElementById('ovResult').classList.remove('show');startGame(G.city,'quiz',G.diff);};
+  document.getElementById('ovResult').classList.add('show');
+}
+function showResultLesson(){
+  document.getElementById('rLesson').innerHTML='<div class="lesson"><div class="lh">📗 '+G.city.name+'のポイント</div>'+G.city.lesson+'</div>';
 }
 function toCity(){document.getElementById('ovResult').classList.remove('show');show('city');}
 
@@ -555,6 +676,7 @@ document.addEventListener('keydown',e=>{
   if(!G||!G.running||G.paused)return;
   const n=parseInt(e.key,10);
   if(!isNaN(n)&&n>=1&&n<=G.shown.length){dropToBin(n-1);e.preventDefault();}
+  else if((e.key==='Enter'||e.key===' ')&&G.mode==='quiz'&&G.answered){document.getElementById('qfbNext').click();e.preventDefault();}
 });
 window.addEventListener('resize',()=>{if(G&&G.running)layoutBins();});
 renderCities();

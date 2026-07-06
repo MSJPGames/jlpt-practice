@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ゴミ分別ラッシュ（試作版）｜ JLPT Practice</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --teal:#1F6F6B; --teal-soft:#DFF0EE; --teal-deep:#12514D;
+    --green:#3B6D11; --green-bg:#EAF3DE;
+    --slate:#4A5568; --slate-bg:#ECEEF1;
+    --blue:#185FA5; --blue-bg:#E6F1FB;
+    --brown:#854F0B; --brown-bg:#FAEEDA;
+    --red:#993C1D; --red-bg:#FAECE7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 2rem;overflow-x:hidden;}
+  .container{max-width:480px;margin:0 auto;}
+
+  .topbar{display:flex;align-items:center;padding:1.1rem 0 0;}
+  .back{font-size:13px;color:var(--text-muted);text-decoration:none;font-weight:600;}
+  .back:active{opacity:.6;}
+
+  .head{text-align:center;padding:1.2rem 0 .4rem;}
+  .logo{font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--text-hint);margin-bottom:8px;}
+  .title{font-size:27px;font-weight:800;letter-spacing:.02em;}
+  .proto{display:inline-block;font-size:10px;font-weight:700;color:var(--teal-deep);background:var(--teal-soft);
+    padding:2px 9px;border-radius:999px;margin-left:6px;vertical-align:middle;}
+  .sub{font-size:13px;color:var(--text-muted);margin-top:8px;line-height:1.7;}
+  .sub .en{color:var(--text-hint);font-size:11px;}
+
+  .label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--text-hint);margin:1.6rem 0 .8rem;text-transform:uppercase;}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 16px;}
+  .lead{font-size:13.5px;line-height:1.85;color:var(--text-muted);}
+  .lead b{color:var(--text);}
+  .keyrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+  .key{font-size:11px;font-weight:700;color:var(--text-muted);background:#F0EEE8;border:1px solid var(--border);
+    border-radius:7px;padding:3px 9px;}
+
+  .btn{display:block;width:100%;border:none;border-radius:var(--radius);padding:15px 16px;font-family:inherit;
+    font-size:15px;font-weight:800;cursor:pointer;transition:transform .1s,box-shadow .1s;text-align:center;letter-spacing:.02em;}
+  .btn:active{transform:translateY(2px);}
+  .btn-primary{background:var(--teal);color:#fff;box-shadow:0 4px 0 var(--teal-deep);}
+  .btn-primary:active{box-shadow:0 2px 0 var(--teal-deep);}
+  .btn-ghost{background:var(--surface);color:var(--text);border:1px solid var(--border);box-shadow:none;}
+  .btn-row{margin-top:14px;}
+
+  /* 街カード */
+  .city-list{display:flex;flex-direction:column;gap:10px;}
+  .city-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:14px 15px;display:flex;align-items:center;gap:14px;cursor:pointer;position:relative;overflow:hidden;
+    transition:transform .1s,box-shadow .1s;text-align:left;width:100%;font-family:inherit;}
+  .city-card:active{transform:scale(.985);}
+  .city-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal);}
+  .city-badge{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+    font-size:24px;flex-shrink:0;background:var(--teal-soft);}
+  .city-info{flex:1;min-width:0;}
+  .city-name{font-size:15px;font-weight:700;}
+  .city-region{font-size:11px;color:var(--text-hint);margin-left:6px;font-weight:600;}
+  .city-tag{font-size:12px;color:var(--text-muted);margin-top:3px;line-height:1.5;}
+  .city-n{font-size:11px;color:var(--teal-deep);font-weight:700;margin-top:4px;}
+  .city-arrow{font-size:20px;color:var(--text-hint);flex-shrink:0;}
+
+  /* HUD */
+  .hud{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:.6rem 0 .5rem;}
+  .hud-city{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hud-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+  .hud-score{font-size:13px;font-weight:800;color:var(--teal-deep);}
+  .hud-combo{font-size:12px;font-weight:800;color:var(--brown);min-width:34px;text-align:right;}
+  .hud-lives{font-size:14px;letter-spacing:1px;}
+  .hud-help{border:1px solid var(--border);background:var(--surface);border-radius:999px;font-family:inherit;
+    font-size:12px;font-weight:800;color:var(--teal-deep);width:26px;height:26px;cursor:pointer;line-height:1;}
+
+  /* ステージ */
+  .stage{position:relative;width:100%;height:520px;background:linear-gradient(#FBFAF6,#F4F1EA);
+    border:1px solid var(--border);border-radius:16px;overflow:hidden;touch-action:none;}
+  .belt{position:absolute;left:0;right:0;top:52px;height:64px;background:repeating-linear-gradient(90deg,#E7E1D6 0 22px,#DED7C9 22px 44px);
+    border-top:2px solid #CFC7B7;border-bottom:2px solid #CFC7B7;box-shadow:inset 0 3px 6px rgba(0,0,0,.06);}
+  .belt.run{animation:beltmove 1s linear infinite;}
+  @keyframes beltmove{from{background-position:0 0;}to{background-position:-44px 0;}}
+  .belt-label{position:absolute;top:32px;left:10px;font-size:10px;font-weight:700;color:var(--text-hint);letter-spacing:.08em;}
+
+  .plate{position:absolute;top:50px;left:0;width:66px;height:66px;will-change:transform;}
+  .plate .dish{position:absolute;inset:0;border-radius:50%;background:#fff;border:2px solid #E2DDD6;
+    box-shadow:0 3px 6px rgba(0,0,0,.10);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;}
+  .plate .em{font-size:27px;line-height:1;}
+  .plate .nm{font-size:8px;font-weight:700;color:var(--text-muted);line-height:1.05;text-align:center;
+    max-width:60px;margin-top:1px;padding:0 2px;}
+
+  /* キャラ */
+  .char{position:absolute;width:64px;height:70px;bottom:132px;left:0;transform:translateX(-50%);
+    transition:left .12s ease;z-index:5;}
+  .char .body{transition:transform .12s;}
+  .char.toss-l .body{transform:rotate(-12deg);}
+  .char.toss-r .body{transform:rotate(12deg);}
+  .char .bob{animation:bob 1.6s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-3px);}}
+
+  .held{position:absolute;width:52px;height:52px;bottom:196px;left:0;transform:translateX(-50%);
+    transition:left .12s ease;z-index:6;pointer-events:none;}
+  .held .dish{position:absolute;inset:0;border-radius:50%;background:#fff;border:2px solid var(--teal);
+    box-shadow:0 4px 10px rgba(31,111,107,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .held .em{font-size:22px;line-height:1;}
+  .held .nm{font-size:7.5px;font-weight:700;color:var(--teal-deep);}
+  .held.pop{animation:pop .22s ease;}
+  @keyframes pop{from{transform:translateX(-50%) scale(.4);}to{transform:translateX(-50%) scale(1);}}
+
+  /* 手持ち品目の大きな表示 */
+  .now-name{position:absolute;top:126px;left:0;right:0;text-align:center;font-size:13px;font-weight:800;
+    color:var(--teal-deep);pointer-events:none;text-shadow:0 1px 0 #fff;}
+
+  /* ゴミ箱 */
+  .bin{position:absolute;bottom:8px;border-radius:10px 10px 8px 8px;border:2px solid;display:flex;
+    flex-direction:column;align-items:center;justify-content:flex-end;padding:6px 3px 8px;overflow:hidden;}
+  .bin .bl{font-size:10px;font-weight:800;line-height:1.2;text-align:center;}
+  .bin .mouth{position:absolute;top:0;left:8%;right:8%;height:7px;border-radius:0 0 6px 6px;opacity:.8;}
+  .bin.hi{box-shadow:0 0 0 3px rgba(31,111,107,.25);transform:translateY(-2px);}
+  .c-burn{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+  .c-burn .mouth{background:var(--green);}
+  .c-nonburn{background:var(--slate-bg);border-color:var(--slate);color:var(--slate);}
+  .c-nonburn .mouth{background:var(--slate);}
+  .c-plastic{background:var(--teal-soft);border-color:var(--teal);color:var(--teal-deep);}
+  .c-plastic .mouth{background:var(--teal);}
+  .c-shigen{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
+  .c-shigen .mouth{background:var(--blue);}
+  .c-paper{background:var(--brown-bg);border-color:var(--brown);color:var(--brown);}
+  .c-paper .mouth{background:var(--brown);}
+  .c-hazard{background:var(--red-bg);border-color:var(--red);color:var(--red);}
+  .c-hazard .mouth{background:var(--red);}
+
+  /* とんでいくゴミ */
+  .fly{position:absolute;width:40px;height:40px;z-index:7;pointer-events:none;}
+  .fly .dish{position:absolute;inset:0;border-radius:50%;background:#fff;border:2px solid #E2DDD6;
+    display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 3px 6px rgba(0,0,0,.12);}
+
+  /* ポップアップ */
+  .pf{position:absolute;font-size:13px;font-weight:800;z-index:9;pointer-events:none;
+    padding:3px 9px;border-radius:999px;animation:pfrise .8s ease forwards;white-space:nowrap;}
+  @keyframes pfrise{0%{opacity:0;transform:translate(-50%,4px) scale(.8);}20%{opacity:1;transform:translate(-50%,-4px) scale(1);}
+    100%{opacity:0;transform:translate(-50%,-30px) scale(1);}}
+  .pf.ok{background:var(--green);color:#fff;}
+  .pf.ng{background:var(--red);color:#fff;}
+
+  .stage.shake{animation:shake .3s;}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+
+  /* コントロール */
+  .controls{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:8px;margin-top:10px;}
+  .cbtn{border:none;border-radius:14px;font-family:inherit;font-weight:800;cursor:pointer;padding:16px 0;
+    font-size:20px;transition:transform .08s,box-shadow .08s;user-select:none;}
+  .cbtn:active{transform:translateY(2px);}
+  .cbtn.move{background:var(--surface);border:1px solid var(--border);color:var(--text);}
+  .cbtn.drop{background:var(--teal);color:#fff;font-size:16px;box-shadow:0 4px 0 var(--teal-deep);}
+  .cbtn.drop:active{box-shadow:0 2px 0 var(--teal-deep);}
+  .ctip{text-align:center;font-size:11px;color:var(--text-hint);margin-top:8px;line-height:1.6;}
+
+  /* オーバーレイ */
+  .overlay{position:fixed;inset:0;background:rgba(28,28,28,.55);display:none;align-items:center;justify-content:center;
+    z-index:100;padding:1rem;}
+  .overlay.show{display:flex;animation:fade .2s;}
+  @keyframes fade{from{opacity:0;}to{opacity:1;}}
+  .sheet{background:var(--bg);width:100%;max-width:400px;border-radius:18px;padding:20px 18px;max-height:86vh;overflow-y:auto;}
+  .sheet-title{font-size:18px;font-weight:800;text-align:center;}
+  .sheet-sub{font-size:12px;color:var(--text-muted);text-align:center;margin:4px 0 14px;line-height:1.6;}
+  .m-bin{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;position:relative;overflow:hidden;}
+  .m-bin::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;}
+  .m-bin.c-burn::before{background:var(--green);}.m-bin.c-nonburn::before{background:var(--slate);}
+  .m-bin.c-plastic::before{background:var(--teal);}.m-bin.c-shigen::before{background:var(--blue);}
+  .m-bin.c-paper::before{background:var(--brown);}.m-bin.c-hazard::before{background:var(--red);}
+  .m-bl{font-size:13px;font-weight:800;}
+  .m-ex{font-size:11.5px;color:var(--text-muted);margin-top:2px;line-height:1.5;}
+
+  .result{text-align:center;}
+  .r-emoji{font-size:60px;line-height:1;margin:.2rem 0;}
+  .r-title{font-size:22px;font-weight:800;}
+  .r-stats{font-size:14px;color:var(--text-muted);margin:8px 0 2px;line-height:1.9;}
+  .r-stats b{color:var(--teal-deep);font-size:18px;}
+  .lesson{background:var(--teal-soft);border:1px solid #CFE6E3;border-radius:12px;padding:12px 14px;
+    margin:14px 0;text-align:left;font-size:13px;line-height:1.75;}
+  .lesson .lh{font-weight:800;color:var(--teal-deep);margin-bottom:3px;}
+
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2rem;line-height:1.9;}
+  .hidden{display:none!important;}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar"><a href="games.html" class="back">‹ あそび場へ</a></div>
+  <div class="head">
+    <div class="logo">GOMI RUSH</div>
+    <div class="title">ゴミ分別ラッシュ<span class="proto">試作版</span></div>
+    <div class="sub">流れてくるゴミを、正しい箱へポイっ！<br>
+      <span class="en">Sort the trash flowing by — conveyor-belt style.</span>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <div id="s-intro">
+    <div class="card">
+      <p class="lead">
+        ベルトコンベアで <b>ゴミが流れて</b> きます。<br>
+        キャラクターを左右に動かして、目の前の <b>正しいゴミ箱にポイっ</b> と捨てよう。<br>
+        手がふさがっているうちに流れきると <b>ミス</b>。ライフは3つ。<br>
+        正解するほどスピードUP！ どこまで続けられるかな。
+      </p>
+      <div class="keyrow">
+        <span class="key">◀ ▶ 移動</span>
+        <span class="key">▼ / Space 捨てる</span>
+        <span class="key">ドラッグでも移動OK</span>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-primary" onclick="show('city')">▶ 街をえらぶ</button></div>
+    <p class="foot">分別ルールは実際の自治体をもとにした学習用の簡易版です。</p>
+  </div>
+
+  <!-- CITY -->
+  <div id="s-city" class="hidden">
+    <div class="label">住む街をえらぶ ・ Choose your town</div>
+    <div class="city-list" id="cityList"></div>
+    <p class="foot">この試作版は分別数が少なめの4都市。<br>周南市（8分別）・上勝町（45分別）は「タップ版」のほうが向いています。</p>
+  </div>
+
+  <!-- GAME -->
+  <div id="s-game" class="hidden">
+    <div class="hud">
+      <span class="hud-city" id="hudCity">—</span>
+      <div class="hud-right">
+        <span class="hud-score" id="hudScore">0</span>
+        <span class="hud-combo" id="hudCombo"></span>
+        <span class="hud-lives" id="hudLives">❤️❤️❤️</span>
+        <button class="hud-help" onclick="pauseGame()">?</button>
+      </div>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="belt" id="belt"><span class="belt-label">▶ 流れてくる</span></div>
+      <div class="now-name" id="nowName"></div>
+    </div>
+
+    <div class="controls">
+      <button class="cbtn move" id="btnL" onpointerdown="moveDir(-1,event)">◀</button>
+      <button class="cbtn drop" id="btnD" onpointerdown="drop(event)">▼ ポイっ！</button>
+      <button class="cbtn move" id="btnR" onpointerdown="moveDir(1,event)">▶</button>
+    </div>
+    <div class="ctip">キャラを動かして、今つかんでいるゴミを正しい箱へ</div>
+  </div>
+
+  <div class="foot" id="pageFoot">© 2025 JLPT Practice</div>
+</div>
+
+<!-- rules / pause overlay -->
+<div class="overlay" id="ovRules">
+  <div class="sheet">
+    <div class="sheet-title" id="ovTitle">分別ルール</div>
+    <div class="sheet-sub" id="ovSub"></div>
+    <div id="ovBins"></div>
+    <button class="btn btn-primary" id="ovStart" style="margin-top:6px;">▶ スタート</button>
+    <button class="btn btn-ghost" id="ovResume" style="margin-top:8px;">つづける</button>
+  </div>
+</div>
+
+<!-- result overlay -->
+<div class="overlay" id="ovResult">
+  <div class="sheet result">
+    <div class="r-emoji" id="rEmoji">😵</div>
+    <div class="r-title" id="rTitle">ゲームオーバー</div>
+    <div class="r-stats" id="rStats"></div>
+    <div id="rLesson"></div>
+    <button class="btn btn-primary" id="rRetry">🔁 もう一度</button>
+    <button class="btn btn-ghost" onclick="toCity()" style="margin-top:8px;">🗺️ 別の街をえらぶ</button>
+  </div>
+</div>
+
+<script>
+/* ============ データ（タップ版と共通） ============ */
+const ITEMS = {
+  pet:{name:'ペットボトル',emoji:'🧴'}, cap:{name:'キャップ',emoji:'🔵'},
+  can:{name:'アルミ缶',emoji:'🥫'}, bin:{name:'ガラスびん',emoji:'🍶'},
+  nama:{name:'生ごみ',emoji:'🥬'}, bento:{name:'弁当容器',emoji:'🍱'},
+  cup:{name:'カップめん',emoji:'🍜'}, news:{name:'新聞紙',emoji:'📰'},
+  cardb:{name:'段ボール',emoji:'📦'}, omutsu:{name:'紙おむつ',emoji:'🧷'},
+  glass:{name:'割れコップ',emoji:'💥'}, spray:{name:'スプレー缶',emoji:'🧴'},
+  cloth:{name:'古着',emoji:'👕'}, tray:{name:'発泡トレイ',emoji:'🍢'},
+  bucket:{name:'バケツ',emoji:'🪣'}
+};
+const CITIES = [
+  {
+    id:'fukuoka', name:'福岡市', region:'福岡県', emoji:'🌃',
+    tag:'プラは燃える・缶は燃えない（3分別）',
+    lesson:'福岡市はプラを「燃えるごみ」で燃やし、缶は「燃えないごみ」。びんとペットボトルだけ1袋にまとめます。',
+    bins:[
+      {id:'burn',label:'燃える',cls:'c-burn',ex:'生ごみ・プラ全般・紙・古着'},
+      {id:'nonburn',label:'燃えない',cls:'c-nonburn',ex:'缶・割れ物・金属・スプレー缶'},
+      {id:'shigen',label:'びん・ペット',cls:'c-shigen',ex:'びんとペットボトル（2つで1袋）'}
+    ],
+    answers:{pet:'shigen',cap:'burn',can:'nonburn',bin:'shigen',nama:'burn',bento:'burn',
+      cup:'burn',news:'burn',cardb:'burn',omutsu:'burn',glass:'nonburn',spray:'nonburn',cloth:'burn',tray:'burn',bucket:'burn'}
+  },
+  {
+    id:'osaka', name:'大阪市', region:'大阪府', emoji:'🐙',
+    tag:'缶・びん・ペットを ぜんぶ資源ごみに一括！',
+    lesson:'大阪市は缶・びん・ペットボトルを分けずに「資源ごみ」1袋へ。プラスチック容器だけ別（プラスチック資源）です。',
+    bins:[
+      {id:'burn',label:'普通ごみ',cls:'c-burn',ex:'生ごみ・紙おむつ・割れた食器'},
+      {id:'shigen',label:'資源ごみ',cls:'c-shigen',ex:'缶・びん・ペット・金属（まとめて）'},
+      {id:'plastic',label:'プラ資源',cls:'c-plastic',ex:'プラ容器・キャップ・トレイ'},
+      {id:'paper',label:'古紙・衣類',cls:'c-paper',ex:'新聞・段ボール・古着'}
+    ],
+    answers:{pet:'shigen',cap:'plastic',can:'shigen',bin:'shigen',nama:'burn',bento:'plastic',
+      cup:'plastic',news:'paper',cardb:'paper',omutsu:'burn',glass:'burn',spray:'shigen',cloth:'paper',tray:'plastic',bucket:'plastic'}
+  },
+  {
+    id:'tokyo', name:'東京（新宿区）', region:'東京都', emoji:'🗼',
+    tag:'標準的。プラは分けて資源に',
+    lesson:'東京ではプラ容器は「プラ資源」、ペットボトルは「びん・缶・ペット」。区ごとに違うので引っ越したら要確認。',
+    bins:[
+      {id:'burn',label:'可燃',cls:'c-burn',ex:'生ごみ・紙おむつ・汚れた紙'},
+      {id:'nonburn',label:'不燃',cls:'c-nonburn',ex:'割れガラス・金属・スプレー缶'},
+      {id:'plastic',label:'プラ資源',cls:'c-plastic',ex:'プラ容器・キャップ・トレイ'},
+      {id:'shigen',label:'びん缶ペット',cls:'c-shigen',ex:'びん・缶・ペットボトル本体'},
+      {id:'paper',label:'古紙',cls:'c-paper',ex:'新聞・段ボール・古着'}
+    ],
+    answers:{pet:'shigen',cap:'plastic',can:'shigen',bin:'shigen',nama:'burn',bento:'plastic',
+      cup:'plastic',news:'paper',cardb:'paper',omutsu:'burn',glass:'nonburn',spray:'nonburn',cloth:'paper',tray:'plastic',bucket:'plastic'}
+  },
+  {
+    id:'nagoya', name:'名古屋市', region:'愛知県', emoji:'🏯',
+    tag:'分別が細かい。発火性危険ごみに注意！',
+    lesson:'名古屋市は分別が細かい街。スプレー缶やライターは可燃でも不燃でもなく「発火性危険ごみ」に出します。',
+    bins:[
+      {id:'burn',label:'可燃',cls:'c-burn',ex:'生ごみ・紙おむつ'},
+      {id:'nonburn',label:'不燃',cls:'c-nonburn',ex:'割れガラス・陶器・バケツ'},
+      {id:'hazard',label:'発火性危険',cls:'c-hazard',ex:'スプレー缶・ライター・電池'},
+      {id:'plastic',label:'容器包装プラ',cls:'c-plastic',ex:'プラ容器・キャップ・トレイ'},
+      {id:'shigen',label:'缶びんペット',cls:'c-shigen',ex:'缶・びん・ペットボトル'},
+      {id:'paper',label:'紙・布',cls:'c-paper',ex:'新聞・段ボール・古着'}
+    ],
+    answers:{pet:'shigen',cap:'plastic',can:'shigen',bin:'shigen',nama:'burn',bento:'plastic',
+      cup:'plastic',news:'paper',cardb:'paper',omutsu:'burn',glass:'nonburn',spray:'hazard',cloth:'paper',tray:'plastic',bucket:'nonburn'}
+  }
+];
+const binLabelById = (city,id)=>city.bins.find(b=>b.id===id).label;
+
+/* ============ 画面 ============ */
+const SCREENS=['intro','city','game'];
+function show(name){SCREENS.forEach(s=>document.getElementById('s-'+s).classList.toggle('hidden',s!==name));window.scrollTo(0,0);}
+function renderCities(){
+  const L=document.getElementById('cityList');L.innerHTML='';
+  CITIES.forEach(c=>{
+    const b=document.createElement('button');b.className='city-card';b.onclick=()=>openRules(c);
+    b.innerHTML='<div class="city-badge">'+c.emoji+'</div><div class="city-info"><div class="city-name">'+c.name+
+      '<span class="city-region">'+c.region+'</span></div><div class="city-tag">'+c.tag+'</div>'+
+      '<div class="city-n">ゴミ箱 '+c.bins.length+'種類</div></div><span class="city-arrow">›</span>';
+    L.appendChild(b);
+  });
+}
+
+/* ============ ルール表示 ============ */
+let pendingCity=null;
+function openRules(city){
+  pendingCity=city;
+  document.getElementById('ovTitle').textContent=city.name+'　分別ルール';
+  document.getElementById('ovSub').textContent=city.tag;
+  const w=document.getElementById('ovBins');w.innerHTML='';
+  city.bins.forEach(bn=>{
+    const d=document.createElement('div');d.className='m-bin '+bn.cls;
+    d.innerHTML='<div class="m-bl">'+bn.label+'</div><div class="m-ex">'+bn.ex+'</div>';
+    w.appendChild(d);
+  });
+  document.getElementById('ovStart').classList.remove('hidden');
+  document.getElementById('ovResume').classList.add('hidden');
+  document.getElementById('ovRules').classList.add('show');
+}
+document.getElementById('ovStart').onclick=function(){
+  document.getElementById('ovRules').classList.remove('show');
+  startGame(pendingCity);
+};
+document.getElementById('ovResume').onclick=function(){
+  document.getElementById('ovRules').classList.remove('show');
+  resumeGame();
+};
+
+/* ============ ゲーム本体 ============ */
+const stage=document.getElementById('stage');
+const belt=document.getElementById('belt');
+let G=null; // ゲーム状態
+let raf=null, lastT=0;
+
+const PLATE_W=66, HELD_W=52;
+const PICKUP_X=16;           // ここまで来たら（手が空いていれば）つかむ
+const BELT_Y=50;
+
+function geom(){
+  const W=stage.clientWidth;
+  const N=G.city.bins.length;
+  const gap=8;
+  const binW=Math.max(44,(W-gap*(N+1))/N);
+  const centers=[];
+  for(let i=0;i<N;i++){centers.push(gap+i*(binW+gap)+binW/2);}
+  return {W,N,gap,binW,centers};
+}
+
+function startGame(city){
+  // 既存のプレート等を掃除
+  [...stage.querySelectorAll('.plate,.char,.held,.fly,.pf,.bin,.now-name')].forEach(e=>{if(!e.classList.contains('now-name'))e.remove();});
+  show('game');
+  G={city, plates:[], held:null, curIndex:0, lives:3, score:0, combo:0, bestCombo:0,
+     speed:60, spawnGap:170, running:true, paused:false, seq:0};
+  const g=geom(); G.curIndex=Math.floor(g.N/2);
+  buildBins(g);
+  buildChar(g);
+  document.getElementById('hudCity').textContent=city.emoji+' '+city.name;
+  belt.classList.add('run');
+  updateHUD();
+  document.getElementById('nowName').textContent='';
+  lastT=performance.now();
+  cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
+}
+
+function buildBins(g){
+  stage.querySelectorAll('.bin').forEach(e=>e.remove());
+  G.city.bins.forEach((bn,i)=>{
+    const d=document.createElement('div');d.className='bin '+bn.cls;
+    d.style.left=(g.gap+i*(g.binW+g.gap))+'px';
+    d.style.width=g.binW+'px';
+    d.style.height='108px';
+    d.dataset.idx=i;
+    d.innerHTML='<div class="mouth"></div><div class="bl">'+bn.label+'</div>';
+    stage.appendChild(d);
+  });
+}
+function buildChar(g){
+  const c=document.createElement('div');c.className='char';c.id='char';
+  c.innerHTML='<div class="bob"><div class="body"><svg viewBox="0 0 64 70" width="64" height="70">'
+   +'<ellipse cx="32" cy="66" rx="16" ry="4" fill="#00000012"/>'
+   +'<rect x="18" y="34" width="28" height="26" rx="11" fill="#1F6F6B"/>'         // 胴
+   +'<rect x="12" y="28" width="10" height="20" rx="5" fill="#1F6F6B" transform="rotate(-18 17 38)"/>' // 左腕上げ
+   +'<rect x="42" y="28" width="10" height="20" rx="5" fill="#1F6F6B" transform="rotate(18 47 38)"/>'  // 右腕上げ
+   +'<circle cx="32" cy="20" r="13" fill="#F3D9C0"/>'                              // 顔
+   +'<path d="M18 17 a14 10 0 0 1 28 0 l0 -2 a14 9 0 0 0 -28 0 z" fill="#12514D"/>'// 帽子
+   +'<rect x="17" y="13" width="30" height="5" rx="2.5" fill="#12514D"/>'
+   +'<circle cx="27" cy="21" r="1.6" fill="#3a2b20"/><circle cx="37" cy="21" r="1.6" fill="#3a2b20"/>'
+   +'<path d="M28 26 q4 3 8 0" stroke="#c98" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+   +'</svg></div></div>';
+  stage.appendChild(c);
+  positionChar();
+}
+function positionChar(){
+  const g=geom();
+  const x=g.centers[G.curIndex];
+  const c=document.getElementById('char'); if(c)c.style.left=x+'px';
+  if(G.held){const h=document.getElementById('heldEl'); if(h)h.style.left=x+'px';}
+  // ハイライト
+  stage.querySelectorAll('.bin').forEach(b=>b.classList.toggle('hi',+b.dataset.idx===G.curIndex));
+}
+
+function spawnPlate(){
+  const g=geom();
+  const keys=Object.keys(ITEMS);
+  const key=keys[(Math.random()*keys.length)|0];
+  const it=ITEMS[key];
+  const el=document.createElement('div');el.className='plate';
+  el.innerHTML='<div class="dish"><div class="em">'+it.emoji+'</div><div class="nm">'+it.name+'</div></div>';
+  const p={key, x:g.W+10, el};
+  el.style.transform='translateX('+p.x+'px)';
+  stage.appendChild(el);
+  G.plates.push(p);
+}
+
+function loop(now){
+  if(!G||!G.running){return;}
+  if(G.paused){lastT=now;raf=requestAnimationFrame(loop);return;}
+  let dt=(now-lastT)/1000; if(dt>0.05)dt=0.05; lastT=now;
+  const g=geom();
+
+  // プレート移動
+  for(const p of G.plates){p.x-=G.speed*dt; p.el.style.transform='translateX('+p.x+'px)';}
+
+  // つかむ（手が空いていて、左端に到達した最左プレート）
+  if(!G.held){
+    let cand=null;
+    for(const p of G.plates){if(p.x<=PICKUP_X){if(!cand||p.x<cand.x)cand=p;}}
+    if(cand){grab(cand);}
+  }
+
+  // ミス（つかまれず左へ流れきった）
+  for(let i=G.plates.length-1;i>=0;i--){
+    const p=G.plates[i];
+    if(p.x<=-PLATE_W){p.el.remove();G.plates.splice(i,1);miss(p);}
+  }
+
+  // スポーン
+  let maxX=-Infinity; for(const p of G.plates)maxX=Math.max(maxX,p.x);
+  if(G.plates.length===0||maxX<=g.W-G.spawnGap){spawnPlate();}
+
+  if(G.running)raf=requestAnimationFrame(loop);
+}
+
+function grab(p){
+  p.el.remove();
+  G.plates=G.plates.filter(x=>x!==p);
+  G.held={key:p.key};
+  const g=geom();
+  const it=ITEMS[p.key];
+  const h=document.createElement('div');h.className='held pop';h.id='heldEl';
+  h.innerHTML='<div class="dish"><div class="em">'+it.emoji+'</div><div class="nm">'+it.name+'</div></div>';
+  h.style.left=g.centers[G.curIndex]+'px';
+  stage.appendChild(h);
+  document.getElementById('nowName').textContent='「'+it.name+'」を どこへ？';
+}
+
+function moveDir(d,e){
+  if(e&&e.preventDefault)e.preventDefault();
+  if(!G||!G.running||G.paused)return;
+  const g=geom();
+  G.curIndex=Math.max(0,Math.min(g.N-1,G.curIndex+d));
+  positionChar();
+}
+
+function drop(e){
+  if(e&&e.preventDefault)e.preventDefault();
+  if(!G||!G.running||G.paused||!G.held)return;
+  const g=geom();
+  const idx=G.curIndex;
+  const bin=G.city.bins[idx];
+  const correct=G.city.answers[G.held.key]===bin.id;
+  const it=ITEMS[G.held.key];
+  const key=G.held.key;
+
+  // 手持ちを消す
+  const h=document.getElementById('heldEl'); if(h)h.remove();
+  G.held=null;
+  document.getElementById('nowName').textContent='';
+
+  // とんでいく演出
+  const fly=document.createElement('div');fly.className='fly';
+  fly.innerHTML='<div class="dish">'+it.emoji+'</div>';
+  const startX=g.centers[idx], startY=stage.clientHeight-196;
+  const endX=g.centers[idx], endY=stage.clientHeight-70;
+  fly.style.left=(startX-20)+'px'; fly.style.top=startY+'px';
+  stage.appendChild(fly);
+  fly.animate([{transform:'translate(0,0) scale(1)'},{transform:'translate('+(endX-startX)+'px,'+(endY-startY)+'px) scale(.5)',opacity:.3}],
+    {duration:260,easing:'cubic-bezier(.4,0,.6,1)'}).onfinish=()=>fly.remove();
+
+  // キャラのトス動作
+  const c=document.getElementById('char');
+  if(c){c.classList.remove('toss-l','toss-r');void c.offsetWidth;c.classList.add('toss-r');setTimeout(()=>c.classList.remove('toss-r'),160);}
+
+  if(correct){
+    G.combo++; G.bestCombo=Math.max(G.bestCombo,G.combo);
+    const gain=10+ (G.combo-1)*2;
+    G.score+=gain;
+    G.speed=Math.min(150,G.speed+3);
+    popup(startX,'＋'+gain+(G.combo>1?'  '+G.combo+'コンボ':''),'ok');
+  }else{
+    G.lives--; G.combo=0;
+    popup(startX,'✗ '+binLabelById(G.city,G.city.answers[key]),'ng');
+    stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);
+  }
+  updateHUD();
+  if(G.lives<=0)gameOver();
+}
+
+function miss(p){
+  G.lives--; G.combo=0;
+  popup(20,'😾 ミス','ng');
+  stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);
+  updateHUD();
+  if(G.lives<=0)gameOver();
+}
+
+function popup(x,text,cls){
+  const el=document.createElement('div');el.className='pf '+cls;el.textContent=text;
+  el.style.left=x+'px'; el.style.bottom='150px';
+  stage.appendChild(el); setTimeout(()=>el.remove(),820);
+}
+
+function updateHUD(){
+  document.getElementById('hudScore').textContent=G.score;
+  document.getElementById('hudCombo').textContent=G.combo>1?('🔥'+G.combo):'';
+  document.getElementById('hudLives').textContent='❤️'.repeat(Math.max(0,G.lives))+'🤍'.repeat(Math.max(0,3-G.lives));
+}
+
+/* pause */
+function pauseGame(){
+  if(!G||!G.running)return;
+  G.paused=true;
+  document.getElementById('ovTitle').textContent=G.city.name+'　分別ルール';
+  document.getElementById('ovSub').textContent='一時停止中';
+  const w=document.getElementById('ovBins');w.innerHTML='';
+  G.city.bins.forEach(bn=>{const d=document.createElement('div');d.className='m-bin '+bn.cls;
+    d.innerHTML='<div class="m-bl">'+bn.label+'</div><div class="m-ex">'+bn.ex+'</div>';w.appendChild(d);});
+  document.getElementById('ovStart').classList.add('hidden');
+  document.getElementById('ovResume').classList.remove('hidden');
+  document.getElementById('ovRules').classList.add('show');
+}
+function resumeGame(){if(G){G.paused=false;lastT=performance.now();}}
+
+/* game over */
+function bestScore(v){
+  try{const k='gomi_rush_best';const cur=+(localStorage.getItem(k)||0);
+    if(v>cur){localStorage.setItem(k,v);return v;}return cur;}catch(e){return v;}
+}
+function gameOver(){
+  G.running=false; belt.classList.remove('run');
+  cancelAnimationFrame(raf);
+  const best=bestScore(G.score);
+  document.getElementById('rEmoji').textContent = G.score>=120?'🎉':'😵';
+  document.getElementById('rTitle').textContent = G.score>=120?'おみごと！':'ゲームオーバー';
+  document.getElementById('rStats').innerHTML='スコア <b>'+G.score+'</b><br>最高コンボ '+G.bestCombo+
+    '　／　ベスト '+best;
+  document.getElementById('rLesson').innerHTML='<div class="lesson"><div class="lh">📗 '+G.city.name+'のポイント</div>'+G.city.lesson+'</div>';
+  document.getElementById('rRetry').onclick=()=>{document.getElementById('ovResult').classList.remove('show');startGame(G.city);};
+  document.getElementById('ovResult').classList.add('show');
+}
+function toCity(){document.getElementById('ovResult').classList.remove('show');show('city');}
+
+/* ============ 入力 ============ */
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('s-game').classList.contains('hidden'))return;
+  if(e.key==='ArrowLeft'){moveDir(-1);e.preventDefault();}
+  else if(e.key==='ArrowRight'){moveDir(1);e.preventDefault();}
+  else if(e.key==='ArrowDown'||e.key===' '){drop(e);e.preventDefault();}
+});
+// ドラッグで移動
+let dragging=false;
+function ptrToBin(clientX){
+  const r=stage.getBoundingClientRect();const g=geom();const x=clientX-r.left;
+  let best=0,bd=1e9;g.centers.forEach((cx,i)=>{const d=Math.abs(cx-x);if(d<bd){bd=d;best=i;}});
+  if(G&&G.running&&!G.paused){G.curIndex=best;positionChar();}
+}
+stage.addEventListener('pointerdown',e=>{dragging=true;ptrToBin(e.clientX);});
+stage.addEventListener('pointermove',e=>{if(dragging)ptrToBin(e.clientX);});
+window.addEventListener('pointerup',()=>{dragging=false;});
+window.addEventListener('resize',()=>{if(G&&G.running){const g=geom();buildBins(g);G.curIndex=Math.min(G.curIndex,g.N-1);positionChar();}});
+
+/* 初期化 */
+renderCities();
+
+/* EN toggle（サイト共通） */
+(function(){
+  var KEY='nnh_en_off';var st=document.createElement('style');
+  st.textContent="body.hide-en .en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;font-weight:700;"
+   +"letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;background:rgba(255,255,255,.92);"
+   +"color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#1F6F6B;margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false;try{off=localStorage.getItem(KEY)==='1';}catch(e){}
+  if(off)document.body.classList.add('hide-en');
+  var b=document.createElement('button');b.type='button';
+  function paint(){var h=document.body.classList.contains('hide-en');b.className='en-toggle'+(h?' off':'');b.innerHTML='EN<span class="d"></span>';}
+  b.addEventListener('click',function(){var h=document.body.classList.toggle('hide-en');try{localStorage.setItem(KEY,h?'1':'0');}catch(e){}paint();});
+  paint();document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>あそんでなれる ｜ JLPT Practice</title>
+<title>ゲーム ・ 日本語の部屋</title>
 <style>
   :root {
     --bg: #F7F5F0;
@@ -12,252 +12,269 @@
     --text: #1C1C1C;
     --text-muted: #6B6560;
     --text-hint: #9E9890;
-    --radius: 16px;
-    --radius-lg: 22px;
-    /* ゲーム別アクセント（既存サイトのバッジ色と統一） */
-    --n5: #3B6D11; --n5-soft: #EAF3DE; --n5-deep:#2C520C;
-    --n4: #185FA5; --n4-soft: #E6F1FB; --n4-deep: #0E436F;
-    --n3: #3C3489; --n3-soft: #EEEDFE;
-    --n2: #854F0B; --n2-soft: #FAEEDA;
+    --radius: 14px;
+    --radius-sm: 10px;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
-    background: var(--bg); color: var(--text);
-    min-height: 100vh; padding: 0 1rem 2.5rem;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 1rem 2rem;
   }
   .container { max-width: 480px; margin: 0 auto; }
 
-  /* 戻る */
-  .topbar { display:flex; align-items:center; padding: 1.1rem 0 0; }
-  .back { font-size: 13px; color: var(--text-muted); text-decoration:none; font-weight:600; display:inline-flex; align-items:center; gap:4px; }
-  .back:active { opacity:.6; }
-
   /* ヘッダー */
-  .head { text-align: center; padding: 1.4rem 0 0.5rem; }
-  .logo { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: var(--text-hint); margin-bottom: 8px; }
-  .title { font-size: 30px; font-weight: 800; letter-spacing: 0.03em; }
-  .sub { font-size: 13px; color: var(--text-muted); margin-top: 8px; line-height: 1.7; }
+  .app-header { text-align: center; padding: 2rem 0 1.5rem; }
+  .app-logo { font-size: 13px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 10px; }
+  .app-title { font-size: 26px; font-weight: 700; color: #1C1C1C; letter-spacing: 0.02em; }
+  .app-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
 
   /* セクションラベル */
-  .label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-hint);
-    margin: 1.8rem 0 0.8rem; text-transform: uppercase; }
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--text-hint); margin: 1.5rem 0 0.75rem;
+    text-transform: uppercase;
+  }
 
-  /* ===== 主役カード ===== */
-  .hero {
-    display:block; text-decoration:none; color:inherit;
+  /* グループ見出し（4分類） */
+  .group-head { display: flex; align-items: center; gap: 10px; margin: 1.9rem 0 0.85rem; }
+  .group-head:first-of-type { margin-top: 1.5rem; }
+  .gh-bar { width: 4px; height: 20px; border-radius: 2px; flex-shrink: 0; }
+  .gh-title { font-size: 16px; font-weight: 700; letter-spacing: 0.01em; }
+  .gh-en { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-hint); text-transform: uppercase; margin-left: 7px; }
+  .gh-bar.bar-game { background: #3B6D11; }
+  .gh-bar.bar-char { background: #1F6F6B; }
+  .gh-bar.bar-gram { background: #854F0B; }
+  .gh-bar.bar-test { background: #185FA5; }
+
+  /* レベルリスト */
+  .level-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .level-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 14px;
+    text-decoration: none; color: inherit;
+    transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
     position: relative; overflow: hidden;
-    background: linear-gradient(145deg, #fff, #FBFAF6);
-    border: 1px solid var(--border); border-radius: var(--radius-lg);
-    padding: 22px 20px 20px;
-    box-shadow: 0 6px 22px rgba(0,0,0,0.06);
-    transition: transform .12s, box-shadow .12s;
+    -webkit-tap-highlight-color: transparent;
   }
-  .hero:active { transform: scale(.985); }
-  .hero::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background: var(--n5); }
-
-  /* 背景に漂うかな */
-  .float-layer { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
-  .float-kana { position:absolute; font-size:54px; font-weight:800; color: var(--n5); opacity:0.07; }
-  @media (prefers-reduced-motion: no-preference){
-    .float-kana { animation: drift 9s ease-in-out infinite; }
-    @keyframes drift { 0%,100%{transform:translateY(0) rotate(-4deg)} 50%{transform:translateY(-12px) rotate(4deg)} }
+  .level-card.available:active {
+    transform: scale(0.98);
+  }
+  .level-card.available:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .level-card.disabled {
+    opacity: 0.6;
+    pointer-events: none;
   }
 
-  .hero-top { display:flex; align-items:center; gap:8px; position:relative; }
-  .pill { font-size:10px; font-weight:700; letter-spacing:0.06em; padding:3px 10px; border-radius:999px; }
-  .pill-live { background: var(--n5-soft); color: var(--n5-deep); }
-  .pill-time { background:#F0EEE8; color: var(--text-muted); }
-  .hero-name { font-size: 27px; font-weight: 800; margin-top: 12px; letter-spacing:0.02em; position:relative; }
-  .hero-en { font-size:11px; font-weight:700; letter-spacing:0.14em; color: var(--text-hint); margin-top:2px; position:relative; }
-  .hero-desc { font-size:13.5px; color: var(--text-muted); line-height:1.7; margin-top:12px; max-width: 300px; position:relative; }
-  .hero-desc-en { font-size:11.5px; color: var(--text-hint); line-height:1.5; margin-top:5px; max-width:300px; position:relative; }
-  .game-en { font-size:10.5px; font-weight:600; color: var(--text-hint); letter-spacing:0.03em; margin-top:1px; }
-  .play-btn {
-    margin-top:18px; display:inline-flex; align-items:center; gap:8px;
-    background: var(--n5); color:#fff; font-weight:700; font-size:16px; letter-spacing:0.04em;
-    padding:13px 30px; border-radius:999px; position:relative;
-    box-shadow: 0 4px 0 var(--n5-deep);
+  /* レベルバッジ */
+  .level-badge {
+    width: 52px; height: 52px;
+    border-radius: 13px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700;
+    flex-shrink: 0; letter-spacing: 0.02em;
   }
-  .hero:active .play-btn { box-shadow: 0 2px 0 var(--n5-deep); transform: translateY(2px); }
+  .badge-n5 { background: #EAF3DE; color: #3B6D11; }
+  .badge-n4 { background: #E6F1FB; color: #185FA5; }
+  .badge-n3 { background: #EEEDFE; color: #3C3489; }
+  .badge-n2 { background: #FAEEDA; color: #854F0B; }
+  .badge-n1 { background: #FAECE7; color: #993C1D; }
 
-  /* カタカナ用ヒーロー（青） */
-  .hero-kata::before { background: var(--n4); }
-  .hero-kata .float-kana { color: var(--n4); }
-  .hero-kata .pill-live { background: var(--n4-soft); color: var(--n4-deep); }
-  .hero-kata .play-btn { background: var(--n4); box-shadow: 0 4px 0 var(--n4-deep); }
-  .hero-kata:active .play-btn { box-shadow: 0 2px 0 var(--n4-deep); transform: translateY(2px); }
+  /* レベル情報 */
+  .level-info { flex: 1; min-width: 0; }
+  .level-name { font-size: 15px; font-weight: 700; color: var(--text); }
+  .level-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .level-meta { display: flex; align-items: center; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
 
-  /* もぐらたたき用ヒーロー（アンバー） */
-  .hero-mogura::before { background: var(--n2); }
-  .hero-mogura .float-kana { color: var(--n2); }
-  .hero-mogura .pill-live { background: var(--n2-soft); color: var(--n2); }
-  .hero-mogura .play-btn { background: var(--n2); box-shadow: 0 4px 0 #5E3707; }
-  .hero-mogura:active .play-btn { box-shadow: 0 2px 0 #5E3707; transform: translateY(2px); }
-
-  /* かなたまご用ヒーロー（パープル／N3） */
-  .hero-tamago::before { background: var(--n3); }
-  .hero-tamago .float-kana { color: var(--n3); }
-  .hero-tamago .pill-live { background: var(--n3-soft); color: var(--n3); }
-  .hero-tamago .play-btn { background: var(--n3); box-shadow: 0 4px 0 #2A2566; }
-  .hero-tamago:active .play-btn { box-shadow: 0 2px 0 #2A2566; transform: translateY(2px); }
-
-  /* ===== これからの枠 ===== */
-  .grid { display:flex; flex-direction:column; gap:10px; }
-  .game-card {
-    background: var(--surface); border:1px solid var(--border); border-radius: var(--radius);
-    padding: 14px 16px; display:flex; align-items:center; gap:14px;
-    opacity:.62;
+  /* ステータスバッジ */
+  .status-pill {
+    font-size: 10px; font-weight: 700;
+    padding: 2px 9px; border-radius: 20px;
+    display: inline-block;
   }
-  .game-badge {
-    width:50px; height:50px; border-radius:13px; flex-shrink:0;
-    display:flex; align-items:center; justify-content:center;
-    font-size:24px; font-weight:800;
+  .pill-ready { background: #EAF3DE; color: #3B6D11; }
+  .pill-coming { background: #F0EEE8; color: var(--text-hint); }
+  .level-count { font-size: 11px; color: var(--text-hint); }
+
+  /* 矢印 */
+  .level-arrow {
+    font-size: 20px; color: var(--text-hint);
+    flex-shrink: 0; transition: transform 0.12s;
   }
-  .b-kata { background: var(--n4-soft); color: var(--n4); }
-  .b-kanji { background: var(--n3-soft); color: var(--n3); }
-  .b-word { background: var(--n2-soft); color: var(--n2); }
-  .game-info { flex:1; min-width:0; }
-  .game-name { font-size:15px; font-weight:700; }
-  .game-desc { font-size:12px; color: var(--text-muted); margin-top:3px; line-height:1.5; }
-  .game-soon { font-size:10px; font-weight:700; color: var(--text-hint); background:#F0EEE8;
-    padding:2px 9px; border-radius:999px; display:inline-block; margin-top:6px; }
-  .game-soon.ready { background: var(--n4-soft); color: var(--n4); }
+  .level-card.available:hover .level-arrow { transform: translateX(3px); }
+  .level-arrow.dim { opacity: 0.3; }
 
-  /* あそべるカード（カタカナラッシュ） */
-  .game-card.active { opacity:1; text-decoration:none; color:inherit; cursor:pointer;
-    transition: transform .12s, box-shadow .12s; }
-  .game-card.active:active { transform: scale(.985); }
-  .game-card.active:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-  .card-arrow { font-size:20px; color: var(--text-hint); flex-shrink:0; transition: transform .12s; }
-  .game-card.active:hover .card-arrow { transform: translateX(3px); }
+  /* アクセントライン */
+  .level-card.available::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; border-radius: 3px 0 0 3px;
+  }
+  .card-n3::before { background: #534AB7; }
+  .card-n4::before { background: #185FA5; }
+  .card-n5::before { background: #3B6D11; }
 
-  .foot { text-align:center; font-size:11px; color: var(--text-hint); margin-top:2rem; line-height:1.9; }
+  /* フッター */
+  .app-footer {
+    text-align: center; font-size: 11px; color: var(--text-hint);
+    margin-top: 2rem; line-height: 1.8;
+  }
+
+  /* あそび場への入口バナー */
+  .play-banner {
+    display: flex; align-items: center; gap: 14px;
+    background: linear-gradient(135deg, #FFFFFF, #F2F7EA);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 16px; text-decoration: none; color: inherit;
+    position: relative; overflow: hidden;
+    transition: transform 0.12s, box-shadow 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .play-banner:active { transform: scale(0.98); }
+  .play-banner:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .play-banner::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: #3B6D11; border-radius: 3px 0 0 3px;
+  }
+  .pb-float { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .pb-float span { position: absolute; font-weight: 800; color: #3B6D11; opacity: 0.06; }
+  .pb-icon {
+    width: 52px; height: 52px; border-radius: 13px; flex-shrink: 0;
+    background: #EAF3DE; color: #3B6D11;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 800;
+  }
+  .pb-info { flex: 1; min-width: 0; position: relative; }
+  .pb-title { font-size: 15px; font-weight: 700; }
+  .pb-en { font-size: 10.5px; font-weight: 600; letter-spacing: 0.03em; color: var(--text-hint); margin-top: 1px; }
+  .pb-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .pb-pill {
+    display: inline-block; margin-top: 6px; font-size: 10px; font-weight: 700;
+    padding: 2px 9px; border-radius: 20px; background: #EAF3DE; color: #3B6D11;
+  }
+  .pb-arrow { font-size: 20px; color: #3B6D11; flex-shrink: 0; position: relative; transition: transform 0.12s; }
+  .play-banner:hover .pb-arrow { transform: translateX(3px); }
+  .play-banner.learn { background: linear-gradient(135deg, #FFFFFF, #F0EFFA); }
+  .play-banner.learn::before { background: #3C3489; }
+  .play-banner.learn .pb-icon { background: #EEEDFE; color: #3C3489; }
+  .play-banner.learn .pb-pill { background: #EEEDFE; color: #3C3489; }
+  .play-banner.learn .pb-arrow { color: #3C3489; }
+  .play-banner.learn .pb-float span { color: #3C3489; }
+  .play-banner.kanji { background: linear-gradient(135deg, #FFFFFF, #E6F0EF); }
+  .play-banner.kanji::before { background: #1F6F6B; }
+  .play-banner.kanji .pb-icon { background: #DFF0EE; color: #1F6F6B; }
+  .play-banner.kanji .pb-pill { background: #DFF0EE; color: #1F6F6B; }
+  .play-banner.kanji .pb-arrow { color: #1F6F6B; }
+  .play-banner.kanji .pb-float span { color: #1F6F6B; }
+  .play-banner.conj { background: linear-gradient(135deg, #FFFFFF, #FAF3E6); }
+  .play-banner.conj::before { background: #854F0B; }
+  .play-banner.conj .pb-icon { background: #FAEEDA; color: #854F0B; }
+  .play-banner.conj .pb-pill { background: #FAEEDA; color: #854F0B; }
+  .play-banner.conj .pb-arrow { color: #854F0B; }
+  .play-banner.conj .pb-float span { color: #854F0B; }
+  .play-banner.drill { background: linear-gradient(135deg, #FFFFFF, #FAEEEA); }
+  .play-banner.drill::before { background: #9A3D1C; }
+  .play-banner.drill .pb-icon { background: #FAECE7; color: #9A3D1C; }
+  .play-banner.drill .pb-pill { background: #FAECE7; color: #9A3D1C; }
+  .play-banner.drill .pb-arrow { color: #9A3D1C; }
+  .play-banner.drill .pb-float span { color: #9A3D1C; }
+  .play-banner.test { background: linear-gradient(135deg, #FFFFFF, #EAF1FA); }
+  .play-banner.test::before { background: #185FA5; }
+  .play-banner.test .pb-icon { background: #E6F1FB; color: #185FA5; }
+  .play-banner.test .pb-pill { background: #E6F1FB; color: #185FA5; }
+  .play-banner.test .pb-arrow { color: #185FA5; }
+  .play-banner.test .pb-float span { color: #185FA5; }
+  .play-banner.lang { background: linear-gradient(135deg, #FFFFFF, #E7F1EC); }
+  .play-banner.lang::before { background: #2F7168; }
+  .play-banner.lang .pb-icon { background: #DDEEE7; color: #2F7168; }
+  .play-banner.lang .pb-pill { background: #DDEEE7; color: #2F7168; }
+  .play-banner.lang .pb-arrow { color: #2F7168; }
+  .play-banner.lang .pb-float span { color: #2F7168; }
+
+  /* --- ハブ用の戻る＆準備中バナー（追加） --- */
+  .topbar{display:flex;align-items:center;padding:14px 0 0;}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--text-muted);text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);-webkit-tap-highlight-color:transparent;transition:transform .12s;}
+  .back-link:active{transform:scale(.97);}
+  .back-arrow{font-size:16px;line-height:1;}
+  .play-banner.learn{background:linear-gradient(135deg,#FFFFFF,#F0EFFA);}
+  .play-banner.learn::before{background:#3C3489;}
+  .play-banner.learn .pb-icon{background:#EEEDFE;color:#3C3489;}
+  .play-banner.learn .pb-pill{background:#EEEDFE;color:#3C3489;}
+  .play-banner.learn .pb-arrow{color:#3C3489;}
+  .play-banner.learn .pb-float span{color:#3C3489;}
+  .play-banner.kanji{background:linear-gradient(135deg,#FFFFFF,#E6F0EF);}
+  .play-banner.kanji::before{background:#1F6F6B;}
+  .play-banner.kanji .pb-icon{background:#DFF0EE;color:#1F6F6B;}
+  .play-banner.kanji .pb-pill{background:#DFF0EE;color:#1F6F6B;}
+  .play-banner.kanji .pb-arrow{color:#1F6F6B;}
+  .play-banner.kanji .pb-float span{color:#1F6F6B;}
+  .play-banner.conj{background:linear-gradient(135deg,#FFFFFF,#FAF3E6);}
+  .play-banner.conj::before{background:#854F0B;}
+  .play-banner.conj .pb-icon{background:#FAEEDA;color:#854F0B;}
+  .play-banner.conj .pb-pill{background:#FAEEDA;color:#854F0B;}
+  .play-banner.conj .pb-arrow{color:#854F0B;}
+  .play-banner.conj .pb-float span{color:#854F0B;}
+  .play-banner.test{background:linear-gradient(135deg,#FFFFFF,#EAF1FA);}
+  .play-banner.test::before{background:#185FA5;}
+  .play-banner.test .pb-icon{background:#E6F1FB;color:#185FA5;}
+  .play-banner.test .pb-pill{background:#E6F1FB;color:#185FA5;}
+  .play-banner.test .pb-arrow{color:#185FA5;}
+  .play-banner.test .pb-float span{color:#185FA5;}
+  .play-banner.lang{background:linear-gradient(135deg,#FFFFFF,#E7F1EC);}
+  .play-banner.lang::before{background:#2F7168;}
+  .play-banner.lang .pb-icon{background:#DDEEE7;color:#2F7168;}
+  .play-banner.lang .pb-pill{background:#DDEEE7;color:#2F7168;}
+  .play-banner.lang .pb-arrow{color:#2F7168;}
+  .play-banner.lang .pb-float span{color:#2F7168;}
+  .play-banner.red{background:linear-gradient(135deg,#FFFFFF,#FAEEEA);}
+  .play-banner.red::before{background:#9A3D1C;}
+  .play-banner.red .pb-icon{background:#FAECE7;color:#9A3D1C;}
+  .play-banner.red .pb-pill{background:#FAECE7;color:#9A3D1C;}
+  .play-banner.red .pb-arrow{color:#9A3D1C;}
+  .play-banner.red .pb-float span{color:#9A3D1C;}
+  .play-banner.soon{opacity:.6;pointer-events:none;background:linear-gradient(135deg,#FFFFFF,#F3F1EC);}
+  .play-banner.soon::before{background:#C9C2B8;}
+  .play-banner.soon .pb-icon{background:#F0EEE8;color:#9E9890;}
+  .play-banner.soon .pb-pill{background:#F0EEE8;color:#9E9890;}
+  .play-banner.soon .pb-float span{color:#9E9890;}
 </style>
 </head>
 <body>
 <div class="container">
+  <div class="topbar"><a href="index.html" class="back-link"><span class="back-arrow">‹</span>ホーム</a></div>
 
-  <div class="topbar">
-    <a href="index.html" class="back">‹ ホームにもどる</a>
+  <div class="app-header">
+    <div class="app-logo">GAMES</div>
+    <div class="app-title">ゲーム</div>
+    <div class="app-sub">あそんで、気軽に日本語に慣れる<br>
+      <span class="en" style="font-size:11px;color:#9E9890;">Games — quick daily practice</span>
+    </div>
   </div>
 
-  <div class="head">
-    <div class="logo">JLPT PRACTICE</div>
-    <div class="title">あそんでなれる</div>
-    <div class="sub">短い時間で、考えるより指で反応。<br>気がついたら日本語に慣れている。</div>
-  </div>
+  <div class="section-label">あそび場 ・ Play</div>
 
-  <div class="label">いま あそべる<span class="en"> ・ Play now</span></div>
+  <!-- ゴミ分別ゲーム -->
+  <a href="gomi_bunbetsu.html" class="play-banner"><div class="pb-float"><span style="top:4px;right:18px;font-size:42px;">分</span><span style="bottom:6px;right:58px;font-size:34px;">別</span></div><div class="pb-icon">♻</div><div class="pb-info"><div class="pb-title">ゴミ分別ゲーム</div><div class="pb-en">Garbage sorting — learn Japan's rules</div><div class="pb-desc">街ごとに違うゴミの捨て方を、あそんで覚える</div><span class="pb-pill">生活 ・ ゴミ分別</span></div><span class="pb-arrow">›</span></a>
 
-  <!-- 主役：ひらがなラッシュ -->
-  <a href="kana_rush.html" class="hero">
-    <div class="float-layer">
-      <span class="float-kana" style="top:8px;right:18px;">あ</span>
-      <span class="float-kana" style="bottom:14px;right:64px;animation-delay:1.5s;">か</span>
-      <span class="float-kana" style="top:42px;right:120px;animation-delay:3s;font-size:38px;">ん</span>
-    </div>
-    <div class="hero-top">
-      <span class="pill pill-live">● あそべる</span>
-      <span class="pill pill-time">60秒</span>
-    </div>
-    <div class="hero-name">ひらがなラッシュ</div>
-    <div class="hero-en">HIRAGANA RUSH</div>
-    <div class="hero-desc">ひらがなをできるだけ早くタップ。連続で当てるとコンボがのびる。</div>
-    <div class="hero-desc-en">Tap the right hiragana as fast as you can — build a combo.</div>
-    <span class="play-btn">▶ あそぶ</span>
-  </a>
+  <!-- 準備中プレースホルダー（新しいゲームを足すときはこの上に同じ形式で追加） -->
+  <div class="play-banner soon" style="margin-top:10px;"><div class="pb-float"><span style="top:4px;right:18px;font-size:42px;">続</span><span style="bottom:6px;right:58px;font-size:34px;">々</span></div><div class="pb-icon">＋</div><div class="pb-info"><div class="pb-title">あたらしいゲーム</div><div class="pb-en">More games coming soon</div><div class="pb-desc">新しいゲームを準備中です</div><span class="pb-pill">準備中</span></div></div>
 
-  <a href="katakana_rush.html" class="hero hero-kata" style="margin-top:10px;">
-    <div class="float-layer">
-      <span class="float-kana" style="top:8px;right:18px;">ア</span>
-      <span class="float-kana" style="bottom:14px;right:64px;animation-delay:1.5s;">カ</span>
-      <span class="float-kana" style="top:42px;right:120px;animation-delay:3s;font-size:38px;">ン</span>
-    </div>
-    <div class="hero-top">
-      <span class="pill pill-live">● あそべる</span>
-      <span class="pill pill-time">60秒</span>
-    </div>
-    <div class="hero-name">カタカナラッシュ</div>
-    <div class="hero-en">KATAKANA RUSH</div>
-    <div class="hero-desc">カタカナをできるだけ早くタップ。連続で当てるとコンボがのびる。</div>
-    <div class="hero-desc-en">Tap the right katakana as fast as you can — build a combo.</div>
-    <span class="play-btn">▶ あそぶ</span>
-  </a>
-
-  <a href="mogura.html" class="hero hero-mogura" style="margin-top:10px;">
-    <div class="float-layer">
-      <span class="float-kana" style="top:8px;right:18px;">も</span>
-      <span class="float-kana" style="bottom:14px;right:64px;animation-delay:1.5s;">ぐ</span>
-      <span class="float-kana" style="top:42px;right:120px;animation-delay:3s;font-size:38px;">ら</span>
-    </div>
-    <div class="hero-top">
-      <span class="pill pill-live">● あそべる</span>
-      <span class="pill pill-time">なかまはずれ</span>
-    </div>
-    <div class="hero-name">もぐらたたき</div>
-    <div class="hero-en">MOGURA TATAKI</div>
-    <div class="hero-desc">出てきた文字の中から、なかまはずれを見つけてタップ。ひらがな・カタカナ。</div>
-    <div class="hero-desc-en">Spot and tap the odd one out among the kana.</div>
-    <span class="play-btn">▶ あそぶ</span>
-  </a>
-
-  <a href="kana_tamago.html" class="hero hero-tamago" style="margin-top:10px;">
-    <div class="float-layer">
-      <span class="float-kana" style="top:8px;right:18px;">た</span>
-      <span class="float-kana" style="bottom:14px;right:64px;animation-delay:1.5s;">ま</span>
-      <span class="float-kana" style="top:42px;right:120px;animation-delay:3s;font-size:38px;">ご</span>
-    </div>
-    <div class="hero-top">
-      <span class="pill pill-live">● あそべる</span>
-      <span class="pill pill-time">落ちもの</span>
-    </div>
-    <div class="hero-name">かなバーガー</div>
-    <div class="hero-en">KANA TAMAGO</div>
-    <div class="hero-desc">各列の下の「バンズ」を、同じ行の上のバンズではさんで消す落ちものパズル。読みながら指を動かす。</div>
-    <div class="hero-desc-en">A drop-puzzle: cap each column's egg-nest with the matching kana to clear it.</div>
-    <span class="play-btn">▶ あそぶ</span>
-  </a>
-
-  <div class="label">これから ふえる<span class="en"> ・ Coming soon</span></div>
-
-  <div class="grid">
-
-    <div class="game-card">
-      <div class="game-badge b-kanji">読</div>
-      <div class="game-info">
-        <div class="game-name">漢字ハント</div>
-        <div class="game-en">Kanji Hunt</div>
-        <div class="game-desc">読みを聞いて、合う漢字をタップ。N5〜N4の漢字から</div>
-        <span class="game-soon">準備中</span>
-      </div>
-    </div>
-
-    <div class="game-card">
-      <div class="game-badge b-word">絵</div>
-      <div class="game-info">
-        <div class="game-name">ことばあて</div>
-        <div class="game-en">Word Match</div>
-        <div class="game-desc">絵を見て、合うことばをタップ。意味からおぼえる</div>
-        <span class="game-soon">準備中</span>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="foot">
-    遊びながら、ちょっとずつ。<br>
-    © 2025 JLPT Practice Quiz
-  </div>
-
+  <div class="app-footer">© 2025 日本語の部屋</div>
 </div>
 <script>
-/* === EN表示トグル（英語補助の表示/非表示・localStorageで保持） === */
+/* === EN表示トグル（index.html と共通の挙動） === */
 (function(){
   var KEY='nnh_en_off';
   var st=document.createElement('style');
   st.textContent=
-    "body.hide-en .en,body.hide-en .pb-en,body.hide-en .hero-desc-en,body.hide-en .game-en,"
+    "body.hide-en .en,body.hide-en .pb-en,body.hide-en .game-en,"
    +"body.hide-en .level-en,body.hide-en .en-sub,body.hide-en .en-i,body.hide-en .gh-en,"
    +"body.hide-en .hero-en{display:none!important;}"
    +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"

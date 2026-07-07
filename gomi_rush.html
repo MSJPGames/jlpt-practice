@@ -129,6 +129,14 @@
   .c-kaden{background:var(--navy-bg);border-color:var(--navy);color:var(--navy);} .c-kaden .mouth{background:var(--navy);}
   .c-depot{background:var(--orange-bg);border-color:var(--orange);color:var(--orange);} .c-depot .mouth{background:var(--orange);}
   .c-pc{background:var(--gray-bg);border-color:var(--gray);color:var(--gray);} .c-pc .mouth{background:var(--gray);}
+  /* 実際の指定ごみ袋の色 */
+  .c-bag-red{background:#E2503F;border-color:#B5351F;color:#fff;}.c-bag-red::before{background:#8f2515;}.c-bag-red .mouth{background:#8f2515;}
+  .c-bag-blue{background:#3B7CC4;border-color:#255a97;color:#fff;}.c-bag-blue::before{background:#1c4576;}.c-bag-blue .mouth{background:#1c4576;}
+  .c-bag-green{background:#3F9D5E;border-color:#2c6f43;color:#fff;}.c-bag-green::before{background:#1f5230;}.c-bag-green .mouth{background:#1f5230;}
+  .c-bag-yellow{background:#FBD733;border-color:#C9A100;color:#5C4A00;}.c-bag-yellow::before{background:#c9a100;}.c-bag-yellow .mouth{background:#c9a100;}
+  .c-bag-orange{background:#E8913E;border-color:#b56a1e;color:#fff;}.c-bag-orange::before{background:#8a4e13;}.c-bag-orange .mouth{background:#8a4e13;}
+  .c-bag-clear{background:#ECEBE7;border-color:#BCB7AF;color:#6B6560;}.c-bag-clear::before{background:#C4BEB4;}.c-bag-clear .mouth{background:#C4BEB4;}
+  .c-bag-kraft{background:#C7A575;border-color:#9a7645;color:#3F2D16;}.c-bag-kraft::before{background:#9a7645;}.c-bag-kraft .mouth{background:#9a7645;}
   .bin.mark-ok{box-shadow:0 0 0 3px rgba(59,109,17,.4);} .bin.mark-ng{box-shadow:0 0 0 3px rgba(153,60,29,.4);}
   .fly{position:absolute;width:38px;height:38px;z-index:9;pointer-events:none;}
   .fly .dish{position:absolute;inset:0;border-radius:50%;background:#fff;border:2px solid #E2DDD6;display:flex;align-items:center;justify-content:center;font-size:19px;box-shadow:0 3px 6px rgba(0,0,0,.12);}
@@ -175,6 +183,33 @@
   .lesson{background:var(--teal-soft);border:1px solid #CFE6E3;border-radius:12px;padding:12px 14px;margin:14px 0;text-align:left;font-size:13px;line-height:1.75;}
   .lesson .lh{font-weight:800;color:var(--teal-deep);margin-bottom:3px;}
   .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2rem;line-height:1.9;}
+  .lifecal{margin:0 0 8px;}
+  .lc-top{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:800;color:var(--teal-deep);margin-bottom:4px;}
+  .lc-top #lifeToday{color:var(--text);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .lc-bar{position:relative;height:7px;background:#EDE9E2;border-radius:6px;overflow:hidden;}
+  .lc-cur{position:absolute;top:0;bottom:0;width:3px;background:var(--teal-deep);border-radius:2px;z-index:2;}
+  .lc-win{position:absolute;top:0;bottom:0;background:rgba(31,111,107,.16);border-radius:6px;transition:background .2s;z-index:1;}
+  .lc-win.active{background:rgba(200,60,40,.5);animation:winpulse 1s ease-in-out infinite;}
+  @keyframes winpulse{0%,100%{opacity:1;}50%{opacity:.65;}}
+  .lc-ticks{display:flex;justify-content:space-between;font-size:8.5px;color:var(--text-hint);margin-top:3px;padding:0 1px;font-weight:700;}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:6px;}
+  .wd{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:3px 1px;text-align:center;min-height:32px;}
+  .wd .dn{font-size:11px;font-weight:800;}
+  .wd .cats{font-size:7px;color:var(--text-muted);line-height:1.1;margin-top:1px;}
+  .wd.today{border-color:var(--teal);box-shadow:0 0 0 2px rgba(31,111,107,.2);}
+  .lifedispose{margin-bottom:8px;}
+  .binmeter{display:none;position:absolute;top:10px;left:4px;right:4px;height:5px;background:#00000018;border-radius:4px;overflow:hidden;}
+  .binmeter i{display:block;height:100%;width:0;background:var(--teal);transition:width .2s;}
+  .stage.life .binmeter{display:block;}
+  .binstock{display:none;position:absolute;top:1px;right:3px;font-size:8px;font-weight:800;color:var(--text-muted);}
+  .stage.life .binstock{display:block;}
+  .bin.duesoon .binmeter i{background:var(--amber);}
+  .bin.ready{box-shadow:0 0 0 3px rgba(31,111,107,.35);border-color:var(--teal);}
+  .sky{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .4s;overflow:hidden;}
+  .stage.life .sky{opacity:1;}
+  .sun,.moon{position:absolute;border-radius:50%;transition:opacity .5s;}
+  .sun{width:30px;height:30px;background:radial-gradient(circle at 50% 42%,#FFF3B8,#FFC64D 68%,#F5A623);box-shadow:0 0 24px rgba(255,190,60,.75);}
+  .moon{width:24px;height:24px;background:radial-gradient(circle at 40% 40%,#FDFBEA,#DCE2EE 75%);box-shadow:0 0 16px rgba(220,230,255,.55);}
   .hidden{display:none!important;}
 </style>
 </head>
@@ -193,7 +228,7 @@
     <div class="card">
       <p class="lead">街をえらぶと、<b>2つのモード</b>から選べます。</p>
       <div class="modeline"><div class="ic">📝</div><div class="tx"><b>選択式</b>（確認テスト）<br>時間制限なし。1問ずつ、じっくり確かめながら。</div></div>
-      <div class="modeline"><div class="ic">🌊</div><div class="tx"><b>レーン式</b>（チャレンジ）<br>ゴミが流れてくる。時間制限あり、テンポよく！</div></div>
+      <div class="modeline"><div class="ic">🍣</div><div class="tx"><b>回転寿司型</b>（チャレンジ）<br>流れるゴミを仕分けてためる。曜日ごとの収集日に出す。あふれたらアウト！</div></div>
       <p class="lead" style="margin-top:12px;">難易度が上がると、ゴミの種類も、ゴミ袋の種類も増えます。<b>むずかしい</b>では
         粗大ごみ（役所に申込）や家電リサイクル（店へ）なども登場！</p>
     </div>
@@ -213,7 +248,7 @@
       <button class="mode-card" onclick="chooseMode('rush')">
         <div class="mode-ic">🍣</div>
         <div class="mode-info"><div class="mode-name">回転寿司型（レーン式）</div>
-          <div class="mode-desc">流れてくるゴミをタップ → 正しいゴミ袋へ。時間制限あり・チャレンジ向き</div></div>
+          <div class="mode-desc">流れてくるゴミを仕分けてためる → 収集日の朝（福岡は夜）に出す。あふれたらアウト</div></div>
         <span class="city-arrow">›</span>
       </button>
       <button class="mode-card" onclick="chooseMode('quiz')">
@@ -236,12 +271,20 @@
         <button class="hud-help" onclick="pauseGame()">?</button>
       </div>
     </div>
+    <div id="lifeCal" class="lifecal hidden">
+      <div class="lc-top"><span id="lifePhase">🌅 朝・収集中</span><span id="lifeToday"></span></div>
+      <div class="lc-bar"><div class="lc-win" id="lifeWin"></div><div class="lc-cur" id="lifeCur"></div></div>
+      <div class="lc-ticks"><span>🌅 朝</span><span>☀️ 昼</span><span>🌇 夕</span><span>🌙 夜</span></div>
+      <div class="week" id="lifeWeek"></div>
+    </div>
     <div class="stage" id="stage">
+      <div class="sky" id="sky"><div class="sun" id="sun"></div><div class="moon" id="moon"></div></div>
       <div class="belt" id="belt"><span class="belt-label">▶ 流れてくる（タップで選ぶ）</span></div>
       <div class="q-banner" id="qBanner">このゴミは どのゴミ袋？</div>
       <div class="tray" id="tray"><span class="tray-hint">🖐 流れてくるゴミをタップ</span></div>
       <div class="arrow-down">▼</div>
     </div>
+    <button class="btn btn-primary lifedispose hidden" id="lifeDispose">🚛 出す</button>
     <div class="ctip" id="ctip"><b>①</b> ゴミをタップ → <b>②</b> ゴミ袋をタップ</div>
     <div class="qfb" id="qfb">
       <div class="qfb-head" id="qfbHead"></div>
@@ -312,6 +355,14 @@ const ITEMS = {
   frypan:{name:'使い古したフライパン',emoji:'🍳',mat:'metal',lv:2},
   bucket:{name:'プラのバケツ',emoji:'🪣',mat:'plastic_prod',lv:2},
   toy:{name:'こわれたおもちゃの車',emoji:'🚗',mat:'plastic_prod',lv:2},
+  habrush:{name:'歯ブラシ',emoji:'🪥',mat:'plastic_prod',lv:2},
+  cd:{name:'いらないCD・DVD',emoji:'💿',mat:'plastic_prod',lv:2},
+  mirror:{name:'割れた鏡',emoji:'🪞',mat:'broken',lv:2},
+  waribashi:{name:'使った割り箸',emoji:'🥢',mat:'paper_burn',lv:2},
+  pizzabox:{name:'油で汚れたピザの箱',emoji:'🍕',mat:'paper_burn',lv:2},
+  receipt:{name:'レシート（感熱紙）',emoji:'🧾',mat:'paper_burn',lv:2},
+  shoes:{name:'はき古した靴',emoji:'👟',mat:'paper_burn',lv:2},
+  nuigurumi:{name:'こわれたぬいぐるみ',emoji:'🧸',mat:'paper_burn',lv:2},
 
   tv:{name:'こわれたテレビ',emoji:'📺',mat:'kaden',lv:3},
   fridge:{name:'古い冷蔵庫',emoji:'🧊',mat:'kaden',lv:3},
@@ -343,6 +394,16 @@ const MAT_WHY={
   pc:'パソコン本体とモニターは、メーカーに連絡して回収してもらいます（無料のことも）。プリンターは対象外で粗大ごみへ。',
   depot:'乾電池・ライター・蛍光灯などは、お店や施設の回収ボックスに入れます。',
   spray:'スプレー缶は中身を使い切ってから。街によって出す場所が違うので注意。'
+};
+const ITEM_WHY={
+  pizzabox:'油で汚れた紙は古紙にできません。だから「燃えるゴミ」へ。',
+  receipt:'レシートは感熱紙で、古紙としてリサイクルできません。「燃えるゴミ」へ。',
+  habrush:'歯ブラシは小さなプラスチック製品。街によって出す場所が変わります。',
+  cd:'CD・DVDはプラスチック製品。街によって出す場所が変わります。',
+  mirror:'鏡はガラス（割れ物）。紙などに包んで、けがに注意して出します。',
+  nuigurumi:'ぬいぐるみは古布ではなく「燃えるゴミ」です（大きければ粗大ごみ）。',
+  shoes:'靴は多くの街で「燃えるゴミ」（大きいものは粗大ごみ）。',
+  waribashi:'割り箸は木なので「燃えるゴミ」です。'
 };
 const CITIES=[
   {
@@ -415,6 +476,33 @@ const CITIES=[
 ];
 const DIFF={1:{name:'やさしい',speed:46,cap:92,gap:220},2:{name:'ふつう',speed:56,cap:120,gap:200},3:{name:'むずかしい',speed:64,cap:150,gap:184}};
 const QUIZ_N=10;
+/* 実際の指定ごみ袋の色（自治体公式ベース）。透明=指定袋なし/半透明、kraft=袋なし束ねる */
+const BAGCOLORS={
+  nagoya:{burn:'red',nonburn:'green',shigen:'blue',plastic:'clear',paper:'clear',hazard:'clear'},
+  shunan:{burn:'green',nonburn:'blue',yoki:'yellow',otherpla:'yellow',petb:'clear',bincan:'clear',paper:'kraft',hazard:'clear'},
+  fukuoka:{burn:'orange',nonburn:'blue',shigen:'green'},
+  osaka:{burn:'clear',shigen:'clear',plastic:'clear',paper:'clear'},
+  tokyo:{burn:'clear',shigen:'clear',plastic:'clear',nonburn:'clear',paper:'clear'}
+};
+function bagCls(cityId,binId){var c=(BAGCOLORS[cityId]||{})[binId];return c?('c-bag-'+c):null;}
+const DAYNAMES=['月','火','水','木','金','土','日'];
+/* 生活型パラメータ（あふれ上限＝cap×maxStock 個）*/
+const LIFE={dayMs:11000,winMs:4200,cap:10,maxStock:3};
+function makeSchedule(bins){var s={};var pool=[0,2,3,5,6],pi=0;bins.forEach(function(b){if(b.id==='burn')s[b.id]=[1,4];else{s[b.id]=[pool[pi%pool.length]];pi++;}});return s;}
+function cityWindow(city){return city.id==='fukuoka'?'night':'morning';}
+/* 空（時間帯）：p=0その日の始まり〜1終わり */
+const SKY=[[0,'#33406e','#b5764f'],[0.12,'#8fb2de','#f4c59e'],[0.35,'#a7cdf2','#e2effd'],[0.6,'#b0c8e6','#efe6cf'],[0.78,'#e4915f','#f2c98d'],[0.9,'#3c416a','#8a6785'],[1,'#20264a','#3a416c']];
+function lerpHex(a,b,t){function h(x){return parseInt(x,16);}a=a.slice(1);b=b.slice(1);var r=Math.round(h(a.slice(0,2))+(h(b.slice(0,2))-h(a.slice(0,2)))*t),g=Math.round(h(a.slice(2,4))+(h(b.slice(2,4))-h(a.slice(2,4)))*t),bl=Math.round(h(a.slice(4,6))+(h(b.slice(4,6))-h(a.slice(4,6)))*t);return '#'+[r,g,bl].map(function(x){return x.toString(16).padStart(2,'0');}).join('');}
+function skyAt(p){for(var i=1;i<SKY.length;i++){if(p<=SKY[i][0]){var t=(p-SKY[i-1][0])/(SKY[i][0]-SKY[i-1][0]);return[lerpHex(SKY[i-1][1],SKY[i][1],t),lerpHex(SKY[i-1][2],SKY[i][2],t)];}}return[SKY[6][1],SKY[6][2]];}
+function updateSky(p){
+  var sky=document.getElementById('sky');if(!sky)return;
+  var c=skyAt(p);sky.style.background='linear-gradient(180deg,'+c[0]+' 0%,'+c[1]+' 100%)';
+  var W=stage.clientWidth, sun=document.getElementById('sun'), moon=document.getElementById('moon');
+  var sa=Math.sin(Math.min(p/0.8,1)*Math.PI);
+  sun.style.left=(p*(W-30))+'px'; sun.style.top=(42-sa*36)+'px'; sun.style.opacity=(p<0.8)?1:0;
+  var mp=Math.max(0,Math.min(1,(p-0.78)/0.22));
+  moon.style.left=(mp*(W-24))+'px'; moon.style.top=(38-Math.sin(mp*Math.PI)*26)+'px'; moon.style.opacity=(p>0.8)?1:0;
+}
 
 function resolveBinId(city,item){
   if(SPECIAL_MATS.indexOf(item.mat)>=0){
@@ -448,10 +536,10 @@ function renderCities(){
 
 /* ============ モード＋難易度＋ルール ============ */
 let pendingCity=null, selDiff=2, selMode='quiz';
-const MODE_NOTE={quiz:'選択式：時間制限なし・確認テスト',rush:'レーン式：流れてくる・時間制限あり・チャレンジ'};
+const MODE_NOTE={quiz:'選択式：時間制限なし・確認テスト',rush:'レーン式：流れてくる・時間制限あり・チャレンジ',life:'生活型：ゴミがたまる。収集日に出す。あふれたらアウト'};
 function renderBinsList(el,city,diff){
   el.innerHTML='';
-  binsShown(city,diff).forEach(bn=>{const d=document.createElement('div');d.className='m-bin '+bn.cls;
+  binsShown(city,diff).forEach(bn=>{const d=document.createElement('div');d.className='m-bin '+(bagCls(city.id,bn.id)||bn.cls);
     d.innerHTML='<div class="m-bl">'+bn.label+'</div><div class="m-ex">'+bn.ex+'</div>';el.appendChild(d);});
 }
 function refreshRulePreview(){
@@ -498,17 +586,11 @@ function startGame(city,mode,diff){
   layoutBins();
   hideQfb();
   document.getElementById('hudCity').textContent=city.emoji+' '+city.name+'・'+d.name;
-  if(mode==='rush'){
-    stage.classList.remove('quiz'); belt.style.display=''; belt.classList.add('run');
-    stage.classList.remove('has-sel'); renderTray();
-    document.getElementById('ctip').innerHTML='<b>①</b> ゴミをタップ → <b>②</b> ゴミ袋をタップ';
-    updateHUD();
-    lastT=performance.now(); cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
-  }else{
-    stage.classList.add('quiz'); belt.classList.remove('run'); belt.style.display='none';
-    document.getElementById('ctip').innerHTML='この <b>ゴミ</b> を、正しい <b>ゴミ袋</b> にタップ';
-    buildQueue(); updateHUD(); showQuestion();
-  }
+  setLifeUI(mode==='rush');
+  if(mode==='rush'){ startLifeSetup(city,diff); return; }
+  stage.classList.add('quiz'); belt.classList.remove('run'); belt.style.display='none';
+  document.getElementById('ctip').innerHTML='この <b>ゴミ</b> を、正しい <b>ゴミ袋</b> にタップ';
+  buildQueue(); updateHUD(); showQuestion();
 }
 
 function layoutBins(){
@@ -526,10 +608,10 @@ function layoutBins(){
     const binW=(W-gap*(cnt+1))/cnt;
     const left=gap+col*(binW+gap);
     const top=top0+r*(rowH+gapY);
-    const d=document.createElement('div');d.className='bin '+bn.cls;
+    const d=document.createElement('div');d.className='bin '+(bagCls(G.city.id,bn.id)||bn.cls);
     d.style.left=left+'px';d.style.top=top+'px';d.style.width=binW+'px';d.style.height=rowH+'px';
     d.dataset.idx=idx;
-    d.innerHTML='<div class="mouth"></div><div class="bl">'+bn.label+'</div>';
+    d.innerHTML='<div class="mouth"></div><div class="binstock"></div><div class="binmeter"><i></i></div><div class="bl">'+bn.label+'</div>';
     d.onpointerdown=(e)=>dropToBin(idx,e);
     stage.appendChild(d); bn._el=d;
   });
@@ -617,6 +699,16 @@ function dropToBin(idx,e){
   if(e&&e.preventDefault)e.preventDefault();
   if(!G||!G.running||G.paused)return;
   const bin=G.shown[idx];
+  if(G.mode==='rush'){
+    if(!G.selected)return;
+    const key=G.selected,it=ITEMS[key],correctId=resolveBinId(G.city,it),correct=(correctId===bin.id);
+    G.selected=null;stage.classList.remove('has-sel');renderTray();flyTo(it,bin._el);
+    G.fills[bin.id]=(G.fills[bin.id]||0)+1;
+    if(correct){G.combo++;G.bestCombo=Math.max(G.bestCombo,G.combo);const g=5+(G.combo-1);G.score+=g;popup(bin._el.offsetLeft+bin._el.offsetWidth/2,'＋'+g+(G.combo>1?' '+G.combo+'コンボ':''),'ok');}
+    else{G.combo=0;popup(bin._el.offsetLeft+bin._el.offsetWidth/2,'✗ ちがう袋','ng');}
+    if(G.fills[bin.id]>LIFE.cap*LIFE.maxStock){return overflowLife(bin);}
+    renderLife();return;
+  }
   if(G.mode==='quiz'){
     if(G.answered||!G.selected)return;
     const key=G.selected, it=ITEMS[key], correctId=resolveBinId(G.city,it), correct=(correctId===bin.id);
@@ -624,7 +716,7 @@ function dropToBin(idx,e){
     bin._el.classList.add(correct?'mark-ok':'mark-ng');
     if(!correct)binDef(G.city,correctId)._el&&binDef(G.city,correctId)._el.classList.add('mark-ok');
     flyTo(it,bin._el);
-    let why=MAT_WHY[it.mat];
+    let why=ITEM_WHY[key]||MAT_WHY[it.mat];
     if(G.city.special && G.city.special[it.mat]!==undefined) why=null;
     if(!why) why='この街では「'+binDef(G.city,correctId).label+'」に出します。';
     const q=document.getElementById('qfb');
@@ -640,20 +732,6 @@ function dropToBin(idx,e){
     updateHUD();
     return;
   }
-  /* rush */
-  if(!G.selected){const t=document.getElementById('tray');t.classList.add('shake');setTimeout(()=>t.classList.remove('shake'),300);return;}
-  const key=G.selected, it=ITEMS[key], correctId=resolveBinId(G.city,it), correct=(correctId===bin.id);
-  G.selected=null; stage.classList.remove('has-sel'); renderTray(); flyTo(it,bin._el);
-  if(correct){
-    G.combo++; G.bestCombo=Math.max(G.bestCombo,G.combo);
-    const gain=10+(G.combo-1)*2; G.score+=gain; G.speed=Math.min(G.cap,G.speed+2);
-    popup(bin._el.offsetLeft+bin._el.offsetWidth/2,'＋'+gain+(G.combo>1?' '+G.combo+'コンボ':''),'ok');
-  }else{
-    G.lives--; G.combo=0;
-    popup(bin._el.offsetLeft+bin._el.offsetWidth/2,'✗ 正しくは「'+binDef(G.city,correctId).label+'」','ng');
-    stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);
-  }
-  updateHUD(); if(G.lives<=0)gameOver();
 }
 document.getElementById('qfbNext').onclick=function(){
   hideQfb(); G.qi++;
@@ -716,6 +794,110 @@ document.addEventListener('keydown',e=>{
   else if((e.key==='Enter'||e.key===' ')&&G.mode==='quiz'&&G.answered){document.getElementById('qfbNext').click();e.preventDefault();}
 });
 window.addEventListener('resize',()=>{if(G&&G.running)layoutBins();});
+/* ---- 生活型 ---- */
+function setLifeUI(on){
+  document.getElementById('lifeCal').classList.toggle('hidden',!on);
+  stage.classList.toggle('life',on);
+  if(!on)document.getElementById('lifeDispose').classList.add('hidden');
+}
+function startLifeSetup(city,diff){
+  G.shown=(diff===1?city.bins.filter(b=>b.lv<=1):city.bins.slice());
+  const ids={};G.shown.forEach(b=>ids[b.id]=1);
+  G.pool=Object.keys(ITEMS).filter(k=>SPECIAL_MATS.indexOf(ITEMS[k].mat)<0 && ids[resolveBinId(city,ITEMS[k])]);
+  G.sched=makeSchedule(G.shown); G.win=cityWindow(city);
+  G.fills={}; G.shown.forEach(b=>G.fills[b.id]=0);
+  G.day=0; G.dayEl=0; G.phase='window'; G.daysSurv=0; G.score=0; G.combo=0; G.bestCombo=0;
+  layoutBins();
+  belt.style.display=''; belt.classList.add('run'); stage.classList.remove('quiz'); stage.classList.remove('has-sel');
+  renderTray();
+  document.getElementById('ctip').innerHTML='ゴミを仕分けて袋へ。<b>収集日</b>の窓で「🚛 出す」を押す。あふれたらアウト';
+  buildWeekBar(); renderLife();
+  lastT=performance.now(); cancelAnimationFrame(raf); raf=requestAnimationFrame(lifeLoop);
+}
+function buildWeekBar(){
+  const byDay={}; for(let i=0;i<7;i++)byDay[i]=[];
+  G.shown.forEach(b=>G.sched[b.id].forEach(d=>byDay[d].push(b)));
+  const w=document.getElementById('lifeWeek'); w.innerHTML='';
+  DAYNAMES.forEach((dn,i)=>{
+    const bins=byDay[i];
+    const cats=bins.map(b=>b.label.replace(/ごみ|ボトル|・.*/,'').slice(0,3)).join(' ');
+    const cls='wd'+(i===5?' sat':'')+(i===6?' sun':'');
+    w.insertAdjacentHTML('beforeend','<div class="'+cls+'" data-d="'+i+'"><div class="dn">'+dn+'</div><div class="cats">'+(cats||'—')+'</div></div>');
+  });
+}
+function lifeLoop(now){
+  if(!G||!G.running||G.mode!=='rush')return;
+  if(G.paused){lastT=now;raf=requestAnimationFrame(lifeLoop);return;}
+  let dt=(now-lastT)/1000; if(dt>0.05)dt=0.05; lastT=now;
+  const W=stage.clientWidth;
+  for(const p of G.plates){p.x-=G.speed*dt;p.el.style.transform='translateX('+p.x+'px)';}
+  for(let i=G.plates.length-1;i>=0;i--){
+    const p=G.plates[i];
+    if(p.x<=-PLATE_W){
+      const cid=resolveBinId(G.city,ITEMS[p.key]);
+      p.el.remove(); G.plates.splice(i,1);
+      if(G.fills[cid]!==undefined){G.fills[cid]++; if(G.fills[cid]>LIFE.cap*LIFE.maxStock){return overflowLife(G.shown.find(b=>b.id===cid));}}
+    }
+  }
+  let maxX=-Infinity; for(const p of G.plates)maxX=Math.max(maxX,p.x);
+  if(G.plates.length===0||maxX<=W-G.gap)spawnPlate();
+  G.dayEl+=dt*1000;
+  if(G.win==='night')G.phase=(G.dayEl>LIFE.dayMs-LIFE.winMs)?'window':'off';
+  else G.phase=(G.dayEl<LIFE.winMs)?'window':'off';
+  if(G.dayEl>=LIFE.dayMs){G.dayEl-=LIFE.dayMs; G.day=(G.day+1)%7; G.daysSurv++;}
+  renderLife();
+  if(G.running)raf=requestAnimationFrame(lifeLoop);
+}
+function lifeDispose(){
+  if(!G||!G.running||G.mode!=='rush'||G.paused||G.phase!=='window')return;
+  const due=G.shown.filter(b=>G.sched[b.id].indexOf(G.day)>=0 && G.fills[b.id]>0);
+  if(!due.length)return;
+  let total=0; due.forEach(b=>{total+=G.fills[b.id];G.fills[b.id]=0;});
+  G.score+=total*2;
+  popup(stage.clientWidth/2,'🚛 出した！ +'+total*2,'ok');
+  renderLife();
+}
+function renderLife(){
+  document.getElementById('hudScore').textContent=G.score;
+  document.getElementById('hudCombo').textContent=G.combo>1?('🔥'+G.combo):'';
+  document.getElementById('hudLives').textContent=DAYNAMES[G.day]+'曜';
+  updateSky(G.dayEl/LIFE.dayMs);
+  document.getElementById('lifeCur').style.left=(G.dayEl/LIFE.dayMs*100)+'%';
+  const lw=document.getElementById('lifeWin'), ww=LIFE.winMs/LIFE.dayMs*100;
+  lw.style.left=(G.win==='night'?(100-ww):0)+'%'; lw.style.width=ww+'%';
+  lw.classList.toggle('active',G.phase==='window');
+  const todays=G.shown.filter(b=>G.sched[b.id].indexOf(G.day)>=0);
+  const winWord=G.win==='night'?'🌙 夜・収集中':'🌅 朝・収集中';
+  document.getElementById('lifePhase').textContent=(G.phase==='window'?winWord:'— 収集時間外');
+  document.getElementById('lifeToday').innerHTML=DAYNAMES[G.day]+'曜: <b>'+(todays.map(b=>b.label).join('・')||'なし')+'</b>';
+  document.querySelectorAll('#lifeWeek .wd').forEach(w=>w.classList.toggle('today',+w.dataset.d===G.day));
+  const disp=document.getElementById('lifeDispose');
+  const due=todays.filter(b=>G.fills[b.id]>0);
+  if(G.phase==='window'&&due.length){disp.classList.remove('hidden');disp.textContent='🚛 出す（'+due.map(b=>b.label).join('・')+'）';}
+  else disp.classList.add('hidden');
+  const cap=LIFE.cap*LIFE.maxStock;
+  G.shown.forEach(b=>{
+    const el=b._el; if(!el)return;
+    const fill=G.fills[b.id]||0;
+    const mi=el.querySelector('.binmeter i'); if(mi)mi.style.width=Math.min(100,fill/cap*100)+'%';
+    const st=el.querySelector('.binstock'); if(st)st.textContent=fill>0?('🛍️'+Math.floor(fill/LIFE.cap)+(fill%LIFE.cap?('+'+(fill%LIFE.cap)):'')):'';
+    el.classList.toggle('duesoon',fill>=cap-LIFE.cap);
+    el.classList.toggle('ready',G.phase==='window'&&G.sched[b.id].indexOf(G.day)>=0&&fill>0);
+  });
+}
+function overflowLife(bin){
+  G.running=false; belt.classList.remove('run'); cancelAnimationFrame(raf);
+  const best=bestLife(G.daysSurv);
+  document.getElementById('rEmoji').textContent='😵';
+  document.getElementById('rTitle').textContent='あふれてしまった…';
+  document.getElementById('rStats').innerHTML='<b>'+G.daysSurv+'</b>日間 生活できた<br>スコア '+G.score+'　／　ベスト '+best+'日';
+  document.getElementById('rLesson').innerHTML='<div class="lesson"><div class="lh">📗 ヒント</div>「'+bin.label+'」があふれました。収集日（'+G.sched[bin.id].map(d=>DAYNAMES[d]).join('・')+'の'+(G.win==='night'?'夜':'朝')+'）に、こまめに「出す」を押そう。</div>';
+  document.getElementById('rRetry').onclick=()=>{document.getElementById('ovResult').classList.remove('show');startGame(G.city,'rush',G.diff);};
+  document.getElementById('ovResult').classList.add('show');
+}
+function bestLife(v){try{const k='gomi_life_best';const c=+(localStorage.getItem(k)||0);if(v>c){localStorage.setItem(k,v);return v;}return c;}catch(e){return v;}}
+document.getElementById('lifeDispose').onclick=lifeDispose;
+
 renderCities();
 
 /* EN toggle */

@@ -111,6 +111,9 @@
   .tray.shake{animation:shake .3s;}
   .arrow-down{position:absolute;top:212px;left:50%;transform:translateX(-50%);font-size:15px;color:var(--teal);opacity:0;z-index:8;}
   .stage.has-sel .arrow-down{opacity:.9;animation:nudge 1s ease-in-out infinite;}
+  .truck{position:absolute;left:0;top:250px;width:72px;height:44px;transform:translateX(-180px);transition:transform .9s cubic-bezier(.2,.7,.3,1);z-index:3;pointer-events:none;}
+  .truck-inner{width:100%;height:100%;animation:truckbob 1.2s ease-in-out infinite;filter:drop-shadow(0 3px 3px rgba(0,0,0,.18));}
+  @keyframes truckbob{0%,100%{transform:translateY(0);}50%{transform:translateY(-2px);}}
   @keyframes nudge{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,4px);}}
   .bin{position:absolute;border-radius:10px 10px 8px 8px;border:2px solid;display:flex;flex-direction:column;
     align-items:center;justify-content:flex-end;padding:6px 2px 7px;overflow:hidden;cursor:pointer;transition:transform .1s;}
@@ -283,6 +286,15 @@
       <div class="q-banner" id="qBanner">このゴミは どのゴミ袋？</div>
       <div class="tray" id="tray"><span class="tray-hint">🖐 流れてくるゴミをタップ</span></div>
       <div class="arrow-down">▼</div>
+      <div class="truck" id="truck"><div class="truck-inner"><svg viewBox="0 0 72 44" width="72" height="44" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="11" width="44" height="23" rx="3" fill="#3F9D5E"/>
+        <rect x="6" y="7" width="30" height="6" rx="2" fill="#2c6f43"/>
+        <rect x="45" y="15" width="18" height="19" rx="3" fill="#57b070"/>
+        <rect x="48" y="18" width="11" height="9" rx="2" fill="#d3f0dd"/>
+        <rect x="2" y="30" width="61" height="5" rx="2" fill="#2c6f43"/>
+        <circle cx="16" cy="37" r="6" fill="#2f2f2f"/><circle cx="16" cy="37" r="2.3" fill="#b7b7b7"/>
+        <circle cx="52" cy="37" r="6" fill="#2f2f2f"/><circle cx="52" cy="37" r="2.3" fill="#b7b7b7"/>
+      </svg></div></div>
     </div>
     <button class="btn btn-primary lifedispose hidden" id="lifeDispose">🚛 出す</button>
     <div class="ctip" id="ctip"><b>①</b> ゴミをタップ → <b>②</b> ゴミ袋をタップ</div>
@@ -798,20 +810,23 @@ window.addEventListener('resize',()=>{if(G&&G.running)layoutBins();});
 function setLifeUI(on){
   document.getElementById('lifeCal').classList.toggle('hidden',!on);
   stage.classList.toggle('life',on);
-  if(!on)document.getElementById('lifeDispose').classList.add('hidden');
+  if(!on){document.getElementById('lifeDispose').classList.add('hidden');truckReset();}
 }
+function truckReset(){var t=document.getElementById('truck');if(!t)return;t.style.transition='none';t.style.transform='translateX(-180px)';void t.offsetWidth;t.style.transition='transform .9s cubic-bezier(.2,.7,.3,1)';}
+function truckArrive(){var t=document.getElementById('truck');if(!t)return;var W=stage.clientWidth;t.style.transition='transform 1s cubic-bezier(.2,.7,.3,1)';t.style.transform='translateX('+Math.round(W*0.12)+'px)';}
+function truckLeave(){var t=document.getElementById('truck');if(!t)return;var W=stage.clientWidth;t.style.transition='transform 1s ease-in';t.style.transform='translateX('+(W+90)+'px)';}
 function startLifeSetup(city,diff){
   G.shown=(diff===1?city.bins.filter(b=>b.lv<=1):city.bins.slice());
   const ids={};G.shown.forEach(b=>ids[b.id]=1);
   G.pool=Object.keys(ITEMS).filter(k=>SPECIAL_MATS.indexOf(ITEMS[k].mat)<0 && ids[resolveBinId(city,ITEMS[k])]);
   G.sched=makeSchedule(G.shown); G.win=cityWindow(city);
   G.fills={}; G.shown.forEach(b=>G.fills[b.id]=0);
-  G.day=0; G.dayEl=0; G.phase='window'; G.daysSurv=0; G.score=0; G.combo=0; G.bestCombo=0;
+  G.day=0; G.dayEl=0; G.phase='off'; G.daysSurv=0; G.score=0; G.combo=0; G.bestCombo=0; G.truckHere=false;
   layoutBins();
   belt.style.display=''; belt.classList.add('run'); stage.classList.remove('quiz'); stage.classList.remove('has-sel');
   renderTray();
   document.getElementById('ctip').innerHTML='ゴミを仕分けて袋へ。<b>収集日</b>の窓で「🚛 出す」を押す。あふれたらアウト';
-  buildWeekBar(); renderLife();
+  buildWeekBar(); truckReset(); renderLife();
   lastT=performance.now(); cancelAnimationFrame(raf); raf=requestAnimationFrame(lifeLoop);
 }
 function buildWeekBar(){
@@ -842,8 +857,12 @@ function lifeLoop(now){
   let maxX=-Infinity; for(const p of G.plates)maxX=Math.max(maxX,p.x);
   if(G.plates.length===0||maxX<=W-G.gap)spawnPlate();
   G.dayEl+=dt*1000;
-  if(G.win==='night')G.phase=(G.dayEl>LIFE.dayMs-LIFE.winMs)?'window':'off';
-  else G.phase=(G.dayEl<LIFE.winMs)?'window':'off';
+  var newPhase=(G.win==='night')?((G.dayEl>LIFE.dayMs-LIFE.winMs)?'window':'off'):((G.dayEl<LIFE.winMs)?'window':'off');
+  if(newPhase!==G.phase){
+    G.phase=newPhase;
+    if(newPhase==='window'){ if(G.shown.some(function(b){return G.sched[b.id].indexOf(G.day)>=0;})){truckArrive();G.truckHere=true;} }
+    else if(G.truckHere){truckLeave();G.truckHere=false;}
+  }
   if(G.dayEl>=LIFE.dayMs){G.dayEl-=LIFE.dayMs; G.day=(G.day+1)%7; G.daysSurv++;}
   renderLife();
   if(G.running)raf=requestAnimationFrame(lifeLoop);

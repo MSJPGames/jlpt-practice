@@ -14,7 +14,10 @@
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
   body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
     background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 1.5rem;line-height:1.5;
-    -webkit-text-size-adjust:100%;overscroll-behavior:none;}
+    -webkit-text-size-adjust:100%;overscroll-behavior:none;
+    -webkit-user-select:none;-moz-user-select:none;user-select:none;
+    -webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;}
+  #board,.tile,#faller,#nextTile{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
   .container{max-width:480px;margin:0 auto;}
   .topbar{display:flex;align-items:center;padding:1rem 0 0;}
   .back{font-size:13px;color:var(--text-muted);text-decoration:none;font-weight:600;}
@@ -137,18 +140,18 @@
     <div class="head">
       <div class="logo">NIHONGO NO HEYA</div>
       <div class="title">かなバーガー<small>KANA BURGER</small></div>
-      <div class="sub">落ちてくる<b>かな</b>を積む。<b>あ段（上バンズ）</b>と<b>お段（下バンズ）</b>で<b>同じ行</b>をはさむと、中間が何であっても🍔ハンバーガーになって消える！ <b>あ→い→う→え→お</b>が完全にそろうと特別ボーナス。<br>
-        <span class="en-sub">Stack kana. Sandwich with the same row's あ-vowel (top bun) and お-vowel (bottom bun) — anything in between clears as a 🍔! A perfect あ→い→う→え→お gives a special bonus.</span></div>
+      <div class="sub">落ちてくる<b>かな</b>を積む。<b>同じ文字が縦に2つ以上</b>で消える！ さらに<b>あ段（上バンズ）</b>と<b>お段（下バンズ）</b>で<b>同じ行</b>をはさむと🍔ハンバーガー。<b>あ→い→う→え→お</b>の完全順で特別ボーナス。<br>
+        <span class="en-sub">Stack kana — 2+ identical in a vertical line clear! Also, sandwich a row's あ-vowel (top bun) & お-vowel (bottom bun) for a 🍔. A perfect あ→お gives a special bonus.</span></div>
     </div>
 
     <div class="card">
       <div class="howto-title">あそびかた ・ How to play</div>
       <div class="howto-row"><span class="howto-num">1</span><div>落ちてくる <b>かな</b> を左右に動かして積む。（下スワイプ／同じ列をダブルタップで「ストン」）
         <div class="en-sub">Move the falling kana left/right and stack. (Swipe down / double-tap to slam.)</div></div></div>
-      <div class="howto-row"><span class="howto-num">2</span><div><b>あ段（例：か）＝上バンズ</b>、<b>お段（例：こ）＝下バンズ</b>。<b>同じ行</b>のあ段とお段で <b>はさむ</b> と、中間に何文字あっても 🍔ハンバーガー成立で消える！
-        <div class="en-sub">あ-vowel (e.g. か) = top bun, お-vowel (e.g. こ) = bottom bun. Sandwich the same row's あ & お — any middle clears as a 🍔!</div></div></div>
-      <div class="howto-row"><span class="howto-num">3</span><div>中間が <b>い→う→え</b>（＝上から <b>あ→い→う→え→お</b> の完全な順）だと <b>特別イベント＋高得点</b>！ 消えるときは上から順番に。連鎖でボーナス。
-        <div class="en-sub">If the middle is い→う→え (a perfect あ→い→う→え→お top-down) → special event + big points! Clears top-down; chains add bonus.</div></div></div>
+      <div class="howto-row"><span class="howto-num">2</span><div><b>同じ文字が縦に2つ以上</b> つながると消える。3つ以上・連鎖でボーナス。
+        <div class="en-sub">2 or more identical kana stacked vertically clear. 3+ and chains give bonus.</div></div></div>
+      <div class="howto-row"><span class="howto-num">3</span><div><b>あ段（例：か）＝上バンズ／お段（例：こ）＝下バンズ</b>。<b>同じ行</b>のあ段とお段で <b>はさむ</b> と🍔ハンバーガー（中間は何でもOK）。<b>あ→い→う→え→お</b> が完全にそろえば <b>特別イベント＋高得点</b>！ 消えるときは上から順番に。
+        <div class="en-sub">あ-vowel (e.g. か)=top bun, お-vowel (e.g. こ)=bottom bun. Sandwich the same row's あ & お for a 🍔 (any middle). A perfect あ→い→う→え→お → special event + big points! Clears top-down.</div></div></div>
 
       <div class="opt-label">かな ・ Script</div>
       <div class="seg" id="seg-kana">
@@ -452,7 +455,24 @@ function columnClear(st){
 }
 function findClears(){
   var out=[];
-  for(var c=0;c<COLS;c++){ var cl=columnClear(grid[c]); if(cl){ cl.col=c; out.push(cl); } }
+  for(var c=0;c<COLS;c++){
+    var st=grid[c], used={};
+    // ① ハンバーガー：お段…（中間なんでも）…同じ行のあ段
+    var cl = columnClear(st);
+    if(cl){
+      var idx=[]; for(var r=cl.from;r<=cl.to;r++){ idx.push(r); used[r]=true; }
+      out.push({col:c, idx:idx, from:cl.from, to:cl.to, burger:true});
+    }
+    // ② 同じ文字が縦に2つ以上（ハンバーガー範囲の外）
+    var i=0;
+    while(i<st.length){
+      if(used[i]){ i++; continue; }
+      var j=i;
+      while(j+1<st.length && !used[j+1] && st[j+1].k===st[i].k) j++;
+      if(j-i+1>=2){ var ix=[]; for(var r=i;r<=j;r++) ix.push(r); out.push({col:c, idx:ix, burger:false}); }
+      i=j+1;
+    }
+  }
   return out;
 }
 /* お段…あ段 が「あ→い→う→え→お」の完全な順（同じ行・ちょうど5つ）か＝特殊イベント */
@@ -497,40 +517,43 @@ function rowComplete(st, from, to){
   }
   return null;
 }
-/* はさめばハンバーガー成立 → 上から1つずつ消える（音も長さで変化）→ 連鎖 */
+/* ハンバーガー成立 or 同じ文字2つ → 上から1つずつ消える → 連鎖 */
 function resolveStep(onDone){
-  var clears = findClears();
-  if(!clears.length){ onDone(); return; }
+  var groups = findClears();
+  if(!groups.length){ onDone(); return; }
   comboLevel++;
-  var maxDelay=0;
-  clears.forEach(function(cl){
-    var st=grid[cl.col];
-    var n = cl.to - cl.from + 1, mid = cl.to - cl.from - 1;
-    for(var r=cl.from; r<=cl.to; r++){ var d=(cl.to - r)*POP_STAGGER; st[r]._pop=d; if(d>maxDelay)maxDelay=d; }  // 上(to)から先に
-    cl.perfect = isPerfect(st, cl.from, cl.to);
-    if(cl.perfect){
-      cl.pts = 1000 * comboLevel;
-      spawnBurgerFx(cl.col, cl.from, cl.to, { emoji:'🍔', name:'あいうえお！', pts:cl.pts });
+  var maxDelay=0, remove={};
+  groups.forEach(function(g){
+    var st=grid[g.col];
+    var n=g.idx.length, hi=Math.max.apply(null,g.idx);
+    g.idx.forEach(function(r){ var d=(hi-r)*POP_STAGGER; st[r]._pop=d; if(d>maxDelay)maxDelay=d;
+      remove[g.col]=remove[g.col]||{}; remove[g.col][r]=true; });
+    if(g.burger){
+      var perfect = isPerfect(st, g.from, g.to), mid = g.to - g.from - 1;
+      var pts = perfect ? 1000*comboLevel : (100 + mid*60)*comboLevel;
+      score += pts;
+      spawnBurgerFx(g.col, g.from, g.to, { emoji:'🍔', name: perfect?'あいうえお！':'ハンバーガー', pts:pts });
+      sndBurgerSeq(n, perfect);
     } else {
-      cl.pts = (100 + mid*60) * comboLevel;
-      spawnBurgerFx(cl.col, cl.from, cl.to, { emoji:'🍔', name:'ハンバーガー', pts:cl.pts });
+      score += (10 + (n-2)*20) * comboLevel;      // 同じ文字 2つ=10 / 3つ=30…
+      sndEgg(comboLevel);
     }
-    score += cl.pts;
-    sndBurgerSeq(n, cl.perfect);
     stats.eggs++;
     stats.biggest = Math.max(stats.biggest, n);
     stats.maxCombo = Math.max(stats.maxCombo, comboLevel);
   });
   renderStack();
   setTimeout(function(){
-    clears.forEach(function(cl){ grid[cl.col].splice(cl.from, cl.to - cl.from + 1); });
+    Object.keys(remove).forEach(function(c){
+      Object.keys(remove[c]).map(Number).sort(function(a,b){return b-a;}).forEach(function(r){ grid[c].splice(r,1); });
+    });
     level = 1 + Math.floor(stats.eggs/8);
     renderHUD(); $('hCombo').textContent = comboLevel;
     renderStack();
     resolveStep(onDone);
   }, maxDelay + POP_DUR);
 }
-function serve(col){}   // （旧・提供操作は廃止）
+function serve(col){}
 
 /* ===================== 単語イラストの演出 ===================== */
 function spawnPtsFx(col, from, to, text){
@@ -816,7 +839,7 @@ document.addEventListener('keydown', function(e){
   }
 
   if(window.PointerEvent){
-    board.addEventListener('pointerdown', function(e){ begin(e.clientX, e.clientY); });
+    board.addEventListener('pointerdown', function(e){ e.preventDefault(); begin(e.clientX, e.clientY); });
     board.addEventListener('pointerup',   function(e){ finish(e.clientX, e.clientY); });
     board.addEventListener('pointercancel', function(){ down = false; });
   } else {

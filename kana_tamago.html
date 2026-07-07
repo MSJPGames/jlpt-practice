@@ -83,6 +83,12 @@
   #faller.cap{border-top-width:5px;}
   .tile.pop{animation:eggpop .3s ease forwards;z-index:2;}
   @keyframes eggpop{0%{transform:scale(1);opacity:1}45%{transform:scale(1.14);opacity:1}100%{transform:scale(.08);opacity:0}}
+  .wordfx{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:6;pointer-events:none;}
+  .wordfx .wfx-emoji{line-height:1;animation:wfxpop .9s ease forwards;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25));}
+  .wordfx .wfx-pts{font-size:13px;font-weight:800;margin-top:2px;animation:wfxfloat .9s ease forwards;text-shadow:0 1px 2px rgba(255,255,255,.7);}
+  .wordfx.food .wfx-pts{color:#2E8B2E;} .wordfx.bad .wfx-pts{color:#C0392B;}
+  @keyframes wfxpop{0%{transform:scale(.3);opacity:0}30%{transform:scale(1.35) rotate(-6deg);opacity:1}55%{transform:scale(1.05) rotate(3deg)}100%{transform:scale(1) translateY(-10px);opacity:0}}
+  @keyframes wfxfloat{0%{opacity:0;transform:translateY(4px)}30%{opacity:1}100%{opacity:0;transform:translateY(-16px)}}
 
   .controls{display:flex;gap:8px;margin-top:12px;}
   .ctrl{flex:1;padding:15px 0;font-size:20px;font-weight:800;background:var(--surface);border:1px solid var(--border);
@@ -266,10 +272,37 @@ function sndOver(){                                                             
   tone({type:'triangle', f0:330, f1:294, dur:0.20, vol:0.40, delay:0.16});
   tone({type:'triangle', f0:220, f1:160, dur:0.34, vol:0.42, delay:0.34});
 }
+function sndWord(food){                                                                        // 単語→イラスト成立の特別音
+  if(food){
+    tone({type:'triangle', f0:680,  f1:1020, dur:0.10, vol:0.42});
+    tone({type:'triangle', f0:1020, f1:1500, dur:0.13, vol:0.50, delay:0.09});
+    tone({type:'sine',     f0:1760, f1:2100, dur:0.20, vol:0.42, delay:0.19});   // キラッ
+  } else {
+    tone({type:'sawtooth', f0:200,  f1:120,  dur:0.22, vol:0.30});
+    tone({type:'square',   f0:150,  f1:90,   dur:0.20, vol:0.24, delay:0.11});
+  }
+}
 
 /* ===================== 補助 ===================== */
 function ri(n){ return Math.floor(Math.random()*n); }
 function activeRows(){ return ROWSETS[cfg.kana].slice(0, cfg.nrows); }
+
+/* ===================== 隠し単語（2文字～） ===================== */
+/* 上から下に読んで成立したらイラスト化。food=プラス／それ以外=マイナス。編集して増やせます。 */
+/* ※お段（お・こ・そ・と・の）は下の巣のみに出るため、単語には使いません。 */
+var WORDS = {
+  // 食べ物（プラス）
+  'すし':{emoji:'🍣',food:true}, 'いか':{emoji:'🦑',food:true}, 'かに':{emoji:'🦀',food:true},
+  'なす':{emoji:'🍆',food:true}, 'なし':{emoji:'🍐',food:true}, 'さけ':{emoji:'🐟',food:true},
+  'かき':{emoji:'🦪',food:true},
+  // 食べ物以外（マイナス）
+  'いぬ':{emoji:'🐶',food:false}, 'かさ':{emoji:'☂️',food:false}, 'くつ':{emoji:'👟',food:false},
+  'いす':{emoji:'🪑',food:false}, 'うし':{emoji:'🐮',food:false}, 'しか':{emoji:'🦌',food:false},
+  'つき':{emoji:'🌙',food:false}, 'あき':{emoji:'🍂',food:false}, 'なつ':{emoji:'☀️',food:false},
+  'くさ':{emoji:'🌿',food:false}
+};
+var MAXWORD = 4, WORD_PLUS = 150, WORD_MINUS = 80;
+function hiraOf(ch){ var c=ch.charCodeAt(0); return (c>=0x30A1 && c<=0x30F6) ? String.fromCharCode(c-0x60) : ch; }
 
 function makePiece(){   // 落ちてくるのは「中身(い・う・え段)」と「フタ(あ段)」だけ
   var r = ri(ACTIVE.length), rd = ACTIVE[r], roll = Math.random(), pos, k;
@@ -327,6 +360,67 @@ function resolveStep(onDone){
     renderStack();
     resolveStep(onDone);                       // 連鎖チェック
   }, maxDelay + POP_DUR);
+}
+
+/* ===================== 隠し単語の検出・演出 ===================== */
+/* 1列を上→下に読み、巣(index0)を除いた並びから2文字以上の単語を探す */
+function findWord(col){
+  var st = grid[col];
+  if(st.length < 3) return null;                 // 巣＋2個以上ないと成立しない
+  var idxs = [];                                  // 上→下（grid indexの降順、巣は除外）
+  for(var r=st.length-1; r>=1; r--) idxs.push(r);
+  var chars = idxs.map(function(r){ return hiraOf(st[r].k); });
+  for(var i=0;i<chars.length;i++){
+    for(var len=Math.min(MAXWORD, chars.length-i); len>=2; len--){
+      var w = chars.slice(i, i+len).join('');
+      if(WORDS[w]) return { gridIdxs: idxs.slice(i, i+len), info: WORDS[w], word:w };
+    }
+  }
+  return null;
+}
+/* 成立した単語をイラスト化して消す（あれば true を返す） */
+function resolveWords(onDone){
+  var found = [];
+  for(var c=0;c<COLS;c++){ var m = findWord(c); if(m){ m.col=c; found.push(m); } }
+  if(!found.length){ onDone(false); return; }
+  found.forEach(function(m){
+    m.gridIdxs.forEach(function(r){ grid[m.col][r]._pop = 0; });   // 文字は縮んで消える
+    spawnWordFx(m.col, m.gridIdxs, m.info);                        // イラスト＋得点の演出
+    if(m.info.food){ score += WORD_PLUS; stats.eggs = stats.eggs; }
+    else { score = Math.max(0, score - WORD_MINUS); }
+    sndWord(!!m.info.food);
+  });
+  renderStack(); renderHUD();
+  setTimeout(function(){
+    found.forEach(function(m){
+      var min = Math.min.apply(null, m.gridIdxs);
+      grid[m.col].splice(min, m.gridIdxs.length);                  // まとめて消す→上が落ちる
+    });
+    renderStack();
+    onDone(true);
+  }, 470);
+}
+/* 盤面上にイラストと得点をふわっと表示 */
+function spawnWordFx(col, idxs, info){
+  var b = $('board');
+  var maxIdx = Math.max.apply(null, idxs), len = idxs.length;
+  var left = col*CELL, top = (ROWS-1-maxIdx)*CELL, h = len*CELL;
+  var el = document.createElement('div');
+  el.className = 'wordfx' + (info.food ? ' food' : ' bad');
+  el.style.cssText = 'left:'+left+'px;top:'+top+'px;width:'+CELL+'px;height:'+h+'px;';
+  el.innerHTML = '<span class="wfx-emoji" style="font-size:'+Math.round(CELL*0.8)+'px">'+info.emoji+'</span>'+
+                 '<span class="wfx-pts">'+(info.food ? ('+'+WORD_PLUS) : ('-'+WORD_MINUS))+'</span>';
+  b.appendChild(el);
+  setTimeout(function(){ el.remove(); }, 950);
+}
+/* バーガー→単語→バーガー…と、消えるものがなくなるまで解決 */
+function resolveAll(onDone){
+  resolveStep(function(){
+    resolveWords(function(cleared){
+      if(cleared) resolveAll(onDone);
+      else onDone();
+    });
+  });
 }
 
 /* ===================== 描画 ===================== */
@@ -408,7 +502,7 @@ function lockPiece(){
   faller = null;
   resolving = true; comboLevel = 0;
   renderStack();
-  resolveStep(function(){
+  resolveAll(function(){
     resolving = false;
     speedUp();
     spawn();

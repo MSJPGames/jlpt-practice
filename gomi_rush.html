@@ -324,20 +324,24 @@ const ITEMS = {
   battery:{name:'使い終わった乾電池',emoji:'🔋',mat:'depot',lv:3},
   lighter:{name:'使い捨てライター',emoji:'🔥',mat:'depot',lv:3},
   fluor:{name:'切れた蛍光灯',emoji:'💡',mat:'depot',lv:3},
-  pc:{name:'こわれたノートパソコン',emoji:'💻',mat:'pc',lv:3}
+  pc:{name:'こわれたノートパソコン',emoji:'💻',mat:'pc',lv:3},
+  desktop:{name:'デスクトップパソコン',emoji:'🖥️',mat:'pc',lv:3},
+  printer:{name:'こわれたプリンター',emoji:'🖨️',mat:'bulky',lv:3},
+  fan:{name:'こわれた扇風機',emoji:'🌀',mat:'bulky',lv:3},
+  gamem:{name:'こわれたゲーム機',emoji:'🎮',mat:'bulky',lv:3}
 };
 const SPECIAL_MATS=['bulky','kaden','depot','pc'];
 const SPECIAL_BINS=[
-  {id:'bulky',label:'粗大ごみ',cls:'c-bulky',ex:'布団・自転車・イスなど（役所に申込・有料）'},
-  {id:'kaden',label:'家電',cls:'c-kaden',ex:'テレビ・冷蔵庫・洗濯機・エアコン（店へ）'},
-  {id:'depot',label:'拠点回収',cls:'c-depot',ex:'乾電池・ライター・蛍光灯（店やボックスへ）'},
-  {id:'pc',label:'パソコン',cls:'c-pc',ex:'メーカーが回収（PCリサイクル）'}
+  {id:'bulky',label:'役所に連絡',cls:'c-bulky',ex:'粗大ごみ（布団・自転車・大きな電化製品）。役所に申し込んで有料で出す'},
+  {id:'kaden',label:'お店に連絡',cls:'c-kaden',ex:'テレビ・冷蔵庫・洗濯機・エアコンの4品目。お店が引き取り（有料）'},
+  {id:'depot',label:'回収ボックスへ',cls:'c-depot',ex:'乾電池・ライター・蛍光灯。お店や施設の回収箱へ'},
+  {id:'pc',label:'メーカーに連絡',cls:'c-pc',ex:'パソコン本体・モニター。メーカーが回収（無料のことも）'}
 ];
 const MAT_WHY={
-  bulky:'大きなものは「粗大ごみ」。役所に申し込んで、有料で出します。',
-  kaden:'テレビ・冷蔵庫・洗濯機・エアコンは家電リサイクル法の対象。ゴミに出せず、お店やメーカーへ。',
-  pc:'パソコンはメーカーが回収します（PCリサイクル）。ふつうのゴミには出しません。',
-  depot:'乾電池・ライター・蛍光灯などは、お店や施設の回収ボックスへ（拠点回収）。',
+  bulky:'大きな家具や、家電4品目・パソコン以外の電化製品は「粗大ごみ」。役所に連絡して、有料で出します。',
+  kaden:'テレビ・冷蔵庫・洗濯機・エアコンの4品目は、買ったお店や買いかえるお店に連絡して引き取ってもらいます（有料）。',
+  pc:'パソコン本体とモニターは、メーカーに連絡して回収してもらいます（無料のことも）。プリンターは対象外で粗大ごみへ。',
+  depot:'乾電池・ライター・蛍光灯などは、お店や施設の回収ボックスに入れます。',
   spray:'スプレー缶は中身を使い切ってから。街によって出す場所が違うので注意。'
 };
 const CITIES=[

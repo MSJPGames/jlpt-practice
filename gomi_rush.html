@@ -715,11 +715,19 @@ function dropToBin(idx,e){
     if(!G.selected)return;
     const key=G.selected,it=ITEMS[key],correctId=resolveBinId(G.city,it),correct=(correctId===bin.id);
     G.selected=null;stage.classList.remove('has-sel');renderTray();flyTo(it,bin._el);
-    G.fills[bin.id]=(G.fills[bin.id]||0)+1;
-    if(correct){G.combo++;G.bestCombo=Math.max(G.bestCombo,G.combo);const g=5+(G.combo-1);G.score+=g;popup(bin._el.offsetLeft+bin._el.offsetWidth/2,'＋'+g+(G.combo>1?' '+G.combo+'コンボ':''),'ok');}
-    else{G.combo=0;popup(bin._el.offsetLeft+bin._el.offsetWidth/2,'✗ ちがう袋','ng');}
-    if(G.fills[bin.id]>LIFE.cap*LIFE.maxStock){return overflowLife(bin);}
-    renderLife();return;
+    if(correct){
+      G.fills[bin.id]=(G.fills[bin.id]||0)+1;
+      G.combo++;G.bestCombo=Math.max(G.bestCombo,G.combo);const g=5+(G.combo-1);G.score+=g;
+      popup(bin._el.offsetLeft+bin._el.offsetWidth/2,'＋'+g+(G.combo>1?' '+G.combo+'コンボ':''),'ok');
+      if(G.fills[bin.id]>LIFE.cap*LIFE.maxStock){return overflowLife(bin);}
+      renderLife();
+    }else{
+      G.combo=0;
+      popup(bin._el.offsetLeft+bin._el.offsetWidth/2,'✗ 分別ミス','ng');
+      stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);
+      addMiss();
+    }
+    return;
   }
   if(G.mode==='quiz'){
     if(G.answered||!G.selected)return;
@@ -821,7 +829,7 @@ function startLifeSetup(city,diff){
   G.pool=Object.keys(ITEMS).filter(k=>SPECIAL_MATS.indexOf(ITEMS[k].mat)<0 && ids[resolveBinId(city,ITEMS[k])]);
   G.sched=makeSchedule(G.shown); G.win=cityWindow(city);
   G.fills={}; G.shown.forEach(b=>G.fills[b.id]=0);
-  G.day=0; G.dayEl=0; G.phase='off'; G.daysSurv=0; G.score=0; G.combo=0; G.bestCombo=0; G.truckHere=false;
+  G.day=0; G.dayEl=0; G.phase='off'; G.daysSurv=0; G.score=0; G.combo=0; G.bestCombo=0; G.truckHere=false; G.miss=0;
   layoutBins();
   belt.style.display=''; belt.classList.add('run'); stage.classList.remove('quiz'); stage.classList.remove('has-sel');
   renderTray();
@@ -849,9 +857,10 @@ function lifeLoop(now){
   for(let i=G.plates.length-1;i>=0;i--){
     const p=G.plates[i];
     if(p.x<=-PLATE_W){
-      const cid=resolveBinId(G.city,ITEMS[p.key]);
       p.el.remove(); G.plates.splice(i,1);
-      if(G.fills[cid]!==undefined){G.fills[cid]++; if(G.fills[cid]>LIFE.cap*LIFE.maxStock){return overflowLife(G.shown.find(b=>b.id===cid));}}
+      G.combo=0; popup(30,'😾 取り逃し','ng');
+      stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);
+      if(addMiss())return;
     }
   }
   let maxX=-Infinity; for(const p of G.plates)maxX=Math.max(maxX,p.x);
@@ -879,7 +888,7 @@ function lifeDispose(){
 function renderLife(){
   document.getElementById('hudScore').textContent=G.score;
   document.getElementById('hudCombo').textContent=G.combo>1?('🔥'+G.combo):'';
-  document.getElementById('hudLives').textContent=DAYNAMES[G.day]+'曜';
+  document.getElementById('hudLives').textContent='❤️'.repeat(Math.max(0,5-(G.miss||0)))+'🖤'.repeat(Math.min(5,G.miss||0));
   updateSky(G.dayEl/LIFE.dayMs);
   document.getElementById('lifeCur').style.left=(G.dayEl/LIFE.dayMs*100)+'%';
   const lw=document.getElementById('lifeWin'), ww=LIFE.winMs/LIFE.dayMs*100;
@@ -915,6 +924,21 @@ function overflowLife(bin){
   document.getElementById('ovResult').classList.add('show');
 }
 function bestLife(v){try{const k='gomi_life_best';const c=+(localStorage.getItem(k)||0);if(v>c){localStorage.setItem(k,v);return v;}return c;}catch(e){return v;}}
+function addMiss(){
+  G.miss=(G.miss||0)+1;
+  if(G.miss>=5){ missGameOver(); return true; }
+  renderLife(); return false;
+}
+function missGameOver(){
+  G.running=false; belt.classList.remove('run'); cancelAnimationFrame(raf);
+  const best=bestLife(G.daysSurv);
+  document.getElementById('rEmoji').textContent='😵';
+  document.getElementById('rTitle').textContent='ミスが多すぎた…';
+  document.getElementById('rStats').innerHTML='<b>'+G.daysSurv+'</b>日間 生活できた<br>スコア '+G.score+'　／　ベスト '+best+'日';
+  document.getElementById('rLesson').innerHTML='<div class="lesson"><div class="lh">📗 ヒント</div>取り逃し・分別ミスが5回になりました。流れてくるゴミは早めにタップして、正しい袋へ入れよう。</div>';
+  document.getElementById('rRetry').onclick=()=>{document.getElementById('ovResult').classList.remove('show');startGame(G.city,'rush',G.diff);};
+  document.getElementById('ovResult').classList.add('show');
+}
 document.getElementById('lifeDispose').onclick=lifeDispose;
 
 renderCities();

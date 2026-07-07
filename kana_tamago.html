@@ -318,6 +318,44 @@ function sndBurgerSeq(n, perfect){                                              
   if(perfect){ tone({ type:'triangle', f0:top*1.5, f1:top*2, dur:0.30, vol:0.42, delay:(n+1)*step }); }
 }
 
+/* ===================== BGM（8bit風・生成ループ） ===================== */
+var bgmOff = false, bgmTimer = null, bgmStep = 0;
+try { bgmOff = localStorage.getItem('nnh_bgm_off')==='1'; } catch(e){}
+var BGM_STEP = 160;   // 1ステップms
+/* C major：I–IV–V–vi 進行っぽいメロディ＆ベース（0=休符, MIDI番号） */
+var BGM_MEL = [72,0,76,0, 79,0,76,0, 77,0,74,0, 76,0,72,0,
+               71,0,74,0, 79,0,77,0, 76,0,72,0, 74,74,71,0];
+var BGM_BASS= [48,0,55,0, 48,0,55,0, 41,0,48,0, 41,0,48,0,
+               43,0,50,0, 43,0,50,0, 45,0,52,0, 43,0,50,0];
+function mfreq(m){ return 440*Math.pow(2,(m-69)/12); }
+function bgmNote(m, dur, type, vol){
+  if(m<=0) return;
+  var c = audio(); if(!c) return;
+  var t = c.currentTime;
+  var o = c.createOscillator(), g = c.createGain();
+  o.type = type; o.frequency.setValueAtTime(mfreq(m), t);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol, t+0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+  o.connect(g); g.connect(c.destination);
+  o.start(t); o.stop(t+dur+0.02);
+}
+function bgmTick(){
+  if(bgmOff) return;
+  var i = bgmStep % BGM_MEL.length;
+  bgmNote(BGM_MEL[i],  BGM_STEP/1000*0.85, 'square',   0.10);   // メロディ
+  bgmNote(BGM_BASS[i], BGM_STEP/1000*1.7,  'triangle', 0.13);   // ベース
+  bgmStep++;
+}
+function startBGM(){
+  if(bgmTimer){ clearInterval(bgmTimer); bgmTimer=null; }
+  bgmStep = 0;
+  if(bgmOff) return;
+  audio();
+  bgmTimer = setInterval(bgmTick, BGM_STEP);
+}
+function stopBGM(){ if(bgmTimer){ clearInterval(bgmTimer); bgmTimer=null; } }
+
 /* ===================== 補助 ===================== */
 function ri(n){ return Math.floor(Math.random()*n); }
 function activeRows(){ return ROWSETS[cfg.kana].slice(0, cfg.nrows); }
@@ -677,9 +715,11 @@ function startGame(){
   spawn(); renderStack();
   if(timer) clearInterval(timer);
   timer = setInterval(step, dropMs);
+  startBGM();
 }
 function gameOver(){
   running=false; if(timer){ clearInterval(timer); timer=null; }
+  stopBGM();
   sndOver();
   $('rScore').textContent = score;
   $('rEggs').textContent = stats.eggs;
@@ -829,6 +869,24 @@ renderLegend();
     sfxOff=!sfxOff; try{ localStorage.setItem(KEY, sfxOff?'1':'0'); }catch(e){}
     paint();
     if(!sfxOff){ audio(); tone({type:'triangle',f0:660,f1:880,dur:0.10,vol:0.3}); }  // ON確認音
+  });
+  paint(); document.body.appendChild(b);
+})();
+
+/* ===== BGMトグル ===== */
+(function(){
+  var KEY='nnh_bgm_off';
+  var st=document.createElement('style');
+  st.textContent=".bgm-toggle{position:fixed;top:10px;right:112px;z-index:9999;font-family:inherit;font-size:13px;line-height:1;padding:6px 10px;border-radius:999px;border:1px solid #E2DDD6;background:rgba(255,255,255,.92);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);}"
+   +".bgm-toggle.off{opacity:.45;}";
+  document.head.appendChild(st);
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ b.className='bgm-toggle'+(bgmOff?' off':''); b.textContent='🎵';
+    b.title=bgmOff?'BGM：OFF':'BGM：ON'; }
+  b.addEventListener('click',function(){
+    bgmOff=!bgmOff; try{ localStorage.setItem(KEY, bgmOff?'1':'0'); }catch(e){}
+    paint();
+    if(bgmOff){ stopBGM(); } else if(running){ startBGM(); }
   });
   paint(); document.body.appendChild(b);
 })();</script>

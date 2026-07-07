@@ -129,18 +129,18 @@
     <div class="head">
       <div class="logo">NIHONGO NO HEYA</div>
       <div class="title">かなバーガー<small>KANA BURGER</small></div>
-      <div class="sub">各列の一番下は<b>下のバンズ（お段）</b>。同じ行の<b>上のバンズ（あ段）</b>ではさめば、間の<b>具</b>ごと、まとめてバーガー完成で消える。下のバンズはそのつどランダムで入れ替わる。<br>
-        <span class="en-sub">Sandwich an お-row bottom bun with its matching あ-row top bun — the fillings between clear as a burger, then a new random bottom bun appears.</span></div>
+      <div class="sub">各列の底には<b>下バンズ</b>が自動でセット。落ちてくる<b>具（かな）</b>を積んで、<b>上バンズ</b>でフタをすると、間の具ごとまとめて消える。たくさんはさむほど高得点。<br>
+        <span class="en-sub">A bottom bun sits at each column's base. Stack kana fillings, then cap with a top bun — the fillings clear. More fillings, more points.</span></div>
     </div>
 
     <div class="card">
       <div class="howto-title">あそびかた ・ How to play</div>
-      <div class="howto-row"><span class="howto-num">1</span><div>各列の一番下に <b>下のバンズ（お段）</b>。バーガーを作るたびに、新しいバンズがランダムで出る（毎回ちがう）。
-        <div class="en-sub">Each column has an お-row bottom bun; it changes to a random row after each burger.</div></div></div>
-      <div class="howto-row"><span class="howto-num">2</span><div>落ちてくる <b>具（い・う・え段）</b> と <b>上のバンズ（あ段）</b> を左右に動かして積む。
-        <div class="en-sub">Move the falling fillings and あ-row top buns left/right to stack.</div></div></div>
-      <div class="howto-row"><span class="howto-num">3</span><div>下のバンズと <b>同じ行の上のバンズ（あ段）</b> ではさむと、間の具が何でも・バンズごと、上から下へ閉じて消える。はさんだ具が多いほど高得点・連鎖で加点。
-        <div class="en-sub">Sandwich with the matching あ-row top bun: everything between (and the buns) closes top-down. More fillings = more points; chains add bonus.</div></div></div>
+      <div class="howto-row"><span class="howto-num">1</span><div>各列の底には <b>下バンズ</b> が自動でセット。落ちてくるのは <b>具（かな）</b> と <b>上バンズ</b>。
+        <div class="en-sub">A bottom bun is auto-set at each column's base. Fillings and top buns fall.</div></div></div>
+      <div class="howto-row"><span class="howto-num">2</span><div><b>具</b> を積んで、<b>上バンズ</b> でフタをする。左右に動かして重ねよう。
+        <div class="en-sub">Stack fillings, then cap with a top bun. Move left/right to line them up.</div></div></div>
+      <div class="howto-row"><span class="howto-num">3</span><div>フタをすると、間の具ごと消える。具を <b>あいうえお（母音）の順</b> にそろえてはさむほど高得点！バラバラだと少しだけ。連鎖でボーナス。
+        <div class="en-sub">Capping clears the fillings. Line them up in あいうえお (vowel) order for big points — random fillings score little. Chains add bonus.</div></div></div>
 
       <div class="opt-label">かな ・ Script</div>
       <div class="seg" id="seg-kana">
@@ -150,9 +150,9 @@
 
       <div class="opt-label">むずかしさ（行の数） ・ Difficulty</div>
       <div class="seg" id="seg-diff">
-        <button data-rows="3" class="on">やさしい<span class="s">3 rows</span></button>
-        <button data-rows="4">ふつう<span class="s">4 rows</span></button>
-        <button data-rows="5">むずかしい<span class="s">5 rows</span></button>
+        <button data-rows="5" class="on">やさしい<span class="s">5 行</span></button>
+        <button data-rows="7">ふつう<span class="s">7 行</span></button>
+        <button data-rows="10">むずかしい<span class="s">10 行</span></button>
       </div>
 
       <div class="opt-label">この回に出る行 ・ Rows in play</div>
@@ -213,21 +213,32 @@ var ROWSETS = {
     {id:'ka',c:'#C4482E', s:'#E8886F', d:'#5A1E12', k:['か','き','く','け','こ']},
     {id:'sa',c:'#D9A21E', s:'#FBD25A', d:'#6E4A00', k:['さ','し','す','せ','そ']},
     {id:'ta',c:'#8A5A2E', s:'#C6976A', d:'#3E2611', k:['た','ち','つ','て','と']},
-    {id:'na',c:'#9B62A8', s:'#CFA0D6', d:'#472153', k:['な','に','ぬ','ね','の']}
+    {id:'na',c:'#9B62A8', s:'#CFA0D6', d:'#472153', k:['な','に','ぬ','ね','の']},
+    {id:'ha',c:'#2E7D8A', s:'#8FC7D1', d:'#123A42', k:['は','ひ','ふ','へ','ほ']},
+    {id:'ma',c:'#B5476B', s:'#E79BB4', d:'#5A1E30', k:['ま','み','む','め','も']},
+    {id:'ya',c:'#D97A1E', s:'#F2B673', d:'#6E3A00', k:['や','ゆ','よ']},
+    {id:'ra',c:'#4A6FB0', s:'#9DB6E0', d:'#1E3560', k:['ら','り','る','れ','ろ']},
+    {id:'wa',c:'#6B8E23', s:'#BAD07E', d:'#33450E', k:['わ','を','ん']}
   ],
   kata: [
     {id:'a', c:'#5C8A28', s:'#A5D168', d:'#25400F', k:['ア','イ','ウ','エ','オ']},
     {id:'ka',c:'#C4482E', s:'#E8886F', d:'#5A1E12', k:['カ','キ','ク','ケ','コ']},
     {id:'sa',c:'#D9A21E', s:'#FBD25A', d:'#6E4A00', k:['サ','シ','ス','セ','ソ']},
     {id:'ta',c:'#8A5A2E', s:'#C6976A', d:'#3E2611', k:['タ','チ','ツ','テ','ト']},
-    {id:'na',c:'#9B62A8', s:'#CFA0D6', d:'#472153', k:['ナ','ニ','ヌ','ネ','ノ']}
+    {id:'na',c:'#9B62A8', s:'#CFA0D6', d:'#472153', k:['ナ','ニ','ヌ','ネ','ノ']},
+    {id:'ha',c:'#2E7D8A', s:'#8FC7D1', d:'#123A42', k:['ハ','ヒ','フ','ヘ','ホ']},
+    {id:'ma',c:'#B5476B', s:'#E79BB4', d:'#5A1E30', k:['マ','ミ','ム','メ','モ']},
+    {id:'ya',c:'#D97A1E', s:'#F2B673', d:'#6E3A00', k:['ヤ','ユ','ヨ']},
+    {id:'ra',c:'#4A6FB0', s:'#9DB6E0', d:'#1E3560', k:['ラ','リ','ル','レ','ロ']},
+    {id:'wa',c:'#6B8E23', s:'#BAD07E', d:'#33450E', k:['ワ','ヲ','ン']}
   ]
 };
+var BUN = { c:'#C67F2E', s:'#F0BC68', d:'#4A2A0C' };   // バンズ共通色（実際の見た目はSVGで描画）
 
 var COLS = 6, ROWS = 11;
 var $ = function(id){ return document.getElementById(id); };
 
-var cfg = { kana:'hira', nrows:3 };
+var cfg = { kana:'hira', nrows:5 };
 var ACTIVE = [];               // 出題する行（ROWSETSの一部）
 var grid = [];                 // grid[col] = 下から上のタイル配列
 var faller = null;             // {col, y, piece}
@@ -292,68 +303,112 @@ function activeRows(){ return ROWSETS[cfg.kana].slice(0, cfg.nrows); }
 /* ※お段（お・こ・そ・と・の）は下の巣のみに出るため、単語には使いません。 */
 var WORDS = {
   // 食べ物（プラス）
-  'すし':{emoji:'🍣',food:true}, 'いか':{emoji:'🦑',food:true}, 'かに':{emoji:'🦀',food:true},
-  'なす':{emoji:'🍆',food:true}, 'なし':{emoji:'🍐',food:true}, 'さけ':{emoji:'🐟',food:true},
-  'かき':{emoji:'🦪',food:true},
+  'すし':{emoji:'🍣',food:true}, 'いか':{emoji:'🦑',food:true}, 'たこ':{emoji:'🐙',food:true},
+  'かに':{emoji:'🦀',food:true}, 'なす':{emoji:'🍆',food:true}, 'なし':{emoji:'🍐',food:true},
+  'さけ':{emoji:'🐟',food:true}, 'かき':{emoji:'🦪',food:true}, 'もも':{emoji:'🍑',food:true},
+  'まめ':{emoji:'🫛',food:true}, 'くり':{emoji:'🌰',food:true}, 'のり':{emoji:'🍙',food:true},
+  'すいか':{emoji:'🍉',food:true}, 'さかな':{emoji:'🐟',food:true}, 'きのこ':{emoji:'🍄',food:true},
+  'みかん':{emoji:'🍊',food:true}, 'さんま':{emoji:'🐟',food:true}, 'くるみ':{emoji:'🌰',food:true},
+  'やさい':{emoji:'🥬',food:true},
   // 食べ物以外（マイナス）
-  'いぬ':{emoji:'🐶',food:false}, 'かさ':{emoji:'☂️',food:false}, 'くつ':{emoji:'👟',food:false},
-  'いす':{emoji:'🪑',food:false}, 'うし':{emoji:'🐮',food:false}, 'しか':{emoji:'🦌',food:false},
-  'つき':{emoji:'🌙',food:false}, 'あき':{emoji:'🍂',food:false}, 'なつ':{emoji:'☀️',food:false},
-  'くさ':{emoji:'🌿',food:false}
+  'いぬ':{emoji:'🐶',food:false}, 'ねこ':{emoji:'🐱',food:false}, 'かさ':{emoji:'☂️',food:false},
+  'くつ':{emoji:'👟',food:false}, 'いす':{emoji:'🪑',food:false}, 'うし':{emoji:'🐮',food:false},
+  'しか':{emoji:'🦌',food:false}, 'つき':{emoji:'🌙',food:false}, 'ほし':{emoji:'⭐',food:false},
+  'はな':{emoji:'🌸',food:false}, 'くま':{emoji:'🐻',food:false}, 'さる':{emoji:'🐒',food:false},
+  'とり':{emoji:'🐦',food:false}, 'うま':{emoji:'🐴',food:false}, 'ゆき':{emoji:'⛄',food:false},
+  'やま':{emoji:'⛰️',food:false}, 'ほん':{emoji:'📖',food:false}, 'ふね':{emoji:'🚢',food:false},
+  'かめ':{emoji:'🐢',food:false}, 'くも':{emoji:'☁️',food:false}, 'くさ':{emoji:'🌿',food:false},
+  'くるま':{emoji:'🚗',food:false}, 'きつね':{emoji:'🦊',food:false}, 'たぬき':{emoji:'🦝',food:false},
+  'からす':{emoji:'🐦‍⬛',food:false}, 'とけい':{emoji:'🕐',food:false}, 'さくら':{emoji:'🌸',food:false}
 };
 var MAXWORD = 4, WORD_PLUS = 150, WORD_MINUS = 80;
 function hiraOf(ch){ var c=ch.charCodeAt(0); return (c>=0x30A1 && c<=0x30F6) ? String.fromCharCode(c-0x60) : ch; }
 
-function makePiece(){   // 落ちてくるのは「中身(い・う・え段)」と「フタ(あ段)」だけ
-  var r = ri(ACTIVE.length), rd = ACTIVE[r], roll = Math.random(), pos, k;
-  if(roll < 0.36){ pos='cap'; k=rd.k[0]; }       // あ段 ＝ ふた
-  else { pos='mid'; k=rd.k[1+ri(3)]; }           // い・う・え段 ＝ 中身
-  return { row:r, pos:pos, k:k, c:rd };
+function makePiece(){   // 落ちてくるのは「具（かな）」と「上バンズ」だけ（下バンズは各列の底に自動配置）
+  if(Math.random() < 0.30) return { pos:'cap', k:'', c:BUN };   // 上バンズ
+  var rd = ACTIVE[ri(ACTIVE.length)];                           // 具＝どの母音段でもOK（お段も具）
+  return { pos:'mid', k: rd.k[ri(rd.k.length)], c:rd };
 }
-function makeBase(r){ var rd=ACTIVE[r]; return { row:r, pos:'base', k:rd.k[4], c:rd }; } // お段＝下の巣
+function makeBase(){ return { pos:'base', k:'', c:BUN }; }        // 下バンズ（各列の底に自動）
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=ri(i+1), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
 
-/* 1列の判定：一番下の「巣(お段・R行)」の上に、R行の「ふた(あ段)」があれば、間の中身が何でも成立。 */
+/* 1列の判定：下から見て「下バンズ」→（具…）→「上バンズ」が並べばサンド成立。from/toを返す。 */
 function columnClear(st){
-  if(st.length < 2 || st[0].pos !== 'base') return null;
-  var R = st[0].row;
-  for(var j=1;j<st.length;j++){
-    if(st[j].pos==='cap' && st[j].row===R) return { to:j, row:R };
+  var bottom = -1;
+  for(var i=0;i<st.length;i++){
+    if(st[i].pos==='base'){ bottom = i; }
+    else if(st[i].pos==='cap'){ if(bottom>=0) return { from:bottom, to:i }; }
   }
   return null;
 }
 
-/* 全列を解決（連鎖・加点）。消えたタイルの位置リストも返す（演出用） */
-/* 全列の成立を探す */
+/* 全列のサンド成立を探す */
 function findClears(){
   var out=[];
-  for(var c=0;c<COLS;c++){ var cl=columnClear(grid[c]); if(cl) out.push({col:c, to:cl.to}); }
+  for(var c=0;c<COLS;c++){ var cl=columnClear(grid[c]); if(cl){ cl.col=c; out.push(cl); } }
   return out;
 }
-/* 上から下へ「卵が閉じる」アニメ → 消去 → 巣をランダム補充 → 連鎖（再帰） */
+/* 具の並びが単語か判定（上→下読み・2文字以上） */
+function fillingWord(st, from, to){
+  var chars=[];
+  for(var r=to-1; r>=from+1; r--) chars.push(hiraOf(st[r].k));   // 上→下
+  if(chars.length < 2) return null;
+  var w = chars.join('');
+  return WORDS[w] ? { info: WORDS[w], word:w } : null;
+}
+/* 母音（段）判定：0=あ 1=い 2=う 3=え 4=お、それ以外(ん等)=-1 */
+var VOWELS = ['あかさたなはまやらわ','いきしちにひみり','うくすつぬふむゆる','えけせてねへめれ','おこそとのほもよろを'];
+function vowelOf(ch){ ch=hiraOf(ch); for(var v=0;v<5;v++){ if(VOWELS[v].indexOf(ch)>=0) return v; } return -1; }
+/* 具が下→上に「あいうえお（母音段）の連続昇順」で並んでいるか（具2つ以上で意味を持つ） */
+function orderedRun(st, from, to){
+  var prev=-2;
+  for(var r=from+1; r<=to-1; r++){          // 下→上
+    var v=vowelOf(st[r].k);
+    if(v<0) return false;                    // ん など母音なしは不可
+    if(prev>=0 && v!==prev+1) return false;  // 連続昇順でない
+    prev=v;
+  }
+  return true;
+}
+/* サンドを上→下に閉じるアニメ → 消去 → 連鎖。具が単語ならイラスト化＆加点/減点 */
 function resolveStep(onDone){
   var clears = findClears();
   if(!clears.length){ onDone(); return; }
   comboLevel++;
-  sndEgg(comboLevel);
-  var maxDelay = 0;
+  var maxDelay = 0, foodWord = false, anyWord = false;
   clears.forEach(function(cl){
-    for(var r=0;r<=cl.to;r++){
-      var d = (cl.to - r) * POP_STAGGER;     // 上(=cl.to)が先・下(=0)が最後
-      grid[cl.col][r]._pop = d;
-      if(d > maxDelay) maxDelay = d;
+    var st = grid[cl.col];
+    cl.word = fillingWord(st, cl.from, cl.to);
+    for(var r=cl.from+1; r<=cl.to; r++){
+      var d = (cl.to - r) * POP_STAGGER;      // 上が先・下が最後（下バンズは残す）
+      st[r]._pop = d; if(d > maxDelay) maxDelay = d;
     }
+    var size = cl.to - cl.from - 1;           // はさんだ具の数
+    var pts;
+    if(cl.word){
+      pts = 40 + size*size*30;
+      if(cl.word.info.food){ pts += WORD_PLUS; foodWord = true; }
+      else { pts = Math.max(0, pts - WORD_MINUS); }
+      anyWord = true;
+      spawnWordFx(cl.col, cl.from, cl.to, cl.word.info);
+    } else if(size>=2 && orderedRun(st, cl.from, cl.to)){
+      pts = 40 + size*size*40;                // あいうえお順：高得点
+      spawnPtsFx(cl.col, cl.from, cl.to, '＋'+(pts*comboLevel));
+    } else if(size===1){
+      pts = 30;                               // 具1つ
+    } else {
+      pts = 10;                               // バラバラ／空は少しだけ
+    }
+    score += pts * comboLevel;
+    stats.eggs++;
+    stats.biggest = Math.max(stats.biggest, size);
+    stats.maxCombo = Math.max(stats.maxCombo, comboLevel);
   });
+  if(anyWord) sndWord(foodWord); else sndEgg(comboLevel);
   renderStack();
   setTimeout(function(){
     clears.forEach(function(cl){
-      var size = cl.to - 1;                   // 間にはさんだ数
-      score += (40 + size*size*30) * comboLevel;
-      stats.eggs++;
-      stats.biggest = Math.max(stats.biggest, size);
-      stats.maxCombo = Math.max(stats.maxCombo, comboLevel);
-      grid[cl.col] = grid[cl.col].slice(cl.to+1);          // 巣～ふたまで全部消す
-      grid[cl.col].unshift(makeBase(ri(ACTIVE.length)));   // 新しい巣をランダムに補充
+      grid[cl.col].splice(cl.from+1, cl.to - cl.from);   // 具～上バンズを消す（下バンズは残す）
     });
     level = 1 + Math.floor(stats.eggs/6);
     renderHUD(); $('hCombo').textContent = comboLevel;
@@ -362,49 +417,22 @@ function resolveStep(onDone){
   }, maxDelay + POP_DUR);
 }
 
-/* ===================== 隠し単語の検出・演出 ===================== */
-/* 1列を上→下に読み、巣(index0)を除いた並びから2文字以上の単語を探す */
-function findWord(col){
-  var st = grid[col];
-  if(st.length < 3) return null;                 // 巣＋2個以上ないと成立しない
-  var idxs = [];                                  // 上→下（grid indexの降順、巣は除外）
-  for(var r=st.length-1; r>=1; r--) idxs.push(r);
-  var chars = idxs.map(function(r){ return hiraOf(st[r].k); });
-  for(var i=0;i<chars.length;i++){
-    for(var len=Math.min(MAXWORD, chars.length-i); len>=2; len--){
-      var w = chars.slice(i, i+len).join('');
-      if(WORDS[w]) return { gridIdxs: idxs.slice(i, i+len), info: WORDS[w], word:w };
-    }
-  }
-  return null;
-}
-/* 成立した単語をイラスト化して消す（あれば true を返す） */
-function resolveWords(onDone){
-  var found = [];
-  for(var c=0;c<COLS;c++){ var m = findWord(c); if(m){ m.col=c; found.push(m); } }
-  if(!found.length){ onDone(false); return; }
-  found.forEach(function(m){
-    m.gridIdxs.forEach(function(r){ grid[m.col][r]._pop = 0; });   // 文字は縮んで消える
-    spawnWordFx(m.col, m.gridIdxs, m.info);                        // イラスト＋得点の演出
-    if(m.info.food){ score += WORD_PLUS; stats.eggs = stats.eggs; }
-    else { score = Math.max(0, score - WORD_MINUS); }
-    sndWord(!!m.info.food);
-  });
-  renderStack(); renderHUD();
-  setTimeout(function(){
-    found.forEach(function(m){
-      var min = Math.min.apply(null, m.gridIdxs);
-      grid[m.col].splice(min, m.gridIdxs.length);                  // まとめて消す→上が落ちる
-    });
-    renderStack();
-    onDone(true);
-  }, 470);
-}
-/* 盤面上にイラストと得点をふわっと表示 */
-function spawnWordFx(col, idxs, info){
+/* ===================== 単語イラストの演出 ===================== */
+function spawnPtsFx(col, from, to, text){
   var b = $('board');
-  var maxIdx = Math.max.apply(null, idxs), len = idxs.length;
-  var left = col*CELL, top = (ROWS-1-maxIdx)*CELL, h = len*CELL;
+  var topIdx = to-1, len = Math.max(1, to - from - 1);
+  var left = col*CELL, top = (ROWS-1-topIdx)*CELL, h = len*CELL;
+  var el = document.createElement('div');
+  el.className = 'wordfx food';
+  el.style.cssText = 'left:'+left+'px;top:'+top+'px;width:'+CELL+'px;height:'+h+'px;';
+  el.innerHTML = '<span class="wfx-pts" style="font-size:15px">'+text+'</span>';
+  b.appendChild(el);
+  setTimeout(function(){ el.remove(); }, 900);
+}
+function spawnWordFx(col, from, to, info){
+  var b = $('board');
+  var topIdx = to-1, len = to - from - 1;         // 具の範囲
+  var left = col*CELL, top = (ROWS-1-topIdx)*CELL, h = len*CELL;
   var el = document.createElement('div');
   el.className = 'wordfx' + (info.food ? ' food' : ' bad');
   el.style.cssText = 'left:'+left+'px;top:'+top+'px;width:'+CELL+'px;height:'+h+'px;';
@@ -412,15 +440,6 @@ function spawnWordFx(col, idxs, info){
                  '<span class="wfx-pts">'+(info.food ? ('+'+WORD_PLUS) : ('-'+WORD_MINUS))+'</span>';
   b.appendChild(el);
   setTimeout(function(){ el.remove(); }, 950);
-}
-/* バーガー→単語→バーガー…と、消えるものがなくなるまで解決 */
-function resolveAll(onDone){
-  resolveStep(function(){
-    resolveWords(function(cleared){
-      if(cleared) resolveAll(onDone);
-      else onDone();
-    });
-  });
 }
 
 /* ===================== 描画 ===================== */
@@ -471,7 +490,8 @@ function renderFaller(){
 }
 function renderNext(){
   var n = $('nextTile'), t = nextPiece;
-  n.textContent = t.k; n.setAttribute('style', tileStyle(t));
+  n.textContent = (t.pos==='mid') ? t.k : '🍞';
+  n.setAttribute('style', tileStyle(t));
 }
 function renderHUD(){
   $('hScore').textContent = score;
@@ -479,7 +499,7 @@ function renderHUD(){
 }
 function renderLegStrip(){
   var html = ACTIVE.map(function(rd){
-    return '<span class="chip"><span class="dot" style="background:'+rd.c+'"></span>'+rd.k[0]+rd.k[4]+'</span>';
+    return '<span class="chip"><span class="dot" style="background:'+rd.c+'"></span>'+rd.k[0]+rd.k[rd.k.length-1]+'</span>';
   }).join('');
   $('legStrip').innerHTML = html;
 }
@@ -502,7 +522,7 @@ function lockPiece(){
   faller = null;
   resolving = true; comboLevel = 0;
   renderStack();
-  resolveAll(function(){
+  resolveStep(function(){
     resolving = false;
     speedUp();
     spawn();
@@ -554,10 +574,7 @@ function speedUp(){
 function startGame(){
   audio();   // ユーザー操作で音声を有効化（モバイル対応）
   ACTIVE = activeRows();
-  grid = []; for(var c=0;c<COLS;c++) grid.push([]);
-  // 各列の一番下に「お段の巣」を固定配置。どの行かはランダム（全行が必ず出るよう割り当て）
-  var order=[]; for(var i=0;i<ACTIVE.length;i++) order.push(i); shuffle(order);
-  for(var cc=0;cc<COLS;cc++) grid[cc].push(makeBase(order[cc%ACTIVE.length]));
+  grid = []; for(var c=0;c<COLS;c++) grid.push([ makeBase() ]);   // 各列の底に下バンズ（自動）
   score=0; level=1; dropMs=700; stats={eggs:0,maxCombo:0,biggest:0};
   $('hScore').textContent='0'; $('hCombo').textContent='0'; $('hEggs').textContent='0';
   show('play');
@@ -591,12 +608,10 @@ function show(name){
 function renderLegend(){
   ACTIVE = activeRows();
   var html = ACTIVE.map(function(rd){
-    var cells = rd.k.map(function(k,idx){
-      var cls = idx===4?'leg-cell s':(idx===0?'leg-cell e':'leg-cell');
-      var stl = (idx===0||idx===4) ? 'background:'+rd.s+';color:'+rd.d+';border-color:'+rd.c : '';
-      return '<span class="'+cls+'" style="'+stl+'">'+k+'</span>';
+    var cells = rd.k.map(function(k){
+      return '<span class="leg-cell" style="background:'+rd.s+';color:'+rd.d+';border-color:'+rd.c+'">'+k+'</span>';
     }).join('');
-    return '<div class="leg-row">'+cells+'<span class="leg-mark">お＝下バンズ と あ＝上バンズ を同じ行でそろえる</span></div>';
+    return '<div class="leg-row">'+cells+'</div>';
   }).join('');
   $('legend').innerHTML = html;
 }

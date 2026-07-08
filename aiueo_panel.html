@@ -85,7 +85,7 @@
   .board {
     position: relative; margin: 0 auto;
     background: #EFEAE2; border:1px solid var(--border);
-    border-radius: 18px; touch-action: none;
+    border-radius: 18px; touch-action: none; overflow: hidden;
     box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
   }
   .tile {
@@ -208,6 +208,7 @@
 
   var N = 5;
   var WORD_CHANCE = 0.16;
+  var ROLL_MS = 200;   // ドラムロールの回転時間
 
   var BLANK = '';
 
@@ -367,16 +368,51 @@
     for(var r=0;r<N;r++){ grid[r] = []; for(var c=0;c<N;c++){ grid[r][c] = newTile(drawChar(), r, c, false); } }
   }
 
-  /* ====== シフト ====== */
-  function shiftRow(r, steps){
-    steps = ((steps % N) + N) % N; if(steps === 0) return;
-    var old = grid[r].slice();
-    for(var c=0;c<N;c++){ var from = ((c-steps)%N+N)%N; var id = old[from]; grid[r][c] = id; var t = tiles[id]; t.c = c; place(t, (from+steps) >= N); }
+  /* ====== シフト（ドラムロール演出） ====== */
+  // 任意位置にタイル要素を置く（snap=true で瞬間移動、false でCSS遷移にまかせる）
+  function posEl(el, isRow, fixed, u, snap){
+    var r = isRow ? fixed : u, c = isRow ? u : fixed;
+    var x = pad + c*cell + gap/2, y = pad + r*cell + gap/2;
+    if(snap){ el.style.transition='none'; el.style.transform='translate('+x+'px,'+y+'px)'; void el.offsetHeight; el.style.transition=''; }
+    else { el.style.transform='translate('+x+'px,'+y+'px)'; }
   }
-  function shiftCol(c, steps){
-    steps = ((steps % N) + N) % N; if(steps === 0) return;
+  // 1行/1列を回転させる。端から出た文字は、反対側からクローンが回り込んで入る。
+  function rollLine(ids, isRow, fixed, steps, done){
+    busy = true;
+    var m = Math.abs(steps), d = steps > 0 ? 1 : -1;
+    var TRANS = 'transform ' + (ROLL_MS/1000) + 's cubic-bezier(.34,.05,.2,1)';
+    var clones = [];
+    for(var i=0;i<N;i++){
+      var wraps = (d>0 && i >= N-m) || (d<0 && i < m);   // 端をまたぐタイル
+      if(wraps){
+        var clone = tiles[ids[i]].el.cloneNode(true);
+        clone.classList.remove('spawn','clearing','wordclear');
+        board.appendChild(clone);
+        posEl(clone, isRow, fixed, i - d*N, true);        // 反対側の画面外にセット
+        clones.push({ el:clone, endU: ((i+steps)%N+N)%N });
+      }
+    }
+    void board.offsetHeight;
+    for(var j=0;j<N;j++){ var el = tiles[ids[j]].el; el.style.transition = TRANS; posEl(el, isRow, fixed, j+steps, false); }
+    clones.forEach(function(cl){ cl.el.style.transition = TRANS; posEl(cl.el, isRow, fixed, cl.endU, false); });
+    setTimeout(function(){
+      for(var k=0;k<N;k++){ posEl(tiles[ids[k]].el, isRow, fixed, ((k+steps)%N+N)%N, true); }   // 本物を最終位置へスナップ
+      clones.forEach(function(cl){ if(cl.el.parentNode) cl.el.parentNode.removeChild(cl.el); });
+      busy = false;
+      if(done) done();
+    }, ROLL_MS + 20);
+  }
+  function shiftRow(r, steps, done){
+    var sn = ((steps % N) + N) % N; if(sn === 0){ if(done) done(); return; }
+    var old = grid[r].slice();
+    for(var c=0;c<N;c++){ var from=((c-sn)%N+N)%N; var id=old[from]; grid[r][c]=id; tiles[id].c=c; tiles[id].r=r; }
+    rollLine(old, true, r, steps, done);
+  }
+  function shiftCol(c, steps, done){
+    var sn = ((steps % N) + N) % N; if(sn === 0){ if(done) done(); return; }
     var old = []; for(var r=0;r<N;r++) old[r] = grid[r][c];
-    for(var r2=0;r2<N;r2++){ var from = ((r2-steps)%N+N)%N; var id = old[from]; grid[r2][c] = id; var t = tiles[id]; t.r = r2; place(t, (from+steps) >= N); }
+    for(var r2=0;r2<N;r2++){ var from=((r2-sn)%N+N)%N; var id=old[from]; grid[r2][c]=id; tiles[id].r=r2; tiles[id].c=c; }
+    rollLine(old, false, c, steps, done);
   }
 
   /* ====== 判定 ====== */
@@ -488,9 +524,8 @@
     var thresh = cell * 0.35;
     if(Math.abs(dx) < thresh && Math.abs(dy) < thresh) return;
     var steps;
-    if(Math.abs(dx) >= Math.abs(dy)){ steps = Math.round(dx/cell); if(steps===0) steps=(dx>0?1:-1); steps=Math.max(-4,Math.min(4,steps)); shiftRow(start.r, steps); }
-    else { steps = Math.round(dy/cell); if(steps===0) steps=(dy>0?1:-1); steps=Math.max(-4,Math.min(4,steps)); shiftCol(start.c, steps); }
-    setTimeout(function(){ resolve(); }, 130);
+    if(Math.abs(dx) >= Math.abs(dy)){ steps = Math.round(dx/cell); if(steps===0) steps=(dx>0?1:-1); steps=Math.max(-4,Math.min(4,steps)); shiftRow(start.r, steps, function(){ resolve(); }); }
+    else { steps = Math.round(dy/cell); if(steps===0) steps=(dy>0?1:-1); steps=Math.max(-4,Math.min(4,steps)); shiftCol(start.c, steps, function(){ resolve(); }); }
   }
   board.addEventListener('pointerdown', onDown);
   window.addEventListener('pointerup', onUp);

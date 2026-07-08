@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>あいうえおパネル ｜ JLPT Practice</title>
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E2DDD6;
+    --text: #1C1C1C;
+    --text-muted: #6B6560;
+    --text-hint: #9E9890;
+    --radius: 16px;
+    --radius-lg: 22px;
+    /* このゲームのテーマ：赤／ブリック */
+    --p: #B14A2A; --ps: #FAECE7; --pd: #7E2E14;
+    /* 母音ごとの色（覚える手がかり） */
+    --c-a: #993C1D; --cs-a: #FAECE7;
+    --c-i: #185FA5; --cs-i: #E6F1FB;
+    --c-u: #3B6D11; --cs-u: #EAF3DE;
+    --c-e: #854F0B; --cs-e: #FAEEDA;
+    --c-o: #3C3489; --cs-o: #EEEDFE;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { overscroll-behavior: none; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; padding: 0 1rem 2rem;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+
+  /* 戻る */
+  .topbar { display:flex; align-items:center; padding: 1.1rem 0 0; }
+  .back { font-size: 13px; color: var(--text-muted); text-decoration:none; font-weight:600; display:inline-flex; align-items:center; gap:4px; }
+  .back:active { opacity:.6; }
+
+  /* ヘッダー */
+  .head { text-align:center; padding: 0.9rem 0 0.4rem; }
+  .logo { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; color: var(--text-hint); margin-bottom: 6px; }
+  .title { font-size: 26px; font-weight: 800; letter-spacing: 0.03em; }
+  .title .en { display:block; font-size:11px; font-weight:700; letter-spacing:0.16em; color:var(--text-hint); margin-top:3px; }
+
+  /* 目標の並び */
+  .target { display:flex; align-items:center; justify-content:center; gap:6px; margin-top:12px; flex-wrap:wrap; }
+  .target .lbl { font-size:12px; color:var(--text-muted); font-weight:700; margin-right:2px; }
+  .chip { width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:800; }
+  .chip.a { background:var(--cs-a); color:var(--c-a); }
+  .chip.i { background:var(--cs-i); color:var(--c-i); }
+  .chip.u { background:var(--cs-u); color:var(--c-u); }
+  .chip.e { background:var(--cs-e); color:var(--c-e); }
+  .chip.o { background:var(--cs-o); color:var(--c-o); }
+  .target .arrow { color:var(--text-hint); font-size:12px; }
+
+  /* HUD */
+  .hud { display:flex; gap:10px; margin:14px 0 12px; }
+  .stat { flex:1; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:10px 8px; text-align:center; position:relative; }
+  .stat .k { font-size:10px; font-weight:700; letter-spacing:0.08em; color:var(--text-hint); text-transform:uppercase; }
+  .stat .v { font-size:22px; font-weight:800; margin-top:2px; font-variant-numeric:tabular-nums; }
+  .stat.moves .v { color:var(--p); }
+  .stat.moves.low .v { color:#C0392B; }
+  .stat .plus { position:absolute; top:6px; right:8px; font-size:12px; font-weight:800; color:var(--c-u); opacity:0; }
+  .stat .plus.show { animation: plusPop 0.7s ease; }
+  @keyframes plusPop { 0%{opacity:0; transform:translateY(4px);} 25%{opacity:1;} 100%{opacity:0; transform:translateY(-10px);} }
+
+  /* 盤面 */
+  .board-wrap { position:relative; margin: 0 auto; }
+  .board {
+    position: relative; margin: 0 auto;
+    background: #EFEAE2; border:1px solid var(--border);
+    border-radius: 18px; touch-action: none;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .tile {
+    position:absolute; left:0; top:0;
+    transition: transform 0.16s cubic-bezier(.2,.8,.3,1);
+    will-change: transform;
+  }
+  .ti {
+    width:100%; height:100%;
+    border-radius: 12px;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; line-height:1;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.06);
+    transition: transform 0.16s ease, opacity 0.16s ease;
+    user-select:none;
+  }
+  .tile[data-v="0"] .ti { background:var(--cs-a); color:var(--c-a); }
+  .tile[data-v="1"] .ti { background:var(--cs-i); color:var(--c-i); }
+  .tile[data-v="2"] .ti { background:var(--cs-u); color:var(--c-u); }
+  .tile[data-v="3"] .ti { background:var(--cs-e); color:var(--c-e); }
+  .tile[data-v="4"] .ti { background:var(--cs-o); color:var(--c-o); }
+  .tile.clearing .ti { animation: clearPop 0.24s ease forwards; }
+  @keyframes clearPop { 0%{transform:scale(1); opacity:1;} 40%{transform:scale(1.18);} 100%{transform:scale(0.2); opacity:0;} }
+  .tile.spawn .ti { animation: spawnPop 0.22s ease; }
+  @keyframes spawnPop { 0%{transform:scale(0.2); opacity:0;} 60%{transform:scale(1.08);} 100%{transform:scale(1); opacity:1;} }
+
+  /* コンボ表示 */
+  .combo-flash {
+    position:absolute; left:50%; top:44%; transform:translate(-50%,-50%) scale(.7);
+    font-size:38px; font-weight:900; color:var(--p);
+    text-shadow: 0 2px 10px rgba(255,255,255,0.9); pointer-events:none;
+    opacity:0;
+  }
+  .combo-flash.show { animation: comboFlash 0.9s ease; }
+  @keyframes comboFlash { 0%{opacity:0; transform:translate(-50%,-50%) scale(.5);} 25%{opacity:1; transform:translate(-50%,-50%) scale(1.15);} 70%{opacity:1; transform:translate(-50%,-50%) scale(1);} 100%{opacity:0; transform:translate(-50%,-60%) scale(1);} }
+
+  /* 操作ヒント */
+  .hint { text-align:center; font-size:12px; color:var(--text-muted); margin-top:14px; line-height:1.6; }
+  .hint b { color:var(--p); }
+
+  /* オーバーレイ（スタート／ゲームオーバー） */
+  .overlay {
+    position:absolute; inset:0; z-index:20;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background: rgba(247,245,240,0.92); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);
+    border-radius:18px; text-align:center; padding:20px;
+  }
+  .overlay.hide { display:none; }
+  .ov-title { font-size:24px; font-weight:800; }
+  .ov-sub { font-size:13px; color:var(--text-muted); margin-top:8px; line-height:1.7; max-width:280px; }
+  .ov-score { margin:16px 0 4px; font-size:13px; color:var(--text-muted); }
+  .ov-score b { font-size:34px; color:var(--p); display:block; font-weight:900; }
+  .ov-best { font-size:12px; color:var(--text-hint); margin-bottom:4px; }
+  .btn {
+    margin-top:18px; display:inline-flex; align-items:center; gap:8px;
+    background: var(--p); color:#fff; font-weight:800; font-size:17px; letter-spacing:0.04em;
+    padding:14px 34px; border-radius:999px; border:none; cursor:pointer;
+    box-shadow: 0 4px 0 var(--pd);
+  }
+  .btn:active { box-shadow: 0 2px 0 var(--pd); transform: translateY(2px); }
+
+  .foot { text-align:center; font-size:11px; color: var(--text-hint); margin-top:1.5rem; line-height:1.9; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="games.html" class="back">‹ ゲーム一覧にもどる</a>
+  </div>
+
+  <div class="head">
+    <div class="logo">JLPT PRACTICE</div>
+    <div class="title">あいうえおパネル<span class="en">AIUEO PANEL</span></div>
+    <div class="target">
+      <span class="lbl">そろえる</span>
+      <span class="chip a">あ</span><span class="arrow">›</span>
+      <span class="chip i">い</span><span class="arrow">›</span>
+      <span class="chip u">う</span><span class="arrow">›</span>
+      <span class="chip e">え</span><span class="arrow">›</span>
+      <span class="chip o">お</span>
+    </div>
+  </div>
+
+  <div class="hud">
+    <div class="stat"><div class="k">スコア</div><div class="v" id="score">0</div></div>
+    <div class="stat moves" id="movesStat"><div class="k">のこり手</div><div class="v" id="moves">20</div><span class="plus" id="movePlus"></span></div>
+    <div class="stat"><div class="k">さいこう</div><div class="v" id="best">0</div></div>
+  </div>
+
+  <div class="board-wrap">
+    <div class="board" id="board"></div>
+    <div class="combo-flash" id="comboFlash"></div>
+
+    <div class="overlay" id="startOv">
+      <div class="ov-title">あいうえおパネル</div>
+      <div class="ov-sub">よこ・たてに指でスワイプして パネルを動かし、<br>1れつを「あ・い・う・え・お」の順にそろえて消そう。</div>
+      <div class="ov-sub" style="margin-top:10px;">消すたびに <b style="color:var(--c-u)">のこり手</b> が増える。<br>手がなくなるまでに たくさん消そう！</div>
+      <button class="btn" id="startBtn">▶ あそぶ</button>
+    </div>
+
+    <div class="overlay hide" id="overOv">
+      <div class="ov-title">おしまい！</div>
+      <div class="ov-score">スコア<b id="finalScore">0</b></div>
+      <div class="ov-best" id="bestLine">さいこう記録：0</div>
+      <button class="btn" id="againBtn">もう一回</button>
+    </div>
+  </div>
+
+  <div class="hint">
+    <b>よこ</b>にスワイプ → その行を左右へ　／　<b>たて</b>にスワイプ → その列を上下へ<br>
+    行または列が「あいうえお」の順（逆順もOK）でそろうと消えます。
+  </div>
+
+  <div class="foot">
+    遊びながら、ちょっとずつ。<br>
+    © 2025 JLPT Practice Quiz
+  </div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var V = ['あ','い','う','え','お'];
+  var N = 5;
+  var START_MOVES = 20;
+  var BONUS_PER_LINE = 2;   // 1行消すごとに増える手数
+
+  var board = document.getElementById('board');
+  var comboFlash = document.getElementById('comboFlash');
+  var scoreEl = document.getElementById('score');
+  var movesEl = document.getElementById('moves');
+  var bestEl = document.getElementById('best');
+  var movesStat = document.getElementById('movesStat');
+  var movePlus = document.getElementById('movePlus');
+
+  var grid;            // grid[r][c] = tile id
+  var tiles;           // id -> {id,v,r,c,el,inner}
+  var seq;             // id counter
+  var cell, gap = 5, pad = 8;
+  var score, moves, best, playing, busy;
+
+  try { best = parseInt(localStorage.getItem('aiueo_panel_best')||'0',10)||0; } catch(e){ best = 0; }
+  bestEl.textContent = best;
+
+  /* ---- 盤面サイズ ---- */
+  function computeSize(){
+    var maxW = Math.min(document.querySelector('.container').clientWidth, 440);
+    var size = Math.floor(maxW);
+    board.style.width = size + 'px';
+    board.style.height = size + 'px';
+    cell = (size - pad*2) / N;
+  }
+
+  function tileXY(r,c){
+    return { x: pad + c*cell + gap/2, y: pad + r*cell + gap/2 };
+  }
+  function place(t, snap){
+    var p = tileXY(t.r, t.c);
+    if(snap){
+      t.el.style.transition = 'none';
+      t.el.style.transform = 'translate('+p.x+'px,'+p.y+'px)';
+      void t.el.offsetHeight;              // reflow
+      t.el.style.transition = '';
+    } else {
+      t.el.style.transform = 'translate('+p.x+'px,'+p.y+'px)';
+    }
+  }
+  function sizeTile(t){
+    var s = cell - gap;
+    t.el.style.width = s + 'px';
+    t.el.style.height = s + 'px';
+    t.inner.style.fontSize = Math.round(s*0.5) + 'px';
+  }
+  function placeAll(){ for(var id in tiles){ sizeTile(tiles[id]); place(tiles[id], true); } }
+
+  /* ---- タイル生成 ---- */
+  function newTile(v, r, c, spawn){
+    var id = ++seq;
+    var el = document.createElement('div');
+    el.className = 'tile' + (spawn ? ' spawn' : '');
+    el.setAttribute('data-v', v);
+    var inner = document.createElement('div');
+    inner.className = 'ti';
+    inner.textContent = V[v];
+    el.appendChild(inner);
+    board.appendChild(el);
+    var t = { id:id, v:v, r:r, c:c, el:el, inner:inner };
+    tiles[id] = t;
+    sizeTile(t);
+    place(t, true);
+    if(spawn){ setTimeout(function(){ el.classList.remove('spawn'); }, 240); }
+    return id;
+  }
+
+  function rand(){ return Math.floor(Math.random()*N); }
+
+  function buildGrid(){
+    // 既存タイル掃除
+    board.querySelectorAll('.tile').forEach(function(e){ e.remove(); });
+    tiles = {}; seq = 0; grid = [];
+    for(var r=0;r<N;r++){
+      grid[r] = [];
+      for(var c=0;c<N;c++){ grid[r][c] = newTile(rand(), r, c, false); }
+    }
+  }
+
+  /* ---- シフト（巡回） ---- */
+  function shiftRow(r, steps){
+    steps = ((steps % N) + N) % N;
+    if(steps === 0) return;
+    var old = grid[r].slice();
+    for(var c=0;c<N;c++){
+      var from = ((c - steps) % N + N) % N;
+      var id = old[from];
+      grid[r][c] = id;
+      var t = tiles[id];
+      // 端をまたいだ（回り込んだ）タイルはスナップ
+      var raw = from + steps;
+      var wrapped = (raw >= N);
+      t.c = c;
+      place(t, wrapped);
+    }
+  }
+  function shiftCol(c, steps){
+    steps = ((steps % N) + N) % N;
+    if(steps === 0) return;
+    var old = [];
+    for(var r=0;r<N;r++) old[r] = grid[r][c];
+    for(var r2=0;r2<N;r2++){
+      var from = ((r2 - steps) % N + N) % N;
+      var id = old[from];
+      grid[r2][c] = id;
+      var t = tiles[id];
+      var raw = from + steps;
+      var wrapped = (raw >= N);
+      t.r = r2;
+      place(t, wrapped);
+    }
+  }
+
+  /* ---- 判定 ---- */
+  function isSeq(vals){
+    var asc = true, desc = true;
+    for(var i=0;i<N;i++){
+      if(vals[i] !== i) asc = false;
+      if(vals[i] !== (N-1-i)) desc = false;
+    }
+    return asc || desc;
+  }
+  function findMatches(){
+    var cells = {}; var lines = 0;
+    var r,c,vals;
+    for(r=0;r<N;r++){
+      vals = [];
+      for(c=0;c<N;c++) vals.push(tiles[grid[r][c]].v);
+      if(isSeq(vals)){ lines++; for(c=0;c<N;c++) cells[r+','+c]=true; }
+    }
+    for(c=0;c<N;c++){
+      vals = [];
+      for(r=0;r<N;r++) vals.push(tiles[grid[r][c]].v);
+      if(isSeq(vals)){ lines++; for(r=0;r<N;r++) cells[r+','+c]=true; }
+    }
+    return { cells:cells, lines:lines };
+  }
+
+  function applyGravity(){
+    for(var c=0;c<N;c++){
+      var stack = [];
+      for(var r=N-1;r>=0;r--){ if(grid[r][c] != null) stack.push(grid[r][c]); }
+      for(var r2=N-1, k=0;r2>=0;r2--, k++){
+        if(k < stack.length){
+          var id = stack[k];
+          grid[r2][c] = id;
+          tiles[id].r = r2; tiles[id].c = c;
+          place(tiles[id], false);           // 落下アニメ
+        } else {
+          // 上から新規補充：一旦盤外上に置いてから落とす
+          var nid = newTile(rand(), r2, c, false);
+          grid[r2][c] = nid;
+          var t = tiles[nid];
+          var startR = r2 - stack.length - 1;
+          var pxy = tileXY(startR, c);
+          t.el.style.transition = 'none';
+          t.el.style.transform = 'translate('+pxy.x+'px,'+pxy.y+'px)';
+          void t.el.offsetHeight;
+          t.el.style.transition = '';
+          place(t, false);
+        }
+      }
+    }
+  }
+
+  function sleep(ms){ return new Promise(function(res){ setTimeout(res, ms); }); }
+
+  function flashMoves(n){
+    movePlus.textContent = '+' + n;
+    movePlus.classList.remove('show'); void movePlus.offsetWidth; movePlus.classList.add('show');
+  }
+  function showCombo(n){
+    comboFlash.textContent = n + ' コンボ!';
+    comboFlash.classList.remove('show'); void comboFlash.offsetWidth; comboFlash.classList.add('show');
+  }
+  function updateHUD(){
+    scoreEl.textContent = score;
+    movesEl.textContent = moves;
+    movesStat.classList.toggle('low', moves <= 5);
+  }
+
+  async function resolve(){
+    busy = true;
+    var combo = 0, gained = 0;
+    while(true){
+      var m = findMatches();
+      if(m.lines === 0) break;
+      combo++;
+      var pts = m.lines * 100 * combo;
+      score += pts;
+      var bonus = m.lines * BONUS_PER_LINE;
+      moves += bonus; gained += bonus;
+      updateHUD();
+      flashMoves(bonus);
+      if(combo >= 2) showCombo(combo);
+      // 消すアニメ
+      var keys = Object.keys(m.cells);
+      keys.forEach(function(k){ var p=k.split(','); var id=grid[+p[0]][+p[1]]; if(id!=null) tiles[id].el.classList.add('clearing'); });
+      await sleep(240);
+      keys.forEach(function(k){ var p=k.split(','); var r=+p[0], c=+p[1]; var id=grid[r][c];
+        if(id!=null){ tiles[id].el.remove(); delete tiles[id]; grid[r][c]=null; } });
+      applyGravity();
+      await sleep(200);
+    }
+    busy = false;
+    checkOver();
+  }
+
+  function checkOver(){
+    if(moves <= 0){ endGame(); }
+  }
+
+  /* ---- 入力（スワイプ） ---- */
+  var down = null;
+  function localCell(clientX, clientY){
+    var rect = board.getBoundingClientRect();
+    var x = clientX - rect.left - pad;
+    var y = clientY - rect.top - pad;
+    var c = Math.floor(x / cell); var r = Math.floor(y / cell);
+    c = Math.max(0, Math.min(N-1, c)); r = Math.max(0, Math.min(N-1, r));
+    return { r:r, c:c };
+  }
+  function onDown(e){
+    if(!playing || busy) return;
+    var pt = (e.touches ? e.touches[0] : e);
+    var cellrc = localCell(pt.clientX, pt.clientY);
+    down = { x:pt.clientX, y:pt.clientY, r:cellrc.r, c:cellrc.c };
+  }
+  function onUp(e){
+    if(!down || !playing || busy){ down=null; return; }
+    var pt = (e.changedTouches ? e.changedTouches[0] : e);
+    var dx = pt.clientX - down.x;
+    var dy = pt.clientY - down.y;
+    var start = down; down = null;
+    var thresh = cell * 0.35;
+    if(Math.abs(dx) < thresh && Math.abs(dy) < thresh) return;   // 小さすぎる
+    var steps, moved = false;
+    if(Math.abs(dx) >= Math.abs(dy)){
+      steps = Math.round(dx / cell);
+      if(steps === 0) steps = (dx > 0 ? 1 : -1);
+      steps = Math.max(-4, Math.min(4, steps));
+      shiftRow(start.r, steps); moved = true;
+    } else {
+      steps = Math.round(dy / cell);
+      if(steps === 0) steps = (dy > 0 ? 1 : -1);
+      steps = Math.max(-4, Math.min(4, steps));
+      shiftCol(start.c, steps); moved = true;
+    }
+    if(moved){
+      moves -= 1; updateHUD();
+      setTimeout(function(){ resolve(); }, 130);
+    }
+  }
+
+  board.addEventListener('pointerdown', onDown);
+  window.addEventListener('pointerup', onUp);
+  // フォールバック（pointer非対応）
+  board.addEventListener('touchstart', function(e){ onDown(e); }, {passive:true});
+  window.addEventListener('touchend', function(e){ onUp(e); }, {passive:true});
+
+  /* ---- ゲーム制御 ---- */
+  async function startGame(){
+    computeSize();
+    document.getElementById('startOv').classList.add('hide');
+    document.getElementById('overOv').classList.add('hide');
+    score = 0; moves = START_MOVES;
+    updateHUD();
+    buildGrid();
+    playing = true; busy = false;
+    // 初期に偶然そろっていたら消す（スコアには入るがOK）
+    await resolve();
+  }
+  function endGame(){
+    playing = false;
+    if(score > best){ best = score; try{ localStorage.setItem('aiueo_panel_best', String(best)); }catch(e){} }
+    bestEl.textContent = best;
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('bestLine').textContent = 'さいこう記録：' + best;
+    document.getElementById('overOv').classList.remove('hide');
+  }
+
+  document.getElementById('startBtn').addEventListener('click', startGame);
+  document.getElementById('againBtn').addEventListener('click', startGame);
+
+  window.addEventListener('resize', function(){
+    if(!board.style.width) return;
+    computeSize();
+    if(tiles) placeAll();
+  });
+
+  computeSize();
+})();
+</script>
+
+<!-- EN表示トグル（サイト共通） -->
+<script>
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en,body.hide-en .title .en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#B14A2A;"
+   +"margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';
+    b.setAttribute('aria-pressed', h?'false':'true'); }
+  b.addEventListener('click',function(){
+    var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){}
+    paint();
+  });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

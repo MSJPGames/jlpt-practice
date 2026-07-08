@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ひらがな五十音表（ローマ字つき）｜ JLPT Practice</title>
+<title>ひらがな五十音表（ローマ字つき）｜ 日本語の部屋</title>
 <meta name="description" content="ひらがなの五十音を、ローマ字つきの一覧で。あ行から順に、読み方と形をまとめています。遊んで覚える『ひらがなラッシュ』へのリンクつき。">
 <style>
   :root {
@@ -68,6 +68,12 @@
   .kcell.archaic .k { color: var(--text-hint); font-size: 21px; }
   .kcell.archaic .r { color: var(--text-hint); }
 
+  /* 追加の音（濁音・半濁音・拗音・特殊音） */
+  .grow.cols3 { grid-template-columns: repeat(3, 1fr); }
+  .grow-free { display: flex; flex-wrap: wrap; gap: 6px; }
+  .grow-free .kcell { flex: 0 0 calc((100% - 24px) / 5); }
+  .kcell.combi .k { font-size: 21px; }
+
   .note { font-size: 12px; color: var(--text-muted); line-height: 1.8; margin-top: 1rem;
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
   .note b { color: var(--text); font-weight: 700; }
@@ -98,11 +104,11 @@
 <div class="container">
 
   <div class="topbar">
-    <a href="games.html" class="back">‹ あそび場へ</a>
+    <a href="../play/games.html" class="back">‹ あそび場へ</a>
   </div>
 
   <div class="head">
-    <div class="logo">JLPT PRACTICE ・ LEARN</div>
+    <div class="logo">NIHONGO NO HEYA ・ LEARN</div>
     <div class="title">ひらがな 五十音<small>HIRAGANA</small></div>
     <div class="sub">日本語のいちばん基本の文字。<br>まずは形と音を、ゆっくり眺めてみましょう。</div>
   </div>
@@ -111,6 +117,7 @@
     ひらがなは、日本語を書くときの<b>基本の文字</b>です。全部で46字あり、
     あ行からわ行まで、母音（a・i・u・e・o）の組み合わせで並んでいます。
     ここでは読み方（ローマ字）と発音記号（IPA）をいっしょに一覧にしました。古い文字の ゐ・ゑ も参考として載せています。
+    さらに、この46字に濁点や小さな仮名を組み合わせてつくる<b>濁音・半濁音・拗音</b>も、下に順にまとめました。
   </p>
 
   <div class="label">五十音表</div>
@@ -229,7 +236,149 @@
     形が似ている字（さ／ち、ぬ／め、わ／れ／ね）は、見分けの解説ページを順番に追加していきます。
   </div>
 
-  <a href="kana_rush.html" class="play-link">
+  <div class="label">濁音・半濁音</div>
+
+  <div class="goju">
+
+    <div class="grow vhead">
+      <span class="vlabel">a</span>
+      <span class="vlabel">i</span>
+      <span class="vlabel">u</span>
+      <span class="vlabel">e</span>
+      <span class="vlabel">o</span>
+    </div>
+
+    <!-- が行 -->
+    <div class="grow">
+      <div class="kcell"><div class="k">が</div><div class="r">ga</div><div class="ipa">[ɡa]</div></div>
+      <div class="kcell"><div class="k">ぎ</div><div class="r">gi</div><div class="ipa">[ɡi]</div></div>
+      <div class="kcell"><div class="k">ぐ</div><div class="r">gu</div><div class="ipa">[ɡɯ]</div></div>
+      <div class="kcell"><div class="k">げ</div><div class="r">ge</div><div class="ipa">[ɡe]</div></div>
+      <div class="kcell"><div class="k">ご</div><div class="r">go</div><div class="ipa">[ɡo]</div></div>
+    </div>
+    <!-- ざ行 -->
+    <div class="grow">
+      <div class="kcell"><div class="k">ざ</div><div class="r">za</div><div class="ipa">[za]</div></div>
+      <div class="kcell"><div class="k">じ</div><div class="r">ji</div><div class="ipa">[dʑi]</div></div>
+      <div class="kcell"><div class="k">ず</div><div class="r">zu</div><div class="ipa">[zɯ]</div></div>
+      <div class="kcell"><div class="k">ぜ</div><div class="r">ze</div><div class="ipa">[ze]</div></div>
+      <div class="kcell"><div class="k">ぞ</div><div class="r">zo</div><div class="ipa">[zo]</div></div>
+    </div>
+    <!-- だ行 -->
+    <div class="grow">
+      <div class="kcell"><div class="k">だ</div><div class="r">da</div><div class="ipa">[da]</div></div>
+      <div class="kcell"><div class="k">ぢ</div><div class="r">ji</div><div class="ipa">[dʑi]</div></div>
+      <div class="kcell"><div class="k">づ</div><div class="r">zu</div><div class="ipa">[zɯ]</div></div>
+      <div class="kcell"><div class="k">で</div><div class="r">de</div><div class="ipa">[de]</div></div>
+      <div class="kcell"><div class="k">ど</div><div class="r">do</div><div class="ipa">[do]</div></div>
+    </div>
+    <!-- ば行 -->
+    <div class="grow">
+      <div class="kcell"><div class="k">ば</div><div class="r">ba</div><div class="ipa">[ba]</div></div>
+      <div class="kcell"><div class="k">び</div><div class="r">bi</div><div class="ipa">[bi]</div></div>
+      <div class="kcell"><div class="k">ぶ</div><div class="r">bu</div><div class="ipa">[bɯ]</div></div>
+      <div class="kcell"><div class="k">べ</div><div class="r">be</div><div class="ipa">[be]</div></div>
+      <div class="kcell"><div class="k">ぼ</div><div class="r">bo</div><div class="ipa">[bo]</div></div>
+    </div>
+    <!-- ぱ行（半濁音） -->
+    <div class="grow">
+      <div class="kcell"><div class="k">ぱ</div><div class="r">pa</div><div class="ipa">[pa]</div></div>
+      <div class="kcell"><div class="k">ぴ</div><div class="r">pi</div><div class="ipa">[pi]</div></div>
+      <div class="kcell"><div class="k">ぷ</div><div class="r">pu</div><div class="ipa">[pɯ]</div></div>
+      <div class="kcell"><div class="k">ぺ</div><div class="r">pe</div><div class="ipa">[pe]</div></div>
+      <div class="kcell"><div class="k">ぽ</div><div class="r">po</div><div class="ipa">[po]</div></div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <b>濁点「゛」と半濁点「゜」。</b>
+    か・さ・た・は行に濁点「゛」をつけると、にごる音（が・ざ・だ・ば行）になります。これが<b>濁音</b>です。
+    は行に半濁点「゜」をつけた ぱ行だけを<b>半濁音</b>とよびます。
+    じ／ぢ、ず／づ は発音がほぼ同じで、いまは じ・ず を使うのが基本です。
+  </div>
+
+  <div class="label">拗音（ようおん）</div>
+
+  <div class="goju">
+
+    <div class="grow cols3 vhead">
+      <span class="vlabel">ya</span>
+      <span class="vlabel">yu</span>
+      <span class="vlabel">yo</span>
+    </div>
+
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">きゃ</div><div class="r">kya</div><div class="ipa">[kʲa]</div></div>
+      <div class="kcell combi"><div class="k">きゅ</div><div class="r">kyu</div><div class="ipa">[kʲɯ]</div></div>
+      <div class="kcell combi"><div class="k">きょ</div><div class="r">kyo</div><div class="ipa">[kʲo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">しゃ</div><div class="r">sha</div><div class="ipa">[ɕa]</div></div>
+      <div class="kcell combi"><div class="k">しゅ</div><div class="r">shu</div><div class="ipa">[ɕɯ]</div></div>
+      <div class="kcell combi"><div class="k">しょ</div><div class="r">sho</div><div class="ipa">[ɕo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">ちゃ</div><div class="r">cha</div><div class="ipa">[tɕa]</div></div>
+      <div class="kcell combi"><div class="k">ちゅ</div><div class="r">chu</div><div class="ipa">[tɕɯ]</div></div>
+      <div class="kcell combi"><div class="k">ちょ</div><div class="r">cho</div><div class="ipa">[tɕo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">にゃ</div><div class="r">nya</div><div class="ipa">[ɲa]</div></div>
+      <div class="kcell combi"><div class="k">にゅ</div><div class="r">nyu</div><div class="ipa">[ɲɯ]</div></div>
+      <div class="kcell combi"><div class="k">にょ</div><div class="r">nyo</div><div class="ipa">[ɲo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">ひゃ</div><div class="r">hya</div><div class="ipa">[ça]</div></div>
+      <div class="kcell combi"><div class="k">ひゅ</div><div class="r">hyu</div><div class="ipa">[çɯ]</div></div>
+      <div class="kcell combi"><div class="k">ひょ</div><div class="r">hyo</div><div class="ipa">[ço]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">みゃ</div><div class="r">mya</div><div class="ipa">[mʲa]</div></div>
+      <div class="kcell combi"><div class="k">みゅ</div><div class="r">myu</div><div class="ipa">[mʲɯ]</div></div>
+      <div class="kcell combi"><div class="k">みょ</div><div class="r">myo</div><div class="ipa">[mʲo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">りゃ</div><div class="r">rya</div><div class="ipa">[ɾʲa]</div></div>
+      <div class="kcell combi"><div class="k">りゅ</div><div class="r">ryu</div><div class="ipa">[ɾʲɯ]</div></div>
+      <div class="kcell combi"><div class="k">りょ</div><div class="r">ryo</div><div class="ipa">[ɾʲo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">ぎゃ</div><div class="r">gya</div><div class="ipa">[ɡʲa]</div></div>
+      <div class="kcell combi"><div class="k">ぎゅ</div><div class="r">gyu</div><div class="ipa">[ɡʲɯ]</div></div>
+      <div class="kcell combi"><div class="k">ぎょ</div><div class="r">gyo</div><div class="ipa">[ɡʲo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">じゃ</div><div class="r">ja</div><div class="ipa">[dʑa]</div></div>
+      <div class="kcell combi"><div class="k">じゅ</div><div class="r">ju</div><div class="ipa">[dʑɯ]</div></div>
+      <div class="kcell combi"><div class="k">じょ</div><div class="r">jo</div><div class="ipa">[dʑo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">びゃ</div><div class="r">bya</div><div class="ipa">[bʲa]</div></div>
+      <div class="kcell combi"><div class="k">びゅ</div><div class="r">byu</div><div class="ipa">[bʲɯ]</div></div>
+      <div class="kcell combi"><div class="k">びょ</div><div class="r">byo</div><div class="ipa">[bʲo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">ぴゃ</div><div class="r">pya</div><div class="ipa">[pʲa]</div></div>
+      <div class="kcell combi"><div class="k">ぴゅ</div><div class="r">pyu</div><div class="ipa">[pʲɯ]</div></div>
+      <div class="kcell combi"><div class="k">ぴょ</div><div class="r">pyo</div><div class="ipa">[pʲo]</div></div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <b>拗音のつくり。</b>
+    い段の字（き・し・ち・に・ひ・み・り、および ぎ・じ・び・ぴ）に、小さい <b>ゃ・ゅ・ょ</b> を添えて、
+    ふたつで<b>1音</b>として読みます。「きや」ではなく「きゃ」と、みじかく一気に発音するのがコツです。
+  </div>
+
+  <div class="note">
+    <b>「フィ」などの特殊音は？</b>
+    ファ・フィ・ヴァ のような外来語の音は、ふつう<b>カタカナ</b>で書きます。
+    <a href="katakana.html">カタカナ五十音表</a>のページ下部に、特殊音としてまとめています。
+  </div>
+
+  <a href="../play/kana_rush.html" class="play-link">
     <div class="pl-icon">▶</div>
     <div class="pl-info">
       <div class="pl-title">遊んで定着させる</div>
@@ -240,8 +389,8 @@
 
   <div class="foot">
     つづいて、漢字の解説も追加予定。<br>
-    <a href="katakana.html">カタカナ五十音表</a> ・ <a href="games.html">あそび場にもどる</a><br>
-    © 2025 JLPT Practice
+    <a href="katakana.html">カタカナ五十音表</a> ・ <a href="../play/games.html">あそび場にもどる</a><br>
+    © 2025 日本語の部屋
   </div>
 
 </div>

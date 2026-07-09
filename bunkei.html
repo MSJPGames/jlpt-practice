@@ -124,7 +124,7 @@
   .mina-tag .b { color: var(--n2); }
 
   /* 課別モード */
-  .ka-head { display: flex; align-items: baseline; gap: 9px; margin: 1.5rem 0 0.6rem; }
+  .ka-head { display: flex; align-items: center; gap: 8px; margin: 1.5rem 0 0.6rem; }
   .ka-head:first-of-type { margin-top: 0.3rem; }
   .ka-badge { font-size: 14px; font-weight: 800; padding: 3px 12px; border-radius: 999px; }
   .ka-book { font-size: 11px; font-weight: 700; color: var(--text-hint); }
@@ -200,70 +200,70 @@
 const CATBAR={ '動詞':'#185FA5', 'い形容詞':'#854F0B', 'な形容詞':'#1F6F6B' };
 const D=[
   // 動詞 ・ 辞書形
-  {cat:'動詞',form:'辞書形',id:'dict-koto-dekiru',p:'〜ことができる',lvl:'N4',en:'can do ~ / be able to ~',setu:'辞書形 ＋ ことができます',ex:[['私はピアノを弾くことができます。','I can play the piano.'],['ここで写真を撮ることができます。','You can take photos here.']],note:'名詞のときは「名詞＋ができます」。'},
+  {cat:'動詞',form:'辞書形',id:'dict-koto-dekiru',p:'〜ことができます',lvl:'N4',en:'can do ~ / be able to ~',setu:'辞書形 ＋ ことができます',ex:[['私はピアノを弾くことができます。','I can play the piano.'],['ここで写真を撮ることができます。','You can take photos here.']],note:'名詞のときは「名詞＋ができます」。'},
   {cat:'動詞',form:'辞書形',id:'dict-mae-ni',p:'〜まえに',lvl:'N4',en:'before doing ~',setu:'辞書形 ＋ まえに',ex:[['寝るまえに、歯をみがきます。','I brush my teeth before going to bed.']],note:'名詞のときは「名詞＋のまえに」（食事のまえに）。'},
   {cat:'動詞',form:'辞書形',id:'dict-toki',p:'〜とき',lvl:'N4',en:'when ~',setu:'辞書形・た形・ない形・い形/な形/名詞 ＋ とき',ex:[['日本へ行くとき、かばんを買いました。','When I was on my way to Japan, I bought a bag.'],['子どものとき、よく泣きました。','When I was a child, I cried a lot.']],note:'「行くとき」は出発前、「行ったとき」は到着後。'},
   {cat:'動詞',form:'辞書形',id:'dict-tsumori',p:'〜つもりです',lvl:'N4',en:'intend to ~ / plan to ~',setu:'辞書形 ＋ つもりです（否定は ないつもりです）',ex:[['夏休みに国へ帰るつもりです。','I intend to go back to my country during summer vacation.']],note:''},
   {cat:'動詞',form:'辞書形',id:'tameni',p:'〜ために',lvl:'N3',en:"in order to ~ (purpose)",setu:'辞書形 ＋ ために',ex:[['日本語を勉強するために、日本へ来ました。',"I came to Japan in order to study Japanese."]],note:'名詞のときは「名詞＋のために」。'},
-  {cat:'動詞',form:'辞書形',id:'tokoroda',p:'〜ところだ',lvl:'N3',en:"be about to ~",setu:'辞書形 ＋ ところだ',ex:[['これから出かけるところです。',"I'm just about to go out now."]],note:'「〜ているところ」＝最中、「〜たところ」＝直後。'},
+  {cat:'動詞',form:'辞書形',id:'tokoroda',p:'〜ところです',lvl:'N3',en:"be about to ~",setu:'辞書形 ＋ ところだ',ex:[['これから出かけるところです。',"I'm just about to go out now."]],note:'「〜ているところ」＝最中、「〜たところ」＝直後。'},
   {cat:'動詞',form:'辞書形',id:'uchini',p:'〜うちに',lvl:'N3',en:"while ~ / before it changes",setu:'辞書形・〜ている・ない形 ＋ うちに',ex:[['熱いうちに、召し上がってください。',"Please eat it while it's hot."]],note:'名詞のときは「名詞＋のうちに」。'},
-  {cat:'動詞',form:'辞書形',id:'kotonisuru',p:'〜ことにする',lvl:'N4',en:"decide to ~",setu:'辞書形・ない形 ＋ ことにする',ex:[['来月から運動することにしました。',"I've decided to start exercising next month."]],note:'自分の意志で決めるとき。'},
-  {cat:'動詞',form:'辞書形',id:'kotoninaru',p:'〜ことになる',lvl:'N4',en:"it has been decided that ~",setu:'辞書形・ない形 ＋ ことになる',ex:[['来月、大阪へ転勤することになりました。',"It has been decided that I'll be transferred to Osaka next month."]],note:'自分の決定は「ことにする」。'},
-  {cat:'動詞',form:'辞書形',id:'bekida',p:'〜べきだ',lvl:'N2',en:"should ~ / ought to ~",setu:'辞書形 ＋ べきだ（する→すべき／するべき）',ex:[['約束は守るべきだ。',"You should keep your promises."]],note:'否定は「〜べきではない」。'},
-  {cat:'動詞',form:'辞書形',id:'tokorodatta',p:'〜ところだった',lvl:'N2',en:"almost ~ed / was about to ~",setu:'辞書形 ＋ ところだった',ex:[['あぶない！車にぶつかるところだった。',"Watch out! I almost got hit by a car."]],note:'実際には起こらなかったことを表す。'},
+  {cat:'動詞',form:'辞書形',id:'kotonisuru',p:'〜ことにします',lvl:'N4',en:"decide to ~",setu:'辞書形・ない形 ＋ ことにする',ex:[['来月から運動することにしました。',"I've decided to start exercising next month."]],note:'自分の意志で決めるとき。'},
+  {cat:'動詞',form:'辞書形',id:'kotoninaru',p:'〜ことになります',lvl:'N4',en:"it has been decided that ~",setu:'辞書形・ない形 ＋ ことになる',ex:[['来月、大阪へ転勤することになりました。',"It has been decided that I'll be transferred to Osaka next month."]],note:'自分の決定は「ことにする」。'},
+  {cat:'動詞',form:'辞書形',id:'bekida',p:'〜べきです',lvl:'N2',en:"should ~ / ought to ~",setu:'辞書形 ＋ べきだ（する→すべき／するべき）',ex:[['約束は守るべきだ。',"You should keep your promises."]],note:'否定は「〜べきではない」。'},
+  {cat:'動詞',form:'辞書形',id:'tokorodatta',p:'〜ところでした',lvl:'N2',en:"almost ~ed / was about to ~",setu:'辞書形 ＋ ところだった',ex:[['あぶない！車にぶつかるところだった。',"Watch out! I almost got hit by a car."]],note:'実際には起こらなかったことを表す。'},
   // 動詞 ・ 普通形（推量・伝聞）
-  {cat:'動詞',form:'普通形（推量・伝聞）',id:'souda-hearsay',p:'〜そうだ',lvl:'N3',en:"I hear that ~ (hearsay)",setu:'普通形 ＋ そうだ',ex:[['田中さんは来月結婚するそうだ。',"I hear that Mr. Tanaka is getting married next month."]],note:'様態の「降りそうだ（=今にも降る）」とは別。'},
-  {cat:'動詞',form:'普通形（推量・伝聞）',id:'youda',p:'〜ようだ／みたいだ',lvl:'N3',en:"it seems ~ / looks like ~",setu:'普通形 ＋ ようだ（な形＋な・名詞＋の）',ex:[['だれか来たようだ。',"It seems that someone has come."]],note:'話し言葉では「みたいだ」。'},
-  {cat:'動詞',form:'普通形（推量・伝聞）',id:'rashii',p:'〜らしい',lvl:'N3',en:"apparently ~ / seem ~",setu:'普通形 ＋ らしい',ex:[['山田さんは会社をやめたらしい。',"Apparently Mr. Yamada has quit the company."]],note:'人から聞いた情報にもとづく推量。'},
-  {cat:'動詞',form:'普通形（推量・伝聞）',id:'hazuda',p:'〜はずだ',lvl:'N3',en:"should be ~ / be supposed to",setu:'普通形 ＋ はずだ（な形＋な・名詞＋の）',ex:[['彼は今日来るはずです。',"He is supposed to come today."]],note:'根拠のある確信。'},
-  {cat:'動詞',form:'普通形（推量・伝聞）',id:'kamoshirenai',p:'〜かもしれない',lvl:'N3',en:"might ~ / maybe ~",setu:'普通形 ＋ かもしれない',ex:[['明日は雨が降るかもしれません。',"It might rain tomorrow."]],note:'可能性は「〜だろう」より低い。'},
-  {cat:'動詞',form:'普通形（推量・伝聞）',id:'darou',p:'〜だろう／でしょう',lvl:'N3',en:"probably ~",setu:'普通形 ＋ だろう（ていねいは でしょう）',ex:[['試験は難しいだろう。',"The exam will probably be difficult."]],note:'「でしょう？」と上げると確認になる。'},
-  {cat:'動詞',form:'普通形（推量・伝聞）',id:'nichigainai',p:'〜にちがいない',lvl:'N2',en:"must be ~ / surely ~",setu:'普通形 ＋ にちがいない',ex:[['彼は知っているにちがいない。',"He must know."]],note:'強い確信。'},
-  {cat:'動詞',form:'普通形（推量・伝聞）',id:'monoda',p:'〜ものだ',lvl:'N2',en:"should ~ / used to ~ (general truth)",setu:'普通形 ＋ ものだ',ex:[['子どもは早く寝るものだ。',"Children should go to bed early."]],note:'「〜たものだ」は「昔よく〜した」。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'souda-hearsay',p:'〜そうです',lvl:'N3',en:"I hear that ~ (hearsay)",setu:'普通形 ＋ そうだ',ex:[['田中さんは来月結婚するそうだ。',"I hear that Mr. Tanaka is getting married next month."]],note:'様態の「降りそうだ（=今にも降る）」とは別。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'youda',p:'〜ようです／みたいです',lvl:'N3',en:"it seems ~ / looks like ~",setu:'普通形 ＋ ようだ（な形＋な・名詞＋の）',ex:[['だれか来たようだ。',"It seems that someone has come."]],note:'話し言葉では「みたいだ」。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'rashii',p:'〜らしいです',lvl:'N3',en:"apparently ~ / seem ~",setu:'普通形 ＋ らしい',ex:[['山田さんは会社をやめたらしい。',"Apparently Mr. Yamada has quit the company."]],note:'人から聞いた情報にもとづく推量。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'hazuda',p:'〜はずです',lvl:'N3',en:"should be ~ / be supposed to",setu:'普通形 ＋ はずだ（な形＋な・名詞＋の）',ex:[['彼は今日来るはずです。',"He is supposed to come today."]],note:'根拠のある確信。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'kamoshirenai',p:'〜かもしれません',lvl:'N3',en:"might ~ / maybe ~",setu:'普通形 ＋ かもしれない',ex:[['明日は雨が降るかもしれません。',"It might rain tomorrow."]],note:'可能性は「〜だろう」より低い。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'darou',p:'〜でしょう',lvl:'N3',en:"probably ~",setu:'普通形 ＋ だろう（ていねいは でしょう）',ex:[['試験は難しいだろう。',"The exam will probably be difficult."]],note:'「でしょう？」と上げると確認になる。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'nichigainai',p:'〜にちがいありません',lvl:'N2',en:"must be ~ / surely ~",setu:'普通形 ＋ にちがいない',ex:[['彼は知っているにちがいない。',"He must know."]],note:'強い確信。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'monoda',p:'〜ものです',lvl:'N2',en:"should ~ / used to ~ (general truth)",setu:'普通形 ＋ ものだ',ex:[['子どもは早く寝るものだ。',"Children should go to bed early."]],note:'「〜たものだ」は「昔よく〜した」。'},
   // 動詞 ・ 普通形（理由・逆接）
   {cat:'動詞',form:'普通形（理由・逆接）',id:'node',p:'〜ので',lvl:'N3',en:"because ~ (reason)",setu:'普通形 ＋ ので（な形＋な・名詞＋な）',ex:[['用事があるので、お先に失礼します。',"I have something to do, so I'll leave first."]],note:'「から」よりていねい・客観的。'},
   {cat:'動詞',form:'普通形（理由・逆接）',id:'noni',p:'〜のに',lvl:'N3',en:"although ~ / even though ~",setu:'普通形 ＋ のに（な形＋な・名詞＋な）',ex:[['薬を飲んだのに、まだ熱が下がらない。',"Even though I took medicine, my fever still hasn't gone down."]],note:'意外・不満の気持ちを含む。'},
   {cat:'動詞',form:'普通形（理由・逆接）',id:'shi',p:'〜し',lvl:'N3',en:"and (besides) ~ (listing reasons)",setu:'普通形 ＋ し',ex:[['この店は安いし、おいしい。',"This shop is cheap, and the food is good too."]],note:'理由を並べて述べる。'},
   {cat:'動詞',form:'普通形（理由・逆接）',id:'kuseni',p:'〜くせに',lvl:'N2',en:"even though ~ (criticism)",setu:'普通形 ＋ くせに',ex:[['知っているくせに、教えてくれない。',"Even though he knows, he won't tell me."]],note:'非難・不満の気持ちを含む。主語は同じ。'},
-  {cat:'動詞',form:'普通形（理由・逆接）',id:'wakeda',p:'〜わけだ',lvl:'N2',en:"that's why ~ / no wonder ~",setu:'普通形 ＋ わけだ',ex:[['道理で寒いわけだ。雪が降っている。',"No wonder it's cold — it's snowing."]],note:'当然の結論として納得するとき。'},
+  {cat:'動詞',form:'普通形（理由・逆接）',id:'wakeda',p:'〜わけです',lvl:'N2',en:"that's why ~ / no wonder ~",setu:'普通形 ＋ わけだ',ex:[['道理で寒いわけだ。雪が降っている。',"No wonder it's cold — it's snowing."]],note:'当然の結論として納得するとき。'},
   // 動詞 ・ 連用形（ます形）
   {cat:'動詞',form:'連用形（ます形）',id:'masu-tai',p:'〜たいです',lvl:'N5',en:'want to ~',setu:'ます形（語幹）＋ たいです',ex:[['冷たい水が飲みたいです。','I want to drink some cold water.']],note:'他人の願望は「〜たがっています」。'},
   {cat:'動詞',form:'連用形（ます形）',id:'masu-nagara',p:'〜ながら',lvl:'N4',en:'while doing ~',setu:'ます形（語幹）＋ ながら',ex:[['音楽を聞きながら、勉強します。','I study while listening to music.']],note:'二つの動作を同時にする。主語は同じ。'},
   {cat:'動詞',form:'連用形（ます形）',id:'masu-mashou',p:'〜ましょう',lvl:'N5',en:"let's ~ / shall we ~",setu:'ます形（語幹）＋ ましょう／ましょうか／ませんか',ex:[['いっしょに昼ごはんを食べましょう。',"Let's eat lunch together."]],note:'「〜ませんか」はより控えめな誘い方。'},
-  {cat:'動詞',form:'連用形（ます形）',id:'masu-yasui',p:'〜やすい／〜にくい',lvl:'N4',en:'easy / hard to ~',setu:'ます形（語幹）＋ やすい／にくい',ex:[['このペンは書きやすいです。','This pen is easy to write with.'],['この道は暗くて歩きにくいです。','This street is dark and hard to walk on.']],note:'い形容詞として活用する。'},
-  {cat:'動詞',form:'連用形（ます形）',id:'sugiru',p:'〜すぎる',lvl:'N3',en:"too much / over~",setu:'ます形（語幹）＋ すぎる',ex:[['ゆうべは飲みすぎました。',"I drank too much last night."]],note:'い形・な形にも付く（高すぎる・ひますぎる）。'},
-  {cat:'動詞',form:'連用形（ます形）',id:'hajimeru',p:'〜はじめる',lvl:'N3',en:"start ~ing",setu:'ます形（語幹）＋ 始める（／終わる・続ける）',ex:[['桜が咲き始めました。',"The cherry blossoms have started to bloom."]],note:'「〜終わる」「〜続ける」も同じ作り方。'},
-  {cat:'動詞',form:'連用形（ます形）',id:'tagaru',p:'〜たがる',lvl:'N3',en:"(third person) wants to ~",setu:'ます形（語幹）＋ たがる',ex:[['子どもは外で遊びたがる。',"Children want to play outside."]],note:'自分の願望は「〜たい」。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'masu-yasui',p:'〜やすいです／〜にくいです',lvl:'N4',en:'easy / hard to ~',setu:'ます形（語幹）＋ やすい／にくい',ex:[['このペンは書きやすいです。','This pen is easy to write with.'],['この道は暗くて歩きにくいです。','This street is dark and hard to walk on.']],note:'い形容詞として活用する。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'sugiru',p:'〜すぎます',lvl:'N3',en:"too much / over~",setu:'ます形（語幹）＋ すぎる',ex:[['ゆうべは飲みすぎました。',"I drank too much last night."]],note:'い形・な形にも付く（高すぎる・ひますぎる）。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'hajimeru',p:'〜はじめます',lvl:'N3',en:"start ~ing",setu:'ます形（語幹）＋ 始める（／終わる・続ける）',ex:[['桜が咲き始めました。',"The cherry blossoms have started to bloom."]],note:'「〜終わる」「〜続ける」も同じ作り方。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'tagaru',p:'〜たがります',lvl:'N3',en:"(third person) wants to ~",setu:'ます形（語幹）＋ たがる',ex:[['子どもは外で遊びたがる。',"Children want to play outside."]],note:'自分の願望は「〜たい」。'},
   {cat:'動詞',form:'連用形（ます形）',id:'nasai',p:'〜なさい',lvl:'N4',en:"(gentle command) do ~",setu:'ます形（語幹）＋ なさい',ex:[['早く起きなさい。',"Get up quickly."]],note:'親が子に、先生が生徒に使う。'},
-  {cat:'動詞',form:'連用形（ます形）',id:'youganai',p:'〜ようがない',lvl:'N2',en:"there's no way to ~",setu:'ます形（語幹）＋ ようがない',ex:[['連絡先がないので、知らせようがない。',"I have no contact details, so there's no way to let them know."]],note:'手段がなくて不可能なとき。'},
-  {cat:'動詞',form:'連用形（ます形）',id:'tsutsuaru',p:'〜つつある',lvl:'N1',en:"be gradually ~ing",setu:'ます形（語幹）＋ つつある',ex:[['景気は回復しつつある。',"The economy is gradually recovering."]],note:'書き言葉的。変化が進行中であることを表す。'},
-  {cat:'動詞',form:'連用形（ます形）',id:'kaneru',p:'〜かねる',lvl:'N1',en:"cannot ~ / be unable to ~",setu:'ます形（語幹）＋ かねる',ex:[['その件については、お答えしかねます。',"I am unable to answer regarding that matter."]],note:'ていねいに断るときに使う改まった表現。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'youganai',p:'〜ようがありません',lvl:'N2',en:"there's no way to ~",setu:'ます形（語幹）＋ ようがない',ex:[['連絡先がないので、知らせようがない。',"I have no contact details, so there's no way to let them know."]],note:'手段がなくて不可能なとき。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'tsutsuaru',p:'〜つつあります',lvl:'N1',en:"be gradually ~ing",setu:'ます形（語幹）＋ つつある',ex:[['景気は回復しつつある。',"The economy is gradually recovering."]],note:'書き言葉的。変化が進行中であることを表す。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'kaneru',p:'〜かねます',lvl:'N1',en:"cannot ~ / be unable to ~",setu:'ます形（語幹）＋ かねる',ex:[['その件については、お答えしかねます。',"I am unable to answer regarding that matter."]],note:'ていねいに断るときに使う改まった表現。'},
   // 動詞 ・ て形
   {cat:'動詞',form:'て形',id:'te-kudasai',p:'〜てください',lvl:'N5',en:'please do ~ (request)',setu:'て形 ＋ ください',ex:[['ここに住所を書いてください。','Please write your address here.']],note:'やわらかく言うときは「〜てくださいませんか」。'},
   {cat:'動詞',form:'て形',id:'te-mo-ii',p:'〜てもいいです',lvl:'N5',en:"may ~ / it's OK to ~ (permission)",setu:'て形 ＋ もいいです',ex:[['ここでたばこを吸ってもいいですか。','May I smoke here?']],note:'答えは「はい、どうぞ」「いいえ、〜てはいけません」。'},
   {cat:'動詞',form:'て形',id:'te-wa-ikenai',p:'〜てはいけません',lvl:'N5',en:'must not ~ (prohibition)',setu:'て形 ＋ はいけません',ex:[['ここに入ってはいけません。','You must not enter here.']],note:'話し言葉では「〜ちゃいけない」。'},
   {cat:'動詞',form:'て形',id:'te-iru',p:'〜ています',lvl:'N5',en:'be ~ing / state / habit',setu:'て形 ＋ います',ex:[['今、雨が降っています。','It is raining now.'],['兄は銀行で働いています。','My older brother works at a bank.']],note:'進行・結果の状態・習慣を表す。'},
   {cat:'動詞',form:'て形',id:'te-kara',p:'〜てから',lvl:'N4',en:'after doing ~',setu:'て形 ＋ から',ex:[['手を洗ってから、ごはんを食べます。','I eat after washing my hands.']],note:'前の動作が終わってから次をする。'},
-  {cat:'動詞',form:'て形',id:'temiru',p:'〜てみる',lvl:'N4',en:"try ~ing",setu:'て形 ＋ みる',ex:[['この服を着てみてもいいですか。',"May I try on this dress?"]],note:'ためしに何かをする。'},
+  {cat:'動詞',form:'て形',id:'temiru',p:'〜てみます',lvl:'N4',en:"try ~ing",setu:'て形 ＋ みる',ex:[['この服を着てみてもいいですか。',"May I try on this dress?"]],note:'ためしに何かをする。'},
   {cat:'動詞',form:'て形',id:'temo',p:'〜ても',lvl:'N3',en:"even if ~",setu:'て形 ＋ も',ex:[['雨が降っても、行きます。',"Even if it rains, I'll go."]],note:'疑問詞と使うと「いくら〜ても」。'},
-  {cat:'動詞',form:'て形',id:'teshimau',p:'〜てしまう',lvl:'N3',en:"do completely / by mistake (regret)",setu:'て形 ＋ しまう',ex:[['大切な書類をなくしてしまった。',"I lost an important document (unfortunately)."]],note:'完了、または残念な気持ち。話し言葉「〜ちゃう」。'},
-  {cat:'動詞',form:'て形',id:'teoku',p:'〜ておく',lvl:'N3',en:"do ~ in advance / leave as is",setu:'て形 ＋ おく',ex:[['旅行の前にホテルを予約しておきます。',"I'll book a hotel in advance before the trip."]],note:'準備。話し言葉「〜とく」。'},
-  {cat:'動詞',form:'て形',id:'tehoshii',p:'〜てほしい',lvl:'N3',en:"want someone to ~",setu:'て形 ＋ ほしい',ex:[['もっと早く来てほしかった。',"I wanted you to come earlier."]],note:'相手にしてもらいたいこと。'},
+  {cat:'動詞',form:'て形',id:'teshimau',p:'〜てしまいます',lvl:'N3',en:"do completely / by mistake (regret)",setu:'て形 ＋ しまう',ex:[['大切な書類をなくしてしまった。',"I lost an important document (unfortunately)."]],note:'完了、または残念な気持ち。話し言葉「〜ちゃう」。'},
+  {cat:'動詞',form:'て形',id:'teoku',p:'〜ておきます',lvl:'N3',en:"do ~ in advance / leave as is",setu:'て形 ＋ おく',ex:[['旅行の前にホテルを予約しておきます。',"I'll book a hotel in advance before the trip."]],note:'準備。話し言葉「〜とく」。'},
+  {cat:'動詞',form:'て形',id:'tehoshii',p:'〜てほしいです',lvl:'N3',en:"want someone to ~",setu:'て形 ＋ ほしい',ex:[['もっと早く来てほしかった。',"I wanted you to come earlier."]],note:'相手にしてもらいたいこと。'},
   // 動詞 ・ ない形
   {cat:'動詞',form:'ない形',id:'nai-de-kudasai',p:'〜ないでください',lvl:'N5',en:"please don't ~",setu:'ない形 ＋ でください',ex:[['ここで写真を撮らないでください。',"Please don't take photos here."]],note:''},
   {cat:'動詞',form:'ない形',id:'nakereba-naranai',p:'〜なければなりません',lvl:'N4',en:'must ~ / have to ~',setu:'ない形（語幹）＋ なければなりません',ex:[['毎日薬を飲まなければなりません。','I have to take medicine every day.']],note:'＝「〜なくてはいけません」。話し言葉「〜なきゃ」。'},
   {cat:'動詞',form:'ない形',id:'nakutemo-ii',p:'〜なくてもいいです',lvl:'N4',en:"don't have to ~",setu:'ない形（語幹）＋ なくてもいいです',ex:[['明日は来なくてもいいです。',"You don't have to come tomorrow."]],note:''},
   {cat:'動詞',form:'ない形',id:'nai-hou-ga-ii',p:'〜ないほうがいいです',lvl:'N4',en:'had better not ~ (advice)',setu:'ない形 ＋ ほうがいいです',ex:[['たばこは吸わないほうがいいです。',"You'd better not smoke."]],note:'肯定の助言は「た形＋ほうがいいです」。'},
   {cat:'動詞',form:'ない形',id:'naito',p:'〜ないと（いけない）',lvl:'N4',en:"have to ~ / if not ~",setu:'ない形 ＋ と（いけない・だめだ）',ex:[['もう行かないと。',"I have to go now."]],note:'「〜なければならない」のくだけた言い方。'},
-  {cat:'動詞',form:'ない形',id:'nakunaru',p:'〜なくなる',lvl:'N3',en:"come not to ~ / stop ~ing",setu:'ない形（語幹）＋ なくなる',ex:[['最近、彼は学校に来なくなった。',"Recently he stopped coming to school."]],note:'できなくなる変化は「〜られなくなる」。'},
+  {cat:'動詞',form:'ない形',id:'nakunaru',p:'〜なくなります',lvl:'N3',en:"come not to ~ / stop ~ing",setu:'ない形（語幹）＋ なくなる',ex:[['最近、彼は学校に来なくなった。',"Recently he stopped coming to school."]],note:'できなくなる変化は「〜られなくなる」。'},
   // 動詞 ・ た形
   {cat:'動詞',form:'た形',id:'ta-koto-ga-aru',p:'〜たことがあります',lvl:'N4',en:'have done ~ (experience)',setu:'た形 ＋ ことがあります',ex:[['北海道へ行ったことがあります。','I have been to Hokkaido.']],note:'過去の経験を表す。'},
   {cat:'動詞',form:'た形',id:'ta-hou-ga-ii',p:'〜たほうがいいです',lvl:'N4',en:'had better ~ (advice)',setu:'た形 ＋ ほうがいいです',ex:[['早く病院へ行ったほうがいいです。',"You'd better go to the hospital soon."]],note:''},
   {cat:'動詞',form:'た形',id:'tari-tari',p:'〜たり〜たりします',lvl:'N4',en:'do things like ~ and ~',setu:'た形 ＋ り、〜た形 ＋ り します',ex:[['日曜日はそうじをしたり、せんたくをしたりします。','On Sundays I do things like cleaning and laundry.']],note:'動作を例として並べる。'},
   {cat:'動詞',form:'た形',id:'ta-ato-de',p:'〜たあとで',lvl:'N4',en:'after ~',setu:'た形 ＋ あとで',ex:[['仕事が終わったあとで、飲みに行きます。','After work, I go out for a drink.']],note:'名詞のときは「名詞＋のあとで」。'},
   {cat:'動詞',form:'た形',id:'tara',p:'〜たら',lvl:'N4',en:"if / when ~",setu:'た形 ＋ ら',ex:[['駅に着いたら、電話してください。',"When you arrive at the station, please call me."]],note:'最も広く使える条件表現。'},
-  {cat:'動詞',form:'た形',id:'tatokoro',p:'〜たところ',lvl:'N3',en:"have just ~ed",setu:'た形 ＋ ところだ',ex:[['今、家に帰ってきたところです。',"I've just come home now."]],note:'動作の直後を表す。'},
-  {cat:'動詞',form:'た形',id:'tabakari',p:'〜たばかり',lvl:'N3',en:"just did ~ (a moment ago)",setu:'た形 ＋ ばかりだ',ex:[['さっき昼ごはんを食べたばかりです。',"I just ate lunch a little while ago."]],note:'「〜たところ」より時間に幅がある。'},
+  {cat:'動詞',form:'た形',id:'tatokoro',p:'〜たところです',lvl:'N3',en:"have just ~ed",setu:'た形 ＋ ところだ',ex:[['今、家に帰ってきたところです。',"I've just come home now."]],note:'動作の直後を表す。'},
+  {cat:'動詞',form:'た形',id:'tabakari',p:'〜たばかりです',lvl:'N3',en:"just did ~ (a moment ago)",setu:'た形 ＋ ばかりだ',ex:[['さっき昼ごはんを食べたばかりです。',"I just ate lunch a little while ago."]],note:'「〜たところ」より時間に幅がある。'},
   {cat:'動詞',form:'た形',id:'tamama',p:'〜たまま',lvl:'N3',en:"leaving ~ (in a state)",setu:'た形 ＋ まま',ex:[['電気をつけたまま、寝てしまった。',"I fell asleep with the light left on."]],note:'ある状態が続いたまま次のことをする。'},
   // 動詞 ・ 意向形
   {cat:'動詞',form:'意向形',id:'you-to-omou',p:'〜（よ）うと思います',lvl:'N4',en:'I think I will ~ / intend to ~',setu:'意向形 ＋ と思います',ex:[['週末はうちで休もうと思います。','I think I will rest at home this weekend.']],note:'その場で決めたことは「〜ようと思います」より「〜ます」。'},
@@ -275,18 +275,18 @@ const D=[
   {cat:'動詞',form:'可能動詞',id:'you-ni-naru',p:'〜ようになります',lvl:'N4',en:'come to be able to ~ (change)',setu:'可能動詞（辞書形）＋ ようになります',ex:[['日本語が話せるようになりました。','I have become able to speak Japanese.']],note:'能力・習慣の変化。否定は「〜なくなりました」。'},
   // 動詞 ・ 使役動詞
   {cat:'動詞',form:'使役動詞',id:'sasete-kudasai',p:'〜（さ）せてください',lvl:'N4',en:'please let me ~',setu:'使役動詞の て形 ＋ ください',ex:[['その仕事は私にやらせてください。','Please let me do that job.']],note:'自分がしたいことの許可を求める。'},
-  {cat:'動詞',form:'使役動詞',id:'saserareru',p:'〜（さ）せられる',lvl:'N3',en:"be made to ~ (causative-passive)",setu:'使役動詞 → せる を せられる に変える',ex:[['子どものとき、毎日ピアノを練習させられた。',"As a child, I was made to practice the piano every day."]],note:'1グループは「〜される」とも（飲ませられる→飲まされる）。'},
+  {cat:'動詞',form:'使役動詞',id:'saserareru',p:'〜（さ）せられます',lvl:'N3',en:"be made to ~ (causative-passive)",setu:'使役動詞 → せる を せられる に変える',ex:[['子どものとき、毎日ピアノを練習させられた。',"As a child, I was made to practice the piano every day."]],note:'1グループは「〜される」とも（飲ませられる→飲まされる）。'},
   // 動詞 ・ 命令形・禁止形
   {cat:'動詞',form:'命令形・禁止形',id:'meirei-kinshi',p:'〜ろ（命令）／〜な（禁止）',lvl:'N4',en:'(blunt) command / prohibition',setu:'命令形（〜ろ・〜け）／ 辞書形 ＋ な',ex:[['早く起きろ。','Get up, now!'],['ここに入るな。',"Don't come in here!"]],note:'とても強い言い方。ふつうは「〜てください／〜ないでください」を使う。'},
   // い形容詞
   {cat:'い形容詞',form:'て形',id:'i-te',p:'〜くて、…',lvl:'N5',en:'~ and ~ / because ~',setu:'い形容詞：〜い → 〜くて',ex:[['このへやは広くて明るいです。','This room is spacious and bright.']],note:'文をつなぐ。理由を表すこともある。'},
   {cat:'い形容詞',form:'副詞形',id:'i-ku-naru',p:'〜くなります',lvl:'N4',en:'become ~ (change)',setu:'い形容詞：〜い → 〜く ＋ なります',ex:[['さむくなりましたね。',"It's gotten cold, hasn't it?"]],note:'自然な変化。'},
-  {cat:'い形容詞',form:'副詞形',id:'i-ku-suru',p:'〜くする',lvl:'N4',en:'make it ~',setu:'い形容詞：〜い → 〜く ＋ する',ex:[['テレビの音を大きくしてください。','Please make the TV louder.']],note:'人が意図的に変える。'},
+  {cat:'い形容詞',form:'副詞形',id:'i-ku-suru',p:'〜くします',lvl:'N4',en:'make it ~',setu:'い形容詞：〜い → 〜く ＋ する',ex:[['テレビの音を大きくしてください。','Please make the TV louder.']],note:'人が意図的に変える。'},
   {cat:'い形容詞',form:'条件形',id:'i-kereba',p:'〜ければ、…',lvl:'N4',en:'if ~ (i-adjective)',setu:'い形容詞：〜い → 〜ければ',ex:[['天気がよければ、出かけます。',"If the weather is good, I'll go out."]],note:'「いい」は「よければ」。'},
   // な形容詞
   {cat:'な形容詞',form:'て形',id:'na-de',p:'〜で、…',lvl:'N5',en:'~ and ~ / because ~',setu:'な形容詞：語幹 ＋ で',ex:[['この町はしずかできれいです。','This town is quiet and beautiful.']],note:'名詞文も同じ：「学生で…」。'},
   {cat:'な形容詞',form:'副詞形',id:'na-ni-naru',p:'〜になります',lvl:'N4',en:'become ~ (change)',setu:'な形容詞：語幹 ＋ に ＋ なります',ex:[['病気が治って、元気になりました。','I recovered and became healthy.']],note:''},
-  {cat:'な形容詞',form:'副詞形',id:'na-ni-suru',p:'〜にする',lvl:'N4',en:'make it ~',setu:'な形容詞：語幹 ＋ に ＋ する',ex:[['へやをきれいにします。','I will make the room clean.']],note:'「〜にします」は選択にも使う（コーヒーにします）。'},
+  {cat:'な形容詞',form:'副詞形',id:'na-ni-suru',p:'〜にします',lvl:'N4',en:'make it ~',setu:'な形容詞：語幹 ＋ に ＋ する',ex:[['へやをきれいにします。','I will make the room clean.']],note:'「〜にします」は選択にも使う（コーヒーにします）。'},
   {cat:'な形容詞',form:'名詞修飾',id:'na-shuushoku',p:'〜な＋名詞',lvl:'N5',en:'~ (modifies a noun)',setu:'な形容詞：語幹 ＋ な ＋ 名詞',ex:[['しずかなへやがほしいです。','I want a quiet room.']],note:'名詞の前では必ず「な」が付く。'},
   {cat:'な形容詞',form:'条件形',id:'na-nara',p:'〜なら、…',lvl:'N4',en:'if ~ / as for ~',setu:'な形容詞：語幹 ＋ なら',ex:[['ひまなら、手伝ってください。',"If you're free, please help me."]],note:'相手の話を受けて言うことが多い。'},
 ];
@@ -351,7 +351,7 @@ const LESSONS = [
   { l:41, p:["〜をいただきます","〜をくださいます","〜をやります","〈て形〉＋いただきます","〈て形〉＋くださいます","〈て形〉＋やります","〈て形〉＋くださいませんか"] },
   { l:42, p:["〜ために、〜（目的）","〜は〜のに、〜（用途）","〜のに〜かかります"] },
   { l:43, p:["〜そうです（様態・動詞）","〜そうです（様態・形容詞）","〈て形〉＋来ます"] },
-  { l:44, p:["〜すぎます","〜やすい／〜にくい","〈い形容詞〉く／〈な形容詞〉にします","〈名詞〉にします"] },
+  { l:44, p:["〜すぎます","〜やすいです／〜にくいです","〈い形容詞〉く／〈な形容詞〉にします","〈名詞〉にします"] },
   { l:45, p:["〜場合は、〜","〜のに、〜（逆接）"] },
   { l:46, p:["〜ところです","〜たばかりです","〜はずです"] },
   { l:47, p:["〜そうです（伝聞）","〜ようです（推量）"] },
@@ -369,7 +369,7 @@ const LESSONS = [
    lessons: [ { l:課番号, p:[文型, ...] }, ... ]
    追加候補：げんき / つなぐ日本語 / いろどり / まるごと など */
 const BOOKS = [
-  { id:'minna', name:'みんなの日本語 初級', short:'みん日', accent:'#3B6D11', bg:'#EAF3DE',
+  { id:'minna', name:'みんなの日本語 初級 ver.2', short:'みん日', accent:'#3B6D11', bg:'#EAF3DE',
     levels:[[25,'N5'],[50,'N4']], lessons: LESSONS }
   // 例）{ id:'genki', name:'げんき', short:'げんき', accent:'#185FA5', bg:'#E6F1FB',
   //       levels:[[12,'N5'],[23,'N4']], lessons:[ {l:1,p:['〜です', '〜は〜です']}, ... ] },
@@ -391,7 +391,7 @@ const SORTED=[...D].map(d=>({...d,_key:yomiKey(d.p)}))
 
 function matches(d,q){
   if(!q) return true;
-  const bkStr = (d.ka!=null) ? ('みんなの日本語 初級 みん日 第'+d.ka+'課 '+d.ka+'課') : '';
+  const bkStr = (d.ka!=null) ? ('みんなの日本語 初級 ver.2 みん日 第'+d.ka+'課 '+d.ka+'課') : '';
   const hay = toHira(d.p+' '+d.en+' '+d.setu+' '+(d.note||'')+' '+d._key+' '+d.lvl+' '+bkStr).toLowerCase();
   return hay.indexOf(q)>=0;
 }
@@ -418,7 +418,7 @@ function renderKaisetsu(){
     const rl=rowLabel(d._key);
     if(rl!==curRow){ curRow=rl; html+=`<div class="goju-head">${rl}</div>`; }
     const ex=d.ex.map(e=>`<div class="bk-ex-item"><div class="bk-ex-ja">${e[0]}</div><div class="bk-ex-en">${e[1]}</div></div>`).join('');
-    const tag=(d.ka!=null)?`<div class="mina-tag"><span class="b">みんなの日本語 初級</span> ・ 第${d.ka}課</div>`:'';
+    const tag=(d.ka!=null)?`<div class="mina-tag"><span class="b">みんなの日本語 初級 ver.2</span> ・ 第${d.ka}課</div>`:'';
     html+=`<div class="bk-card" id="${d.id}">
       <div class="bk-cat"><b>${CATSHORT[d.cat]}</b> ・ ${d.form}</div>
       <div class="bk-top"><span class="bk-p">${d.p}</span><span class="bk-lvl lvl-${d.lvl.toLowerCase()}">${d.lvl}</span></div>
@@ -447,16 +447,15 @@ function renderBooks(){
       if(!pats.length) return;
       bookCount+=pats.length; total+=pats.length;
       const rows=pats.map(p=>
-        `<div class="ka-row"><span class="kdot">●</span><span class="kp">${hi(p,q)}</span>`+
-        `<span class="row-tags">`+
-        `<button class="tg tg-book" type="button" data-book="${book.id}">${book.short}</button>`+
-        `<button class="tg lv-${lv.toLowerCase()}" type="button" data-lv="${lv}">${lv}</button>`+
-        `</span></div>`
+        `<div class="ka-row"><span class="kdot">●</span><span class="kp">${hi(p,q)}</span></div>`
       ).join('');
       const links = (book.id==='minna') ? D.filter(d=> d.ka===ls.l) : [];
       const linkHtml = links.length?`<div class="ka-links"><span class="lab">🔎 解説へ</span>`+
         links.map(d=>`<button class="ka-link" type="button" data-jump="${d.id}">${d.p}</button>`).join('')+`</div>`:'';
-      inner += `<div class="ka-head"><span class="ka-badge" style="background:${book.bg};color:${book.accent}">第${ls.l}課</span></div><div class="ka-card">${rows}${linkHtml}</div>`;
+      inner += `<div class="ka-head"><span class="ka-badge" style="background:${book.bg};color:${book.accent}">第${ls.l}課</span>`+
+        `<button class="tg tg-book" type="button" data-book="${book.id}">${book.short}</button>`+
+        `<button class="tg lv-${lv.toLowerCase()}" type="button" data-lv="${lv}">${lv}</button>`+
+        `</div><div class="ka-card">${rows}${linkHtml}</div>`;
     });
     if(!bookCount) return;
     html += `<div class="book-sec"><div class="book-sec-head"><span class="book-bar" style="background:${book.accent}"></span><span>${book.name}</span><span class="book-sec-num">${bookCount}文型</span></div>${inner}</div>`;

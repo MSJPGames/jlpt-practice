@@ -40,8 +40,12 @@
     transition: background 0.15s, color 0.15s, box-shadow 0.15s; -webkit-tap-highlight-color: transparent;
   }
   .filter button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
-  #filterBook { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-  #filterBook::-webkit-scrollbar { display: none; }
+  #filterBook { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; cursor: grab; padding-bottom: 5px; }
+  #filterBook.dragging { cursor: grabbing; scroll-behavior: auto; }
+  #filterBook::-webkit-scrollbar { height: 7px; }
+  #filterBook::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.22); border-radius: 4px; }
+  #filterBook::-webkit-scrollbar-track { background: transparent; }
   #filterBook button { flex: 0 0 auto; white-space: nowrap; padding-left: 12px; padding-right: 12px; }
 
   .cat-head { font-size: 16px; font-weight: 700; margin: 1.6rem 0 0.3rem; display: flex; align-items: center; gap: 9px; }
@@ -444,7 +448,8 @@ const D=[
   {"cat": "文型", "form": "名詞", "id": "n1-47", "p": "〜であれ", "lvl": "N1", "en": "no matter ~ / whatever/whoever ~", "setu": "疑問詞・名詞 ＋ であれ", "ex": [["どんな理由であれ、暴力はいけない。", "Whatever the reason, violence is wrong."]], "note": "どんな場合でも。"},
   {"cat": "文型", "form": "動詞普通形", "id": "n1-48", "p": "〜ないともかぎらない", "lvl": "N1", "en": "it’s not impossible that ~", "setu": "ない形 ＋ とも限らない", "ex": [["事故が起きないとも限らない。", "It’s not impossible that an accident could happen."]], "note": "可能性を否定できない。"},
   {"cat": "文型", "form": "動詞辞書形", "id": "n1-49", "p": "〜ないではおかない／ずにはおかない", "lvl": "N1", "en": "will surely ~ / won’t leave it undone", "setu": "ない形 ＋ ではおかない（〜ず＋にはおかない）", "ex": [["この事件は社会に影響を与えずにはおかない。", "This affair will surely affect society."]], "note": "必然的にそうなる／させる。"},
-  {"cat": "文型", "form": "動詞ます形", "id": "n2-nagaramo", "p": "〜ながら（も）", "lvl": "N2", "en": "although ~ / even though ~ (concessive)", "setu": "ます形（語幹）・い形・な形（語幹）・名詞 ＋ ながら（も）", "ex": [["体に悪いと知りながらも、たばこをやめられない。", "Even though I know it’s bad for me, I can’t quit smoking."], ["狭いながらも、楽しいわが家です。", "Cramped though it is, it’s my happy home."]], "note": "逆接・譲歩を表す。同時進行の「〜ながら」（N4）とは別。名詞・形容詞にも付く（子どもながら・残念ながら）。"}
+  {"cat": "文型", "form": "動詞ます形", "id": "n2-nagaramo", "p": "〜ながら（も）", "lvl": "N2", "en": "although ~ / even though ~ (concessive)", "setu": "ます形（語幹）・い形・な形（語幹）・名詞 ＋ ながら（も）", "ex": [["体に悪いと知りながらも、たばこをやめられない。", "Even though I know it’s bad for me, I can’t quit smoking."], ["狭いながらも、楽しいわが家です。", "Cramped though it is, it’s my happy home."]], "note": "逆接・譲歩を表す。同時進行の「〜ながら」（N4）とは別。名詞・形容詞にも付く（子どもながら・残念ながら）。"},
+  {"cat": "文型", "form": "動詞ます形", "id": "n4-nagara-shukan", "p": "〜ながら（習慣行為）", "lvl": "N4", "en": "while ~ing (two ongoing activities in parallel)", "setu": "ます形（語幹）＋ ながら", "ska": 11, "ex": [["彼は働きながら大学に通っています。", "He goes to university while working."], ["子育てをしながら、仕事を続けています。", "She keeps working while raising her children."]], "note": "一時的な同時動作（音楽を聞きながら勉強する）ではなく、二つの動作・状態を長期にわたり並行して続けることを表す。"}
 ];
 
 /* === みんなの日本語 初級 課タグ（解説カードのid → 課番号） ===
@@ -1158,6 +1163,38 @@ function buildBookFilter(){
   box.innerHTML='';
   const items=[{bk:'all',label:'すべて'}].concat(BOOKS.map(b=>({bk:b.id,label:b.short})));
   items.forEach(it=>{ const btn=document.createElement('button'); btn.type='button'; btn.dataset.bk=it.bk; btn.textContent=it.label; if(it.bk===curBook) btn.classList.add('on'); btn.onclick=()=>setBook(it.bk); box.appendChild(btn); });
+  if(!box.dataset.scrollBound){ box.dataset.scrollBound='1'; bindHScroll(box); }
+}
+
+// PC（マウス）でも教科書フィルタを横スクロールできるようにする
+function bindHScroll(box){
+  // マウスホイールの縦回転を横スクロールに変換
+  box.addEventListener('wheel', e=>{
+    if(box.scrollWidth<=box.clientWidth) return;               // はみ出していなければ何もしない
+    const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if(d===0) return;
+    box.scrollLeft += d;
+    e.preventDefault();                                        // ページの縦スクロールを止める
+  }, {passive:false});
+  // ドラッグ（クリック＆スワイプ）で移動
+  let down=false, startX=0, startL=0, moved=0;
+  box.addEventListener('pointerdown', e=>{
+    if(e.pointerType==='mouse' && e.button!==0) return;
+    down=true; moved=0; startX=e.clientX; startL=box.scrollLeft;
+    box.classList.add('dragging');
+  });
+  box.addEventListener('pointermove', e=>{
+    if(!down) return;
+    const dx=e.clientX-startX; moved=Math.max(moved,Math.abs(dx));
+    box.scrollLeft=startL-dx;
+    if(Math.abs(dx)>3) e.preventDefault();
+  });
+  const end=()=>{ down=false; box.classList.remove('dragging'); };
+  box.addEventListener('pointerup', end);
+  box.addEventListener('pointercancel', end);
+  box.addEventListener('pointerleave', end);
+  // ドラッグ後の誤クリック（ボタン選択）を防ぐ
+  box.addEventListener('click', e=>{ if(moved>6){ e.preventDefault(); e.stopPropagation(); } }, true);
 }
 
 // 「解説へ」から該当の解説カードへ移動

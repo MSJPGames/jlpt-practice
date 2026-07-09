@@ -945,6 +945,18 @@ const IRO_MERGE = {
   "【いつも／たいてい／よく／ときどき】V-ます　＜頻度＞":"頻度の副詞（よく・ときどき…）",
   "あまりV-ません ＜頻度＞":"頻度の副詞（よく・ときどき…）",
   "【あまり／ぜんぜん】V-ません　＜頻度＞":"頻度の副詞（よく・ときどき…）"
+,
+  "N（は）ありますか？":"〜は〜があります",
+  "Nにします":"〈名詞〉にします"
+,
+  "N、ありますか？":"〜は〜があります"
+,
+  "ここは【場所】です":"ここは〈場所〉です",
+  "【場所】にNがあります":"〜に〜があります"
+,
+  "【人】は【場所】にいます":"〜は〜にいます",
+  "【もの】は【ここ／そこ／あそこ】にあります":"〜は〜にあります",
+  "【場所】にNが【数】あります":"助数詞（−つ）があります"
 };
 function iroAdd(p, book, l){ const c=IRO_MERGE[p]; if(c && _byText[c]){ _tag(_byText[c], book, l); } else { _tag(_add(p), book, l); } }
 IRODORIN_DATA.forEach(ls=> ls.p.forEach(p=> iroAdd(p,'irodoriN',ls.l)));
@@ -1147,6 +1159,14 @@ const MARU_MERGE = {
   "〜が":"〜が、〜（逆接）"
 ,
   "ときどき・あまり・ぜんぜん":"頻度の副詞（よく・ときどき…）"
+,
+  "〜に〜がある":"〜に〜があります"
+,
+  "〜は〜にある":"〜は〜にあります",
+  "〜は〜にいる":"〜は〜にいます",
+  "〜が【数】ある":"助数詞（−つ）があります"
+,
+  "〜に〜がいる":"〜に〜がいます"
 };
 function maruAdd(p, book, l){ const c=MARU_MERGE[p]; if(c && _byText[c]){ _tag(_byText[c], book, l); } else { _tag(_add(p), book, l); } }
 MARUN_DATA.forEach(ls=> ls.p.forEach(p=> maruAdd(p,'maruN',ls.l)));

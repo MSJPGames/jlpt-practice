@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSK 文法リスト（新HSK・レベル別）・ 日本語の部屋</title>
+<meta name="description" content="新HSK（2021・HSK3.0）のレベル別文法リスト。1級から7〜9級（上級）まで、各文法に中国語例文・ピンイン・日本語訳・一言説明つき。">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --accent:#9A3D1C; --accent-bg:#FAECE7; --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.6;padding:0 1rem 3rem;}
+  .container{max-width:560px;margin:0 auto;}
+
+  .topbar{display:flex;align-items:center;gap:8px;padding:14px 0 2px;flex-wrap:wrap;}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--text-muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);transition:transform .12s;}
+  .back-link:active{transform:scale(.97);}
+  .back-arrow{font-size:16px;line-height:1;}
+
+  .page-header{text-align:center;padding:1.2rem 0 .4rem;}
+  .ph-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--accent);margin-bottom:8px;}
+  .ph-title{font-size:23px;font-weight:700;}
+  .ph-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px;line-height:1.6;}
+
+  .note{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:12px 15px;font-size:12.5px;color:var(--text-muted);line-height:1.75;margin-top:1rem;}
+  .note b{color:var(--text);}
+  .note .src{display:block;color:var(--text-hint);font-size:11px;margin-top:6px;line-height:1.6;}
+
+  .filters{position:sticky;top:0;z-index:40;display:flex;gap:7px;overflow-x:auto;
+    margin:1.2rem -1rem 0;padding:10px 1rem 8px;
+    background:linear-gradient(var(--bg) 80%, rgba(247,245,240,0));
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;cursor:grab;}
+  .filters::-webkit-scrollbar{display:none;}
+  .fbtn{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--text-muted);white-space:nowrap;
+    background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:7px 13px;cursor:pointer;transition:transform .1s;}
+  .fbtn:active{transform:scale(.96);}
+  .fbtn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .fcount{font-size:11px;color:var(--text-hint);margin:8px 2px 2px;}
+
+  .lv-head{margin:22px 2px 6px;padding-top:16px;border-top:1px solid var(--border);
+    font-size:15px;font-weight:700;display:flex;align-items:center;gap:9px;}
+  .lv-head:first-of-type{border-top:none;padding-top:4px;}
+  .lv-bar{width:4px;height:18px;border-radius:2px;background:var(--accent);}
+
+  .g{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:12px;padding:12px 14px;margin-bottom:9px;}
+  .g-top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .g-p{font-size:17px;font-weight:700;color:var(--accent);}
+  .g-py{font-size:11.5px;color:var(--text-hint);}
+  .g-badge{margin-left:auto;font-size:10.5px;font-weight:700;color:var(--accent);background:var(--accent-bg);border-radius:20px;padding:2px 9px;white-space:nowrap;}
+  .g-ja{font-size:13px;font-weight:700;margin-top:3px;}
+  .g-ex{margin-top:9px;background:var(--accent-bg);border-radius:9px;padding:9px 11px;}
+  .g-ex-row{display:flex;align-items:center;gap:10px;}
+  .g-ex-main{flex:1;min-width:0;}
+  .g-cn{font-size:16px;font-weight:700;line-height:1.5;color:#1C1C1C;}
+  .g-pin{font-size:11.5px;color:var(--text-hint);margin-top:1px;}
+  .g-ej{font-size:12.5px;color:var(--text-muted);margin-top:3px;}
+  .say{flex-shrink:0;width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--surface);
+    color:var(--accent);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .1s,background .1s;}
+  .say:active{transform:scale(.9);} .say.playing{background:var(--accent-bg);}
+  .g-note{font-size:12px;color:var(--text-muted);margin-top:8px;line-height:1.65;}
+
+  .hint{font-size:11px;color:var(--text-hint);margin:6px 2px 0;line-height:1.6;}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2rem;line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="lang.html?code=zh" class="back-link"><span class="back-arrow">‹</span>中国語</a>
+    <a href="gaikokugo.html" class="back-link">多言語</a>
+    <a href="index.html" class="back-link">ホーム</a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">HSK ・ 語法</div>
+    <div class="ph-title">HSK 文法リスト</div>
+    <div class="ph-sub">新HSK（2021・HSK3.0）のレベル別文法<br>1級 → 7〜9級（上級）</div>
+  </div>
+
+  <div class="note">
+    中国語の検定試験 <b>HSK（汉语水平考试）</b> の等級に沿って、各レベルで学ぶ主な文法を並べました。各項目に<b>中国語の例文・ピンイン・日本語訳・一言説明</b>を付けています。🔊で例文を読み上げます（端末の中国語音声が必要）。
+    <span class="src">レベル区分・項目は新HSK（2021年改訂・HSK3.0）の等級大綱にもとづきます（項目一覧の参照：Mandarin Bean「New HSK Grammar」）。例文・説明は学習用にまとめたものです。</span>
+  </div>
+
+  <div class="filters" id="filters"></div>
+  <div class="fcount" id="count"></div>
+  <div id="list"></div>
+
+  <div class="hint">「級」はおおよその目安です。同じ文法でも、教材によって扱う級が前後することがあります。</div>
+  <div class="app-footer">© 2025 日本語の部屋</div>
+</div>
+
+<script>
+var HSK = [{"lv": "1", "label": "1級（入門）", "items": [{"p": "是", "py": "shì", "ja": "A是B（名詞述語）", "ex": "我是学生。", "epy": "Wǒ shì xuéshēng.", "ej": "私は学生です。", "note": "「A是B」でAはBだ。否定は「不是」。"}, {"p": "有", "py": "yǒu", "ja": "所有・存在の「有」", "ex": "我有两个孩子。", "epy": "Wǒ yǒu liǎng ge háizi.", "ej": "私には子どもが二人いる。", "note": "所有・存在を表す。否定は「没有」（×不有）。"}, {"p": "吗", "py": "ma", "ja": "「吗」疑問文", "ex": "你是老师吗？", "epy": "Nǐ shì lǎoshī ma?", "ej": "あなたは先生ですか。", "note": "平叙文の文末に「吗」を付けてはい/いいえ疑問。"}, {"p": "不 / 没", "py": "bù / méi", "ja": "否定「不」と「没」", "ex": "我不喝酒，昨天也没喝。", "epy": "Wǒ bù hē jiǔ, zuótiān yě méi hē.", "ej": "私は酒を飲まない、昨日も飲まなかった。", "note": "「不」＝習慣・意志・未来の否定、「没(有)」＝完了・過去の否定。"}, {"p": "了", "py": "le", "ja": "完了の「了」", "ex": "我吃了饭。", "epy": "Wǒ chī le fàn.", "ej": "私はご飯を食べた。", "note": "動作の完了・実現を表す動態助詞。"}, {"p": "正在／在", "py": "zhèngzài / zài", "ja": "進行「正在／在…呢」", "ex": "他正在看书呢。", "epy": "Tā zhèngzài kàn shū ne.", "ej": "彼は本を読んでいるところだ。", "note": "動作の進行。「正在／在＋動詞（＋呢）」。"}, {"p": "会 / 能", "py": "huì / néng", "ja": "能願動詞「会」「能」", "ex": "我会说汉语，今天能来。", "epy": "Wǒ huì shuō Hànyǔ, jīntiān néng lái.", "ej": "私は中国語が話せる、今日は来られる。", "note": "「会」＝習得した能力、「能」＝条件がそろっての可能。"}, {"p": "想 / 要", "py": "xiǎng / yào", "ja": "願望「想」「要」", "ex": "我想喝茶，要一杯咖啡。", "epy": "Wǒ xiǎng hē chá, yào yì bēi kāfēi.", "ej": "お茶が飲みたい、コーヒーを一杯ほしい。", "note": "「想」＝〜したい、「要」＝〜がほしい／するつもり。"}, {"p": "比", "py": "bǐ", "ja": "比較文「A比B…」", "ex": "我比他高。", "epy": "Wǒ bǐ tā gāo.", "ej": "私は彼より背が高い。", "note": "「A比B＋形容詞」で比較。差は後ろに置く（比他高一点儿）。"}, {"p": "量词", "py": "liàngcí", "ja": "量詞（助数詞）", "ex": "一个人、三本书", "epy": "yí ge rén, sān běn shū", "ej": "一人、三冊の本", "note": "数詞と名詞の間に量詞を入れる（数＋量＋名）。"}, {"p": "这 / 那", "py": "zhè / nà", "ja": "指示代詞", "ex": "这是书，那是词典。", "epy": "Zhè shì shū, nà shì cídiǎn.", "ej": "これは本、あれは辞書だ。", "note": "「这」＝近称、「那」＝遠称。"}, {"p": "方位词", "py": "fāngwèicí", "ja": "方位詞「在…上/里」", "ex": "书在桌子上。", "epy": "Shū zài zhuōzi shàng.", "ej": "本は机の上にある。", "note": "場所は「在＋名詞＋上/里/下…」で表す。"}, {"p": "还是", "py": "háishi", "ja": "選択疑問「A还是B」", "ex": "你喝茶还是咖啡？", "epy": "Nǐ hē chá háishi kāfēi?", "ej": "お茶にしますか、コーヒーにしますか。", "note": "二択を尋ねる。答えに「吗」は不要。"}, {"p": "程度副词", "py": "chéngdù fùcí", "ja": "程度副詞「很/太/非常」", "ex": "今天很热。", "epy": "Jīntiān hěn rè.", "ej": "今日はとても暑い。", "note": "形容詞述語には普通「很」などの程度副詞を添える。"}, {"p": "的", "py": "de", "ja": "「的」（連体修飾）", "ex": "这是我的书。", "epy": "Zhè shì wǒ de shū.", "ej": "これは私の本だ。", "note": "修飾語＋「的」＋名詞。所有・性質を表す。"}, {"p": "二 / 两", "py": "èr / liǎng", "ja": "「二」と「两」", "ex": "两个、二〇二一年", "epy": "liǎng ge, èr líng èr yī nián", "ej": "二つ、2021年", "note": "量詞の前は「两」、数字の読みや序数は「二」。"}, {"p": "几 / 多少", "py": "jǐ / duōshao", "ja": "数を尋ねる", "ex": "几个？多少钱？", "epy": "Jǐ ge? Duōshao qián?", "ej": "いくつ？いくら？", "note": "「几」＝小さい数（＋量詞）、「多少」＝大きい数や値段。"}, {"p": "时间 / 日期", "py": "shíjiān / rìqī", "ja": "時刻・日付の言い方", "ex": "现在三点，今天星期一。", "epy": "Xiànzài sān diǎn, jīntiān xīngqīyī.", "ej": "今3時、今日は月曜だ。", "note": "時刻「…点」、曜日「星期…」、日付「…月…号」。"}]}, {"lv": "2", "label": "2級（初級）", "items": [{"p": "要…了", "py": "yào…le", "ja": "近い未来「(快)要…了」", "ex": "火车要开了。", "epy": "Huǒchē yào kāi le.", "ej": "列車がもうすぐ発車する。", "note": "「(快)要＋動詞＋了」でまもなく〜する。"}, {"p": "是不是", "py": "shìbushì", "ja": "「是不是」疑問", "ex": "你是不是累了？", "epy": "Nǐ shìbushì lèi le?", "ej": "疲れたんじゃない？", "note": "推測を確認する疑問。"}, {"p": "正反疑问", "py": "zhèngfǎn", "ja": "反復疑問文", "ex": "你去不去？", "epy": "Nǐ qù bu qù?", "ej": "行くの、行かないの？", "note": "動詞/形容詞の肯定＋否定を並べて尋ねる。"}, {"p": "结果补语", "py": "jiéguǒ bǔyǔ", "ja": "結果補語", "ex": "我听懂了。", "epy": "Wǒ tīng dǒng le.", "ej": "聞いて理解できた。", "note": "動詞の後に結果を表す成分（懂・完・到・见…）を付ける。"}, {"p": "趋向补语", "py": "qūxiàng bǔyǔ", "ja": "方向補語（1）", "ex": "他走进来了。", "epy": "Tā zǒu jìnlái le.", "ej": "彼が歩いて入ってきた。", "note": "動作の方向を「来/去」「进/出/上/下…」で表す。"}, {"p": "状态补语", "py": "zhuàngtài bǔyǔ", "ja": "様態補語「得」", "ex": "他跑得很快。", "epy": "Tā pǎo de hěn kuài.", "ej": "彼は走るのが速い。", "note": "「動詞＋得＋様子」で動作の程度・様子を述べる。"}, {"p": "数量补语", "py": "shùliàng bǔyǔ", "ja": "数量補語（時量・動量）", "ex": "我等了半个小时。", "epy": "Wǒ děng le bàn ge xiǎoshí.", "ej": "私は30分待った。", "note": "時間の長さ「时量」や回数「动量（次・遍）」を動詞の後に置く。"}, {"p": "双宾语", "py": "shuāng bīnyǔ", "ja": "二重目的語", "ex": "老师教我们汉语。", "epy": "Lǎoshī jiāo wǒmen Hànyǔ.", "ej": "先生は私たちに中国語を教える。", "note": "「動詞＋人＋物」で二つの目的語をとる。"}, {"p": "存现句", "py": "cúnxiàn jù", "ja": "存現文（存在・出現）", "ex": "桌子上有一本书。", "epy": "Zhuōzi shàng yǒu yì běn shū.", "ej": "机の上に本が一冊ある。", "note": "「場所＋動詞＋人/物」で存在・出現・消失を表す。"}, {"p": "形容词重叠", "py": "", "ja": "形容詞の重ね型", "ex": "高高兴兴、干干净净", "epy": "gāogāoxìngxìng, gāngānjìngjìng", "ej": "とても楽しく／きれいに", "note": "形容詞を重ねて程度や生き生きした描写を強める。"}, {"p": "比较句(2)", "py": "", "ja": "比較「没有/一样/更」", "ex": "我没有他高。", "epy": "Wǒ méiyǒu tā gāo.", "ej": "私は彼ほど背が高くない。", "note": "「A没有B（那么）…」＝AはBほど…でない。「跟…一样」＝同じ。"}, {"p": "概数", "py": "gàishù", "ja": "概数の表し方", "ex": "三十多岁、七八个", "epy": "sānshí duō suì, qī-bā ge", "ej": "三十歳あまり、七、八個", "note": "「多」「几」や連続する数字でおおよその数を表す。"}, {"p": "语气助词", "py": "yǔqì zhùcí", "ja": "複合的な語気助詞", "ex": "太好了！走吧。", "epy": "Tài hǎo le! Zǒu ba.", "ej": "よかった！行こう。", "note": "「了/吧/呢/啊」などで気持ち・語調を添える。"}, {"p": "要/想/可以", "py": "", "ja": "許可・意志の助動詞", "ex": "这里可以拍照吗？", "epy": "Zhèlǐ kěyǐ pāizhào ma?", "ej": "ここで写真を撮ってもいいですか。", "note": "「可以」＝許可、「想/要」＝意志・願望。"}, {"p": "复句(1)", "py": "fùjù", "ja": "複文（1）因果・並列", "ex": "因为下雨，所以没去。", "epy": "Yīnwèi xiàyǔ, suǒyǐ méi qù.", "ej": "雨だったので行かなかった。", "note": "「因为…所以…」「不但…而且…」など呼応する接続。"}]}, {"lv": "3", "label": "3級（初中級）", "items": [{"p": "把字句", "py": "bǎzìjù", "ja": "「把」構文", "ex": "我把门关上了。", "epy": "Wǒ bǎ mén guānshàng le.", "ej": "私はドアを閉めた。", "note": "「把＋目的語＋動詞＋処置の結果」。対象をどう処置したかを述べる。"}, {"p": "被字句", "py": "bèizìjù", "ja": "「被」構文（受身）", "ex": "杯子被他打破了。", "epy": "Bēizi bèi tā dǎpò le.", "ej": "コップは彼に割られた。", "note": "「受事＋被(＋動作主)＋動詞＋結果」。被害・受身。"}, {"p": "连动句", "py": "liándòngjù", "ja": "連動文", "ex": "我去商店买东西。", "epy": "Wǒ qù shāngdiàn mǎi dōngxi.", "ej": "私は店へ買い物に行く。", "note": "一つの主語が動作を連続して行う（動作の順に並べる）。"}, {"p": "兼语句", "py": "jiānyǔjù", "ja": "兼語文（使役・請求）", "ex": "老师让我们读课文。", "epy": "Lǎoshī ràng wǒmen dú kèwén.", "ej": "先生は私たちに本文を読ませる。", "note": "「让/叫/请＋人＋動詞」。前の目的語が次の主語を兼ねる。"}, {"p": "可能补语", "py": "kěnéng bǔyǔ", "ja": "可能補語", "ex": "这个字我看得清楚。", "epy": "Zhège zì wǒ kàn de qīngchu.", "ej": "この字ははっきり見える。", "note": "「動詞＋得/不＋補語」で可能/不可能（听得懂／听不懂）。"}, {"p": "程度补语", "py": "chéngdù bǔyǔ", "ja": "程度補語", "ex": "累得走不动了。", "epy": "Lèi de zǒu bu dòng le.", "ej": "歩けないほど疲れた。", "note": "「…得＋程度」で状態のはなはだしさを表す。"}, {"p": "结果补语(2)", "py": "", "ja": "結果補語（発展）", "ex": "作业写完了。", "epy": "Zuòyè xiě wán le.", "ej": "宿題を書き終えた。", "note": "「完・到・在・给・成」など多様な結果補語。"}, {"p": "趋向补语(2)", "py": "", "ja": "方向補語（派生義）", "ex": "他想起来了。", "epy": "Tā xiǎng qǐlái le.", "ej": "彼は思い出した。", "note": "方向補語が「起来（開始）」「下去（継続）」など派生的意味を持つ。"}, {"p": "离合词", "py": "líhécí", "ja": "離合詞", "ex": "我们见过一次面。", "epy": "Wǒmen jiàn guo yí cì miàn.", "ej": "私たちは一度会ったことがある。", "note": "「见面・帮忙」など動＋名の語。間に成分が割り込む。"}, {"p": "重动句", "py": "chóngdòngjù", "ja": "動詞反復文", "ex": "他说汉语说得很好。", "epy": "Tā shuō Hànyǔ shuō de hěn hǎo.", "ej": "彼は中国語を話すのがうまい。", "note": "目的語と補語を両立させるため動詞を繰り返す。"}, {"p": "反问句(1)", "py": "fǎnwènjù", "ja": "反語（1）", "ex": "这不是很好吗？", "epy": "Zhè bú shì hěn hǎo ma?", "ej": "これはとても良いじゃないか。", "note": "形は疑問だが強い肯定/否定を表す。"}, {"p": "前缀后缀", "py": "", "ja": "接頭辞・接尾辞", "ex": "老师、桌子、木头", "epy": "lǎoshī, zhuōzi, mùtou", "ej": "先生、机、木", "note": "「老/小/第」＋語、語＋「子/头/儿」など。"}, {"p": "疑问代词の拡張", "py": "", "ja": "疑問詞の不定・任意用法", "ex": "谁都知道。", "epy": "Shéi dōu zhīdào.", "ej": "だれでも知っている。", "note": "「谁/什么/哪儿」＋「都/也」で「だれでも/なんでも」。"}, {"p": "数量词重叠", "py": "", "ja": "数量詞の重ね型", "ex": "一个一个地", "epy": "yí ge yí ge de", "ej": "一つ一つ", "note": "「一＋量＋一＋量」で「〜ごとに/次々と」。"}, {"p": "复句(2)", "py": "", "ja": "複文（2）転折・条件", "ex": "虽然贵，但是很好。", "epy": "Suīrán guì, dànshì hěn hǎo.", "ej": "高いけれど良い。", "note": "「虽然…但是…」「只要…就…」など。"}]}, {"lv": "4", "label": "4級（中級）", "items": [{"p": "是…的", "py": "shì…de", "ja": "「是…的」構文", "ex": "我是坐飞机来的。", "epy": "Wǒ shì zuò fēijī lái de.", "ej": "私は飛行機で来たのだ。", "note": "すでに起きた事の「時・場所・方法」を強調する。"}, {"p": "把字句(2)", "py": "", "ja": "「把」構文（発展）", "ex": "请把空调打开。", "epy": "Qǐng bǎ kōngtiáo dǎkāi.", "ej": "エアコンをつけてください。", "note": "命令・依頼や、結果・方向補語を伴う「把」構文。"}, {"p": "被字句(2)", "py": "", "ja": "「被」構文（発展）", "ex": "钱包被小偷偷走了。", "epy": "Qiánbāo bèi xiǎotōu tōuzǒu le.", "ej": "財布は泥棒に盗まれた。", "note": "「被/让/叫」を用いる受身の発展。"}, {"p": "存现句(2)", "py": "", "ja": "存現文（発展）", "ex": "墙上挂着一幅画。", "epy": "Qiáng shàng guà zhe yì fú huà.", "ej": "壁に一枚の絵が掛かっている。", "note": "「場所＋動詞＋着＋物」で持続的な存在の様子。"}, {"p": "双重否定", "py": "shuāngchóng fǒudìng", "ja": "二重否定", "ex": "我不得不去。", "epy": "Wǒ bùdébù qù.", "ej": "行かざるを得ない。", "note": "「不…不」「非…不可」で強い肯定を表す。"}, {"p": "紧缩复句", "py": "jǐnsuō fùjù", "ja": "緊縮複文", "ex": "不去也行。", "epy": "Bú qù yě xíng.", "ej": "行かなくてもいい。", "note": "接続語を省いて一文に圧縮した複文（一…就…など）。"}, {"p": "却", "py": "què", "ja": "逆接の「却」", "ex": "说了却没做。", "epy": "Shuō le què méi zuò.", "ej": "言ったのにやらなかった。", "note": "予想と逆の結果を表す副詞（主語の後）。"}, {"p": "定语的语序", "py": "", "ja": "連体修飾語の語順", "ex": "我买的那件红色的衣服", "epy": "wǒ mǎi de nà jiàn hóngsè de yīfu", "ej": "私が買ったあの赤い服", "note": "所属→指示量詞→性質→中心語の順に並べる。"}, {"p": "对于 / 关于", "py": "duìyú / guānyú", "ja": "「对于」と「关于」", "ex": "关于这件事，我不清楚。", "epy": "Guānyú zhè jiàn shì, wǒ bù qīngchu.", "ej": "この件については、よく分からない。", "note": "「关于」＝話題の範囲、「对于」＝対象・対応関係。"}, {"p": "按照 / 根据", "py": "ànzhào / gēnjù", "ja": "「按照」と「根据」", "ex": "根据规定办理。", "epy": "Gēnjù guīdìng bànlǐ.", "ej": "規定に基づいて手続きする。", "note": "「根据」＝根拠、「按照」＝基準・手順に従う。"}, {"p": "到底 / 终于", "py": "dàodǐ / zhōngyú", "ja": "「到底」と「终于」", "ex": "你到底去不去？他终于来了。", "epy": "Nǐ dàodǐ qù bu qù? Tā zhōngyú lái le.", "ej": "いったい行くの？彼はやっと来た。", "note": "「到底」＝いったい（追及）、「终于」＝ついに（実現）。"}, {"p": "反问句(2)", "py": "", "ja": "反語（2）", "ex": "难道你不知道吗？", "epy": "Nándào nǐ bù zhīdào ma?", "ej": "まさか知らないの？", "note": "「难道…吗」「怎么…呢」で強い反語。"}, {"p": "复句(3)", "py": "", "ja": "複文（3）譲歩・目的", "ex": "即使下雨，也要去。", "epy": "Jíshǐ xiàyǔ, yě yào qù.", "ej": "たとえ雨でも行く。", "note": "「即使…也…」「为了…」など。"}]}, {"lv": "5", "label": "5級（中上級）", "items": [{"p": "把字句(3)", "py": "", "ja": "「把」構文（高級）", "ex": "他把工作安排得很好。", "epy": "Tā bǎ gōngzuò ānpái de hěn hǎo.", "ej": "彼は仕事をうまく手配した。", "note": "「把」＋様態/結果補語など複雑な処置。"}, {"p": "被字句(3)", "py": "", "ja": "「被」構文（高級）", "ex": "问题被顺利地解决了。", "epy": "Wèntí bèi shùnlì de jiějué le.", "ej": "問題は順調に解決された。", "note": "状語を伴う受身、被害でない中立の受身。"}, {"p": "程度补语(2)", "py": "", "ja": "程度補語（発展）", "ex": "高兴得跳了起来。", "epy": "Gāoxìng de tiào le qǐlái.", "ej": "うれしくて飛び上がった。", "note": "「…得＋結果的な句」で程度を生き生きと描く。"}, {"p": "可能补语(2)", "py": "", "ja": "可能補語（発展）", "ex": "这么多，吃得完吗？", "epy": "Zhème duō, chī de wán ma?", "ej": "こんなに多くて、食べきれる？", "note": "「V得/不＋了/下/起」など抽象的な可能。"}, {"p": "就", "py": "jiù", "ja": "副詞「就」", "ex": "说完就走了。", "epy": "Shuō wán jiù zǒu le.", "ej": "言い終えるとすぐ行った。", "note": "「すぐ・とっくに・(条件)なら…だ」など多義の副詞。"}, {"p": "竟然 / 居然", "py": "jìngrán / jūrán", "ja": "「竟然/居然」", "ex": "他竟然没来。", "epy": "Tā jìngrán méi lái.", "ej": "彼はなんと来なかった。", "note": "意外・驚きを表す。"}, {"p": "由 / 自从", "py": "yóu / zìcóng", "ja": "「由」と「自从」", "ex": "这件事由我负责。", "epy": "Zhè jiàn shì yóu wǒ fùzé.", "ej": "この件は私が担当する。", "note": "「由」＝動作主・担当、「自从」＝〜以来。"}, {"p": "对……来说", "py": "duì…láishuō", "ja": "「对…来说」", "ex": "对我来说，这很重要。", "epy": "Duì wǒ láishuō, zhè hěn zhòngyào.", "ej": "私にとって、これは重要だ。", "note": "立場・観点を示す。"}, {"p": "比较句(5)", "py": "", "ja": "比較（高級）", "ex": "越来越冷。", "epy": "Yuè lái yuè lěng.", "ej": "だんだん寒くなる。", "note": "「越来越…」「越…越…」で程度の推移。"}, {"p": "紧缩复句(2)", "py": "", "ja": "緊縮複文（発展）", "ex": "再忙也要休息。", "epy": "Zài máng yě yào xiūxi.", "ej": "どんなに忙しくても休むべきだ。", "note": "「再…也…」「非…不可」など。"}, {"p": "偶尔 / 偶然", "py": "ǒu’ěr / ǒurán", "ja": "「偶尔」と「偶然」", "ex": "我偶尔去，那是偶然的。", "epy": "Wǒ ǒu’ěr qù, nà shì ǒurán de.", "ej": "たまに行く、それは偶然だ。", "note": "「偶尔」＝頻度（たまに）、「偶然」＝性質（偶然の）。"}, {"p": "复句(4)", "py": "", "ja": "複文（4）関連詞の呼応", "ex": "宁可…也不…；与其…不如…", "epy": "nìngkě…yě bù…", "ej": "〜するくらいなら…／〜より…のほうが", "note": "選択・比較の複文。書き言葉でよく使う。"}]}, {"lv": "6", "label": "6級（上級手前）", "items": [{"p": "把字句(4)", "py": "", "ja": "「把」構文（複雑）", "ex": "把这些资料整理一下。", "epy": "Bǎ zhèxiē zīliào zhěnglǐ yíxià.", "ej": "これらの資料を整理して。", "note": "慣用的・複雑な「把」構文。"}, {"p": "被字句(4)", "py": "", "ja": "「被」構文（複雑）", "ex": "他被大家选为代表。", "epy": "Tā bèi dàjiā xuǎn wéi dàibiǎo.", "ej": "彼はみんなに代表に選ばれた。", "note": "「被…选为/称为」など。"}, {"p": "趋向补语(5)", "py": "", "ja": "方向補語（抽象義）", "ex": "坚持下来很不容易。", "epy": "Jiānchí xiàlái hěn bù róngyì.", "ej": "やり通すのは容易でない。", "note": "「下来/下去/起来/出来」の抽象的な意味。"}, {"p": "才", "py": "cái", "ja": "副詞「才」", "ex": "他才明白。", "epy": "Tā cái míngbai.", "ej": "彼はやっと分かった。", "note": "「やっと・たった・(条件が満たされて)はじめて」。"}, {"p": "可", "py": "kě", "ja": "語気を強める「可」", "ex": "你可要小心！", "epy": "Nǐ kě yào xiǎoxīn!", "ej": "くれぐれも気をつけて！", "note": "強調・念押しの語気を添える。"}, {"p": "所", "py": "suǒ", "ja": "「所」＋動詞", "ex": "我所知道的", "epy": "wǒ suǒ zhīdào de", "ej": "私が知っている（こと）", "note": "「(主語)所＋動詞＋的」で書き言葉的な修飾。"}, {"p": "嘛", "py": "ma", "ja": "語気助詞「嘛」", "ex": "这很简单嘛。", "epy": "Zhè hěn jiǎndān ma.", "ej": "これは簡単じゃないか。", "note": "当然・道理を示す語気助詞（≠疑問の「吗」）。"}, {"p": "与 / 同", "py": "yǔ / tóng", "ja": "書き言葉の「与」「同」", "ex": "理论与实践", "epy": "lǐlùn yǔ shíjiàn", "ej": "理論と実践", "note": "「与/同」＝「和」の書き言葉。並列・比較。"}, {"p": "前缀后缀(2)", "py": "", "ja": "接頭辞・接尾辞（発展）", "ex": "现代化、可能性", "epy": "xiàndàihuà, kěnéngxìng", "ej": "近代化、可能性", "note": "「…化/…性/…者」など語を作る接辞。"}, {"p": "刚好 / 正好", "py": "", "ja": "「刚好/恰好/正好」", "ex": "我正好有时间。", "epy": "Wǒ zhènghǎo yǒu shíjiān.", "ej": "ちょうど時間がある。", "note": "「ちょうど・折よく」。"}, {"p": "时常 / 时刻", "py": "", "ja": "時間の副詞の区別", "ex": "要时刻注意安全。", "epy": "Yào shíkè zhùyì ānquán.", "ej": "常に安全に注意すべきだ。", "note": "「时常」＝しばしば、「时刻」＝常に/絶えず。"}, {"p": "复句(5)", "py": "", "ja": "複文（5）多重・書面", "ex": "不仅…而且…，从而…", "epy": "bùjǐn…érqiě…, cóng’ér…", "ej": "〜だけでなく…、それによって…", "note": "多重複文・書き言葉的な関連詞。"}]}, {"lv": "7-9", "label": "7〜9級（上級）", "items": [{"p": "比较句(6)", "py": "", "ja": "比較（最上級・書面）", "ex": "没有比这更好的了。", "epy": "Méiyǒu bǐ zhè gèng hǎo de le.", "ej": "これ以上に良いものはない。", "note": "「没有比…更…」で最上級的表現。書き言葉。"}, {"p": "被字句(5)", "py": "", "ja": "受身（書面・格式）", "ex": "该方案已被采纳。", "epy": "Gāi fāng’àn yǐ bèi cǎinà.", "ej": "その案はすでに採用された。", "note": "公文・書き言葉的な受身。"}, {"p": "罢了 / 而已", "py": "bàle / éryǐ", "ja": "「罢了／而已」", "ex": "只是开个玩笑罢了。", "epy": "Zhǐshì kāi ge wánxiào bàle.", "ej": "ただの冗談にすぎない。", "note": "「不过/只是…罢了/而已」＝〜にすぎない。"}, {"p": "偏偏 / 偏", "py": "piānpiān", "ja": "「偏偏」", "ex": "大家都同意，他偏偏反对。", "epy": "Dàjiā dōu tóngyì, tā piānpiān fǎnduì.", "ej": "みな賛成なのに、彼はあえて反対する。", "note": "わざと・あいにく・意に反して。"}, {"p": "以…为", "py": "yǐ…wéi", "ja": "「以…为…」", "ex": "以质量为主。", "epy": "Yǐ zhìliàng wéi zhǔ.", "ej": "品質を第一とする。", "note": "「以A为B」＝AをBとする。書き言葉。"}, {"p": "无论…都", "py": "wúlùn…dōu", "ja": "「无论/不管…都…」", "ex": "无论多难，都要坚持。", "epy": "Wúlùn duō nán, dōu yào jiānchí.", "ej": "どんなに難しくても続ける。", "note": "任意条件＋「都/也」で「〜であれ必ず」。"}, {"p": "一…就…", "py": "yī…jiù…", "ja": "「一…就…」", "ex": "一到家就睡了。", "epy": "Yí dào jiā jiù shuì le.", "ej": "家に着くとすぐ寝た。", "note": "ある動作の直後に次が起こる。"}, {"p": "连…都/也", "py": "lián…dōu", "ja": "「连…都/也…」", "ex": "他连饭都不吃。", "epy": "Tā lián fàn dōu bù chī.", "ej": "彼はご飯すら食べない。", "note": "極端な例を挙げて強調。"}, {"p": "不是…而是", "py": "búshì…érshì", "ja": "「不是…而是…」", "ex": "这不是错误，而是尝试。", "epy": "Zhè búshì cuòwù, érshì chángshì.", "ej": "これは誤りではなく試みだ。", "note": "否定と訂正を対比する。"}, {"p": "宁愿…也", "py": "nìngyuàn…yě", "ja": "「宁愿…也…」", "ex": "宁愿站着，也不坐那儿。", "epy": "Nìngyuàn zhànzhe, yě bù zuò nàr.", "ej": "立っていてもそこには座らない。", "note": "どちらかを選ぶ強い意志。"}, {"p": "凡是…都", "py": "fánshì…dōu", "ja": "「凡是…都…」", "ex": "凡是学生都要参加。", "epy": "Fánshì xuéshēng dōu yào cānjiā.", "ej": "およそ学生は皆参加する。", "note": "例外なく全てを表す（書き言葉）。"}, {"p": "语气助词（総合）", "py": "", "ja": "複雑な語気・書面表現", "ex": "岂能如此？", "epy": "Qǐ néng rúcǐ?", "ej": "どうしてこうであってよいものか。", "note": "「岂…」「何尝…」など格式ばった反語・語気。"}]}];
+
+function speak(text, btn){
+  if(!('speechSynthesis' in window)) return;
+  try{
+    window.speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(text); u.lang='zh-CN'; u.rate=0.9;
+    if(btn){ btn.classList.add('playing'); u.onend=function(){btn.classList.remove('playing');}; u.onerror=function(){btn.classList.remove('playing');}; }
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+var current='all';
+function card(it, lv){
+  var py = it.py ? '<span class="g-py">'+esc(it.py)+'</span>' : '';
+  var say = '<button type="button" class="say" aria-label="読み上げ" data-say="'+esc(it.ex)+'">🔊</button>';
+  return '<div class="g">'
+    + '<div class="g-top"><span class="g-p">'+esc(it.p)+'</span>'+py+'<span class="g-badge">'+esc(lv)+'級</span></div>'
+    + '<div class="g-ja">'+esc(it.ja)+'</div>'
+    + '<div class="g-ex"><div class="g-ex-row"><div class="g-ex-main">'
+      + '<div class="g-cn">'+esc(it.ex)+'</div>'
+      + (it.epy?'<div class="g-pin">'+esc(it.epy)+'</div>':'')
+      + '<div class="g-ej">'+esc(it.ej)+'</div>'
+    + '</div>'+say+'</div></div>'
+    + (it.note?'<div class="g-note">'+esc(it.note)+'</div>':'')
+  + '</div>';
+}
+function render(){
+  var html='', total=0;
+  HSK.forEach(function(g){
+    if(current!=='all' && current!==g.lv) return;
+    html += '<div class="lv-head"><span class="lv-bar"></span>'+esc(g.label)+'</div>';
+    html += g.items.map(function(it){ return card(it, g.lv); }).join('');
+    total += g.items.length;
+  });
+  document.getElementById('list').innerHTML=html;
+  document.getElementById('count').textContent = total + ' 項目'+(current!=='all'?'（'+current+'級）':'（全レベル）');
+  var btns=document.querySelectorAll('.fbtn');
+  for(var i=0;i<btns.length;i++){ btns[i].className='fbtn'+(btns[i].getAttribute('data-k')===current?' active':''); }
+}
+(function initFilters(){
+  var wrap=document.getElementById('filters');
+  var items=[{k:'all',l:'すべて'}].concat(HSK.map(function(g){ return {k:g.lv,l:g.lv+'級'}; }));
+  wrap.innerHTML=items.map(function(f){ return '<button type="button" class="fbtn" data-k="'+f.k+'">'+f.l+'</button>'; }).join('');
+  wrap.addEventListener('click', function(e){ var b=e.target.closest('.fbtn'); if(!b)return; current=b.getAttribute('data-k'); render(); window.scrollTo({top:0,behavior:'smooth'}); });
+  render();
+})();
+document.getElementById('list').addEventListener('click', function(e){
+  var b=e.target.closest('.say'); if(!b)return; speak(b.getAttribute('data-say'), b);
+});
+</script>
+</body>
+</html>

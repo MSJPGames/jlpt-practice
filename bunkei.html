@@ -3,390 +3,532 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>文型さがし ・ 日本語の部屋</title>
+<title>文型解説 ・ Grammar Patterns ・ 日本語の部屋</title>
 <style>
   :root {
-    --bg: #F7F5F0;
-    --surface: #FFFFFF;
-    --border: #E2DDD6;
-    --text: #1C1C1C;
-    --text-muted: #6B6560;
-    --text-hint: #9E9890;
-    --radius: 14px;
-    --radius-sm: 10px;
-    --accent: #854F0B; /* 文法グループの色 */
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --n5: #3B6D11; --n5-bg: #EAF3DE;
+    --n4: #185FA5; --n4-bg: #E6F1FB;
+    --n3: #3C3489; --n3-bg: #EEEDFE;
+    --n2: #854F0B; --n2-bg: #FAEEDA;
+    --n1: #993C1D; --n1-bg: #FAECE7;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 0 1rem 3rem;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    -webkit-text-size-adjust: 100%;
   }
   .container { max-width: 480px; margin: 0 auto; }
-
-  /* もどるリンク */
-  .back-link {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: 13px; font-weight: 700; color: var(--text-muted);
-    text-decoration: none; margin-top: 1.5rem;
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
     -webkit-tap-highlight-color: transparent;
   }
-  .back-link:hover { color: var(--text); }
+  .back:hover { color: var(--text); }
+  .app-header { text-align: center; padding: 1rem 0 0.5rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .app-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
+  .app-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
 
-  /* ヘッダー */
-  .page-header { padding: 1.1rem 0 0.25rem; }
-  .page-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; color: var(--text-hint); margin-bottom: 8px; }
-  .page-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
-  .page-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+  .filter { display: flex; gap: 6px; margin: 1rem 0 1.25rem; background: #ECE8E1; padding: 4px; border-radius: 11px; }
+  .filter button {
+    flex: 1; padding: 9px 4px; font-size: 13px; font-weight: 700; color: var(--text-muted);
+    background: transparent; border: none; border-radius: 8px; cursor: pointer; font-family: inherit;
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s; -webkit-tap-highlight-color: transparent;
+  }
+  .filter button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
 
-  /* 検索エリア（上部に固定） */
-  .search-wrap {
-    position: sticky; top: 0; z-index: 5;
-    background: var(--bg);
-    padding: 1rem 0 0.6rem;
+  .cat-head { font-size: 16px; font-weight: 700; margin: 1.6rem 0 0.3rem; display: flex; align-items: center; gap: 9px; }
+  .cat-head:first-of-type { margin-top: 0.5rem; }
+  .cat-bar { width: 4px; height: 19px; border-radius: 2px; }
+  .form-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--text-hint); text-transform: uppercase; margin: 1rem 0 0.5rem; }
+
+  .bk-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 15px 16px; margin-bottom: 10px; scroll-margin-top: 16px;
   }
-  .search-box {
-    position: relative;
+  .bk-card:target { animation: flash 1.4s ease; border-color: var(--n4); }
+  @keyframes flash { 0% { background: #FFF3DC; } 100% { background: var(--surface); } }
+  .bk-top { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+  .bk-p { font-size: 18px; font-weight: 700; }
+  .bk-lvl { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 8px; }
+  .lvl-n5 { background: var(--n5-bg); color: var(--n5); }
+  .lvl-n4 { background: var(--n4-bg); color: var(--n4); }
+  .lvl-n3 { background: var(--n3-bg); color: var(--n3); }
+  .lvl-n2 { background: var(--n2-bg); color: var(--n2); }
+  .lvl-n1 { background: var(--n1-bg); color: var(--n1); }
+  .bk-en { font-size: 13px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+  .bk-setsuzoku {
+    font-size: 12px; color: var(--text); background: #FAF8F4; border: 1px solid var(--border);
+    border-radius: 8px; padding: 7px 11px; margin-top: 10px;
   }
-  .search-box .icon {
-    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-    font-size: 16px; color: var(--text-hint); pointer-events: none;
+  .bk-setsuzoku b { font-weight: 700; }
+  .bk-ex { margin-top: 11px; display: flex; flex-direction: column; gap: 9px; }
+  .bk-ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .bk-ex-ja { font-size: 14px; font-weight: 600; line-height: 1.5; }
+  .bk-ex-en { font-size: 12px; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
+  .bk-note { font-size: 11.5px; color: var(--text-hint); margin-top: 10px; line-height: 1.55; }
+  .bk-note b { color: var(--text-muted); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  /* 検索窓 */
+  .search-wrap { position: relative; margin: 1.1rem 0 0.7rem; }
+  .search-wrap .s-ico { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--text-hint); pointer-events: none; }
+  #search {
+    width: 100%; font-family: inherit; font-size: 15px; color: var(--text);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 11px;
+    padding: 12px 40px; -webkit-appearance: none; appearance: none; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
   }
-  .search-input {
-    width: 100%;
-    font-family: inherit; font-size: 15px; color: var(--text);
-    background: var(--surface);
-    border: 1px solid var(--border); border-radius: 999px;
-    padding: 13px 42px 13px 42px;
-    outline: none;
-    transition: border-color 0.12s, box-shadow 0.12s;
-    -webkit-appearance: none;
-  }
-  .search-input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(133,79,11,0.10);
-  }
-  .search-input::placeholder { color: var(--text-hint); }
-  .clear-btn {
-    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-    width: 28px; height: 28px; border: none; background: transparent;
-    color: var(--text-hint); font-size: 18px; cursor: pointer;
+  #search:focus { border-color: var(--n4); box-shadow: 0 0 0 3px var(--n4-bg); }
+  #search::placeholder { color: var(--text-hint); }
+  #search::-webkit-search-cancel-button { display: none; }
+  .s-clear {
+    position: absolute; right: 9px; top: 50%; transform: translateY(-50%);
+    width: 26px; height: 26px; border: none; background: #ECE8E1; color: var(--text-muted);
+    border-radius: 50%; font-size: 16px; line-height: 1; cursor: pointer; padding: 0;
     display: none; align-items: center; justify-content: center;
-    border-radius: 50%;
   }
-  .clear-btn:hover { background: #F0EEE8; color: var(--text-muted); }
-  .clear-btn.show { display: flex; }
+  .s-clear.show { display: flex; }
 
-  /* 絞り込みチップ */
-  .chips {
-    display: flex; gap: 8px; margin-top: 10px;
-    overflow-x: auto; -webkit-overflow-scrolling: touch;
-    padding-bottom: 2px;
-    scrollbar-width: none;
-  }
-  .chips::-webkit-scrollbar { display: none; }
-  .chip {
-    flex-shrink: 0;
-    font-size: 12px; font-weight: 700;
-    padding: 7px 14px; border-radius: 999px;
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--text-muted); cursor: pointer;
-    transition: all 0.12s;
-    -webkit-tap-highlight-color: transparent;
-    white-space: nowrap;
-  }
-  .chip:hover { border-color: #cfc9c0; }
-  .chip.active {
-    background: var(--accent); border-color: var(--accent); color: #fff;
-  }
+  .result-meta { font-size: 11px; color: var(--text-hint); margin: 0 2px 1rem; }
 
-  /* 件数 */
-  .result-count {
-    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
-    color: var(--text-hint); margin: 0.9rem 2px 0.5rem;
+  /* 五十音の行見出し */
+  .goju-head {
+    display: inline-block; font-size: 14px; font-weight: 800; color: var(--n4);
+    background: var(--n4-bg); padding: 2px 13px; border-radius: 999px; margin: 1.4rem 0 0.6rem;
   }
-  mark {
-    background: #FBE7C2; color: inherit; border-radius: 3px; padding: 0 1px;
-  }
+  .goju-head:first-of-type { margin-top: 0.2rem; }
 
-  /* 教科書セクション */
-  .book-section { margin-top: 1.4rem; }
-  .book-head { display: flex; align-items: center; gap: 10px; margin: 0 2px 0.7rem; }
-  .book-bar { width: 4px; height: 18px; border-radius: 2px; flex-shrink: 0; }
-  .book-title { font-size: 15px; font-weight: 700; }
-  .book-num { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-left: auto; }
+  /* カードの分類タグ */
+  .bk-cat { font-size: 10px; font-weight: 700; color: var(--text-hint); letter-spacing: 0.03em; margin-bottom: 5px; }
+  .bk-cat b { color: var(--text-muted); font-weight: 700; }
 
-  /* 課ブロック */
-  .lesson-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 4px 16px;
-    margin-bottom: 10px;
-  }
-  .lesson-head {
-    display: flex; align-items: center; gap: 8px;
-    padding: 12px 0 8px;
-  }
-  .lesson-badge {
-    font-size: 12px; font-weight: 700;
-    padding: 3px 10px; border-radius: 8px;
-    letter-spacing: 0.02em;
-  }
-  .lesson-label { font-size: 12px; color: var(--text-hint); font-weight: 700; }
-  .pattern-row {
-    display: flex; gap: 10px; align-items: baseline;
-    padding: 10px 0;
-    border-top: 1px solid var(--border);
-    font-size: 14.5px; line-height: 1.55;
-  }
-  .pattern-row .dot {
-    color: var(--text-hint); flex-shrink: 0; font-size: 12px; margin-top: 1px;
-  }
+  .no-result { text-align: center; color: var(--text-muted); padding: 36px 10px; font-size: 14px; line-height: 1.7; }
 
-  /* 空状態 */
-  .empty {
-    text-align: center; color: var(--text-hint);
-    padding: 3rem 1rem; font-size: 14px; line-height: 1.7;
+  /* モード切替（解説 / 課別） */
+  .mode-toggle { display: flex; gap: 6px; margin: 1rem 0 0.9rem; background: #ECE8E1; padding: 4px; border-radius: 11px; }
+  .mode-toggle button {
+    flex: 1; padding: 10px 4px; font-size: 13.5px; font-weight: 700; color: var(--text-muted);
+    background: transparent; border: none; border-radius: 8px; cursor: pointer; font-family: inherit;
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s; -webkit-tap-highlight-color: transparent;
   }
-  .empty .big { font-size: 30px; margin-bottom: 10px; }
+  .mode-toggle button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
 
-  .app-footer {
-    text-align: center; font-size: 11px; color: var(--text-hint);
-    margin-top: 2.5rem; line-height: 1.8;
-  }
+  /* みんなの日本語 課タグ（解説カード内） */
+  .mina-tag { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 2px 9px; border-radius: 8px; background: #F1EEE8; color: var(--text-muted); margin-top: 9px; }
+  .mina-tag .b { color: var(--n2); }
+
+  /* 課別モード */
+  .ka-head { display: flex; align-items: baseline; gap: 9px; margin: 1.5rem 0 0.6rem; }
+  .ka-head:first-of-type { margin-top: 0.3rem; }
+  .ka-badge { font-size: 14px; font-weight: 800; padding: 3px 12px; border-radius: 999px; }
+  .ka-book { font-size: 11px; font-weight: 700; color: var(--text-hint); }
+  .ka-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 3px 16px; margin-bottom: 10px; }
+  .ka-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 11px 0; border-top: 1px solid var(--border); font-size: 14.5px; line-height: 1.5; }
+  .ka-row:first-child { border-top: none; }
+  .ka-row .kdot { color: var(--text-hint); font-size: 11px; flex-shrink: 0; }
+  .ka-row .kp { flex: 1; min-width: 55%; }
+  .row-tags { display: flex; gap: 5px; margin-left: auto; flex-shrink: 0; }
+  .tg { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; border: none; cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent; }
+  .tg-book { background: #F1EEE8; color: var(--text-muted); }
+  .tg.lv-n5 { background: var(--n5-bg); color: var(--n5); }
+  .tg.lv-n4 { background: var(--n4-bg); color: var(--n4); }
+  .tg.lv-n3 { background: var(--n3-bg); color: var(--n3); }
+  .tg.lv-n2 { background: var(--n2-bg); color: var(--n2); }
+  .tg.lv-n1 { background: var(--n1-bg); color: var(--n1); }
+  .book-sec-head { display: flex; align-items: center; gap: 9px; font-size: 16px; font-weight: 700; margin: 1.7rem 0 0.8rem; }
+  .book-sec:first-child .book-sec-head { margin-top: 0.4rem; }
+  .book-bar { width: 4px; height: 19px; border-radius: 2px; flex-shrink: 0; }
+  .book-sec-num { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--text-hint); }
+  .ka-links { padding: 11px 0 13px; border-top: 1px dashed var(--border); display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+  .ka-links .lab { font-size: 11px; font-weight: 700; color: var(--text-hint); }
+  .ka-link { font-size: 12px; font-weight: 700; color: var(--n5); background: var(--n5-bg); padding: 3px 10px; border-radius: 999px; text-decoration: none; cursor: pointer; border: none; font-family: inherit; }
+  .ka-link:hover { filter: brightness(0.97); }
+  mark { background: #FBE7C2; color: inherit; border-radius: 3px; padding: 0 1px; }
 </style>
 </head>
 <body>
 <div class="container">
 
-  <a href="index.html" class="back-link">‹ トップにもどる</a>
+  <a href="katsuyo.html" class="back">‹ 活用表にもどる</a>
 
-  <div class="page-header">
-    <div class="page-logo">GRAMMAR ・ 文型さがし</div>
-    <div class="page-title">文型さがし</div>
-    <div class="page-sub">教科書で習う文型を、ことばや課から検索できます。</div>
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">文型解説</div>
+    <div class="app-sub">活用を使う文型 ・ Grammar Patterns</div>
+  </div>
+
+  <div class="mode-toggle" id="mode">
+    <button data-mode="kaisetsu" class="on">解説で見る</button>
+    <button data-mode="book">教科書で見る</button>
   </div>
 
   <div class="search-wrap">
-    <div class="search-box">
-      <span class="icon">🔍</span>
-      <input id="q" class="search-input" type="text" inputmode="search"
-             placeholder="文型・ことば・課番号でさがす（例：たい、て形、15）"
-             autocomplete="off" spellcheck="false">
-      <button id="clear" class="clear-btn" aria-label="クリア">×</button>
-    </div>
-    <div id="chips" class="chips"></div>
+    <span class="s-ico">🔍</span>
+    <input id="search" type="search" inputmode="search" autocomplete="off" placeholder="文型・タグでさがす（例：たい・N5・15課）">
+    <button id="sClear" class="s-clear" type="button" aria-label="消す">×</button>
   </div>
 
-  <div id="count" class="result-count"></div>
-  <div id="results"></div>
+  <div class="filter" id="filter">
+    <button data-lv="all" class="on">すべて</button>
+    <button data-lv="N5">N5</button>
+    <button data-lv="N4">N4</button>
+    <button data-lv="N3">N3</button>
+    <button data-lv="N2">N2</button>
+    <button data-lv="N1">N1</button>
+  </div>
+
+  <div class="filter" id="filterBook" style="display:none;"></div>
+
+  <div class="result-meta" id="meta"></div>
+
+  <div id="list"></div>
 
   <div class="app-footer">
+    例文・レベルは目安です（『みんなの日本語』ほか参考）<br>
     © 2025 日本語の部屋
   </div>
 
 </div>
 
 <script>
-/* =========================================================
-   文型データ（教科書 → 課 → 文型）
-   ★ ほかの教科書を足すときは、この配列に同じ形で1つ追加してください。
-      id / name / short / accent(色) / badgeBg(バッジ背景) / lessons[{l:課番号, p:[文型...]}]
-   ========================================================= */
-const TEXTBOOKS = [
-  {
-    id: "minna1", name: "みんなの日本語 初級Ⅰ", short: "みんⅠ",
-    accent: "#3B6D11", badgeBg: "#EAF3DE",
-    lessons: [
-      { l: 1,  p: ["～は～です（名前・国籍・身分・職業）", "～は～じゃ（では）ありません", "～は～ですか", "～は～の～です（所属）", "～も～です", "～は－歳です"] },
-      { l: 2,  p: ["これ／それ／あれは～です", "それは～ですか、～ですか", "これは～の～です（内容）", "これは〈人〉の～です（所有）", "この～は〈人〉のです"] },
-      { l: 3,  p: ["ここは〈場所〉です", "〈場所〉はあそこです", "〈場所・物・人〉は～です", "～はこちらです", "国／会社は～です", "～は～の～です（内容）", "～は－円です"] },
-      { l: 4,  p: ["－時－分です", "～は～曜日と～曜日です", "～は－時から－時までです", "－時に～ます", "～から～まで～ます", "～ます、～ました", "～ます／～ません／～ました／～ませんでした"] },
-      { l: 5,  p: ["〈場所〉へ行きます", "〈乗り物〉で行きます", "〈人〉と行きます", "〈日時〉に行きます"] },
-      { l: 6,  p: ["～を〈動詞〉ます", "～を食べます／飲みます", "〈場所〉で～ます", "いっしょに～ませんか", "～ましょう"] },
-      { l: 7,  p: ["～で～ます（道具・手段）", "～で～ます（言語）", "～は〈言語〉で～です", "わたしは〈人〉に〈物〉をあげます", "わたしは〈人〉に（から）〈物〉をもらいます", "もう～ました／まだです"] },
-      { l: 8,  p: ["～は〈形容詞〉です", "〈な形容詞〉です／じゃありません", "〈い形容詞〉です／くないです", "～は〈い形容詞〉〈名詞〉です", "～は〈な形容詞〉〈名詞〉です"] },
-      { l: 9,  p: ["～は～が好きです", "～は～が上手です", "～は～がわかります", "～は～があります", "～から、～（理由）"] },
-      { l: 10, p: ["～に～がいます", "～に～があります", "～の〈位置〉に～があります／います", "～は～にいます", "～は～にあります"] },
-      { l: 11, p: ["助数詞（－つ）があります", "助数詞（－枚／－台）", "助数詞（－人）", "〈期間〉に〈－回〉～ます", "〈期間〉～ます", "〈期間〉かかります"] },
-      { l: 12, p: ["〈名詞／形容詞〉でした／かったです", "名詞・形容詞の過去時制", "～は～より〈形容詞〉です", "～と～とどちらが〈形容詞〉ですか", "～のほうが〈形容詞〉です", "～［の中］で、～がいちばん〈形容詞〉です"] },
-      { l: 13, p: ["わたしは～がほしいです", "～を（が）〈ます形〉＋たいです", "～たいです／～たくないです", "～へ〈ます形／名詞〉に行きます／来ます"] },
-      { l: 14, p: ["〈て形〉の活用", "〈て形〉＋ください", "〈ます形〉＋ましょうか", "〈て形〉＋います（進行）"] },
-      { l: 15, p: ["〈て形〉＋もいいですか", "〈て形〉＋はいけません", "〈て形〉＋います（状態、身分・職業）"] },
-      { l: 16, p: ["〈て形〉、〈て形〉～（動作の順序）", "〈て形〉＋から、～", "～は～が～", "〈い形容詞〉くて、～／〈な形容詞・名詞〉で、～"] },
-      { l: 17, p: ["〈ない形〉の活用", "〈ない形〉＋ないでください", "〈ない形〉＋なければなりません", "〈ない形〉＋なくてもいいです", "～は（目的語のとりたて）"] },
-      { l: 18, p: ["〈辞書形〉の活用", "〈名詞〉＋ができます／〈辞書形〉＋ことができます（能力）", "〈名詞〉＋ができます／〈辞書形〉＋ことができます（可能性）", "趣味は〈名詞／辞書形＋こと〉です", "〈辞書形／名詞の／期間〉＋まえに"] },
-      { l: 19, p: ["〈た形〉の活用", "〈た形〉＋ことがあります", "〈た形〉＋り、〈た形〉＋りします", "〈い形容詞〉くなります／〈な形容詞・名詞〉になります"] },
-      { l: 20, p: ["普通形", "普通体の動詞文・形容詞文・名詞文", "後続句を用いた文型"] },
-      { l: 21, p: ["〈普通形〉＋と思います（推測）", "〈普通形〉＋と思います（意見）", "「文」〈普通形〉＋と言います", "〈普通形〉＋でしょう？"] },
-      { l: 22, p: ["名詞修飾", "これは〈名詞修飾〉です", "〈名詞修飾〉は～です", "～は〈名詞修飾〉を～", "～は〈名詞修飾〉が～", "〈名詞修飾〉（時間・約束・用事）があります"] },
-      { l: 23, p: ["〈動詞普通形〉＋とき、～", "〈辞書形・た形〉＋とき、～", "〈形容詞／名詞の〉＋とき、～", "〈動詞辞書形〉＋と、～"] },
-      { l: 24, p: ["～をくれます", "これは～です。～が～ます。", "〈て形〉＋もらいます", "〈て形〉＋くれます", "〈て形〉＋あげます"] },
-      { l: 25, p: ["活用〈～たら〉〈～ても〉", "普通形過去＋ら、～（仮定条件）", "〈た形〉＋ら、～（確定条件）", "〈て形／い形容詞くて〉＋も、～／〈な形容詞・名詞〉で＋も、～（逆説の仮定条件）"] }
-    ]
-  },
-  {
-    id: "minna2", name: "みんなの日本語 初級Ⅱ", short: "みんⅡ",
-    accent: "#185FA5", badgeBg: "#E6F1FB",
-    lessons: [
-      { l: 26, p: ["～んですか", "どうして～んですか", "～ません。～んです", "～んですが、～ていただけませんか", "～んですが、疑問詞～たらいいですか"] },
-      { l: 27, p: ["～が（可能動詞）", "～が見えます／聞こえます", "～ができます（成立・実現）", "～しか～ません", "～は、～は～（対比）"] },
-      { l: 28, p: ["～ながら", "～ています（習慣）", "～し、～し、～（並列描写）", "～し、～し、～（理由の列挙）", "どうして、～んですか", "～し、～から"] },
-      { l: 29, p: ["～が〈自動詞〉ています", "～は〈自動詞〉ています", "〈て形〉＋しまいました（完了）", "〈て形〉＋しまいました（遺憾）"] },
-      { l: 30, p: ["～が～てあります", "～は～てあります", "〈て形〉＋おきます（準備）", "〈て形〉＋おきます（措置）", "〈て形〉＋おきます（放置）"] },
-      { l: 31, p: ["意向形", "〈意向形〉＋と思っています", "まだ～ていません", "～つもりです", "～予定です"] },
-      { l: 32, p: ["～ほうがいいです", "～でしょう", "～かもしれません"] },
-      { l: 33, p: ["命令形", "禁止形", "「～」と書いてあります／読みます", "～は～という意味です", "～と言っていました", "～と伝えていただけませんか"] },
-      { l: 34, p: ["～とおりに、～", "～あとで、～", "～て／～ないで～", "～ないで、～"] },
-      { l: 35, p: ["〈動詞〉＋ば、～", "〈い形容詞〉ければ、～", "〈な形容詞／名詞〉なら、～", "疑問詞～ばいいですか", "〈名詞〉なら、～"] },
-      { l: 36, p: ["～ように、～（目標）", "～ようになります（変化）", "～ようにしています（習慣）", "～ようにしてください"] },
-      { l: 37, p: ["〈人〉は～に～（ら）れます（受身）", "〈人〉は～に〈所有物〉を～（ら）れます", "〈物〉が～（ら）れます"] },
-      { l: 38, p: ["～のは〈形容詞〉です", "～のが〈形容詞〉です", "～のを忘れました", "～のを知っています", "～のは〈名詞〉です"] },
-      { l: 39, p: ["〈て形〉、～（原因・理由）", "〈い形容詞〉くて、～", "〈な形容詞〉で、～", "〈名詞〉で、～", "～ので、～"] },
-      { l: 40, p: ["疑問詞～か、～", "～かどうか、～", "〈て形〉＋みます"] },
-      { l: 41, p: ["～をいただきます", "～をくださいます", "～をやります", "〈て形〉＋いただきます", "〈て形〉＋くださいます", "〈て形〉＋やります", "〈て形〉＋くださいませんか"] },
-      { l: 42, p: ["～ために、～（目的）", "～は～のに、～（用途）", "～のに～かかります"] },
-      { l: 43, p: ["～そうです（様態・動詞）", "～そうです（様態・形容詞）", "〈て形〉＋来ます"] },
-      { l: 44, p: ["～すぎます", "～やすい／～にくい", "〈い形容詞〉く／〈な形容詞〉にします", "〈名詞〉にします"] },
-      { l: 45, p: ["～場合は、～", "～のに、～（逆接）"] },
-      { l: 46, p: ["～ところです", "～たばかりです", "～はずです"] },
-      { l: 47, p: ["～そうです（伝聞）", "～ようです（推量）"] },
-      { l: 48, p: ["～させます（強制）", "～させます（容認）", "～させていただけませんか"] },
-      { l: 49, p: ["～（ら）れます（尊敬）", "お～になります", "特別な尊敬語", "お／ご～ください"] },
-      { l: 50, p: ["お／ご～します（謙譲）", "特別な謙譲語（目上のための行為）", "特別な謙譲語（自分自身のこと）"] }
-    ]
-  }
+const CATBAR={ '動詞':'#185FA5', 'い形容詞':'#854F0B', 'な形容詞':'#1F6F6B' };
+const D=[
+  // 動詞 ・ 辞書形
+  {cat:'動詞',form:'辞書形',id:'dict-koto-dekiru',p:'〜ことができる',lvl:'N4',en:'can do ~ / be able to ~',setu:'辞書形 ＋ ことができます',ex:[['私はピアノを弾くことができます。','I can play the piano.'],['ここで写真を撮ることができます。','You can take photos here.']],note:'名詞のときは「名詞＋ができます」。'},
+  {cat:'動詞',form:'辞書形',id:'dict-mae-ni',p:'〜まえに',lvl:'N4',en:'before doing ~',setu:'辞書形 ＋ まえに',ex:[['寝るまえに、歯をみがきます。','I brush my teeth before going to bed.']],note:'名詞のときは「名詞＋のまえに」（食事のまえに）。'},
+  {cat:'動詞',form:'辞書形',id:'dict-toki',p:'〜とき',lvl:'N4',en:'when ~',setu:'辞書形・た形・ない形・い形/な形/名詞 ＋ とき',ex:[['日本へ行くとき、かばんを買いました。','When I was on my way to Japan, I bought a bag.'],['子どものとき、よく泣きました。','When I was a child, I cried a lot.']],note:'「行くとき」は出発前、「行ったとき」は到着後。'},
+  {cat:'動詞',form:'辞書形',id:'dict-tsumori',p:'〜つもりです',lvl:'N4',en:'intend to ~ / plan to ~',setu:'辞書形 ＋ つもりです（否定は ないつもりです）',ex:[['夏休みに国へ帰るつもりです。','I intend to go back to my country during summer vacation.']],note:''},
+  {cat:'動詞',form:'辞書形',id:'tameni',p:'〜ために',lvl:'N3',en:"in order to ~ (purpose)",setu:'辞書形 ＋ ために',ex:[['日本語を勉強するために、日本へ来ました。',"I came to Japan in order to study Japanese."]],note:'名詞のときは「名詞＋のために」。'},
+  {cat:'動詞',form:'辞書形',id:'tokoroda',p:'〜ところだ',lvl:'N3',en:"be about to ~",setu:'辞書形 ＋ ところだ',ex:[['これから出かけるところです。',"I'm just about to go out now."]],note:'「〜ているところ」＝最中、「〜たところ」＝直後。'},
+  {cat:'動詞',form:'辞書形',id:'uchini',p:'〜うちに',lvl:'N3',en:"while ~ / before it changes",setu:'辞書形・〜ている・ない形 ＋ うちに',ex:[['熱いうちに、召し上がってください。',"Please eat it while it's hot."]],note:'名詞のときは「名詞＋のうちに」。'},
+  {cat:'動詞',form:'辞書形',id:'kotonisuru',p:'〜ことにする',lvl:'N4',en:"decide to ~",setu:'辞書形・ない形 ＋ ことにする',ex:[['来月から運動することにしました。',"I've decided to start exercising next month."]],note:'自分の意志で決めるとき。'},
+  {cat:'動詞',form:'辞書形',id:'kotoninaru',p:'〜ことになる',lvl:'N4',en:"it has been decided that ~",setu:'辞書形・ない形 ＋ ことになる',ex:[['来月、大阪へ転勤することになりました。',"It has been decided that I'll be transferred to Osaka next month."]],note:'自分の決定は「ことにする」。'},
+  {cat:'動詞',form:'辞書形',id:'bekida',p:'〜べきだ',lvl:'N2',en:"should ~ / ought to ~",setu:'辞書形 ＋ べきだ（する→すべき／するべき）',ex:[['約束は守るべきだ。',"You should keep your promises."]],note:'否定は「〜べきではない」。'},
+  {cat:'動詞',form:'辞書形',id:'tokorodatta',p:'〜ところだった',lvl:'N2',en:"almost ~ed / was about to ~",setu:'辞書形 ＋ ところだった',ex:[['あぶない！車にぶつかるところだった。',"Watch out! I almost got hit by a car."]],note:'実際には起こらなかったことを表す。'},
+  // 動詞 ・ 普通形（推量・伝聞）
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'souda-hearsay',p:'〜そうだ',lvl:'N3',en:"I hear that ~ (hearsay)",setu:'普通形 ＋ そうだ',ex:[['田中さんは来月結婚するそうだ。',"I hear that Mr. Tanaka is getting married next month."]],note:'様態の「降りそうだ（=今にも降る）」とは別。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'youda',p:'〜ようだ／みたいだ',lvl:'N3',en:"it seems ~ / looks like ~",setu:'普通形 ＋ ようだ（な形＋な・名詞＋の）',ex:[['だれか来たようだ。',"It seems that someone has come."]],note:'話し言葉では「みたいだ」。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'rashii',p:'〜らしい',lvl:'N3',en:"apparently ~ / seem ~",setu:'普通形 ＋ らしい',ex:[['山田さんは会社をやめたらしい。',"Apparently Mr. Yamada has quit the company."]],note:'人から聞いた情報にもとづく推量。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'hazuda',p:'〜はずだ',lvl:'N3',en:"should be ~ / be supposed to",setu:'普通形 ＋ はずだ（な形＋な・名詞＋の）',ex:[['彼は今日来るはずです。',"He is supposed to come today."]],note:'根拠のある確信。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'kamoshirenai',p:'〜かもしれない',lvl:'N3',en:"might ~ / maybe ~",setu:'普通形 ＋ かもしれない',ex:[['明日は雨が降るかもしれません。',"It might rain tomorrow."]],note:'可能性は「〜だろう」より低い。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'darou',p:'〜だろう／でしょう',lvl:'N3',en:"probably ~",setu:'普通形 ＋ だろう（ていねいは でしょう）',ex:[['試験は難しいだろう。',"The exam will probably be difficult."]],note:'「でしょう？」と上げると確認になる。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'nichigainai',p:'〜にちがいない',lvl:'N2',en:"must be ~ / surely ~",setu:'普通形 ＋ にちがいない',ex:[['彼は知っているにちがいない。',"He must know."]],note:'強い確信。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'monoda',p:'〜ものだ',lvl:'N2',en:"should ~ / used to ~ (general truth)",setu:'普通形 ＋ ものだ',ex:[['子どもは早く寝るものだ。',"Children should go to bed early."]],note:'「〜たものだ」は「昔よく〜した」。'},
+  // 動詞 ・ 普通形（理由・逆接）
+  {cat:'動詞',form:'普通形（理由・逆接）',id:'node',p:'〜ので',lvl:'N3',en:"because ~ (reason)",setu:'普通形 ＋ ので（な形＋な・名詞＋な）',ex:[['用事があるので、お先に失礼します。',"I have something to do, so I'll leave first."]],note:'「から」よりていねい・客観的。'},
+  {cat:'動詞',form:'普通形（理由・逆接）',id:'noni',p:'〜のに',lvl:'N3',en:"although ~ / even though ~",setu:'普通形 ＋ のに（な形＋な・名詞＋な）',ex:[['薬を飲んだのに、まだ熱が下がらない。',"Even though I took medicine, my fever still hasn't gone down."]],note:'意外・不満の気持ちを含む。'},
+  {cat:'動詞',form:'普通形（理由・逆接）',id:'shi',p:'〜し',lvl:'N3',en:"and (besides) ~ (listing reasons)",setu:'普通形 ＋ し',ex:[['この店は安いし、おいしい。',"This shop is cheap, and the food is good too."]],note:'理由を並べて述べる。'},
+  {cat:'動詞',form:'普通形（理由・逆接）',id:'kuseni',p:'〜くせに',lvl:'N2',en:"even though ~ (criticism)",setu:'普通形 ＋ くせに',ex:[['知っているくせに、教えてくれない。',"Even though he knows, he won't tell me."]],note:'非難・不満の気持ちを含む。主語は同じ。'},
+  {cat:'動詞',form:'普通形（理由・逆接）',id:'wakeda',p:'〜わけだ',lvl:'N2',en:"that's why ~ / no wonder ~",setu:'普通形 ＋ わけだ',ex:[['道理で寒いわけだ。雪が降っている。',"No wonder it's cold — it's snowing."]],note:'当然の結論として納得するとき。'},
+  // 動詞 ・ 連用形（ます形）
+  {cat:'動詞',form:'連用形（ます形）',id:'masu-tai',p:'〜たいです',lvl:'N5',en:'want to ~',setu:'ます形（語幹）＋ たいです',ex:[['冷たい水が飲みたいです。','I want to drink some cold water.']],note:'他人の願望は「〜たがっています」。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'masu-nagara',p:'〜ながら',lvl:'N4',en:'while doing ~',setu:'ます形（語幹）＋ ながら',ex:[['音楽を聞きながら、勉強します。','I study while listening to music.']],note:'二つの動作を同時にする。主語は同じ。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'masu-mashou',p:'〜ましょう',lvl:'N5',en:"let's ~ / shall we ~",setu:'ます形（語幹）＋ ましょう／ましょうか／ませんか',ex:[['いっしょに昼ごはんを食べましょう。',"Let's eat lunch together."]],note:'「〜ませんか」はより控えめな誘い方。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'masu-yasui',p:'〜やすい／〜にくい',lvl:'N4',en:'easy / hard to ~',setu:'ます形（語幹）＋ やすい／にくい',ex:[['このペンは書きやすいです。','This pen is easy to write with.'],['この道は暗くて歩きにくいです。','This street is dark and hard to walk on.']],note:'い形容詞として活用する。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'sugiru',p:'〜すぎる',lvl:'N3',en:"too much / over~",setu:'ます形（語幹）＋ すぎる',ex:[['ゆうべは飲みすぎました。',"I drank too much last night."]],note:'い形・な形にも付く（高すぎる・ひますぎる）。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'hajimeru',p:'〜はじめる',lvl:'N3',en:"start ~ing",setu:'ます形（語幹）＋ 始める（／終わる・続ける）',ex:[['桜が咲き始めました。',"The cherry blossoms have started to bloom."]],note:'「〜終わる」「〜続ける」も同じ作り方。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'tagaru',p:'〜たがる',lvl:'N3',en:"(third person) wants to ~",setu:'ます形（語幹）＋ たがる',ex:[['子どもは外で遊びたがる。',"Children want to play outside."]],note:'自分の願望は「〜たい」。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'nasai',p:'〜なさい',lvl:'N4',en:"(gentle command) do ~",setu:'ます形（語幹）＋ なさい',ex:[['早く起きなさい。',"Get up quickly."]],note:'親が子に、先生が生徒に使う。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'youganai',p:'〜ようがない',lvl:'N2',en:"there's no way to ~",setu:'ます形（語幹）＋ ようがない',ex:[['連絡先がないので、知らせようがない。',"I have no contact details, so there's no way to let them know."]],note:'手段がなくて不可能なとき。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'tsutsuaru',p:'〜つつある',lvl:'N1',en:"be gradually ~ing",setu:'ます形（語幹）＋ つつある',ex:[['景気は回復しつつある。',"The economy is gradually recovering."]],note:'書き言葉的。変化が進行中であることを表す。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'kaneru',p:'〜かねる',lvl:'N1',en:"cannot ~ / be unable to ~",setu:'ます形（語幹）＋ かねる',ex:[['その件については、お答えしかねます。',"I am unable to answer regarding that matter."]],note:'ていねいに断るときに使う改まった表現。'},
+  // 動詞 ・ て形
+  {cat:'動詞',form:'て形',id:'te-kudasai',p:'〜てください',lvl:'N5',en:'please do ~ (request)',setu:'て形 ＋ ください',ex:[['ここに住所を書いてください。','Please write your address here.']],note:'やわらかく言うときは「〜てくださいませんか」。'},
+  {cat:'動詞',form:'て形',id:'te-mo-ii',p:'〜てもいいです',lvl:'N5',en:"may ~ / it's OK to ~ (permission)",setu:'て形 ＋ もいいです',ex:[['ここでたばこを吸ってもいいですか。','May I smoke here?']],note:'答えは「はい、どうぞ」「いいえ、〜てはいけません」。'},
+  {cat:'動詞',form:'て形',id:'te-wa-ikenai',p:'〜てはいけません',lvl:'N5',en:'must not ~ (prohibition)',setu:'て形 ＋ はいけません',ex:[['ここに入ってはいけません。','You must not enter here.']],note:'話し言葉では「〜ちゃいけない」。'},
+  {cat:'動詞',form:'て形',id:'te-iru',p:'〜ています',lvl:'N5',en:'be ~ing / state / habit',setu:'て形 ＋ います',ex:[['今、雨が降っています。','It is raining now.'],['兄は銀行で働いています。','My older brother works at a bank.']],note:'進行・結果の状態・習慣を表す。'},
+  {cat:'動詞',form:'て形',id:'te-kara',p:'〜てから',lvl:'N4',en:'after doing ~',setu:'て形 ＋ から',ex:[['手を洗ってから、ごはんを食べます。','I eat after washing my hands.']],note:'前の動作が終わってから次をする。'},
+  {cat:'動詞',form:'て形',id:'temiru',p:'〜てみる',lvl:'N4',en:"try ~ing",setu:'て形 ＋ みる',ex:[['この服を着てみてもいいですか。',"May I try on this dress?"]],note:'ためしに何かをする。'},
+  {cat:'動詞',form:'て形',id:'temo',p:'〜ても',lvl:'N3',en:"even if ~",setu:'て形 ＋ も',ex:[['雨が降っても、行きます。',"Even if it rains, I'll go."]],note:'疑問詞と使うと「いくら〜ても」。'},
+  {cat:'動詞',form:'て形',id:'teshimau',p:'〜てしまう',lvl:'N3',en:"do completely / by mistake (regret)",setu:'て形 ＋ しまう',ex:[['大切な書類をなくしてしまった。',"I lost an important document (unfortunately)."]],note:'完了、または残念な気持ち。話し言葉「〜ちゃう」。'},
+  {cat:'動詞',form:'て形',id:'teoku',p:'〜ておく',lvl:'N3',en:"do ~ in advance / leave as is",setu:'て形 ＋ おく',ex:[['旅行の前にホテルを予約しておきます。',"I'll book a hotel in advance before the trip."]],note:'準備。話し言葉「〜とく」。'},
+  {cat:'動詞',form:'て形',id:'tehoshii',p:'〜てほしい',lvl:'N3',en:"want someone to ~",setu:'て形 ＋ ほしい',ex:[['もっと早く来てほしかった。',"I wanted you to come earlier."]],note:'相手にしてもらいたいこと。'},
+  // 動詞 ・ ない形
+  {cat:'動詞',form:'ない形',id:'nai-de-kudasai',p:'〜ないでください',lvl:'N5',en:"please don't ~",setu:'ない形 ＋ でください',ex:[['ここで写真を撮らないでください。',"Please don't take photos here."]],note:''},
+  {cat:'動詞',form:'ない形',id:'nakereba-naranai',p:'〜なければなりません',lvl:'N4',en:'must ~ / have to ~',setu:'ない形（語幹）＋ なければなりません',ex:[['毎日薬を飲まなければなりません。','I have to take medicine every day.']],note:'＝「〜なくてはいけません」。話し言葉「〜なきゃ」。'},
+  {cat:'動詞',form:'ない形',id:'nakutemo-ii',p:'〜なくてもいいです',lvl:'N4',en:"don't have to ~",setu:'ない形（語幹）＋ なくてもいいです',ex:[['明日は来なくてもいいです。',"You don't have to come tomorrow."]],note:''},
+  {cat:'動詞',form:'ない形',id:'nai-hou-ga-ii',p:'〜ないほうがいいです',lvl:'N4',en:'had better not ~ (advice)',setu:'ない形 ＋ ほうがいいです',ex:[['たばこは吸わないほうがいいです。',"You'd better not smoke."]],note:'肯定の助言は「た形＋ほうがいいです」。'},
+  {cat:'動詞',form:'ない形',id:'naito',p:'〜ないと（いけない）',lvl:'N4',en:"have to ~ / if not ~",setu:'ない形 ＋ と（いけない・だめだ）',ex:[['もう行かないと。',"I have to go now."]],note:'「〜なければならない」のくだけた言い方。'},
+  {cat:'動詞',form:'ない形',id:'nakunaru',p:'〜なくなる',lvl:'N3',en:"come not to ~ / stop ~ing",setu:'ない形（語幹）＋ なくなる',ex:[['最近、彼は学校に来なくなった。',"Recently he stopped coming to school."]],note:'できなくなる変化は「〜られなくなる」。'},
+  // 動詞 ・ た形
+  {cat:'動詞',form:'た形',id:'ta-koto-ga-aru',p:'〜たことがあります',lvl:'N4',en:'have done ~ (experience)',setu:'た形 ＋ ことがあります',ex:[['北海道へ行ったことがあります。','I have been to Hokkaido.']],note:'過去の経験を表す。'},
+  {cat:'動詞',form:'た形',id:'ta-hou-ga-ii',p:'〜たほうがいいです',lvl:'N4',en:'had better ~ (advice)',setu:'た形 ＋ ほうがいいです',ex:[['早く病院へ行ったほうがいいです。',"You'd better go to the hospital soon."]],note:''},
+  {cat:'動詞',form:'た形',id:'tari-tari',p:'〜たり〜たりします',lvl:'N4',en:'do things like ~ and ~',setu:'た形 ＋ り、〜た形 ＋ り します',ex:[['日曜日はそうじをしたり、せんたくをしたりします。','On Sundays I do things like cleaning and laundry.']],note:'動作を例として並べる。'},
+  {cat:'動詞',form:'た形',id:'ta-ato-de',p:'〜たあとで',lvl:'N4',en:'after ~',setu:'た形 ＋ あとで',ex:[['仕事が終わったあとで、飲みに行きます。','After work, I go out for a drink.']],note:'名詞のときは「名詞＋のあとで」。'},
+  {cat:'動詞',form:'た形',id:'tara',p:'〜たら',lvl:'N4',en:"if / when ~",setu:'た形 ＋ ら',ex:[['駅に着いたら、電話してください。',"When you arrive at the station, please call me."]],note:'最も広く使える条件表現。'},
+  {cat:'動詞',form:'た形',id:'tatokoro',p:'〜たところ',lvl:'N3',en:"have just ~ed",setu:'た形 ＋ ところだ',ex:[['今、家に帰ってきたところです。',"I've just come home now."]],note:'動作の直後を表す。'},
+  {cat:'動詞',form:'た形',id:'tabakari',p:'〜たばかり',lvl:'N3',en:"just did ~ (a moment ago)",setu:'た形 ＋ ばかりだ',ex:[['さっき昼ごはんを食べたばかりです。',"I just ate lunch a little while ago."]],note:'「〜たところ」より時間に幅がある。'},
+  {cat:'動詞',form:'た形',id:'tamama',p:'〜たまま',lvl:'N3',en:"leaving ~ (in a state)",setu:'た形 ＋ まま',ex:[['電気をつけたまま、寝てしまった。',"I fell asleep with the light left on."]],note:'ある状態が続いたまま次のことをする。'},
+  // 動詞 ・ 意向形
+  {cat:'動詞',form:'意向形',id:'you-to-omou',p:'〜（よ）うと思います',lvl:'N4',en:'I think I will ~ / intend to ~',setu:'意向形 ＋ と思います',ex:[['週末はうちで休もうと思います。','I think I will rest at home this weekend.']],note:'その場で決めたことは「〜ようと思います」より「〜ます」。'},
+  {cat:'動詞',form:'意向形',id:'you-to-suru',p:'〜（よ）うとします',lvl:'N4',en:'try to ~ / be about to ~',setu:'意向形 ＋ とします',ex:[['出かけようとしたとき、電話が鳴りました。','Just as I was about to go out, the phone rang.']],note:''},
+  // 動詞 ・ 条件形
+  {cat:'動詞',form:'条件形',id:'ba',p:'〜ば、…',lvl:'N4',en:'if ~ (condition)',setu:'条件形（〜ば）',ex:[['安ければ、買います。',"If it's cheap, I'll buy it."],['ボタンを押せば、ドアが開きます。','If you press the button, the door opens.']],note:'自然・一般的な条件によく使う。'},
+  {cat:'動詞',form:'条件形',id:'ba-yokatta',p:'〜ばよかった',lvl:'N3',en:'should have ~ (regret)',setu:'条件形 ＋ よかった',ex:[['もっと早く来ればよかった。','I should have come earlier.']],note:'しなかったことへの後悔。'},
+  // 動詞 ・ 可能動詞
+  {cat:'動詞',form:'可能動詞',id:'you-ni-naru',p:'〜ようになります',lvl:'N4',en:'come to be able to ~ (change)',setu:'可能動詞（辞書形）＋ ようになります',ex:[['日本語が話せるようになりました。','I have become able to speak Japanese.']],note:'能力・習慣の変化。否定は「〜なくなりました」。'},
+  // 動詞 ・ 使役動詞
+  {cat:'動詞',form:'使役動詞',id:'sasete-kudasai',p:'〜（さ）せてください',lvl:'N4',en:'please let me ~',setu:'使役動詞の て形 ＋ ください',ex:[['その仕事は私にやらせてください。','Please let me do that job.']],note:'自分がしたいことの許可を求める。'},
+  {cat:'動詞',form:'使役動詞',id:'saserareru',p:'〜（さ）せられる',lvl:'N3',en:"be made to ~ (causative-passive)",setu:'使役動詞 → せる を せられる に変える',ex:[['子どものとき、毎日ピアノを練習させられた。',"As a child, I was made to practice the piano every day."]],note:'1グループは「〜される」とも（飲ませられる→飲まされる）。'},
+  // 動詞 ・ 命令形・禁止形
+  {cat:'動詞',form:'命令形・禁止形',id:'meirei-kinshi',p:'〜ろ（命令）／〜な（禁止）',lvl:'N4',en:'(blunt) command / prohibition',setu:'命令形（〜ろ・〜け）／ 辞書形 ＋ な',ex:[['早く起きろ。','Get up, now!'],['ここに入るな。',"Don't come in here!"]],note:'とても強い言い方。ふつうは「〜てください／〜ないでください」を使う。'},
+  // い形容詞
+  {cat:'い形容詞',form:'て形',id:'i-te',p:'〜くて、…',lvl:'N5',en:'~ and ~ / because ~',setu:'い形容詞：〜い → 〜くて',ex:[['このへやは広くて明るいです。','This room is spacious and bright.']],note:'文をつなぐ。理由を表すこともある。'},
+  {cat:'い形容詞',form:'副詞形',id:'i-ku-naru',p:'〜くなります',lvl:'N4',en:'become ~ (change)',setu:'い形容詞：〜い → 〜く ＋ なります',ex:[['さむくなりましたね。',"It's gotten cold, hasn't it?"]],note:'自然な変化。'},
+  {cat:'い形容詞',form:'副詞形',id:'i-ku-suru',p:'〜くする',lvl:'N4',en:'make it ~',setu:'い形容詞：〜い → 〜く ＋ する',ex:[['テレビの音を大きくしてください。','Please make the TV louder.']],note:'人が意図的に変える。'},
+  {cat:'い形容詞',form:'条件形',id:'i-kereba',p:'〜ければ、…',lvl:'N4',en:'if ~ (i-adjective)',setu:'い形容詞：〜い → 〜ければ',ex:[['天気がよければ、出かけます。',"If the weather is good, I'll go out."]],note:'「いい」は「よければ」。'},
+  // な形容詞
+  {cat:'な形容詞',form:'て形',id:'na-de',p:'〜で、…',lvl:'N5',en:'~ and ~ / because ~',setu:'な形容詞：語幹 ＋ で',ex:[['この町はしずかできれいです。','This town is quiet and beautiful.']],note:'名詞文も同じ：「学生で…」。'},
+  {cat:'な形容詞',form:'副詞形',id:'na-ni-naru',p:'〜になります',lvl:'N4',en:'become ~ (change)',setu:'な形容詞：語幹 ＋ に ＋ なります',ex:[['病気が治って、元気になりました。','I recovered and became healthy.']],note:''},
+  {cat:'な形容詞',form:'副詞形',id:'na-ni-suru',p:'〜にする',lvl:'N4',en:'make it ~',setu:'な形容詞：語幹 ＋ に ＋ する',ex:[['へやをきれいにします。','I will make the room clean.']],note:'「〜にします」は選択にも使う（コーヒーにします）。'},
+  {cat:'な形容詞',form:'名詞修飾',id:'na-shuushoku',p:'〜な＋名詞',lvl:'N5',en:'~ (modifies a noun)',setu:'な形容詞：語幹 ＋ な ＋ 名詞',ex:[['しずかなへやがほしいです。','I want a quiet room.']],note:'名詞の前では必ず「な」が付く。'},
+  {cat:'な形容詞',form:'条件形',id:'na-nara',p:'〜なら、…',lvl:'N4',en:'if ~ / as for ~',setu:'な形容詞：語幹 ＋ なら',ex:[['ひまなら、手伝ってください。',"If you're free, please help me."]],note:'相手の話を受けて言うことが多い。'},
 ];
 
-/* ---------- ユーティリティ ---------- */
-// カタカナ→ひらがな
-function kataToHira(s){ return s.replace(/[ァ-ヶ]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60)); }
-// 検索用に記号などを落として正規化
-function norm(s){
-  return kataToHira(String(s))
-    .replace(/[\s　～〜~<>＜＞〈〉（）()「」『』｜|・、,\.。／\/＋+－\-]/g, "")
-    .toLowerCase();
+/* === みんなの日本語 初級 課タグ（解説カードのid → 課番号） ===
+   ここに無い解説カードは初級の範囲外（N2/N1など）。初級ⅠとⅡは統合して「みんなの日本語 初級」として扱う。 */
+const MINNA_KA = {
+  'dict-koto-dekiru':18,'dict-mae-ni':18,'dict-toki':23,'dict-tsumori':31,'tameni':42,'tokoroda':46,
+  'souda-hearsay':47,'youda':47,'hazuda':46,'kamoshirenai':32,'darou':32,'node':39,'noni':45,'shi':28,
+  'masu-tai':13,'masu-nagara':28,'masu-mashou':6,'masu-yasui':44,'sugiru':44,'te-kudasai':14,'te-mo-ii':15,
+  'te-wa-ikenai':15,'te-iru':14,'te-kara':16,'temiru':40,'temo':25,'teshimau':29,'teoku':30,
+  'nai-de-kudasai':17,'nakereba-naranai':17,'nakutemo-ii':17,'nai-hou-ga-ii':32,'ta-koto-ga-aru':19,
+  'ta-hou-ga-ii':32,'tari-tari':19,'ta-ato-de':34,'tara':25,'tatokoro':46,'tabakari':46,'you-to-omou':31,
+  'ba':35,'you-ni-naru':36,'sasete-kudasai':48,'meirei-kinshi':33,'i-te':16,'i-ku-naru':19,'i-ku-suru':44,
+  'i-kereba':35,'na-de':16,'na-ni-naru':19,'na-ni-suru':44,'na-shuushoku':8,'na-nara':35
+};
+D.forEach(d => { if (MINNA_KA[d.id] != null) d.ka = MINNA_KA[d.id]; });
+
+/* === 教科書ごとの文型データ ===
+   みんなの日本語は初級Ⅰ＆Ⅱを1冊「みんなの日本語 初級」として持つ（全50課・224文型）。 */
+const LESSONS = [
+  { l:1,  p:["〜は〜です（名前・国籍・身分・職業）","〜は〜じゃ（では）ありません","〜は〜ですか","〜は〜の〜です（所属）","〜も〜です","〜は−歳です"] },
+  { l:2,  p:["これ／それ／あれは〜です","それは〜ですか、〜ですか","これは〜の〜です（内容）","これは〈人〉の〜です（所有）","この〜は〈人〉のです"] },
+  { l:3,  p:["ここは〈場所〉です","〈場所〉はあそこです","〈場所・物・人〉は〜です","〜はこちらです","国／会社は〜です","〜は〜の〜です（内容）","〜は−円です"] },
+  { l:4,  p:["−時−分です","〜は〜曜日と〜曜日です","〜は−時から−時までです","−時に〜ます","〜から〜まで〜ます","〜ます、〜ました","〜ます／〜ません／〜ました／〜ませんでした"] },
+  { l:5,  p:["〈場所〉へ行きます","〈乗り物〉で行きます","〈人〉と行きます","〈日時〉に行きます"] },
+  { l:6,  p:["〜を〈動詞〉ます","〜を食べます／飲みます","〈場所〉で〜ます","いっしょに〜ませんか","〜ましょう"] },
+  { l:7,  p:["〜で〜ます（道具・手段）","〜で〜ます（言語）","〜は〈言語〉で〜です","わたしは〈人〉に〈物〉をあげます","わたしは〈人〉に（から）〈物〉をもらいます","もう〜ました／まだです"] },
+  { l:8,  p:["〜は〈形容詞〉です","〈な形容詞〉です／じゃありません","〈い形容詞〉です／くないです","〜は〈い形容詞〉〈名詞〉です","〜は〈な形容詞〉〈名詞〉です"] },
+  { l:9,  p:["〜は〜が好きです","〜は〜が上手です","〜は〜がわかります","〜は〜があります","〜から、〜（理由）"] },
+  { l:10, p:["〜に〜がいます","〜に〜があります","〜の〈位置〉に〜があります／います","〜は〜にいます","〜は〜にあります"] },
+  { l:11, p:["助数詞（−つ）があります","助数詞（−枚／−台）","助数詞（−人）","〈期間〉に〈−回〉〜ます","〈期間〉〜ます","〈期間〉かかります"] },
+  { l:12, p:["〈名詞／形容詞〉でした／かったです","名詞・形容詞の過去時制","〜は〜より〈形容詞〉です","〜と〜とどちらが〈形容詞〉ですか","〜のほうが〈形容詞〉です","〜［の中］で、〜がいちばん〈形容詞〉です"] },
+  { l:13, p:["わたしは〜がほしいです","〜を（が）〈ます形〉＋たいです","〜たいです／〜たくないです","〜へ〈ます形／名詞〉に行きます／来ます"] },
+  { l:14, p:["〈て形〉の活用","〈て形〉＋ください","〈ます形〉＋ましょうか","〈て形〉＋います（進行）"] },
+  { l:15, p:["〈て形〉＋もいいですか","〈て形〉＋はいけません","〈て形〉＋います（状態、身分・職業）"] },
+  { l:16, p:["〈て形〉、〈て形〉〜（動作の順序）","〈て形〉＋から、〜","〜は〜が〜","〈い形容詞〉くて、〜／〈な形容詞・名詞〉で、〜"] },
+  { l:17, p:["〈ない形〉の活用","〈ない形〉＋ないでください","〈ない形〉＋なければなりません","〈ない形〉＋なくてもいいです","〜は（目的語のとりたて）"] },
+  { l:18, p:["〈辞書形〉の活用","〈名詞〉＋ができます／〈辞書形〉＋ことができます（能力）","〈名詞〉＋ができます／〈辞書形〉＋ことができます（可能性）","趣味は〈名詞／辞書形＋こと〉です","〈辞書形／名詞の／期間〉＋まえに"] },
+  { l:19, p:["〈た形〉の活用","〈た形〉＋ことがあります","〈た形〉＋り、〈た形〉＋りします","〈い形容詞〉くなります／〈な形容詞・名詞〉になります"] },
+  { l:20, p:["普通形","普通体の動詞文・形容詞文・名詞文","後続句を用いた文型"] },
+  { l:21, p:["〈普通形〉＋と思います（推測）","〈普通形〉＋と思います（意見）","「文」〈普通形〉＋と言います","〈普通形〉＋でしょう？"] },
+  { l:22, p:["名詞修飾","これは〈名詞修飾〉です","〈名詞修飾〉は〜です","〜は〈名詞修飾〉を〜","〜は〈名詞修飾〉が〜","〈名詞修飾〉（時間・約束・用事）があります"] },
+  { l:23, p:["〈動詞普通形〉＋とき、〜","〈辞書形・た形〉＋とき、〜","〈形容詞／名詞の〉＋とき、〜","〈動詞辞書形〉＋と、〜"] },
+  { l:24, p:["〜をくれます","これは〜です。〜が〜ます。","〈て形〉＋もらいます","〈て形〉＋くれます","〈て形〉＋あげます"] },
+  { l:25, p:["活用〈〜たら〉〈〜ても〉","普通形過去＋ら、〜（仮定条件）","〈た形〉＋ら、〜（確定条件）","〈て形／い形容詞くて〉＋も、〜／〈な形容詞・名詞〉で＋も、〜（逆説の仮定条件）"] },
+  { l:26, p:["〜んですか","どうして〜んですか","〜ません。〜んです","〜んですが、〜ていただけませんか","〜んですが、疑問詞〜たらいいですか"] },
+  { l:27, p:["〜が（可能動詞）","〜が見えます／聞こえます","〜ができます（成立・実現）","〜しか〜ません","〜は、〜は〜（対比）"] },
+  { l:28, p:["〜ながら","〜ています（習慣）","〜し、〜し、〜（並列描写）","〜し、〜し、〜（理由の列挙）","どうして、〜んですか","〜し、〜から"] },
+  { l:29, p:["〜が〈自動詞〉ています","〜は〈自動詞〉ています","〈て形〉＋しまいました（完了）","〈て形〉＋しまいました（遺憾）"] },
+  { l:30, p:["〜が〜てあります","〜は〜てあります","〈て形〉＋おきます（準備）","〈て形〉＋おきます（措置）","〈て形〉＋おきます（放置）"] },
+  { l:31, p:["意向形","〈意向形〉＋と思っています","まだ〜ていません","〜つもりです","〜予定です"] },
+  { l:32, p:["〜ほうがいいです","〜でしょう","〜かもしれません"] },
+  { l:33, p:["命令形","禁止形","「〜」と書いてあります／読みます","〜は〜という意味です","〜と言っていました","〜と伝えていただけませんか"] },
+  { l:34, p:["〜とおりに、〜","〜あとで、〜","〜て／〜ないで〜","〜ないで、〜"] },
+  { l:35, p:["〈動詞〉＋ば、〜","〈い形容詞〉ければ、〜","〈な形容詞／名詞〉なら、〜","疑問詞〜ばいいですか","〈名詞〉なら、〜"] },
+  { l:36, p:["〜ように、〜（目標）","〜ようになります（変化）","〜ようにしています（習慣）","〜ようにしてください"] },
+  { l:37, p:["〈人〉は〜に〜（ら）れます（受身）","〈人〉は〜に〈所有物〉を〜（ら）れます","〈物〉が〜（ら）れます"] },
+  { l:38, p:["〜のは〈形容詞〉です","〜のが〈形容詞〉です","〜のを忘れました","〜のを知っています","〜のは〈名詞〉です"] },
+  { l:39, p:["〈て形〉、〜（原因・理由）","〈い形容詞〉くて、〜","〈な形容詞〉で、〜","〈名詞〉で、〜","〜ので、〜"] },
+  { l:40, p:["疑問詞〜か、〜","〜かどうか、〜","〈て形〉＋みます"] },
+  { l:41, p:["〜をいただきます","〜をくださいます","〜をやります","〈て形〉＋いただきます","〈て形〉＋くださいます","〈て形〉＋やります","〈て形〉＋くださいませんか"] },
+  { l:42, p:["〜ために、〜（目的）","〜は〜のに、〜（用途）","〜のに〜かかります"] },
+  { l:43, p:["〜そうです（様態・動詞）","〜そうです（様態・形容詞）","〈て形〉＋来ます"] },
+  { l:44, p:["〜すぎます","〜やすい／〜にくい","〈い形容詞〉く／〈な形容詞〉にします","〈名詞〉にします"] },
+  { l:45, p:["〜場合は、〜","〜のに、〜（逆接）"] },
+  { l:46, p:["〜ところです","〜たばかりです","〜はずです"] },
+  { l:47, p:["〜そうです（伝聞）","〜ようです（推量）"] },
+  { l:48, p:["〜させます（強制）","〜させます（容認）","〜させていただけませんか"] },
+  { l:49, p:["〜（ら）れます（尊敬）","お〜になります","特別な尊敬語","お／ご〜ください"] },
+  { l:50, p:["お／ご〜します（謙譲）","特別な謙譲語（目上のための行為）","特別な謙譲語（自分自身のこと）"] }
+];
+
+/* ★ 教科書を足すときは、この BOOKS 配列に同じ形でオブジェクトを追加してください。
+   id     : 内部id（半角英数）
+   name   : 表示名（例：'げんき'）
+   short  : タグに出す短い名前（例：'げんき'）
+   accent / bg : 見出しの色・バッジ背景色
+   levels : [[課の上限, レベル], ...]  例）[[25,'N5'],[50,'N4']] = 25課までN5・50課までN4（目安）
+   lessons: [ { l:課番号, p:[文型, ...] }, ... ]
+   追加候補：げんき / つなぐ日本語 / いろどり / まるごと など */
+const BOOKS = [
+  { id:'minna', name:'みんなの日本語 初級', short:'みん日', accent:'#3B6D11', bg:'#EAF3DE',
+    levels:[[25,'N5'],[50,'N4']], lessons: LESSONS }
+  // 例）{ id:'genki', name:'げんき', short:'げんき', accent:'#185FA5', bg:'#E6F1FB',
+  //       levels:[[12,'N5'],[23,'N4']], lessons:[ {l:1,p:['〜です', '〜は〜です']}, ... ] },
+];
+function levelOf(book, l){ for(const r of book.levels){ if(l <= r[0]) return r[1]; } return ''; }
+
+/* --- 五十音順ソート・検索 --- */
+function toHira(s){ return s.replace(/[\u30A1-\u30F6]/g, c=>String.fromCharCode(c.charCodeAt(0)-0x60)); }
+function yomiKey(p){ return toHira(p.replace(/^[〜～\s]+/,'').replace(/[（）()]/g,'')); }
+const GOJU=[
+  ['あ','あいうえおぁぃぅぇぉ'],['か','かきくけこがぎぐげご'],['さ','さしすせそざじずぜぞ'],
+  ['た','たちつてとだぢづでどっ'],['な','なにぬねの'],['は','はひふへほばびぶべぼぱぴぷぺぽ'],
+  ['ま','まみむめも'],['や','やゆよゃゅょ'],['ら','らりるれろ'],['わ','わをん']
+];
+function rowLabel(key){ const c=key[0]||''; for(const [lab,set] of GOJU){ if(set.indexOf(c)>=0) return lab; } return 'その他'; }
+const CATSHORT={'動詞':'動詞','い形容詞':'い形容詞','な形容詞':'な形容詞'};
+const SORTED=[...D].map(d=>({...d,_key:yomiKey(d.p)}))
+  .sort((a,b)=> a._key<b._key?-1 : a._key>b._key?1 : 0);
+
+function matches(d,q){
+  if(!q) return true;
+  const bkStr = (d.ka!=null) ? ('みんなの日本語 初級 みん日 第'+d.ka+'課 '+d.ka+'課') : '';
+  const hay = toHira(d.p+' '+d.en+' '+d.setu+' '+(d.note||'')+' '+d._key+' '+d.lvl+' '+bkStr).toLowerCase();
+  return hay.indexOf(q)>=0;
 }
 
-const qEl = document.getElementById("q");
-const clearEl = document.getElementById("clear");
-const chipsEl = document.getElementById("chips");
-const countEl = document.getElementById("count");
-const resultsEl = document.getElementById("results");
+let curLevel='all', curQuery='', mode='kaisetsu', curBook='all';
 
-let activeBook = "all"; // "all" または textbook.id
+/* ---- ハイライト（toHiraは文字数を変えないので元文字列にそのまま対応） ---- */
+function esc(s){ return s.replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+function hi(text,q){
+  if(!q) return esc(text);
+  const h=toHira(text).toLowerCase(), i=h.indexOf(q);
+  if(i<0) return esc(text);
+  return esc(text.slice(0,i))+'<mark>'+esc(text.slice(i,i+q.length))+'</mark>'+esc(text.slice(i+q.length));
+}
 
-/* ---------- チップ生成 ---------- */
-function buildChips(){
-  const items = [{ id: "all", label: "すべて" }].concat(TEXTBOOKS.map(b => ({ id: b.id, label: b.short })));
-  chipsEl.innerHTML = "";
-  items.forEach(it => {
-    const c = document.createElement("button");
-    c.className = "chip" + (it.id === activeBook ? " active" : "");
-    c.textContent = it.label;
-    c.onclick = () => { activeBook = it.id; buildChips(); render(); };
-    chipsEl.appendChild(c);
+/* ---- 解説モード（既存の解説カード＋課タグ） ---- */
+function renderKaisetsu(){
+  const list=document.getElementById('list');
+  const rows=SORTED.filter(d=>(curLevel==='all'||d.lvl===curLevel)&&matches(d,curQuery));
+  document.getElementById('meta').textContent = rows.length+' 件'+(curLevel!=='all'?' ・ '+curLevel:'');
+  if(!rows.length){ list.innerHTML='<div class="no-result">見つかりませんでした。<br>ことばを変えてさがしてみてください。</div>'; return; }
+  let html='', curRow='';
+  rows.forEach(d=>{
+    const rl=rowLabel(d._key);
+    if(rl!==curRow){ curRow=rl; html+=`<div class="goju-head">${rl}</div>`; }
+    const ex=d.ex.map(e=>`<div class="bk-ex-item"><div class="bk-ex-ja">${e[0]}</div><div class="bk-ex-en">${e[1]}</div></div>`).join('');
+    const tag=(d.ka!=null)?`<div class="mina-tag"><span class="b">みんなの日本語 初級</span> ・ 第${d.ka}課</div>`:'';
+    html+=`<div class="bk-card" id="${d.id}">
+      <div class="bk-cat"><b>${CATSHORT[d.cat]}</b> ・ ${d.form}</div>
+      <div class="bk-top"><span class="bk-p">${d.p}</span><span class="bk-lvl lvl-${d.lvl.toLowerCase()}">${d.lvl}</span></div>
+      <div class="bk-en">${d.en}</div>
+      <div class="bk-setsuzoku"><b>接続：</b>${d.setu}</div>
+      <div class="bk-ex">${ex}</div>
+      ${d.note?`<div class="bk-note">${d.note}</div>`:''}
+      ${tag}
+    </div>`;
   });
+  list.innerHTML=html;
 }
 
-/* ---------- ハイライト ---------- */
-function highlight(text, normQuery){
-  if(!normQuery) return escapeHtml(text);
-  // 元の文字列を1文字ずつ見て、正規化後の位置がマッチ範囲に入るか判定
-  const chars = [...text];
-  const map = []; // 各元文字が正規化文字列で占める開始index（落とされた文字は-1）
-  let normStr = "";
-  for(const ch of chars){
-    const n = norm(ch);
-    if(n === ""){ map.push(-1); }
-    else { map.push(normStr.length); normStr += n; }
-  }
-  const start = normStr.indexOf(normQuery);
-  if(start < 0) return escapeHtml(text);
-  const end = start + normQuery.length; // [start, end)
-  let out = "", inMark = false;
-  for(let i=0;i<chars.length;i++){
-    const pos = map[i];
-    const on = (pos >= start && pos < end);
-    if(on && !inMark){ out += "<mark>"; inMark = true; }
-    if(!on && inMark){ out += "</mark>"; inMark = false; }
-    out += escapeHtml(chars[i]);
-  }
-  if(inMark) out += "</mark>";
-  return out;
-}
-function escapeHtml(s){ return s.replace(/[&<>"]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m])); }
-
-/* ---------- 描画 ---------- */
-function render(){
-  const raw = qEl.value.trim();
-  clearEl.classList.toggle("show", raw.length > 0);
-
-  // 課番号の抽出（「15」「15課」など）
-  const numMatch = raw.match(/(\d+)/);
-  const lessonNum = numMatch ? parseInt(numMatch[1], 10) : null;
-  const textQuery = norm(raw.replace(/\d+\s*課?/g, ""));
-
-  let total = 0;
-  let html = "";
-
-  for(const book of TEXTBOOKS){
-    if(activeBook !== "all" && activeBook !== book.id) continue;
-
-    let bookHtml = "";
-    let bookCount = 0;
-
-    for(const lesson of book.lessons){
-      if(lessonNum !== null && lesson.l !== lessonNum) continue;
-
-      const matched = lesson.p.filter(p => textQuery === "" || norm(p).includes(textQuery));
-      if(matched.length === 0) continue;
-
-      let rows = "";
-      for(const p of matched){
-        rows += '<div class="pattern-row"><span class="dot">●</span><span>' + highlight(p, textQuery) + '</span></div>';
-      }
-      bookHtml +=
-        '<div class="lesson-card">' +
-          '<div class="lesson-head">' +
-            '<span class="lesson-badge" style="background:'+book.badgeBg+';color:'+book.accent+'">第'+lesson.l+'課</span>' +
-            '<span class="lesson-label">'+matched.length+'つの文型</span>' +
-          '</div>' + rows +
-        '</div>';
-      bookCount += matched.length;
-    }
-
-    if(bookCount === 0) continue;
-    total += bookCount;
-    html +=
-      '<div class="book-section">' +
-        '<div class="book-head">' +
-          '<span class="book-bar" style="background:'+book.accent+'"></span>' +
-          '<span class="book-title">'+book.name+'</span>' +
-          '<span class="book-num">'+bookCount+'件</span>' +
-        '</div>' + bookHtml +
-      '</div>';
-  }
-
-  if(total === 0){
-    countEl.textContent = "";
-    resultsEl.innerHTML =
-      '<div class="empty"><div class="big">🔍</div>該当する文型が見つかりませんでした。<br>ことば（例：たい、て形）や課番号（例：15）でお試しください。</div>';
-  } else {
-    countEl.textContent = (raw ? "検索結果 " : "ぜんぶで ") + total + " 件";
-    resultsEl.innerHTML = html;
-  }
+/* ---- 教科書で見るモード（教科書ごと・全文型、教科書＆レベルのタグ付き） ---- */
+function renderBooks(){
+  const list=document.getElementById('list');
+  const q=curQuery;
+  let total=0, html='';
+  BOOKS.forEach(book=>{
+    if(curBook!=='all' && curBook!==book.id) return;
+    let inner='', bookCount=0;
+    book.lessons.forEach(ls=>{
+      const lv=levelOf(book, ls.l);
+      if(curLevel!=='all' && curLevel!==lv) return;
+      const pats=ls.p.filter(p=> !q || toHira(p+' '+book.short+' '+book.name+' '+lv+' 第'+ls.l+'課 '+ls.l+'課').toLowerCase().indexOf(q)>=0 );
+      if(!pats.length) return;
+      bookCount+=pats.length; total+=pats.length;
+      const rows=pats.map(p=>
+        `<div class="ka-row"><span class="kdot">●</span><span class="kp">${hi(p,q)}</span>`+
+        `<span class="row-tags">`+
+        `<button class="tg tg-book" type="button" data-book="${book.id}">${book.short}</button>`+
+        `<button class="tg lv-${lv.toLowerCase()}" type="button" data-lv="${lv}">${lv}</button>`+
+        `</span></div>`
+      ).join('');
+      const links = (book.id==='minna') ? D.filter(d=> d.ka===ls.l) : [];
+      const linkHtml = links.length?`<div class="ka-links"><span class="lab">🔎 解説へ</span>`+
+        links.map(d=>`<button class="ka-link" type="button" data-jump="${d.id}">${d.p}</button>`).join('')+`</div>`:'';
+      inner += `<div class="ka-head"><span class="ka-badge" style="background:${book.bg};color:${book.accent}">第${ls.l}課</span></div><div class="ka-card">${rows}${linkHtml}</div>`;
+    });
+    if(!bookCount) return;
+    html += `<div class="book-sec"><div class="book-sec-head"><span class="book-bar" style="background:${book.accent}"></span><span>${book.name}</span><span class="book-sec-num">${bookCount}文型</span></div>${inner}</div>`;
+  });
+  const bkName = (curBook!=='all') ? ((BOOKS.find(b=>b.id===curBook)||{}).short||'') : '';
+  document.getElementById('meta').textContent = (q?'該当 ':'ぜんぶで ')+total+' 文型'+(bkName?' ・ '+bkName:'')+(curLevel!=='all'?' ・ '+curLevel:'');
+  if(!html){ list.innerHTML='<div class="no-result">見つかりませんでした。<br>ことば・レベル（例：N5）・課番号（例：15）でさがしてください。</div>'; return; }
+  list.innerHTML=html;
+  list.querySelectorAll('.ka-link').forEach(a=>a.addEventListener('click',()=>jumpToKaisetsu(a.dataset.jump)));
+  list.querySelectorAll('.tg-book').forEach(a=>a.addEventListener('click',()=>setBook(a.dataset.book)));
+  list.querySelectorAll('.tg[data-lv]').forEach(a=>a.addEventListener('click',()=>setLevel(a.dataset.lv)));
 }
 
-/* ---------- イベント ---------- */
-qEl.addEventListener("input", render);
-clearEl.addEventListener("click", () => { qEl.value = ""; qEl.focus(); render(); });
+function render(){ if(mode==='book') renderBooks(); else renderKaisetsu(); }
 
-buildChips();
+function swapFilters(){
+  document.getElementById('filter').style.display = 'flex'; // レベルフィルタは両モードで使う
+  document.getElementById('filterBook').style.display = (mode==='book') ? 'flex' : 'none';
+}
+function setModeButtons(){ document.querySelectorAll('#mode button').forEach(b=>b.classList.toggle('on',b.dataset.mode===mode)); }
+
+function setBook(id){
+  curBook=id;
+  document.querySelectorAll('#filterBook button').forEach(x=>x.classList.toggle('on',x.dataset.bk===id));
+  render();
+}
+function setLevel(lv){
+  curLevel=lv;
+  document.querySelectorAll('#filter button').forEach(x=>x.classList.toggle('on',x.dataset.lv===lv));
+  render();
+}
+
+// 教科書フィルタを BOOKS から生成（教科書を足すと自動で増える）
+function buildBookFilter(){
+  const box=document.getElementById('filterBook');
+  box.innerHTML='';
+  const items=[{bk:'all',label:'すべて'}].concat(BOOKS.map(b=>({bk:b.id,label:b.short})));
+  items.forEach(it=>{ const btn=document.createElement('button'); btn.type='button'; btn.dataset.bk=it.bk; btn.textContent=it.label; if(it.bk===curBook) btn.classList.add('on'); btn.onclick=()=>setBook(it.bk); box.appendChild(btn); });
+}
+
+// 「解説へ」から該当の解説カードへ移動
+function jumpToKaisetsu(id){
+  mode='kaisetsu'; setModeButtons(); swapFilters();
+  setLevel('all');
+  sIn.value=''; curQuery=''; sClear.classList.remove('show');
+  render();
+  requestAnimationFrame(()=>{ const el=document.getElementById(id); if(el){ history.replaceState(null,'','#'+id); el.scrollIntoView({behavior:'smooth',block:'start'}); } });
+}
+
+buildBookFilter();
+swapFilters();
 render();
+
+// モード切替（解説 / 教科書）
+document.querySelectorAll('#mode button').forEach(b=>{
+  b.onclick=()=>{ mode=b.dataset.mode; setModeButtons(); swapFilters(); render(); window.scrollTo({top:0}); };
+});
+// レベルフィルタ（両モード）
+document.getElementById('filter').querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>setLevel(b.dataset.lv);
+});
+// 検索（両モード共通）
+const sIn=document.getElementById('search'), sClear=document.getElementById('sClear');
+sIn.addEventListener('input',()=>{
+  curQuery=toHira(sIn.value.trim()).toLowerCase();
+  sClear.classList.toggle('show', sIn.value.length>0);
+  render();
+});
+sClear.addEventListener('click',()=>{ sIn.value=''; curQuery=''; sClear.classList.remove('show'); render(); sIn.focus(); });
+
+// ハッシュがあれば解説モードでその文型へスクロール
+if(location.hash){ const el=document.getElementById(location.hash.slice(1)); if(el){ el.scrollIntoView(); } }
 </script>
 </body>
 </html>

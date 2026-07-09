@@ -60,6 +60,7 @@
   .lvl-n3 { background: var(--n3-bg); color: var(--n3); }
   .lvl-n2 { background: var(--n2-bg); color: var(--n2); }
   .lvl-n1 { background: var(--n1-bg); color: var(--n1); }
+  .lvl-other { background: #ECE8E1; color: var(--text-muted); }
   .bk-en { font-size: 13px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
   .bk-setsuzoku {
     font-size: 12px; color: var(--text); background: #FAF8F4; border: 1px solid var(--border);
@@ -141,6 +142,7 @@
   .tg.lv-n3 { background: var(--n3-bg); color: var(--n3); }
   .tg.lv-n2 { background: var(--n2-bg); color: var(--n2); }
   .tg.lv-n1 { background: var(--n1-bg); color: var(--n1); }
+  .tg.lv-other { background: #ECE8E1; color: var(--text-muted); }
   .book-sec-head { display: flex; align-items: center; gap: 9px; font-size: 16px; font-weight: 700; margin: 1.7rem 0 0.8rem; }
   .book-sec:first-child .book-sec-head { margin-top: 0.4rem; }
   .book-bar { width: 4px; height: 19px; border-radius: 2px; flex-shrink: 0; }
@@ -181,6 +183,7 @@
     <button data-lv="N3">N3</button>
     <button data-lv="N2">N2</button>
     <button data-lv="N1">N1</button>
+    <button data-lv="その他">その他</button>
   </div>
 
   <div class="filter" id="filterBook" style="display:none;"></div>
@@ -409,7 +412,8 @@ const BOOKS = [
   { id:'tsunagu', name:'つなぐ日本語 初級 初版',        short:'つなぐ', accent:'#854F0B', bg:'#FAEEDA', levels:[[15,'N5'],[30,'N4']] },
   { id:'daichi',  name:'大地 初級 初版',           short:'大地',   accent:'#993C1D', bg:'#FAECE7', levels:[[22,'N5'],[42,'N4']] }
 ];
-function levelOf(book, l){ for(const r of book.levels){ if(l <= r[0]) return r[1]; } return ''; }
+function levelOf(book, l){ for(const r of book.levels){ if(l <= r[0]) return r[1]; } return 'その他'; }
+function lvCls(v){ return v==='その他' ? 'other' : String(v||'').toLowerCase(); }
 
 /* === 文型データ（教科書横断） ======================================================
    1つの文型が「どの教科書の何課に出るか」を持つ。重なる文型は複数の教科書タグが付く。
@@ -608,7 +612,7 @@ function renderKaisetsu(){
     const tag=_srcTags.length?`<div class="src-tags">${_srcTags.join('')}</div>`:'';
     html+=`<div class="bk-card" id="${d.id}">
       <div class="bk-cat"><b>${CATSHORT[d.cat]}</b> ・ ${d.form}</div>
-      <div class="bk-top"><span class="bk-p">${d.p}</span><span class="bk-lvl lvl-${d.lvl.toLowerCase()}">${d.lvl}</span></div>
+      <div class="bk-top"><span class="bk-p">${d.p}</span><span class="bk-lvl lvl-${lvCls(d.lvl)}">${d.lvl}</span></div>
       <div class="bk-en">${d.en}</div>
       <div class="bk-setsuzoku"><b>接続：</b>${d.setu}</div>
       <div class="bk-ex">${ex}</div>
@@ -650,7 +654,7 @@ function renderBooks(){
         links.map(d=>`<button class="ka-link" type="button" data-jump="${d.id}">${d.p}</button>`).join('')+`</div>`:'';
       inner += `<div class="ka-head"><span class="ka-badge" style="background:${book.bg};color:${book.accent}">第${ls.l}課</span>`+
         `<button class="tg tg-book" type="button" data-book="${book.id}">${book.short}</button>`+
-        `<button class="tg lv-${lv.toLowerCase()}" type="button" data-lv="${lv}">${lv}</button>`+
+        `<button class="tg lv-${lvCls(lv)}" type="button" data-lv="${lv}">${lv}</button>`+
         `</div><div class="ka-card">${rows}${linkHtml}</div>`;
     });
     if(!bookCount) return;

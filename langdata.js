@@ -10,7 +10,7 @@ window.LANGS = [
     code:'zh', jp:'中国語（普通話）', autonym:'中文 / 普通話', en:'Chinese (Mandarin)', chip:'中', group:'漢語',
     region:'中国・台湾・シンガポール ほか', script:'漢字（簡体字／繁体字）', family:'シナ・チベット語族', order:'SVO',
     tts:'zh-CN', resRank:'1位', learnRank:'1位', core:true, resident:true, learner:true, sov:false,
-    accent:'#9A3D1C', bg:'#FAECE7',
+    accent:'#9A3D1C', bg:'#FAECE7', grammar:'grammar.html?code=zh', grammarTitle:'📖 HSKレベル別の文法を見る', grammarDesc:'新HSK1〜9級の文法を、例文つきでレベル別に',
     note:'漢字の知識は有利。ただし声調（4声）と簡体字、日中で意味の異なる漢語に注意。',
     phrases:[
       ['こんにちは','你好','ニーハオ'],['ありがとう','谢谢','シエシエ'],
@@ -22,7 +22,7 @@ window.LANGS = [
     tips:['漢字の知識は大きな武器。ただし簡体字と日本の字体の違いに注意。','声調（4声）と、日中で意味がずれる漢語（例：手紙＝トイレットペーパー）に注意。']
   },
   {
-    code:'ko', jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
+    code:'ko', grammar:'grammar.html?code=ko', grammarTitle:'📖 TOPIKレベル別の文法を見る', grammarDesc:'TOPIK1〜6級の文法を、例文つきでレベル別に', jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
     region:'韓国・北朝鮮', script:'ハングル', family:'朝鮮語族（系統は諸説）', order:'SOV（日本語型）',
     tts:'ko-KR', resRank:'3位', learnRank:'3位', core:true, resident:true, learner:true, sov:true,
     accent:'#185FA5', bg:'#E6F1FB',
@@ -82,7 +82,7 @@ window.LANGS = [
     tips:['語順が日本語型（SOV）で文の組み立ては親しみやすい。','独特の文字と声調が難所。まずは文字と音から。']
   },
   {
-    code:'en', jp:'英語', autonym:'English', en:'English', chip:'En',
+    code:'en', grammar:'grammar.html?code=en', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（英検・TOEIC）の文法を、例文つきでレベル別に', jp:'英語', autonym:'English', en:'English', chip:'En',
     region:'豪・米・比 ほか世界各地', script:'ラテン文字', family:'インド・ヨーロッパ語族', order:'SVO',
     tts:'en-US', resRank:null, learnRank:'豪4・米7位', core:false, resident:false, learner:true, sov:false,
     accent:'#3C3489', bg:'#EEEDFE',
@@ -158,7 +158,7 @@ window.LANGS = [
     tips:['SOV・後置詞（〜मा＝〜に、〜लाई＝〜を）で、日本語と語順がとても近い。','コピュラが2つ：हो（ho）＝「〜だ」（同定・性質）、छ（cha）＝「ある／いる・状態」（存在・状態・位置）。スペイン語の ser／estar に近い使い分け。','動詞は主語の人称・数・性・敬語レベルで変化する（主語と一致）。','敬語は3段階：तपाईं（尊敬）／तिमी（対等）／तँ（目下）。相手によって代名詞と動詞が変わる。','過去の他動詞では主語に 〜ले（le）が付く（能格的）。文字はヒンディー語と同じデーヴァナーガリーだが、語彙・発音は異なる。']
   },
   {
-    code:'pt', jp:'ポルトガル語', autonym:'Português', en:'Portuguese', chip:'Pt',
+    code:'pt', grammar:'grammar.html?code=pt', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（Celpe-Bras）の文法を、例文つきでレベル別に', jp:'ポルトガル語', autonym:'Português', en:'Portuguese', chip:'Pt',
     region:'ブラジル・ポルトガル ほか', script:'ラテン文字', family:'インド・ヨーロッパ語族', order:'SVO',
     tts:'pt-BR', resRank:'7位（ブラジル）', learnRank:null, core:false, resident:true, learner:false, sov:false,
     accent:'#185FA5', bg:'#E6F1FB',
@@ -248,7 +248,7 @@ window.LANGS = [
     tips:['声調が6つ（普通話は4つ）。漢字は繁体字。','語彙・文法も普通話と異なる。-p/-t/-k で終わる入声がある。読みは粵拼（ジュッピン）。']
   },
   {
-    code:'es', jp:'スペイン語', autonym:'Español', en:'Spanish', chip:'Es',
+    code:'es', grammar:'grammar.html?code=es', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELE/SIELE）の文法を、例文つきでレベル別に', jp:'スペイン語', autonym:'Español', en:'Spanish', chip:'Es',
     region:'スペイン・中南米', script:'ラテン文字', family:'インド・ヨーロッパ語族（ロマンス）', order:'SVO',
     tts:'es-ES', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#C25E00', bg:'#FBEBDD',
@@ -263,7 +263,7 @@ window.LANGS = [
     tips:['SVO。動詞は主語で活用し、名詞・形容詞に性・数がある。','つづりはほぼ表音的で読みやすい。疑問文・感嘆文は ¿ ? ・ ¡ ! で囲む。']
   },
   {
-    code:'fr', jp:'フランス語', autonym:'Français', en:'French', chip:'Fr',
+    code:'fr', grammar:'grammar.html?code=fr', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELF/DALF）の文法を、例文つきでレベル別に', jp:'フランス語', autonym:'Français', en:'French', chip:'Fr',
     region:'フランス・カナダ・アフリカ他', script:'ラテン文字', family:'インド・ヨーロッパ語族（ロマンス）', order:'SVO',
     tts:'fr-FR', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#2E5AAC', bg:'#E5ECF7',
@@ -278,7 +278,7 @@ window.LANGS = [
     tips:['SVO。名詞に性、動詞は主語で活用。','つづりと発音のずれが大きい。母音の前でリエゾン（連音）する。']
   },
   {
-    code:'it', jp:'イタリア語', autonym:'Italiano', en:'Italian', chip:'It',
+    code:'it', grammar:'grammar.html?code=it', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（CILS/CELI）の文法を、例文つきでレベル別に', jp:'イタリア語', autonym:'Italiano', en:'Italian', chip:'It',
     region:'イタリア・スイス他', script:'ラテン文字', family:'インド・ヨーロッパ語族（ロマンス）', order:'SVO',
     tts:'it-IT', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#2E8B57', bg:'#E3F1E9',

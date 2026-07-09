@@ -941,6 +941,10 @@ const IRO_MERGE = {
   "N1は、～。（でも、）N2は、～。　＜対比＞":"〜は、〜は〜（対比）"
 ,
   "【場所】でV-ます":"〈場所〉で〜ます"
+,
+  "【いつも／たいてい／よく／ときどき】V-ます　＜頻度＞":"頻度の副詞（よく・ときどき…）",
+  "あまりV-ません ＜頻度＞":"頻度の副詞（よく・ときどき…）",
+  "【あまり／ぜんぜん】V-ません　＜頻度＞":"頻度の副詞（よく・ときどき…）"
 };
 function iroAdd(p, book, l){ const c=IRO_MERGE[p]; if(c && _byText[c]){ _tag(_byText[c], book, l); } else { _tag(_add(p), book, l); } }
 IRODORIN_DATA.forEach(ls=> ls.p.forEach(p=> iroAdd(p,'irodoriN',ls.l)));
@@ -1141,6 +1145,8 @@ const MARU_MERGE = {
   "〜で（〜ます）":"〈場所〉で〜ます"
 ,
   "〜が":"〜が、〜（逆接）"
+,
+  "ときどき・あまり・ぜんぜん":"頻度の副詞（よく・ときどき…）"
 };
 function maruAdd(p, book, l){ const c=MARU_MERGE[p]; if(c && _byText[c]){ _tag(_byText[c], book, l); } else { _tag(_add(p), book, l); } }
 MARUN_DATA.forEach(ls=> ls.p.forEach(p=> maruAdd(p,'maruN',ls.l)));
@@ -1256,6 +1262,8 @@ const MINCHU_MERGE = {
   "〜こそ（取りたて助詞）":"〜こそ／〜からこそ",
   "〜た（名詞修飾）":"名詞修飾",
   "〜（さ）せられる・〜される（使役受身）":"使役受身（〜させられる）"
+,
+  "〜あまり（に）":"〜あまり（に）／〜あまりの"
 };
 function minchuAdd(p, l){ const c=MINCHU_MERGE[p]; if(c && _byText[c]){ _tag(_byText[c],'minchu',l); } else { _tag(_add(p),'minchu',l); } }
 MINCHU_DATA.forEach(ls=> ls.p.forEach(p=> minchuAdd(p,ls.l)));

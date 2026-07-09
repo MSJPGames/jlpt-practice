@@ -37,7 +37,7 @@ window.LANGS = [
     tips:['語順・助詞・敬語が日本語とよく対応し、相互に学びやすい。','漢字語の多くが日本語と共通。発音（パッチム）に慣れるのが鍵。']
   },
   {
-    code:'vi', jp:'ベトナム語', autonym:'Tiếng Việt', en:'Vietnamese', chip:'Vi',
+    code:'vi', grammar:'grammar.html?code=vi', grammarTitle:'📖 レベル別の文法を見る', grammarDesc:'ベトナム語能力6段階（Khung NLTV・CEFR対応）の文法を例文つきで', jp:'ベトナム語', autonym:'Tiếng Việt', en:'Vietnamese', chip:'Vi',
     region:'ベトナム', script:'ラテン文字（声調符号つき）', family:'オーストロアジア語族', order:'SVO',
     tts:'vi-VN', resRank:'2位', learnRank:'6位', core:true, resident:true, learner:true, sov:false,
     accent:'#3B6D11', bg:'#EAF3DE',
@@ -52,7 +52,7 @@ window.LANGS = [
     tips:['6声調が最大の難関。まず音を正確に。','孤立語で語形変化が少なく、文法はシンプル。漢越語は日本語と対応することも。']
   },
   {
-    code:'id', jp:'インドネシア語', autonym:'Bahasa Indonesia', en:'Indonesian', chip:'Id',
+    code:'id', grammar:'grammar.html?code=id', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（BIPA/UKBI対応）の文法を例文つきで', jp:'インドネシア語', autonym:'Bahasa Indonesia', en:'Indonesian', chip:'Id',
     region:'インドネシア（共通語）', script:'ラテン文字', family:'オーストロネシア語族', order:'SVO',
     tts:'id-ID', resRank:'6位', learnRank:'2位', core:true, resident:true, learner:true, sov:false,
     accent:'#1F6F6B', bg:'#DFF0EE',

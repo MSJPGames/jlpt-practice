@@ -363,6 +363,15 @@ const DEKIRUS_KA = {
 };
 D.forEach(d => { if (DEKIRUS_KA[d.id] != null) d.ska = DEKIRUS_KA[d.id]; });
 
+/* === できる日本語 初級 初版 課タグ（解説カードのid → 課番号） === */
+const DEKIRUK_KA = {
+  'masu-tai':5,'masu-mashou':6,'te-kudasai':7,'te-iru':7,'dict-koto-dekiru':9,'te-mo-ii':10,'nai-de-kudasai':10,
+  'i-ku-naru':10,'na-ni-naru':10,'i-te':8,'na-de':8,'tari-tari':11,'dict-toki':11,'te-kara':12,'dict-mae-ni':12,
+  'nai-hou-ga-ii':12,'ta-hou-ga-ii':12,'ta-koto-ga-aru':13,'te-wa-ikenai':14,'nakereba-naranai':14,'nakutemo-ii':14,
+  'souda-hearsay':15,'tara':15,'temo':15
+};
+D.forEach(d => { if (DEKIRUK_KA[d.id] != null) d.kka = DEKIRUK_KA[d.id]; });
+
 /* === 教科書ごとの文型データ ===
    みんなの日本語は初級Ⅰ＆Ⅱを1冊「みんなの日本語 初級」として持つ（全50課・224文型）。 */
 const LESSONS = [
@@ -428,7 +437,8 @@ const BOOKS = [
   { id:'tsunagu', name:'つなぐ日本語 初級 初版',        short:'つなぐ', accent:'#854F0B', bg:'#FAEEDA', levels:[[15,'N5'],[30,'N4']] },
   { id:'daichi',  name:'大地 初級 初版',           short:'大地',   accent:'#993C1D', bg:'#FAECE7', levels:[[22,'N5'],[42,'N4']] },
   { id:'dekiru',  name:'できる日本語 中級 初版',     short:'できる中', accent:'#1F6F6B', bg:'#DFF0EE', levels:[] }, // levels空＝全て「その他」
-  { id:'dekirus', name:'できる日本語 初中級 初版',   short:'できる初中', accent:'#3C3489', bg:'#EEEDFE', levels:[] }
+  { id:'dekirus', name:'できる日本語 初中級 初版',   short:'できる初中', accent:'#3C3489', bg:'#EEEDFE', levels:[] },
+  { id:'dekiruk', name:'できる日本語 初級 初版',     short:'できる初', accent:'#8A6D3B', bg:'#F1E7D2', levels:[[8,'N5'],[15,'N4']] }
 ];
 function levelOf(book, l){ for(const r of book.levels){ if(l <= r[0]) return r[1]; } return 'その他'; }
 function lvCls(v){ return v==='その他' ? 'other' : String(v||'').toLowerCase(); }
@@ -624,6 +634,31 @@ DEKIRUS_MAP.forEach(e=>{
 });
 if(DEKIRUS_UNMATCHED.length) console.warn('できる初中級→既存 未一致:', DEKIRUS_UNMATCHED);
 
+// できる日本語 初級 初版（シラバス・番号つき学習項目 L1〜15／初級なのでN5・N4）
+const DEKIRUK_MAP = [
+  {l:1,s:'〜は〜です（名前・国籍・身分・職業）'},{l:1,s:'〜は〜じゃ（では）ありません'},{l:1,s:'〜は〜ですか'},{l:1,s:'〜は〜の〜です（所属）'},{l:1,s:'〜は−歳です'},{l:1,s:'〜と〜（and・名詞の並列）'},{l:1,s:'〜も〜です'},
+  {l:2,s:'ここは〈場所〉です'},{l:2,s:'〈この／その／あの／どの〉＋名詞'},{l:2,s:'〜は−円です'},{l:2,n:'〜をください'},{l:2,s:'これは〜の〜です（内容）'},{l:2,s:'これは〈人〉の〜です（所有）'},
+  {l:3,s:'〜から〜まで〜ます'},{l:3,s:'〜を〈動詞〉ます'},{l:3,s:'〈場所〉へ行きます'},{l:3,s:'〜ます／〜ません／〜ました／〜ませんでした'},{l:3,s:'〈場所〉で〜ます'},{l:3,s:'〜や〜（名詞の列挙）'},{l:3,n:'何も〜ません'},{l:3,s:'−時に〜ます'},{l:3,n:'疑問詞＋も〜ません'},
+  {l:4,s:'〜は〈形容詞〉です'},{l:4,s:'〈い形容詞〉です／くないです'},{l:4,s:'〜は〈い形容詞〉〈名詞〉です'},{l:4,s:'〜に〜があります'},{l:4,s:'〜が、〜（逆接）'},
+  {l:5,s:'〈名詞／形容詞〉でした／かったです'},{l:5,s:'〜から、〜（理由）'},{l:5,s:'わたしは〜がほしいです'},{l:5,s:'〜は〜が好きです'},{l:5,s:'〜たいです／〜たくないです'},{l:5,s:'〜へ〈ます形／名詞〉に行きます／来ます'},
+  {l:6,s:'いっしょに〜ませんか'},{l:6,s:'〜［の中］で、〜がいちばん〈形容詞〉です'},{l:6,s:'〜と〜とどちらが〈形容詞〉ですか'},{l:6,s:'もう〜ました／まだです'},
+  {l:7,s:'〜は〜にあります'},{l:7,s:'〜は〜にいます'},{l:7,s:'〈て形〉＋ください'},{l:7,s:'〜で〜ます（道具・手段）'},{l:7,s:'〜かた（〜方）'},{l:7,s:'〈て形〉＋います（進行）'},{l:7,s:'〈ます形〉＋ましょうか'},
+  {l:8,s:'〈て形〉＋います（状態、身分・職業）'},{l:8,s:'〜は〜が上手です'},{l:8,s:'〈い形容詞〉くて、〜／〈な形容詞・名詞〉で、〜'},{l:8,s:'わたしは〈人〉に〈物〉をあげます'},{l:8,s:'〜をくれます'},
+  {l:9,s:'趣味は〈名詞／辞書形＋こと〉です'},{l:9,s:'〈期間〉に〈−回〉〜ます'},{l:9,s:'〈名詞〉＋ができます／〈辞書形〉＋ことができます（能力）'},{l:9,s:'〈て形〉、〈て形〉〜（動作の順序）'},
+  {l:10,s:'まだ〜ていません'},{l:10,s:'〈て形〉＋来ます'},{l:10,s:'〜が見えます／聞こえます'},{l:10,s:'〈て形〉＋もいいですか'},{l:10,s:'〈ない形〉＋ないでください'},{l:10,n:'〜ことができます（状況・可能）'},{l:10,s:'〈い形容詞〉くなります／〈な形容詞・名詞〉になります'},
+  {l:11,n:'〜は〜、〜は〜（対比）'},{l:11,s:'〜ています（習慣）'},{l:11,s:'〈た形〉＋り、〈た形〉＋りします'},{l:11,s:'〈動詞普通形〉＋とき、〜'},
+  {l:12,s:'〜んですか'},{l:12,s:'〜ほうがいいです'},{l:12,s:'〈て形〉＋から、〜'},{l:12,s:'〈辞書形／名詞の／期間〉＋まえに'},
+  {l:13,s:'〈た形〉＋ことがあります'},{l:13,s:'〜という〜（名前・呼称）'},{l:13,s:'名詞修飾'},{l:13,s:'〈て形〉＋います（着脱）'},
+  {l:14,s:'〈動詞辞書形〉＋と、〜'},{l:14,s:'「文」〈普通形〉＋と言います'},{l:14,s:'〈て形〉＋はいけません'},{l:14,s:'〈ない形〉＋なければなりません'},{l:14,s:'〈ない形〉＋なくてもいいです'},{l:14,s:'〈普通形〉＋と思います（意見）'},
+  {l:15,s:'〜そうです（伝聞）'},{l:15,n:'〜で（原因）'},{l:15,s:'〈た形〉＋ら、〜（確定条件）'},{l:15,n:'〜と思います（推量）'},{l:15,s:'〈て形／い形容詞くて〉＋も、〜／〈な形容詞・名詞〉で＋も、〜（逆説の仮定条件）'}
+];
+const DEKIRUK_UNMATCHED = [];
+DEKIRUK_MAP.forEach(e=>{
+  if(e.s){ const o=_byText[e.s]; if(o){ _tag(o,'dekiruk',e.l); } else { DEKIRUK_UNMATCHED.push(e.s); } }
+  else { _tag(_add(e.n),'dekiruk',e.l); }
+});
+if(DEKIRUK_UNMATCHED.length) console.warn('できる初級→既存 未一致:', DEKIRUK_UNMATCHED);
+
 // 教科書ごとの「課 → 文型リスト」索引を作る
 function lessonsOf(bookId){
   const map={};
@@ -652,7 +687,8 @@ function matches(d,q){
   const dkStr = (d.dka!=null) ? ('大地 初級 初版 第'+d.dka+'課 '+d.dka+'課') : '';
   const ekStr = (d.eka!=null) ? ('できる日本語 中級 初版 第'+d.eka+'課 '+d.eka+'課') : '';
   const skStr = (d.ska!=null) ? ('できる日本語 初中級 初版 第'+d.ska+'課 '+d.ska+'課') : '';
-  const hay = toHira(d.p+' '+d.en+' '+d.setu+' '+(d.note||'')+' '+d._key+' '+d.lvl+' '+bkStr+' '+gkStr+' '+tkStr+' '+dkStr+' '+ekStr+' '+skStr).toLowerCase();
+  const kkStr = (d.kka!=null) ? ('できる日本語 初級 初版 第'+d.kka+'課 '+d.kka+'課') : '';
+  const hay = toHira(d.p+' '+d.en+' '+d.setu+' '+(d.note||'')+' '+d._key+' '+d.lvl+' '+bkStr+' '+gkStr+' '+tkStr+' '+dkStr+' '+ekStr+' '+skStr+' '+kkStr).toLowerCase();
   return hay.indexOf(q)>=0;
 }
 
@@ -678,7 +714,7 @@ function renderKaisetsu(){
     const rl=rowLabel(d._key);
     if(rl!==curRow){ curRow=rl; html+=`<div class="goju-head">${rl}</div>`; }
     const ex=d.ex.map(e=>`<div class="bk-ex-item"><div class="bk-ex-ja">${e[0]}</div><div class="bk-ex-en">${e[1]}</div></div>`).join('');
-    const _srcMap={ minna:d.ka, genki:d.gka, tsunagu:d.tka, daichi:d.dka, dekiru:d.eka, dekirus:d.ska };
+    const _srcMap={ minna:d.ka, genki:d.gka, tsunagu:d.tka, daichi:d.dka, dekiru:d.eka, dekirus:d.ska, dekiruk:d.kka };
     const _srcTags=BOOKS.filter(b=>_srcMap[b.id]!=null).map(b=>
       `<span class="src-tag" style="background:${b.bg};color:${b.accent}">${b.short} 第${_srcMap[b.id]}課</span>`);
     const tag=_srcTags.length?`<div class="src-tags">${_srcTags.join('')}</div>`:'';

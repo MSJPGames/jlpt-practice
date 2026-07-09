@@ -320,7 +320,7 @@ const GENKI_KA = {
 };
 D.forEach(d => { if (GENKI_KA[d.id] != null) d.gka = GENKI_KA[d.id]; });
 
-/* === つなぐ日本語 初級 課タグ（解説カードのid → 課番号） === */
+/* === つなぐ日本語 初級 初版 課タグ（解説カードのid → 課番号） === */
 const TSUNAGU_KA = {
   'dict-koto-dekiru':17,'dict-mae-ni':12,'dict-toki':11,'dict-tsumori':17,'tameni':27,'tokoroda':22,'kotonisuru':26,
   'bekida':30,'souda-hearsay':26,'youda':22,'rashii':26,'hazuda':25,'kamoshirenai':23,'darou':23,'node':12,'noni':17,'shi':18,
@@ -331,6 +331,18 @@ const TSUNAGU_KA = {
   'i-te':10,'i-ku-naru':14,'i-ku-suru':26,'i-kereba':15,'na-de':10,'na-ni-naru':14,'na-ni-suru':26,'na-shuushoku':6,'na-nara':13
 };
 D.forEach(d => { if (TSUNAGU_KA[d.id] != null) d.tka = TSUNAGU_KA[d.id]; });
+
+/* === 大地 初級 初版 課タグ（解説カードのid → 課番号） === */
+const DAICHI_KA = {
+  'dict-koto-dekiru':14,'dict-mae-ni':14,'dict-toki':26,'tameni':30,'tokoroda':37,'kotonisuru':29,
+  'souda-hearsay':28,'youda':39,'kamoshirenai':32,'darou':33,'node':25,'noni':39,'shi':29,
+  'masu-tai':13,'masu-nagara':27,'masu-mashou':8,'masu-yasui':35,'sugiru':31,'nasai':38,
+  'te-kudasai':15,'te-mo-ii':16,'te-wa-ikenai':16,'te-iru':15,'te-kara':17,'temiru':37,'temo':21,'teshimau':34,'teoku':31,
+  'nai-de-kudasai':17,'nakereba-naranai':26,'nakutemo-ii':17,'nai-hou-ga-ii':32,'ta-koto-ga-aru':18,'ta-hou-ga-ii':32,
+  'tari-tari':18,'ta-ato-de':18,'tara':21,'tabakari':39,'tamama':34,'you-to-omou':30,'ba':33,'you-ni-naru':24,'meirei-kinshi':38,
+  'i-te':11,'i-ku-naru':23,'i-ku-suru':31,'i-kereba':33,'na-de':11,'na-ni-naru':23,'na-ni-suru':31,'na-shuushoku':7
+};
+D.forEach(d => { if (DAICHI_KA[d.id] != null) d.dka = DAICHI_KA[d.id]; });
 
 /* === 教科書ごとの文型データ ===
    みんなの日本語は初級Ⅰ＆Ⅱを1冊「みんなの日本語 初級」として持つ（全50課・224文型）。 */
@@ -394,7 +406,8 @@ const LESSONS = [
 const BOOKS = [
   { id:'minna',   name:'みんなの日本語 初級 第2版', short:'みん日', accent:'#3B6D11', bg:'#EAF3DE', levels:[[25,'N5'],[50,'N4']] },
   { id:'genki',   name:'げんき 第3版',            short:'げんき', accent:'#185FA5', bg:'#E6F1FB', levels:[[12,'N5'],[23,'N4']] },
-  { id:'tsunagu', name:'つなぐ日本語 初級',        short:'つなぐ', accent:'#854F0B', bg:'#FAEEDA', levels:[[15,'N5'],[30,'N4']] }
+  { id:'tsunagu', name:'つなぐ日本語 初級 初版',        short:'つなぐ', accent:'#854F0B', bg:'#FAEEDA', levels:[[15,'N5'],[30,'N4']] },
+  { id:'daichi',  name:'大地 初級 初版',           short:'大地',   accent:'#993C1D', bg:'#FAECE7', levels:[[22,'N5'],[42,'N4']] }
 ];
 function levelOf(book, l){ for(const r of book.levels){ if(l <= r[0]) return r[1]; } return ''; }
 
@@ -445,7 +458,7 @@ GENKI_MAP.forEach(e=>{
 });
 if(GENKI_UNMATCHED.length) console.warn('げんき→みん日 未一致:', GENKI_UNMATCHED);
 
-// つなぐ日本語 初級（文型索引から主要な文型を選定・L1〜30）
+// つなぐ日本語 初級 初版（文型索引から主要な文型を選定・L1〜30）
 // s='既存の文型と表記一致'（→タグ統合） / n='新しい文型'（→新規追加）。
 const TSUNAGU_MAP = [
   {l:1,s:'〜ます／〜ません／〜ました／〜ませんでした'},{l:1,s:'〜は〜です（名前・国籍・身分・職業）'},{l:1,s:'〜は〜の〜です（所属）'},{l:1,s:'〜も〜です'},
@@ -485,6 +498,58 @@ TSUNAGU_MAP.forEach(e=>{
 });
 if(TSUNAGU_UNMATCHED.length) console.warn('つなぐ→既存 未一致:', TSUNAGU_UNMATCHED);
 
+// 大地 初級 初版（学習項目一覧から主要な文型を選定・初級1＋2統合＝L1〜42）
+const DAICHI_MAP = [
+  {l:1,s:'〜は〜です（名前・国籍・身分・職業）'},{l:1,s:'〜は〜じゃ（では）ありません'},{l:1,s:'〜は〜ですか'},{l:1,s:'〜は〜の〜です（所属）'},{l:1,s:'〜も〜です'},
+  {l:2,s:'これ／それ／あれは〜です'},{l:2,s:'〈この／その／あの／どの〉＋名詞'},{l:2,s:'これは〜の〜です（内容）'},{l:2,s:'これは〈人〉の〜です（所有）'},
+  {l:3,s:'ここは〈場所〉です'},{l:3,s:'〈場所・物・人〉は〜です'},{l:3,s:'〜は−円です'},
+  {l:4,s:'〜を〈動詞〉ます'},{l:4,s:'〈場所〉で〜ます'},{l:4,s:'〜と〜（and・名詞の並列）'},
+  {l:5,s:'−時−分です'},{l:5,s:'〜ます、〜ました'},{l:5,s:'−時に〜ます'},{l:5,s:'〜から〜まで〜ます'},
+  {l:6,s:'〈場所〉へ行きます'},{l:6,s:'〈乗り物〉で行きます'},{l:6,s:'〈人〉と行きます'},{l:6,s:'いっしょに〜ませんか'},
+  {l:7,s:'〜は〈形容詞〉です'},{l:7,s:'〈な形容詞〉です／じゃありません'},{l:7,s:'〈い形容詞〉です／くないです'},{l:7,s:'〜は〈い形容詞〉〈名詞〉です'},
+  {l:8,s:'〜に〜があります'},{l:8,s:'〜の〈位置〉に〜があります／います'},{l:8,s:'〜ましょう'},{l:8,s:'〜や〜（名詞の列挙）'},
+  {l:9,s:'〜は〜が好きです'},{l:9,s:'〜は〜がわかります'},{l:9,s:'〜から、〜（理由）'},{l:9,s:'〜は〜があります'},
+  {l:10,s:'わたしは〈人〉に〈物〉をあげます'},{l:10,s:'わたしは〈人〉に（から）〈物〉をもらいます'},{l:10,s:'助数詞（−枚／−台）'},{l:10,s:'〈名詞〉にします'},
+  {l:11,s:'〜は〜より〈形容詞〉です'},{l:11,s:'〜と〜とどちらが〈形容詞〉ですか'},{l:11,s:'〜のほうが〈形容詞〉です'},{l:11,s:'〜［の中］で、〜がいちばん〈形容詞〉です'},
+  {l:12,s:'〈名詞／形容詞〉でした／かったです'},{l:12,s:'〈期間〉〜ます'},
+  {l:13,s:'わたしは〜がほしいです'},{l:13,s:'〜たいです／〜たくないです'},{l:13,s:'〜へ〈ます形／名詞〉に行きます／来ます'},{l:13,s:'〈ます形〉＋ましょうか'},{l:13,s:'〜かた（〜方）'},
+  {l:14,n:'動詞のグループ分け'},{l:14,s:'〈辞書形〉の活用'},{l:14,s:'〈名詞〉＋ができます／〈辞書形〉＋ことができます（能力）'},{l:14,s:'〈辞書形／名詞の／期間〉＋まえに'},{l:14,s:'〜とか、〜とか'},
+  {l:15,s:'〈て形〉の活用'},{l:15,s:'〈て形〉＋ください'},{l:15,s:'〈て形〉＋くださいませんか'},{l:15,s:'〈て形〉＋います（進行）'},
+  {l:16,s:'〈て形〉＋もいいですか'},{l:16,s:'〈て形〉＋はいけません'},{l:16,s:'〈て形〉＋います（状態、身分・職業）'},{l:16,s:'〈て形〉、〈て形〉〜（動作の順序）'},
+  {l:17,s:'〈ない形〉の活用'},{l:17,s:'〈ない形〉＋ないでください'},{l:17,s:'〈ない形〉＋なくてもいいです'},{l:17,s:'〈て形〉＋から、〜'},
+  {l:18,s:'〈た形〉の活用'},{l:18,s:'〈た形〉＋ことがあります'},{l:18,s:'〈た形〉＋り、〈た形〉＋りします'},{l:18,s:'〜たあとで、〜'},
+  {l:19,s:'普通形'},{l:19,s:'〈普通形〉＋と思います（意見）'},{l:19,s:'「文」〈普通形〉＋と言います'},
+  {l:20,s:'名詞修飾'},{l:20,n:'〈て形〉＋います（着脱）'},
+  {l:21,s:'普通形過去＋ら、〜（仮定条件）'},{l:21,s:'〈た形〉＋ら、〜（確定条件）'},{l:21,s:'〈て形／い形容詞くて〉＋も、〜／〈な形容詞・名詞〉で＋も、〜（逆説の仮定条件）'},
+  {l:22,s:'〜をくれます'},{l:22,s:'〈て形〉＋くれます'},{l:22,s:'〈て形〉＋もらいます'},{l:22,s:'〈て形〉＋あげます'},{l:22,s:'〜てくれてありがとう'},
+  {l:23,s:'〈い形容詞〉くなります／〈な形容詞・名詞〉になります'},{l:23,s:'〈動詞辞書形〉＋と、〜'},{l:23,s:'〈て形〉＋来ます'},{l:23,s:'〈普通形〉＋でしょう？'},
+  {l:24,s:'可能形（〜られる／れる）'},{l:24,s:'〜ようになります（変化）'},{l:24,n:'〜なくなります'},
+  {l:25,s:'〜ので、〜'},{l:25,s:'疑問詞〜か、〜'},{l:25,s:'〜かどうか、〜'},{l:25,s:'まだ〜ていません'},
+  {l:26,s:'〈動詞普通形〉＋とき、〜'},{l:26,s:'〈ない形〉＋なければなりません'},
+  {l:27,s:'〜んですか'},{l:27,s:'〜ながら'},{l:27,s:'〜たらどうですか'},{l:27,n:'〜ていただけませんか'},
+  {l:28,n:'〈て形〉＋います（動作・作用の結果）'},{l:28,s:'〜そうです（伝聞）'},{l:28,s:'〜がします（におい・音・味）'},
+  {l:29,s:'〜し、〜し、〜（並列描写）'},{l:29,s:'〜ことにする'},{l:29,n:'〜ことになる'},{l:29,n:'〜ことになっている'},{l:29,n:'〜けど、〜（逆接）'},
+  {l:30,s:'意向形'},{l:30,s:'〈意向形〉＋と思っています'},{l:30,s:'〜ために、〜（目的）'},
+  {l:31,s:'〈て形〉＋おきます（準備）'},{l:31,s:'〜が〜てあります'},{l:31,s:'〜すぎます'},{l:31,s:'〈い形容詞〉く／〈な形容詞〉にします'},
+  {l:32,s:'〜ほうがいいです'},{l:32,s:'〜かもしれません'},{l:32,s:'〜て／〜ないで〜'},
+  {l:33,s:'〈動詞〉＋ば、〜'},{l:33,s:'〜でしょう'},{l:33,s:'〜んじゃないでしょうか'},
+  {l:34,s:'〈て形〉＋しまいました（完了）'},{l:34,n:'〜たまま、〜'},{l:34,s:'〜のは〈形容詞〉です'},{l:34,s:'〜のは〜／のが〜／のを〜（名詞化）'},
+  {l:35,s:'〜ように、〜（目標）'},{l:35,s:'〜ようにしています（習慣）'},{l:35,s:'〜やすいです／〜にくいです'},
+  {l:36,s:'〈人〉は〜に〜（ら）れます（受身）'},{l:36,s:'〈物〉が〜（ら）れます'},{l:36,s:'〜という〜（名前・呼称）'},
+  {l:37,s:'〜そうです（様態・形容詞）'},{l:37,s:'〜そうです（様態・動詞）'},{l:37,s:'〜ところです'},{l:37,s:'〈て形〉＋みます'},{l:37,n:'〜てくれませんか'},
+  {l:38,s:'命令形'},{l:38,s:'禁止形'},{l:38,n:'〜なさい'},{l:38,s:'〜は〜という意味です'},{l:38,s:'〜と言っていました'},
+  {l:39,s:'〜ようです（推量）'},{l:39,s:'〜のに、〜（逆接）'},{l:39,s:'〜たばかりです'},
+  {l:40,s:'〜させます（強制）'},{l:40,s:'〜させていただけませんか'},
+  {l:41,s:'特別な尊敬語'},{l:41,s:'お〜になります'},{l:41,s:'お／ご〜ください'},
+  {l:42,s:'特別な謙譲語（目上のための行為）'},{l:42,s:'お／ご〜します（謙譲）'}
+];
+const DAICHI_UNMATCHED = [];
+DAICHI_MAP.forEach(e=>{
+  if(e.s){ const o=_byText[e.s]; if(o){ _tag(o,'daichi',e.l); } else { DAICHI_UNMATCHED.push(e.s); } }
+  else { _tag(_add(e.n),'daichi',e.l); }
+});
+if(DAICHI_UNMATCHED.length) console.warn('大地→既存 未一致:', DAICHI_UNMATCHED);
+
 // 教科書ごとの「課 → 文型リスト」索引を作る
 function lessonsOf(bookId){
   const map={};
@@ -509,8 +574,9 @@ function matches(d,q){
   if(!q) return true;
   const bkStr = (d.ka!=null) ? ('みんなの日本語 初級 第2版 みん日 第'+d.ka+'課 '+d.ka+'課') : '';
   const gkStr = (d.gka!=null) ? ('げんき 第3版 第'+d.gka+'課 '+d.gka+'課') : '';
-  const tkStr = (d.tka!=null) ? ('つなぐ日本語 初級 つなぐ 第'+d.tka+'課 '+d.tka+'課') : '';
-  const hay = toHira(d.p+' '+d.en+' '+d.setu+' '+(d.note||'')+' '+d._key+' '+d.lvl+' '+bkStr+' '+gkStr+' '+tkStr).toLowerCase();
+  const tkStr = (d.tka!=null) ? ('つなぐ日本語 初級 初版 つなぐ 第'+d.tka+'課 '+d.tka+'課') : '';
+  const dkStr = (d.dka!=null) ? ('大地 初級 初版 第'+d.dka+'課 '+d.dka+'課') : '';
+  const hay = toHira(d.p+' '+d.en+' '+d.setu+' '+(d.note||'')+' '+d._key+' '+d.lvl+' '+bkStr+' '+gkStr+' '+tkStr+' '+dkStr).toLowerCase();
   return hay.indexOf(q)>=0;
 }
 
@@ -536,7 +602,7 @@ function renderKaisetsu(){
     const rl=rowLabel(d._key);
     if(rl!==curRow){ curRow=rl; html+=`<div class="goju-head">${rl}</div>`; }
     const ex=d.ex.map(e=>`<div class="bk-ex-item"><div class="bk-ex-ja">${e[0]}</div><div class="bk-ex-en">${e[1]}</div></div>`).join('');
-    const _srcMap={ minna:d.ka, genki:d.gka, tsunagu:d.tka };
+    const _srcMap={ minna:d.ka, genki:d.gka, tsunagu:d.tka, daichi:d.dka };
     const _srcTags=BOOKS.filter(b=>_srcMap[b.id]!=null).map(b=>
       `<span class="src-tag" style="background:${b.bg};color:${b.accent}">${b.short} 第${_srcMap[b.id]}課</span>`);
     const tag=_srcTags.length?`<div class="src-tags">${_srcTags.join('')}</div>`:'';

@@ -127,6 +127,30 @@
     margin-top: 2rem; line-height: 1.8;
   }
 
+  /* 最近の更新 */
+  .updates {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 4px 16px;
+    margin-top: 2rem;
+  }
+  .updates-head {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--text-hint); text-transform: uppercase;
+    padding: 12px 2px 4px;
+  }
+  .update-row {
+    display: flex; gap: 12px; align-items: baseline;
+    padding: 10px 0; border-top: 1px solid var(--border);
+  }
+  .update-date {
+    font-size: 11px; font-weight: 700; color: var(--text-hint);
+    flex-shrink: 0; width: 72px;
+    font-variant-numeric: tabular-nums; letter-spacing: 0.02em;
+  }
+  .update-text { font-size: 13px; line-height: 1.5; color: var(--text-muted); }
+
   /* あそび場への入口バナー */
   .play-banner {
     display: flex; align-items: center; gap: 14px;
@@ -278,6 +302,22 @@
     </div>
     <span class="pb-arrow">›</span>
   </a>
+
+  <!--
+    ▼ 更新のたびに、この一番上の <div class="update-row"> を1件コピーして日付と内容を書き換えてください。
+       古いものは下から消してOK（3〜4件だけ残すのがおすすめ）。
+  -->
+  <div class="updates">
+    <div class="updates-head">最近の更新</div>
+    <div class="update-row">
+      <div class="update-date">2026.07.09</div>
+      <div class="update-text">文型解説ページに N3〜N1 の文型を追加しました。</div>
+    </div>
+    <div class="update-row">
+      <div class="update-date">2026.06.24</div>
+      <div class="update-text">「日本語の部屋」を公開しました。</div>
+    </div>
+  </div>
 
   <div class="app-footer">
     © 2025 日本語の部屋

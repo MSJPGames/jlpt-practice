@@ -392,7 +392,7 @@ const LESSONS = [
    文型データ自体は下の PATTERNS（教科書横断）で管理します。
    追加候補：つなぐ日本語 / いろどり / まるごと など */
 const BOOKS = [
-  { id:'minna',   name:'みんなの日本語 初級 ver.2', short:'みん日', accent:'#3B6D11', bg:'#EAF3DE', levels:[[25,'N5'],[50,'N4']] },
+  { id:'minna',   name:'みんなの日本語 初級 第2版', short:'みん日', accent:'#3B6D11', bg:'#EAF3DE', levels:[[25,'N5'],[50,'N4']] },
   { id:'genki',   name:'げんき 第3版',            short:'げんき', accent:'#185FA5', bg:'#E6F1FB', levels:[[12,'N5'],[23,'N4']] },
   { id:'tsunagu', name:'つなぐ日本語 初級',        short:'つなぐ', accent:'#854F0B', bg:'#FAEEDA', levels:[[15,'N5'],[30,'N4']] }
 ];
@@ -507,7 +507,7 @@ const SORTED=[...D].map(d=>({...d,_key:yomiKey(d.p)}))
 
 function matches(d,q){
   if(!q) return true;
-  const bkStr = (d.ka!=null) ? ('みんなの日本語 初級 ver.2 みん日 第'+d.ka+'課 '+d.ka+'課') : '';
+  const bkStr = (d.ka!=null) ? ('みんなの日本語 初級 第2版 みん日 第'+d.ka+'課 '+d.ka+'課') : '';
   const gkStr = (d.gka!=null) ? ('げんき 第3版 第'+d.gka+'課 '+d.gka+'課') : '';
   const tkStr = (d.tka!=null) ? ('つなぐ日本語 初級 つなぐ 第'+d.tka+'課 '+d.tka+'課') : '';
   const hay = toHira(d.p+' '+d.en+' '+d.setu+' '+(d.note||'')+' '+d._key+' '+d.lvl+' '+bkStr+' '+gkStr+' '+tkStr).toLowerCase();

@@ -67,7 +67,7 @@ window.LANGS = [
     tips:['つづりがほぼローマ字読みで入りやすい。','声調や語形変化が少なく、初学者に学びやすい言語。']
   },
   {
-    code:'my', jp:'ビルマ語', autonym:'မြန်မာဘာသာ', en:'Burmese', chip:'မ',
+    code:'my', grammar:'grammar.html?code=my', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、ビルマ語の文法を例文つきで', jp:'ビルマ語', autonym:'မြန်မာဘာသာ', en:'Burmese', chip:'မ',
     region:'ミャンマー', script:'ビルマ文字', family:'シナ・チベット語族', order:'SOV（日本語型）',
     tts:'my-MM', resRank:'8位', learnRank:'9位', core:true, resident:true, learner:true, sov:true,
     accent:'#854F0B', bg:'#FAEEDA',
@@ -97,7 +97,7 @@ window.LANGS = [
     tips:['共通語・媒介語として、多国籍の家庭との最初の橋渡しに有用。','冠詞・時制・単複が日本語話者のつまずきどころ。']
   },
   {
-    code:'th', jp:'タイ語', autonym:'ภาษาไทย', en:'Thai', chip:'ไ',
+    code:'th', grammar:'grammar.html?code=th', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、タイ語の文法を例文つきで', jp:'タイ語', autonym:'ภาษาไทย', en:'Thai', chip:'ไ',
     region:'タイ', script:'タイ文字', family:'タイ・カダイ語族', order:'SVO',
     tts:'th-TH', resRank:null, learnRank:'5位', core:false, resident:false, learner:true, sov:false,
     accent:'#97406A', bg:'#F7E8F0',
@@ -112,7 +112,7 @@ window.LANGS = [
     tips:['5声調と独自の文字が特徴。声調で意味が変わる。','語順はSVO。分かち書きをしない点に注意。']
   },
   {
-    code:'hi', jp:'ヒンディー語', autonym:'हिन्दी', en:'Hindi', chip:'हि',
+    code:'hi', grammar:'grammar.html?code=hi', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、ヒンディー語の文法を例文つきで', jp:'ヒンディー語', autonym:'हिन्दी', en:'Hindi', chip:'हि',
     region:'インド北部', script:'デーヴァナーガリー文字', family:'インド・ヨーロッパ語族', order:'SOV（日本語型）',
     tts:'hi-IN', resRank:null, learnRank:'10位（インド）', core:false, resident:false, learner:true, sov:true,
     accent:'#6E5B10', bg:'#F2EFD9',
@@ -127,7 +127,7 @@ window.LANGS = [
     tips:['語順がSOVで日本語に近い。後置詞は助詞に似た働き。','デーヴァナーガリー文字。母音記号の仕組みを押さえると読みやすい。']
   },
   {
-    code:'tl', jp:'フィリピノ語（タガログ語）', autonym:'Tagalog / Filipino', en:'Filipino (Tagalog)', chip:'Tl',
+    code:'tl', grammar:'grammar.html?code=tl', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、フィリピノ語の文法を例文つきで', jp:'フィリピノ語（タガログ語）', autonym:'Tagalog / Filipino', en:'Filipino (Tagalog)', chip:'Tl',
     region:'フィリピン', script:'ラテン文字', family:'オーストロネシア語族', order:'述語先頭（VSO型）',
     tts:'fil-PH', resRank:'4位', learnRank:null, core:false, resident:true, learner:false, sov:false,
     accent:'#8A4A24', bg:'#F4E9E1',
@@ -173,7 +173,7 @@ window.LANGS = [
     tips:['在日ブラジル人子弟の継承語支援で特に需要が大きい。','動詞活用が豊富で名詞に性がある。ローマ字に近い読みで入りやすい面も。']
   },
   {
-    code:'si', jp:'シンハラ語', autonym:'සිංහල', en:'Sinhala', chip:'සි',
+    code:'si', grammar:'grammar.html?code=si', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、シンハラ語の文法を例文つきで', jp:'シンハラ語', autonym:'සිංහල', en:'Sinhala', chip:'සි',
     region:'スリランカ', script:'シンハラ文字', family:'インド・ヨーロッパ語族', order:'SOV（日本語型）',
     tts:'si-LK', resRank:'9位（スリランカ）', learnRank:null, core:false, resident:true, learner:false, sov:true,
     accent:'#3C3489', bg:'#EEEDFE',
@@ -188,7 +188,7 @@ window.LANGS = [
     tips:['SOVで語順は日本語に近い。','話し言葉と書き言葉の差が大きい。まずは話し言葉から。']
   },
   {
-    code:'ta', jp:'タミル語', autonym:'தமிழ்', en:'Tamil', chip:'த',
+    code:'ta', grammar:'grammar.html?code=ta', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、タミル語の文法を例文つきで', jp:'タミル語', autonym:'தமிழ்', en:'Tamil', chip:'த',
     region:'スリランカ・インド南部', script:'タミル文字', family:'ドラヴィダ語族', order:'SOV（日本語型）',
     tts:'ta-IN', resRank:'9位（スリランカ）', learnRank:null, core:false, resident:true, learner:false, sov:true,
     accent:'#97406A', bg:'#F7E8F0',
@@ -203,7 +203,7 @@ window.LANGS = [
     tips:['膠着語でSOV。語順・助詞的な仕組みが日本語と似る。','長母音・そり舌音など音の区別が豊富。文字は音節文字。']
   },
   {
-    code:'bn', jp:'ベンガル語', autonym:'বাংলা', en:'Bengali', chip:'ব',
+    code:'bn', grammar:'grammar.html?code=bn', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、ベンガル語の文法を例文つきで', jp:'ベンガル語', autonym:'বাংলা', en:'Bengali', chip:'ব',
     region:'バングラデシュ・インド西ベンガル州', script:'ベンガル文字（アブギダ）', family:'インド・ヨーロッパ語族（インド・アーリア）', order:'SOV（日本語型）',
     tts:'bn-BD', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:true,
     accent:'#2E6B57', bg:'#DEEDE7',
@@ -218,7 +218,7 @@ window.LANGS = [
     tips:['SOV・後置詞で日本語と語順が近い。','声調がなく名詞に性もない。文字は頭線（মাত্রা）でつなぐアブギダ。']
   },
   {
-    code:'ur', jp:'ウルドゥー語', autonym:'اردو', en:'Urdu', chip:'اُ',
+    code:'ur', grammar:'grammar.html?code=ur', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、ウルドゥー語の文法を例文つきで', jp:'ウルドゥー語', autonym:'اردو', en:'Urdu', chip:'اُ',
     region:'パキスタン・インド', script:'ウルドゥー文字（アラビア文字系・右→左）', family:'インド・ヨーロッパ語族（インド・アーリア）', order:'SOV（日本語型）',
     tts:'ur-PK', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:true,
     accent:'#2E7D46', bg:'#E0F0E5',
@@ -233,7 +233,7 @@ window.LANGS = [
     tips:['SOV・後置詞で日本語と語順が近い（ヒンディー語とほぼ同じ文法）。','文字はアラビア文字系で右から左へ。短母音は記号で表す。']
   },
   {
-    code:'yue', jp:'広東語', autonym:'廣東話 / 粵語', en:'Cantonese', chip:'粵',
+    code:'yue', grammar:'grammar.html?code=yue', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、広東語の文法を例文つきで', jp:'広東語', autonym:'廣東話 / 粵語', en:'Cantonese', chip:'粵',
     region:'香港・マカオ・広東省', script:'漢字（繁体字）', family:'シナ・チベット語族', order:'SVO',
     tts:'zh-HK', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false, group:'漢語',
     accent:'#B03A2E', bg:'#F7E4E0',

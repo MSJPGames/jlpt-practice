@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本語教員試験 過去問形式ドリル ｜ 日本語の部屋</title>
+<meta name="description" content="登録日本語教員試験・日本語教育能力検定試験の必須の教育内容（5区分）に沿った四択の過去問形式ドリル。区分別に選んで自動採点。">
+<style>
+  :root{--bg:#F7F5F0;--surface:#FFFFFF;--border:#E2DDD6;--text:#1C1C1C;--muted:#6B6560;--hint:#9E9890;
+    --accent:#8A3A5B;--accent-soft:#F6E5EE;--accent-deep:#5E223D;--ok:#3B6D11;--ok-bg:#EAF3DE;--ng:#A0392E;--ng-bg:#F7E6E2;}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);
+    min-height:100vh;padding:0 1rem 2.5rem;line-height:1.6;}
+  .container{max-width:600px;margin:0 auto;}
+  .topbar{display:flex;align-items:center;gap:10px;padding:1.1rem 0 0;flex-wrap:wrap;}
+  .back{font-size:13px;color:var(--muted);text-decoration:none;font-weight:600;}
+  h1{font-size:22px;font-weight:800;margin-top:1rem;text-align:center;}
+  .sub{font-size:13px;color:var(--muted);text-align:center;margin-top:6px;}
+
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:18px;}
+  .plabel{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--hint);margin-bottom:9px;}
+  .plabel:not(:first-child){margin-top:18px;}
+  .opts{display:flex;flex-wrap:wrap;gap:7px;}
+  .opt{font-size:13px;font-weight:700;color:var(--muted);background:var(--bg);border:1px solid var(--border);
+    border-radius:999px;padding:8px 14px;cursor:pointer;transition:transform .1s;}
+  .opt:active{transform:scale(.96);}
+  .opt.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .opt .n{font-size:11px;opacity:.7;margin-left:5px;font-weight:600;}
+  .startbtn{width:100%;margin-top:20px;font-size:16px;font-weight:800;color:#fff;background:var(--accent);border:none;
+    border-radius:12px;padding:15px;cursor:pointer;transition:transform .1s,background .15s;}
+  .startbtn:active{transform:scale(.98);}
+  .startbtn:disabled{background:#C7C2BB;cursor:not-allowed;}
+  .hintline{font-size:11.5px;color:var(--hint);margin-top:12px;line-height:1.7;}
+
+  .qbar{display:flex;align-items:center;justify-content:space-between;margin-top:18px;gap:10px;}
+  .qprog{font-size:12px;font-weight:700;color:var(--muted);}
+  .qscore{font-size:12px;font-weight:700;}
+  .qscore .s-ok{color:var(--ok);} .qscore .s-ng{color:var(--ng);}
+  .qquit{font-size:12px;color:var(--hint);text-decoration:none;background:none;border:none;cursor:pointer;font-weight:600;}
+  .track{height:6px;background:var(--border);border-radius:99px;margin-top:8px;overflow:hidden;}
+  .track>i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s;}
+
+  .qcard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-top:16px;}
+  .qtags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+  .qtag{font-size:10.5px;font-weight:800;color:var(--accent-deep);background:var(--accent-soft);border-radius:999px;padding:3px 11px;}
+  .qtag.topic{color:var(--muted);background:var(--bg);}
+  .qtext{font-size:17px;line-height:1.7;font-weight:600;margin-bottom:16px;}
+  .choices{display:flex;flex-direction:column;gap:9px;}
+  .ch{display:flex;align-items:flex-start;gap:11px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;
+    padding:13px 14px;cursor:pointer;font-size:14.5px;line-height:1.55;text-align:left;transition:border-color .12s,background .12s;}
+  .ch:active{transform:scale(.995);}
+  .ch .mk{flex-shrink:0;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--hint);color:var(--muted);
+    font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .ch.correct{border-color:var(--ok);background:var(--ok-bg);}
+  .ch.correct .mk{background:var(--ok);border-color:var(--ok);color:#fff;}
+  .ch.wrong{border-color:var(--ng);background:var(--ng-bg);}
+  .ch.wrong .mk{background:var(--ng);border-color:var(--ng);color:#fff;}
+  .ch.locked{cursor:default;}
+  .exp{margin-top:16px;background:var(--accent-soft);border-radius:12px;padding:13px 15px;font-size:13.5px;line-height:1.75;
+    color:var(--accent-deep);display:none;}
+  .exp.show{display:block;}
+  .exp b{font-weight:800;}
+  .nextbtn{width:100%;margin-top:16px;font-size:15px;font-weight:800;color:#fff;background:var(--accent);border:none;
+    border-radius:12px;padding:14px;cursor:pointer;display:none;}
+  .nextbtn.show{display:block;}
+
+  .result{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 20px;margin-top:20px;text-align:center;}
+  .rbig{font-size:44px;font-weight:800;color:var(--accent-deep);}
+  .rsub{font-size:14px;color:var(--muted);margin-top:6px;}
+  .rpct{font-size:13px;font-weight:700;color:var(--accent);margin-top:4px;}
+  .rbreak{text-align:left;margin-top:20px;}
+  .rbrow{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-top:1px solid var(--border);}
+  .rbrow span:last-child{font-weight:700;color:var(--muted);}
+  .rbtns{display:flex;gap:10px;margin-top:22px;}
+  .rbtn{flex:1;font-size:14px;font-weight:800;border-radius:12px;padding:13px;cursor:pointer;border:1px solid var(--border);
+    background:var(--surface);color:var(--text);}
+  .rbtn.pri{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .review{text-align:left;margin-top:18px;}
+  .review h3{font-size:12px;font-weight:700;color:var(--hint);margin-bottom:6px;}
+  .rev{font-size:12.5px;color:var(--muted);padding:9px 0;border-top:1px solid var(--border);line-height:1.6;}
+  .rev b{color:var(--accent-deep);}
+
+  .foot{text-align:center;font-size:11px;color:var(--hint);margin-top:2rem;line-height:1.9;}
+</style></head>
+<body><div class="container">
+  <div class="topbar"><a href="nihongokyoiku.html" class="back">‹ 日本語教育</a><a href="index.html" class="back">ホーム</a></div>
+  <h1>過去問形式ドリル</h1>
+  <div class="sub">必須の教育内容（5区分）に沿った四択・自動採点</div>
+
+  <div id="setup"></div>
+  <div id="quiz" style="display:none;"></div>
+
+  <div class="foot">© 2025 日本語の部屋<br>※ 登録日本語教員試験・日本語教育能力検定試験の出題範囲を参考にした学習用問題です。実際の試験問題ではありません。</div>
+</div>
+
+<script src="kyoin_quiz.js"></script>
+<script>
+var BANK = window.KYOIN || [];
+var sel = { kubun:'all', num:10 };
+var setup=document.getElementById('setup'), quiz=document.getElementById('quiz');
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function poolFor(k){
+  var arr=[];
+  BANK.forEach(function(d){ if(k==='all'||d.kubun===k) d.items.forEach(function(it){ arr.push({kubun:d.kubun,it:it}); }); });
+  return arr;
+}
+function renderSetup(){
+  var kubs=[{k:'all',l:'すべて'}].concat(BANK.map(function(d){return {k:d.kubun,l:d.kubun,n:d.items.length};}));
+  var kb=kubs.map(function(c){
+    var n=c.n!=null?'<span class="n">'+c.n+'</span>':'<span class="n">'+poolFor('all').length+'</span>';
+    return '<button class="opt kbtn'+(sel.kubun===c.k?' on':'')+'" data-k="'+esc(c.k)+'">'+esc(c.l)+n+'</button>';
+  }).join('');
+  var avail=poolFor(sel.kubun).length;
+  var nums=[10,20,'すべて'];
+  var nb=nums.map(function(v){var val=(v==='すべて')?9999:v;
+    return '<button class="opt nbtn'+(sel.num===val?' on':'')+'" data-n="'+val+'">'+(v==='すべて'?'すべて':v+'問')+'</button>';
+  }).join('');
+  setup.innerHTML='<div class="panel">'
+    +'<div class="plabel">区分をえらぶ</div><div class="opts">'+kb+'</div>'
+    +'<div class="plabel">出題数</div><div class="opts">'+nb+'</div>'
+    +'<button class="startbtn" id="start">この設定で始める（'+Math.min(avail, sel.num)+'問）</button>'
+    +'<div class="hintline">四択から1つ選ぶと自動で採点し、解説が表示されます。選択肢の並びは毎回シャッフルされます。最後に区分別の正答率が出ます。</div>'
+    +'</div>';
+}
+setup.addEventListener('click',function(e){
+  var k=e.target.closest('.kbtn'); if(k){sel.kubun=k.getAttribute('data-k');renderSetup();return;}
+  var n=e.target.closest('.nbtn'); if(n){sel.num=parseInt(n.getAttribute('data-n'),10);renderSetup();return;}
+  if(e.target.id==='start'){startQuiz();}
+});
+
+var Q=[], idx=0, right=0, wrong=0, byk={}, review=[];
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function startQuiz(){
+  Q=shuffle(poolFor(sel.kubun).slice());
+  if(sel.num<Q.length) Q=Q.slice(0,sel.num);
+  idx=0;right=0;wrong=0;byk={};review=[];
+  BANK.forEach(function(d){byk[d.kubun]={r:0,t:0};});
+  setup.style.display='none';quiz.style.display='block';
+  renderQ();
+}
+function renderQ(){
+  if(idx>=Q.length){renderResult();return;}
+  var cur=Q[idx], it=cur.it;
+  // shuffle choices, track correct
+  var order=it.choices.map(function(c,i){return {c:c,correct:i===it.ans};});
+  shuffle(order);
+  cur._order=order;
+  var pct=Math.round(idx/Q.length*100);
+  var letters=['ア','イ','ウ','エ','オ'];
+  var chs=order.map(function(o,i){
+    return '<button class="ch" data-i="'+i+'" data-correct="'+(o.correct?1:0)+'"><span class="mk">'+letters[i]+'</span><span>'+esc(o.c)+'</span></button>';
+  }).join('');
+  quiz.innerHTML=
+    '<div class="qbar"><span class="qprog">第 '+(idx+1)+' 問 / '+Q.length+'</span>'
+      +'<span class="qscore"><span class="s-ok">正 '+right+'</span>　<span class="s-ng">誤 '+wrong+'</span></span>'
+      +'<button class="qquit" id="quit">やめる</button></div>'
+    +'<div class="track"><i style="width:'+pct+'%"></i></div>'
+    +'<div class="qcard">'
+      +'<div class="qtags"><span class="qtag">'+esc(cur.kubun)+'</span>'+(it.topic?'<span class="qtag topic">'+esc(it.topic)+'</span>':'')+'</div>'
+      +'<div class="qtext">'+esc(it.q)+'</div>'
+      +'<div class="choices" id="choices">'+chs+'</div>'
+      +'<div class="exp" id="exp"></div>'
+      +'<button class="nextbtn" id="next">'+(idx+1>=Q.length?'結果を見る':'次の問題へ')+'</button>'
+    +'</div>';
+}
+quiz.addEventListener('click',function(e){
+  if(e.target.id==='quit'){renderResult();return;}
+  if(e.target.id==='next'){idx++;renderQ();return;}
+  var ch=e.target.closest('.ch');
+  if(ch && !document.getElementById('choices').classList.contains('done')){
+    var cur=Q[idx], it=cur.it;
+    var correct=ch.getAttribute('data-correct')==='1';
+    var choices=document.getElementById('choices'); choices.classList.add('done');
+    Array.prototype.forEach.call(choices.children,function(b){
+      b.classList.add('locked');
+      if(b.getAttribute('data-correct')==='1') b.classList.add('correct');
+    });
+    if(!correct) ch.classList.add('wrong');
+    byk[cur.kubun].t++;
+    if(correct){right++;byk[cur.kubun].r++;} else {wrong++; review.push(cur);}
+    var exp=document.getElementById('exp'); exp.innerHTML='<b>'+(correct?'正解':'不正解')+'</b>　'+esc(it.exp); exp.classList.add('show');
+    document.getElementById('next').classList.add('show');
+  }
+});
+function renderResult(){
+  var done=right+wrong, pct=done?Math.round(right/done*100):0;
+  var msg=pct>=80?'合格圏です':pct>=60?'あと少し':pct>=40?'基礎を固めよう':'くり返し取り組もう';
+  var brk=BANK.map(function(d){var b=byk[d.kubun];if(!b||!b.t)return '';
+    return '<div class="rbrow"><span>'+esc(d.kubun)+'</span><span>'+b.r+'/'+b.t+'（'+Math.round(b.r/b.t*100)+'%）</span></div>';}).join('');
+  var rev='';
+  if(review.length){rev='<div class="review"><h3>まちがえた問題（'+review.length+'）</h3>'
+    +review.slice(0,30).map(function(m){var cc=m.it.choices[m.it.ans];
+      return '<div class="rev">'+esc(m.it.q)+'<br>→ 正解：<b>'+esc(cc)+'</b></div>';}).join('')+'</div>';}
+  quiz.innerHTML='<div class="result"><div class="rbig">'+right+' / '+done+'</div>'
+    +'<div class="rsub">'+esc(sel.kubun==='all'?'全区分':sel.kubun)+'・'+msg+'</div>'
+    +'<div class="rpct">正答率 '+pct+'%</div>'
+    +(brk?'<div class="rbreak">'+brk+'</div>':'')
+    +'<div class="rbtns"><button class="rbtn pri" id="again">もう一度</button><button class="rbtn" id="reconf">設定を変える</button></div>'
+    +rev+'</div>';
+}
+quiz.addEventListener('click',function(e){
+  if(e.target.id==='again'){startQuiz();}
+  if(e.target.id==='reconf'){quiz.style.display='none';setup.style.display='block';renderSetup();window.scrollTo({top:0,behavior:'smooth'});}
+});
+renderSetup();
+</script>
+</body></html>

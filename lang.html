@@ -164,6 +164,10 @@
   .tref{stroke:#EEEAE3;stroke-width:1;}
   .tpath{fill:none;stroke:var(--accent);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;}
   .tdot{fill:var(--accent);}
+  .tglot{stroke:#B23B3B;stroke-width:2.2;stroke-linecap:round;}
+  .tstop{stroke:#B23B3B;stroke-width:2.8;stroke-linecap:round;}
+  .tdur{stroke:#D8D2C8;stroke-width:1.4;stroke-linecap:round;}
+  .tone-len{font-size:10px;font-weight:700;color:var(--accent);background:var(--accent-bg,#EDEAE3);border-radius:999px;padding:1px 7px;margin-left:5px;}
   .tone-ex{font-size:14px;line-height:1.35;text-align:center;}
   .tone-ex .tr{color:var(--text-muted);font-size:12px;}
   .tone-ex .tm{color:var(--text-hint);font-size:11px;}
@@ -221,18 +225,22 @@ function speak(text, lang, btn){
   }catch(e){}
 }
 window.__speak = speak;
-window.__tone = function(str){
+window.__tone = function(str, relDur, glot){
   try{
     if(!window.__actx){ window.__actx = new (window.AudioContext||window.webkitAudioContext)(); }
     var c=window.__actx; if(c.state==='suspended') c.resume();
     var pts=str.split(',').map(Number);
     var o=c.createOscillator(), g=c.createGain(); o.type='sine';
-    var t0=c.currentTime, dur=0.78, f=function(p){ return 196*Math.pow(330/196,(p-1)/4); };
+    var rd=(relDur&&relDur>0)?relDur:1;
+    var t0=c.currentTime, dur=0.78*rd, f=function(p){ return 196*Math.pow(330/196,(p-1)/4); };
     o.frequency.setValueAtTime(f(pts[0]), t0);
     if(pts.length<2){ o.frequency.setValueAtTime(f(pts[0]), t0+dur); }
     else { for(var i=1;i<pts.length;i++){ o.frequency.linearRampToValueAtTime(f(pts[i]), t0+dur*i/(pts.length-1)); } }
     g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.3,t0+0.03);
-    g.gain.setValueAtTime(0.3,t0+dur-0.08); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+    // 声門化：きしみ／のどのつまりを、音量を一瞬しぼることで表現
+    if(glot==='mid'){ var tm=t0+dur*0.5; g.gain.setValueAtTime(0.3,tm-0.04); g.gain.exponentialRampToValueAtTime(0.02,tm); g.gain.exponentialRampToValueAtTime(0.3,tm+0.05); }
+    if(glot==='end'){ g.gain.setValueAtTime(0.3,t0+dur-0.12); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur-0.02); }
+    else { g.gain.setValueAtTime(0.3,t0+dur-0.08); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur); }
     o.connect(g); g.connect(c.destination); o.start(t0); o.stop(t0+dur+0.03);
   }catch(e){}
 };
@@ -310,21 +318,39 @@ if(!L){
       + '<div class="tone-wrap">'
       + TN.tones.map(function(t){
           var pts=t.contour, n=pts.length;
-          var px=function(i){ return (n>1)?(12+72*i/(n-1)):48; };
+          var dur=(t.dur!=null)?t.dur:1;               // 相対的な長さ（1=最長）
+          var x0=12, span=72*dur, xe=x0+span;
+          var px=function(i){ return (n>1)?(x0+span*i/(n-1)):x0+span/2; };
           var py=function(i){ return 46-(pts[i]-1)*8; };
           var poly=''; for(var i=0;i<n;i++){ poly+=(i?' L':'M')+px(i).toFixed(1)+' '+py(i).toFixed(1); }
           var refs=''; for(var p=1;p<=5;p++){ var y=46-(p-1)*8; refs+='<line x1="10" y1="'+y+'" x2="86" y2="'+y+'" class="tref"/>'; }
-          var svg='<svg class="tone-svg" viewBox="0 0 96 56">'+refs+'<path d="'+poly+'" class="tpath"/><circle cx="'+px(0).toFixed(1)+'" cy="'+py(0).toFixed(1)+'" r="3.6" class="tdot"/></svg>';
+          // 長さの目安：下部に相対的な長さのバー（dur<1のときだけ短さが見える）
+          var durbar = (t.dur!=null) ? '<line x1="'+x0+'" y1="53" x2="'+xe.toFixed(1)+'" y2="53" class="tdur"/>' : '';
+          // 声門化（きしみ・のどのつまり）の×印
+          var glot='';
+          if(t.glottal){
+            var gi = (t.glottal==='mid') ? (n-1)/2 : (n-1);
+            var i0=Math.floor(gi), fr=gi-i0, i1=Math.min(i0+1,n-1);
+            var gx=px(i0)+(px(i1)-px(i0))*fr, gy=py(i0)+(py(i1)-py(i0))*fr, r=2.4;
+            glot='<line x1="'+(gx-r).toFixed(1)+'" y1="'+(gy-r).toFixed(1)+'" x2="'+(gx+r).toFixed(1)+'" y2="'+(gy+r).toFixed(1)+'" class="tglot"/>'
+               + '<line x1="'+(gx-r).toFixed(1)+'" y1="'+(gy+r).toFixed(1)+'" x2="'+(gx+r).toFixed(1)+'" y2="'+(gy-r).toFixed(1)+'" class="tglot"/>';
+          }
+          // 入声などの詰まり（-p/-t/-k/-h止め）を、線の終わりの縦棒｜で示す
+          var stopm='';
+          if(t.stop==='end'){ var sx=px(n-1), sy=py(n-1); stopm='<line x1="'+sx.toFixed(1)+'" y1="'+(sy-4).toFixed(1)+'" x2="'+sx.toFixed(1)+'" y2="'+(sy+4).toFixed(1)+'" class="tstop"/>'; }
+          var svg='<svg class="tone-svg" viewBox="0 0 96 56">'+refs+durbar+'<path d="'+poly+'" class="tpath"/><circle cx="'+px(0).toFixed(1)+'" cy="'+py(0).toFixed(1)+'" r="3.6" class="tdot"/>'+glot+stopm+'</svg>';
           var ex=t.ex;
-          return '<div class="tone-card"><div class="tone-head"><span class="tone-name">'+esc(t.name)+'</span><span class="tone-mark">'+esc(t.mark)+'</span></div>'
+          var lenBadge = t.len ? '<span class="tone-len">'+esc(t.len)+'</span>' : '';
+          var audioGlot = t.glottal || (t.stop==='end' ? 'end' : '');
+          return '<div class="tone-card"><div class="tone-head"><span class="tone-name">'+esc(t.name)+'</span><span class="tone-mark">'+esc(t.mark)+lenBadge+'</span></div>'
             + svg
             + '<div class="tone-ex"><b>'+esc(ex[0])+'</b> <span class="tr">'+esc(ex[1])+'</span><br><span class="tm">'+esc(ex[2])+'</span></div>'
-            + '<div class="tone-btns"><button type="button" class="tone-btn" data-tone="'+pts.join(',')+'">🔊 声調</button>'
+            + '<div class="tone-btns"><button type="button" class="tone-btn" data-tone="'+pts.join(',')+'" data-dur="'+dur+'"'+(audioGlot?' data-glot="'+audioGlot+'"':'')+'>🔊 声調</button>'
             + '<button type="button" class="tone-btn" data-say="'+esc(ex[0])+'">🗣 例</button></div></div>';
         }).join('')
       + '</div>';
     content.addEventListener('click', function(e){
-      var a=e.target.closest('[data-tone]'); if(a){ window.__tone(a.getAttribute('data-tone')); return; }
+      var a=e.target.closest('[data-tone]'); if(a){ window.__tone(a.getAttribute('data-tone'), parseFloat(a.getAttribute('data-dur'))||1, a.getAttribute('data-glot')); return; }
       var b=e.target.closest('[data-say]'); if(b){ speak(b.getAttribute('data-say'), L.tts, b); }
     });
   }

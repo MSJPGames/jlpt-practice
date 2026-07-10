@@ -418,12 +418,12 @@ if(!L){
   var LN = (window.LOANS||{})[code];
   var loanHtml = '';
   if(LN){
+    var loanTotal = LN.groups.reduce(function(a,g){return a+g.items.length;},0);
     loanHtml = '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">語彙の層（借用語）</span><span class="sec-en">Loanwords</span></div>'
       + '<div class="hint">' + esc(LN.intro) + '</div>'
       + LN.groups.map(function(g){
-          return '<div class="loan-sub">' + esc(g.label) + '</div>'
-            + (g.note ? '<div class="hint" style="margin-top:0">' + esc(g.note) + '</div>' : '')
-            + g.items.map(function(it){
+          return '<div class="loan-sub">' + esc(g.label) + ' <span style="color:var(--text-hint);font-weight:400;">（'+g.items.length+'語）</span></div>'
+            + g.items.slice(0,3).map(function(it){
                 var isHan = !/[A-Za-z]/.test(it.o);   // 漢字ならバッジ、ローマ字語源なら行で表示
                 var oBadge = isHan ? '<span class="loan-o">' + esc(it.o) + '</span>' : '';
                 var oLine  = isHan ? '' : '<div class="loan-oline">語源：' + esc(it.o) + '</div>';
@@ -438,7 +438,10 @@ if(!L){
                   + (it.note ? '<div class="loan-note">' + esc(it.note) + '</div>' : '')
                 + '</div>';
               }).join('');
-        }).join('');
+        }).join('')
+      + '<a class="moji-cta" href="loanwords.html?code=' + L.code + '">'
+        + '<div><div class="mc-t">📚 借用語辞書で全部見る</div><div class="mc-d">全' + loanTotal + '語を語源の層ごとに・検索できます</div></div>'
+        + '<span class="mc-a">›</span></a>';
   }
   content.innerHTML =
       '<div class="lang-header"><div class="lh-chip">' + esc(L.chip) + '</div>'

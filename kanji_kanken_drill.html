@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>漢検 練習ドリル ｜ JLPT Practice</title>
+<meta name="description" content="漢字検定（漢検）10級〜2級の問題形式（読み・書き取り・部首・熟語の構成・対義/類義語・四字熟語）で練習できる自己採点ドリル。">
+<style>
+  :root{--bg:#F7F5F0;--surface:#FFFFFF;--border:#E2DDD6;--text:#1C1C1C;--muted:#6B6560;--hint:#9E9890;
+    --accent:#1F6F6B;--accent-soft:#DFF0EE;--accent-deep:#124B48;--ok:#3B6D11;--ok-bg:#EAF3DE;--ng:#A0392E;--ng-bg:#F7E6E2;}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);
+    min-height:100vh;padding:0 1rem 2.5rem;line-height:1.6;}
+  .container{max-width:560px;margin:0 auto;}
+  .topbar{display:flex;align-items:center;gap:10px;padding:1.1rem 0 0;flex-wrap:wrap;}
+  .back{font-size:13px;color:var(--muted);text-decoration:none;font-weight:600;}
+  h1{font-size:23px;font-weight:800;margin-top:1rem;text-align:center;}
+  .sub{font-size:13px;color:var(--muted);text-align:center;margin-top:6px;}
+
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:18px;}
+  .plabel{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--hint);margin-bottom:9px;}
+  .plabel:not(:first-child){margin-top:18px;}
+  .opts{display:flex;flex-wrap:wrap;gap:7px;}
+  .opt{font-size:13px;font-weight:700;color:var(--muted);background:var(--bg);border:1px solid var(--border);
+    border-radius:999px;padding:8px 14px;cursor:pointer;transition:transform .1s;}
+  .opt:active{transform:scale(.96);}
+  .opt.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .opt.grade{font-size:11px;color:var(--hint);background:none;border:none;padding:8px 4px;pointer-events:none;width:100%;}
+  .startbtn{width:100%;margin-top:20px;font-size:16px;font-weight:800;color:#fff;background:var(--accent);border:none;
+    border-radius:12px;padding:15px;cursor:pointer;transition:transform .1s,background .15s;}
+  .startbtn:active{transform:scale(.98);}
+  .startbtn:disabled{background:#C7C2BB;cursor:not-allowed;}
+  .hintline{font-size:11.5px;color:var(--hint);margin-top:12px;line-height:1.7;}
+
+  /* quiz */
+  .qbar{display:flex;align-items:center;justify-content:space-between;margin-top:18px;gap:10px;}
+  .qprog{font-size:12px;font-weight:700;color:var(--muted);}
+  .qscore{font-size:12px;font-weight:700;}
+  .qscore .s-ok{color:var(--ok);} .qscore .s-ng{color:var(--ng);}
+  .qquit{font-size:12px;color:var(--hint);text-decoration:none;background:none;border:none;cursor:pointer;font-weight:600;}
+  .track{height:6px;background:var(--border);border-radius:99px;margin-top:8px;overflow:hidden;}
+  .track>i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s;}
+
+  .qcard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 20px;margin-top:16px;}
+  .qtype{display:inline-block;font-size:11px;font-weight:800;color:var(--accent-deep);background:var(--accent-soft);
+    border-radius:999px;padding:3px 12px;margin-bottom:14px;}
+  .qtext{font-size:20px;line-height:1.7;font-weight:500;}
+  .qtext b{color:var(--accent-deep);font-weight:800;border-bottom:3px solid var(--accent-soft);padding:0 1px;}
+  .qtext .opts5{display:block;font-size:13px;color:var(--muted);font-weight:400;margin-top:10px;line-height:1.9;}
+
+  .revealbtn{width:100%;margin-top:20px;font-size:15px;font-weight:800;color:var(--accent);background:var(--accent-soft);
+    border:none;border-radius:12px;padding:14px;cursor:pointer;transition:transform .1s;}
+  .revealbtn:active{transform:scale(.98);}
+
+  .answer{margin-top:18px;border-top:1px dashed var(--border);padding-top:16px;display:none;}
+  .answer.show{display:block;}
+  .ansrow{display:flex;align-items:center;gap:12px;}
+  .anslabel{font-size:11px;font-weight:700;color:var(--hint);}
+  .ansval{font-size:26px;font-weight:800;color:var(--accent-deep);flex:1;min-width:0;word-break:break-all;}
+  .say{flex-shrink:0;width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface);
+    color:var(--accent);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .say:active{transform:scale(.9);}
+  .ansnote{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.7;}
+  .judge{display:flex;gap:10px;margin-top:18px;}
+  .jbtn{flex:1;font-size:15px;font-weight:800;border:none;border-radius:12px;padding:14px;cursor:pointer;transition:transform .1s;}
+  .jbtn:active{transform:scale(.97);}
+  .j-ok{background:var(--ok-bg);color:var(--ok);} .j-ng{background:var(--ng-bg);color:var(--ng);}
+
+  /* result */
+  .result{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 20px;margin-top:20px;text-align:center;}
+  .rbig{font-size:44px;font-weight:800;color:var(--accent-deep);}
+  .rsub{font-size:14px;color:var(--muted);margin-top:6px;}
+  .rpct{font-size:13px;font-weight:700;color:var(--accent);margin-top:4px;}
+  .rbtns{display:flex;gap:10px;margin-top:22px;}
+  .rbtn{flex:1;font-size:14px;font-weight:800;border-radius:12px;padding:13px;cursor:pointer;border:1px solid var(--border);
+    background:var(--surface);color:var(--text);text-decoration:none;display:flex;align-items:center;justify-content:center;}
+  .rbtn.pri{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+  .foot{text-align:center;font-size:11px;color:var(--hint);margin-top:2rem;line-height:1.9;}
+  .foot a{color:var(--muted);}
+  .miss{margin-top:16px;text-align:left;}
+  .miss h3{font-size:12px;font-weight:700;color:var(--hint);margin-bottom:8px;}
+  .missit{font-size:13px;color:var(--muted);padding:7px 0;border-top:1px solid var(--border);}
+  .missit b{color:var(--accent-deep);}
+</style></head>
+<body><div class="container">
+  <div class="topbar"><a href="kanji_kanken.html" class="back">‹ 漢検</a><a href="kanji.html" class="back">漢字一覧</a><a href="index.html" class="back">ホーム</a></div>
+  <h1>漢検 練習ドリル</h1>
+  <div class="sub">級と形式をえらんで、1問ずつ自己採点</div>
+
+  <div id="setup"></div>
+  <div id="quiz" style="display:none;"></div>
+
+  <div class="foot">© 2025 JLPT Practice ・ 漢字データ：<a href="https://github.com/davidluzgouveia/kanji-data" target="_blank" rel="noopener">kanji-data</a><br>※ 4級以上の級区分は目安です。実際の配当と前後することがあります。</div>
+</div>
+
+<script src="kankendata.js"></script>
+<script>
+var K = window.KANKEN || {};
+var LEVELS = ['10','9','8','7','6','5','4','3','準2','2'];
+var TYPES = [
+  {k:'yomi',  l:'読み'},
+  {k:'kaki',  l:'書き取り'},
+  {k:'bushu', l:'部首'},
+  {k:'ouyou', l:'応用（構成・対義/類義・四字熟語）'}
+];
+var sel = { level:null, types:{yomi:true,kaki:true,bushu:true,ouyou:true} };
+var setup = document.getElementById('setup');
+var quiz  = document.getElementById('quiz');
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function typeLabel(k){for(var i=0;i<TYPES.length;i++){if(TYPES[i].k===k)return TYPES[i].l;}return k;}
+
+function renderSetup(){
+  var lv = LEVELS.map(function(v){
+    var d=K[v]; if(!d) return '';
+    return '<button class="opt lvbtn'+(sel.level===v?' on':'')+'" data-lv="'+esc(v)+'">'+esc(d.name)+'</button>';
+  }).join('');
+  var grade = sel.level && K[sel.level] ? '<div class="opt grade">'+esc(K[sel.level].grade)+'</div>' : '';
+  var ty = TYPES.map(function(t){
+    var avail = sel.level && K[sel.level] && K[sel.level].sections[t.k] && K[sel.level].sections[t.k].length;
+    var dis = sel.level && !avail;
+    return '<button class="opt tybtn'+(sel.types[t.k]&&!dis?' on':'')+'" data-ty="'+t.k+'"'+(dis?' style="opacity:.35;pointer-events:none;"':'')+'>'+esc(t.l)+'</button>';
+  }).join('');
+  var n = countSelected();
+  setup.innerHTML =
+    '<div class="panel">'
+    + '<div class="plabel">級をえらぶ</div><div class="opts">'+lv+'</div>'+grade
+    + '<div class="plabel">出題形式（複数えらべます）</div><div class="opts">'+ty+'</div>'
+    + '<button class="startbtn" id="start"'+(n>0?'':' disabled')+'>'
+      + (sel.level? (n>0? 'この設定で始める（'+n+'問）' : '形式をえらんでください') : '級をえらんでください')
+    + '</button>'
+    + '<div class="hintline">読み＝ひらがな、書き取り＝漢字、部首＝部首名で頭の中で答えてから「答えを見る」。○×は自分でつけます。問題はランダムに並びます。</div>'
+    + '</div>';
+}
+function countSelected(){
+  if(!sel.level || !K[sel.level]) return 0;
+  var secs=K[sel.level].sections, n=0;
+  for(var k in sel.types){ if(sel.types[k] && secs[k]) n+=secs[k].length; }
+  return n;
+}
+setup.addEventListener('click', function(e){
+  var lb=e.target.closest('.lvbtn'); if(lb){ sel.level=lb.getAttribute('data-lv');
+    // reset unavailable types to available default
+    var secs=K[sel.level].sections;
+    TYPES.forEach(function(t){ if(!secs[t.k]) sel.types[t.k]=false; else if(sel.types[t.k]===undefined) sel.types[t.k]=true; });
+    renderSetup(); return; }
+  var tb=e.target.closest('.tybtn'); if(tb){ var k=tb.getAttribute('data-ty'); sel.types[k]=!sel.types[k]; renderSetup(); return; }
+  if(e.target.id==='start'){ startQuiz(); }
+});
+
+/* ---- quiz ---- */
+var Q=[], idx=0, right=0, wrong=0, missed=[];
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+function startQuiz(){
+  var secs=K[sel.level].sections; Q=[];
+  ['yomi','kaki','bushu','ouyou'].forEach(function(k){
+    if(sel.types[k] && secs[k]) secs[k].forEach(function(it){ Q.push({t:k,it:it}); });
+  });
+  shuffle(Q);
+  idx=0; right=0; wrong=0; missed=[];
+  setup.style.display='none'; quiz.style.display='block';
+  renderQ();
+}
+function speak(text){
+  if(!('speechSynthesis' in window)) return;
+  try{ window.speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(text); u.lang='ja-JP'; u.rate=0.9; window.speechSynthesis.speak(u);}catch(e){}
+}
+function stripTags(h){ return String(h).replace(/<[^>]+>/g,''); }
+function fmtQ(t, it){
+  var q=it.q||'';
+  // pull the 5-type reference onto its own styled line for ouyou 構成
+  q=q.replace(/(ア[\s\S]*?オ[^<]*)/, function(m){ return '<span class="opts5">'+m.trim()+'</span>'; });
+  return q;
+}
+function renderQ(){
+  if(idx>=Q.length){ renderResult(); return; }
+  var cur=Q[idx], it=cur.it;
+  var sub = it.sub ? it.sub : typeLabel(cur.t);
+  var pct = Math.round(idx/Q.length*100);
+  quiz.innerHTML =
+    '<div class="qbar"><span class="qprog">第 '+(idx+1)+' 問 / '+Q.length+'</span>'
+      + '<span class="qscore"><span class="s-ok">○'+right+'</span>　<span class="s-ng">×'+wrong+'</span></span>'
+      + '<button class="qquit" id="quit">やめる</button></div>'
+    + '<div class="track"><i style="width:'+pct+'%"></i></div>'
+    + '<div class="qcard">'
+      + '<span class="qtype">'+esc(sub)+'</span>'
+      + '<div class="qtext">'+fmtQ(cur.t,it)+'</div>'
+      + '<button class="revealbtn" id="reveal">答えを見る</button>'
+      + '<div class="answer" id="answer">'
+        + '<div class="ansrow"><span class="anslabel">こたえ</span>'
+          + '<span class="ansval">'+esc(it.a)+'</span>'
+          + '<button class="say" id="say" aria-label="読み上げ">🔊</button></div>'
+        + (it.note?'<div class="ansnote">'+esc(it.note)+'</div>':'')
+        + '<div class="judge"><button class="jbtn j-ok" data-j="1">○ 正解</button><button class="jbtn j-ng" data-j="0">× まちがい</button></div>'
+      + '</div>'
+    + '</div>';
+}
+quiz.addEventListener('click', function(e){
+  if(e.target.id==='reveal'){ document.getElementById('answer').classList.add('show'); e.target.style.display='none'; return; }
+  if(e.target.id==='say'){ var cur=Q[idx],it=cur.it; var read = (cur.t==='yomi')? it.a : (stripTags(it.q)||it.a); speak(read); return; }
+  if(e.target.id==='quit'){ renderResult(); return; }
+  var j=e.target.closest('.jbtn'); if(j){
+    var cur=Q[idx];
+    if(j.getAttribute('data-j')==='1') right++; else { wrong++; missed.push(cur); }
+    idx++; renderQ();
+  }
+});
+function renderResult(){
+  var done=right+wrong;
+  var pct = done? Math.round(right/done*100) : 0;
+  var msg = pct>=80?'すばらしい！':pct>=60?'その調子！':pct>=40?'もう一歩！':'くり返し練習しよう';
+  var missHtml='';
+  if(missed.length){
+    missHtml='<div class="miss"><h3>まちがえた問題（'+missed.length+'）</h3>'
+      + missed.slice(0,40).map(function(m){ return '<div class="missit">'+stripTags(m.it.q).slice(0,60)+' → <b>'+esc(m.it.a)+'</b></div>'; }).join('')
+      + '</div>';
+  }
+  quiz.innerHTML =
+    '<div class="result"><div class="rbig">'+right+' / '+done+'</div>'
+    + '<div class="rsub">'+esc(K[sel.level].name)+'・'+msg+'</div>'
+    + '<div class="rpct">正答率 '+pct+'%</div>'
+    + '<div class="rbtns"><button class="rbtn pri" id="again">もう一度</button>'
+      + '<button class="rbtn" id="reconf">級・形式を変える</button></div>'
+    + missHtml
+    + '</div>';
+}
+quiz.addEventListener('click', function(e){
+  if(e.target.id==='again'){ startQuiz(); }
+  if(e.target.id==='reconf'){ quiz.style.display='none'; setup.style.display='block'; renderSetup(); window.scrollTo({top:0,behavior:'smooth'}); }
+});
+
+renderSetup();
+</script>
+</body></html>

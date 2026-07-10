@@ -192,6 +192,12 @@
         <div class="cat-sub">4種類の問題形式</div>
         <div class="cat-count" id="vocab-total-count">計78問収録</div>
       </button>
+      <button class="main-cat-btn" id="cat-grammar" onclick="toggleGrammar()">
+        <div class="cat-icon">📝</div>
+        <div class="cat-name">文法</div>
+        <div class="cat-sub">3種類の問題形式</div>
+        <div class="cat-count" id="grammar-total-count">計15問収録</div>
+      </button>
     </div>
 
     <!-- Vocab sub-menu -->
@@ -1163,6 +1169,8 @@ updateStatsBar();
       setText('cnt-g1', countOf(grammarQuestions, '文の文法1') + '問');
       setText('cnt-g2', countOf(grammarQuestions, '文の文法2') + '問');
       setText('cnt-g3', countOf(grammarQuestions, '文章の文法') + '問');
+      var gtot = countOf(grammarQuestions,'文の文法1')+countOf(grammarQuestions,'文の文法2')+countOf(grammarQuestions,'文章の文法');
+      setText('grammar-total-count', '計'+gtot+'問収録');
     }
     // 読解
     if (typeof readingQuestions !== 'undefined') {

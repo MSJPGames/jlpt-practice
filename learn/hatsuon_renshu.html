@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>発音・発声の練習 ｜ 日本語の部屋</title>
+<meta name="description" content="お手本を聞いて、自分の声を録音して聞き比べる、日本語の発音・発声の練習ページ。母音・拍・撥音・促音・長音・ミニマルペアを練習できます。">
+<style>
+  :root{--bg:#F7F5F0;--surface:#FFFFFF;--border:#E2DDD6;--text:#1C1C1C;--text-muted:#6B6560;--text-hint:#9E9890;
+    --radius:14px;--radius-sm:10px;--accent:#1F6F6B;--accent-soft:#DFF0EE;--accent-deep:#12514E;--rec:#B23B3B;}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 2.5rem;line-height:1.7;}
+  .container{max-width:520px;margin:0 auto;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:1.1rem 0 0;flex-wrap:wrap;}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--text-muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);transition:transform .12s;}
+  .back-link:active{transform:scale(.97);}
+  .back-arrow{font-size:16px;line-height:1;}
+  .app-head{text-align:center;padding:1.6rem 0 .4rem;}
+  .app-logo{font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--text-hint);margin-bottom:8px;text-transform:uppercase;}
+  h1{font-size:22px;font-weight:700;}
+  .lead{font-size:13px;color:var(--text-muted);margin-top:8px;}
+  .how{background:var(--accent-soft);border:1px solid #CFE6E3;border-radius:var(--radius);padding:13px 15px;margin-top:1.2rem;
+    font-size:12.8px;color:var(--accent-deep);line-height:1.9;}
+  .how b{font-weight:700;}
+  .status{font-size:12px;color:var(--rec);min-height:1.2em;margin:8px 2px 0;text-align:center;}
+  .sec{margin-top:1.8rem;}
+  .sec-head{display:flex;align-items:baseline;gap:9px;margin-bottom:.7rem;}
+  .sec-bar{width:4px;height:18px;border-radius:2px;background:var(--accent);align-self:center;}
+  h2{font-size:15.5px;font-weight:700;}
+  .sec-desc{font-size:12px;color:var(--text-hint);}
+  .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .pcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;text-align:center;}
+  .pw{font-size:24px;font-weight:700;margin-bottom:2px;}
+  .pr{font-size:11px;color:var(--text-hint);min-height:14px;}
+  .pbtns{display:flex;flex-direction:column;gap:6px;margin-top:9px;}
+  .pb{font-family:inherit;font-size:12.5px;font-weight:700;border:1px solid var(--border);background:var(--surface);
+    color:var(--text-muted);border-radius:999px;padding:8px 6px;cursor:pointer;transition:transform .1s;}
+  .pb:active{transform:scale(.96);}
+  .pb.model{background:var(--accent-soft);color:var(--accent-deep);border-color:#CFE6E3;}
+  .pb.rec.on{background:var(--rec);color:#fff;border-color:var(--rec);}
+  .pb.play:disabled{opacity:.4;cursor:not-allowed;}
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2.4rem;line-height:1.9;}
+  .foot a{color:var(--text-muted);}
+  .linkrow{display:flex;gap:8px;margin-top:1.6rem;flex-wrap:wrap;}
+  .linkcard{flex:1;min-width:150px;display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:12px 14px;text-decoration:none;color:inherit;}
+  .linkcard:active{transform:scale(.98);}
+  .lc-icon{width:40px;height:40px;border-radius:11px;background:var(--accent-soft);color:var(--accent-deep);
+    display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;flex-shrink:0;}
+  .lc-t{font-size:13.5px;font-weight:700;}.lc-d{font-size:11px;color:var(--text-muted);}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <a href="../index.html" class="back-link"><span class="back-arrow">‹</span>ホーム</a>
+    <a href="hatsuon.html" class="back-link">発音の解説</a>
+    <a href="hatsuon_bogo.html" class="back-link">母語別のクセ</a>
+  </div>
+
+  <div class="app-head">
+    <div class="app-logo">Speaking Practice</div>
+    <h1>発音・発声の練習</h1>
+    <p class="lead">お手本を聞いて、自分の声を録音して、聞き比べてみましょう。</p>
+  </div>
+
+  <div class="how">
+    使い方：カードの <b>🔊お手本</b> で聞く → <b>●録音</b> を押して言う → もう一度押して止める → <b>▶自分の声</b> で聞き比べる。
+    録音は<b>この端末の中だけ</b>で、どこにも送られません。はじめての録音では、ブラウザが<b>マイクの使用</b>をたずねます（「許可」を選んでください）。
+  </div>
+  <div class="status" id="status"></div>
+
+  <div id="sets"></div>
+
+  <div class="linkrow">
+    <a href="hatsuon.html" class="linkcard"><div class="lc-icon">解</div><div><div class="lc-t">発音の解説</div><div class="lc-d">音のしくみをまとめて</div></div></a>
+    <a href="hatsuon_bogo.html" class="linkcard"><div class="lc-icon">母</div><div><div class="lc-t">母語別のクセ</div><div class="lc-d">言語ごとの注意点</div></div></a>
+  </div>
+
+  <div class="foot">
+    <a href="hiragana.html">ひらがな</a> ・ <a href="katakana.html">カタカナ</a> ・ <a href="../index.html">ホーム</a><br>
+    © 2025 日本語の部屋
+  </div>
+</div>
+
+<script>
+(function(){
+  var SETS=[
+    {t:"① 母音（あ・い・う・え・お）", d:"口の形をはっきり。", items:[["あ"],["い"],["う"],["え"],["お"]]},
+    {t:"② 拍・リズム", d:"かな1文字＝1拍。均等に。", items:[["さくら","3拍"],["がっこう","4拍"],["コーヒー","4拍"],["にほんご","4拍"]]},
+    {t:"③ 撥音「ん」", d:"後ろの音で口の形がかわる。", items:[["さんぽ"],["かんたん"],["りんご"],["ほん"]]},
+    {t:"④ 促音「っ」", d:"一拍、しっかり止める。", items:[["きて","来て"],["きって","切手"],["ざっし","雑誌"],["がっこう","学校"]]},
+    {t:"⑤ 長音（のばす音）", d:"のばす音も一拍。", items:[["おばさん"],["おばあさん"],["ビル","建物"],["ビール","beer"]]},
+    {t:"⑥ ミニマルペア", d:"長さのちがいを聞き分け・言い分け。", items:[["おじさん"],["おじいさん"],["ゆき","雪"],["ゆうき","勇気"]]}
+  ];
+  var status=document.getElementById("status");
+  function say(msg){ status.textContent=msg||""; }
+
+  // ---- お手本（ブラウザの読み上げ）----
+  function pickJa(){
+    if(!("speechSynthesis" in window)) return null;
+    var vs=window.speechSynthesis.getVoices()||[];
+    for(var i=0;i<vs.length;i++){ if(vs[i].lang && vs[i].lang.toLowerCase().indexOf("ja")===0) return vs[i]; }
+    return null;
+  }
+  function speak(text){
+    if(!("speechSynthesis" in window)){ say("この端末は読み上げに対応していません。"); return; }
+    window.speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(text); u.lang="ja-JP"; u.rate=0.92;
+    var v=pickJa(); if(v) u.voice=v;
+    window.speechSynthesis.speak(u);
+  }
+  if("speechSynthesis" in window){ window.speechSynthesis.onvoiceschanged=function(){}; }
+
+  // ---- 録音（MediaRecorder）----
+  var stream=null, rec=null, recCard=null, chunks=[];
+  function ensureStream(){
+    if(stream) return Promise.resolve(stream);
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return Promise.reject(new Error("no-media"));
+    return navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){ stream=s; return s; });
+  }
+  function setRecUI(card,on){
+    var b=card.querySelector(".rec");
+    b.classList.toggle("on",on); b.textContent=on?"■ とめる":"● 録音";
+  }
+  function toggleRecord(card){
+    if(rec && rec.state==="recording"){ rec.stop(); return; }
+    say("");
+    ensureStream().then(function(s){
+      try{
+        chunks=[]; recCard=card;
+        rec=new MediaRecorder(s);
+        rec.ondataavailable=function(e){ if(e.data && e.data.size) chunks.push(e.data); };
+        rec.onstop=function(){
+          var blob=new Blob(chunks,{type:(rec && rec.mimeType)||"audio/webm"});
+          var audio=card.querySelector(".pa");
+          if(card._url){ try{URL.revokeObjectURL(card._url);}catch(e){} }
+          card._url=URL.createObjectURL(blob); audio.src=card._url;
+          card.querySelector(".play").disabled=false;
+          setRecUI(card,false);
+        };
+        rec.start(); setRecUI(card,true);
+      }catch(e){ say("録音を開始できませんでした。"); }
+    }).catch(function(){
+      say("マイクを使えませんでした。ブラウザのマイク許可をご確認ください（httpsのページで動きます）。");
+    });
+  }
+  function playOwn(card){
+    var audio=card.querySelector(".pa");
+    if(audio.src){ audio.currentTime=0; audio.play(); }
+  }
+
+  // ---- 描画 ----
+  var wrap=document.getElementById("sets");
+  SETS.forEach(function(set){
+    var sec=document.createElement("div"); sec.className="sec";
+    var head=document.createElement("div"); head.className="sec-head";
+    head.innerHTML='<span class="sec-bar"></span><h2>'+set.t+'</h2><span class="sec-desc">'+set.d+'</span>';
+    sec.appendChild(head);
+    var grid=document.createElement("div"); grid.className="pgrid";
+    set.items.forEach(function(it){
+      var word=it[0], read=it[1]||"";
+      var card=document.createElement("div"); card.className="pcard";
+      card.innerHTML='<div class="pw">'+word+'</div><div class="pr">'+read+'</div>'
+        +'<div class="pbtns">'
+        +'<button class="pb model" type="button">🔊 お手本</button>'
+        +'<button class="pb rec" type="button">● 録音</button>'
+        +'<button class="pb play" type="button" disabled>▶ 自分の声</button>'
+        +'</div><audio class="pa" preload="none"></audio>';
+      card.querySelector(".model").addEventListener("click",function(){ speak(word); });
+      card.querySelector(".rec").addEventListener("click",function(){ toggleRecord(card); });
+      card.querySelector(".play").addEventListener("click",function(){ playOwn(card); });
+      grid.appendChild(card);
+    });
+    sec.appendChild(grid);
+    wrap.appendChild(sec);
+  });
+})();
+</script>
+</body>
+</html>

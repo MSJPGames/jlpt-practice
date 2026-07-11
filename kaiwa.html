@@ -217,6 +217,7 @@
       <button class="ghost" id="feedbackBtn">◆ フィードバックをもらう</button>
       <button class="ghost" id="resetBtn">最初から</button>
     </div>
+    <button class="ghost" id="saveBtn" style="width:100%;margin-top:8px">📄 会話の記録を保存（Word）</button>
     <div class="credit" id="creditLine"></div>
     <div class="hint" style="margin-top:6px">ヒント: 間違えても大丈夫。まずは最後まで会話を続けてみましょう。</div>
   </div>
@@ -253,7 +254,7 @@
   var setupCard=$("setupCard"), talkCard=$("talkCard");
   var log=$("log"), statusEl=$("status"), setupStatus=$("setupStatus"), creditLine=$("creditLine");
   var micBtn=$("micBtn"), sendBtn=$("sendBtn"), typeInput=$("typeInput");
-  var feedbackBtn=$("feedbackBtn"), resetBtn=$("resetBtn"), startBtn=$("startBtn");
+  var feedbackBtn=$("feedbackBtn"), resetBtn=$("resetBtn"), startBtn=$("startBtn"), saveBtn=$("saveBtn");
   var gateCard=$("gateCard"), gateInput=$("gateInput"), gateBtn=$("gateBtn"), gateStatus=$("gateStatus");
 
   // ---- 合言葉ゲート（PASSCODE 設定時のみ）----
@@ -581,6 +582,35 @@
     d.textContent=text;
     log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
   }
+  // ---- 会話の記録を Word (.doc) で保存 ----
+  function escHtml(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function saveTranscript(){
+    if(!log.children.length){ statusEl.textContent="まだ記録がありません。"; return; }
+    var now=new Date(), p2=function(n){return (n<10?"0":"")+n;};
+    var dstr=now.getFullYear()+"/"+p2(now.getMonth()+1)+"/"+p2(now.getDate())+" "+p2(now.getHours())+":"+p2(now.getMinutes());
+    var stamp=""+now.getFullYear()+p2(now.getMonth()+1)+p2(now.getDate())+"_"+p2(now.getHours())+p2(now.getMinutes());
+    var rows="";
+    for(var i=0;i<log.children.length;i++){
+      var el=log.children[i];
+      if(el.classList.contains("feedback")){
+        rows+='<p style="border:1px solid #E5D9A8;background:#FBF3DC;padding:8px 10px;white-space:pre-wrap;">'+escHtml(el.textContent)+"</p>";
+      } else if(el.classList.contains("msg")){
+        var who=el.classList.contains("staff")?"あなた":"相手";
+        var txt=el.lastChild?el.lastChild.textContent:el.textContent;
+        var color=el.classList.contains("staff")?"#3a5db0":"#2f7168";
+        rows+='<p style="margin:6px 0;"><b style="color:'+color+';">'+who+"：</b>"+escHtml(txt)+"</p>";
+      } else {
+        rows+='<p style="color:#888;font-size:12px;">'+escHtml(el.textContent)+"</p>";
+      }
+    }
+    var doc='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>会話練習の記録</title></head><body style="font-family:sans-serif;line-height:1.7;">'
+      +'<h2>日本語 会話練習の記録</h2><p style="color:#666;">'+dstr+"</p><hr>"+rows+"</body></html>";
+    var blob=new Blob(["﻿"+doc],{type:"application/msword"});
+    var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="会話練習_"+stamp+".doc";
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ try{URL.revokeObjectURL(a.href);}catch(e){} a.remove(); },1000);
+    statusEl.textContent="記録を保存しました（Wordで開けます）。";
+  }
 
   var history=[], systemText="", busy=false;
 
@@ -643,6 +673,7 @@
   sendBtn.addEventListener("click", function(){ sendUser(typeInput.value); });
   typeInput.addEventListener("keydown", function(e){ if(e.key==="Enter"){ sendUser(typeInput.value); } });
   feedbackBtn.addEventListener("click", requestFeedback);
+  saveBtn.addEventListener("click", saveTranscript);
 
   function startConversation(){
     var key=keyEl.value.trim();

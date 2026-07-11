@@ -104,10 +104,17 @@
   .sc b { font-size: 17px; color: var(--text); font-weight: 700; }
   .sc.ok b { color: var(--ok); }
   .sc.streak b { color: var(--ia); }
+  .sc-sound {
+    margin-left: auto; font-size: 15px; line-height: 1;
+    background: none; border: none; cursor: pointer; padding: 2px 4px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .sc-sound.off { opacity: 0.4; }
   .sc-reset {
-    margin-left: auto; font-size: 11px; font-weight: 600; color: var(--text-hint);
+    margin-left: 12px; font-size: 11px; font-weight: 600; color: var(--text-hint);
     background: none; border: none; cursor: pointer; font-family: inherit; text-decoration: underline;
   }
+  .fb-correct-label { font-size: 11px; font-weight: 700; color: var(--ng); margin: 6px 0 -2px; }
 
   /* 問題カード */
   .quiz {
@@ -231,6 +238,7 @@
     <span class="sc">出題 <b id="scAsked">0</b></span>
     <span class="sc ok" id="scOkWrap">正解 <b id="scOk">0</b></span>
     <span class="sc streak" id="scStreakWrap">連続 <b id="scStreak">0</b></span>
+    <button class="sc-sound" id="soundToggle" type="button" aria-label="効果音のオン・オフ" title="効果音">🔊</button>
     <button class="sc-reset" id="scReset">リセット</button>
   </div>
 
@@ -533,6 +541,35 @@ let current=null, answered=false;
 let suppressFocus=false; // 設定変更時はフォーカス（自動スクロール）しない
 let maxLesson=20;        // 「◯課まで」（みんなの日本語）
 try{ const v=+localStorage.getItem('nnh_renshu_lesson'); if(v>=LESSON_MIN&&v<=LESSON_MAX) maxLesson=v; }catch(e){}
+let soundOn=true;
+try{ soundOn = localStorage.getItem('nnh_renshu_sound')!=='0'; }catch(e){}
+
+/* ===================== 効果音（ブラウザ内生成・外部ファイル不要） ===================== */
+let audioCtx=null;
+function beep(kind){
+  if(!soundOn) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended') audioCtx.resume();
+    const now=audioCtx.currentTime;
+    const tone=(freq,start,dur,type,vol)=>{
+      const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+      o.type=type||'sine'; o.frequency.value=freq;
+      o.connect(g); g.connect(audioCtx.destination);
+      g.gain.setValueAtTime(0.0001, now+start);
+      g.gain.exponentialRampToValueAtTime(vol||0.25, now+start+0.015);
+      g.gain.exponentialRampToValueAtTime(0.0001, now+start+dur);
+      o.start(now+start); o.stop(now+start+dur+0.02);
+    };
+    if(kind==='ok'){          // 明るい2音（ピンポン）
+      tone(880,0,0.16,'sine',0.22);
+      tone(1320,0.11,0.22,'sine',0.22);
+    }else{                    // 低い2音（ブブッ）
+      tone(233,0,0.16,'square',0.16);
+      tone(175,0.13,0.22,'square',0.16);
+    }
+  }catch(e){}
+}
 
 /* ===================== UI構築 ===================== */
 function renderGroupChips(){
@@ -702,12 +739,13 @@ function doCheck(){
   score.asked++; if(correct){ score.ok++; score.streak++; } else { score.streak=0; }
   updateScore();
   inp.classList.add(correct?'correct':'wrong'); inp.disabled=true;
+  beep(correct?'ok':'ng');
   const a=$('answerArea');
   a.innerHTML = `<input class="ans-input ${correct?'correct':'wrong'}" value="${val.replace(/"/g,'&quot;')}" disabled>
     <div class="feedback">
       <div class="fb-label ${correct?'ok':'ng'}">${correct?'◎ 正解！':'✕ 残念…'}</div>
-      ${correct?'':answerBlock()}
-      ${correct?answerBlock():''}
+      ${correct?'':'<div class="fb-correct-label">正しい形は…</div>'}
+      ${answerBlock()}
     </div>
     ${nextButton()}`;
   wireNext();
@@ -751,6 +789,17 @@ renderGroupChips(); renderFormChips();
 $('modeSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
 document.querySelectorAll('.preset').forEach(p=>p.onclick=()=>applyPreset(p.dataset.preset));
 $('scReset').onclick=()=>{ score={asked:0,ok:0,streak:0}; updateScore(); };
+(function initSound(){
+  const btn=$('soundToggle');
+  const paint=()=>{ btn.textContent = soundOn?'🔊':'🔇'; btn.classList.toggle('off',!soundOn); };
+  paint();
+  btn.onclick=()=>{
+    soundOn=!soundOn;
+    try{ localStorage.setItem('nnh_renshu_sound', soundOn?'1':'0'); }catch(e){}
+    paint();
+    if(soundOn) beep('ok'); // オンにしたら試聴
+  };
+})();
 // 全体Enter: 解答後は次へ
 document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&answered){ const n=$('nextBtn'); if(n){ e.preventDefault(); newProblem(); } }});
 newProblem();

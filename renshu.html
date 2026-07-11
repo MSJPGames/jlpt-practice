@@ -210,7 +210,7 @@
         <span class="range-val"><b id="lessonVal">20</b>課まで</span>
       </div>
       <input type="range" id="lessonRange" min="4" max="50" value="20" step="1" aria-label="出題する課の範囲">
-      <div class="range-hint"><b id="verbCount">0</b> 語の動詞が対象<span class="en"> ・ verbs in this range</span></div>
+      <div class="range-hint">この範囲の対象：動詞 <b id="verbCount">0</b> ・ 形容詞 <b id="adjCount">0</b> 語</div>
     </div>
     <div class="set-block">
       <div class="set-h">モード ・ Mode</div>
@@ -329,6 +329,7 @@ const VERBS=[
   {dict:'貸す',kana:'かす',en:'to lend',group:1,lesson:7},{dict:'借りる',kana:'かりる',en:'to borrow',group:2,lesson:7},
   {dict:'教える',kana:'おしえる',en:'to teach',group:2,lesson:7},{dict:'習う',kana:'ならう',en:'to learn',group:1,lesson:7},
   {dict:'かける',kana:'かける',en:'to make (a call)',group:2,lesson:7},
+  {dict:'切る',kana:'きる',en:'to cut ※',group:1,lesson:7},{dict:'送る',kana:'おくる',en:'to send',group:1,lesson:7},
   // 第9課
   {dict:'わかる',kana:'わかる',en:'to understand',group:1,lesson:9},
   // 第10課
@@ -386,7 +387,7 @@ const VERBS=[
   {dict:'曲がる',kana:'まがる',en:'to turn (a corner)',group:1,lesson:23},{dict:'通る',kana:'とおる',en:'to pass through',group:1,lesson:23},
   // 第24課
   {dict:'くれる',kana:'くれる',en:'to give (to me)',group:2,lesson:24},{dict:'直す',kana:'なおす',en:'to fix / correct',group:1,lesson:24},
-  {dict:'送る',kana:'おくる',en:'to send',group:1,lesson:24},{dict:'案内する',kana:'あんないする',en:'to guide',group:3,lesson:24},
+  {dict:'案内する',kana:'あんないする',en:'to guide',group:3,lesson:24},
   {dict:'紹介する',kana:'しょうかいする',en:'to introduce',group:3,lesson:24},{dict:'説明する',kana:'せつめいする',en:'to explain',group:3,lesson:24},
   // 第25課
   {dict:'考える',kana:'かんがえる',en:'to think / consider',group:2,lesson:25},{dict:'着く',kana:'つく',en:'to arrive',group:1,lesson:25},
@@ -458,7 +459,7 @@ const VERBS=[
   {dict:'発明する',kana:'はつめいする',en:'to invent',group:3,lesson:37},{dict:'発見する',kana:'はっけんする',en:'to discover',group:3,lesson:37},
   // 第38課
   {dict:'育てる',kana:'そだてる',en:'to raise',group:2,lesson:38},{dict:'運ぶ',kana:'はこぶ',en:'to carry',group:1,lesson:38},
-  {dict:'切る',kana:'きる',en:'to cut ※',group:1,lesson:38},{dict:'整理する',kana:'せいりする',en:'to arrange',group:3,lesson:38},
+  {dict:'整理する',kana:'せいりする',en:'to arrange',group:3,lesson:38},
   {dict:'参加する',kana:'さんかする',en:'to participate',group:3,lesson:38},{dict:'入院する',kana:'にゅういんする',en:'to be hospitalized',group:3,lesson:38},
   {dict:'退院する',kana:'たいいんする',en:'to leave hospital',group:3,lesson:38},
   // 第39課
@@ -514,15 +515,25 @@ const VERBS=[
   {dict:'応援する',kana:'おうえんする',en:'to cheer / support',group:3,lesson:50},{dict:'感謝する',kana:'かんしゃする',en:'to thank',group:3,lesson:50},
 ];
 const LESSON_MIN=4, LESSON_MAX=50;
+/* 形容詞（lessonは目安。多くは第8課で導入、好き/嫌い/上手/下手は第9課） */
 const IADJ=[
-  {dict:'高い',kana:'たかい',en:'high / expensive'},{dict:'大きい',kana:'おおきい',en:'big'},
-  {dict:'新しい',kana:'あたらしい',en:'new'},{dict:'楽しい',kana:'たのしい',en:'fun'},
-  {dict:'おいしい',kana:'おいしい',en:'delicious'},{dict:'いい',kana:'いい',en:'good'},
+  {dict:'高い',kana:'たかい',en:'expensive / high',lesson:8},{dict:'安い',kana:'やすい',en:'cheap',lesson:8},
+  {dict:'大きい',kana:'おおきい',en:'big',lesson:8},{dict:'小さい',kana:'ちいさい',en:'small',lesson:8},
+  {dict:'新しい',kana:'あたらしい',en:'new',lesson:8},{dict:'古い',kana:'ふるい',en:'old',lesson:8},
+  {dict:'いい',kana:'いい',en:'good ※',lesson:8},{dict:'悪い',kana:'わるい',en:'bad',lesson:8},
+  {dict:'暑い',kana:'あつい',en:'hot (weather)',lesson:8},{dict:'寒い',kana:'さむい',en:'cold (weather)',lesson:8},
+  {dict:'難しい',kana:'むずかしい',en:'difficult',lesson:8},{dict:'易しい',kana:'やさしい',en:'easy',lesson:8},
+  {dict:'面白い',kana:'おもしろい',en:'interesting',lesson:8},{dict:'おいしい',kana:'おいしい',en:'delicious',lesson:8},
+  {dict:'忙しい',kana:'いそがしい',en:'busy',lesson:8},{dict:'楽しい',kana:'たのしい',en:'fun',lesson:8},
 ];
 const NAADJ=[
-  {dict:'静か',kana:'しずか',en:'quiet'},{dict:'きれい',kana:'きれい',en:'pretty / clean'},
-  {dict:'元気',kana:'げんき',en:'energetic'},{dict:'便利',kana:'べんり',en:'convenient'},
-  {dict:'好き',kana:'すき',en:'liked'},{dict:'有名',kana:'ゆうめい',en:'famous'},
+  {dict:'きれい',kana:'きれい',en:'pretty / clean ※',lesson:8},{dict:'静か',kana:'しずか',en:'quiet',lesson:8},
+  {dict:'にぎやか',kana:'にぎやか',en:'lively',lesson:8},{dict:'有名',kana:'ゆうめい',en:'famous ※',lesson:8},
+  {dict:'親切',kana:'しんせつ',en:'kind',lesson:8},{dict:'元気',kana:'げんき',en:'energetic',lesson:8},
+  {dict:'暇',kana:'ひま',en:'free (time)',lesson:8},{dict:'便利',kana:'べんり',en:'convenient',lesson:8},
+  {dict:'すてき',kana:'すてき',en:'nice',lesson:8},
+  {dict:'好き',kana:'すき',en:'liked ※',lesson:9},{dict:'嫌い',kana:'きらい',en:'disliked ※',lesson:9},
+  {dict:'上手',kana:'じょうず',en:'good at ※',lesson:9},{dict:'下手',kana:'へた',en:'poor at',lesson:9},
 ];
 const VFORMS=[['masu','ます形'],['te','て形'],['nai','ない形'],['ta','た形'],['nakatta','なかった形'],
   ['potential','可能動詞'],['volition','意向形'],['ba','条件形'],['imperative','命令形'],
@@ -610,8 +621,8 @@ function specs(){
   selected.forEach(id=>{
     const [cat,key]=id.split(':');
     if(cat==='v'){ const pool=VERBS.filter(w=>groups.has(w.group) && w.lesson<=maxLesson); if(pool.length) out.push({cat,key,pool}); }
-    else if(cat==='i') out.push({cat,key,pool:IADJ});
-    else if(cat==='n') out.push({cat,key,pool:NAADJ});
+    else if(cat==='i'){ const pool=IADJ.filter(w=>w.lesson<=maxLesson); if(pool.length) out.push({cat,key,pool}); }
+    else if(cat==='n'){ const pool=NAADJ.filter(w=>w.lesson<=maxLesson); if(pool.length) out.push({cat,key,pool}); }
   });
   return out;
 }
@@ -654,11 +665,11 @@ function labelFor(cat,key){
 function renderQuiz(){
   const area=$('quizArea');
   if(!current){
-    const hasVerbForm=[...selected].some(id=>id.startsWith('v:'));
-    const verbPool=VERBS.filter(w=>groups.has(w.group)&&w.lesson<=maxLesson);
-    let msg='出題する活用を1つ以上えらんでください。<br>（「設定 → 出題する活用」または「基本」ボタン）';
-    if(hasVerbForm && verbPool.length===0){
-      msg='この範囲・グループには動詞がありません。<br>「範囲」を広げるか、グループを選び直してください。';
+    let msg;
+    if(selected.size===0){
+      msg='出題する活用を1つ以上えらんでください。<br>（「設定 → 出題する活用」または「基本」ボタン）';
+    }else{
+      msg='この範囲・グループには出題できる語がありません。<br>「範囲」を広げるか、グループ／活用を選び直してください。';
     }
     area.innerHTML=`<div class="quiz"><div class="empty-msg">${msg}</div></div>`; return;
   }
@@ -770,7 +781,9 @@ function setMode(m){
 /* ===================== 範囲（教科書・課） ===================== */
 function updateRangeCount(){
   const n=VERBS.filter(w=>groups.has(w.group)&&w.lesson<=maxLesson).length;
+  const a=IADJ.filter(w=>w.lesson<=maxLesson).length + NAADJ.filter(w=>w.lesson<=maxLesson).length;
   const el=$('verbCount'); if(el) el.textContent=n;
+  const el2=$('adjCount'); if(el2) el2.textContent=a;
 }
 function initRange(){
   const sl=$('lessonRange'), val=$('lessonVal');

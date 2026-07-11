@@ -87,14 +87,27 @@
 
 <script>
 (function(){
+  // items: [表示, ふりがな/意味, 音声ファイルのキー]
   var SETS=[
-    {t:"① 母音（あ・い・う・え・お）", d:"口の形をはっきり。", items:[["あ"],["い"],["う"],["え"],["お"]]},
-    {t:"② 拍・リズム", d:"かな1文字＝1拍。均等に。", items:[["さくら","3拍"],["がっこう","4拍"],["コーヒー","4拍"],["にほんご","4拍"]]},
-    {t:"③ 撥音「ん」", d:"後ろの音で口の形がかわる。", items:[["さんぽ"],["かんたん"],["りんご"],["ほん"]]},
-    {t:"④ 促音「っ」", d:"一拍、しっかり止める。", items:[["きて","来て"],["きって","切手"],["ざっし","雑誌"],["がっこう","学校"]]},
-    {t:"⑤ 長音（のばす音）", d:"のばす音も一拍。", items:[["おばさん"],["おばあさん"],["ビル","建物"],["ビール","beer"]]},
-    {t:"⑥ ミニマルペア", d:"長さのちがいを聞き分け・言い分け。", items:[["おじさん"],["おじいさん"],["ゆき","雪"],["ゆうき","勇気"]]}
+    {t:"① 母音（あ・い・う・え・お）", d:"口の形をはっきり。", items:[["あ","","a"],["い","","i"],["う","","u"],["え","","e"],["お","","o"]]},
+    {t:"② 拍・リズム", d:"かな1文字＝1拍。均等に。", items:[["さくら","花・3拍","sakura"],["がっこう","4拍","gakkou"],["コーヒー","4拍","koohii"],["にほんご","4拍","nihongo"]]},
+    {t:"③ 撥音「ん」", d:"後ろの音で口の形がかわる。", items:[["さんぽ","","sanpo"],["かんたん","","kantan"],["りんご","","ringo"],["ほん","","hon"]]},
+    {t:"④ 促音「っ」", d:"一拍、しっかり止める。", items:[["きて","来て","kite"],["きって","切手","kitte"],["ざっし","雑誌","zasshi"],["がっこう","学校","gakkou"]]},
+    {t:"⑤ 長音（のばす音）", d:"のばす音も一拍。", items:[["おばさん","","obasan"],["おばあさん","","obaasan"],["ビル","建物","biru"],["ビール","beer","biiru"]]},
+    {t:"⑥ ミニマルペア", d:"長さのちがいを聞き分け・言い分け。", items:[["おじさん","","ojisan"],["おじいさん","","ojiisan"],["ゆき","雪","yuki"],["ゆうき","勇気","yuuki"]]}
   ];
+  var AUDIO_DIR="audio/hatsuon/";
+  // 音声ファイル（お手本）を再生。無ければブラウザ音声にフォールバック。
+  function tryPlay(urls,i,text){
+    if(i>=urls.length){ speak(text); return; }
+    var a=new Audio(urls[i]); var done=false;
+    a.addEventListener("error",function(){ if(!done){done=true; tryPlay(urls,i+1,text);} });
+    var pr=a.play(); if(pr && pr.catch){ pr.catch(function(){ if(!done){done=true; tryPlay(urls,i+1,text);} }); }
+  }
+  function playModel(key, text){
+    if(key){ tryPlay([AUDIO_DIR+key+".mp3", AUDIO_DIR+key+".wav"],0,text); }
+    else { speak(text); }
+  }
   var status=document.getElementById("status");
   function say(msg){ status.textContent=msg||""; }
 
@@ -161,7 +174,7 @@
     sec.appendChild(head);
     var grid=document.createElement("div"); grid.className="pgrid";
     set.items.forEach(function(it){
-      var word=it[0], read=it[1]||"";
+      var word=it[0], read=it[1]||"", key=it[2]||"";
       var card=document.createElement("div"); card.className="pcard";
       card.innerHTML='<div class="pw">'+word+'</div><div class="pr">'+read+'</div>'
         +'<div class="pbtns">'
@@ -169,7 +182,7 @@
         +'<button class="pb rec" type="button">● 録音</button>'
         +'<button class="pb play" type="button" disabled>▶ 自分の声</button>'
         +'</div><audio class="pa" preload="none"></audio>';
-      card.querySelector(".model").addEventListener("click",function(){ speak(word); });
+      card.querySelector(".model").addEventListener("click",function(){ playModel(key, word); });
       card.querySelector(".rec").addEventListener("click",function(){ toggleRecord(card); });
       card.querySelector(".play").addEventListener("click",function(){ playOwn(card); });
       grid.appendChild(card);

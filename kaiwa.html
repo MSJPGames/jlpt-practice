@@ -93,31 +93,9 @@
       <span style="display:block;margin-top:4px">取り方: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> でログイン →「Create API key」→ コピーして貼り付け（無料）。</span>
     </div>
 
-    <div style="margin-top:12px" id="practiceModeRow">
-      <label for="practiceMode">練習モード</label>
-      <select id="practiceMode">
-        <option value="general" selected>一般の場面</option>
-        <option value="textbook">みんなの日本語（教科書の練習C）</option>
-      </select>
-    </div>
-
-    <div id="generalBox" style="margin-top:12px">
+    <div style="margin-top:12px">
       <label for="scenario">場面</label>
       <select id="scenario"></select>
-    </div>
-
-    <div id="textbookBox" style="margin-top:12px;display:none">
-      <div class="row">
-        <div style="flex:0 0 120px">
-          <label for="lesson">課</label>
-          <select id="lesson"></select>
-        </div>
-        <div style="flex:1">
-          <label for="renshuC">練習C（やりとり）</label>
-          <select id="renshuC"></select>
-        </div>
-      </div>
-      <div class="hint" style="margin-top:4px">『みんなの日本語 初級Ⅰ・Ⅱ』全50課の練習C（やりとり）から選べます。相手役が、その練習の目標に合わせて会話をリードします。</div>
     </div>
 
     <div class="row" style="margin-top:12px">
@@ -142,17 +120,16 @@
     <div class="hint" style="margin-top:4px">オフのときは、相手は<strong>必ず日本語だけ</strong>で話します。オンにすると、英語まじりの相手への対応を練習できます（接客などの場面向け）。</div>
 
     <div style="margin-top:12px">
-      <label for="vocabLevel">語彙・文法のレベル（教科書に合わせる）</label>
+      <label for="vocabLevel">語彙・文法のレベル</label>
       <select id="vocabLevel">
         <option value="none" selected>制限なし（自然な日本語）</option>
-        <option value="textbook">みんなの日本語・選んだ課まで（教科書モードのとき）</option>
         <option value="n5">やさしい（JLPT N5 相当・入門〜初級前半）</option>
         <option value="n4">初級（JLPT N4 相当・初級修了レベル）</option>
         <option value="n3">初中級（JLPT N3 相当）</option>
         <option value="custom">自分で貼り付け（下の欄に語彙・文法を入力）</option>
       </select>
-      <textarea id="vocabList" rows="4" placeholder="「この課まで」を選んだときに使います。習った語彙・文法・表現を貼り付けてください。例）語彙: メニュー、注文、いくら、〜てください／文法: 〜たいです、〜てもいいですか"></textarea>
-      <div class="hint" style="margin-top:4px">教科書の進度に合わせて、相手役が使う言葉をやさしくします。いちばん正確なのは「この課までの範囲」に実際の語彙・文法リストを貼る方法です。</div>
+      <textarea id="vocabList" rows="4" placeholder="「自分で貼り付け」を選んだときに使います。使ってよい語彙・文法・表現を貼り付けてください。例）語彙: メニュー、注文、いくら、〜てください／文法: 〜たいです、〜てもいいですか"></textarea>
+      <div class="hint" style="margin-top:4px">相手役が使う言葉のレベルをそろえます。特定の範囲に合わせたいときは「自分で貼り付け」に語彙・文法リストを貼るのが確実です。</div>
     </div>
 
     <!-- 声の設定 -->
@@ -268,8 +245,6 @@
 
   var $=function(id){ return document.getElementById(id); };
   var keyEl=$("key"), scenarioEl=$("scenario"), levelEl=$("level"), roleEl=$("role"), foreignEl=$("foreignMode");
-  var practiceModeEl=$("practiceMode"), generalBox=$("generalBox"), textbookBox=$("textbookBox"), roleBox=$("roleBox");
-  var lessonEl=$("lesson"), renshuCEl=$("renshuC");
   var vocabLevelEl=$("vocabLevel"), vocabListEl=$("vocabList");
   var engineSelect=$("engineSelect"), gVoice=$("gVoice"), gTest=$("gTest");
   var geminiVoiceBox=$("geminiVoiceBox"), browserVoiceBox=$("browserVoiceBox"), voicevoxBox=$("voicevoxBox");
@@ -280,7 +255,6 @@
   var micBtn=$("micBtn"), sendBtn=$("sendBtn"), typeInput=$("typeInput");
   var feedbackBtn=$("feedbackBtn"), resetBtn=$("resetBtn"), startBtn=$("startBtn");
   var gateCard=$("gateCard"), gateInput=$("gateInput"), gateBtn=$("gateBtn"), gateStatus=$("gateStatus");
-  var practiceModeRow=$("practiceModeRow");
 
   // ---- 合言葉ゲート（PASSCODE 設定時のみ）----
   (function(){
@@ -532,91 +506,22 @@
   scenarioEl.addEventListener("change", function(){ store.set("scenario",scenarioEl.value); populateRoles(); });
   roleEl.addEventListener("change", function(){ store.set("role_"+getScenario().id, roleEl.value); });
 
-  // ---- みんなの日本語（教科書）データ: 各課の練習C(c) と 新出語彙・文型(v) ----
-  // MINNA は別スクリプトで定義（window.MINNA）。無ければ教科書モードは無効（完全公開版）。
-  var MINNA = window.MINNA || {};
-  var TEXTBOOK_ENABLED = Object.keys(MINNA).length > 0;
-  if(!TEXTBOOK_ENABLED){
-    // 完全公開版: 練習モードの切り替えと「教科書モード」語彙オプションを隠す
-    if(practiceModeRow) practiceModeRow.style.display="none";
-    practiceModeEl.value="general";
-    var tbOpt=vocabLevelEl.querySelector('option[value="textbook"]');
-    if(tbOpt) tbOpt.parentNode.removeChild(tbOpt);
-  }
-
-  function currentLesson(){ return parseInt(lessonEl.value,10)||1; }
-  function isTextbook(){ return practiceModeEl.value==="textbook"; }
-
-  function populateLessons(){
-    lessonEl.innerHTML="";
-    for(var L=1;L<=50;L++){
-      var span = (L<=25)?"初級Ⅰ":"初級Ⅱ";
-      var o=document.createElement("option"); o.value=L; o.textContent="第"+L+"課（"+span+"）"; lessonEl.appendChild(o);
-    }
-    var saved=store.get("lesson"); if(saved) lessonEl.value=saved;
-  }
-  function populateRenshuC(){
-    renshuCEl.innerHTML="";
-    var L=currentLesson(); var items=(MINNA[L]&&MINNA[L].c)||[];
-    items.forEach(function(it){
-      var o=document.createElement("option"); o.value=it.code; o.textContent=it.code+"  "+it.desc; renshuCEl.appendChild(o);
-    });
-    var saved=store.get("renshuC_"+L); if(saved) renshuCEl.value=saved;
-  }
-  function getRenshuC(){
-    var L=currentLesson(); var items=(MINNA[L]&&MINNA[L].c)||[];
-    for(var i=0;i<items.length;i++){ if(items[i].code===renshuCEl.value) return items[i]; }
-    return items[0]||{code:"",desc:""};
-  }
-  // 第1課〜Lまでの累積語彙・文型テキスト
-  function cumulativeVocab(L){
-    var out=[];
-    for(var i=1;i<=L;i++){ if(MINNA[i]&&MINNA[i].v){ out.push("【"+i+"課】"+MINNA[i].v); } }
-    return out.join("\n");
-  }
-
-  populateLessons(); populateRenshuC();
-  lessonEl.addEventListener("change", function(){ store.set("lesson",lessonEl.value); populateRenshuC(); });
-  renshuCEl.addEventListener("change", function(){ store.set("renshuC_"+currentLesson(), renshuCEl.value); });
-
-  function updateModeUI(){
-    var tb=isTextbook();
-    generalBox.style.display = tb?"none":"block";
-    textbookBox.style.display = tb?"block":"none";
-    roleBox.style.display = tb?"none":"block";
-  }
-  var spm=store.get("practice_mode"); if(spm && TEXTBOOK_ENABLED) practiceModeEl.value=spm;
-  practiceModeEl.addEventListener("change", function(){
-    store.set("practice_mode",practiceModeEl.value);
-    // 教科書モードにしたら語彙も「選んだ課まで」を既定に
-    if(isTextbook() && vocabLevelEl.value==="none"){ vocabLevelEl.value="textbook"; store.set("vocab_level","textbook"); }
-    updateModeUI(); updateVocabUI();
-  });
-
   // ---- 語彙・文法レベルの復元と表示切り替え ----
-  var svl=store.get("vocab_level");
-  if(svl && !(svl==="textbook" && !TEXTBOOK_ENABLED)) vocabLevelEl.value=svl;
+  var svl=store.get("vocab_level"); if(svl){ vocabLevelEl.value=svl; if(vocabLevelEl.value!==svl) vocabLevelEl.value="none"; }
   var svlist=store.get("vocab_list"); if(svlist) vocabListEl.value=svlist;
   function updateVocabUI(){ vocabListEl.style.display = (vocabLevelEl.value==="custom")?"block":"none"; }
   vocabLevelEl.addEventListener("change", function(){ store.set("vocab_level",vocabLevelEl.value); updateVocabUI(); });
   vocabListEl.addEventListener("change", function(){ store.set("vocab_list",vocabListEl.value); });
-  updateModeUI(); updateVocabUI();
+  updateVocabUI();
 
   // ---- システム指示 ----
   function buildSystem(){
     var level=levelEl.value, foreign=foreignEl.checked;
     var lines=[];
 
-    if(isTextbook()){
-      var L=currentLesson(); var rc=getRenshuC();
-      lines.push("あなたは日本語会話の練習相手です。教科書『みんなの日本語 初級』第"+L+"課の練習C（やりとり）の会話練習をします。");
-      lines.push("この練習の目標: 「"+rc.desc+"」（"+rc.code+"）");
-      lines.push("あなたはこの場面での相手役を演じ、学習者（私）がこの目標を達成できるように、自然に会話を進めてください。まず、あなたから場面に合った短い一言で会話を始めてください。学習者が話しやすいように、一度に一つずつ質問や反応をしてください。");
-    }else{
-      var sc=getScenario(), r=getRole();
-      lines.push("あなたは日本語会話の練習相手です。日本の「"+sc.name+"」の場面でロールプレイをします。");
-      lines.push(r.sit);
-    }
+    var sc=getScenario(), r=getRole();
+    lines.push("あなたは日本語会話の練習相手です。日本の「"+sc.name+"」の場面でロールプレイをします。");
+    lines.push(r.sit);
 
     if(foreign){
       lines.push("設定: あなた（相手役）は日本語が母語ではない人です。基本は簡単な日本語で話しますが、時々みじかい英語（Hello / Thank you / Excuse me など）を自然にまじえてかまいません。");
@@ -628,7 +533,7 @@
     else if(level==="advanced"){ lines.push("私は上級学習者です。ふつうの速さで話し、少し難しい展開（想定外の質問や複雑な要望など）も自然に入れてください。"); }
     else { lines.push("私は中級学習者です。ふつうの速さで、自然なやり取りをしてください。"); }
 
-    // 語彙・文法レベルの制限（教科書の進度に合わせる）
+    // 語彙・文法レベルの制限
     var vl=vocabLevelEl.value;
     if(vl==="n5"){
       lines.push("語彙・文法の制限: JLPT N5 相当の、入門〜初級前半で習うやさしい語彙と文法だけを使ってください。難しい語彙・敬語・複雑な文型は避け、短い文で、ゆっくり話してください。");
@@ -639,7 +544,6 @@
     }else{
       var list="";
       if(vl==="custom"){ list=(vocabListEl.value||"").trim(); }
-      else if(vl==="textbook"){ list=cumulativeVocab(currentLesson()); }
       if(list){
         lines.push("語彙・文法の制限: 学習者は今、次の範囲までを習っています。相手役のセリフは、この範囲の語彙・文法・表現を中心に組み立て、範囲外の言葉はできるだけ使わないでください。どうしても必要なときは、範囲内のやさしい言い換えをするか、使った直後にやさしい言葉で短く説明してください。基本的な助詞・あいさつ・数字などの土台となる表現は使ってかまいません。");
         lines.push("＜習った範囲＞");
@@ -747,24 +651,17 @@
     store.set("voice_engine",engineSelect.value); store.set("gemini_voice",gVoice.value);
     store.set("voice_name",voiceSelect.value); store.set("voice_rate",rateEl.value); store.set("voice_pitch",pitchEl.value);
     store.set("vv_url",vvUrl.value); store.set("vv_speaker",vvSpeaker.value);
-    store.set("practice_mode",practiceModeEl.value);
-    if(isTextbook()){ store.set("lesson",lessonEl.value); store.set("renshuC_"+currentLesson(),renshuCEl.value); }
-    else { store.set("scenario",scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value); }
+    store.set("scenario",scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value);
     store.set("vocab_level",vocabLevelEl.value); store.set("vocab_list",vocabListEl.value);
     systemText=buildSystem(); history=[]; log.innerHTML=""; creditLine.textContent="";
     setupCard.classList.add("hidden"); talkCard.classList.remove("hidden");
 
-    if(isTextbook()){
-      var rc=getRenshuC();
-      addNote("みんなの日本語 第"+currentLesson()+"課・練習C "+rc.code+"\n目標:「"+rc.desc+"」");
-    }else{
-      var r=getRole();
-      if(r.starts==="student"){
-        setBusy(false);
-        addNote("この場面では、あなたから話しかけます。\n"+(r.hint||"どうぞ話しかけてください。"));
-        statusEl.textContent="";
-        return;
-      }
+    var r=getRole();
+    if(r.starts==="student"){
+      setBusy(false);
+      addNote("この場面では、あなたから話しかけます。\n"+(r.hint||"どうぞ話しかけてください。"));
+      statusEl.textContent="";
+      return;
     }
     // AIから始める場面
     setBusy(true);

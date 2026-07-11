@@ -80,6 +80,20 @@
   }
   .preset:active { transform: scale(0.96); }
 
+  /* 教科書・範囲 */
+  .book-sel {
+    width: 100%; font-family: inherit; font-size: 14px; color: var(--text);
+    background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 10px 11px; margin-bottom: 11px;
+  }
+  .range-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
+  .range-label { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+  .range-val { font-size: 13px; color: var(--g1); font-variant-numeric: tabular-nums; }
+  .range-val b { font-size: 17px; }
+  #lessonRange { width: 100%; accent-color: var(--g1); height: 26px; }
+  .range-hint { font-size: 11px; color: var(--text-hint); margin-top: 2px; }
+  .range-hint b { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
   /* スコア */
   .scorebar {
     display: flex; align-items: center; gap: 14px; margin: 1.1rem 0 0.7rem;
@@ -180,6 +194,18 @@
   <div class="section-label">設定 ・ Settings</div>
   <div class="settings">
     <div class="set-block">
+      <div class="set-h">教科書・範囲 ・ Textbook &amp; range</div>
+      <select id="bookSel" class="book-sel">
+        <option value="minna">みんなの日本語 初級（第2版）</option>
+      </select>
+      <div class="range-row">
+        <span class="range-label">出題する範囲</span>
+        <span class="range-val"><b id="lessonVal">20</b>課まで</span>
+      </div>
+      <input type="range" id="lessonRange" min="4" max="25" value="20" step="1" aria-label="出題する課の範囲">
+      <div class="range-hint"><b id="verbCount">0</b> 語の動詞が対象<span class="en"> ・ verbs in this range</span></div>
+    </div>
+    <div class="set-block">
       <div class="set-h">モード ・ Mode</div>
       <div class="seg" id="modeSeg">
         <button data-mode="input" class="on">入力して確認<small>type &amp; check</small></button>
@@ -236,24 +262,24 @@ function godan(v){
   const M=(suf)=>({k:s+suf,r:ks+suf});
   return {dict:{k:v.dict,r:v.kana},masu:M(e.i+'ます'),nai:M(e.a+'ない'),te:M(te),ta:M(ta),
     nakatta:M(e.a+'なかった'),potential:M(e.e+'る'),volition:M(e.o+'う'),ba:M(e.e+'ば'),
-    imperative:M(e.e),passive:M(e.a+'れる'),causative:M(e.a+'せる')};
+    imperative:M(e.e),passive:M(e.a+'れる'),causative:M(e.a+'せる'),causpass:M(e.a+'せられる')};
 }
 function ichidan(v){
   const s=v.dict.slice(0,-1),ks=v.kana.slice(0,-1),T=(t)=>({k:s+t,r:ks+t});
   return {dict:{k:v.dict,r:v.kana},masu:T('ます'),nai:T('ない'),te:T('て'),ta:T('た'),
     nakatta:T('なかった'),potential:T('られる'),volition:T('よう'),ba:T('れば'),
-    imperative:T('ろ'),passive:T('られる'),causative:T('させる')};
+    imperative:T('ろ'),passive:T('られる'),causative:T('させる'),causpass:T('させられる')};
 }
 function suru(v){
   const b=v.dict.slice(0,-2),kb=v.kana.slice(0,-2),P=(x)=>({k:b+x,r:kb+x});
   return {dict:{k:v.dict,r:v.kana},masu:P('します'),nai:P('しない'),te:P('して'),ta:P('した'),
     nakatta:P('しなかった'),potential:P('できる'),volition:P('しよう'),ba:P('すれば'),
-    imperative:P('しろ'),passive:P('される'),causative:P('させる')};
+    imperative:P('しろ'),passive:P('される'),causative:P('させる'),causpass:P('させられる')};
 }
 function kuru(){const K=(k,r)=>({k,r});return {dict:K('来る','くる'),masu:K('来ます','きます'),
   nai:K('来ない','こない'),te:K('来て','きて'),ta:K('来た','きた'),nakatta:K('来なかった','こなかった'),
   potential:K('来られる','こられる'),volition:K('来よう','こよう'),ba:K('来れば','くれば'),
-  imperative:K('来い','こい'),passive:K('来られる','こられる'),causative:K('来させる','こさせる')};}
+  imperative:K('来い','こい'),passive:K('来られる','こられる'),causative:K('来させる','こさせる'),causpass:K('来させられる','こさせられる')};}
 function conjugateVerb(v){
   let c; if(v.dict==='来る')c=kuru(); else if(v.group===3)c=suru(v); else if(v.group===2)c=ichidan(v); else c=godan(v);
   c.prohibitive={k:c.dict.k+'な',r:c.dict.r+'な'}; return c;
@@ -273,19 +299,93 @@ function naadj(a){
 }
 
 /* ===================== データ ===================== */
+/* 『みんなの日本語 初級 第2版』の動詞（課の割り当ては目安。lessonを直せば範囲しぼりに反映されます）。
+   ※ 帰る・入る・要る・知る・走る・切る 等は形は一段風でも1グループ（例外）。groupの値が正です。 */
 const VERBS=[
-  {dict:'書く',kana:'かく',en:'to write',group:1},{dict:'泳ぐ',kana:'およぐ',en:'to swim',group:1},
-  {dict:'話す',kana:'はなす',en:'to speak',group:1},{dict:'待つ',kana:'まつ',en:'to wait',group:1},
-  {dict:'死ぬ',kana:'しぬ',en:'to die',group:1},{dict:'遊ぶ',kana:'あそぶ',en:'to play',group:1},
-  {dict:'飲む',kana:'のむ',en:'to drink',group:1},{dict:'作る',kana:'つくる',en:'to make',group:1},
-  {dict:'買う',kana:'かう',en:'to buy',group:1},{dict:'行く',kana:'いく',en:'to go',group:1},
-  {dict:'帰る',kana:'かえる',en:'to go home',group:1},
-  {dict:'食べる',kana:'たべる',en:'to eat',group:2},{dict:'見る',kana:'みる',en:'to see',group:2},
-  {dict:'起きる',kana:'おきる',en:'to wake up',group:2},{dict:'寝る',kana:'ねる',en:'to sleep',group:2},
-  {dict:'教える',kana:'おしえる',en:'to teach',group:2},{dict:'借りる',kana:'かりる',en:'to borrow',group:2},
-  {dict:'する',kana:'する',en:'to do',group:3},{dict:'勉強する',kana:'べんきょうする',en:'to study',group:3},
-  {dict:'来る',kana:'くる',en:'to come',group:3},
+  // 第4課
+  {dict:'起きる',kana:'おきる',en:'to get up',group:2,lesson:4},{dict:'寝る',kana:'ねる',en:'to sleep',group:2,lesson:4},
+  {dict:'働く',kana:'はたらく',en:'to work',group:1,lesson:4},{dict:'休む',kana:'やすむ',en:'to rest',group:1,lesson:4},
+  {dict:'勉強する',kana:'べんきょうする',en:'to study',group:3,lesson:4},{dict:'終わる',kana:'おわる',en:'to finish',group:1,lesson:4},
+  // 第5課
+  {dict:'行く',kana:'いく',en:'to go ※',group:1,lesson:5},{dict:'来る',kana:'くる',en:'to come',group:3,lesson:5},
+  {dict:'帰る',kana:'かえる',en:'to go home ※',group:1,lesson:5},
+  // 第6課
+  {dict:'食べる',kana:'たべる',en:'to eat',group:2,lesson:6},{dict:'飲む',kana:'のむ',en:'to drink',group:1,lesson:6},
+  {dict:'吸う',kana:'すう',en:'to smoke',group:1,lesson:6},{dict:'見る',kana:'みる',en:'to see',group:2,lesson:6},
+  {dict:'聞く',kana:'きく',en:'to listen / ask',group:1,lesson:6},{dict:'読む',kana:'よむ',en:'to read',group:1,lesson:6},
+  {dict:'書く',kana:'かく',en:'to write',group:1,lesson:6},{dict:'買う',kana:'かう',en:'to buy',group:1,lesson:6},
+  {dict:'撮る',kana:'とる',en:'to take (photo)',group:1,lesson:6},{dict:'する',kana:'する',en:'to do',group:3,lesson:6},
+  {dict:'会う',kana:'あう',en:'to meet',group:1,lesson:6},
+  // 第7課
+  {dict:'あげる',kana:'あげる',en:'to give',group:2,lesson:7},{dict:'もらう',kana:'もらう',en:'to receive',group:1,lesson:7},
+  {dict:'貸す',kana:'かす',en:'to lend',group:1,lesson:7},{dict:'借りる',kana:'かりる',en:'to borrow',group:2,lesson:7},
+  {dict:'教える',kana:'おしえる',en:'to teach',group:2,lesson:7},{dict:'習う',kana:'ならう',en:'to learn',group:1,lesson:7},
+  {dict:'かける',kana:'かける',en:'to make (a call)',group:2,lesson:7},
+  // 第9課
+  {dict:'わかる',kana:'わかる',en:'to understand',group:1,lesson:9},
+  // 第10課
+  {dict:'いる',kana:'いる',en:'to exist (people)',group:2,lesson:10},
+  // 第13課
+  {dict:'遊ぶ',kana:'あそぶ',en:'to play',group:1,lesson:13},{dict:'泳ぐ',kana:'およぐ',en:'to swim',group:1,lesson:13},
+  {dict:'迎える',kana:'むかえる',en:'to go to meet',group:2,lesson:13},{dict:'疲れる',kana:'つかれる',en:'to get tired',group:2,lesson:13},
+  {dict:'出す',kana:'だす',en:'to take out / send',group:1,lesson:13},{dict:'入る',kana:'はいる',en:'to enter ※',group:1,lesson:13},
+  {dict:'出る',kana:'でる',en:'to leave / exit',group:2,lesson:13},{dict:'結婚する',kana:'けっこんする',en:'to marry',group:3,lesson:13},
+  {dict:'散歩する',kana:'さんぽする',en:'to take a walk',group:3,lesson:13},
+  // 第14課
+  {dict:'つける',kana:'つける',en:'to turn on',group:2,lesson:14},{dict:'消す',kana:'けす',en:'to turn off / erase',group:1,lesson:14},
+  {dict:'開ける',kana:'あける',en:'to open',group:2,lesson:14},{dict:'閉める',kana:'しめる',en:'to close',group:2,lesson:14},
+  {dict:'急ぐ',kana:'いそぐ',en:'to hurry',group:1,lesson:14},{dict:'待つ',kana:'まつ',en:'to wait',group:1,lesson:14},
+  {dict:'持つ',kana:'もつ',en:'to hold / have',group:1,lesson:14},{dict:'取る',kana:'とる',en:'to take / pass',group:1,lesson:14},
+  {dict:'手伝う',kana:'てつだう',en:'to help',group:1,lesson:14},{dict:'呼ぶ',kana:'よぶ',en:'to call',group:1,lesson:14},
+  {dict:'話す',kana:'はなす',en:'to speak',group:1,lesson:14},{dict:'使う',kana:'つかう',en:'to use',group:1,lesson:14},
+  {dict:'止める',kana:'とめる',en:'to stop (something)',group:2,lesson:14},{dict:'見せる',kana:'みせる',en:'to show',group:2,lesson:14},
+  {dict:'座る',kana:'すわる',en:'to sit',group:1,lesson:14},{dict:'立つ',kana:'たつ',en:'to stand',group:1,lesson:14},
+  // 第15課
+  {dict:'置く',kana:'おく',en:'to put',group:1,lesson:15},{dict:'作る',kana:'つくる',en:'to make',group:1,lesson:15},
+  {dict:'売る',kana:'うる',en:'to sell',group:1,lesson:15},{dict:'知る',kana:'しる',en:'to get to know ※',group:1,lesson:15},
+  {dict:'住む',kana:'すむ',en:'to live / reside',group:1,lesson:15},{dict:'研究する',kana:'けんきゅうする',en:'to research',group:3,lesson:15},
+  // 第16課
+  {dict:'乗る',kana:'のる',en:'to ride / get on',group:1,lesson:16},{dict:'降りる',kana:'おりる',en:'to get off',group:2,lesson:16},
+  {dict:'浴びる',kana:'あびる',en:'to take (a shower)',group:2,lesson:16},{dict:'入れる',kana:'いれる',en:'to put in',group:2,lesson:16},
+  {dict:'押す',kana:'おす',en:'to push / press',group:1,lesson:16},
+  // 第17課
+  {dict:'覚える',kana:'おぼえる',en:'to memorize',group:2,lesson:17},{dict:'忘れる',kana:'わすれる',en:'to forget',group:2,lesson:17},
+  {dict:'なくす',kana:'なくす',en:'to lose',group:1,lesson:17},{dict:'払う',kana:'はらう',en:'to pay',group:1,lesson:17},
+  {dict:'返す',kana:'かえす',en:'to return (something)',group:1,lesson:17},{dict:'脱ぐ',kana:'ぬぐ',en:'to take off (clothes)',group:1,lesson:17},
+  {dict:'心配する',kana:'しんぱいする',en:'to worry',group:3,lesson:17},
+  // 第18課
+  {dict:'できる',kana:'できる',en:'to be able / be done',group:2,lesson:18},{dict:'洗う',kana:'あらう',en:'to wash',group:1,lesson:18},
+  {dict:'弾く',kana:'ひく',en:'to play (instrument)',group:1,lesson:18},{dict:'集める',kana:'あつめる',en:'to collect',group:2,lesson:18},
+  {dict:'捨てる',kana:'すてる',en:'to throw away',group:2,lesson:18},{dict:'換える',kana:'かえる',en:'to exchange',group:2,lesson:18},
+  {dict:'運転する',kana:'うんてんする',en:'to drive',group:3,lesson:18},{dict:'予約する',kana:'よやくする',en:'to reserve',group:3,lesson:18},
+  // 第19課
+  {dict:'登る',kana:'のぼる',en:'to climb',group:1,lesson:19},{dict:'泊まる',kana:'とまる',en:'to stay overnight',group:1,lesson:19},
+  {dict:'掃除する',kana:'そうじする',en:'to clean',group:3,lesson:19},{dict:'洗濯する',kana:'せんたくする',en:'to do laundry',group:3,lesson:19},
+  {dict:'練習する',kana:'れんしゅうする',en:'to practice',group:3,lesson:19},{dict:'なる',kana:'なる',en:'to become',group:1,lesson:19},
+  // 第20課
+  {dict:'要る',kana:'いる',en:'to need ※',group:1,lesson:20},
+  // 第21課
+  {dict:'思う',kana:'おもう',en:'to think',group:1,lesson:21},{dict:'言う',kana:'いう',en:'to say',group:1,lesson:21},
+  {dict:'勝つ',kana:'かつ',en:'to win',group:1,lesson:21},{dict:'負ける',kana:'まける',en:'to lose (a game)',group:2,lesson:21},
+  {dict:'選ぶ',kana:'えらぶ',en:'to choose',group:1,lesson:21},{dict:'出席する',kana:'しゅっせきする',en:'to attend',group:3,lesson:21},
+  // 第22課
+  {dict:'着る',kana:'きる',en:'to wear (upper)',group:2,lesson:22},{dict:'かぶる',kana:'かぶる',en:'to wear (on head)',group:1,lesson:22},
+  {dict:'はく',kana:'はく',en:'to wear (lower)',group:1,lesson:22},{dict:'生まれる',kana:'うまれる',en:'to be born',group:2,lesson:22},
+  {dict:'死ぬ',kana:'しぬ',en:'to die',group:1,lesson:22},
+  // 第23課
+  {dict:'回す',kana:'まわす',en:'to turn (something)',group:1,lesson:23},{dict:'引く',kana:'ひく',en:'to pull',group:1,lesson:23},
+  {dict:'変える',kana:'かえる',en:'to change',group:2,lesson:23},{dict:'触る',kana:'さわる',en:'to touch',group:1,lesson:23},
+  {dict:'動く',kana:'うごく',en:'to move (intr.)',group:1,lesson:23},{dict:'歩く',kana:'あるく',en:'to walk',group:1,lesson:23},
+  {dict:'曲がる',kana:'まがる',en:'to turn (a corner)',group:1,lesson:23},{dict:'通る',kana:'とおる',en:'to pass through',group:1,lesson:23},
+  // 第24課
+  {dict:'くれる',kana:'くれる',en:'to give (to me)',group:2,lesson:24},{dict:'直す',kana:'なおす',en:'to fix / correct',group:1,lesson:24},
+  {dict:'送る',kana:'おくる',en:'to send',group:1,lesson:24},{dict:'案内する',kana:'あんないする',en:'to guide',group:3,lesson:24},
+  {dict:'紹介する',kana:'しょうかいする',en:'to introduce',group:3,lesson:24},{dict:'説明する',kana:'せつめいする',en:'to explain',group:3,lesson:24},
+  // 第25課
+  {dict:'考える',kana:'かんがえる',en:'to think / consider',group:2,lesson:25},{dict:'着く',kana:'つく',en:'to arrive',group:1,lesson:25},
+  {dict:'引っ越す',kana:'ひっこす',en:'to move (house)',group:1,lesson:25},
 ];
+const LESSON_MIN=4, LESSON_MAX=25;
 const IADJ=[
   {dict:'高い',kana:'たかい',en:'high / expensive'},{dict:'大きい',kana:'おおきい',en:'big'},
   {dict:'新しい',kana:'あたらしい',en:'new'},{dict:'楽しい',kana:'たのしい',en:'fun'},
@@ -298,7 +398,7 @@ const NAADJ=[
 ];
 const VFORMS=[['masu','ます形'],['te','て形'],['nai','ない形'],['ta','た形'],['nakatta','なかった形'],
   ['potential','可能動詞'],['volition','意向形'],['ba','条件形'],['imperative','命令形'],
-  ['prohibitive','禁止形'],['passive','受身動詞'],['causative','使役動詞']];
+  ['prohibitive','禁止形'],['passive','受身動詞'],['causative','使役動詞'],['causpass','使役受身']];
 const IFORMS=[['neg','否定'],['past','過去'],['pastneg','過去否定'],['te','て形'],['adv','副詞形'],['ba','条件形']];
 const NFORMS=[['neg','否定'],['past','過去'],['pastneg','過去否定'],['te','て形'],['adv','副詞形'],['noun','名詞修飾'],['ba','条件形']];
 const HINTS={noun:'〜な＋名詞',adv:'〜く / 〜に',ba:'〜ば / 〜なら',volition:'〜う/よう',prohibitive:'〜な'};
@@ -311,13 +411,15 @@ let selected=new Set(['v:masu','v:te','v:nai','v:ta']);
 let score={asked:0,ok:0,streak:0};
 let current=null, answered=false;
 let suppressFocus=false; // 設定変更時はフォーカス（自動スクロール）しない
+let maxLesson=20;        // 「◯課まで」（みんなの日本語）
+try{ const v=+localStorage.getItem('nnh_renshu_lesson'); if(v>=LESSON_MIN&&v<=LESSON_MAX) maxLesson=v; }catch(e){}
 
 /* ===================== UI構築 ===================== */
 function renderGroupChips(){
   $('groupChips').innerHTML=[[1,'1グループ'],[2,'2グループ'],[3,'3グループ']]
     .map(([g,l])=>`<button class="chip gp ${groups.has(g)?'on':''}" data-g="${g}">${l}</button>`).join('');
   $('groupChips').querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
-    const g=+c.dataset.g; groups.has(g)?groups.delete(g):groups.add(g); renderGroupChips(); suppressFocus=true; newProblem(); suppressFocus=false;
+    const g=+c.dataset.g; groups.has(g)?groups.delete(g):groups.add(g); renderGroupChips(); updateRangeCount(); suppressFocus=true; newProblem(); suppressFocus=false;
   });
 }
 function renderFormChips(){
@@ -350,7 +452,7 @@ function specs(){
   const out=[];
   selected.forEach(id=>{
     const [cat,key]=id.split(':');
-    if(cat==='v'){ const pool=VERBS.filter(w=>groups.has(w.group)); if(pool.length) out.push({cat,key,pool}); }
+    if(cat==='v'){ const pool=VERBS.filter(w=>groups.has(w.group) && w.lesson<=maxLesson); if(pool.length) out.push({cat,key,pool}); }
     else if(cat==='i') out.push({cat,key,pool:IADJ});
     else if(cat==='n') out.push({cat,key,pool:NAADJ});
   });
@@ -394,7 +496,15 @@ function labelFor(cat,key){
 /* ===================== 描画 ===================== */
 function renderQuiz(){
   const area=$('quizArea');
-  if(!current){ area.innerHTML=`<div class="quiz"><div class="empty-msg">出題する活用を1つ以上えらんでください。<br>（「設定 → 出題する活用」または「基本」ボタン）</div></div>`; return; }
+  if(!current){
+    const hasVerbForm=[...selected].some(id=>id.startsWith('v:'));
+    const verbPool=VERBS.filter(w=>groups.has(w.group)&&w.lesson<=maxLesson);
+    let msg='出題する活用を1つ以上えらんでください。<br>（「設定 → 出題する活用」または「基本」ボタン）';
+    if(hasVerbForm && verbPool.length===0){
+      msg='この範囲・グループには動詞がありません。<br>「範囲」を広げるか、グループを選び直してください。';
+    }
+    area.innerHTML=`<div class="quiz"><div class="empty-msg">${msg}</div></div>`; return;
+  }
   const {cat,key,word,ans}=current;
   const gtag = cat==='v' ? `<span class="q-grouptag gt-${word.group}">${word.group}グループ</span>`
             : cat==='i' ? `<span class="q-grouptag gt-i">い形容詞</span>`
@@ -499,7 +609,24 @@ function setMode(m){
   if(current) renderQuiz();
 }
 
+/* ===================== 範囲（教科書・課） ===================== */
+function updateRangeCount(){
+  const n=VERBS.filter(w=>groups.has(w.group)&&w.lesson<=maxLesson).length;
+  const el=$('verbCount'); if(el) el.textContent=n;
+}
+function initRange(){
+  const sl=$('lessonRange'), val=$('lessonVal');
+  sl.value=maxLesson; val.textContent=maxLesson;
+  sl.addEventListener('input',()=>{
+    maxLesson=+sl.value; val.textContent=maxLesson;
+    try{ localStorage.setItem('nnh_renshu_lesson', String(maxLesson)); }catch(e){}
+    updateRangeCount(); suppressFocus=true; newProblem(); suppressFocus=false;
+  });
+  updateRangeCount();
+}
+
 /* ===================== 初期化 ===================== */
+initRange();
 renderGroupChips(); renderFormChips();
 $('modeSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
 document.querySelectorAll('.preset').forEach(p=>p.onclick=()=>applyPreset(p.dataset.preset));

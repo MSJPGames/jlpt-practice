@@ -196,13 +196,13 @@
     <div class="set-block">
       <div class="set-h">教科書・範囲 ・ Textbook &amp; range</div>
       <select id="bookSel" class="book-sel">
-        <option value="minna">みんなの日本語 初級（第2版）</option>
+        <option value="minna">みんなの日本語 初級Ⅰ・Ⅱ（第2版）</option>
       </select>
       <div class="range-row">
         <span class="range-label">出題する範囲</span>
         <span class="range-val"><b id="lessonVal">20</b>課まで</span>
       </div>
-      <input type="range" id="lessonRange" min="4" max="25" value="20" step="1" aria-label="出題する課の範囲">
+      <input type="range" id="lessonRange" min="4" max="50" value="20" step="1" aria-label="出題する課の範囲">
       <div class="range-hint"><b id="verbCount">0</b> 語の動詞が対象<span class="en"> ・ verbs in this range</span></div>
     </div>
     <div class="set-block">
@@ -371,7 +371,6 @@ const VERBS=[
   // 第22課
   {dict:'着る',kana:'きる',en:'to wear (upper)',group:2,lesson:22},{dict:'かぶる',kana:'かぶる',en:'to wear (on head)',group:1,lesson:22},
   {dict:'はく',kana:'はく',en:'to wear (lower)',group:1,lesson:22},{dict:'生まれる',kana:'うまれる',en:'to be born',group:2,lesson:22},
-  {dict:'死ぬ',kana:'しぬ',en:'to die',group:1,lesson:22},
   // 第23課
   {dict:'回す',kana:'まわす',en:'to turn (something)',group:1,lesson:23},{dict:'引く',kana:'ひく',en:'to pull',group:1,lesson:23},
   {dict:'変える',kana:'かえる',en:'to change',group:2,lesson:23},{dict:'触る',kana:'さわる',en:'to touch',group:1,lesson:23},
@@ -384,8 +383,129 @@ const VERBS=[
   // 第25課
   {dict:'考える',kana:'かんがえる',en:'to think / consider',group:2,lesson:25},{dict:'着く',kana:'つく',en:'to arrive',group:1,lesson:25},
   {dict:'引っ越す',kana:'ひっこす',en:'to move (house)',group:1,lesson:25},
+  /* ▼▼ 初級II（第26〜50課）— 課の割り当ては目安・要確認。※印は形は一段風でも1グループの例外 ▼▼ */
+  // 第26課
+  {dict:'診る',kana:'みる',en:'to examine (medical)',group:2,lesson:26},{dict:'探す',kana:'さがす',en:'to look for',group:1,lesson:26},
+  {dict:'遅れる',kana:'おくれる',en:'to be late',group:2,lesson:26},{dict:'間に合う',kana:'まにあう',en:'to be in time',group:1,lesson:26},
+  {dict:'申し込む',kana:'もうしこむ',en:'to apply',group:1,lesson:26},{dict:'連絡する',kana:'れんらくする',en:'to contact',group:3,lesson:26},
+  {dict:'拾う',kana:'ひろう',en:'to pick up',group:1,lesson:26},
+  // 第27課
+  {dict:'飼う',kana:'かう',en:'to keep (a pet)',group:1,lesson:27},{dict:'走る',kana:'はしる',en:'to run ※',group:1,lesson:27},
+  {dict:'見える',kana:'みえる',en:'to be visible',group:2,lesson:27},{dict:'聞こえる',kana:'きこえる',en:'to be audible',group:2,lesson:27},
+  {dict:'建てる',kana:'たてる',en:'to build',group:2,lesson:27},
+  // 第28課
+  {dict:'売れる',kana:'うれる',en:'to sell / be sold',group:2,lesson:28},{dict:'踊る',kana:'おどる',en:'to dance',group:1,lesson:28},
+  {dict:'かむ',kana:'かむ',en:'to chew / bite',group:1,lesson:28},{dict:'通う',kana:'かよう',en:'to commute',group:1,lesson:28},
+  {dict:'メモする',kana:'メモする',en:'to take a memo',group:3,lesson:28},
+  // 第29課
+  {dict:'開く',kana:'ひらく',en:'to open / hold (event)',group:1,lesson:29},{dict:'閉まる',kana:'しまる',en:'to close (intr.)',group:1,lesson:29},
+  {dict:'つく',kana:'つく',en:'to come on (light)',group:1,lesson:29},{dict:'消える',kana:'きえる',en:'to go off',group:2,lesson:29},
+  {dict:'壊れる',kana:'こわれる',en:'to break (intr.)',group:2,lesson:29},{dict:'割れる',kana:'われる',en:'to crack',group:2,lesson:29},
+  {dict:'折れる',kana:'おれる',en:'to snap',group:2,lesson:29},{dict:'破れる',kana:'やぶれる',en:'to tear',group:2,lesson:29},
+  {dict:'汚れる',kana:'よごれる',en:'to get dirty',group:2,lesson:29},{dict:'外れる',kana:'はずれる',en:'to come off',group:2,lesson:29},
+  {dict:'止まる',kana:'とまる',en:'to stop (intr.)',group:1,lesson:29},{dict:'間違える',kana:'まちがえる',en:'to make a mistake',group:2,lesson:29},
+  {dict:'落とす',kana:'おとす',en:'to drop',group:1,lesson:29},{dict:'取り替える',kana:'とりかえる',en:'to replace',group:2,lesson:29},
+  {dict:'片付ける',kana:'かたづける',en:'to tidy up',group:2,lesson:29},
+  // 第30課
+  {dict:'貼る',kana:'はる',en:'to paste',group:1,lesson:30},{dict:'掛ける',kana:'かける',en:'to hang',group:2,lesson:30},
+  {dict:'飾る',kana:'かざる',en:'to decorate',group:1,lesson:30},{dict:'並べる',kana:'ならべる',en:'to line up (tr.)',group:2,lesson:30},
+  {dict:'植える',kana:'うえる',en:'to plant',group:2,lesson:30},{dict:'戻す',kana:'もどす',en:'to put back',group:1,lesson:30},
+  {dict:'決める',kana:'きめる',en:'to decide',group:2,lesson:30},{dict:'予習する',kana:'よしゅうする',en:'to prepare lessons',group:3,lesson:30},
+  {dict:'復習する',kana:'ふくしゅうする',en:'to review',group:3,lesson:30},
+  // 第31課
+  {dict:'続ける',kana:'つづける',en:'to continue (tr.)',group:2,lesson:31},{dict:'見つける',kana:'みつける',en:'to find',group:2,lesson:31},
+  {dict:'受ける',kana:'うける',en:'to take / receive',group:2,lesson:31},{dict:'休憩する',kana:'きゅうけいする',en:'to take a break',group:3,lesson:31},
+  {dict:'残る',kana:'のこる',en:'to remain',group:1,lesson:31},
+  // 第32課
+  {dict:'運動する',kana:'うんどうする',en:'to exercise',group:3,lesson:32},{dict:'成功する',kana:'せいこうする',en:'to succeed',group:3,lesson:32},
+  {dict:'失敗する',kana:'しっぱいする',en:'to fail',group:3,lesson:32},{dict:'合格する',kana:'ごうかくする',en:'to pass (exam)',group:3,lesson:32},
+  {dict:'晴れる',kana:'はれる',en:'to clear up',group:2,lesson:32},{dict:'曇る',kana:'くもる',en:'to get cloudy',group:1,lesson:32},
+  {dict:'続く',kana:'つづく',en:'to continue (intr.)',group:1,lesson:32},{dict:'冷やす',kana:'ひやす',en:'to cool',group:1,lesson:32},
+  {dict:'込む',kana:'こむ',en:'to be crowded',group:1,lesson:32},{dict:'すく',kana:'すく',en:'to become empty',group:1,lesson:32},
+  // 第33課
+  {dict:'逃げる',kana:'にげる',en:'to escape',group:2,lesson:33},{dict:'騒ぐ',kana:'さわぐ',en:'to make noise',group:1,lesson:33},
+  {dict:'あきらめる',kana:'あきらめる',en:'to give up',group:2,lesson:33},{dict:'投げる',kana:'なげる',en:'to throw',group:2,lesson:33},
+  {dict:'守る',kana:'まもる',en:'to protect / keep',group:1,lesson:33},{dict:'始まる',kana:'はじまる',en:'to begin (intr.)',group:1,lesson:33},
+  {dict:'伝える',kana:'つたえる',en:'to convey',group:2,lesson:33},{dict:'注意する',kana:'ちゅういする',en:'to warn / be careful',group:3,lesson:33},
+  {dict:'戻る',kana:'もどる',en:'to return (intr.)',group:1,lesson:33},
+  // 第34課
+  {dict:'磨く',kana:'みがく',en:'to polish / brush',group:1,lesson:34},{dict:'組み立てる',kana:'くみたてる',en:'to assemble',group:2,lesson:34},
+  {dict:'折る',kana:'おる',en:'to fold / break (tr.)',group:1,lesson:34},{dict:'気がつく',kana:'きがつく',en:'to notice',group:1,lesson:34},
+  {dict:'質問する',kana:'しつもんする',en:'to ask a question',group:3,lesson:34},{dict:'載せる',kana:'のせる',en:'to put on top',group:2,lesson:34},
+  // 第35課
+  {dict:'咲く',kana:'さく',en:'to bloom',group:1,lesson:35},{dict:'変わる',kana:'かわる',en:'to change (intr.)',group:1,lesson:35},
+  {dict:'困る',kana:'こまる',en:'to be troubled',group:1,lesson:35},{dict:'治る',kana:'なおる',en:'to heal / recover',group:1,lesson:35},
+  {dict:'入力する',kana:'にゅうりょくする',en:'to input',group:3,lesson:35},
+  // 第36課
+  {dict:'貯金する',kana:'ちょきんする',en:'to save money',group:3,lesson:36},{dict:'過ぎる',kana:'すぎる',en:'to pass / exceed',group:2,lesson:36},
+  {dict:'慣れる',kana:'なれる',en:'to get used to',group:2,lesson:36},{dict:'腐る',kana:'くさる',en:'to rot',group:1,lesson:36},
+  {dict:'違う',kana:'ちがう',en:'to differ',group:1,lesson:36},
+  // 第37課
+  {dict:'褒める',kana:'ほめる',en:'to praise',group:2,lesson:37},{dict:'しかる',kana:'しかる',en:'to scold',group:1,lesson:37},
+  {dict:'誘う',kana:'さそう',en:'to invite',group:1,lesson:37},{dict:'招待する',kana:'しょうたいする',en:'to invite (formally)',group:3,lesson:37},
+  {dict:'頼む',kana:'たのむ',en:'to ask / request',group:1,lesson:37},{dict:'踏む',kana:'ふむ',en:'to step on',group:1,lesson:37},
+  {dict:'壊す',kana:'こわす',en:'to break (tr.)',group:1,lesson:37},{dict:'汚す',kana:'よごす',en:'to make dirty',group:1,lesson:37},
+  {dict:'行う',kana:'おこなう',en:'to hold / conduct',group:1,lesson:37},{dict:'輸出する',kana:'ゆしゅつする',en:'to export',group:3,lesson:37},
+  {dict:'輸入する',kana:'ゆにゅうする',en:'to import',group:3,lesson:37},{dict:'翻訳する',kana:'ほんやくする',en:'to translate',group:3,lesson:37},
+  {dict:'発明する',kana:'はつめいする',en:'to invent',group:3,lesson:37},{dict:'発見する',kana:'はっけんする',en:'to discover',group:3,lesson:37},
+  // 第38課
+  {dict:'育てる',kana:'そだてる',en:'to raise',group:2,lesson:38},{dict:'運ぶ',kana:'はこぶ',en:'to carry',group:1,lesson:38},
+  {dict:'切る',kana:'きる',en:'to cut ※',group:1,lesson:38},{dict:'整理する',kana:'せいりする',en:'to arrange',group:3,lesson:38},
+  {dict:'参加する',kana:'さんかする',en:'to participate',group:3,lesson:38},{dict:'入院する',kana:'にゅういんする',en:'to be hospitalized',group:3,lesson:38},
+  {dict:'退院する',kana:'たいいんする',en:'to leave hospital',group:3,lesson:38},
+  // 第39課
+  {dict:'答える',kana:'こたえる',en:'to answer',group:2,lesson:39},{dict:'倒れる',kana:'たおれる',en:'to fall over',group:2,lesson:39},
+  {dict:'死ぬ',kana:'しぬ',en:'to die',group:1,lesson:39},{dict:'太る',kana:'ふとる',en:'to gain weight',group:1,lesson:39},
+  {dict:'やせる',kana:'やせる',en:'to lose weight',group:2,lesson:39},{dict:'ぶつかる',kana:'ぶつかる',en:'to collide',group:1,lesson:39},
+  {dict:'びっくりする',kana:'びっくりする',en:'to be surprised',group:3,lesson:39},{dict:'安心する',kana:'あんしんする',en:'to feel relieved',group:3,lesson:39},
+  {dict:'離婚する',kana:'りこんする',en:'to divorce',group:3,lesson:39},{dict:'けんかする',kana:'けんかする',en:'to quarrel',group:3,lesson:39},
+  // 第40課
+  {dict:'数える',kana:'かぞえる',en:'to count',group:2,lesson:40},{dict:'測る',kana:'はかる',en:'to measure',group:1,lesson:40},
+  {dict:'確かめる',kana:'たしかめる',en:'to confirm',group:2,lesson:40},{dict:'出発する',kana:'しゅっぱつする',en:'to depart',group:3,lesson:40},
+  {dict:'到着する',kana:'とうちゃくする',en:'to arrive',group:3,lesson:40},{dict:'相談する',kana:'そうだんする',en:'to consult',group:3,lesson:40},
+  // 第41課
+  {dict:'下げる',kana:'さげる',en:'to lower',group:2,lesson:41},
+  // 第42課
+  {dict:'包む',kana:'つつむ',en:'to wrap',group:1,lesson:42},{dict:'沸かす',kana:'わかす',en:'to boil',group:1,lesson:42},
+  {dict:'混ぜる',kana:'まぜる',en:'to mix',group:2,lesson:42},{dict:'計算する',kana:'けいさんする',en:'to calculate',group:3,lesson:42},
+  {dict:'並ぶ',kana:'ならぶ',en:'to line up (intr.)',group:1,lesson:42},
+  // 第43課
+  {dict:'増える',kana:'ふえる',en:'to increase',group:2,lesson:43},{dict:'減る',kana:'へる',en:'to decrease ※',group:1,lesson:43},
+  {dict:'上がる',kana:'あがる',en:'to go up',group:1,lesson:43},{dict:'下がる',kana:'さがる',en:'to go down',group:1,lesson:43},
+  {dict:'切れる',kana:'きれる',en:'to run out / be cut',group:2,lesson:43},{dict:'落ちる',kana:'おちる',en:'to fall',group:2,lesson:43},
+  // 第44課
+  {dict:'泣く',kana:'なく',en:'to cry',group:1,lesson:44},{dict:'笑う',kana:'わらう',en:'to laugh',group:1,lesson:44},
+  {dict:'眠る',kana:'ねむる',en:'to sleep',group:1,lesson:44},{dict:'乾く',kana:'かわく',en:'to dry',group:1,lesson:44},
+  {dict:'ぬれる',kana:'ぬれる',en:'to get wet',group:2,lesson:44},{dict:'滑る',kana:'すべる',en:'to slip ※',group:1,lesson:44},
+  {dict:'調節する',kana:'ちょうせつする',en:'to adjust',group:3,lesson:44},
+  // 第45課
+  {dict:'信じる',kana:'しんじる',en:'to believe',group:2,lesson:45},{dict:'知らせる',kana:'しらせる',en:'to inform',group:2,lesson:45},
+  {dict:'優勝する',kana:'ゆうしょうする',en:'to win (championship)',group:3,lesson:45},{dict:'キャンセルする',kana:'キャンセルする',en:'to cancel',group:3,lesson:45},
+  // 第46課
+  {dict:'渡す',kana:'わたす',en:'to hand over',group:1,lesson:46},{dict:'届く',kana:'とどく',en:'to be delivered',group:1,lesson:46},
+  {dict:'焼く',kana:'やく',en:'to bake / grill',group:1,lesson:46},{dict:'焼ける',kana:'やける',en:'to be baked',group:2,lesson:46},
+  {dict:'向かう',kana:'むかう',en:'to head toward',group:1,lesson:46},{dict:'入学する',kana:'にゅうがくする',en:'to enter school',group:3,lesson:46},
+  {dict:'卒業する',kana:'そつぎょうする',en:'to graduate',group:3,lesson:46},
+  // 第47課
+  {dict:'吹く',kana:'ふく',en:'to blow',group:1,lesson:47},{dict:'燃える',kana:'もえる',en:'to burn',group:2,lesson:47},
+  {dict:'亡くなる',kana:'なくなる',en:'to pass away',group:1,lesson:47},{dict:'集まる',kana:'あつまる',en:'to gather (intr.)',group:1,lesson:47},
+  {dict:'別れる',kana:'わかれる',en:'to part',group:2,lesson:47},{dict:'知り合う',kana:'しりあう',en:'to get acquainted',group:1,lesson:47},
+  {dict:'婚約する',kana:'こんやくする',en:'to get engaged',group:3,lesson:47},
+  // 第48課
+  {dict:'降ろす',kana:'おろす',en:'to take down / withdraw',group:1,lesson:48},{dict:'届ける',kana:'とどける',en:'to deliver',group:2,lesson:48},
+  {dict:'楽しむ',kana:'たのしむ',en:'to enjoy',group:1,lesson:48},{dict:'録音する',kana:'ろくおんする',en:'to record (audio)',group:3,lesson:48},
+  // 第49課
+  {dict:'勤める',kana:'つとめる',en:'to work for',group:2,lesson:49},{dict:'過ごす',kana:'すごす',en:'to spend (time)',group:1,lesson:49},
+  {dict:'利用する',kana:'りようする',en:'to use / utilize',group:3,lesson:49},
+  {dict:'召し上がる',kana:'めしあがる',en:'to eat / drink (hon.)',group:1,lesson:49},{dict:'ご覧になる',kana:'ごらんになる',en:'to see (hon.)',group:1,lesson:49},
+  // 第50課
+  {dict:'参る',kana:'まいる',en:'to go / come (hum.)',group:1,lesson:50},{dict:'申す',kana:'もうす',en:'to say (hum.)',group:1,lesson:50},
+  {dict:'いたす',kana:'いたす',en:'to do (hum.)',group:1,lesson:50},{dict:'伺う',kana:'うかがう',en:'to ask / visit (hum.)',group:1,lesson:50},
+  {dict:'拝見する',kana:'はいけんする',en:'to see (hum.)',group:3,lesson:50},{dict:'お目にかかる',kana:'おめにかかる',en:'to meet (hum.)',group:1,lesson:50},
+  {dict:'用意する',kana:'よういする',en:'to prepare',group:3,lesson:50},{dict:'緊張する',kana:'きんちょうする',en:'to be nervous',group:3,lesson:50},
+  {dict:'応援する',kana:'おうえんする',en:'to cheer / support',group:3,lesson:50},{dict:'感謝する',kana:'かんしゃする',en:'to thank',group:3,lesson:50},
 ];
-const LESSON_MIN=4, LESSON_MAX=25;
+const LESSON_MIN=4, LESSON_MAX=50;
 const IADJ=[
   {dict:'高い',kana:'たかい',en:'high / expensive'},{dict:'大きい',kana:'おおきい',en:'big'},
   {dict:'新しい',kana:'あたらしい',en:'new'},{dict:'楽しい',kana:'たのしい',en:'fun'},

@@ -203,9 +203,9 @@
     <div class="set-block">
       <div class="set-h">教科書・範囲 ・ Textbook &amp; range</div>
       <select id="bookSel" class="book-sel">
-        <option value="minna">みんなの日本語 初級Ⅰ・Ⅱ（第2版）</option>
-        <option value="tsunagu">つなぐにほんご 初級1・2（準備中）</option>
-        <option value="genki">げんき Ⅰ・Ⅱ（準備中）</option>
+        <option value="minna">みんなの日本語 初級Ⅰ・Ⅱ 第2版</option>
+        <option value="tsunagu">つなぐ日本語 初級 1・2 初版</option>
+        <option value="genki">げんき Ⅰ・Ⅱ 第3版</option>
       </select>
       <div class="range-row">
         <span class="range-label">出題する範囲</span>
@@ -530,9 +530,9 @@ const LESSON_MIN=4, LESSON_MAX=50;
    例：{dict:'…',…,lesson:6, alt:{tsunagu:4, genki:3}}
    ready:false の教科書は「準備中」表示（公式語彙リスト取り込み後に true へ）。 */
 const BOOKS = {
-  minna:   { label:'みんなの日本語 初級Ⅰ・Ⅱ（第2版）', min:LESSON_MIN, max:LESSON_MAX, ready:true },
-  tsunagu: { label:'つなぐにほんご 初級1・2',           min:1, max:30, ready:true  },
-  genki:   { label:'げんき（第3版）Ⅰ・Ⅱ',              min:1, max:23, ready:true  },
+  minna:   { label:'みんなの日本語 初級Ⅰ・Ⅱ 第2版', min:LESSON_MIN, max:LESSON_MAX, ready:true },
+  tsunagu: { label:'つなぐ日本語 初級 1・2 初版',     min:1, max:30, ready:true  },
+  genki:   { label:'げんき Ⅰ・Ⅱ 第3版',              min:1, max:23, ready:true  },
 };
 function lessonOf(w){ return currentBook==='minna' ? w.lesson : (w.alt && w.alt[currentBook]); }
 /* ===== つなぐにほんご データ（ます形照合による初出課。要確認） ===== */

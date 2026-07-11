@@ -204,6 +204,8 @@
       <div class="set-h">教科書・範囲 ・ Textbook &amp; range</div>
       <select id="bookSel" class="book-sel">
         <option value="minna">みんなの日本語 初級Ⅰ・Ⅱ（第2版）</option>
+        <option value="tsunagu">つなぐにほんご 初級1・2（準備中）</option>
+        <option value="genki">げんき Ⅰ・Ⅱ（準備中）</option>
       </select>
       <div class="range-row">
         <span class="range-label">出題する範囲</span>
@@ -217,6 +219,13 @@
       <div class="seg" id="modeSeg">
         <button data-mode="input" class="on">入力して確認<small>type &amp; check</small></button>
         <button data-mode="reveal">めくって確認<small>flip card</small></button>
+      </div>
+    </div>
+    <div class="set-block">
+      <div class="set-h">出題の起点 ・ Base form（動詞）</div>
+      <div class="seg" id="startSeg">
+        <button data-start="dict" class="on">辞書形<small>dictionary</small></button>
+        <button data-start="masu">ます形<small>masu-form</small></button>
       </div>
     </div>
     <div class="set-block">
@@ -515,6 +524,120 @@ const VERBS=[
   {dict:'応援する',kana:'おうえんする',en:'to cheer / support',group:3,lesson:50},{dict:'感謝する',kana:'かんしゃする',en:'to thank',group:3,lesson:50},
 ];
 const LESSON_MIN=4, LESSON_MAX=50;
+
+/* ===================== 教科書設定 =====================
+   複数教科書対応。各語は minna は w.lesson、他教科書は w.alt[book] に課番号を持つ。
+   例：{dict:'…',…,lesson:6, alt:{tsunagu:4, genki:3}}
+   ready:false の教科書は「準備中」表示（公式語彙リスト取り込み後に true へ）。 */
+const BOOKS = {
+  minna:   { label:'みんなの日本語 初級Ⅰ・Ⅱ（第2版）', min:LESSON_MIN, max:LESSON_MAX, ready:true },
+  tsunagu: { label:'つなぐにほんご 初級1・2',           min:1, max:30, ready:true  },
+  genki:   { label:'げんき Ⅰ・Ⅱ',                      min:1, max:23, ready:false },
+};
+function lessonOf(w){ return currentBook==='minna' ? w.lesson : (w.alt && w.alt[currentBook]); }
+/* ===== つなぐにほんご データ（ます形照合による初出課。要確認） ===== */
+const TSUNAGU_LESSON = {"食べる":1, "飲む":1, "乗る":3, "行く":3, "見る":3, "診る":3, "する":4, "予約する":4, "作る":4, "勉強する":4, "取る":4, "吹く":4, "寝る":4, "帰る":4, "撮る":4, "散歩する":4, "書く":4, "来る":4, "泳ぐ":4, "洗う":4, "洗濯する":4, "浴びる":4, "消す":4, "着る":4, "置く":4, "聞く":4, "言う":4, "話す":4, "読む":4, "買う":4, "閉める":4, "飼う":4, "迎える":5, "借りる":6, "引っ越す":6, "登る":6, "終わる":6, "結婚する":6, "つく":7, "わかる":7, "会う":7, "呼ぶ":7, "座る":7, "待つ":7, "急ぐ":7, "折る":7, "着く":7, "説明する":7, "開ける":7, "降りる":7, "休む":8, "出す":8, "持つ":8, "歩く":8, "死ぬ":8, "立つ":8, "貸す":8, "遊ぶ":8, "なくす":9, "使う":9, "入る":9, "入れる":9, "出る":9, "吸う":9, "始まる":9, "忘れる":9, "払う":9, "捨てる":9, "止める":9, "片付ける":9, "覚える":9, "触る":9, "走る":9, "運転する":9, "間に合う":9, "間違える":9, "集める":9, "かける":10, "かぶる":10, "はく":10, "住む":10, "働く":10, "掛ける":10, "教える":10, "紹介する":10, "変わる":11, "手伝う":11, "治る":11, "生まれる":11, "疲れる":11, "直す":11, "見せる":11, "いる":12, "つける":12, "取り替える":12, "咲く":12, "回す":12, "壊れる":12, "売る":12, "押す":12, "掃除する":12, "泣く":12, "消える":12, "渡す":12, "相談する":12, "練習する":12, "落ちる":12, "返す":12, "連絡する":12, "運ぶ":12, "卒業する":13, "戻す":13, "できる":14, "やせる":14, "引く":14, "弾く":14, "探す":14, "運動する":14, "頼む":14, "ぶつかる":15, "壊す":15, "汚す":15, "落とす":15, "いたす":16, "お目にかかる":16, "ご覧になる":16, "亡くなる":16, "伺う":16, "出席する":16, "出発する":16, "到着する":16, "勝つ":16, "参る":16, "参加する":16, "召し上がる":16, "戻る":16, "拝見する":16, "案内する":16, "注意する":16, "用意する":16, "申す":16, "研究する":16, "考える":16, "質問する":16, "送る":16, "遅れる":16, "並ぶ":17, "止まる":17, "習う":17, "入力する":18, "曲がる":18, "載せる":18, "選ぶ":18, "開く":18, "メモする":19, "困る":19, "慣れる":19, "招待する":19, "褒める":19, "誘う":19, "踊る":19, "通る":19, "倒れる":20, "切れる":20, "割れる":20, "届ける":20, "拾う":20, "曇る":20, "汚れる":20, "破れる":20, "聞こえる":20, "見える":20, "閉まる":20, "下がる":21, "入院する":21, "受ける":21, "増える":21, "測る":21, "貼る":21, "退院する":21, "合格する":22, "届く":22, "違う":22, "集まる":22, "しかる":23, "伝える":23, "晴れる":23, "決める":23, "笑う":23, "踏む":23, "逃げる":23, "泊まる":24, "申し込む":24, "育てる":24, "要る":24, "貯金する":24, "並べる":25, "冷やす":25, "切る":25, "飾る":25, "上がる":26, "起きる":27, "利用する":28, "通う":28, "変える":29, "換える":29, "整理する":29, "守る":30, "建てる":30, "緊張する":30, "翻訳する":30, "行う":30};
+/* つなぐ独自動詞（みんなの日本語に無い語）。alt.tsunagu に課を持つ（minna課なし） */
+[
+  {dict:"かかる",kana:"かかる",group:1,en:"take",alt:{tsunagu:3}},
+  {dict:"ジョギングする",kana:"ジョギングする",group:3,en:"jog",alt:{tsunagu:4}},
+  {dict:"買い物する",kana:"かいものする",group:3,en:"go shopping",alt:{tsunagu:4}},
+  {dict:"電話する",kana:"でんわする",group:3,en:"call, phone",alt:{tsunagu:4}},
+  {dict:"発表する",kana:"はっぴょうする",group:3,en:"make a presentation",alt:{tsunagu:4}},
+  {dict:"出かける",kana:"でかける",group:2,en:"go out",alt:{tsunagu:4}},
+  {dict:"旅行する",kana:"りょこうする",group:3,en:"travel",alt:{tsunagu:6}},
+  {dict:"出張する",kana:"しゅっちょうする",group:3,en:"make a business trip",alt:{tsunagu:6}},
+  {dict:"降る",kana:"ふる",group:1,en:"rain",alt:{tsunagu:6}},
+  {dict:"歌う",kana:"うたう",group:1,en:"sing",alt:{tsunagu:8}},
+  {dict:"コピーする",kana:"コピーする",group:3,en:"copy",alt:{tsunagu:9}},
+  {dict:"渡る",kana:"わたる",group:1,en:"cross",alt:{tsunagu:9}},
+  {dict:"始める",kana:"はじめる",group:2,en:"start",alt:{tsunagu:9}},
+  {dict:"やめる",kana:"やめる",group:2,en:"stop, quit",alt:{tsunagu:9}},
+  {dict:"経営する",kana:"けいえいする",group:3,en:"manage, operate",alt:{tsunagu:10}},
+  {dict:"似る",kana:"にる",group:2,en:"really look alike",alt:{tsunagu:10}},
+  {dict:"決まる",kana:"きまる",group:1,en:"be decided",alt:{tsunagu:11}},
+  {dict:"似合う",kana:"にあう",group:1,en:"suit someone, look good",alt:{tsunagu:11}},
+  {dict:"帰国する",kana:"きこくする",group:3,en:"return to one's country",alt:{tsunagu:12}},
+  {dict:"食事する",kana:"しょくじする",group:3,en:"have a meal",alt:{tsunagu:12}},
+  {dict:"体操する",kana:"たいそうする",group:3,en:"exercise",alt:{tsunagu:12}},
+  {dict:"遅刻する",kana:"ちこくする",group:3,en:"be late for",alt:{tsunagu:12}},
+  {dict:"ゆでる",kana:"ゆでる",group:2,en:"boil",alt:{tsunagu:12}},
+  {dict:"やる",kana:"やる",group:1,en:"do",alt:{tsunagu:12}},
+  {dict:"寄る",kana:"よる",group:1,en:"drop by, come by",alt:{tsunagu:12}},
+  {dict:"空く",kana:"あく",group:1,en:"a seat be available",alt:{tsunagu:13}},
+  {dict:"調べる",kana:"しらべる",group:2,en:"look up, research",alt:{tsunagu:14}},
+  {dict:"倒す",kana:"たおす",group:1,en:"knock over",alt:{tsunagu:15}},
+  {dict:"蹴る",kana:"ける",group:1,en:"kick",alt:{tsunagu:15}},
+  {dict:"当てる",kana:"あてる",group:2,en:"hit",alt:{tsunagu:15}},
+  {dict:"割る",kana:"わる",group:1,en:"break",alt:{tsunagu:15}},
+  {dict:"欠席する",kana:"けっせきする",group:3,en:"be absent",alt:{tsunagu:16}},
+  {dict:"準備する",kana:"じゅんびする",group:3,en:"prepare",alt:{tsunagu:16}},
+  {dict:"当たる",kana:"あたる",group:1,en:"win (the lottery)",alt:{tsunagu:16}},
+  {dict:"上げる",kana:"あげる",group:2,en:"raise",alt:{tsunagu:16}},
+  {dict:"頑張る",kana:"がんばる",group:1,en:"do one's best",alt:{tsunagu:16}},
+  {dict:"回る",kana:"まわる",group:1,en:"turn around",alt:{tsunagu:17}},
+  {dict:"打つ",kana:"うつ",group:1,en:"hit, strike",alt:{tsunagu:17}},
+  {dict:"セットする",kana:"セットする",group:3,en:"set (a time)",alt:{tsunagu:18}},
+  {dict:"ストレッチする",kana:"ストレッチする",group:3,en:"stretch",alt:{tsunagu:18}},
+  {dict:"クリックする",kana:"クリックする",group:3,en:"click",alt:{tsunagu:18}},
+  {dict:"充電する",kana:"じゅうでんする",group:3,en:"charge",alt:{tsunagu:18}},
+  {dict:"外す",kana:"はずす",group:1,en:"remove",alt:{tsunagu:18}},
+  {dict:"流れる",kana:"ながれる",group:2,en:"flow",alt:{tsunagu:18}},
+  {dict:"炒める",kana:"いためる",group:2,en:"stir fry",alt:{tsunagu:18}},
+  {dict:"煮る",kana:"にる",group:2,en:"simmer",alt:{tsunagu:18}},
+  {dict:"巻く",kana:"まく",group:1,en:"roll",alt:{tsunagu:18}},
+  {dict:"結ぶ",kana:"むすぶ",group:1,en:"tie, entwine",alt:{tsunagu:18}},
+  {dict:"報告する",kana:"ほうこくする",group:3,en:"report",alt:{tsunagu:19}},
+  {dict:"着せる",kana:"きせる",group:2,en:"put clothes on (someone)",alt:{tsunagu:19}},
+  {dict:"分ける",kana:"わける",group:2,en:"separate",alt:{tsunagu:19}},
+  {dict:"助ける",kana:"たすける",group:2,en:"save",alt:{tsunagu:19}},
+  {dict:"確認する",kana:"かくにんする",group:3,en:"confirm",alt:{tsunagu:20}},
+  {dict:"積もる",kana:"つもる",group:1,en:"pile up",alt:{tsunagu:20}},
+  {dict:"喜ぶ",kana:"よろこぶ",group:1,en:"be happy",alt:{tsunagu:20}},
+  {dict:"けがする",kana:"けがする",group:3,en:"be injured",alt:{tsunagu:21}},
+  {dict:"やけどする",kana:"やけどする",group:3,en:"be burned",alt:{tsunagu:21}},
+  {dict:"外出する",kana:"がいしゅつする",group:3,en:"go out",alt:{tsunagu:21}},
+  {dict:"塗る",kana:"ぬる",group:1,en:"apply",alt:{tsunagu:21}},
+  {dict:"足りる",kana:"たりる",group:2,en:"be enough",alt:{tsunagu:21}},
+  {dict:"修理する",kana:"しゅうりする",group:3,en:"repair",alt:{tsunagu:22}},
+  {dict:"注文する",kana:"ちゅうもんする",group:3,en:"order",alt:{tsunagu:22}},
+  {dict:"許す",kana:"ゆるす",group:1,en:"forgive, accept",alt:{tsunagu:23}},
+  {dict:"謝る",kana:"あやまる",group:1,en:"apologize",alt:{tsunagu:23}},
+  {dict:"怒る",kana:"おこる",group:1,en:"get angry",alt:{tsunagu:23}},
+  {dict:"見つかる",kana:"みつかる",group:1,en:"be found",alt:{tsunagu:23}},
+  {dict:"ごちそうする",kana:"ごちそうする",group:3,en:"It's on me., Let me treat you.",alt:{tsunagu:24}},
+  {dict:"助かる",kana:"たすかる",group:1,en:"help out",alt:{tsunagu:24}},
+  {dict:"印刷する",kana:"いんさつする",group:3,en:"print",alt:{tsunagu:25}},
+  {dict:"待ち合わせする",kana:"まちあわせする",group:3,en:"meet",alt:{tsunagu:25}},
+  {dict:"起こす",kana:"おこす",group:1,en:"raise",alt:{tsunagu:25}},
+  {dict:"受け取る",kana:"うけとる",group:1,en:"receive",alt:{tsunagu:25}},
+  {dict:"振り込む",kana:"ふりこむ",group:1,en:"transfer money to a bank account",alt:{tsunagu:25}},
+  {dict:"転勤する",kana:"てんきんする",group:3,en:"be transferred",alt:{tsunagu:26}},
+  {dict:"あいさつする",kana:"あいさつする",group:3,en:"greet",alt:{tsunagu:27}},
+  {dict:"チェックする",kana:"チェックする",group:3,en:"check",alt:{tsunagu:27}},
+  {dict:"就職する",kana:"しゅうしょくする",group:3,en:"get a job",alt:{tsunagu:27}},
+  {dict:"減らす",kana:"へらす",group:1,en:"reduce",alt:{tsunagu:27}},
+  {dict:"追い出す",kana:"おいだす",group:1,en:"kick out",alt:{tsunagu:27}},
+  {dict:"取れる",kana:"とれる",group:2,en:"take off",alt:{tsunagu:27}},
+  {dict:"アルバイトする",kana:"アルバイトする",group:3,en:"do a part-time job",alt:{tsunagu:28}},
+  {dict:"泣き出す",kana:"なきだす",group:1,en:"begin to cry",alt:{tsunagu:28}},
+  {dict:"持ち帰る",kana:"もちかえる",group:1,en:"take home",alt:{tsunagu:28}},
+  {dict:"残業する",kana:"ざんぎょうする",group:3,en:"do overwork",alt:{tsunagu:29}},
+  {dict:"停車する",kana:"ていしゃする",group:3,en:"stop",alt:{tsunagu:29}},
+  {dict:"早退する",kana:"そうたいする",group:3,en:"leave work early",alt:{tsunagu:29}},
+  {dict:"受験する",kana:"じゅけんする",group:3,en:"take an exam",alt:{tsunagu:29}},
+  {dict:"見学する",kana:"けんがくする",group:3,en:"observe",alt:{tsunagu:29}},
+  {dict:"集計する",kana:"しゅうけいする",group:3,en:"add up",alt:{tsunagu:29}},
+  {dict:"保存する",kana:"ほぞんする",group:3,en:"save",alt:{tsunagu:29}},
+  {dict:"見合わせる",kana:"みあわせる",group:2,en:"be suspended",alt:{tsunagu:29}},
+  {dict:"下りる",kana:"おりる",group:2,en:"go down",alt:{tsunagu:29}},
+  {dict:"再利用する",kana:"さいりようする",group:3,en:"reuse",alt:{tsunagu:30}},
+  {dict:"理解する",kana:"りかいする",group:3,en:"understand",alt:{tsunagu:30}},
+  {dict:"リフレッシュする",kana:"リフレッシュする",group:3,en:"refresh",alt:{tsunagu:30}},
+  {dict:"落ち着く",kana:"おちつく",group:1,en:"calm down",alt:{tsunagu:30}},
+  {dict:"伸びる",kana:"のびる",group:2,en:"extend",alt:{tsunagu:30}},
+].forEach(w=>VERBS.push(w));
+VERBS.forEach(w=>{ if(TSUNAGU_LESSON[w.dict]!=null){ (w.alt=w.alt||{}).tsunagu=TSUNAGU_LESSON[w.dict]; } });
 /* 形容詞（lessonは目安。多くは第8課で導入、好き/嫌い/上手/下手は第9課） */
 const IADJ=[
   {dict:'高い',kana:'たかい',en:'expensive / high',lesson:8},{dict:'安い',kana:'やすい',en:'cheap',lesson:8},
@@ -525,13 +648,16 @@ const IADJ=[
   {dict:'難しい',kana:'むずかしい',en:'difficult',lesson:8},{dict:'易しい',kana:'やさしい',en:'easy',lesson:8},
   {dict:'面白い',kana:'おもしろい',en:'interesting',lesson:8},{dict:'おいしい',kana:'おいしい',en:'delicious',lesson:8},
   {dict:'忙しい',kana:'いそがしい',en:'busy',lesson:8},{dict:'楽しい',kana:'たのしい',en:'fun',lesson:8},
+  {dict:'低い',kana:'ひくい',en:'low',lesson:8},{dict:'冷たい',kana:'つめたい',en:'cold (to touch)',lesson:8},
+  {dict:'白い',kana:'しろい',en:'white',lesson:8},{dict:'黒い',kana:'くろい',en:'black',lesson:8},
+  {dict:'赤い',kana:'あかい',en:'red',lesson:8},{dict:'青い',kana:'あおい',en:'blue',lesson:8},
 ];
 const NAADJ=[
   {dict:'きれい',kana:'きれい',en:'pretty / clean ※',lesson:8},{dict:'静か',kana:'しずか',en:'quiet',lesson:8},
   {dict:'にぎやか',kana:'にぎやか',en:'lively',lesson:8},{dict:'有名',kana:'ゆうめい',en:'famous ※',lesson:8},
   {dict:'親切',kana:'しんせつ',en:'kind',lesson:8},{dict:'元気',kana:'げんき',en:'energetic',lesson:8},
   {dict:'暇',kana:'ひま',en:'free (time)',lesson:8},{dict:'便利',kana:'べんり',en:'convenient',lesson:8},
-  {dict:'すてき',kana:'すてき',en:'nice',lesson:8},
+  {dict:'すてき',kana:'すてき',en:'nice',lesson:8},{dict:'ハンサム',kana:'ハンサム',en:'handsome',lesson:8},
   {dict:'好き',kana:'すき',en:'liked ※',lesson:9},{dict:'嫌い',kana:'きらい',en:'disliked ※',lesson:9},
   {dict:'上手',kana:'じょうず',en:'good at ※',lesson:9},{dict:'下手',kana:'へた',en:'poor at',lesson:9},
 ];
@@ -550,10 +676,15 @@ let selected=new Set(['v:masu','v:te','v:nai','v:ta']);
 let score={asked:0,ok:0,streak:0};
 let current=null, answered=false;
 let suppressFocus=false; // 設定変更時はフォーカス（自動スクロール）しない
-let maxLesson=20;        // 「◯課まで」（みんなの日本語）
-try{ const v=+localStorage.getItem('nnh_renshu_lesson'); if(v>=LESSON_MIN&&v<=LESSON_MAX) maxLesson=v; }catch(e){}
+let currentBook='minna'; // 選択中の教科書
+try{ const bk=localStorage.getItem('nnh_renshu_book'); if(bk && BOOKS[bk] && BOOKS[bk].ready) currentBook=bk; }catch(e){}
+let maxLesson=20;        // 「◯課まで」
+try{ const v=+localStorage.getItem('nnh_renshu_lesson'); if(!isNaN(v)&&v>0) maxLesson=v; }catch(e){}
+{ const B=BOOKS[currentBook]; if(maxLesson<B.min) maxLesson=B.min; if(maxLesson>B.max) maxLesson=B.max; }
 let soundOn=true;
 try{ soundOn = localStorage.getItem('nnh_renshu_sound')!=='0'; }catch(e){}
+let startForm='dict';    // 出題の起点：'dict'（辞書形）or 'masu'（ます形）／動詞のみ有効
+try{ const s=localStorage.getItem('nnh_renshu_start'); if(s==='masu'||s==='dict') startForm=s; }catch(e){}
 
 /* ===================== 効果音（ブラウザ内生成・外部ファイル不要） ===================== */
 let audioCtx=null;
@@ -620,9 +751,9 @@ function specs(){
   const out=[];
   selected.forEach(id=>{
     const [cat,key]=id.split(':');
-    if(cat==='v'){ const pool=VERBS.filter(w=>groups.has(w.group) && w.lesson<=maxLesson); if(pool.length) out.push({cat,key,pool}); }
-    else if(cat==='i'){ const pool=IADJ.filter(w=>w.lesson<=maxLesson); if(pool.length) out.push({cat,key,pool}); }
-    else if(cat==='n'){ const pool=NAADJ.filter(w=>w.lesson<=maxLesson); if(pool.length) out.push({cat,key,pool}); }
+    if(cat==='v'){ const pool=VERBS.filter(w=>groups.has(w.group) && lessonOf(w)!=null && lessonOf(w)<=maxLesson); if(pool.length) out.push({cat,key,pool}); }
+    else if(cat==='i'){ const pool=IADJ.filter(w=>lessonOf(w)!=null && lessonOf(w)<=maxLesson); if(pool.length) out.push({cat,key,pool}); }
+    else if(cat==='n'){ const pool=NAADJ.filter(w=>lessonOf(w)!=null && lessonOf(w)<=maxLesson); if(pool.length) out.push({cat,key,pool}); }
   });
   return out;
 }
@@ -634,10 +765,14 @@ function makeAnswer(cat,key,word){
 }
 function newProblem(){
   answered=false;
+  if(!BOOKS[currentBook].ready){ current=null; renderNotReady(); return; }
   const sp=specs();
   if(!sp.length){ current=null; renderQuiz(); return; }
   const s=rand(sp); const word=rand(s.pool);
-  current={cat:s.cat,key:s.key,word,ans:makeAnswer(s.cat,s.key,word)};
+  let key=s.key;
+  // ます形起点で「ます形」を出題すると重複するので、辞書形（ます→辞書形）に振り替える
+  if(s.cat==='v' && startForm==='masu' && key==='masu') key='dict';
+  current={cat:s.cat,key,word,ans:makeAnswer(s.cat,key,word)};
   renderQuiz();
 }
 const norm=s=>(s||'').replace(/[\s　。、，．・！？!?,.「」『』〜～]/g,'');
@@ -660,10 +795,16 @@ function labelFor(cat,key){
   const L = cat==='v'?VFORMS : cat==='i'?IFORMS : NFORMS;
   const f=L.find(x=>x[0]===key); return f?f[1]:key;
 }
+function labelForKey(cat,key){ return key==='dict' ? '辞書形' : labelFor(cat,key); }
 
 /* ===================== 描画 ===================== */
+function renderNotReady(){
+  const B=BOOKS[currentBook];
+  $('quizArea').innerHTML=`<div class="quiz"><div class="empty-msg">「${B.label}」は現在<b>データ準備中</b>です。<br>公式の語彙リストを取り込み次第、練習できるようになります。<br><br>いまは「みんなの日本語」を選ぶと練習できます。</div></div>`;
+}
 function renderQuiz(){
   const area=$('quizArea');
+  if(!BOOKS[currentBook].ready){ renderNotReady(); return; }
   if(!current){
     let msg;
     if(selected.size===0){
@@ -679,13 +820,16 @@ function renderQuiz(){
             : `<span class="q-grouptag gt-n">な形容詞</span>`;
   const tgtCls = cat==='v'?'tgt-v':cat==='i'?'tgt-i':'tgt-n';
   const hint = HINTS[key] ? `<div class="q-hint">（${HINTS[key]}）</div>` : '';
+  // 起点の表示（動詞でます形起点ならます形で提示）
+  let stimK=word.dict, stimR=word.kana;
+  if(cat==='v' && startForm==='masu'){ const c=conjugateVerb(word); stimK=c.masu.k; stimR=c.masu.r; }
   let inner = `
     ${gtag}
-    <div class="q-word">${word.dict}</div>
-    <div class="q-read">${word.kana}</div>
+    <div class="q-word">${stimK}</div>
+    ${stimR&&stimR!==stimK?`<div class="q-read">${stimR}</div>`:''}
     <div class="q-en">${word.en}</div>
     <div class="q-arrow">↓</div>
-    <div class="q-target ${tgtCls}">${labelFor(cat,key)}</div>
+    <div class="q-target ${tgtCls}">${labelForKey(cat,key)}</div>
     ${hint}
     <div class="answer-area" id="answerArea"></div>`;
   area.innerHTML=`<div class="quiz">${inner}</div>`;
@@ -780,26 +924,52 @@ function setMode(m){
 
 /* ===================== 範囲（教科書・課） ===================== */
 function updateRangeCount(){
-  const n=VERBS.filter(w=>groups.has(w.group)&&w.lesson<=maxLesson).length;
-  const a=IADJ.filter(w=>w.lesson<=maxLesson).length + NAADJ.filter(w=>w.lesson<=maxLesson).length;
+  const n=VERBS.filter(w=>groups.has(w.group)&&lessonOf(w)!=null&&lessonOf(w)<=maxLesson).length;
+  const a=[...IADJ,...NAADJ].filter(w=>lessonOf(w)!=null&&lessonOf(w)<=maxLesson).length;
   const el=$('verbCount'); if(el) el.textContent=n;
   const el2=$('adjCount'); if(el2) el2.textContent=a;
 }
+function applyBookRange(){
+  const B=BOOKS[currentBook], sl=$('lessonRange'), val=$('lessonVal');
+  sl.min=B.min; sl.max=B.max;
+  if(maxLesson<B.min) maxLesson=B.min;
+  if(maxLesson>B.max) maxLesson=B.max;
+  sl.value=maxLesson; val.textContent=maxLesson;
+  updateRangeCount();
+}
 function initRange(){
   const sl=$('lessonRange'), val=$('lessonVal');
-  sl.value=maxLesson; val.textContent=maxLesson;
+  applyBookRange();
   sl.addEventListener('input',()=>{
     maxLesson=+sl.value; val.textContent=maxLesson;
     try{ localStorage.setItem('nnh_renshu_lesson', String(maxLesson)); }catch(e){}
     updateRangeCount(); suppressFocus=true; newProblem(); suppressFocus=false;
   });
-  updateRangeCount();
+  // 教科書セレクト
+  const bs=$('bookSel');
+  bs.value=currentBook;
+  bs.onchange=()=>{
+    currentBook=bs.value;
+    try{ localStorage.setItem('nnh_renshu_book', currentBook); }catch(e){}
+    applyBookRange();
+    suppressFocus=true; newProblem(); suppressFocus=false;
+  };
 }
 
 /* ===================== 初期化 ===================== */
 initRange();
 renderGroupChips(); renderFormChips();
 $('modeSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+// 出題の起点（辞書形／ます形）
+$('startSeg').querySelectorAll('button').forEach(b=>{
+  b.classList.toggle('on', b.dataset.start===startForm);
+  b.onclick=()=>{
+    startForm=b.dataset.start;
+    try{ localStorage.setItem('nnh_renshu_start', startForm); }catch(e){}
+    $('startSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    suppressFocus=true; newProblem(); suppressFocus=false;
+  };
+});
 document.querySelectorAll('.preset').forEach(p=>p.onclick=()=>applyPreset(p.dataset.preset));
 $('scReset').onclick=()=>{ score={asked:0,ok:0,streak:0}; updateScore(); };
 (function initSound(){

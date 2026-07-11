@@ -68,6 +68,12 @@
   .kcell.archaic .k { color: var(--text-hint); font-size: 21px; }
   .kcell.archaic .r { color: var(--text-hint); }
 
+  /* 追加の音（濁音・半濁音・拗音・特殊音） */
+  .grow.cols3 { grid-template-columns: repeat(3, 1fr); }
+  .grow-free { display: flex; flex-wrap: wrap; gap: 6px; }
+  .grow-free .kcell { flex: 0 0 calc((100% - 24px) / 5); }
+  .kcell.combi .k { font-size: 21px; }
+
   .note { font-size: 12px; color: var(--text-muted); line-height: 1.8; margin-top: 1rem;
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
   .note b { color: var(--text); font-weight: 700; }
@@ -111,6 +117,7 @@
     カタカナは、おもに<b>外来語</b>・外国の地名や人名・擬音語などを書くときに使う文字です。
     読み方（音）はひらがなと同じで、形だけがちがいます。全部で46字あり、ア行からワ行まで、
     母音（a・i・u・e・o）の組み合わせで並んでいます。読み方（ローマ字）と発音記号（IPA）を併記し、古い文字の ヰ・ヱ も参考として載せています。
+    さらに、<b>濁音・半濁音・拗音</b>に加え、外来語を写すための<b>特殊音</b>（ファ・フィ など）も、下に順にまとめました。
   </p>
 
   <div class="label">五十音表</div>
@@ -227,6 +234,200 @@
     <b>覚え方のヒント。</b>
     一気に全部おぼえようとせず、ア行・カ行…と<b>1行ずつ</b>。
     形が似ている字（シ／ツ、ソ／ン、ク／ワ）は、見分けの解説ページを順番に追加していきます。
+  </div>
+
+  <div class="label">濁音・半濁音</div>
+
+  <div class="goju">
+
+    <div class="grow vhead">
+      <span class="vlabel">a</span>
+      <span class="vlabel">i</span>
+      <span class="vlabel">u</span>
+      <span class="vlabel">e</span>
+      <span class="vlabel">o</span>
+    </div>
+
+    <!-- ガ行 -->
+    <div class="grow">
+      <div class="kcell"><div class="k">ガ</div><div class="r">ga</div><div class="ipa">[ɡa]</div></div>
+      <div class="kcell"><div class="k">ギ</div><div class="r">gi</div><div class="ipa">[ɡi]</div></div>
+      <div class="kcell"><div class="k">グ</div><div class="r">gu</div><div class="ipa">[ɡɯ]</div></div>
+      <div class="kcell"><div class="k">ゲ</div><div class="r">ge</div><div class="ipa">[ɡe]</div></div>
+      <div class="kcell"><div class="k">ゴ</div><div class="r">go</div><div class="ipa">[ɡo]</div></div>
+    </div>
+    <!-- ザ行 -->
+    <div class="grow">
+      <div class="kcell"><div class="k">ザ</div><div class="r">za</div><div class="ipa">[za]</div></div>
+      <div class="kcell"><div class="k">ジ</div><div class="r">ji</div><div class="ipa">[dʑi]</div></div>
+      <div class="kcell"><div class="k">ズ</div><div class="r">zu</div><div class="ipa">[zɯ]</div></div>
+      <div class="kcell"><div class="k">ゼ</div><div class="r">ze</div><div class="ipa">[ze]</div></div>
+      <div class="kcell"><div class="k">ゾ</div><div class="r">zo</div><div class="ipa">[zo]</div></div>
+    </div>
+    <!-- ダ行 -->
+    <div class="grow">
+      <div class="kcell"><div class="k">ダ</div><div class="r">da</div><div class="ipa">[da]</div></div>
+      <div class="kcell"><div class="k">ヂ</div><div class="r">ji</div><div class="ipa">[dʑi]</div></div>
+      <div class="kcell"><div class="k">ヅ</div><div class="r">zu</div><div class="ipa">[zɯ]</div></div>
+      <div class="kcell"><div class="k">デ</div><div class="r">de</div><div class="ipa">[de]</div></div>
+      <div class="kcell"><div class="k">ド</div><div class="r">do</div><div class="ipa">[do]</div></div>
+    </div>
+    <!-- バ行 -->
+    <div class="grow">
+      <div class="kcell"><div class="k">バ</div><div class="r">ba</div><div class="ipa">[ba]</div></div>
+      <div class="kcell"><div class="k">ビ</div><div class="r">bi</div><div class="ipa">[bi]</div></div>
+      <div class="kcell"><div class="k">ブ</div><div class="r">bu</div><div class="ipa">[bɯ]</div></div>
+      <div class="kcell"><div class="k">ベ</div><div class="r">be</div><div class="ipa">[be]</div></div>
+      <div class="kcell"><div class="k">ボ</div><div class="r">bo</div><div class="ipa">[bo]</div></div>
+    </div>
+    <!-- パ行（半濁音） -->
+    <div class="grow">
+      <div class="kcell"><div class="k">パ</div><div class="r">pa</div><div class="ipa">[pa]</div></div>
+      <div class="kcell"><div class="k">ピ</div><div class="r">pi</div><div class="ipa">[pi]</div></div>
+      <div class="kcell"><div class="k">プ</div><div class="r">pu</div><div class="ipa">[pɯ]</div></div>
+      <div class="kcell"><div class="k">ペ</div><div class="r">pe</div><div class="ipa">[pe]</div></div>
+      <div class="kcell"><div class="k">ポ</div><div class="r">po</div><div class="ipa">[po]</div></div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <b>濁点「゛」と半濁点「゜」。</b>
+    カ・サ・タ・ハ行に濁点「゛」をつけると、にごる音（ガ・ザ・ダ・バ行）になります。これが<b>濁音</b>です。
+    ハ行に半濁点「゜」をつけた パ行だけを<b>半濁音</b>とよびます。
+    ジ／ヂ、ズ／ヅ は発音がほぼ同じで、いまは ジ・ズ を使うのが基本です。
+  </div>
+
+  <div class="label">拗音（ようおん）</div>
+
+  <div class="goju">
+
+    <div class="grow cols3 vhead">
+      <span class="vlabel">ya</span>
+      <span class="vlabel">yu</span>
+      <span class="vlabel">yo</span>
+    </div>
+
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">キャ</div><div class="r">kya</div><div class="ipa">[kʲa]</div></div>
+      <div class="kcell combi"><div class="k">キュ</div><div class="r">kyu</div><div class="ipa">[kʲɯ]</div></div>
+      <div class="kcell combi"><div class="k">キョ</div><div class="r">kyo</div><div class="ipa">[kʲo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">シャ</div><div class="r">sha</div><div class="ipa">[ɕa]</div></div>
+      <div class="kcell combi"><div class="k">シュ</div><div class="r">shu</div><div class="ipa">[ɕɯ]</div></div>
+      <div class="kcell combi"><div class="k">ショ</div><div class="r">sho</div><div class="ipa">[ɕo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">チャ</div><div class="r">cha</div><div class="ipa">[tɕa]</div></div>
+      <div class="kcell combi"><div class="k">チュ</div><div class="r">chu</div><div class="ipa">[tɕɯ]</div></div>
+      <div class="kcell combi"><div class="k">チョ</div><div class="r">cho</div><div class="ipa">[tɕo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">ニャ</div><div class="r">nya</div><div class="ipa">[ɲa]</div></div>
+      <div class="kcell combi"><div class="k">ニュ</div><div class="r">nyu</div><div class="ipa">[ɲɯ]</div></div>
+      <div class="kcell combi"><div class="k">ニョ</div><div class="r">nyo</div><div class="ipa">[ɲo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">ヒャ</div><div class="r">hya</div><div class="ipa">[ça]</div></div>
+      <div class="kcell combi"><div class="k">ヒュ</div><div class="r">hyu</div><div class="ipa">[çɯ]</div></div>
+      <div class="kcell combi"><div class="k">ヒョ</div><div class="r">hyo</div><div class="ipa">[ço]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">ミャ</div><div class="r">mya</div><div class="ipa">[mʲa]</div></div>
+      <div class="kcell combi"><div class="k">ミュ</div><div class="r">myu</div><div class="ipa">[mʲɯ]</div></div>
+      <div class="kcell combi"><div class="k">ミョ</div><div class="r">myo</div><div class="ipa">[mʲo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">リャ</div><div class="r">rya</div><div class="ipa">[ɾʲa]</div></div>
+      <div class="kcell combi"><div class="k">リュ</div><div class="r">ryu</div><div class="ipa">[ɾʲɯ]</div></div>
+      <div class="kcell combi"><div class="k">リョ</div><div class="r">ryo</div><div class="ipa">[ɾʲo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">ギャ</div><div class="r">gya</div><div class="ipa">[ɡʲa]</div></div>
+      <div class="kcell combi"><div class="k">ギュ</div><div class="r">gyu</div><div class="ipa">[ɡʲɯ]</div></div>
+      <div class="kcell combi"><div class="k">ギョ</div><div class="r">gyo</div><div class="ipa">[ɡʲo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">ジャ</div><div class="r">ja</div><div class="ipa">[dʑa]</div></div>
+      <div class="kcell combi"><div class="k">ジュ</div><div class="r">ju</div><div class="ipa">[dʑɯ]</div></div>
+      <div class="kcell combi"><div class="k">ジョ</div><div class="r">jo</div><div class="ipa">[dʑo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">ビャ</div><div class="r">bya</div><div class="ipa">[bʲa]</div></div>
+      <div class="kcell combi"><div class="k">ビュ</div><div class="r">byu</div><div class="ipa">[bʲɯ]</div></div>
+      <div class="kcell combi"><div class="k">ビョ</div><div class="r">byo</div><div class="ipa">[bʲo]</div></div>
+    </div>
+    <div class="grow cols3">
+      <div class="kcell combi"><div class="k">ピャ</div><div class="r">pya</div><div class="ipa">[pʲa]</div></div>
+      <div class="kcell combi"><div class="k">ピュ</div><div class="r">pyu</div><div class="ipa">[pʲɯ]</div></div>
+      <div class="kcell combi"><div class="k">ピョ</div><div class="r">pyo</div><div class="ipa">[pʲo]</div></div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <b>拗音のつくり。</b>
+    イ段の字（キ・シ・チ・ニ・ヒ・ミ・リ、および ギ・ジ・ビ・ピ）に、小さい <b>ャ・ュ・ョ</b> を添えて、
+    ふたつで<b>1音</b>として読みます。「キヤ」ではなく「キャ」と、みじかく一気に発音します。
+  </div>
+
+  <div class="label">特殊音（外来語の音）</div>
+
+  <div class="goju">
+
+    <!-- ファ行（f） -->
+    <div class="grow-free">
+      <div class="kcell combi"><div class="k">ファ</div><div class="r">fa</div><div class="ipa">[ɸa]</div></div>
+      <div class="kcell combi"><div class="k">フィ</div><div class="r">fi</div><div class="ipa">[ɸi]</div></div>
+      <div class="kcell combi"><div class="k">フェ</div><div class="r">fe</div><div class="ipa">[ɸe]</div></div>
+      <div class="kcell combi"><div class="k">フォ</div><div class="r">fo</div><div class="ipa">[ɸo]</div></div>
+      <div class="kcell combi"><div class="k">フュ</div><div class="r">fyu</div><div class="ipa">[ɸʲɯ]</div></div>
+    </div>
+    <!-- ヴ行（v） -->
+    <div class="grow-free">
+      <div class="kcell combi"><div class="k">ヴァ</div><div class="r">va</div><div class="ipa">[va]</div></div>
+      <div class="kcell combi"><div class="k">ヴィ</div><div class="r">vi</div><div class="ipa">[vi]</div></div>
+      <div class="kcell"><div class="k">ヴ</div><div class="r">vu</div><div class="ipa">[vɯ]</div></div>
+      <div class="kcell combi"><div class="k">ヴェ</div><div class="r">ve</div><div class="ipa">[ve]</div></div>
+      <div class="kcell combi"><div class="k">ヴォ</div><div class="r">vo</div><div class="ipa">[vo]</div></div>
+    </div>
+    <!-- ウ行（w） -->
+    <div class="grow-free">
+      <div class="kcell combi"><div class="k">ウィ</div><div class="r">wi</div><div class="ipa">[wi]</div></div>
+      <div class="kcell combi"><div class="k">ウェ</div><div class="r">we</div><div class="ipa">[we]</div></div>
+      <div class="kcell combi"><div class="k">ウォ</div><div class="r">wo</div><div class="ipa">[wo]</div></div>
+    </div>
+    <!-- ツ行（ts） -->
+    <div class="grow-free">
+      <div class="kcell combi"><div class="k">ツァ</div><div class="r">tsa</div><div class="ipa">[tsa]</div></div>
+      <div class="kcell combi"><div class="k">ツィ</div><div class="r">tsi</div><div class="ipa">[tsi]</div></div>
+      <div class="kcell combi"><div class="k">ツェ</div><div class="r">tse</div><div class="ipa">[tse]</div></div>
+      <div class="kcell combi"><div class="k">ツォ</div><div class="r">tso</div><div class="ipa">[tso]</div></div>
+    </div>
+    <!-- ティ・ディ など（t / d） -->
+    <div class="grow-free">
+      <div class="kcell combi"><div class="k">ティ</div><div class="r">ti</div><div class="ipa">[ti]</div></div>
+      <div class="kcell combi"><div class="k">ディ</div><div class="r">di</div><div class="ipa">[di]</div></div>
+      <div class="kcell combi"><div class="k">トゥ</div><div class="r">tu</div><div class="ipa">[tɯ]</div></div>
+      <div class="kcell combi"><div class="k">ドゥ</div><div class="r">du</div><div class="ipa">[dɯ]</div></div>
+    </div>
+    <!-- シェ・チェ・ジェ・イェ -->
+    <div class="grow-free">
+      <div class="kcell combi"><div class="k">シェ</div><div class="r">she</div><div class="ipa">[ɕe]</div></div>
+      <div class="kcell combi"><div class="k">チェ</div><div class="r">che</div><div class="ipa">[tɕe]</div></div>
+      <div class="kcell combi"><div class="k">ジェ</div><div class="r">je</div><div class="ipa">[dʑe]</div></div>
+      <div class="kcell combi"><div class="k">イェ</div><div class="r">ye</div><div class="ipa">[je]</div></div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <b>特殊音について。</b>
+    「フィ」「フェ」「ヴァ」などは、外国語の音を写すためのカタカナです。
+    ふつうの字に小さい <b>ァ・ィ・ゥ・ェ・ォ</b>（や小さい ャ・ュ・ョ）を組み合わせて作ります。
+    読み方にはゆれもあり、たとえば <b>ヴ</b> は バ行（ヴァ→バ）で読まれることもよくあります。
+    ここに挙げたのは代表的なもので、ほかにもいくつかあります。
   </div>
 
   <a href="../play/katakana_rush.html" class="play-link">

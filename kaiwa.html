@@ -246,6 +246,7 @@
       <button class="ghost" id="feedbackBtn">◆ フィードバックをもらう</button>
       <button class="ghost" id="resetBtn">最初から</button>
     </div>
+    <button class="ghost" id="saveBtn" style="width:100%;margin-top:8px">📝 会話の記録を保存（Word）</button>
     <div class="credit" id="creditLine"></div>
     <div class="hint" style="margin-top:6px">ヒント: 間違えても大丈夫。まずは最後まで会話を続けてみましょう。</div>
   </div>
@@ -705,6 +706,7 @@
 
   // ---- 表示 ----
   function addMsg(text, who){
+    transcript.push({who:who, text:text});
     var d=document.createElement("div");
     d.className="msg "+(who==="model"?"guest":"staff");
     var w=document.createElement("span"); w.className="who";
@@ -713,6 +715,7 @@
     log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
   }
   function addFeedback(text){
+    transcript.push({who:"feedback", text:text});
     var d=document.createElement("div"); d.className="feedback";
     d.textContent="◆ フィードバック\n"+text;
     log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
@@ -724,7 +727,42 @@
     log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
   }
 
-  var history=[], systemText="", busy=false;
+  var history=[], systemText="", busy=false, transcript=[];
+
+  function pad2(n){ return (n<10?"0":"")+n; }
+  function nowStr(){ var d=new Date(); return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate())+" "+pad2(d.getHours())+":"+pad2(d.getMinutes()); }
+  function exportDoc(){
+    if(!transcript.length){ statusEl.textContent="⚠ まだ記録がありません。少し会話をしてから保存してください。"; return; }
+    var sceneInfo;
+    if(isTextbook()){ var rc=getRenshuC(); sceneInfo="みんなの日本語 第"+currentLesson()+"課・練習C "+rc.code+"（"+rc.desc+"）"; }
+    else { sceneInfo=getScenario().name; }
+    var levelLabel=levelEl.options[levelEl.selectedIndex].text;
+    var metaRows=
+      '<tr><td style="padding:2px 12px 2px 0"><b>場面</b></td><td>'+escapeHtml(sceneInfo)+'</td></tr>'+
+      (grammarFocus?'<tr><td style="padding:2px 12px 2px 0"><b>文法フォーカス</b></td><td>'+escapeHtml(grammarFocus.pattern)+'</td></tr>':'')+
+      '<tr><td style="padding:2px 12px 2px 0"><b>レベル</b></td><td>'+escapeHtml(levelLabel)+'</td></tr>'+
+      '<tr><td style="padding:2px 12px 2px 0"><b>日時</b></td><td>'+escapeHtml(nowStr())+'</td></tr>';
+    var rows=transcript.map(function(t){
+      if(t.who==="feedback"){
+        return '<div style="margin:12px 0;padding:10px 12px;background:#FAF3E6;border:1px solid #EBD9B8;border-radius:8px"><b>◆ フィードバック</b><br>'+escapeHtml(t.text).replace(/\n/g,"<br>")+'</div>';
+      }
+      var lbl = t.who==="model" ? "相手" : "あなた";
+      var color = t.who==="model" ? "#4A5DB0" : "#3B6D11";
+      return '<p style="margin:8px 0"><b style="color:'+color+'">'+lbl+'：</b>'+escapeHtml(t.text).replace(/\n/g,"<br>")+'</p>';
+    }).join("");
+    var head='<h1 style="font-size:18pt;margin:0 0 10px">会話練習の記録</h1>'+
+      '<table style="font-size:10.5pt;color:#555;border-collapse:collapse;margin-bottom:12px">'+metaRows+'</table><hr>';
+    var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">'+
+      '<head><meta charset="utf-8"><title>会話練習の記録</title></head>'+
+      '<body style="font-family:\'Noto Sans JP\',sans-serif;font-size:12pt;line-height:1.7">'+head+rows+'</body></html>';
+    var blob=new Blob(["﻿"+html],{type:"application/msword"});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement("a");
+    a.href=url; a.download="会話練習_"+nowStr().replace(/[: ]/g,"-")+".doc";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); },1500);
+    statusEl.textContent="記録をWord形式で保存しました。";
+  }
 
   function callGemini(cb){
     var key=keyEl.value.trim();
@@ -785,6 +823,7 @@
   sendBtn.addEventListener("click", function(){ sendUser(typeInput.value); });
   typeInput.addEventListener("keydown", function(e){ if(e.key==="Enter"){ sendUser(typeInput.value); } });
   feedbackBtn.addEventListener("click", requestFeedback);
+  $("saveBtn").addEventListener("click", exportDoc);
 
   function startConversation(){
     var key=keyEl.value.trim();
@@ -797,7 +836,7 @@
     if(isTextbook()){ store.set("lesson",lessonEl.value); store.set("renshuC_"+currentLesson(),renshuCEl.value); }
     else { store.set("scenario",scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value); }
     store.set("vocab_level",vocabLevelEl.value); store.set("vocab_list",vocabListEl.value);
-    systemText=buildSystem(); history=[]; log.innerHTML=""; creditLine.textContent="";
+    systemText=buildSystem(); history=[]; transcript=[]; log.innerHTML=""; creditLine.textContent="";
     setupCard.classList.add("hidden"); talkCard.classList.remove("hidden");
 
     if(isTextbook()){

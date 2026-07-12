@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本語 会話練習（授業用）</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --accent:#4A5DB0; --accent-ink:#FFFFFF; --accent-tint:#ECEEF9;
+    --guest:#ECEEF9; --staff:#EAF3DE; --warn:#9A3D1C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 2rem;line-height:1.6}
+  .wrap{max-width:480px;margin:0 auto}
+  .backlink{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--text-hint);
+    text-decoration:none;letter-spacing:.05em;padding:1.2rem 0 .2rem}
+  .backlink:hover{color:var(--text-muted)}
+  .app-head{text-align:center;padding:.6rem 0 1.2rem}
+  .app-logo{font-size:11px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px;text-transform:uppercase}
+  h1{font-size:22px;font-weight:700;letter-spacing:.02em}
+  .lead{font-size:13px;color:var(--text-muted);margin-top:6px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  label{font-size:12px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px}
+  input[type=password],input[type=text],input[type=number],select,textarea{
+    width:100%;padding:11px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;
+    background:#fff;color:var(--text);font-family:inherit}
+  textarea{margin-top:6px;resize:vertical;line-height:1.5}
+  select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%239E9890' stroke-width='1.6'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .row>div{flex:1;min-width:130px}
+  button{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:12px 14px;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;transition:transform .12s,box-shadow .12s,opacity .12s}
+  .primary{background:var(--accent);color:var(--accent-ink)}
+  .primary:hover{box-shadow:0 4px 16px rgba(74,93,176,.25)}
+  .primary:active{transform:scale(.98)}
+  .ghost{background:#F0EEE8;color:var(--text)}
+  .ghost:active{transform:scale(.98)}
+  .primary:disabled,.ghost:disabled{opacity:.5;cursor:not-allowed}
+  .mic{width:100%;font-size:16px;padding:16px;margin-top:8px}
+  .mic.rec{background:var(--warn);color:#fff}
+  #log{min-height:120px;display:flex;flex-direction:column;gap:10px}
+  .msg{padding:10px 13px;border-radius:13px;max-width:88%;white-space:pre-wrap;font-size:15px;line-height:1.55}
+  .msg.guest{background:var(--guest);align-self:flex-start;border-bottom-left-radius:4px}
+  .msg.staff{background:var(--staff);align-self:flex-end;border-bottom-right-radius:4px}
+  .msg .who{font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--text-hint);display:block;margin-bottom:3px}
+  .feedback{background:#FAF3E6;border:1px solid #EBD9B8;border-radius:13px;padding:13px;white-space:pre-wrap;font-size:14px}
+  .status{font-size:12px;color:var(--text-muted);min-height:1.2em;margin-top:6px}
+  .hint{font-size:12px;color:var(--text-hint);line-height:1.55}
+  .hidden{display:none}
+  .barbtns{display:flex;gap:8px;margin-top:10px}
+  .barbtns button{flex:1}
+  details{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
+  summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--accent)}
+  .sliderrow{display:flex;align-items:center;gap:10px;margin-top:8px}
+  .sliderrow label{margin:0;flex:0 0 88px}
+  .sliderrow input[type=range]{flex:1;accent-color:var(--accent)}
+  .credit{font-size:11px;color:var(--text-hint);margin-top:6px}
+  a{color:var(--accent)}
+  .chk{display:flex;align-items:center;gap:8px;margin-top:12px}
+  .chk input{width:auto;accent-color:var(--accent)}
+  .chk label{margin:0;font-weight:400;color:var(--text)}
+  .app-foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.5rem;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="backlink" href="index.html">‹ 日本語の部屋</a>
+  <div class="app-head">
+    <div class="app-logo">Speaking Practice · Class</div>
+    <h1>🗣️ 会話練習（授業用）</h1>
+    <p class="lead">授業用ページです。合言葉を入れて使います。場面や教科書の課を選んで練習できます。</p>
+  </div>
+
+  <!-- 合言葉ゲート（PASSCODE が設定されているときだけ表示）-->
+  <div class="card hidden" id="gateCard">
+    <label for="gateInput">合言葉</label>
+    <input type="password" id="gateInput" placeholder="先生から聞いた合言葉を入力" autocomplete="off">
+    <button class="primary" id="gateBtn" style="width:100%;margin-top:10px">入る</button>
+    <div class="status" id="gateStatus"></div>
+    <div class="hint" style="margin-top:6px">このページは授業用です。合言葉を知っている人だけが使えます。</div>
+  </div>
+
+  <!-- 設定 -->
+  <div class="card" id="setupCard">
+    <label for="key">あなたの無料 Gemini API キー</label>
+    <input type="password" id="key" placeholder="ここにキーを貼り付け（例: AIza...）" autocomplete="off">
+    <div class="hint" style="margin-top:6px">
+      キーは<strong>この端末の中だけ</strong>に保存され、外部には送られません（Google以外）。
+      <span style="display:block;margin-top:4px">取り方: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> でログイン →「Create API key」→ コピーして貼り付け（無料）。</span>
+    </div>
+
+    <div style="margin-top:12px" id="practiceModeRow">
+      <label for="practiceMode">練習モード</label>
+      <select id="practiceMode">
+        <option value="general" selected>一般の場面</option>
+        <option value="textbook">みんなの日本語（教科書の練習C）</option>
+      </select>
+    </div>
+
+    <div id="generalBox" style="margin-top:12px">
+      <label for="scenario">場面</label>
+      <select id="scenario"></select>
+    </div>
+
+    <div id="textbookBox" style="margin-top:12px;display:none">
+      <div class="row">
+        <div style="flex:0 0 120px">
+          <label for="lesson">課</label>
+          <select id="lesson"></select>
+        </div>
+        <div style="flex:1">
+          <label for="renshuC">練習C（やりとり）</label>
+          <select id="renshuC"></select>
+        </div>
+      </div>
+      <div class="hint" style="margin-top:4px">『みんなの日本語 初級Ⅰ・Ⅱ』全50課の練習C（やりとり）から選べます。相手役が、その練習の目標に合わせて会話をリードします。</div>
+    </div>
+
+    <div class="row" style="margin-top:12px">
+      <div>
+        <label for="level">レベル（速さ）</label>
+        <select id="level">
+          <option value="beginner">初級（やさしく・ゆっくり）</option>
+          <option value="intermediate" selected>中級（ふつうの速さ）</option>
+          <option value="advanced">上級（難しい場面も）</option>
+        </select>
+      </div>
+      <div id="roleBox">
+        <label for="role">あなたの役</label>
+        <select id="role"></select>
+      </div>
+    </div>
+
+    <div class="chk">
+      <input type="checkbox" id="foreignMode">
+      <label for="foreignMode">外国人モード（相手が英語を少しまじえる・上級者向け）</label>
+    </div>
+    <div class="hint" style="margin-top:4px">オフのときは、相手は<strong>必ず日本語だけ</strong>で話します。オンにすると、英語まじりの相手への対応を練習できます（接客などの場面向け）。</div>
+
+    <div style="margin-top:12px">
+      <label for="vocabLevel">語彙・文法のレベル（教科書に合わせる）</label>
+      <select id="vocabLevel">
+        <option value="none" selected>制限なし（自然な日本語）</option>
+        <option value="textbook">みんなの日本語・選んだ課まで（教科書モードのとき）</option>
+        <option value="n5">やさしい（JLPT N5 相当・入門〜初級前半）</option>
+        <option value="n4">初級（JLPT N4 相当・初級修了レベル）</option>
+        <option value="n3">初中級（JLPT N3 相当）</option>
+        <option value="custom">自分で貼り付け（下の欄に語彙・文法を入力）</option>
+      </select>
+      <textarea id="vocabList" rows="4" placeholder="「この課まで」を選んだときに使います。習った語彙・文法・表現を貼り付けてください。例）語彙: メニュー、注文、いくら、〜てください／文法: 〜たいです、〜てもいいですか"></textarea>
+      <div class="hint" style="margin-top:4px">教科書の進度に合わせて、相手役が使う言葉をやさしくします。いちばん正確なのは「この課までの範囲」に実際の語彙・文法リストを貼る方法です。</div>
+    </div>
+
+    <!-- 声の設定 -->
+    <details id="voiceSettings">
+      <summary>声の設定（より自然な声にする）</summary>
+
+      <div style="margin-top:10px">
+        <label for="engineSelect">声の種類</label>
+        <select id="engineSelect">
+          <option value="gemini" selected>Gemini 自然音声（おすすめ・なめらか）</option>
+          <option value="browser">ブラウザの声（すぐ使える・機械的）</option>
+          <option value="voicevox">VOICEVOX（自分でエンジンを用意する上級者向け）</option>
+        </select>
+        <div class="hint" style="margin-top:4px">「Gemini 自然音声」は、今のキーのまま、より人間らしい声で読み上げます（試験的機能。使えないときは自動でブラウザの声に切り替わります）。1回の返事で消費が少し増えます。</div>
+      </div>
+
+      <div id="geminiVoiceBox" style="margin-top:10px">
+        <label for="gVoice">Geminiの声</label>
+        <div class="row">
+          <div style="flex:2">
+            <select id="gVoice">
+              <option value="Aoede" selected>Aoede（やわらかい）</option>
+              <option value="Kore">Kore（落ち着いた）</option>
+              <option value="Leda">Leda（明るい）</option>
+              <option value="Puck">Puck（元気）</option>
+              <option value="Charon">Charon（丁寧）</option>
+              <option value="Zephyr">Zephyr（軽やか）</option>
+            </select>
+          </div>
+          <div style="flex:1;display:flex;align-items:flex-end">
+            <button class="ghost" id="gTest" style="width:100%">この声で試聴</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="browserVoiceBox" style="margin-top:10px">
+        <label for="voiceSelect">読み上げの声（この端末で使えるもの）</label>
+        <select id="voiceSelect"><option value="">自動で選ぶ</option></select>
+        <div class="hint" style="margin-top:4px">端末によって声の種類が違います。「Google 日本語」「Microsoft ... Natural」「Kyoko」などがあれば、それを選ぶと自然になります。</div>
+        <div class="sliderrow"><label for="rate">話す速さ</label><input type="range" id="rate" min="0.6" max="1.2" step="0.05" value="1"></div>
+        <div class="sliderrow"><label for="pitch">声の高さ</label><input type="range" id="pitch" min="0.7" max="1.3" step="0.05" value="1"></div>
+        <button class="ghost" id="testVoice" style="margin-top:8px">この声で試し聞き</button>
+      </div>
+
+      <div id="voicevoxBox" style="margin-top:14px;border-top:1px dashed var(--line);padding-top:10px">
+        <label for="vvUrl">VOICEVOX を使う（任意・上級）— エンジンURL</label>
+        <input type="text" id="vvUrl" placeholder="例: http://localhost:50021（空欄ならブラウザの声を使用）" autocomplete="off">
+        <div class="row" style="margin-top:8px">
+          <div style="flex:2">
+            <label for="vvSpeaker">話者ID</label>
+            <input type="number" id="vvSpeaker" value="3" min="0" step="1">
+          </div>
+          <div style="flex:1;display:flex;align-items:flex-end">
+            <button class="ghost" id="vvTest" style="width:100%">VOICEVOXで試聴</button>
+          </div>
+        </div>
+        <div class="hint" style="margin-top:6px">
+          VOICEVOX はより自然で表情のある声が出せますが、多人数で使うにはエンジンをネット上に用意（CORS許可）する必要があります。
+          利用時は規約にしたがい話者のクレジット表記が必要です。うまく鳴らないときは自動でブラウザの声に切り替わります。
+        </div>
+      </div>
+    </details>
+
+    <button class="primary" id="startBtn" style="width:100%;margin-top:14px">会話をはじめる</button>
+    <div class="status" id="setupStatus"></div>
+  </div>
+
+  <!-- 会話 -->
+  <div class="card hidden" id="talkCard">
+    <div id="log"></div>
+    <div class="status" id="status"></div>
+
+    <button class="mic primary" id="micBtn">🎤 押して話す</button>
+
+    <div class="row" style="margin-top:8px">
+      <div style="flex:3">
+        <input type="text" id="typeInput" placeholder="声が使えないときは、ここに入力して送信">
+      </div>
+      <div style="flex:1">
+        <button class="ghost" id="sendBtn" style="width:100%">送信</button>
+      </div>
+    </div>
+
+    <div class="barbtns">
+      <button class="ghost" id="feedbackBtn">◆ フィードバックをもらう</button>
+      <button class="ghost" id="resetBtn">最初から</button>
+    </div>
+    <button class="ghost" id="saveBtn" style="width:100%;margin-top:8px">📄 会話の記録を保存（Word）</button>
+    <div class="credit" id="creditLine"></div>
+    <div class="hint" style="margin-top:6px">ヒント: 間違えても大丈夫。まずは最後まで会話を続けてみましょう。</div>
+  </div>
+
+  <p class="hint">※ 音声認識は Chrome（パソコン・Android）で最もよく動きます。iPhone など声がうまく使えない場合は、下の入力欄に文字で送信すれば同じように練習できます。</p>
+</div>
+
+<script>window.PASSCODE="Nihongo_AI_Kaiwa";</script>
+<script>window.MINNA={"1":{"c":[{"code":"1-1","desc":"名前と国（地域）を言って自己紹介をする"},{"code":"1-2","desc":"名前を聞き違いされてそれを正す"},{"code":"1-3","desc":"人に紹介されて、初対面の挨拶をする"}],"v":"わたし あなた あの 人（あの 方） だれ はい 初めまして。 ありません ～さん ～ちゃん ～人 （どなた） いいえ ～から 来ました。 先生 教師 学生 何歳 ［どうぞ］ 会社員 社員 銀行員 （おいくつ） ［お願いします］。 医者 研究者 大学 失礼ですが 病院 ―歳 お名前は？ こちらは"},"2":{"c":[{"code":"2-1","desc":"言葉を添えて、人にお土産を渡す"},{"code":"2-2","desc":"何かわからない物を持っている人に、それが何か尋ねる"},{"code":"2-3","desc":"忘れ物の持ち主を探している人に、その持ち主かどうかを申し出る"}],"v":"これ それ あれ 何（なん） この ～ あのう N／あの N 本 辞書 雑誌 その ～＊ えっ ～＊ 新聞 ノート 手帳 あの どうぞ。 名刺 カード 鉛筆 そう ［どうも］ ボールペン シャープペンシル かぎ ［ございます］。 時計 傘 かばん そうですか。 CD テレビ ラジオ 違います。 カメラ コンピューター 車 あ 机 いす チョコレート コーヒー ［お］土産 英語 日本語 ～語"},"3":{"c":[{"code":"3-1","desc":"探している場所（例：トイレ、エレベーターなど）がどこにあるか尋ねる"},{"code":"3-2","desc":"出身地（国、町）を尋ねられ、答える"},{"code":"3-3","desc":"買いたい物がどこの製品か、いくらかを尋ねる"}],"v":"ここ そこ あそこ どこ すみません。 こちら そちら あちら どちら どうも。 教室 食堂 事務所 何階＊ 会議室 受付 ロビー いくら 部屋 トイレ（お手洗い） 階段 エレベーター エスカレーター 自動販売機 電話 ［お］国 会社 うち 靴 ネクタイ ワイン 売り場 地下 ―階 ―円 百 千 万"},"4":{"c":[{"code":"4-1","desc":"施設の営業時間と休みの日を尋ねる"},{"code":"4-2","desc":"行事（イベント）の開始、終了時刻を尋ねる"},{"code":"4-3","desc":"就寝時間などの日常生活についてのおしゃべり"}],"v":"起きます デパート 銀行 郵便局 何時 ～から 大変ですね。 寝ます 図書館 美術館 今 何分＊ ～まで 働きます ―時 ―分 半 何曜日 ～と ～ 休みます 午前 午後 朝 勉強します 昼 晩（夜） おととい 終わります きのう きょう あした あさって けさ 今晩 休み 昼休み 試験 会議 映画 毎朝 毎晩 毎日 月曜日 火曜日 水曜日 木曜日 金曜日 土曜日 日曜日"},"5":{"c":[{"code":"5-1","desc":"日曜日の予定についてのおしゃべり"},{"code":"5-2","desc":"旅行土産を渡しながら、旅行についてのおしゃべり"},{"code":"5-3","desc":"どこからいつ日本へ来たかの質問に答える"}],"v":"何年＊ 行きます 学校 スーパー 駅 歩いて そうですね。［どうも］ 来ます 飛行機 船 電車 何月＊ 一人で 何日＊ 帰ります 地下鉄 新幹線 バス タクシー 自転車 人 いつ 友達 彼＊ 彼女 家族 先週 今週 今月＊ V 来週 先月 来月 去年 ことし＊ 来年 ―年＊ ―月 2日＊ 1日 3日 4日＊ 5日＊ 6日 7日＊ 8日＊ 9日 20日＊ 10日 14日 24日＊ ―日 誕生日"},"6":{"c":[{"code":"6-1","desc":"日曜日どう過ごしたかのおしゃべり"},{"code":"6-2","desc":"買い物や食事をとる場所などの日常生活についてのおしゃべり"},{"code":"6-3","desc":"人を誘って、待ち合わせの約束をする"}],"v":"朝ごはん＊ 食べます ごはん 昼ごはん 何（なに） いっしょに 飲みます 晩ごはん＊ パン 卵 ちょっと 吸います 肉 魚 野菜 いつも ［たばこを～］ 果物 水 お茶 時々 見ます 紅茶 牛乳（ミルク） ジュース それから 聞きます ビール ［お］酒 たばこ ええ 読みます 手紙 レポート 写真 いいですね。 書きます ビデオ 店 庭 わかりました。 買います 宿題 テニス サッカー 撮ります ［お］花見 ［写真を～］ します 会います ［友達に～］"},"7":{"c":[{"code":"7-1","desc":"日本語の言い方がわからない物を何と言うか聞く"},{"code":"7-2","desc":"身につけている物をほめられて、だれにもらったか話す"},{"code":"7-3","desc":"日 常のこと（例：昼ごはん）がまだだったらいっしょにしようと誘う"}],"v":"V 切ります 手 はし スプーン もう ［～、］ ～語で 送ります ナイフ フォーク はさみ まだ あげます パソコン ケータイ メール これから N を もらいます 年賀状 パンチ ホッチキス 貸します セロテープ 消しゴム 紙 N を 借ります 花 シャツ プレゼント 教えます 荷物 お金 切符 習います クリスマス 父 母 かけます お父さん＊ お母さん ［電話を～］"},"8":{"c":[{"code":"8-1","desc":"仕事、生活について尋ねられ、答える"},{"code":"8-2","desc":"店員に自分の見たい物を見せてくれるように頼む"},{"code":"8-3","desc":"旅行先の感想を話す"}],"v":"ハンサム［な］ きれい［な］ 静か［な］ 桜 山 町 どう とても お元気ですか。 な］です にぎやか［な］ 有名［な］ 親切［な］ 食べ物 所 寮 どんな～ あまり そうですね。 ～い）です 元気［な］ 暇［な］ 便利［な］ レストラン 生活 ［お］仕事 そして N すてき［な］ 大きい 小さい＊ ～が、～ N 新しい 古い いい（よい） 悪い＊ 暑い、熱い 寒い 冷たい 難しい 易しい 高い 安い 低い＊ N ですか おもしろい おいしい 忙しい 楽しい 白い 黒い 赤い 青い"},"9":{"c":[{"code":"9-1","desc":"好きかどうか尋ねて誘う"},{"code":"9-2","desc":"日常に使うちょっとした物を貸してほしいと頼む"},{"code":"9-3","desc":"理由を言って誘いを断る"}],"v":"わかります 好き［な］ 嫌い［な］ 上手［な］ 飲み物 料理 スポーツ どうして よく 貸して あります 下手［な］ 野球 ダンス 旅行 だいたい いいですよ。 音楽 歌 クラシック たくさん 残念です［が］ ジャズ コンサート カラオケ 少し 歌舞伎 絵 字＊ 全然 漢字 ひらがな かたかな 早く、速く ローマ字＊ 細かい お金 チケット ～から 時間 用事 約束 アルバイト ご主人 夫／主人 奥さん 妻／家内 子ども"},"10":{"c":[{"code":"10-1","desc":"銀行などの施設がどこにあるか尋ねる"},{"code":"10-2","desc":"店で買いたい物がどこにあるか尋ねる"},{"code":"10-3","desc":"探している人がどこにいるか尋ねる"}],"v":"あります いろいろ［な］ 男の 人 女の 人 男の 子 ～や あります／ います 女の 子 犬 猫 ～［など］ パンダ 象 木 あります／ 物 電池 箱 スイッチ 冷蔵庫 テーブル ベッド 棚 ドア 窓 ポスト ビル ATM コンビニ 公園 喫茶店 ～屋 乗り場 県 上 下 前 うしろ 右 左 中 外＊ 隣 近く 間"},"11":{"c":[{"code":"11-1","desc":"レストランで注文する"},{"code":"11-2","desc":"家族の人数、構成を言う"},{"code":"11-3","desc":"旅行する人に手段と所要時間を聞く"}],"v":"います 1つ 2つ 3つ いくつ ～ぐらい かしこまりました。 ［子どもが～］ 4つ 5つ 6つ どのくらい 全部で －回 V います 7つ 8つ 9つ みんな ［日本に～］ 1人 2人 ～だけ かかります ―人 ―台 ―枚 休みます ―回 りんご みかん ［会社を～］ サンドイッチ カレー［ライス］ アイスクリーム 切手 はがき 封筒 両親 兄弟 兄 お兄さん＊ 姉 お姉さん＊ 弟 弟さん＊ 妹 妹さん＊ 外国 留学生 ―時間 ―週間 ―か月 ―年"},"12":{"c":[{"code":"12-1","desc":"日本での初めての経験と感想を話す"},{"code":"12-2","desc":"飲み物を選択肢を示して勧める"},{"code":"12-3","desc":"北海道旅行の時期についてアドバイスをもらう"}],"v":"簡単［な］ 近い 季節 春 夏 どちら どちらも 遠い＊ 速い、早い 秋 冬 天気 いちばん 遅い＊ 多い［人が～］ 雨 雪 曇り ずっと 少ない＊［人が～］ 暖かい、温かい ホテル 空港 海 初めて より 形容詞です 涼しい 甘い 世界 パーティー ［お］祭り すき焼き＊ 刺身＊ と どちらが 辛い 重い ［お］すし 軽い＊ 豚肉＊ いい［コーヒーが～］ てんぷら とり肉 の ほうが 牛肉 レモン 生け花 紅葉 何／どこ／ いちばん が いちばん"},"13":{"c":[{"code":"13-1","desc":"インタビュー番組で今何が欲しいか答える"},{"code":"13-2","desc":"自分の状況（例：喉が渇いた）を訴え、喫茶店に誘う"},{"code":"13-3","desc":"週末何をしたかのおしゃべり"}],"v":"遊びます 大変［な］ プール 川 ～ごろ のどが 泳ぎます 欲しい 美術 釣り おなかが Vます形／Nに 迎えます 広い スキー 週末 そう しましょう。 疲れます 狭い ［お］正月 何か 結婚します どこか 買い物します 食事します 散歩します［公園を～］ つけます 電気 エアコン まっすぐ さあ 消します パスポート 名前 ゆっくり あれ？ 開けます 住所 地図 すぐ"},"14":{"c":[{"code":"14-1","desc":"ちょっとしたこと（例：ペンを借りる）を頼む"},{"code":"14-2","desc":"親切な申し出をする（例：荷物を持つ）"},{"code":"14-3","desc":"集合時間にその場にいない人について、どこで何をしているか伝える"}],"v":"閉めます 塩 砂糖 また 急ぎます 問題 答え あとで 待ちます 読み方 ～方 もう 少し 持ちます もう ～ 取ります 手伝います 呼びます 話します 使います 止めます 見せます 教えます［住所を～］ 座ります 立ちます＊"},"15":{"c":[{"code":"15-1","desc":"無料サービスの物をもらうときにことわりを言う"},{"code":"15-2","desc":"日常生活の情報（例：いい歯医者）を求める"},{"code":"15-3","desc":"インタビュー番組で出身や職業を言う"}],"v":"入ります［喫茶店に～］ 出ます［喫茶店を～］＊ 降ります［雨が～］ コピーします 置きます 資料 カタログ すみません 皆さん 作ります、造ります 時刻表 服 売ります 製品 ソフト 知ります 電子辞書 経済 V 住みます 市役所 高校 研究します 歯医者 独身"},"16":{"c":[{"code":"16-1","desc":"きのうどこで何をしたか順を追って話す"},{"code":"16-2","desc":"日本語学習をいつ始めたか話す"},{"code":"16-3","desc":"自分の出身地がどんなところか話す"}],"v":"体＊ 乗ります［電車に～］ 若い 頭 どうやって すごいですね。 降ります［電車を～］ 長い 髪 顔＊ どの ～ ［いいえ、］ 形容詞 乗り換えます 短い 目 耳＊ どれ 鼻＊ 口＊ 浴びます［シャワーを］ 明るい 入れます 暗い 歯＊ おなか＊ N 出します 足＊ 背 下ろします［お金を～］ サービス ジョギング 入ります［大学に～］ シャワー 緑 出ます［大学を～］ ［お］寺 神社 押します ―番 飲みます 始めます 見学します 電話します"},"17":{"c":[{"code":"17-1","desc":"医者の指示を受ける"},{"code":"17-2","desc":"しなければならないことを言って、誘いを断る"},{"code":"17-3","desc":"病院の人の指示を聞く"}],"v":"覚えます 大切［な］ 禁煙 ［健康］保険証 ～までに ください 忘れます 大丈夫［な］ 熱 病気 ですから なりません なくします 危ない 薬 ［お］ふろ いいです 払います 上着 下着 返します 2、3日 2、3～ V 出かけます 脱ぎます 持って 行きます 持って 来ます 心配します 残業します 出張します 飲みます［薬を～］"},"18":{"c":[{"code":"18-1","desc":"レストランである行為（例：喫煙）が可能かどうか尋ねる"},{"code":"18-2","desc":"趣味について話す"},{"code":"18-3","desc":"会社で仕事の順序について指示を受ける"}],"v":"入ります［おふろに～］ できます ピアノ ―メートル ことが できます 洗います 現金 趣味 弾きます 日記 お祈り ことです 歌います 課長 部長 社長＊ 集めます 動物 捨てます 馬 インターネット 換えます 運転します 予約します"},"19":{"c":[{"code":"19-1","desc":"日本での経験の有無とその感想を話す"},{"code":"19-2","desc":"休みに何をしたいか話す"},{"code":"19-3","desc":"季節の挨拶とその季節に何をしたいか話す"}],"v":"登ります、上ります 眠い 練習 ゴルフ 相撲 一度 あります 泊まります［ホテルに～］ 強い お茶 日 調子 一度も た形り します 掃除します 弱い＊ だんだん 洗濯します もうすぐ なります おかげさまで でも"},"20":{"c":[{"code":"20-1","desc":"親しい人に、日本文化の初めての経験とその簡単な感想を話す"},{"code":"20-2","desc":"親しい人に、好き嫌いを尋ね、勧めたり誘ったりする"},{"code":"20-3","desc":"親しい人に、身の周りのちょっとしたことへの手助けを頼む"}],"v":"要ります［ビザが～］ 僕 君＊ ～君 どっち うん 調べます ことば 着物 ビザ ううん こっち＊ 修理します 初め 終わり みんなで そっち あっち＊ ～けど おなかが いっぱいです 思います むだ［な］ ほんとう うそ＊ 自動車 最近"},"21":{"c":[{"code":"21-1","desc":"物事について意見を求められ、答える"},{"code":"21-2","desc":"聞き逃した館内放送を人に聞いて確認する"},{"code":"21-3","desc":"お祭りや観光地について、感想を共有する"}],"v":"言います 言います 不便［な］ 交通 物価 放送 たぶん 勝ちます すごい ニュース アニメ マンガ きっと でしょう？ 負けます＊ デザイン 夢 天才 ほんとうに が あります あります［お祭りが～］ 試合 意見 話 そんなに 役に 立ちます 地球 月 ～に ついて 動きます やめます［会社を～］ 気を つけます 留学します"},"22":{"c":[{"code":"22-1","desc":"パーティーにいる人の名前をそっと知人に尋ねる"},{"code":"22-2","desc":"事務所で探し物（例：書類）の場所を尋ねる"},{"code":"22-3","desc":"成人式でインタビューを受け、将来の希望を話す"}],"v":"着ます わたしたち コート セーター よく えーと はきます スーツ＊ 帽子 眼鏡 おめでとう かぶります ケーキ ［お］弁当 ロボット ［ございます］。 かけます［眼鏡を～］ ユーモア 都合 します［ネクタイを～］ 生まれます"},"23":{"c":[{"code":"23-1","desc":"お祝い事にどんなプレゼントがいいか日本の習慣を尋ねる"},{"code":"23-2","desc":"コピー機の使い方を尋ねる"},{"code":"23-3","desc":"銀行などの所在、行き方を尋ねる"}],"v":"聞きます［先生に～］ 寂しい ［お］湯 音 何回も 回します サイズ 故障 引きます 道 交差点 変えます 信号 角 触ります［ドアに～］ 橋 駐車場 出ます［お釣りが～］ 建物 ―目 歩きます 渡ります［橋を～］ 曲がります［右へ～］"},"24":{"c":[{"code":"24-1","desc":"身につけている物、持ち物をほめられ、だれにどんな機会にもらったか話す"},{"code":"24-2","desc":"パーティーの準備をだれに手伝ってもらったか話す"},{"code":"24-3","desc":"ホームステイで家族のだれに何をしてもらったか話す"}],"v":"くれます おじいさん／おじいちゃん 全部 直します おばあさん／おばあちゃん 自分で 準備 連れて 行きます 引っ越し 来ます＊ ［お］菓子 V 連れて ホームステイ 送ります［人を～］ 紹介します 案内します 説明します"},"25":{"c":[{"code":"25-1","desc":"相手の状況や天候に配慮を示しながら人を誘う"},{"code":"25-2","desc":"同 僚に、席を外している間の対応を指示する（例：来客を知らせる）"},{"code":"25-3","desc":"天気が悪くても予定された行事が行われるかどうか確認する"}],"v":"考えます 田舎 チャンス もし ［～たら］ もしもし 着きます 億 意味 取ります［年を～］ 足ります"},"26":{"c":[{"code":"26-1","desc":"イベント（例：お花見）に参加できなかった理由を言う"},{"code":"26-2","desc":"買いたいと思っている物を持っている人に、それについての情報を求める"},{"code":"26-3","desc":"日々の生活情報を求める（例：ごみの日）"}],"v":"課 文型（練習A） 動詞／形容詞 名詞 その他（副詞、会話等） 見ます（診ます） 探します（捜します） 遅れます 運動会 盆踊り フリーマーケット 今度 ずいぶん 直接 ～んですか 間に合います やります 拾います 連絡します 場所 ボランティア 財布 ごみ いつでも どこでも どうして～んですか 片づきます 出します 国会議事堂 平日 ～弁 だれでも 何でも こんな～ ～ません。～んです 燃えるごみ 置き場 横 瓶 缶 そんな～ あんな～ ～んですが、～ていただけませんか 気分がいい 気分が悪い ガス ～会社 ～んですが、疑問詞～たらいいですか"},"27":{"c":[{"code":"27-1","desc":"公民館などの公共施設（例：キッチン）が利用できるかどうか尋ねる"},{"code":"27-2","desc":"講座や講演などで「聞こえない」「見えない」ことを訴え、善処を求める"},{"code":"27-3","desc":"薬の調剤など を依頼し、その際どのくらい時間がかかるか尋ねる"}],"v":"飼います 走ります 見えます 聞こえます ペット 鳥 声 波 花火 道具 ～後 ～しか ほかの ～が可能動詞 できます 開きます 建てます クリーニング 家 マンション はっきり いつか ～が見えます／聞こえます キッチン ～教室 ～ができます 心配（な） すばらしい パーティールーム 方 家具 本棚 ～しか～ません ～は、～は～（対比）"},"28":{"c":[{"code":"28-1","desc":"将来の夢のために今頑張っていることを語る"},{"code":"28-2","desc":"ある店が人気のある理由についてのおしゃべり"},{"code":"28-3","desc":"飲みに誘われたが、理由を言って断る"}],"v":"～ながら 売れます 踊ります かみます 選びます 通います 景色 美容院 台所 経験 力 将来 しばらく たいてい メモします 人気 形 色 味 ガム 品物 それに それで ～ています（習慣） 値段 給料 ボーナス ゲーム 〔ちょっと〕お願いがあるん ～し、～し、～（並列描写） まじめ（な） 熱心（な） 偉い ちょうど いい 番組 ドラマ 歌手 小説 小説家 ですが。 実は うーん ～し、～し、～（理由の列挙） ～家 ～機 息子 息子さん娘 娘さん 自分 会話 どうして、～んですか"},"29":{"c":[{"code":"29-1","desc":"かばんが開いているなど、本人が気づいていないことを注意してあげる"},{"code":"29-2","desc":"使ってもいいか尋ねた物（例：パンチ）の状態がよくないため、他の物を勧められる"},{"code":"29-3","desc":"困った状態（例：財布を落とした）を訴えて、アドバイスをもらう"}],"v":"～し、～から 開きます 閉まります つきます 消えます （お）皿 （お）ちゃわん コップ お先にどうぞ。 ～がV（自動詞）ています 壊れます 割れます 折れます 破れます 汚れます ガラス 袋 書類 枝 駅員 交番 覚えていません。 確か ～はV（自動詞）ています 付きます 外れます 止まります まちがえます スピーチ 返事 今の電車 〔ああ、〕よかった。 Vてしまいました（完了） 落とします 掛かります ふきます 取り替えます 忘れ物 このくらい ～側 Vてしまいました（遺憾） 片づけます ポケット ～辺 網棚"},"30":{"c":[{"code":"30-1","desc":"ある施設で目に留まった物（例：掲示物）について尋ねる"},{"code":"30-2","desc":"上司に期日までにしておかなければならないことの指示を仰ぐ"},{"code":"30-3","desc":"パーティーの後片付けの手伝いを申し出て、指示を仰ぐ"}],"v":"課 文型（練習A） 動詞／形容詞 名詞 その他（副詞、会話等） はります 掛けます 飾ります 並べます 植えます 授業 講義 ミーティング 予定 まだ ～とか、～とか ～が～てあります 戻します まとめます しまいます 決めます お知らせ ガイドブック ～は～てあります 予習します 復習します そのままにします カレンダー ポスター 予定表 ～ておきます（準備） 生活します ごみ箱 人形 花瓶 鍵 引き出し ～ておきます（措置） 玄関 廊下 壁 池 元の所 周り ～ておきます（放置） 真ん中 隅 リュック 非常袋 非常時 懐中電灯"},"31":{"c":[{"code":"31-1","desc":"友達に空腹やのどの渇きを訴え、喫茶店で休もうと誘う"},{"code":"31-2","desc":"仕事の準備状況を聞かれ、今の状況、これからの予定を述べる"},{"code":"31-3","desc":"休暇の予定についてのおしゃべり"}],"v":"続けます 見つけます 取ります（休みを～） 連休 作文 発表 展覧会 結婚式 ずっと 月に 意向形 受けます（～試験を） 申し込みます 休憩します （お）葬式 式 本社 支店 教会 （意向形）と思っています 残ります 大学院 動物園 温泉 帰り まだ～ていません お子さん ～号 ～の方 入学試験 ～つもりです ～予定です"},"32":{"c":[{"code":"32-1","desc":"やけど、発熱、頭痛などを訴え、アドバイスをもらう"},{"code":"32-2","desc":"話題のイベント（例：試合）について、よい結果を期待するおしゃべり"},{"code":"32-3","desc":"予定している行楽についてアドバイスをもらう"}],"v":"～ほうがいいです 運動します 成功します 失敗します 合格します 先生 やけど けが せき こんなに そんなに やみます 晴れます 曇ります 続きます インフルエンザ 空 太陽 星 風 あんなに ～でしょう ひきます（かぜを～） 冷やします 込みます 東 西 南 北 国際～ 水道 それはいけませんね。 ～かもしれません すきます（道が～） エンジン チーム 今後 夕方 出ます（試合／パーティーに～） 無理をします まえ 遅く 元気 胃 ストレス 十分（な） おかしい うるさい"},"33":{"c":[{"code":"33-1","desc":"ことばの読み方や意味を尋ねる"},{"code":"33-2","desc":"電話で受けた伝言を伝える"},{"code":"33-3","desc":"人に伝言を頼む"}],"v":"命令形 逃げます 騒ぎます あきらめます 投げます 警察 席 マーク ボール どういう～ 守ります 始まります 出席します 伝えます 締め切り 規則 危険 使用禁止 いくら〔～ても〕 もう 禁止形 注意します 外します（席を～） 戻ります 立ち入り禁止 徐行 入口 出口 あと～ ～ほど 「～」と書いてあります／読みます あります（電話が～） リサイクルします 非常口 無料 割引 飲み放題 ～は～という意味です 使用中 募集中 ～中 駐車違反 罰金 ～と言っていました だめ（な） 同じ ～と伝えていただけませんか"},"34":{"c":[{"code":"34-1","desc":"テレビや教室で習ったとおりに作った料理をほめられる"},{"code":"34-2","desc":"上司にレポートのチェックを願い出る"},{"code":"34-3","desc":"休日に何をするかのおしゃべり"}],"v":"課 文型（練習A） 動詞／形容詞 名詞 その他（副詞、会話等） 磨きます 組み立てます 居ります 気がつきます スポーツクラブ （お）城 ～か～ ゆうべ さっき 先に ～とおりに、～ つけます（しょうゆを～） 見つかります 説明書 図 線 矢印 黒 白 これでいいですか。 ～あとで、～ 質問します さします（傘を～） お茶をたてます 赤 青 紺 黄色 茶色 いかがですか。 ～て／～ないで～ 載せます しょうゆ ソース お客（さん） ～ないで、～ 茶道 苦い"},"35":{"c":[{"code":"35-1","desc":"パソコンの使い方を教えてもらう"},{"code":"35-2","desc":"日本事情に関する情報収集の方法を尋ねる"},{"code":"35-3","desc":"店や病院など町の情報（例：いい歯医者）を得る"}],"v":"Vば、～ 咲きます 変わります 困ります 向こう 島 港 近所 屋上 もっと 付けます（丸を～） 治ります（直ります） 海外 山登り 歴史 機会 許可 これで終わりましょう。 （Aい）ければ クリックします 入力します 丸 ふりがな 設備 レバー それなら さあ （Aな／N）なら キー カーテン ひも 炊飯器 疑問詞～ばいいですか 正しい 詳しい 葉 昔 夜行バス 旅行社 スキー場 Nなら、～"},"36":{"c":[{"code":"36-1","desc":"いつも携帯している物について、なぜそうしているか説明する"},{"code":"36-2","desc":"趣味、稽古事が上達したかどうかについてのおしゃべり"},{"code":"36-3","desc":"健康についてのおしゃべり"}],"v":"～ように、～（目標） あいます（事故に～） 貯金します 剣道 柔道 ラッシュ 宇宙 曲 このごろ やっと かなり 過ぎます（7時を～） 慣れます（仕事に～） 毎週 毎月 毎年 お客様 水泳 必ず 絶対に 上手に ～ようになります（変化） 腐ります（食べ物が～） 違います 気持ち できるだけ ほとんど ～ようにしています（習慣） チャレンジします していらっしゃいます ～ようにしてください 使っていらっしゃるんですね。 特別（な）"},"37":{"c":[{"code":"37-1","desc":"うれしそうにしているわけを話す"},{"code":"37-2","desc":"旅行中の大変だった経験を話す"},{"code":"37-3","desc":"名所旧跡や絵画を見学し、いつごろのものか尋ねる"}],"v":"〈人〉は～に～られます 褒めます しかります 誘います 招待します 米 麦 石油 原料 何語 だれか 頼みます 注意します とります 踏みます インスタントラーメン デート よかったですね。 その後 〈人〉は～に〈所有物〉を～られます 壊します 汚します 行います 輸出します 泥棒 警官 世界中 ～中 ～の一つ 〈物〉が～られます 輸入します 翻訳します 発明します 発見します ～世紀 皆様 世界遺産 金色 焼けます 本物 金 ～キロ 美しい"},"38":{"c":[{"code":"38-1","desc":"日常生活の個人的な習慣を指摘され、理由を説明する"},{"code":"38-2","desc":"会社の帰り道、し忘れたことに気づき、同僚に話す"},{"code":"38-3","desc":"旅行社の人に旅行の内容を尋ねる"}],"v":"課 文型（練習A） 動詞／形容詞 名詞 その他（副詞、会話等） 参加します 育てます 運びます 入院します 赤ちゃん 小学校 中学校 駅前 大きな～ 小さな～ ～のは（形容詞）です 退院します 入れます（電源を～） 海岸 工場 村 かな 指輪 〔あ、〕いけない。 ～のが（形容詞）です 切ります（電源を～） 掛けます（かぎを～） 電源 習慣 健康 ～製 お先に〔失礼します〕。 ～のを忘れました つきます（うそを～） 整理します おととし 回覧 研究室 方法 きちんと ～という ～のを知っています 押します（はんこを～） ー冊 はんこ ～のは（名詞）です 気持ちがいい 気持ちが悪い"},"39":{"c":[{"code":"39-1","desc":"理由を言って誘いを断る"},{"code":"39-2","desc":"首相について噂話をする"},{"code":"39-3","desc":"ホテルのフロントにトラブル解決を頼む"}],"v":"答えます 倒れます 通ります 死にます 首相 地震 津波 台風 雷 大勢 お疲れさまでした。 Vて、～ びっくりします がっかりします 安心します 火事 事故 ハイキング 伺います 途中で （Aい）くて、～ けんかします 離婚します 太ります やせます （お）見合い 操作 会場 ～代 （Aな）で、～ ぶつかります ～屋 フロント ー号室 タオル せっけん トラック Nで、～ 複雑（な） 邪魔（な） 硬い 軟らかい 汚い うれしい 悲しい 恥ずかしい ～ので、～"},"40":{"c":[{"code":"40-1","desc":"日本語発表会のテーマについて話す"},{"code":"40-2","desc":"イベント参加の申し込み期限を告げられ、申し込みを促される"},{"code":"40-3","desc":"日本の観光地についてのおしゃべりの中で、行ってみたい気持ちになったことを話す"}],"v":"疑問詞～か、～ 数えます 測ります（量ります） 確かめます 天気予報 忘年会 新年会 どうでしょうか。 ところで 合います（サイズが～） 出発します 到着します 二次会 発表会 大会 マラソン ～かどうか、～ 酔います うまくいきます 出ます（問題が～） コンテスト 表 裏 まちがい Vてみます 相談します いらっしゃいます 傷 ズボン （お）年寄り 長さ 重さ 高さ 大きさ ー便 ー個 必要（な） ー本 ー杯 ーセンチ ーミリ ーグラム ～以上 ～以下 テスト 成績 様子"},"41":{"c":[{"code":"41-1","desc":"初めて日本へ来たとき親切にしてもらった経験を話す"},{"code":"41-2","desc":"ペットの世話の大変さについて話す"},{"code":"41-3","desc":"アパートや寮の管理人に自分の状況を伝え、アドバイスや手助けを丁寧に頼む"}],"v":"いただきます くださいます やります 上げます お祝い お年玉 （お）見舞い この間 ～ずつ ～をいただきます 下げます 親切にします 興味 情報 文法 発音 猿 どうぞお幸せに。 ～をくださいます えさ おもちゃ 絵本 絵はがき ～をやります かわいい 珍しい ドライバー ハンカチ 靴下 ～ていただきます 手袋 幼稚園 暖房 冷房 温度 祖父 祖母 孫 お孫さん おじ ～てくださいます おじさん おば おばさん ～てやります 管理人 ～さん ひとこと 二人 ～てくださいませんか お宅"},"42":{"c":[{"code":"42-1","desc":"日本に来た目的についてのおしゃべり"},{"code":"42-2","desc":"道具の用途を説明して日本語での名称がわからない日用品を探す"},{"code":"42-3","desc":"東京生活の大変さを話す"}],"v":"課 文型（練習A） 動詞／形容詞 名詞 その他（副詞、会話等） 包みます 沸かします 混ぜます 計算します アパート 弁護士 音楽家 ある～ 一生懸命 なぜ ～ために、～ 並びます 出ます（ボーナスが～） 子どもたち 自然 教育 文化 どのくらい ～は～のに、～ 社会 政治 法律 戦争 平和 丈夫（な） ～のに～かかります 目的 論文 楽しみ ミキサー やかん ふた 栓抜き 缶切り 缶詰 のし袋 ふろしき そろばん 体温計 材料 半分 ローン"},"43":{"c":[{"code":"43-1","desc":"自分では気づいていない状態（例：ボタンが取れそう）を指摘してもらい感謝する"},{"code":"43-2","desc":"自分の様子（例：うれしそう）について理由を説明する"},{"code":"43-3","desc":"何かしようとしている人に、ついでの用事を頼む"}],"v":"増えます 減ります 上がります（値段が～） ガソリン 火 パンフレット 今にも わあ ～そうです（動詞） 下がります（値段が～） 切れます ～そうです（形容詞） とれます（ボタンが～） 落ちます（荷物が～） Vて来ます なくなります（ガソリンが～） 変（な） 幸せ（な） 楽（な） うまい まずい つまらない 優しい"},"44":{"c":[{"code":"44-1","desc":"忘年会で羽目を外して体調を崩したことを説明する"},{"code":"44-2","desc":"家具をほめられ、その使いやすさを自慢する"},{"code":"44-3","desc":"パソコンの使い方を教えてもらう"}],"v":"～すぎます 泣きます 笑います 眠ります 乾きます ぬれます 空気 涙 和食 洋食 おかず どうなさいますか。 滑ります 起きます（事故が～） 調節します 量 ー倍 シングル ツイン どういうふうになさいますか。 ～やすい／～にくい 洗濯物 DVD カット ～みたいにしてください。 （Aい）く／（Aな）にします 安全（な） 危険（な） 薄い 厚い 太い 細い シャンプー ショート これでよろしいでしょうか。 Nにします 〔どうも〕お疲れさまでした。"},"45":{"c":[{"code":"45-1","desc":"キャンプの説明会で、問題が生じた場合について質問する"},{"code":"45-2","desc":"買ったりもらったりしたものの不備について、不満を述べる"},{"code":"45-3","desc":"友人についての噂話"}],"v":"～の場合は、～ 信じます キャンセルします 知らせます 保証書 領収書 キャンプ 中止 急に 無理に ～のに、～ 優勝します 点 梅 110番 119番 係員 楽しみにしています。 コース スタート ー位 以上です。"},"46":{"c":[{"code":"46-1","desc":"電話をもらった時、話せない状況であることを説明する"},{"code":"46-2","desc":"新生活スタート に際して先輩に励まされる"},{"code":"46-3","desc":"心配している人に対して、心配ないことを、理由とともに話す"}],"v":"～ところです 渡します 帰って来ます 出ます（バスが～） 留守 宅配便 原因 こちら 半年 ちょうど たった今 ～たばかりです 届きます（荷物が～） 入学します 卒業します ～の所 ガスサービスセンター 今いいですか。 ～はずです 焼きます 焼けます 向かいます カスレンジ 具合 申し訳ありません。 どちら様でしょうか。 お待たせしました。"},"47":{"c":[{"code":"47-1","desc":"知人の近況を伝える情報に接し、その対応を相談する"},{"code":"47-2","desc":"世界各地のニュースについて話す"},{"code":"47-3","desc":"町の様子がいつもと違うので、見に行って確認する"}],"v":"課 文型（練習A） 動詞／形容詞 名詞 その他（副詞、会話等） 吹きます 燃えます 亡くなります 集まります 実験 データ 人口 におい ～によると どうも ～そうです（伝聞） 別れます します（音／声／味／においが～） 科学 医学 文学 パトカー ～ようです 婚約します 知り合います 救急車 賛成 反対 大統領 恋人 相手 厳しい ひどい 怖い"},"48":{"c":[{"code":"48-1","desc":"子どもに家事を手伝わせているかどうかのおしゃべり"},{"code":"48-2","desc":"子どもの将来に親がどう関わるかのおしゃべり"},{"code":"48-3","desc":"先生に許可を求める（例：クラスを見学したい）"}],"v":"降ろします（下ろします） 届けます 世話をします 塾 生徒 ファイル 営業 自由に ～間 ～させます（強制） 録音します 楽しみます いいことですね。 ～させます（容認） お忙しいですか。 嫌（な） ～させていただけませんか それまでに かまいません。"},"49":{"c":[{"code":"49-1","desc":"（目上の）人のプライベートなことについて、伝え聞いたことを本人に確認する"},{"code":"49-2","desc":"公共施設で、共用の備品を使用するときに近くにいる人にことわりを言う"},{"code":"49-3","desc":"病院の受付で受診の手続きをする"}],"v":"～（ら）れます 利用します 勤めます 掛けます（いすに～） あいさつ 旅館 バス停 奥様 たまに どなたでも 過ごします いらっしゃいます 召し上がります ～様 ー年ー組 ～といいます。 お～になります おっしゃいます なさいます ご覧になります よろしくお伝えください。 特別な尊敬語 ご存じです 出します（熱を～） 失礼いたします。 お／ご～ください"},"50":{"c":[{"code":"50-1","desc":"目上の人、知らない人に手伝い（例：荷物を持つ）を申し出る"},{"code":"50-2","desc":"しかるべき人におもてなし（例：歌舞伎観劇の機会を設ける）を申し出る"},{"code":"50-3","desc":"ワット先生の近況についてのおしゃべり"}],"v":"参ります おります いただきます 申します 私 ガイド メールアドレス 初めに 心から お／ご～します いたします 拝見します 存じます 伺います スケジュール さ来週 さ来月 特別な謙譲語（目上のための行為） お目にかかります いれます（コーヒーを） さ来年 賞金 きりん ころ 特別な謙譲語（自分自身のこと） 用意します 緊張します かないます 応援します 感謝します"}};</script>
+<script>
+(function(){
+  "use strict";
+
+  var MODEL = "gemini-3.5-flash";
+  var ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/" + MODEL + ":generateContent";
+  // 自然な声（ニューラル音声）用のモデル。将来変わったらここを変更。
+  var TTS_MODEL = "gemini-2.5-flash-preview-tts";
+  var TTS_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/" + TTS_MODEL + ":generateContent";
+
+  // ★合言葉（授業用・限定公開のとき設定）。空 "" なら合言葉なし＝誰でも使える。
+  var PASSCODE = window.PASSCODE || "";
+
+  var mem = {};
+  var store = {
+    get:function(k){ try{ return localStorage.getItem(k); }catch(e){ return (k in mem)?mem[k]:null; } },
+    set:function(k,v){ try{ localStorage.setItem(k,v); }catch(e){ mem[k]=v; } }
+  };
+
+  var $=function(id){ return document.getElementById(id); };
+  var keyEl=$("key"), scenarioEl=$("scenario"), levelEl=$("level"), roleEl=$("role"), foreignEl=$("foreignMode");
+  var practiceModeEl=$("practiceMode"), generalBox=$("generalBox"), textbookBox=$("textbookBox"), roleBox=$("roleBox");
+  var lessonEl=$("lesson"), renshuCEl=$("renshuC");
+  var vocabLevelEl=$("vocabLevel"), vocabListEl=$("vocabList");
+  var engineSelect=$("engineSelect"), gVoice=$("gVoice"), gTest=$("gTest");
+  var geminiVoiceBox=$("geminiVoiceBox"), browserVoiceBox=$("browserVoiceBox"), voicevoxBox=$("voicevoxBox");
+  var voiceSelect=$("voiceSelect"), rateEl=$("rate"), pitchEl=$("pitch"), testVoice=$("testVoice");
+  var vvUrl=$("vvUrl"), vvSpeaker=$("vvSpeaker"), vvTest=$("vvTest");
+  var setupCard=$("setupCard"), talkCard=$("talkCard");
+  var log=$("log"), statusEl=$("status"), setupStatus=$("setupStatus"), creditLine=$("creditLine");
+  var micBtn=$("micBtn"), sendBtn=$("sendBtn"), typeInput=$("typeInput");
+  var feedbackBtn=$("feedbackBtn"), resetBtn=$("resetBtn"), startBtn=$("startBtn"), saveBtn=$("saveBtn");
+  var gateCard=$("gateCard"), gateInput=$("gateInput"), gateBtn=$("gateBtn"), gateStatus=$("gateStatus");
+  var practiceModeRow=$("practiceModeRow");
+
+  // ---- 合言葉ゲート（PASSCODE 設定時のみ）----
+  (function(){
+    if(!PASSCODE) return;
+    if(store.get("gate_ok")===PASSCODE) return;
+    setupCard.classList.add("hidden");
+    gateCard.classList.remove("hidden");
+    function tryEnter(){
+      if(gateInput.value===PASSCODE){ store.set("gate_ok",PASSCODE); gateCard.classList.add("hidden"); setupCard.classList.remove("hidden"); }
+      else { gateStatus.textContent="⚠ 合言葉が違います。"; }
+    }
+    gateBtn.addEventListener("click", tryEnter);
+    gateInput.addEventListener("keydown", function(e){ if(e.key==="Enter") tryEnter(); });
+  })();
+
+  // ---- 設定の復元 ----
+  var sk=store.get("gemini_key"); if(sk) keyEl.value=sk;
+  var sv=store.get("voice_name"); var sr=store.get("voice_rate"); var sp=store.get("voice_pitch");
+  if(sr) rateEl.value=sr; if(sp) pitchEl.value=sp;
+  var svv=store.get("vv_url"); if(svv) vvUrl.value=svv;
+  var svs=store.get("vv_speaker"); if(svs) vvSpeaker.value=svs;
+  var seng=store.get("voice_engine"); if(seng) engineSelect.value=seng;
+  var sgv=store.get("gemini_voice"); if(sgv) gVoice.value=sgv;
+
+  function updateEngineUI(){
+    var e=engineSelect.value;
+    geminiVoiceBox.style.display = (e==="gemini")?"block":"none";
+    browserVoiceBox.style.display = (e==="browser")?"block":"none";
+    voicevoxBox.style.display = (e==="voicevox")?"block":"none";
+  }
+  engineSelect.addEventListener("change", function(){ store.set("voice_engine",engineSelect.value); updateEngineUI(); });
+  updateEngineUI();
+
+  // ---- 声の一覧を読み込む ----
+  function loadVoices(){
+    if(!("speechSynthesis" in window)) return;
+    var voices=window.speechSynthesis.getVoices()||[];
+    var ja=voices.filter(function(v){ return v.lang && v.lang.toLowerCase().indexOf("ja")===0; });
+    var want = store.get("voice_name") || "";
+    // 既存option（自動で選ぶ）以外を消す
+    while(voiceSelect.options.length>1){ voiceSelect.remove(1); }
+    ja.forEach(function(v){
+      var o=document.createElement("option");
+      o.value=v.name; o.textContent=v.name+" ("+v.lang+")";
+      if(v.name===want) o.selected=true;
+      voiceSelect.appendChild(o);
+    });
+  }
+  if("speechSynthesis" in window){
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged=loadVoices;
+  }
+
+  function pickVoice(){
+    if(!("speechSynthesis" in window)) return null;
+    var voices=window.speechSynthesis.getVoices()||[];
+    var chosen=voiceSelect.value;
+    if(chosen){
+      for(var i=0;i<voices.length;i++){ if(voices[i].name===chosen) return voices[i]; }
+    }
+    // 自動: 自然そうな日本語の声を優先
+    var ja=voices.filter(function(v){ return v.lang && v.lang.toLowerCase().indexOf("ja")===0; });
+    var prefer=["Google 日本語","Microsoft","Natural","Kyoko","O-ren","Otoya","Hattori","Nanami","Keita"];
+    for(var p=0;p<prefer.length;p++){
+      for(var j=0;j<ja.length;j++){ if(ja[j].name.indexOf(prefer[p])>=0) return ja[j]; }
+    }
+    return ja[0]||null;
+  }
+
+  // ---- 読み上げ（ブラウザ / VOICEVOX）----
+  var currentAudio=null;
+  function stopAudio(){
+    try{ window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
+    if(currentAudio){ try{ currentAudio.pause(); }catch(e){} currentAudio=null; }
+  }
+  function browserSpeak(text){
+    try{
+      if(!("speechSynthesis" in window)) return;
+      var u=new SpeechSynthesisUtterance(text);
+      u.lang="ja-JP";
+      u.rate=parseFloat(rateEl.value)||1;
+      u.pitch=parseFloat(pitchEl.value)||1;
+      var v=pickVoice(); if(v) u.voice=v;
+      window.speechSynthesis.speak(u);
+    }catch(e){}
+  }
+  function voicevoxSpeak(text){
+    var base=(vvUrl.value||"").trim().replace(/\/+$/,"");
+    var spk=encodeURIComponent((vvSpeaker.value||"3").trim());
+    if(!base){ browserSpeak(text); return; }
+    var q=base+"/audio_query?speaker="+spk+"&text="+encodeURIComponent(text);
+    fetch(q,{method:"POST"})
+      .then(function(r){ if(!r.ok) throw new Error("audio_query "+r.status); return r.json(); })
+      .then(function(query){
+        return fetch(base+"/synthesis?speaker="+spk,{
+          method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(query)
+        });
+      })
+      .then(function(r){ if(!r.ok) throw new Error("synthesis "+r.status); return r.blob(); })
+      .then(function(blob){
+        stopAudio();
+        currentAudio=new Audio(URL.createObjectURL(blob));
+        currentAudio.play();
+        creditLine.textContent="音声: VOICEVOX（話者ID "+ (vvSpeaker.value||"3") +"）※規約にしたがい話者名のクレジット表記をしてください";
+      })
+      .catch(function(){
+        statusEl.textContent="⚠ VOICEVOXに接続できず、ブラウザの声に切り替えました。";
+        browserSpeak(text);
+      });
+  }
+  // base64 → バイト列
+  function b64ToBytes(base64){
+    var bin=atob(base64), len=bin.length, out=new Uint8Array(len);
+    for(var i=0;i<len;i++){ out[i]=bin.charCodeAt(i); }
+    return out;
+  }
+  // 複数のPCMバイト列を1つにつなぐ
+  function concatBytes(list){
+    var total=0,i; for(i=0;i<list.length;i++){ total+=list[i].length; }
+    var out=new Uint8Array(total), off=0;
+    for(i=0;i<list.length;i++){ out.set(list[i],off); off+=list[i].length; }
+    return out;
+  }
+  // PCM(24kHz,mono,16bit) バイト列 → 再生できる WAV Blob
+  function pcmToWav(pcm){
+    var sampleRate=24000, numCh=1, bps=16;
+    var blockAlign=numCh*bps/8, byteRate=sampleRate*blockAlign;
+    var buf=new ArrayBuffer(44+pcm.length), view=new DataView(buf);
+    function wstr(o,s){ for(var k=0;k<s.length;k++) view.setUint8(o+k,s.charCodeAt(k)); }
+    wstr(0,"RIFF"); view.setUint32(4,36+pcm.length,true); wstr(8,"WAVE");
+    wstr(12,"fmt "); view.setUint32(16,16,true); view.setUint16(20,1,true);
+    view.setUint16(22,numCh,true); view.setUint32(24,sampleRate,true);
+    view.setUint32(28,byteRate,true); view.setUint16(32,blockAlign,true); view.setUint16(34,bps,true);
+    wstr(36,"data"); view.setUint32(40,pcm.length,true);
+    new Uint8Array(buf,44).set(pcm);
+    return new Blob([buf],{type:"audio/wav"});
+  }
+  function geminiTtsSpeak(text){
+    var key=keyEl.value.trim();
+    var body={
+      contents:[{parts:[{text:text}]}],
+      generationConfig:{ responseModalities:["AUDIO"],
+        speechConfig:{ voiceConfig:{ prebuiltVoiceConfig:{ voiceName:(gVoice.value||"Aoede") } } } }
+    };
+    fetch(TTS_ENDPOINT+"?key="+encodeURIComponent(key),{
+      method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)
+    }).then(function(r){ if(!r.ok) throw new Error("tts "+r.status); return r.json(); })
+      .then(function(d){
+        // 音声は複数パートに分かれて返ることがあるので、全部つなぐ
+        var chunks=[];
+        try{
+          var parts=d.candidates[0].content.parts||[];
+          for(var i=0;i<parts.length;i++){
+            if(parts[i].inlineData && parts[i].inlineData.data){ chunks.push(b64ToBytes(parts[i].inlineData.data)); }
+          }
+        }catch(e){}
+        if(!chunks.length) throw new Error("no audio");
+        stopAudio();
+        currentAudio=new Audio(URL.createObjectURL(pcmToWav(concatBytes(chunks))));
+        currentAudio.play();
+        creditLine.textContent="音声: Gemini 自然音声";
+      })
+      .catch(function(){
+        statusEl.textContent="⚠ 自然音声が使えなかったため、ブラウザの声に切り替えました。";
+        browserSpeak(text);
+      });
+  }
+  function speak(text){
+    stopAudio();
+    var e=engineSelect.value;
+    if(e==="gemini"){ geminiTtsSpeak(text); }
+    else if(e==="voicevox" && (vvUrl.value||"").trim()){ voicevoxSpeak(text); }
+    else { browserSpeak(text); }
+  }
+  gTest.addEventListener("click", function(){
+    store.set("voice_engine",engineSelect.value); store.set("gemini_voice",gVoice.value);
+    if(!keyEl.value.trim()){ setupStatus.textContent="⚠ 試聴には先に Gemini API キーを入力してください。"; return; }
+    setupStatus.textContent="自然音声を読み込み中…";
+    geminiTtsSpeak("いらっしゃいませ。ご注文はお決まりですか。");
+    setTimeout(function(){ setupStatus.textContent=""; },1500);
+  });
+
+  testVoice.addEventListener("click", function(){
+    store.set("voice_name", voiceSelect.value);
+    store.set("voice_rate", rateEl.value);
+    store.set("voice_pitch", pitchEl.value);
+    stopAudio(); browserSpeak("いらっしゃいませ。ご注文はお決まりですか。");
+  });
+  vvTest.addEventListener("click", function(){
+    store.set("vv_url", vvUrl.value); store.set("vv_speaker", vvSpeaker.value);
+    voicevoxSpeak("いらっしゃいませ。ご注文はお決まりですか。");
+  });
+
+  // ---- 場面（シナリオ）データ ----
+  // 各役: v=値, label=学生の役, sit=状況説明（私=学生, あなた=相手役AI）,
+  //       starts="student"なら学生から, ""ならAIから, hint=学生が先のときの案内
+  var SCENARIOS=[
+    { id:"restaurant", name:"レストランで応対", roles:[
+      { v:"staff", label:"店員（接客する）", sit:"私はレストランの店員、あなたはお店に来たお客さんです。あなた（お客さん）がお店に入ってくるところから会話を始めてください。", starts:"" },
+      { v:"guest", label:"お客さん（注文する）", sit:"私はお客さん、あなたはレストランの店員です。あなた（店員）が「いらっしゃいませ」と言って会話を始めてください。", starts:"" }
+    ]},
+    { id:"interview", name:"アルバイト・就職の面接", roles:[
+      { v:"applicant", label:"応募者（面接を受ける）", sit:"私はアルバイトや就職の面接を受ける応募者、あなたは面接官です。あなた（面接官）が面接を始め、自己紹介や志望動機などを一つずつ質問してください。", starts:"" },
+      { v:"interviewer", label:"面接官（面接をする）", sit:"私が面接官、あなたは面接を受ける応募者です。私（面接官）が先に始めるので、あなた（応募者）は質問に自然に答えてください。", starts:"student", hint:"面接官として始めましょう（例:「それでは面接を始めます。まず自己紹介をお願いします」）" }
+    ]},
+    { id:"hospital", name:"病院の受付", roles:[
+      { v:"patient", label:"患者（症状を伝える）", sit:"私は病院に来た患者、あなたは病院の受付の人です。あなた（受付）が「どうされましたか」と声をかけて会話を始めてください。", starts:"" },
+      { v:"reception", label:"受付の人（患者に応対する）", sit:"私は病院の受付の人、あなたは病院に来た患者です。私（受付）が先に声をかけるので、あなた（患者）は症状などを伝えてください。", starts:"student", hint:"受付として声をかけましょう（例:「こんにちは。今日はどうされましたか？」）" }
+    ]},
+    { id:"directions", name:"道案内", roles:[
+      { v:"asker", label:"道を聞く（たずねる）", sit:"私は道に迷って道をたずねる人、あなたは通りすがりの親切な人です。私が話しかけるので、あなたは道を教えてあげてください。", starts:"student", hint:"「すみません」と話しかけて道をたずねましょう（例:「すみません、駅はどこですか？」）" },
+      { v:"helper", label:"道を教える", sit:"私は道を教える人、あなたは道に迷ってたずねてくる人です。あなた（迷った人）が「すみません」と声をかけて、行きたい場所をたずねてください。", starts:"" }
+    ]},
+    { id:"phone", name:"電話で予約する", roles:[
+      { v:"caller", label:"予約する（電話をかける）", sit:"電話での会話です。私はお店に予約の電話をかける客、あなたはお店の人です。私が電話をかけるので、あなたはお店の人として応対してください。", starts:"student", hint:"電話をかけて予約しましょう（例:「もしもし、予約をお願いしたいのですが」）" },
+      { v:"shop", label:"お店の人（予約を受ける）", sit:"電話での会話です。私はお店の人、あなたは予約の電話をかけてきたお客さんです。あなた（客）が「もしもし」と電話をかけてきて、予約をお願いしてください。", starts:"" }
+    ]},
+    { id:"shopping", name:"買い物・コンビニ", roles:[
+      { v:"customer", label:"お客さん（買い物する）", sit:"私はお店（コンビニやスーパーなど）のお客さん、あなたは店員です。あなた（店員）が「いらっしゃいませ」と言って会話を始めてください。", starts:"" },
+      { v:"clerk", label:"店員（レジで応対する）", sit:"私はお店の店員、あなたはお店に来たお客さんです。あなた（お客さん）が買いたい物を持ってレジに来るところから会話を始めてください。", starts:"" }
+    ]}
+  ];
+
+  function getScenario(){
+    for(var i=0;i<SCENARIOS.length;i++){ if(SCENARIOS[i].id===scenarioEl.value) return SCENARIOS[i]; }
+    return SCENARIOS[0];
+  }
+  function getRole(){
+    var sc=getScenario();
+    for(var i=0;i<sc.roles.length;i++){ if(sc.roles[i].v===roleEl.value) return sc.roles[i]; }
+    return sc.roles[0];
+  }
+  function populateScenarios(){
+    scenarioEl.innerHTML="";
+    SCENARIOS.forEach(function(s){
+      var o=document.createElement("option"); o.value=s.id; o.textContent=s.name; scenarioEl.appendChild(o);
+    });
+    var saved=store.get("scenario"); if(saved) scenarioEl.value=saved;
+  }
+  function populateRoles(){
+    var sc=getScenario(); var saved=store.get("role_"+sc.id);
+    roleEl.innerHTML="";
+    sc.roles.forEach(function(r){
+      var o=document.createElement("option"); o.value=r.v; o.textContent=r.label; roleEl.appendChild(o);
+    });
+    if(saved){ roleEl.value=saved; }
+  }
+  populateScenarios(); populateRoles();
+  scenarioEl.addEventListener("change", function(){ store.set("scenario",scenarioEl.value); populateRoles(); });
+  roleEl.addEventListener("change", function(){ store.set("role_"+getScenario().id, roleEl.value); });
+
+  // ---- みんなの日本語（教科書）データ: 各課の練習C(c) と 新出語彙・文型(v) ----
+  // MINNA は別スクリプトで定義（window.MINNA）。無ければ教科書モードは無効（完全公開版）。
+  var MINNA = window.MINNA || {};
+  var TEXTBOOK_ENABLED = Object.keys(MINNA).length > 0;
+  if(!TEXTBOOK_ENABLED){
+    // 完全公開版: 練習モードの切り替えと「教科書モード」語彙オプションを隠す
+    if(practiceModeRow) practiceModeRow.style.display="none";
+    practiceModeEl.value="general";
+    var tbOpt=vocabLevelEl.querySelector('option[value="textbook"]');
+    if(tbOpt) tbOpt.parentNode.removeChild(tbOpt);
+  }
+
+  function currentLesson(){ return parseInt(lessonEl.value,10)||1; }
+  function isTextbook(){ return practiceModeEl.value==="textbook"; }
+
+  function populateLessons(){
+    lessonEl.innerHTML="";
+    for(var L=1;L<=50;L++){
+      var span = (L<=25)?"初級Ⅰ":"初級Ⅱ";
+      var o=document.createElement("option"); o.value=L; o.textContent="第"+L+"課（"+span+"）"; lessonEl.appendChild(o);
+    }
+    var saved=store.get("lesson"); if(saved) lessonEl.value=saved;
+  }
+  function populateRenshuC(){
+    renshuCEl.innerHTML="";
+    var L=currentLesson(); var items=(MINNA[L]&&MINNA[L].c)||[];
+    items.forEach(function(it){
+      var o=document.createElement("option"); o.value=it.code; o.textContent=it.code+"  "+it.desc; renshuCEl.appendChild(o);
+    });
+    var saved=store.get("renshuC_"+L); if(saved) renshuCEl.value=saved;
+  }
+  function getRenshuC(){
+    var L=currentLesson(); var items=(MINNA[L]&&MINNA[L].c)||[];
+    for(var i=0;i<items.length;i++){ if(items[i].code===renshuCEl.value) return items[i]; }
+    return items[0]||{code:"",desc:""};
+  }
+  // 第1課〜Lまでの累積語彙・文型テキスト
+  function cumulativeVocab(L){
+    var out=[];
+    for(var i=1;i<=L;i++){ if(MINNA[i]&&MINNA[i].v){ out.push("【"+i+"課】"+MINNA[i].v); } }
+    return out.join("\n");
+  }
+
+  populateLessons(); populateRenshuC();
+  lessonEl.addEventListener("change", function(){ store.set("lesson",lessonEl.value); populateRenshuC(); });
+  renshuCEl.addEventListener("change", function(){ store.set("renshuC_"+currentLesson(), renshuCEl.value); });
+
+  function updateModeUI(){
+    var tb=isTextbook();
+    generalBox.style.display = tb?"none":"block";
+    textbookBox.style.display = tb?"block":"none";
+    roleBox.style.display = tb?"none":"block";
+  }
+  var spm=store.get("practice_mode"); if(spm && TEXTBOOK_ENABLED) practiceModeEl.value=spm;
+  practiceModeEl.addEventListener("change", function(){
+    store.set("practice_mode",practiceModeEl.value);
+    // 教科書モードにしたら語彙も「選んだ課まで」を既定に
+    if(isTextbook() && vocabLevelEl.value==="none"){ vocabLevelEl.value="textbook"; store.set("vocab_level","textbook"); }
+    updateModeUI(); updateVocabUI();
+  });
+
+  // ---- 語彙・文法レベルの復元と表示切り替え ----
+  var svl=store.get("vocab_level");
+  if(svl && !(svl==="textbook" && !TEXTBOOK_ENABLED)) vocabLevelEl.value=svl;
+  var svlist=store.get("vocab_list"); if(svlist) vocabListEl.value=svlist;
+  function updateVocabUI(){ vocabListEl.style.display = (vocabLevelEl.value==="custom")?"block":"none"; }
+  vocabLevelEl.addEventListener("change", function(){ store.set("vocab_level",vocabLevelEl.value); updateVocabUI(); });
+  vocabListEl.addEventListener("change", function(){ store.set("vocab_list",vocabListEl.value); });
+  updateModeUI(); updateVocabUI();
+
+  // ---- システム指示 ----
+  function buildSystem(){
+    var level=levelEl.value, foreign=foreignEl.checked;
+    var lines=[];
+
+    if(isTextbook()){
+      var L=currentLesson(); var rc=getRenshuC();
+      lines.push("あなたは日本語会話の練習相手です。教科書『みんなの日本語 初級』第"+L+"課の練習C（やりとり）の会話練習をします。");
+      lines.push("この練習の目標: 「"+rc.desc+"」（"+rc.code+"）");
+      lines.push("あなたはこの場面での相手役を演じ、学習者（私）がこの目標を達成できるように、自然に会話を進めてください。まず、あなたから場面に合った短い一言で会話を始めてください。学習者が話しやすいように、一度に一つずつ質問や反応をしてください。");
+    }else{
+      var sc=getScenario(), r=getRole();
+      lines.push("あなたは日本語会話の練習相手です。日本の「"+sc.name+"」の場面でロールプレイをします。");
+      lines.push(r.sit);
+    }
+
+    if(foreign){
+      lines.push("設定: あなた（相手役）は日本語が母語ではない人です。基本は簡単な日本語で話しますが、時々みじかい英語（Hello / Thank you / Excuse me など）を自然にまじえてかまいません。");
+    }else{
+      lines.push("重要: あなたは必ず日本語だけで話します。英語やローマ字は、単語1つでも使ってはいけません。たとえ設定上どうであっても、日本語だけで話してください。");
+    }
+
+    if(level==="beginner"){ lines.push("私は日本語の初級学習者です。短くてやさしい言葉を使い、ゆっくり話してください。難しい言葉は避けてください。"); }
+    else if(level==="advanced"){ lines.push("私は上級学習者です。ふつうの速さで話し、少し難しい展開（想定外の質問や複雑な要望など）も自然に入れてください。"); }
+    else { lines.push("私は中級学習者です。ふつうの速さで、自然なやり取りをしてください。"); }
+
+    // 語彙・文法レベルの制限（教科書の進度に合わせる）
+    var vl=vocabLevelEl.value;
+    if(vl==="n5"){
+      lines.push("語彙・文法の制限: JLPT N5 相当の、入門〜初級前半で習うやさしい語彙と文法だけを使ってください。難しい語彙・敬語・複雑な文型は避け、短い文で、ゆっくり話してください。");
+    }else if(vl==="n4"){
+      lines.push("語彙・文法の制限: JLPT N4 相当までの、初級で習う語彙と文法だけを使ってください。それより難しい語彙や上級の文型は避けてください。");
+    }else if(vl==="n3"){
+      lines.push("語彙・文法の制限: JLPT N3 相当までの、初中級レベルの語彙と文法を中心に使ってください。N2・N1のような難しい語彙や上級の文型は避けてください。");
+    }else{
+      var list="";
+      if(vl==="custom"){ list=(vocabListEl.value||"").trim(); }
+      else if(vl==="textbook"){ list=cumulativeVocab(currentLesson()); }
+      if(list){
+        lines.push("語彙・文法の制限: 学習者は今、次の範囲までを習っています。相手役のセリフは、この範囲の語彙・文法・表現を中心に組み立て、範囲外の言葉はできるだけ使わないでください。どうしても必要なときは、範囲内のやさしい言い換えをするか、使った直後にやさしい言葉で短く説明してください。基本的な助詞・あいさつ・数字などの土台となる表現は使ってかまいません。");
+        lines.push("＜習った範囲＞");
+        lines.push(list);
+        lines.push("＜ここまで＞");
+      }
+    }
+
+    lines.push("ルール:");
+    lines.push("・1回の発言は1〜2文までにして、相手の返事を待ってください。");
+    lines.push("・自然な話し言葉で、絵文字や記号は使わず話してください（声で読み上げます）。");
+    lines.push("・相手が言葉に詰まったり間違えても、その場では直さず、役になりきって自然に会話を続けてください。");
+    lines.push("・会話が自然な区切り（用件が済む・お礼・会計など）に来たら、自然に終えてください。");
+    lines.push("・『フィードバックをお願いします』と言われたときだけ、役を離れて日本語で、相手の日本語の良かった点2つと、直すともっと良くなる点2つを、やさしい日本語で教えてください。");
+    return lines.join("\n");
+  }
+
+  // ---- 表示 ----
+  function addMsg(text, who){
+    var d=document.createElement("div");
+    d.className="msg "+(who==="model"?"guest":"staff");
+    var w=document.createElement("span"); w.className="who";
+    w.textContent=(who==="model")?"相手":"あなた";
+    d.appendChild(w); d.appendChild(document.createTextNode(text));
+    log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
+  }
+  function addFeedback(text){
+    var d=document.createElement("div"); d.className="feedback";
+    d.textContent="◆ フィードバック\n"+text;
+    log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
+  }
+  function addNote(text){
+    var d=document.createElement("div");
+    d.style.cssText="align-self:center;background:#eef1f7;color:#5b6675;font-size:.82rem;padding:8px 12px;border-radius:10px;text-align:center;max-width:92%";
+    d.textContent=text;
+    log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
+  }
+  // ---- 会話の記録を Word (.doc) で保存 ----
+  function escHtml(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function saveTranscript(){
+    if(!log.children.length){ statusEl.textContent="まだ記録がありません。"; return; }
+    var now=new Date(), p2=function(n){return (n<10?"0":"")+n;};
+    var dstr=now.getFullYear()+"/"+p2(now.getMonth()+1)+"/"+p2(now.getDate())+" "+p2(now.getHours())+":"+p2(now.getMinutes());
+    var stamp=""+now.getFullYear()+p2(now.getMonth()+1)+p2(now.getDate())+"_"+p2(now.getHours())+p2(now.getMinutes());
+    var rows="";
+    for(var i=0;i<log.children.length;i++){
+      var el=log.children[i];
+      if(el.classList.contains("feedback")){
+        rows+='<p style="border:1px solid #E5D9A8;background:#FBF3DC;padding:8px 10px;white-space:pre-wrap;">'+escHtml(el.textContent)+"</p>";
+      } else if(el.classList.contains("msg")){
+        var who=el.classList.contains("staff")?"あなた":"相手";
+        var txt=el.lastChild?el.lastChild.textContent:el.textContent;
+        var color=el.classList.contains("staff")?"#3a5db0":"#2f7168";
+        rows+='<p style="margin:6px 0;"><b style="color:'+color+';">'+who+"：</b>"+escHtml(txt)+"</p>";
+      } else {
+        rows+='<p style="color:#888;font-size:12px;">'+escHtml(el.textContent)+"</p>";
+      }
+    }
+    var sceneInfo = isTextbook() ? ("みんなの日本語 第"+currentLesson()+"課・練習C "+getRenshuC().code+"（"+getRenshuC().desc+"）") : getScenario().name;
+    var levelLabel = levelEl.options[levelEl.selectedIndex] ? levelEl.options[levelEl.selectedIndex].text : "";
+    var meta='<table style="font-size:10.5pt;color:#555;border-collapse:collapse;margin:6px 0 12px">'
+      +'<tr><td style="padding:2px 12px 2px 0"><b>場面</b></td><td>'+escHtml(sceneInfo)+'</td></tr>'
+      +'<tr><td style="padding:2px 12px 2px 0"><b>レベル</b></td><td>'+escHtml(levelLabel)+'</td></tr>'
+      +'<tr><td style="padding:2px 12px 2px 0"><b>日時</b></td><td>'+escHtml(dstr)+'</td></tr>'
+      +'</table>';
+    var doc='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>会話練習の記録</title></head><body style="font-family:sans-serif;line-height:1.7;">'
+      +'<h2 style="margin:0 0 8px">日本語 会話練習の記録</h2>'+meta+"<hr>"+rows+"</body></html>";
+    var blob=new Blob(["﻿"+doc],{type:"application/msword"});
+    var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="会話練習_"+stamp+".doc";
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ try{URL.revokeObjectURL(a.href);}catch(e){} a.remove(); },1000);
+    statusEl.textContent="記録を保存しました（Wordで開けます）。";
+  }
+
+  var history=[], systemText="", busy=false;
+
+  function callGemini(cb){
+    var key=keyEl.value.trim();
+    var body={ systemInstruction:{parts:[{text:systemText}]}, contents:history,
+      generationConfig:{ temperature:0.9, maxOutputTokens:512 } };
+    fetch(ENDPOINT+"?key="+encodeURIComponent(key),{
+      method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)
+    }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+      .then(function(r){
+        if(!r.ok){ cb(null,(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"エラーが発生しました"); return; }
+        var text=""; try{ text=r.data.candidates[0].content.parts[0].text.trim(); }catch(e){ text=""; }
+        if(!text){ cb(null,"返事を受け取れませんでした。もう一度お試しください。"); return; }
+        cb(text,null);
+      }).catch(function(){ cb(null,"通信に失敗しました。ネット接続やキーをご確認ください。"); });
+  }
+
+  function setBusy(b){ busy=b; micBtn.disabled=b; sendBtn.disabled=b; feedbackBtn.disabled=b;
+    statusEl.textContent=b?"相手が考えています…":""; }
+
+  function sendUser(text){
+    if(busy) return; text=(text||"").trim(); if(!text) return;
+    addMsg(text,"user"); history.push({role:"user",parts:[{text:text}]});
+    typeInput.value=""; setBusy(true);
+    callGemini(function(reply,err){ setBusy(false);
+      if(err){ statusEl.textContent="⚠ "+err; return; }
+      history.push({role:"model",parts:[{text:reply}]}); addMsg(reply,"model"); speak(reply);
+    });
+  }
+  function requestFeedback(){
+    if(busy) return; setBusy(true);
+    history.push({role:"user",parts:[{text:"フィードバックをお願いします。"}]});
+    callGemini(function(reply,err){ setBusy(false);
+      if(err){ statusEl.textContent="⚠ "+err; return; }
+      history.push({role:"model",parts:[{text:reply}]}); addFeedback(reply);
+    });
+  }
+
+  // ---- 音声認識 ----
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  var recog=null, listening=false;
+  if(SR){
+    recog=new SR(); recog.lang="ja-JP"; recog.interimResults=false; recog.maxAlternatives=1;
+    recog.onresult=function(e){ sendUser(e.results[0][0].transcript); };
+    recog.onerror=function(e){ statusEl.textContent="⚠ 音声を認識できませんでした（"+e.error+"）。文字入力もお使いいただけます。"; };
+    recog.onend=function(){ listening=false; micBtn.classList.remove("rec"); micBtn.textContent="🎤 押して話す"; };
+  }else{
+    micBtn.textContent="🎤 このブラウザは音声非対応（文字入力をどうぞ）"; micBtn.disabled=true;
+  }
+  micBtn.addEventListener("click", function(){
+    if(!recog||busy) return;
+    if(listening){ recog.stop(); return; }
+    try{ stopAudio(); recog.start(); listening=true;
+      micBtn.classList.add("rec"); micBtn.textContent="■ 話し終わったら押す";
+      statusEl.textContent="どうぞ話してください…";
+    }catch(e){}
+  });
+
+  sendBtn.addEventListener("click", function(){ sendUser(typeInput.value); });
+  typeInput.addEventListener("keydown", function(e){ if(e.key==="Enter"){ sendUser(typeInput.value); } });
+  feedbackBtn.addEventListener("click", requestFeedback);
+  saveBtn.addEventListener("click", saveTranscript);
+
+  function startConversation(){
+    var key=keyEl.value.trim();
+    if(!key){ setupStatus.textContent="⚠ まず Gemini API キーを入力してください。"; return; }
+    store.set("gemini_key",key);
+    store.set("voice_engine",engineSelect.value); store.set("gemini_voice",gVoice.value);
+    store.set("voice_name",voiceSelect.value); store.set("voice_rate",rateEl.value); store.set("voice_pitch",pitchEl.value);
+    store.set("vv_url",vvUrl.value); store.set("vv_speaker",vvSpeaker.value);
+    store.set("practice_mode",practiceModeEl.value);
+    if(isTextbook()){ store.set("lesson",lessonEl.value); store.set("renshuC_"+currentLesson(),renshuCEl.value); }
+    else { store.set("scenario",scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value); }
+    store.set("vocab_level",vocabLevelEl.value); store.set("vocab_list",vocabListEl.value);
+    systemText=buildSystem(); history=[]; log.innerHTML=""; creditLine.textContent="";
+    setupCard.classList.add("hidden"); talkCard.classList.remove("hidden");
+
+    if(isTextbook()){
+      var rc=getRenshuC();
+      addNote("みんなの日本語 第"+currentLesson()+"課・練習C "+rc.code+"\n目標:「"+rc.desc+"」");
+    }else{
+      var r=getRole();
+      if(r.starts==="student"){
+        setBusy(false);
+        addNote("この場面では、あなたから話しかけます。\n"+(r.hint||"どうぞ話しかけてください。"));
+        statusEl.textContent="";
+        return;
+      }
+    }
+    // AIから始める場面
+    setBusy(true);
+    history.push({role:"user",parts:[{text:"（練習を始めます。ロールプレイの最初の一言をどうぞ。）"}]});
+    callGemini(function(reply,err){ setBusy(false); history.pop();
+      if(err){ statusEl.textContent="⚠ "+err; return; }
+      history.push({role:"model",parts:[{text:reply}]}); addMsg(reply,"model"); speak(reply);
+    });
+  }
+  startBtn.addEventListener("click", startConversation);
+  resetBtn.addEventListener("click", function(){ stopAudio();
+    talkCard.classList.add("hidden"); setupCard.classList.remove("hidden"); setupStatus.textContent="";
+  });
+})();
+</script>
+</body>
+</html>

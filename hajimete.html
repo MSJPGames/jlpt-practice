@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>はじめての方へ ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#2F7168; --accent-bg:#DDEEE7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.7;-webkit-text-size-adjust:100%}
+  .wrap{max-width:560px;margin:0 auto}
+  .backlink{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--text-hint);
+    text-decoration:none;letter-spacing:.05em;padding:1.2rem 0 .2rem}
+  .head{text-align:center;padding:.8rem 0 .4rem}
+  .logo{font-size:11px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px;text-transform:uppercase}
+  h1{font-size:23px;font-weight:700}
+  .sub{font-size:13.5px;color:var(--text-muted);margin-top:6px}
+  .langbar{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:1rem 0 1.3rem}
+  .langbar button{font-family:inherit;font-size:13px;font-weight:700;border:1px solid var(--border);background:var(--surface);
+    color:var(--text-muted);border-radius:999px;padding:7px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:.12s}
+  .langbar button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .langbar button:active{transform:scale(.97)}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 17px;margin-bottom:14px}
+  .intro{font-size:15px}
+  .free{display:inline-block;font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-bg);border-radius:999px;padding:5px 13px;margin-top:10px}
+  .sec-head{display:flex;align-items:center;gap:9px;margin:1.6rem 2px .7rem}
+  .sec-bar{width:4px;height:18px;border-radius:2px;background:var(--accent)}
+  .sec-title{font-size:15px;font-weight:700}
+  .feat{display:flex;align-items:flex-start;gap:12px;text-decoration:none;color:inherit;
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px 14px;margin-bottom:10px;transition:.12s}
+  .feat:hover{box-shadow:0 3px 12px rgba(0,0,0,.06)}
+  .feat:active{transform:scale(.99)}
+  .feat .fe{font-size:22px;line-height:1.2;flex-shrink:0;width:30px;text-align:center}
+  .feat>span:nth-child(2){flex:1;min-width:0}
+  .feat .fn{display:block;font-size:14.5px;font-weight:700}
+  .feat .fd{display:block;font-size:12.5px;color:var(--text-muted);margin-top:2px;line-height:1.6}
+  .feat .fa{margin-left:auto;color:var(--accent);font-size:19px;flex-shrink:0}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:12px 14px;font-size:13px;color:#6b5d40;line-height:1.7}
+  ol.steps{margin:0;padding-left:1.2em;font-size:14px}
+  ol.steps li{margin:6px 0}
+  .langnote{font-size:12px;color:var(--text-hint);line-height:1.7;margin-top:2px}
+  .homebtn{display:block;text-align:center;background:var(--accent);color:#fff;font-weight:700;font-size:16px;
+    text-decoration:none;border-radius:var(--radius);padding:15px;margin-top:1.4rem}
+  .homebtn:active{transform:scale(.99)}
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.6rem;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="backlink" href="index.html">‹ 日本語の部屋 / Home</a>
+  <div class="head">
+    <div class="logo">Nihongo no Heya</div>
+    <h1 id="t-title">はじめての方へ</h1>
+    <div class="sub" id="t-sub">この学習サイトの使い方</div>
+  </div>
+
+  <div class="langbar" id="langbar"></div>
+
+  <div class="card"><div class="intro" id="t-intro"></div><span class="free" id="t-free"></span></div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title" id="t-feathead"></span></div>
+  <div id="t-features"></div>
+
+  <div class="note" id="t-convnote" style="margin-top:6px"></div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title" id="t-starthead"></span></div>
+  <div class="card"><ol class="steps" id="t-steps"></ol></div>
+
+  <div class="langnote" id="t-langnote"></div>
+
+  <a class="homebtn" href="index.html" id="t-home">サイトのトップへ</a>
+
+  <div class="foot">日本語の部屋 ・ Nihongo no Heya</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var FEAT_META=[
+    {e:"📝", href:"index.html"},
+    {e:"🔤", href:"moji.html"},
+    {e:"🔊", href:"learn/hatsuon_renshu.html"},
+    {e:"📖", href:"bunpou.html"},
+    {e:"🗣️", href:"kaiwa.html"},
+    {e:"🌐", href:"gaikokugo.html"}
+  ];
+  var T={
+    ja:{ code:"ja", label:"日本語", title:"はじめての方へ", sub:"この学習サイトの使い方",
+      intro:`「日本語の部屋」は、日本語を学ぶ人のための無料の学習サイトです。登録なしで、スマホでも使えます。`,
+      free:`すべて無料 ・ 登録不要`,
+      feathead:`できること`,
+      feats:[
+        {n:`日本語クイズ（A1〜C1）`, d:`語彙・文法を、選択式で練習できます。`},
+        {n:`ひらがな・カタカナ・漢字`, d:`文字の読み方と書き方（なぞり書き）を練習できます。`},
+        {n:`発音・発声`, d:`お手本を聞き、自分の声を録音して聞き比べられます。`},
+        {n:`文法解説`, d:`文型や活用を、例文つきで確認できます。`},
+        {n:`会話練習（AI）`, d:`AIを相手に話す練習ができます。記録も残せます。`},
+        {n:`多言語のページ`, d:`いろいろな言語のあいさつ・文字・会話練習もあります。`}
+      ],
+      convnote:`「会話練習」には、無料の Google Gemini API キーが必要です。マイクは Chrome（パソコン・Android）でよく動きます。iPhone などでは、文字入力でも練習できます。`,
+      starthead:`使い方（3ステップ）`,
+      steps:[`下の「サイトのトップへ」を開きます。`, `練習したいもの（クイズ・文字・発音・文法・会話）を選びます。`, `すぐに始められます（登録不要・無料）。`],
+      langnote:`このサイトの中身は、日本語を学ぶためのものなので、多くは日本語で書かれています。このページは使い方の案内です。`,
+      home:`サイトのトップへ` },
+
+    en:{ code:"en", label:"English", title:"Getting Started", sub:"How to use this study site",
+      intro:`“Nihongo no Heya” is a free study site for people learning Japanese. No sign-up, and it works on smartphones.`,
+      free:`All free · No account needed`,
+      feathead:`What you can do`,
+      feats:[
+        {n:`Japanese Quizzes (A1–C1)`, d:`Practice vocabulary and grammar with multiple-choice questions.`},
+        {n:`Hiragana, Katakana & Kanji`, d:`Practice reading and writing the characters (with tracing).`},
+        {n:`Pronunciation`, d:`Listen to models, record your own voice, and compare.`},
+        {n:`Grammar Notes`, d:`Check sentence patterns and conjugations with examples.`},
+        {n:`Conversation Practice (AI)`, d:`Practice speaking with an AI partner. You can also save a record.`},
+        {n:`Multilingual Pages`, d:`Greetings, scripts, and conversation practice in many languages.`}
+      ],
+      convnote:`“Conversation Practice” needs a free Google Gemini API key. The microphone works best in Chrome (PC / Android). On iPhone and others, you can also practice by typing.`,
+      starthead:`How to use (3 steps)`,
+      steps:[`Open “Go to the site” below.`, `Choose what to practice (quizzes, characters, pronunciation, grammar, or conversation).`, `Start right away — no sign-up, free.`],
+      langnote:`The site’s content is for learning Japanese, so most of it is written in Japanese. This page is a guide to using it.`,
+      home:`Go to the site` },
+
+    zh:{ code:"zh", label:"中文", title:"新手指南", sub:"本学习网站的使用方法",
+      intro:`“日本语之屋（日本語の部屋）”是一个面向日语学习者的免费学习网站。无需注册，手机也能使用。`,
+      free:`全部免费 · 无需注册`,
+      feathead:`你可以做什么`,
+      feats:[
+        {n:`日语测验（A1–C1）`, d:`通过选择题练习词汇和语法。`},
+        {n:`平假名・片假名・汉字`, d:`练习假名与汉字的读法和写法（描红）。`},
+        {n:`发音练习`, d:`听示范发音，录下自己的声音进行对比。`},
+        {n:`语法讲解`, d:`通过例句确认句型和动词变化。`},
+        {n:`会话练习（AI）`, d:`与 AI 对话练习口语，并可保存记录。`},
+        {n:`多语言页面`, d:`提供多种语言的问候、文字和会话练习。`}
+      ],
+      convnote:`“会话练习”需要免费的 Google Gemini API 密钥。麦克风在 Chrome（电脑・安卓）上效果最好。在 iPhone 等设备上，也可以通过打字来练习。`,
+      starthead:`使用方法（3 步）`,
+      steps:[`点击下方的“前往网站首页”。`, `选择想练习的内容（测验・文字・发音・语法・会话）。`, `立即开始——无需注册，免费。`],
+      langnote:`本网站的内容是为学习日语而设的，因此大多以日语书写。本页面是使用指南。`,
+      home:`前往网站首页` },
+
+    vi:{ code:"vi", label:"Tiếng Việt", title:"Hướng dẫn bắt đầu", sub:"Cách sử dụng trang học này",
+      intro:`“Nihongo no Heya” là trang web học tập miễn phí dành cho người học tiếng Nhật. Không cần đăng ký, dùng được trên điện thoại.`,
+      free:`Hoàn toàn miễn phí · Không cần tài khoản`,
+      feathead:`Bạn có thể làm gì`,
+      feats:[
+        {n:`Trắc nghiệm tiếng Nhật (A1–C1)`, d:`Luyện từ vựng và ngữ pháp bằng câu hỏi trắc nghiệm.`},
+        {n:`Hiragana, Katakana & Kanji`, d:`Luyện đọc và viết chữ (có tô theo nét).`},
+        {n:`Luyện phát âm`, d:`Nghe mẫu, ghi âm giọng của bạn và so sánh.`},
+        {n:`Giải thích ngữ pháp`, d:`Xem mẫu câu và cách chia động từ kèm ví dụ.`},
+        {n:`Luyện hội thoại (AI)`, d:`Luyện nói với AI. Bạn cũng có thể lưu lại bản ghi.`},
+        {n:`Trang đa ngôn ngữ`, d:`Lời chào, chữ viết và luyện hội thoại của nhiều ngôn ngữ.`}
+      ],
+      convnote:`“Luyện hội thoại” cần khóa API Google Gemini miễn phí. Micro hoạt động tốt nhất trên Chrome (máy tính / Android). Trên iPhone và các máy khác, bạn cũng có thể luyện bằng cách gõ chữ.`,
+      starthead:`Cách dùng (3 bước)`,
+      steps:[`Mở “Vào trang chủ” bên dưới.`, `Chọn nội dung muốn luyện (trắc nghiệm, chữ viết, phát âm, ngữ pháp, hội thoại).`, `Bắt đầu ngay — không cần đăng ký, miễn phí.`],
+      langnote:`Nội dung trang web dùng để học tiếng Nhật nên phần lớn được viết bằng tiếng Nhật. Trang này là hướng dẫn sử dụng.`,
+      home:`Vào trang chủ` },
+
+    pt:{ code:"pt", label:"Português", title:"Primeiros passos", sub:"Como usar este site de estudos",
+      intro:`“Nihongo no Heya” é um site de estudos gratuito para quem aprende japonês. Sem cadastro e funciona no celular.`,
+      free:`Tudo gratuito · Sem cadastro`,
+      feathead:`O que você pode fazer`,
+      feats:[
+        {n:`Quizzes de japonês (A1–C1)`, d:`Pratique vocabulário e gramática com questões de múltipla escolha.`},
+        {n:`Hiragana, Katakana e Kanji`, d:`Pratique a leitura e a escrita dos caracteres (com traçado).`},
+        {n:`Pronúncia`, d:`Ouça os modelos, grave sua voz e compare.`},
+        {n:`Notas de gramática`, d:`Veja padrões de frases e conjugações com exemplos.`},
+        {n:`Prática de conversação (IA)`, d:`Pratique falar com um parceiro de IA. Você também pode salvar um registro.`},
+        {n:`Páginas multilíngues`, d:`Saudações, escrita e prática de conversação em vários idiomas.`}
+      ],
+      convnote:`A “Prática de conversação” precisa de uma chave de API do Google Gemini (gratuita). O microfone funciona melhor no Chrome (PC / Android). No iPhone e outros, você também pode praticar digitando.`,
+      starthead:`Como usar (3 passos)`,
+      steps:[`Abra “Ir para o site” abaixo.`, `Escolha o que praticar (quizzes, caracteres, pronúncia, gramática ou conversação).`, `Comece na hora — sem cadastro, gratuito.`],
+      langnote:`O conteúdo do site é para aprender japonês, por isso a maior parte está escrita em japonês. Esta página é um guia de uso.`,
+      home:`Ir para o site` },
+
+    tl:{ code:"tl", label:"Tagalog", title:"Panimula", sub:"Paano gamitin ang site na ito",
+      intro:`Ang “Nihongo no Heya” ay isang libreng study site para sa mga nag-aaral ng Hapon. Walang sign-up, at gumagana sa cellphone.`,
+      free:`Lahat libre · Walang account`,
+      feathead:`Ano ang magagawa mo`,
+      feats:[
+        {n:`Mga Quiz sa Nihongo (A1–C1)`, d:`Magsanay ng bokabularyo at grammar sa mga multiple-choice na tanong.`},
+        {n:`Hiragana, Katakana at Kanji`, d:`Magsanay bumasa at sumulat ng mga titik (may tracing).`},
+        {n:`Pagbigkas`, d:`Pakinggan ang modelo, i-record ang sariling boses, at ihambing.`},
+        {n:`Mga Tala sa Grammar`, d:`Tingnan ang mga pattern ng pangungusap at conjugation na may halimbawa.`},
+        {n:`Pagsasanay sa Usapan (AI)`, d:`Magsanay magsalita kasama ang AI. Maaari ka ring mag-save ng record.`},
+        {n:`Mga Pahinang Multilingguwal`, d:`Mga pagbati, script, at pagsasanay sa usapan sa iba't ibang wika.`}
+      ],
+      convnote:`Ang “Pagsasanay sa Usapan” ay nangangailangan ng libreng Google Gemini API key. Pinakamahusay gumana ang mikropono sa Chrome (PC / Android). Sa iPhone at iba pa, maaari ka ring magsanay sa pamamagitan ng pag-type.`,
+      starthead:`Paano gamitin (3 hakbang)`,
+      steps:[`Buksan ang “Pumunta sa site” sa ibaba.`, `Piliin ang gustong pagsanayan (quiz, titik, pagbigkas, grammar, o usapan).`, `Magsimula agad — walang sign-up, libre.`],
+      langnote:`Ang nilalaman ng site ay para sa pag-aaral ng Hapon, kaya karamihan ay nakasulat sa Hapon. Ang pahinang ito ay gabay sa paggamit.`,
+      home:`Pumunta sa site` }
+  };
+  var ORDER=["ja","en","zh","vi","pt","tl"];
+  var $=function(id){ return document.getElementById(id); };
+
+  function render(code){
+    var t=T[code]||T.ja;
+    document.documentElement.lang=t.code;
+    document.title=t.title+" ・ 日本語の部屋";
+    $("t-title").textContent=t.title;
+    $("t-sub").textContent=t.sub;
+    $("t-intro").textContent=t.intro;
+    $("t-free").textContent=t.free;
+    $("t-feathead").textContent=t.feathead;
+    $("t-convnote").textContent=t.convnote;
+    $("t-starthead").textContent=t.starthead;
+    $("t-langnote").textContent=t.langnote;
+    $("t-home").textContent=t.home;
+    var fh="";
+    t.feats.forEach(function(f,i){
+      var m=FEAT_META[i]||{e:"•",href:"index.html"};
+      fh+='<a class="feat" href="'+m.href+'"><span class="fe">'+m.e+'</span>'+
+          '<span><span class="fn"></span><span class="fd"></span></span><span class="fa">›</span></a>';
+    });
+    $("t-features").innerHTML=fh;
+    var feats=$("t-features").querySelectorAll(".feat");
+    t.feats.forEach(function(f,i){
+      if(feats[i]){ feats[i].querySelector(".fn").textContent=f.n; feats[i].querySelector(".fd").textContent=f.d; }
+    });
+    var sh="";
+    for(var j=0;j<t.steps.length;j++){ sh+="<li></li>"; }
+    $("t-steps").innerHTML=sh;
+    var lis=$("t-steps").querySelectorAll("li");
+    t.steps.forEach(function(s,i){ if(lis[i]) lis[i].textContent=s; });
+    // active button
+    var btns=$("langbar").querySelectorAll("button");
+    for(var k=0;k<btns.length;k++){ btns[k].classList.toggle("on", btns[k].getAttribute("data-c")===code); }
+  }
+
+  // build language bar
+  var bar=$("langbar"), html="";
+  ORDER.forEach(function(c){ html+='<button type="button" data-c="'+c+'">'+T[c].label+'</button>'; });
+  bar.innerHTML=html;
+  bar.querySelectorAll("button").forEach(function(b){ b.addEventListener("click", function(){ render(b.getAttribute("data-c")); }); });
+
+  // default language from browser
+  function detect(){
+    var n=((navigator.language||navigator.userLanguage||"")+"").toLowerCase();
+    if(n.indexOf("zh")===0) return "zh";
+    if(n.indexOf("vi")===0) return "vi";
+    if(n.indexOf("pt")===0) return "pt";
+    if(n.indexOf("tl")===0||n.indexOf("fil")===0) return "tl";
+    if(n.indexOf("ja")===0) return "ja";
+    if(n.indexOf("en")===0) return "en";
+    return "ja";
+  }
+  render(detect());
+})();
+</script>
+</body>
+</html>

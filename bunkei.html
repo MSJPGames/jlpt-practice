@@ -80,6 +80,11 @@
   .bk-ex-en { font-size: 12px; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
   .bk-note { font-size: 11.5px; color: var(--text-hint); margin-top: 10px; line-height: 1.55; }
   .bk-note b { color: var(--text-muted); }
+  .bk-kaiwa { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; font-size: 12.5px; font-weight: 700;
+    color: #4A5DB0; background: #ECEEF9; border: 1px solid #C9CEF0; border-radius: 20px; padding: 7px 14px;
+    text-decoration: none; -webkit-tap-highlight-color: transparent; transition: background .15s, transform .1s; }
+  .bk-kaiwa:hover { background: #E1E4F6; }
+  .bk-kaiwa:active { transform: scale(.98); }
 
   .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
 
@@ -1368,6 +1373,7 @@ function renderKaisetsu(){
       <div class="bk-ex">${ex}</div>
       ${d.note?`<div class="bk-note">${d.note}</div>`:''}
       ${tag}
+      <div><a class="bk-kaiwa" href="kaiwa.html?g=${encodeURIComponent(d.p)}&lv=${encodeURIComponent(d.lvl)}&ex=${encodeURIComponent(d.ex&&d.ex[0]?d.ex[0][0]:'')}">🗣️ この文法で会話練習</a></div>
     </div>`;
   });
   list.innerHTML=html;

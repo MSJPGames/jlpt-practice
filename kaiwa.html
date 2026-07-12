@@ -64,6 +64,12 @@
   .chk input{width:auto;accent-color:var(--accent)}
   .chk label{margin:0;font-weight:400;color:var(--text)}
   .app-foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.5rem;line-height:1.8}
+  .gfocus{background:var(--accent-tint);border:1px solid #C9CEF0;border-radius:var(--radius);padding:13px 15px;margin-bottom:14px}
+  .gf-title{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);margin-bottom:6px}
+  .gf-p{font-size:18px;font-weight:700;line-height:1.4}
+  .gf-lv{font-size:11px;font-weight:700;background:#fff;border:1px solid #C9CEF0;color:var(--accent);padding:1px 7px;border-radius:20px;vertical-align:middle;margin-left:6px}
+  .gf-ex{font-size:13px;color:var(--text-muted);margin-top:5px}
+  .gf-hint{font-size:12px;color:var(--text-hint);margin-top:7px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -93,9 +99,31 @@
       <span style="display:block;margin-top:4px">取り方: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> でログイン →「Create API key」→ コピーして貼り付け（無料）。</span>
     </div>
 
-    <div style="margin-top:12px">
+    <div style="margin-top:12px" id="practiceModeRow">
+      <label for="practiceMode">練習モード</label>
+      <select id="practiceMode">
+        <option value="general" selected>一般の場面</option>
+        <option value="textbook">みんなの日本語（教科書の練習C）</option>
+      </select>
+    </div>
+
+    <div id="generalBox" style="margin-top:12px">
       <label for="scenario">場面</label>
       <select id="scenario"></select>
+    </div>
+
+    <div id="textbookBox" style="margin-top:12px;display:none">
+      <div class="row">
+        <div style="flex:0 0 120px">
+          <label for="lesson">課</label>
+          <select id="lesson"></select>
+        </div>
+        <div style="flex:1">
+          <label for="renshuC">練習C（やりとり）</label>
+          <select id="renshuC"></select>
+        </div>
+      </div>
+      <div class="hint" style="margin-top:4px">『みんなの日本語 初級Ⅰ・Ⅱ』全50課の練習C（やりとり）から選べます。相手役が、その練習の目標に合わせて会話をリードします。</div>
     </div>
 
     <div class="row" style="margin-top:12px">
@@ -120,16 +148,17 @@
     <div class="hint" style="margin-top:4px">オフのときは、相手は<strong>必ず日本語だけ</strong>で話します。オンにすると、英語まじりの相手への対応を練習できます（接客などの場面向け）。</div>
 
     <div style="margin-top:12px">
-      <label for="vocabLevel">語彙・文法のレベル</label>
+      <label for="vocabLevel">語彙・文法のレベル（教科書に合わせる）</label>
       <select id="vocabLevel">
         <option value="none" selected>制限なし（自然な日本語）</option>
+        <option value="textbook">みんなの日本語・選んだ課まで（教科書モードのとき）</option>
         <option value="n5">やさしい（JLPT N5 相当・入門〜初級前半）</option>
         <option value="n4">初級（JLPT N4 相当・初級修了レベル）</option>
         <option value="n3">初中級（JLPT N3 相当）</option>
         <option value="custom">自分で貼り付け（下の欄に語彙・文法を入力）</option>
       </select>
-      <textarea id="vocabList" rows="4" placeholder="「自分で貼り付け」を選んだときに使います。使ってよい語彙・文法・表現を貼り付けてください。例）語彙: メニュー、注文、いくら、〜てください／文法: 〜たいです、〜てもいいですか"></textarea>
-      <div class="hint" style="margin-top:4px">相手役が使う言葉のレベルをそろえます。特定の範囲に合わせたいときは「自分で貼り付け」に語彙・文法リストを貼るのが確実です。</div>
+      <textarea id="vocabList" rows="4" placeholder="「この課まで」を選んだときに使います。習った語彙・文法・表現を貼り付けてください。例）語彙: メニュー、注文、いくら、〜てください／文法: 〜たいです、〜てもいいですか"></textarea>
+      <div class="hint" style="margin-top:4px">教科書の進度に合わせて、相手役が使う言葉をやさしくします。いちばん正確なのは「この課までの範囲」に実際の語彙・文法リストを貼る方法です。</div>
     </div>
 
     <!-- 声の設定 -->
@@ -217,7 +246,6 @@
       <button class="ghost" id="feedbackBtn">◆ フィードバックをもらう</button>
       <button class="ghost" id="resetBtn">最初から</button>
     </div>
-    <button class="ghost" id="saveBtn" style="width:100%;margin-top:8px">📄 会話の記録を保存（Word）</button>
     <div class="credit" id="creditLine"></div>
     <div class="hint" style="margin-top:6px">ヒント: 間違えても大丈夫。まずは最後まで会話を続けてみましょう。</div>
   </div>
@@ -245,7 +273,10 @@
   };
 
   var $=function(id){ return document.getElementById(id); };
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(m){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]; }); }
   var keyEl=$("key"), scenarioEl=$("scenario"), levelEl=$("level"), roleEl=$("role"), foreignEl=$("foreignMode");
+  var practiceModeEl=$("practiceMode"), generalBox=$("generalBox"), textbookBox=$("textbookBox"), roleBox=$("roleBox");
+  var lessonEl=$("lesson"), renshuCEl=$("renshuC");
   var vocabLevelEl=$("vocabLevel"), vocabListEl=$("vocabList");
   var engineSelect=$("engineSelect"), gVoice=$("gVoice"), gTest=$("gTest");
   var geminiVoiceBox=$("geminiVoiceBox"), browserVoiceBox=$("browserVoiceBox"), voicevoxBox=$("voicevoxBox");
@@ -254,8 +285,9 @@
   var setupCard=$("setupCard"), talkCard=$("talkCard");
   var log=$("log"), statusEl=$("status"), setupStatus=$("setupStatus"), creditLine=$("creditLine");
   var micBtn=$("micBtn"), sendBtn=$("sendBtn"), typeInput=$("typeInput");
-  var feedbackBtn=$("feedbackBtn"), resetBtn=$("resetBtn"), startBtn=$("startBtn"), saveBtn=$("saveBtn");
+  var feedbackBtn=$("feedbackBtn"), resetBtn=$("resetBtn"), startBtn=$("startBtn");
   var gateCard=$("gateCard"), gateInput=$("gateInput"), gateBtn=$("gateBtn"), gateStatus=$("gateStatus");
+  var practiceModeRow=$("practiceModeRow");
 
   // ---- 合言葉ゲート（PASSCODE 設定時のみ）----
   (function(){
@@ -479,6 +511,37 @@
     ]}
   ];
 
+  // ---- 文法フォーカス（文法ページからのリンク ?g=...&ex=...&lv=...）----
+  var grammarFocus=null;
+  (function(){
+    var qs;
+    try{ qs=new URLSearchParams(location.search); }catch(e){ return; }
+    var g=(qs.get("g")||"").trim();
+    if(!g) return;
+    grammarFocus={ pattern:g, example:(qs.get("ex")||"").trim(), level:(qs.get("lv")||"").trim() };
+    // 公開版でも確実に一般モードで動くように
+    if(practiceModeEl) practiceModeEl.value="general";
+    // 自由会話シナリオを先頭に追加（相手役＝AIが、その文法を引き出す話題から始める）
+    SCENARIOS.unshift({ id:"grammarfocus", name:"文法の会話練習（自由会話）", roles:[
+      { v:"student", label:"学習者（自由に話す）",
+        sit:"決まった場面のロールプレイではありません。私は日本語の学習者、あなたは会話の練習相手です。『今日のねらい』の文法を私が自然に使えるように、あなたが話題や質問をふって、やさしく会話を進めてください。",
+        starts:"" }
+    ]});
+    // レベルに合わせて語彙制限の既定を設定（kaiwaは N3 まで対応）
+    var map={ "N5":"n5","N4":"n4","N3":"n3" };
+    if(map[grammarFocus.level] && vocabLevelEl){ vocabLevelEl.value=map[grammarFocus.level]; }
+    // バナー表示
+    if(setupCard){
+      var b=document.createElement("div");
+      b.className="gfocus";
+      b.innerHTML='<div class="gf-title">🎯 この文法で会話練習</div>'+
+        '<div class="gf-p">'+escapeHtml(grammarFocus.pattern)+(grammarFocus.level?' <span class="gf-lv">'+escapeHtml(grammarFocus.level)+'</span>':'')+'</div>'+
+        (grammarFocus.example?'<div class="gf-ex">例文：'+escapeHtml(grammarFocus.example)+'</div>':'')+
+        '<div class="gf-hint">下で Gemini API キーを入れて「会話をはじめる」を押すと、この文法を使う会話練習ができます。場面は下の「場面」から自由に変えてもOKです。</div>';
+      setupCard.insertBefore(b, setupCard.firstChild);
+    }
+  })();
+
   function getScenario(){
     for(var i=0;i<SCENARIOS.length;i++){ if(SCENARIOS[i].id===scenarioEl.value) return SCENARIOS[i]; }
     return SCENARIOS[0];
@@ -503,26 +566,103 @@
     });
     if(saved){ roleEl.value=saved; }
   }
-  populateScenarios(); populateRoles();
+  populateScenarios();
+  if(grammarFocus){ scenarioEl.value="grammarfocus"; }
+  populateRoles();
   scenarioEl.addEventListener("change", function(){ store.set("scenario",scenarioEl.value); populateRoles(); });
   roleEl.addEventListener("change", function(){ store.set("role_"+getScenario().id, roleEl.value); });
 
+  // ---- みんなの日本語（教科書）データ: 各課の練習C(c) と 新出語彙・文型(v) ----
+  // MINNA は別スクリプトで定義（window.MINNA）。無ければ教科書モードは無効（完全公開版）。
+  var MINNA = window.MINNA || {};
+  var TEXTBOOK_ENABLED = Object.keys(MINNA).length > 0;
+  if(!TEXTBOOK_ENABLED){
+    // 完全公開版: 練習モードの切り替えと「教科書モード」語彙オプションを隠す
+    if(practiceModeRow) practiceModeRow.style.display="none";
+    practiceModeEl.value="general";
+    var tbOpt=vocabLevelEl.querySelector('option[value="textbook"]');
+    if(tbOpt) tbOpt.parentNode.removeChild(tbOpt);
+  }
+
+  function currentLesson(){ return parseInt(lessonEl.value,10)||1; }
+  function isTextbook(){ return practiceModeEl.value==="textbook"; }
+
+  function populateLessons(){
+    lessonEl.innerHTML="";
+    for(var L=1;L<=50;L++){
+      var span = (L<=25)?"初級Ⅰ":"初級Ⅱ";
+      var o=document.createElement("option"); o.value=L; o.textContent="第"+L+"課（"+span+"）"; lessonEl.appendChild(o);
+    }
+    var saved=store.get("lesson"); if(saved) lessonEl.value=saved;
+  }
+  function populateRenshuC(){
+    renshuCEl.innerHTML="";
+    var L=currentLesson(); var items=(MINNA[L]&&MINNA[L].c)||[];
+    items.forEach(function(it){
+      var o=document.createElement("option"); o.value=it.code; o.textContent=it.code+"  "+it.desc; renshuCEl.appendChild(o);
+    });
+    var saved=store.get("renshuC_"+L); if(saved) renshuCEl.value=saved;
+  }
+  function getRenshuC(){
+    var L=currentLesson(); var items=(MINNA[L]&&MINNA[L].c)||[];
+    for(var i=0;i<items.length;i++){ if(items[i].code===renshuCEl.value) return items[i]; }
+    return items[0]||{code:"",desc:""};
+  }
+  // 第1課〜Lまでの累積語彙・文型テキスト
+  function cumulativeVocab(L){
+    var out=[];
+    for(var i=1;i<=L;i++){ if(MINNA[i]&&MINNA[i].v){ out.push("【"+i+"課】"+MINNA[i].v); } }
+    return out.join("\n");
+  }
+
+  populateLessons(); populateRenshuC();
+  lessonEl.addEventListener("change", function(){ store.set("lesson",lessonEl.value); populateRenshuC(); });
+  renshuCEl.addEventListener("change", function(){ store.set("renshuC_"+currentLesson(), renshuCEl.value); });
+
+  function updateModeUI(){
+    var tb=isTextbook();
+    generalBox.style.display = tb?"none":"block";
+    textbookBox.style.display = tb?"block":"none";
+    roleBox.style.display = tb?"none":"block";
+  }
+  var spm=store.get("practice_mode"); if(spm && TEXTBOOK_ENABLED) practiceModeEl.value=spm;
+  practiceModeEl.addEventListener("change", function(){
+    store.set("practice_mode",practiceModeEl.value);
+    // 教科書モードにしたら語彙も「選んだ課まで」を既定に
+    if(isTextbook() && vocabLevelEl.value==="none"){ vocabLevelEl.value="textbook"; store.set("vocab_level","textbook"); }
+    updateModeUI(); updateVocabUI();
+  });
+
   // ---- 語彙・文法レベルの復元と表示切り替え ----
-  var svl=store.get("vocab_level"); if(svl){ vocabLevelEl.value=svl; if(vocabLevelEl.value!==svl) vocabLevelEl.value="none"; }
+  var svl=store.get("vocab_level");
+  if(svl && !(svl==="textbook" && !TEXTBOOK_ENABLED)) vocabLevelEl.value=svl;
   var svlist=store.get("vocab_list"); if(svlist) vocabListEl.value=svlist;
   function updateVocabUI(){ vocabListEl.style.display = (vocabLevelEl.value==="custom")?"block":"none"; }
   vocabLevelEl.addEventListener("change", function(){ store.set("vocab_level",vocabLevelEl.value); updateVocabUI(); });
   vocabListEl.addEventListener("change", function(){ store.set("vocab_list",vocabListEl.value); });
-  updateVocabUI();
+  updateModeUI(); updateVocabUI();
 
   // ---- システム指示 ----
   function buildSystem(){
     var level=levelEl.value, foreign=foreignEl.checked;
     var lines=[];
 
-    var sc=getScenario(), r=getRole();
-    lines.push("あなたは日本語会話の練習相手です。日本の「"+sc.name+"」の場面でロールプレイをします。");
-    lines.push(r.sit);
+    if(isTextbook()){
+      var L=currentLesson(); var rc=getRenshuC();
+      lines.push("あなたは日本語会話の練習相手です。教科書『みんなの日本語 初級』第"+L+"課の練習C（やりとり）の会話練習をします。");
+      lines.push("この練習の目標: 「"+rc.desc+"」（"+rc.code+"）");
+      lines.push("あなたはこの場面での相手役を演じ、学習者（私）がこの目標を達成できるように、自然に会話を進めてください。まず、あなたから場面に合った短い一言で会話を始めてください。学習者が話しやすいように、一度に一つずつ質問や反応をしてください。");
+    }else{
+      var sc=getScenario(), r=getRole();
+      lines.push("あなたは日本語会話の練習相手です。日本の「"+sc.name+"」の場面でロールプレイをします。");
+      lines.push(r.sit);
+    }
+
+    if(grammarFocus){
+      lines.push("——今日のねらい（文法フォーカス）——");
+      lines.push("この会話は、文法「"+grammarFocus.pattern+"」を学習者（私）が使う練習です。"+(grammarFocus.example?"例文:「"+grammarFocus.example+"」":""));
+      lines.push("あなた（相手役）は、学習者がこの文法を自然に使いたくなるような質問や話題を選んで会話を進めてください。学習者がこの文法を使えたら、会話の流れの中で自然に受け止めてください。あなた自身も時々この文法を会話の中で自然に使い、さりげなくお手本を示してください（ただし不自然になるほど無理に繰り返さないこと）。最初の一言は、この文法を引き出しやすい質問や場面から始めてください。");
+    }
 
     if(foreign){
       lines.push("設定: あなた（相手役）は日本語が母語ではない人です。基本は簡単な日本語で話しますが、時々みじかい英語（Hello / Thank you / Excuse me など）を自然にまじえてかまいません。");
@@ -534,7 +674,7 @@
     else if(level==="advanced"){ lines.push("私は上級学習者です。ふつうの速さで話し、少し難しい展開（想定外の質問や複雑な要望など）も自然に入れてください。"); }
     else { lines.push("私は中級学習者です。ふつうの速さで、自然なやり取りをしてください。"); }
 
-    // 語彙・文法レベルの制限
+    // 語彙・文法レベルの制限（教科書の進度に合わせる）
     var vl=vocabLevelEl.value;
     if(vl==="n5"){
       lines.push("語彙・文法の制限: JLPT N5 相当の、入門〜初級前半で習うやさしい語彙と文法だけを使ってください。難しい語彙・敬語・複雑な文型は避け、短い文で、ゆっくり話してください。");
@@ -545,6 +685,7 @@
     }else{
       var list="";
       if(vl==="custom"){ list=(vocabListEl.value||"").trim(); }
+      else if(vl==="textbook"){ list=cumulativeVocab(currentLesson()); }
       if(list){
         lines.push("語彙・文法の制限: 学習者は今、次の範囲までを習っています。相手役のセリフは、この範囲の語彙・文法・表現を中心に組み立て、範囲外の言葉はできるだけ使わないでください。どうしても必要なときは、範囲内のやさしい言い換えをするか、使った直後にやさしい言葉で短く説明してください。基本的な助詞・あいさつ・数字などの土台となる表現は使ってかまいません。");
         lines.push("＜習った範囲＞");
@@ -581,35 +722,6 @@
     d.style.cssText="align-self:center;background:#eef1f7;color:#5b6675;font-size:.82rem;padding:8px 12px;border-radius:10px;text-align:center;max-width:92%";
     d.textContent=text;
     log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
-  }
-  // ---- 会話の記録を Word (.doc) で保存 ----
-  function escHtml(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-  function saveTranscript(){
-    if(!log.children.length){ statusEl.textContent="まだ記録がありません。"; return; }
-    var now=new Date(), p2=function(n){return (n<10?"0":"")+n;};
-    var dstr=now.getFullYear()+"/"+p2(now.getMonth()+1)+"/"+p2(now.getDate())+" "+p2(now.getHours())+":"+p2(now.getMinutes());
-    var stamp=""+now.getFullYear()+p2(now.getMonth()+1)+p2(now.getDate())+"_"+p2(now.getHours())+p2(now.getMinutes());
-    var rows="";
-    for(var i=0;i<log.children.length;i++){
-      var el=log.children[i];
-      if(el.classList.contains("feedback")){
-        rows+='<p style="border:1px solid #E5D9A8;background:#FBF3DC;padding:8px 10px;white-space:pre-wrap;">'+escHtml(el.textContent)+"</p>";
-      } else if(el.classList.contains("msg")){
-        var who=el.classList.contains("staff")?"あなた":"相手";
-        var txt=el.lastChild?el.lastChild.textContent:el.textContent;
-        var color=el.classList.contains("staff")?"#3a5db0":"#2f7168";
-        rows+='<p style="margin:6px 0;"><b style="color:'+color+';">'+who+"：</b>"+escHtml(txt)+"</p>";
-      } else {
-        rows+='<p style="color:#888;font-size:12px;">'+escHtml(el.textContent)+"</p>";
-      }
-    }
-    var doc='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>会話練習の記録</title></head><body style="font-family:sans-serif;line-height:1.7;">'
-      +'<h2>日本語 会話練習の記録</h2><p style="color:#666;">'+dstr+"</p><hr>"+rows+"</body></html>";
-    var blob=new Blob(["﻿"+doc],{type:"application/msword"});
-    var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="会話練習_"+stamp+".doc";
-    document.body.appendChild(a); a.click();
-    setTimeout(function(){ try{URL.revokeObjectURL(a.href);}catch(e){} a.remove(); },1000);
-    statusEl.textContent="記録を保存しました（Wordで開けます）。";
   }
 
   var history=[], systemText="", busy=false;
@@ -673,7 +785,6 @@
   sendBtn.addEventListener("click", function(){ sendUser(typeInput.value); });
   typeInput.addEventListener("keydown", function(e){ if(e.key==="Enter"){ sendUser(typeInput.value); } });
   feedbackBtn.addEventListener("click", requestFeedback);
-  saveBtn.addEventListener("click", saveTranscript);
 
   function startConversation(){
     var key=keyEl.value.trim();
@@ -682,17 +793,24 @@
     store.set("voice_engine",engineSelect.value); store.set("gemini_voice",gVoice.value);
     store.set("voice_name",voiceSelect.value); store.set("voice_rate",rateEl.value); store.set("voice_pitch",pitchEl.value);
     store.set("vv_url",vvUrl.value); store.set("vv_speaker",vvSpeaker.value);
-    store.set("scenario",scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value);
+    store.set("practice_mode",practiceModeEl.value);
+    if(isTextbook()){ store.set("lesson",lessonEl.value); store.set("renshuC_"+currentLesson(),renshuCEl.value); }
+    else { store.set("scenario",scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value); }
     store.set("vocab_level",vocabLevelEl.value); store.set("vocab_list",vocabListEl.value);
     systemText=buildSystem(); history=[]; log.innerHTML=""; creditLine.textContent="";
     setupCard.classList.add("hidden"); talkCard.classList.remove("hidden");
 
-    var r=getRole();
-    if(r.starts==="student"){
-      setBusy(false);
-      addNote("この場面では、あなたから話しかけます。\n"+(r.hint||"どうぞ話しかけてください。"));
-      statusEl.textContent="";
-      return;
+    if(isTextbook()){
+      var rc=getRenshuC();
+      addNote("みんなの日本語 第"+currentLesson()+"課・練習C "+rc.code+"\n目標:「"+rc.desc+"」");
+    }else{
+      var r=getRole();
+      if(r.starts==="student"){
+        setBusy(false);
+        addNote("この場面では、あなたから話しかけます。\n"+(r.hint||"どうぞ話しかけてください。"));
+        statusEl.textContent="";
+        return;
+      }
     }
     // AIから始める場面
     setBusy(true);

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>外国語 会話練習 ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --accent:#2F7168; --accent-ink:#FFFFFF; --accent-tint:#DDEEE7;
+    --guest:#E1EFEA; --staff:#EAF3DE; --warn:#9A3D1C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 2rem;line-height:1.6}
+  .wrap{max-width:480px;margin:0 auto}
+  .backlink{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--text-hint);
+    text-decoration:none;letter-spacing:.05em;padding:1.2rem 0 .2rem}
+  .backlink:hover{color:var(--text-muted)}
+  .app-head{text-align:center;padding:.6rem 0 1.2rem}
+  .app-logo{font-size:11px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px;text-transform:uppercase}
+  h1{font-size:22px;font-weight:700;letter-spacing:.02em}
+  .lead{font-size:13px;color:var(--text-muted);margin-top:6px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  label{font-size:12px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px}
+  input[type=password],input[type=text],select{
+    width:100%;padding:11px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;
+    background:#fff;color:var(--text);font-family:inherit}
+  select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%239E9890' stroke-width='1.6'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .row>div{flex:1;min-width:130px}
+  button{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:12px 14px;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;transition:transform .12s,box-shadow .12s,opacity .12s}
+  .primary{background:var(--accent);color:var(--accent-ink)}
+  .primary:hover{box-shadow:0 4px 16px rgba(47,113,104,.25)}
+  .primary:active{transform:scale(.98)}
+  .ghost{background:#F0EEE8;color:var(--text)}
+  .ghost:active{transform:scale(.98)}
+  .primary:disabled,.ghost:disabled{opacity:.5;cursor:not-allowed}
+  .mic{width:100%;font-size:16px;padding:16px;margin-top:8px}
+  .mic.rec{background:var(--warn);color:#fff}
+  #log{min-height:120px;display:flex;flex-direction:column;gap:10px}
+  .msg{padding:10px 13px;border-radius:13px;max-width:88%;white-space:pre-wrap;font-size:15px;line-height:1.55}
+  .msg.guest{background:var(--guest);align-self:flex-start;border-bottom-left-radius:4px}
+  .msg.staff{background:var(--staff);align-self:flex-end;border-bottom-right-radius:4px}
+  .msg .who{font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--text-hint);display:block;margin-bottom:3px}
+  .feedback{background:#FAF3E6;border:1px solid #EBD9B8;border-radius:13px;padding:13px;white-space:pre-wrap;font-size:14px}
+  .status{font-size:12px;color:var(--text-muted);min-height:1.2em;margin-top:6px}
+  .hint{font-size:12px;color:var(--text-hint);line-height:1.55}
+  .hidden{display:none}
+  .barbtns{display:flex;gap:8px;margin-top:10px}
+  .barbtns button{flex:1}
+  details{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
+  summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--accent)}
+  .sliderrow{display:flex;align-items:center;gap:10px;margin-top:8px}
+  .sliderrow label{margin:0;flex:0 0 88px}
+  .sliderrow input[type=range]{flex:1;accent-color:var(--accent)}
+  .credit{font-size:11px;color:var(--text-hint);margin-top:6px}
+  a{color:var(--accent)}
+  .app-foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.5rem;line-height:1.8}
+  .langbadge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-tint);border:1px solid #BFD9D0;
+    border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;color:var(--accent);margin-top:8px}
+  .notfound{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 18px;text-align:center;color:var(--text-muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="backlink" id="backLink" href="gaikokugo.html">‹ 外国語のページ</a>
+  <div class="app-head">
+    <div class="app-logo">Language Speaking Practice</div>
+    <h1 id="headTitle">🗣️ 外国語で会話練習</h1>
+    <p class="lead" id="headLead">相手役がその言語で話します。話しかけて練習しましょう。無料で、スマホだけでできます。</p>
+    <div class="langbadge hidden" id="langBadge"></div>
+  </div>
+
+  <!-- 言語が無いとき -->
+  <div class="card hidden" id="nolangCard">
+    <div class="notfound">言語が指定されていません。<br><a href="gaikokugo.html" style="font-weight:700">一覧から言語を選んでください ›</a></div>
+  </div>
+
+  <!-- 設定 -->
+  <div class="card" id="setupCard">
+    <label for="key">あなたの無料 Gemini API キー</label>
+    <input type="password" id="key" placeholder="ここにキーを貼り付け（例: AIza...）" autocomplete="off">
+    <div class="hint" style="margin-top:6px">
+      キーは<strong>この端末の中だけ</strong>に保存され、外部には送られません（Google以外）。
+      <span style="display:block;margin-top:4px">取り方: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> でログイン →「Create API key」→ コピーして貼り付け（無料）。</span>
+    </div>
+
+    <div style="margin-top:12px">
+      <label for="scenario">場面</label>
+      <select id="scenario"></select>
+    </div>
+
+    <div class="row" style="margin-top:12px">
+      <div>
+        <label for="level">レベル（相手の話し方）</label>
+        <select id="level">
+          <option value="beginner">初級（やさしく・ゆっくり／困ったら日本語で助ける）</option>
+          <option value="intermediate" selected>中級（基本その言語だけ）</option>
+          <option value="advanced">上級（その言語だけ・自然な速さ）</option>
+        </select>
+      </div>
+    </div>
+    <div class="hint" style="margin-top:6px">初級では、むずかしい表現に日本語の意味を（　）で短く添えます。上級では日本語を使いません。</div>
+
+    <!-- 声の設定 -->
+    <details id="voiceSettings">
+      <summary>声の設定</summary>
+      <div style="margin-top:10px">
+        <label for="voiceSelect">読み上げの声（この端末で使えるもの）</label>
+        <select id="voiceSelect"><option value="">自動で選ぶ</option></select>
+        <div class="hint" id="voiceHint" style="margin-top:4px">この言語の音声が端末に入っていれば、相手のセリフを読み上げます。無い場合は読み上げが鳴らないことがあります（会話は文字で続けられます）。</div>
+        <div class="sliderrow"><label for="rate">話す速さ</label><input type="range" id="rate" min="0.6" max="1.2" step="0.05" value="0.95"></div>
+        <div class="sliderrow"><label for="pitch">声の高さ</label><input type="range" id="pitch" min="0.7" max="1.3" step="0.05" value="1"></div>
+        <button class="ghost" id="testVoice" style="margin-top:8px">この声で試し聞き</button>
+      </div>
+    </details>
+
+    <button class="primary" id="startBtn" style="width:100%;margin-top:14px">会話をはじめる</button>
+    <div class="status" id="setupStatus"></div>
+  </div>
+
+  <!-- 会話 -->
+  <div class="card hidden" id="talkCard">
+    <div id="log"></div>
+    <div class="status" id="status"></div>
+
+    <button class="mic primary" id="micBtn">🎤 押して話す</button>
+
+    <div class="row" style="margin-top:8px">
+      <div style="flex:3">
+        <input type="text" id="typeInput" placeholder="声が使えないときは、ここに入力して送信">
+      </div>
+      <div style="flex:1">
+        <button class="ghost" id="sendBtn" style="width:100%">送信</button>
+      </div>
+    </div>
+
+    <div class="barbtns">
+      <button class="ghost" id="feedbackBtn">◆ フィードバックをもらう</button>
+      <button class="ghost" id="resetBtn">最初から</button>
+    </div>
+    <div class="credit" id="creditLine"></div>
+    <div class="hint" style="margin-top:6px">ヒント: 間違えても大丈夫。まずは最後まで会話を続けてみましょう。フィードバックは日本語で返します。</div>
+  </div>
+
+  <p class="hint">※ 音声認識・読み上げは、端末・ブラウザがその言語に対応している場合に動きます（Chrome推奨）。うまく使えない言語でも、下の入力欄に文字で送れば同じように練習できます。</p>
+</div>
+
+<script src="langdata.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var MODEL = "gemini-3.5-flash";
+  var ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/" + MODEL + ":generateContent";
+
+  var mem = {};
+  var store = {
+    get:function(k){ try{ return localStorage.getItem(k); }catch(e){ return (k in mem)?mem[k]:null; } },
+    set:function(k,v){ try{ localStorage.setItem(k,v); }catch(e){ mem[k]=v; } }
+  };
+  var $=function(id){ return document.getElementById(id); };
+  function esc(s){ return String(s).replace(/[&<>"']/g,function(m){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]; }); }
+  function getParam(n){ try{ return new URLSearchParams(location.search).get(n)||""; }catch(e){ return ""; } }
+
+  // ---- 対象言語の特定 ----
+  var code=(getParam("code")||"").trim();
+  var LANGS=window.LANGS||[];
+  var L=null;
+  for(var i=0;i<LANGS.length;i++){ if(LANGS[i].code===code){ L=LANGS[i]; break; } }
+
+  var keyEl=$("key"), scenarioEl=$("scenario"), levelEl=$("level");
+  var voiceSelect=$("voiceSelect"), rateEl=$("rate"), pitchEl=$("pitch"), testVoice=$("testVoice");
+  var setupCard=$("setupCard"), talkCard=$("talkCard"), nolangCard=$("nolangCard");
+  var log=$("log"), statusEl=$("status"), setupStatus=$("setupStatus"), creditLine=$("creditLine");
+  var micBtn=$("micBtn"), sendBtn=$("sendBtn"), typeInput=$("typeInput");
+  var feedbackBtn=$("feedbackBtn"), resetBtn=$("resetBtn"), startBtn=$("startBtn");
+  var headTitle=$("headTitle"), headLead=$("headLead"), langBadge=$("langBadge"), backLink=$("backLink");
+
+  if(!L){
+    setupCard.classList.add("hidden");
+    nolangCard.classList.remove("hidden");
+    return;
+  }
+
+  // 言語名などを反映
+  var LANGNAME = L.jp + (L.en?("（"+L.en+"）"):"");
+  var TTSLANG = L.tts || "en-US";
+  document.documentElement.setAttribute("data-lang", L.code);
+  document.title = L.jp + "で会話練習 ・ 日本語の部屋";
+  headTitle.textContent = "🗣️ " + L.jp + "で会話練習";
+  headLead.textContent = "相手役が " + L.jp + " で話します。話しかけて練習しましょう。";
+  langBadge.textContent = (L.chip?L.chip+"  ":"") + L.jp + (L.autonym?("  ・  "+L.autonym):"");
+  langBadge.classList.remove("hidden");
+  backLink.href = "lang.html?code=" + encodeURIComponent(L.code);
+  backLink.textContent = "‹ " + L.jp + "のページ";
+
+  // ---- 設定の復元 ----
+  var sk=store.get("gemini_key"); if(sk) keyEl.value=sk;
+  var srr=store.get("lv_rate"); if(srr) rateEl.value=srr;
+  var spp=store.get("lv_pitch"); if(spp) pitchEl.value=spp;
+
+  // ---- 声の一覧（対象言語だけ）----
+  function primarySubtag(t){ return String(t||"").toLowerCase().split("-")[0]; }
+  function loadVoices(){
+    if(!("speechSynthesis" in window)) return;
+    var voices=window.speechSynthesis.getVoices()||[];
+    var want=store.get("lv_voice_"+L.code)||"";
+    var prim=primarySubtag(TTSLANG);
+    var match=voices.filter(function(v){ return v.lang && primarySubtag(v.lang)===prim; });
+    while(voiceSelect.options.length>1){ voiceSelect.remove(1); }
+    match.forEach(function(v){
+      var o=document.createElement("option"); o.value=v.name; o.textContent=v.name+" ("+v.lang+")";
+      if(v.name===want) o.selected=true; voiceSelect.appendChild(o);
+    });
+  }
+  if("speechSynthesis" in window){ loadVoices(); window.speechSynthesis.onvoiceschanged=loadVoices; }
+
+  function pickVoice(){
+    if(!("speechSynthesis" in window)) return null;
+    var voices=window.speechSynthesis.getVoices()||[];
+    var chosen=voiceSelect.value;
+    if(chosen){ for(var i=0;i<voices.length;i++){ if(voices[i].name===chosen) return voices[i]; } }
+    var full=String(TTSLANG).toLowerCase(), prim=primarySubtag(TTSLANG);
+    var exact=voices.filter(function(v){ return v.lang && v.lang.toLowerCase()===full; });
+    if(exact[0]) return exact[0];
+    var p=voices.filter(function(v){ return v.lang && primarySubtag(v.lang)===prim; });
+    return p[0]||null;
+  }
+
+  var currentAudio=null;
+  function stopAudio(){ try{ window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){} }
+  function speak(text){
+    try{
+      if(!("speechSynthesis" in window)) return;
+      stopAudio();
+      var u=new SpeechSynthesisUtterance(text);
+      u.lang=TTSLANG;
+      u.rate=parseFloat(rateEl.value)||0.95;
+      u.pitch=parseFloat(pitchEl.value)||1;
+      var v=pickVoice(); if(v) u.voice=v;
+      window.speechSynthesis.speak(u);
+      creditLine.textContent="音声: 端末の読み上げ（"+TTSLANG+"）";
+    }catch(e){}
+  }
+  testVoice.addEventListener("click", function(){
+    store.set("lv_voice_"+L.code, voiceSelect.value);
+    store.set("lv_rate", rateEl.value); store.set("lv_pitch", pitchEl.value);
+    var sample=(L.selfintro&&L.selfintro[0]&&L.selfintro[0][1]) ? L.selfintro[0][1]
+             : (L.phrases&&L.phrases[0]&&L.phrases[0][1]) ? L.phrases[0][1] : "Hello.";
+    speak(sample);
+  });
+
+  // ---- 場面（学習者は日本語話者・相手役はその言語で話す）----
+  var SCENARIOS=[
+    { id:"greeting", name:"あいさつ・自己紹介", sit:"私は初対面の相手に自己紹介をします。あなたは相手として、あいさつを返し、名前・出身・趣味などを一つずつやさしく質問してください。あなたから短いあいさつで会話を始めてください。", starts:"" },
+    { id:"cafe", name:"カフェ・レストランで注文", sit:"私は店に来た客、あなたは店員です。あなた（店員）から「いらっしゃいませ」にあたる短い一言で会話を始め、注文をとってください。", starts:"" },
+    { id:"shopping", name:"買い物", sit:"私は店の客、あなたは店員です。あなた（店員）から声をかけて会話を始め、私の買い物を手伝ってください。", starts:"" },
+    { id:"directions", name:"道をたずねる", sit:"私は道に迷った人、あなたは親切な通行人です。私から「すみません」と話しかけるので、行き先をたずね、道を教えてください。", starts:"student", hint:"あなたから話しかけましょう（行き先をたずねる）。" },
+    { id:"smalltalk", name:"雑談（趣味・週末）", sit:"私とあなたは友だちです。趣味や週末の予定など、身近な話題で気楽に雑談してください。あなたから軽い質問で会話を始めてください。", starts:"" },
+    { id:"hotel", name:"ホテルの受付", sit:"私はホテルに着いた客、あなたは受付の人です。あなた（受付）から声をかけて、チェックインの応対をしてください。", starts:"" },
+    { id:"free", name:"自由に話す", sit:"決まった場面はありません。私が話したいことを話すので、あなたは自然な相手として会話を続けてください。あなたから軽い問いかけで会話を始めてください。", starts:"" }
+  ];
+  function getScenario(){
+    for(var i=0;i<SCENARIOS.length;i++){ if(SCENARIOS[i].id===scenarioEl.value) return SCENARIOS[i]; }
+    return SCENARIOS[0];
+  }
+  function populateScenarios(){
+    scenarioEl.innerHTML="";
+    SCENARIOS.forEach(function(s){ var o=document.createElement("option"); o.value=s.id; o.textContent=s.name; scenarioEl.appendChild(o); });
+    var saved=store.get("lv_scenario"); if(saved) scenarioEl.value=saved;
+  }
+  populateScenarios();
+  scenarioEl.addEventListener("change", function(){ store.set("lv_scenario",scenarioEl.value); });
+  var slv=store.get("lv_level"); if(slv) levelEl.value=slv;
+  levelEl.addEventListener("change", function(){ store.set("lv_level",levelEl.value); });
+
+  // ---- システム指示 ----
+  function buildSystem(){
+    var level=levelEl.value, sc=getScenario();
+    var lines=[];
+    lines.push("あなたは「"+LANGNAME+"」の会話練習の相手役です。学習者（私）は日本語が母語で、"+L.jp+"を練習しています。");
+    lines.push("あなたのセリフは必ず "+L.jp+" で話してください。学習者が話しやすいように、1回の発言は1〜2文までにして、私の返事を待ってください。");
+    lines.push("場面: 「"+sc.name+"」。"+sc.sit);
+    if(level==="beginner"){
+      lines.push("学習者は初級です。とても短く、やさしい言い方で、ゆっくり話してください。むずかしい語や表現には、その直後に丸かっこ（　）で日本語の意味を短く添えてください。学習者が返事に困っているときは、短い日本語でヒントを出してかまいません。");
+    }else if(level==="advanced"){
+      lines.push("学習者は上級です。"+L.jp+"だけで、自然な速さと表現で話してください。日本語は使わないでください。少し難しい展開も自然に入れてかまいません。");
+    }else{
+      lines.push("学習者は中級です。基本は "+L.jp+" だけで自然に話してください。どうしても必要なときだけ、ごく短い日本語の補助を丸かっこ（　）で添えてください。");
+    }
+    lines.push("ルール:");
+    lines.push("・絵文字や記号は使わず、話し言葉で話してください（声で読み上げます）。");
+    lines.push("・学習者が間違えても、その場では直さず、役になりきって自然に会話を続けてください。");
+    lines.push("・会話が自然な区切りに来たら、自然に終えてください。");
+    lines.push("・『フィードバックをお願いします』と言われたときだけ、役を離れて【必ず日本語で】、学習者の"+L.jp+"の良かった点を2つと、直すともっと良くなる点を2つ、やさしい日本語で教えてください。");
+    return lines.join("\n");
+  }
+
+  // ---- 表示 ----
+  function addMsg(text, who){
+    var d=document.createElement("div");
+    d.className="msg "+(who==="model"?"guest":"staff");
+    var w=document.createElement("span"); w.className="who";
+    w.textContent=(who==="model")?"相手":"あなた";
+    d.appendChild(w); d.appendChild(document.createTextNode(text));
+    log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
+  }
+  function addFeedback(text){
+    var d=document.createElement("div"); d.className="feedback";
+    d.textContent="◆ フィードバック\n"+text;
+    log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
+  }
+  function addNote(text){
+    var d=document.createElement("div");
+    d.style.cssText="align-self:center;background:#eef1f0;color:#5b6a66;font-size:.82rem;padding:8px 12px;border-radius:10px;text-align:center;max-width:92%";
+    d.textContent=text;
+    log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
+  }
+
+  var history=[], systemText="", busy=false;
+  function callGemini(cb){
+    var key=keyEl.value.trim();
+    var body={ systemInstruction:{parts:[{text:systemText}]}, contents:history,
+      generationConfig:{ temperature:0.9, maxOutputTokens:512 } };
+    fetch(ENDPOINT+"?key="+encodeURIComponent(key),{
+      method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)
+    }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+      .then(function(r){
+        if(!r.ok){ cb(null,(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"エラーが発生しました"); return; }
+        var text=""; try{ text=r.data.candidates[0].content.parts[0].text.trim(); }catch(e){ text=""; }
+        if(!text){ cb(null,"返事を受け取れませんでした。もう一度お試しください。"); return; }
+        cb(text,null);
+      }).catch(function(){ cb(null,"通信に失敗しました。ネット接続やキーをご確認ください。"); });
+  }
+  function setBusy(b){ busy=b; micBtn.disabled=b; sendBtn.disabled=b; feedbackBtn.disabled=b;
+    statusEl.textContent=b?"相手が考えています…":""; }
+
+  function sendUser(text){
+    if(busy) return; text=(text||"").trim(); if(!text) return;
+    addMsg(text,"user"); history.push({role:"user",parts:[{text:text}]});
+    typeInput.value=""; setBusy(true);
+    callGemini(function(reply,err){ setBusy(false);
+      if(err){ statusEl.textContent="⚠ "+err; return; }
+      history.push({role:"model",parts:[{text:reply}]}); addMsg(reply,"model"); speak(reply);
+    });
+  }
+  function requestFeedback(){
+    if(busy) return; setBusy(true);
+    history.push({role:"user",parts:[{text:"フィードバックをお願いします。"}]});
+    callGemini(function(reply,err){ setBusy(false);
+      if(err){ statusEl.textContent="⚠ "+err; return; }
+      history.push({role:"model",parts:[{text:reply}]}); addFeedback(reply);
+    });
+  }
+
+  // ---- 音声認識 ----
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  var recog=null, listening=false;
+  if(SR){
+    recog=new SR(); recog.lang=TTSLANG; recog.interimResults=false; recog.maxAlternatives=1;
+    recog.onresult=function(e){ sendUser(e.results[0][0].transcript); };
+    recog.onerror=function(e){ statusEl.textContent="⚠ 音声を認識できませんでした（"+e.error+"）。文字入力もお使いいただけます。"; };
+    recog.onend=function(){ listening=false; micBtn.classList.remove("rec"); micBtn.textContent="🎤 押して話す"; };
+  }else{
+    micBtn.textContent="🎤 このブラウザは音声非対応（文字入力をどうぞ）"; micBtn.disabled=true;
+  }
+  micBtn.addEventListener("click", function(){
+    if(!recog||busy) return;
+    if(listening){ recog.stop(); return; }
+    try{ stopAudio(); recog.start(); listening=true;
+      micBtn.classList.add("rec"); micBtn.textContent="■ 話し終わったら押す";
+      statusEl.textContent="どうぞ話してください…";
+    }catch(e){}
+  });
+  sendBtn.addEventListener("click", function(){ sendUser(typeInput.value); });
+  typeInput.addEventListener("keydown", function(e){ if(e.key==="Enter"){ sendUser(typeInput.value); } });
+  feedbackBtn.addEventListener("click", requestFeedback);
+
+  function startConversation(){
+    var key=keyEl.value.trim();
+    if(!key){ setupStatus.textContent="⚠ まず Gemini API キーを入力してください。"; return; }
+    store.set("gemini_key",key);
+    store.set("lv_voice_"+L.code,voiceSelect.value); store.set("lv_rate",rateEl.value); store.set("lv_pitch",pitchEl.value);
+    store.set("lv_scenario",scenarioEl.value); store.set("lv_level",levelEl.value);
+    systemText=buildSystem(); history=[]; log.innerHTML=""; creditLine.textContent="";
+    setupCard.classList.add("hidden"); talkCard.classList.remove("hidden");
+
+    var sc=getScenario();
+    if(sc.starts==="student"){
+      setBusy(false);
+      addNote("この場面では、あなたから話しかけます。\n"+(sc.hint||"どうぞ話しかけてください。"));
+      statusEl.textContent="";
+      return;
+    }
+    setBusy(true);
+    history.push({role:"user",parts:[{text:"（練習を始めます。あなたから "+L.jp+" で最初の一言をどうぞ。）"}]});
+    callGemini(function(reply,err){ setBusy(false); history.pop();
+      if(err){ statusEl.textContent="⚠ "+err; return; }
+      history.push({role:"model",parts:[{text:reply}]}); addMsg(reply,"model"); speak(reply);
+    });
+  }
+  startBtn.addEventListener("click", startConversation);
+  resetBtn.addEventListener("click", function(){ stopAudio();
+    talkCard.classList.add("hidden"); setupCard.classList.remove("hidden"); setupStatus.textContent="";
+  });
+})();
+</script>
+</body>
+</html>

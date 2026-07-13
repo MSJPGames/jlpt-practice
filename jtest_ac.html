@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J.TEST A-Cレベル 練習 ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#1E6E8C; --accent-bg:#DCEDF2;
+    --ok:#3B6D11; --ok-bg:#EAF3DE; --ng:#9A3D1C; --ng-bg:#FAECE7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.7;-webkit-text-size-adjust:100%}
+  .container{max-width:480px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.25rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none;cursor:pointer;background:none;border:0;font-family:inherit}
+  .app-header{text-align:center;padding:1.1rem 0 .5rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:22px;font-weight:700}
+  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12px;color:#6b5d40;line-height:1.65;margin:.6rem 0 1rem}
+  .hidden{display:none}
+  .lead{font-size:13px;color:var(--text-muted);margin:.2rem 2px 1rem}
+  .cat{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:var(--radius);padding:14px 15px;margin-bottom:11px;cursor:pointer;width:100%;text-align:left;font-family:inherit;
+    -webkit-tap-highlight-color:transparent;transition:transform .1s,box-shadow .12s}
+  .cat:hover{box-shadow:0 4px 16px rgba(0,0,0,.07)}
+  .cat:active{transform:scale(.99)}
+  .cat.mix{border-left-color:#854F0B;background:linear-gradient(135deg,#FFFFFF,#FAF3E6)}
+  .cat-ic{width:44px;height:44px;border-radius:11px;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .cat.mix .cat-ic{background:#FAEEDA;color:#854F0B}
+  .cat-info{flex:1;min-width:0}
+  .cat-name{font-size:15px;font-weight:700}
+  .cat-desc{font-size:12px;color:var(--text-muted);margin-top:2px}
+  .cat-arrow{font-size:20px;color:var(--text-hint)}
+  .qtop{display:flex;align-items:center;gap:10px;margin:.4rem 0 1rem}
+  .pill{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;background:var(--accent-bg);color:var(--accent)}
+  .prog{font-size:13px;font-weight:700;color:var(--text-muted)}
+  .progbar{flex:1;height:7px;background:#ECE8E1;border-radius:5px;overflow:hidden}
+  .progbar>span{display:block;height:100%;background:var(--accent);border-radius:5px;transition:width .25s}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 16px;margin-bottom:14px}
+  .q-text{font-size:16px;font-weight:600;white-space:pre-line;line-height:1.8}
+  .passage{background:#F7F5F0;border:1px solid var(--border);border-radius:10px;padding:11px 13px;margin:10px 0;font-size:14.5px;white-space:pre-line;font-weight:400;line-height:1.9}
+  .q-sub{font-size:15px;font-weight:600;margin-top:8px}
+  .choices{display:flex;flex-direction:column;gap:8px}
+  .choice{display:flex;align-items:flex-start;gap:10px;padding:12px 13px;border:1px solid var(--border);border-radius:11px;cursor:pointer;
+    font-size:15px;background:#fff;-webkit-tap-highlight-color:transparent;transition:background .1s,border-color .1s;width:100%;text-align:left;font-family:inherit}
+  .choice:hover{background:#FAF9F6}
+  .choice .cn{font-weight:700;color:var(--text-muted);flex-shrink:0}
+  .choice.correct{border-color:var(--ok);background:var(--ok-bg)}
+  .choice.wrong{border-color:var(--ng);background:var(--ng-bg)}
+  .choice:disabled{cursor:default}
+  .exp{margin-top:12px;font-size:13px;color:var(--text-muted);background:#F3F0EA;border-radius:10px;padding:11px 13px;line-height:1.7;display:none}
+  .exp.show{display:block}
+  .exp .mk{font-weight:700;margin-right:6px}
+  .mk.ok{color:var(--ok)} .mk.ng{color:var(--ng)}
+  .btn{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:14px 16px;cursor:pointer;width:100%;transition:transform .1s}
+  .primary{background:var(--accent);color:#fff}
+  .primary:active{transform:scale(.99)}
+  .ghost{background:#F0EEE8;color:var(--text)}
+  .rcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 18px;text-align:center;margin-bottom:14px}
+  .rbig{font-size:34px;font-weight:700;color:var(--accent)}
+  .rsub{font-size:13px;color:var(--text-muted);margin-top:6px}
+  .rmsg{font-size:14px;font-weight:700;margin-top:10px}
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.5rem}
+</style>
+</head>
+<body>
+<div class="container">
+  <button class="back" id="backBtn">‹ もどる</button>
+  <div class="app-header">
+    <div class="app-logo">J.TEST — 練習</div>
+    <div class="app-title">A-Cレベル 練習問題</div>
+    <div class="app-sub">中級〜上級（B2〜C1・N2〜N1相当）</div>
+  </div>
+
+  <div id="home">
+    <div class="note">これは J.TEST の<b>出題形式に合わせたオリジナル練習問題</b>です（公式の問題ではありません）。1回<b>10問</b>を出題します。隙間時間にどうぞ。</div>
+    <div class="lead">練習する パートを えらんでください。</div>
+    <div id="cats"></div>
+  </div>
+
+  <div id="quiz" class="hidden">
+    <div class="qtop">
+      <span class="pill" id="secPill"></span>
+      <span class="prog" id="prog"></span>
+      <span class="progbar"><span id="progFill" style="width:0%"></span></span>
+    </div>
+    <div class="card">
+      <div class="q-text" id="qText"></div>
+      <div id="qExtra"></div>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="exp" id="exp"></div>
+    <button class="btn primary hidden" id="nextBtn" style="margin-top:14px"></button>
+  </div>
+
+  <div id="result" class="hidden">
+    <div class="rcard">
+      <div class="rbig" id="rScore"></div>
+      <div class="rsub" id="rRate"></div>
+      <div class="rmsg" id="rMsg"></div>
+    </div>
+    <button class="btn primary" id="againBtn" style="margin-bottom:10px">同じパートで もう10問</button>
+    <button class="btn ghost" id="homeBtn">パートを えらびなおす</button>
+  </div>
+
+  <div class="foot">© 2025 日本語の部屋 ・ J.TEST形式 練習（オリジナル）</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var PER=10;
+  var SECTIONS=[
+    { key:"goi", name:"文法・語彙", ic:"文", desc:"（　）に いちばん いい ものを 入れる", items:[
+      {q:"上司の 命令だから、やら（　）を得ない。", cs:["ざる","ず","ない","なく"], a:0, ex:"「〜ざるを得ない」＝〜しないわけにはいかない。動詞ない形の語幹＋ざるを得ない。"},
+      {q:"一度 引き受けた（　）、最後まで 責任を 持つべきだ。", cs:["以上","うえで","ながら","ものの"], a:0, ex:"「〜以上（は）」＝〜からには、当然〜すべきだ。"},
+      {q:"彼は 多忙である（　）、いつも 時間を 守る。", cs:["にもかかわらず","おかげで","とともに","につれて"], a:0, ex:"「〜にもかかわらず」＝〜のに（逆接）。"},
+      {q:"あの 準備 では、失敗する（　）。", cs:["に違いない","わけがない","はずがない","おそれはない"], a:0, ex:"「〜に違いない」＝きっと〜だ（強い確信）。"},
+      {q:"手伝って くれる（　）、彼は 文句ばかり 言っていた。", cs:["どころか","からには","うちに","とたん"], a:0, ex:"「〜どころか」＝〜ではなく、むしろ逆。"},
+      {q:"調査の 結果（　）、今後の 方針を 決定する。", cs:["次第で","のうちに","わりに","かぎり"], a:0, ex:"「〜次第で」＝〜によって（決まる）。"},
+      {q:"彼の 話は うそ（　）で、信用できない。", cs:["だらけ","まみれ","ばかり","ずくめ"], a:0, ex:"「〜だらけ」＝よくないものが多い。まみれは液体・粉が体に付く場合。"},
+      {q:"この 時計は 少し おくれ（　）だ。", cs:["がち","きり","むき","ぬき"], a:0, ex:"「〜がち」＝〜する傾向が多い（好ましくない）。"},
+      {q:"景気は ゆるやかに 回復し（　）ある。", cs:["つつ","ながら","きり","ぬき"], a:0, ex:"「〜つつある」＝今〜する方向に進んでいる。"},
+      {q:"努力は した（　）、思うような 結果は 出なかった。", cs:["ものの","とたん","ばかりに","うえは"], a:0, ex:"「〜ものの」＝〜したが（逆接）。"},
+      {q:"冗談（　）で、本題に 入りましょう。", cs:["抜き","なし","ぬけ","きり"], a:0, ex:"「〜抜きで」＝〜なしで。「冗談抜きで」＝まじめに。"},
+      {q:"遺産（　）、兄弟が 争って いる。", cs:["をめぐって","において","に際して","につけ"], a:0, ex:"「〜をめぐって」＝〜について（対立・議論）。"},
+      {q:"お客様の ご要望（　）、プランを ご用意します。", cs:["に応じて","に反して","をこめて","を問わず"], a:0, ex:"「〜に応じて」＝〜に合わせて。"},
+      {q:"さんざん 迷った（　）、彼は 転職を 決意した。", cs:["あげく","うえで","とたん","ばかりに"], a:0, ex:"「〜たあげく」＝いろいろした末に（多くよくない結果）。"},
+      {q:"部長は 会議室に （　）。", cs:["いらっしゃいます","まいります","おります","いたします"], a:0, ex:"「いる」の尊敬語は「いらっしゃる」。目上の動作を高める。"},
+      {q:"その 件は 私が 責任を 持って （　）。", cs:["対応いたします","対応なさいます","対応くださいます","対応されます"], a:0, ex:"自分の動作をへりくだる謙譲語は「いたす」。相手の動作には「なさる」。"}
+    ]},
+    { key:"kanji", name:"漢字（読み）", ic:"字", desc:"　　の ことばの 読みを えらぶ", items:[
+      {q:"開発を 促進 する。「促進」の 読みは？", cs:["そくしん","そくじん","しょくしん","うながしん"], a:0, ex:"促進＝そくしん。"},
+      {q:"慎重 に 検討する。「慎重」の 読みは？", cs:["しんちょう","しんじゅう","しんとう","まじゅう"], a:0, ex:"慎重＝しんちょう。"},
+      {q:"状況を 把握 する。「把握」の 読みは？", cs:["はあく","はにぎ","はおく","ばあく"], a:0, ex:"把握＝はあく。"},
+      {q:"曖昧 な 説明は さける。「曖昧」の 読みは？", cs:["あいまい","あいみ","あいばい","あんまい"], a:0, ex:"曖昧＝あいまい。"},
+      {q:"覚悟 を 決める。「覚悟」の 読みは？", cs:["かくご","かくさとり","がくご","かくこ"], a:0, ex:"覚悟＝かくご。"},
+      {q:"安易な 妥協 は しない。「妥協」の 読みは？", cs:["だきょう","たきょう","だごう","だけょう"], a:0, ex:"妥協＝だきょう。"},
+      {q:"匿名 で 投稿する。「匿名」の 読みは？", cs:["とくめい","とくみょう","とうめい","なめい"], a:0, ex:"匿名＝とくめい。"},
+      {q:"頻繁 に 連絡を 取る。「頻繁」の 読みは？", cs:["ひんぱん","ひんばん","はんぱん","ひんぷん"], a:0, ex:"頻繁＝ひんぱん。"},
+      {q:"任務を 遂行 する。「遂行」の 読みは？", cs:["すいこう","ついこう","すいぎょう","すこう"], a:0, ex:"遂行＝すいこう。"},
+      {q:"利益を 追求 する。「追求」の 読みは？", cs:["ついきゅう","ついもと","おいきゅう","つうきゅう"], a:0, ex:"追求＝ついきゅう。"}
+    ]},
+    { key:"dokkai", name:"読解", ic:"読", desc:"文章を 読んで こたえる", items:[
+      {passage:"弊社では、来月より 在宅勤務を 正式に 導入いたします。ただし、業務の 都合上、週に 二日は 出社を お願いする 場合が ございます。詳細は 各部署の 担当者に ご確認ください。", sub:"この 文章の 内容と 合う ものは どれですか。", cs:["在宅勤務は 認められない","週に 二日 出社を 求められる ことが ある","来月から 全員が 毎日 在宅に なる","出社は いっさい 不要に なる"], a:1, ex:"「週に 二日は 出社を お願いする 場合が ございます」とあります。"},
+      {passage:"便利さを 追求する あまり、私たちは 手間を かける ことの 価値を 忘れがちだ。時間を かけて 作った 料理が おいしく 感じられる のは、その 手間 自体に 意味が あるからだろう。", sub:"筆者の 考えに 合う ものは どれですか。", cs:["便利さが 何より 大切だ","手間を かける ことにも 価値が ある","料理は 買った ほうが よい","時間は むだに すべきだ"], a:1, ex:"「手間を かける ことの 価値」「手間 自体に 意味が ある」と述べています。"},
+      {passage:"本サービスの 解約を ご希望の 場合は、次回 更新日の 10日前までに お手続きください。期日を 過ぎた 場合、当月分の 料金が 発生いたします。", sub:"料金が かかるのは どんな ときですか。", cs:["10日前までに 手続きした とき","更新日の 10日前を 過ぎて 手続きした とき","すぐに 解約した とき","どんな ときも かからない"], a:1, ex:"「期日を 過ぎた 場合、料金が 発生」とあります。期日＝10日前。"},
+      {passage:"読書は 知識を 増やすと 言われる。しかし、ただ 読むだけでは 不十分だ。読んだ 内容に ついて 自分で 考え、他人と 話し合って はじめて、その 知識は 身に つく。", sub:"筆者が 最も 言いたい ことは どれですか。", cs:["読書には 意味が ない","本は とにかく たくさん 読むべきだ","読んだ 後で 考え、話し合う ことが 大切だ","知識は 自然に 身に つく"], a:2, ex:"「考え、話し合って はじめて…身に つく」が主張です。"},
+      {passage:"近年、若者の 車離れが 進んで いる。都市部では 公共交通が 発達し、車を 持たなくても 生活に 困らない ことが 一因と 見られる。一方で、地方では 依然として 車が 欠かせない。", sub:"内容と 合う ものは どれですか。", cs:["全国で 車が 不要に なった","都市部では 車が なくても 生活できる","地方でも 車離れが 進んでいる","公共交通は 衰退している"], a:1, ex:"「都市部では…車を 持たなくても 生活に 困らない」とあります。地方は「車が 欠かせない」。"},
+      {passage:"当店では、原則として ご予約の お客様を 優先して ご案内 して おります。ご予約が なくても ご利用 いただけますが、混雑時は お待ち いただく 場合が ございます。", sub:"この 店に ついて 正しい ものは どれですか。", cs:["予約が ないと 入れない","予約客が 優先されるが、予約なしでも 利用できる","いつでも 待たずに 入れる","予約は 受け付けていない"], a:1, ex:"「ご予約が なくても ご利用 いただけますが…お待ち いただく 場合が ある」とあります。"}
+    ]}
+  ];
+
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+  var $=function(id){return document.getElementById(id);};
+  var home=$("home"), quiz=$("quiz"), result=$("result");
+  var pool=[], cur=0, correct=0, answered=false, curSec="";
+
+  (function(){
+    var box=$("cats"), html="";
+    var all=0; SECTIONS.forEach(function(s){ all+=s.items.length; });
+    html+='<button class="cat mix" data-k="__all"><span class="cat-ic">★</span><span class="cat-info"><span class="cat-name">ミックス（全部から）</span><span class="cat-desc">全パートから 10問 ・ 計'+all+'問</span></span><span class="cat-arrow">›</span></button>';
+    SECTIONS.forEach(function(s){
+      html+='<button class="cat" data-k="'+s.key+'"><span class="cat-ic">'+s.ic+'</span><span class="cat-info"><span class="cat-name">'+s.name+'</span><span class="cat-desc">'+s.desc+' ・ '+s.items.length+'問</span></span><span class="cat-arrow">›</span></button>';
+    });
+    box.innerHTML=html;
+    box.querySelectorAll(".cat").forEach(function(b){ b.addEventListener("click",function(){ start(b.getAttribute("data-k")); }); });
+  })();
+
+  function start(key){
+    var items=[];
+    if(key==="__all"){ SECTIONS.forEach(function(s){ s.items.forEach(function(it){ items.push({it:it, sec:s.name}); }); }); curSec="ミックス"; }
+    else { var s=SECTIONS.filter(function(x){return x.key===key;})[0]; s.items.forEach(function(it){ items.push({it:it, sec:s.name}); }); curSec=s.name; }
+    pool=shuffle(items).slice(0, PER);
+    cur=0; correct=0;
+    home.classList.add("hidden"); result.classList.add("hidden"); quiz.classList.remove("hidden");
+    render(); window.scrollTo({top:0});
+  }
+
+  function render(){
+    answered=false;
+    var o=pool[cur], it=o.it;
+    $("secPill").textContent=curSec+"／"+o.sec;
+    $("prog").textContent=(cur+1)+" / "+pool.length;
+    $("progFill").style.width=Math.round((cur)/pool.length*100)+"%";
+    $("qText").textContent=it.q||"つぎの もんだいに こたえてください。";
+    var extra="";
+    if(it.passage){ extra+='<div class="passage">'+it.passage+'</div>'; }
+    if(it.sub){ extra+='<div class="q-sub">'+it.sub+'</div>'; }
+    $("qExtra").innerHTML=extra;
+    var opts=it.cs.map(function(c,ci){ return {t:c, ok:ci===it.a}; });
+    opts=shuffle(opts);
+    var ch=$("choices"); ch.innerHTML="";
+    opts.forEach(function(op,ci){
+      var b=document.createElement("button"); b.className="choice";
+      b.innerHTML='<span class="cn">'+(ci+1)+'</span><span>'+op.t+'</span>';
+      b.addEventListener("click",function(){ pick(b, op.ok, ch, it.ex); });
+      ch.appendChild(b);
+    });
+    var e=$("exp"); e.className="exp"; e.innerHTML="";
+    $("nextBtn").className="btn primary hidden";
+  }
+
+  function pick(btn, ok, ch, ex){
+    if(answered) return; answered=true;
+    ch.querySelectorAll(".choice").forEach(function(b){ b.disabled=true; });
+    if(ok){ correct++; btn.classList.add("correct"); } else { btn.classList.add("wrong"); }
+    markCorrect(ch);
+    var mk = ok ? '<span class="mk ok">○ 正解</span>' : '<span class="mk ng">✗ 不正解</span>';
+    var e=$("exp"); e.innerHTML=mk+(ex||""); e.classList.add("show");
+    var nb=$("nextBtn"); nb.classList.remove("hidden");
+    nb.textContent=(cur+1>=pool.length)?"結果を みる":"つぎへ";
+    $("progFill").style.width=Math.round((cur+1)/pool.length*100)+"%";
+  }
+  function markCorrect(ch){
+    var it=pool[cur].it, correctText=it.cs[it.a];
+    ch.querySelectorAll(".choice").forEach(function(b){
+      if(b.querySelector("span:last-child").textContent===correctText) b.classList.add("correct");
+    });
+  }
+
+  $("nextBtn").addEventListener("click", function(){
+    if(cur+1>=pool.length){ finish(); } else { cur++; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+  });
+
+  function finish(){
+    quiz.classList.add("hidden"); result.classList.remove("hidden");
+    var n=pool.length, pct=Math.round(correct/n*100);
+    $("rScore").textContent=correct+" / "+n;
+    $("rRate").textContent="正答率 "+pct+"％";
+    $("rMsg").textContent = pct>=80?"すばらしい！ この 調子で！" : pct>=50?"いい 感じです。もう 少し！" : "くりかえして、確実に 覚えましょう。";
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  $("againBtn").addEventListener("click", function(){
+    var key=curSec==="ミックス"?"__all":(SECTIONS.filter(function(s){return s.name===curSec;})[0]||{}).key;
+    start(key);
+  });
+  $("homeBtn").addEventListener("click", goHome);
+  $("backBtn").addEventListener("click", function(){
+    if(!quiz.classList.contains("hidden")||!result.classList.contains("hidden")){ goHome(); } else { location.href="jtest.html"; }
+  });
+  function goHome(){ quiz.classList.add("hidden"); result.classList.add("hidden"); home.classList.remove("hidden"); window.scrollTo({top:0}); }
+})();
+</script>
+</body>
+</html>

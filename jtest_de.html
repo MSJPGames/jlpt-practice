@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>J.TEST F-Gレベル 練習 ・ 日本語の部屋</title>
+<title>J.TEST D-Eレベル 練習 ・ 日本語の部屋</title>
 <style>
   :root{
     --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
@@ -35,7 +35,6 @@
   .cat-name{font-size:15px;font-weight:700}
   .cat-desc{font-size:12px;color:var(--text-muted);margin-top:2px}
   .cat-arrow{font-size:20px;color:var(--text-hint)}
-  /* quiz */
   .qtop{display:flex;align-items:center;gap:10px;margin:.4rem 0 1rem}
   .pill{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;background:var(--accent-bg);color:var(--accent)}
   .prog{font-size:13px;font-weight:700;color:var(--text-muted)}
@@ -61,7 +60,6 @@
   .primary{background:var(--accent);color:#fff}
   .primary:active{transform:scale(.99)}
   .ghost{background:#F0EEE8;color:var(--text)}
-  /* result */
   .rcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 18px;text-align:center;margin-bottom:14px}
   .rbig{font-size:34px;font-weight:700;color:var(--accent)}
   .rsub{font-size:13px;color:var(--text-muted);margin-top:6px}
@@ -74,18 +72,16 @@
   <button class="back" id="backBtn">‹ もどる</button>
   <div class="app-header">
     <div class="app-logo">J.TEST — 練習</div>
-    <div class="app-title">F-Gレベル 練習問題</div>
-    <div class="app-sub">入門〜初級前期（A1・N5相当）</div>
+    <div class="app-title">D-Eレベル 練習問題</div>
+    <div class="app-sub">初級〜初中級（A2〜B1・N4〜N3相当）</div>
   </div>
 
-  <!-- ホーム -->
   <div id="home">
     <div class="note">これは J.TEST の<b>出題形式に合わせたオリジナル練習問題</b>です（公式の問題ではありません）。1回<b>10問</b>を出題します。隙間時間にどうぞ。</div>
     <div class="lead">練習する パートを えらんでください。</div>
     <div id="cats"></div>
   </div>
 
-  <!-- クイズ -->
   <div id="quiz" class="hidden">
     <div class="qtop">
       <span class="pill" id="secPill"></span>
@@ -101,7 +97,6 @@
     <button class="btn primary hidden" id="nextBtn" style="margin-top:14px"></button>
   </div>
 
-  <!-- 結果 -->
   <div id="result" class="hidden">
     <div class="rcard">
       <div class="rbig" id="rScore"></div>
@@ -121,48 +116,42 @@
   var PER=10;
   var SECTIONS=[
     { key:"goi", name:"文法・語彙", ic:"あ", desc:"（　）に いちばん いい ことばを 入れる", items:[
-      {q:"あさ ごはんを （　）から、がっこうへ 行きます。", cs:["たべて","のんで","みて","きいて"], a:0, ex:"ごはんは「たべる」。〜てから＝〜した後で。"},
-      {q:"この みずは とても （　）です。つめたくて おいしいです。", cs:["たかい","つめたい","むずかしい","いそがしい"], a:1, ex:"後ろの「つめたくて」がヒント。みず＝つめたい。"},
-      {q:"きのう ともだちに てがみを （　）。", cs:["かきました","ききました","はなしました","あいました"], a:0, ex:"てがみは「かく」。"},
-      {q:"ぎゅうにゅうを コップ 1 （　） のみました。", cs:["まい","はい","さつ","ひき"], a:1, ex:"コップの飲み物は「〜はい（杯）」。まい＝紙、さつ＝本、ひき＝動物。"},
-      {q:"へやが くらいですから、でんきを （　）ください。", cs:["けして","つけて","あけて","しめて"], a:1, ex:"暗い→電気を「つける」。けす＝消す。"},
-      {q:"あした ともだちと えいがを （　）。", cs:["みます","のみます","ききます","かきます"], a:0, ex:"えいがは「みる」。"},
-      {q:"テストは むずかしかったですが、ぜんぶ （　）。", cs:["できました","いきました","きました","みました"], a:0, ex:"問題が「できる」。"},
-      {q:"すみません。この ちずを （　）ください。えきは どこですか。", cs:["みせて","かって","のって","たべて"], a:0, ex:"相手に見せてほしい→「みせてください」。"},
-      {q:"きのうは あたまが いたかったので、くすりを （　）。", cs:["のみました","たべました","かきました","ききました"], a:0, ex:"くすりは「のむ」。"},
-      {q:"いもうとは いま こうえんで （　）います。", cs:["あそんで","よんで","のんで","かって"], a:0, ex:"公園で「あそぶ」。"},
-      {q:"あついですね。まどを （　）ましょうか。", cs:["あけ","しめ","つけ","けし"], a:0, ex:"暑い→窓を「あける」。しめる＝閉める。"},
-      {q:"わたしの へやは 3がいに （　）。", cs:["あります","います","します","なります"], a:0, ex:"もの・場所の存在は「ある」。人・動物は「いる」。"},
-      {q:"この みちを まっすぐ 行くと、ぎんこうが （　）に あります。", cs:["みぎ","うえ","なか","そと"], a:0, ex:"「みぎに あります」。位置のことば。"},
-      {q:"わたしは まいにち コーヒーを （　）。", cs:["のみます","たべます","よみます","ききます"], a:0, ex:"のみものは「のむ」。"},
-      {q:"きょうは てんきが いいですから、こうえんへ （　）。", cs:["行きましょう","みましょう","かきましょう","ききましょう"], a:0, ex:"場所へ「行く」。〜ましょう＝さそい。"}
+      {q:"くすりを 飲んだ（　）、まだ 熱が 下がりません。", cs:["のに","ので","から","と"], a:0, ex:"「〜のに」＝〜けれども（期待と違う結果）。"},
+      {q:"ここでは タバコを 吸っては （　）。", cs:["いけません","かまいません","なりません","ください"], a:0, ex:"禁止は「〜てはいけません」。"},
+      {q:"れんしゅうして、日本語が 話せる（　）に なりました。", cs:["よう","こと","もの","ところ"], a:0, ex:"能力の変化は「〜ようになる」。"},
+      {q:"子どもの とき、母に よく 野菜を 食べ（　）。", cs:["させられました","させました","られました","ました"], a:0, ex:"「〜させられる」＝させ+られる（使役受身。いやいや〜した）。"},
+      {q:"まどが 開けて （　）から、すずしいですね。", cs:["あります","います","おきます","みます"], a:0, ex:"「〜てある」＝だれかがして、その状態が続いている。"},
+      {q:"出かける まえに、天気を しらべて （　）。", cs:["おきます","あります","みます","しまいます"], a:0, ex:"「〜ておく」＝前もって準備する。"},
+      {q:"さいふを 電車の 中に わすれて （　）。", cs:["しまいました","おきました","みました","いました"], a:0, ex:"「〜てしまう」＝後悔・完了。"},
+      {q:"先生が 来る まで、ここで 待って （　）ください。", cs:["いて","あって","おいて","みて"], a:0, ex:"その状態を続ける「〜ていてください」。"},
+      {q:"山田さんは もう 帰った（　）です。かばんが ありません。", cs:["よう","つもり","はず","まま"], a:0, ex:"根拠のある推量「〜ようだ」。"},
+      {q:"あの みせは おいしい（　）ですよ。友だちが 言っていました。", cs:["そう","よう","ため","まま"], a:0, ex:"伝聞の「〜そうだ」（人から聞いた）。"},
+      {q:"日本へ 行った（　）、ふじ山を 見たいです。", cs:["ら","と","ので","のに"], a:0, ex:"「〜たら」＝〜したら（条件・きっかけ）。"},
+      {q:"かぜを ひかない（　）、コートを きて 出かけます。", cs:["ように","ために","ので","から"], a:0, ex:"目的（無意志）「〜ないように」。"},
+      {q:"この ケーキは 母（　）作って もらいました。", cs:["に","を","が","で"], a:0, ex:"「〜てもらう」の動作をする人は「に」。"},
+      {q:"いくら 考えても、答えが （　）。", cs:["わかりません","わかります","わかって","わかろう"], a:0, ex:"「いくら〜ても」＝どんなに〜しても。否定と合う。"},
+      {q:"会議は 3時に 始まる（　）です。よてい表に 書いて あります。", cs:["はず","よう","そう","まま"], a:0, ex:"当然の予想「〜はずだ」。"},
+      {q:"へやを きれいに （　）から、そうじきを かけました。", cs:["する","して","させる","なる"], a:1, ex:"「きれいにする」＋て形「きれいにしてから」。"}
     ]},
     { key:"kanji", name:"漢字（読み）", ic:"字", desc:"　　の ことばの 読みを えらぶ", items:[
-      {q:"あの 山 は とても たかいです。「山」の 読みは？", cs:["かわ","やま","うみ","そら"], a:1, ex:"山＝やま。"},
-      {q:"コップに 水 を 入れます。「水」の 読みは？", cs:["みず","ひ","き","つち"], a:0, ex:"水＝みず。"},
-      {q:"田中 先生 は やさしいです。「先生」の 読みは？", cs:["せんせえ","がくせい","せんせい","せいせい"], a:2, ex:"先生＝せんせい。"},
-      {q:"あさ ごはんを 食べます 。「食べます」の 読みは？", cs:["たべます","のべます","しょくます","くべます"], a:0, ex:"食べます＝たべます。"},
-      {q:"まいにち 学校 へ 行きます。「学校」の 読みは？", cs:["がこう","かっこう","がくこう","がっこう"], a:3, ex:"学校＝がっこう（小さい「っ」）。"},
-      {q:"日曜日 は やすみです。「日曜日」の 読みは？", cs:["にちようび","げつようび","かようび","きんようび"], a:0, ex:"日曜日＝にちようび。"},
-      {q:"この かばんは 大きい です。「大きい」の 読みは？", cs:["おおきい","だいきい","たいきい","おうきい"], a:0, ex:"大きい＝おおきい。"},
-      {q:"あの 人 は だれですか。「人」の 読みは？", cs:["ひと","じん","にん","かた"], a:0, ex:"一字の「人」は「ひと」。〜じん・〜にんとは違う。"},
-      {q:"かいぎの 時間 は 3じです。「時間」の 読みは？", cs:["じかん","じっかん","じくん","どきま"], a:0, ex:"時間＝じかん。"},
-      {q:"えきで 電車 に のります。「電車」の 読みは？", cs:["でんしゃ","てんしゃ","でんちゃ","でんし"], a:0, ex:"電車＝でんしゃ。"}
+      {q:"あした 用事 が あります。「用事」の 読みは？", cs:["ようじ","ようごと","もちいじ","ようこと"], a:0, ex:"用事＝ようじ。"},
+      {q:"電話で 予約 しました。「予約」の 読みは？", cs:["よやく","よゆう","ようやく","ゆやく"], a:0, ex:"予約＝よやく。"},
+      {q:"先生が 説明 します。「説明」の 読みは？", cs:["せつめい","せつあき","せつめえ","ぜつめい"], a:0, ex:"説明＝せつめい。"},
+      {q:"日本の 文化 に きょうみが あります。「文化」の 読みは？", cs:["ぶんか","もんか","ぶんが","ぶんばけ"], a:0, ex:"文化＝ぶんか。"},
+      {q:"毎日 運動 して います。「運動」の 読みは？", cs:["うんどう","うんとう","はこびどう","うんどお"], a:0, ex:"運動＝うんどう。"},
+      {q:"今日は 都合 が わるいです。「都合」の 読みは？", cs:["つごう","とごう","みやこあい","つあい"], a:0, ex:"都合＝つごう。"},
+      {q:"となりの 留学生 と 話しました。「留学生」の 読みは？", cs:["りゅうがくせい","るがくせい","りゅがくせい","りゅうがくしょう"], a:0, ex:"留学生＝りゅうがくせい。"},
+      {q:"地図 を 見ながら 行きます。「地図」の 読みは？", cs:["ちず","じず","ちと","ちほう"], a:0, ex:"地図＝ちず。"},
+      {q:"借りた 本を 返します 。「返します」の 読みは？", cs:["かえします","かやします","もどします","きします"], a:0, ex:"返します＝かえします。"},
+      {q:"かいぎの 準備 を します。「準備」の 読みは？", cs:["じゅんび","じゅんじ","しゅんび","じゅび"], a:0, ex:"準備＝じゅんび。"}
     ]},
-    { key:"dokkai", name:"読解", ic:"文", desc:"みじかい 文を 読んで こたえる", items:[
-      {passage:"たなかさんへ\n３じから かいぎが あります。\nかいぎしつは ２かいです。\nおくれないで きてください。\n　　　　　　　　　やまだ", sub:"かいぎは どこで ありますか。", cs:["１かい","２かい","３かい","やまださんの へや"], a:1, ex:"「かいぎしつは ２かいです」とあります。"},
-      {passage:"わたしは まいあさ ６じに おきます。\n７じに あさごはんを 食べて、８じに いえを 出ます。", sub:"この 人は なんじに あさごはんを 食べますか。", cs:["６じ","７じ","８じ","９じ"], a:1, ex:"「７じに あさごはんを 食べて」とあります。"},
-      {passage:"【おしらせ】\nあした みせは やすみです。\nあさっての 10じから あいています。", sub:"あした みせは どうですか。", cs:["10じから あいています","やすみです","よる あいています","いつも やすみです"], a:1, ex:"「あした みせは やすみです」とあります。"},
-      {passage:"あした いっしょに ひるごはんを 食べませんか。\nえきの まえの レストランで、12じは どうですか。", sub:"どこで あいますか。", cs:["えきの なか","えきの まえ","レストランの うえ","がっこう"], a:1, ex:"「えきの まえの レストランで」とあります。"},
-      {passage:"きのうは あめでしたから、うちで 本を 読みました。\nきょうは はれですから、これから こうえんへ 行きます。", sub:"きょう この 人は 何を しますか。", cs:["本を 読みます","こうえんへ 行きます","うちに います","そうじを します"], a:1, ex:"「きょうは…これから こうえんへ 行きます」とあります。"}
-    ]},
-    { key:"sakubun", name:"短文作成（選択式）", ic:"並", desc:"ただしい 文を えらぶ", items:[
-      {q:"いちばん いい 文を えらんでください。", cs:["わたしは としょかんで 本を 読みます。","わたしは としょかんを 本を 読みます。","わたしは としょかんで 本が 読みます。","わたしを としょかんで 本を 読みます。"], a:0, ex:"場所は「で」、目的語は「を」、主語は「は」。"},
-      {q:"いちばん いい 文を えらんでください。", cs:["きのう ともだちと えいがを 見ました。","きのう ともだちを えいがと 見ました。","きのう ともだちと えいがが 見ました。","きのう ともだちに えいがを 見ます。"], a:0, ex:"「〜と（一緒に）」「〜を 見る」。きのう＝過去なので「見ました」。"},
-      {q:"いちばん いい 文を えらんでください。", cs:["つくえの 上に 本が あります。","つくえの 上に 本が います。","つくえの 上で 本が あります。","つくえの 上に 本を あります。"], a:0, ex:"もの＝「ある」。存在の場所は「に」。「本が ある」。"},
-      {q:"いちばん いい 文を えらんでください。", cs:["わたしは 日本語が すこし わかります。","わたしは 日本語を すこし わかります。","わたしに 日本語が すこし わかります。","わたしは 日本語が すこし わかりませんです。"], a:0, ex:"「〜が わかる」。ていねいな否定は「わかりません」。"},
-      {q:"いちばん いい 文を えらんでください。", cs:["あした ともだちに てがみを 書きます。","あした ともだちを てがみに 書きます。","あした ともだちへ てがみが 書きます。","あした ともだちに てがみを 書きました。"], a:0, ex:"相手は「に」、目的語は「を」。あした＝未来なので「書きます」。"},
-      {q:"いちばん いい 文を えらんでください。", cs:["この へやは あかるくて きれいです。","この へやは あかるいで きれいです。","この へやは あかるくて きれいだです。","この へやは あかるく きれいです。"], a:0, ex:"い形容詞の て形は「あかるくて」。「きれいです」。"}
+    { key:"dokkai", name:"読解", ic:"文", desc:"文章を 読んで こたえる", items:[
+      {passage:"田中さんへ\nあしたの 会議ですが、時間が 3時から 4時に かわりました。\n場所は まえと 同じ 会議室です。\nよろしく おねがいします。", sub:"会議に ついて ただしいのは どれですか。", cs:["時間が かわった","場所が かわった","中止に なった","3時から 始まる"], a:0, ex:"「時間が 3時から 4時に かわりました」とあります。"},
+      {passage:"先週 かぜを ひいて、3日 会社を 休みました。\n今は もう 元気に なりましたが、まだ せきが 少し 出ます。", sub:"今 この人は どうですか。", cs:["会社を 休んでいる","元気だが せきが 少し 出る","とても 元気だ","熱が 高い"], a:1, ex:"「元気に なりましたが、まだ せきが 少し 出ます」とあります。"},
+      {passage:"【図書館の りようについて】\n本は 2週間 借りられます。1回に 5さつまでです。\nかえす 日を すぎると、1週間 新しい 本を 借りられません。", sub:"この 図書館で できない ことは どれですか。", cs:["本を 2週間 借りる","1回に 5さつ 借りる","かえす日を すぎて すぐ また 借りる","本を かりる"], a:2, ex:"「かえす日を すぎると、1週間 借りられません」とあります。"},
+      {passage:"あおぞら公園の おねがい\n・じてんしゃに のっては いけません。\n・犬と いっしょに 入れますが、リードを つけて ください。", sub:"公園で できる ことは どれですか。", cs:["じてんしゃに のる","リードを つけて 犬と 入る","リードなしで 犬と 入る","ボールで あそぶ"], a:1, ex:"「犬と…入れますが、リードを つけて」とあります。"},
+      {passage:"わたしは まえ、りょうりが きらいでした。\nでも、日本に 来てから、自分で 作る ように なりました。\n今では りょうりが 好きに なりました。", sub:"この人に ついて ただしいのは どれですか。", cs:["今も りょうりが きらいだ","日本に 来て りょうりが 好きに なった","まえから 好きだった","りょうりを しない"], a:1, ex:"「日本に 来てから…今では 好きに なりました」とあります。"},
+      {passage:"あしたの えんそくは、雨の 場合は 中止です。\n中止の ときは、朝 7時までに メールを 送ります。\nメールが 来なければ、よてい通り 行います。", sub:"メールが 来なかったら どう しますか。", cs:["中止する","えんそくに 行く","家に いる","7時に あつまる"], a:1, ex:"「メールが 来なければ、よてい通り 行います」＝行きます。"}
     ]}
   ];
 
@@ -171,7 +160,6 @@
   var home=$("home"), quiz=$("quiz"), result=$("result");
   var pool=[], cur=0, correct=0, answered=false, curSec="";
 
-  // ホーム描画
   (function(){
     var box=$("cats"), html="";
     var all=0; SECTIONS.forEach(function(s){ all+=s.items.length; });
@@ -190,8 +178,7 @@
     pool=shuffle(items).slice(0, PER);
     cur=0; correct=0;
     home.classList.add("hidden"); result.classList.add("hidden"); quiz.classList.remove("hidden");
-    render();
-    window.scrollTo({top:0});
+    render(); window.scrollTo({top:0});
   }
 
   function render(){
@@ -205,7 +192,6 @@
     if(it.passage){ extra+='<div class="passage">'+it.passage+'</div>'; }
     if(it.sub){ extra+='<div class="q-sub">'+it.sub+'</div>'; }
     $("qExtra").innerHTML=extra;
-    // choices shuffle
     var opts=it.cs.map(function(c,ci){ return {t:c, ok:ci===it.a}; });
     opts=shuffle(opts);
     var ch=$("choices"); ch.innerHTML="";
@@ -216,22 +202,13 @@
       ch.appendChild(b);
     });
     var e=$("exp"); e.className="exp"; e.innerHTML="";
-    var nb=$("nextBtn"); nb.className="btn primary hidden";
+    $("nextBtn").className="btn primary hidden";
   }
 
   function pick(btn, ok, ch, ex){
     if(answered) return; answered=true;
-    var btns=ch.querySelectorAll(".choice");
-    btns.forEach(function(b){ b.disabled=true; });
-    // mark correct
-    btns.forEach(function(b){ if(b.querySelector("span:last-child").textContent && b===btn){} });
-    // find correct button (the one whose ok) — re-evaluate by matching
-    // we stored ok on click closure; mark chosen + correct
-    if(ok){ correct++; btn.classList.add("correct"); }
-    else { btn.classList.add("wrong"); }
-    // also highlight the correct one
-    // rebuild: we need to know which is correct; mark by comparing text to correct text
-    // (simpler: mark the correct by re-reading data)
+    ch.querySelectorAll(".choice").forEach(function(b){ b.disabled=true; });
+    if(ok){ correct++; btn.classList.add("correct"); } else { btn.classList.add("wrong"); }
     markCorrect(ch);
     var mk = ok ? '<span class="mk ok">○ 正解</span>' : '<span class="mk ng">✗ 不正解</span>';
     var e=$("exp"); e.innerHTML=mk+(ex||""); e.classList.add("show");
@@ -240,16 +217,14 @@
     $("progFill").style.width=Math.round((cur+1)/pool.length*100)+"%";
   }
   function markCorrect(ch){
-    var o=pool[cur], it=o.it, correctText=it.cs[it.a];
+    var it=pool[cur].it, correctText=it.cs[it.a];
     ch.querySelectorAll(".choice").forEach(function(b){
-      var t=b.querySelector("span:last-child").textContent;
-      if(t===correctText) b.classList.add("correct");
+      if(b.querySelector("span:last-child").textContent===correctText) b.classList.add("correct");
     });
   }
 
   $("nextBtn").addEventListener("click", function(){
-    if(cur+1>=pool.length){ finish(); }
-    else { cur++; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+    if(cur+1>=pool.length){ finish(); } else { cur++; render(); window.scrollTo({top:0,behavior:"smooth"}); }
   });
 
   function finish(){
@@ -257,20 +232,17 @@
     var n=pool.length, pct=Math.round(correct/n*100);
     $("rScore").textContent=correct+" / "+n;
     $("rRate").textContent="正答率 "+pct+"％";
-    var msg = pct>=80?"すばらしい！ この ちょうしで！" : pct>=50?"いい かんじです。もう すこし！" : "だいじょうぶ。くりかえして おぼえましょう。";
-    $("rMsg").textContent=msg;
+    $("rMsg").textContent = pct>=80?"すばらしい！ この ちょうしで！" : pct>=50?"いい かんじです。もう すこし！" : "だいじょうぶ。くりかえして おぼえましょう。";
     window.scrollTo({top:0,behavior:"smooth"});
   }
 
   $("againBtn").addEventListener("click", function(){
-    // 同じパートで新しい10問（元のキーを保持）
     var key=curSec==="ミックス"?"__all":(SECTIONS.filter(function(s){return s.name===curSec;})[0]||{}).key;
     start(key);
   });
   $("homeBtn").addEventListener("click", goHome);
   $("backBtn").addEventListener("click", function(){
-    if(!quiz.classList.contains("hidden")||!result.classList.contains("hidden")){ goHome(); }
-    else { location.href="jtest.html"; }
+    if(!quiz.classList.contains("hidden")||!result.classList.contains("hidden")){ goHome(); } else { location.href="jtest.html"; }
   });
   function goHome(){ quiz.classList.add("hidden"); result.classList.add("hidden"); home.classList.remove("hidden"); window.scrollTo({top:0}); }
 })();

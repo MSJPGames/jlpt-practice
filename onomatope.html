@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>擬音語・擬態語（オノマトペ）・ 日本語の部屋</title>
+<meta name="description" content="日本語の擬音語・擬態語（オノマトペ）を、意味のカテゴリ別に、意味・例文・英訳・読み上げつきでまとめた一覧です。">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --accent:#8A4A0B; --accent-bg:#FAEEDA; --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.6;padding:0 1rem 3rem;-webkit-text-size-adjust:100%;}
+  .container{max-width:600px;margin:0 auto;}
+
+  .topbar{display:flex;align-items:center;gap:8px;padding:14px 0 2px;flex-wrap:wrap;}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--text-muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);transition:transform .12s;}
+  .back-link:active{transform:scale(.97);}
+  .back-arrow{font-size:16px;line-height:1;}
+
+  .lang-header{display:flex;align-items:center;gap:14px;background:var(--surface);
+    border:1px solid var(--border);border-left:5px solid var(--accent);border-radius:var(--radius);padding:16px;margin-top:1rem;}
+  .lh-chip{min-width:56px;height:56px;padding:0 10px;border-radius:14px;background:var(--accent-bg);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;flex-shrink:0;}
+  .lh-jp{font-size:20px;font-weight:700;}
+  .lh-sub{font-size:12.5px;color:var(--text-muted);margin-top:2px;}
+
+  .note{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:12px 15px;font-size:12.5px;color:var(--text-muted);line-height:1.75;margin-top:14px;}
+  .note b{color:var(--text);}
+
+  .tools{position:sticky;top:0;z-index:20;background:linear-gradient(var(--bg) 82%,rgba(247,245,240,0));padding:12px 0 8px;margin-top:10px;}
+  .search{width:100%;font-size:15px;padding:11px 14px;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--text);}
+  .search:focus{outline:none;border-color:var(--accent);}
+  .chips{display:flex;gap:6px;overflow-x:auto;margin-top:8px;scrollbar-width:none;}
+  .chips::-webkit-scrollbar{display:none;}
+  .chip{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);
+    border-radius:999px;padding:7px 13px;cursor:pointer;white-space:nowrap;}
+  .chip.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .cnt{font-size:11px;color:var(--text-hint);margin:6px 2px 2px;}
+
+  .ghead{font-size:14px;font-weight:800;color:var(--accent);margin:20px 2px 8px;display:flex;align-items:center;gap:9px;padding-top:14px;border-top:1px solid var(--border);}
+  .ghead:first-of-type{border-top:none;padding-top:2px;}
+  .gbar{width:4px;height:17px;border-radius:2px;background:var(--accent);}
+
+  .o-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:11px 13px;margin-bottom:8px;}
+  .o-top{display:flex;align-items:center;gap:9px;}
+  .o-w{font-size:19px;font-weight:700;color:var(--text);}
+  .o-badge{font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 9px;white-space:nowrap;}
+  .o-badge.on-sound{background:#E6F1FB;color:#185FA5;}
+  .o-badge.on-state{background:#EAF3DE;color:#3B6D11;}
+  .o-right{margin-left:auto;display:flex;align-items:center;gap:7px;flex-shrink:0;}
+  .o-say{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--accent);
+    font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .1s,background .1s;}
+  .o-say:active{transform:scale(.9);} .o-say.playing{background:var(--accent-bg);}
+  .o-ja{font-size:14px;font-weight:600;margin-top:5px;}
+  .o-ja .en{font-weight:400;color:var(--text-muted);}
+  .o-ex{margin-top:7px;background:var(--accent-bg);border-radius:9px;padding:8px 10px;}
+  .o-ex-jp{font-size:14px;font-weight:600;color:#3a2c12;}
+  .o-ex-en{font-size:12px;color:var(--text-muted);margin-top:2px;}
+  .o-use{font-size:11px;color:var(--text-hint);margin-top:5px;}
+  .empty{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;text-align:center;color:var(--text-muted);margin-top:14px;}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2rem;line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <a href="hinshi.html" class="back-link"><span class="back-arrow">‹</span>品詞</a>
+    <a href="index.html" class="back-link">ホーム</a>
+  </div>
+
+  <div class="lang-header">
+    <div class="lh-chip">音</div>
+    <div>
+      <div class="lh-jp">擬音語・擬態語</div>
+      <div class="lh-sub">オノマトペ ・ Onomatopoeia<span class="en"> — sound &amp; mimetic words</span></div>
+    </div>
+  </div>
+
+  <div class="note">
+    日本語の <b>擬音語</b>（音や声を表す語）と <b>擬態語</b>（様子・気持ちを表す語）を、意味のカテゴリ別にまとめました。品詞では主に <b>副詞（状態の副詞）</b> にあたります。各語に意味・例文・使い方・🔊読み上げつき。
+    <span class="en"><br>Japanese onomatopoeia: 擬音語 (sounds) and 擬態語 (states/manner), grouped by meaning. Tap 🔊 to hear the example. Tap “EN” (top-right) to hide English.</span>
+  </div>
+
+  <div class="tools">
+    <input class="search" id="q" type="text" placeholder="語・意味・英語・種類で検索" autocomplete="off">
+    <div class="chips" id="chips"></div>
+  </div>
+  <div class="cnt" id="cnt"></div>
+  <div id="list"></div>
+
+  <div class="app-footer">© 2025 日本語の部屋</div>
+</div>
+
+<script>
+var ONOMATOPE = {"groups":[{"label":"音・声（もの・動物の音）","items":[{"w":"ワンワン","type":"擬音語","ja":"犬がほえる声","en":"dog barking (woof)","ex":"犬がワンワンほえている。","ej":"The dog is barking.","use":"副詞的"},{"w":"ニャーニャー","type":"擬音語","ja":"猫が鳴く声","en":"cat meowing","ex":"猫がニャーニャー鳴いている。","ej":"The cat is meowing.","use":"副詞的"},{"w":"ザーザー","type":"擬音語","ja":"雨が強く降る音","en":"heavy rain pouring","ex":"雨がザーザー降っている。","ej":"The rain is pouring down.","use":"副詞的"},{"w":"ゴロゴロ","type":"擬音語","ja":"雷が鳴る音","en":"thunder rumbling","ex":"遠くで雷がゴロゴロ鳴っている。","ej":"Thunder is rumbling in the distance.","use":"副詞的"},{"w":"ガタガタ","type":"擬音語","ja":"物が揺れて鳴る音","en":"rattling","ex":"風で窓がガタガタ音を立てる。","ej":"The window rattles in the wind.","use":"副詞的"},{"w":"ドンドン","type":"擬音語","ja":"強くたたく音","en":"banging","ex":"誰かがドアをドンドンたたいた。","ej":"Someone banged on the door.","use":"副詞的"},{"w":"パチパチ","type":"擬音語","ja":"拍手や火がはぜる音","en":"clapping/crackling","ex":"みんながパチパチ拍手した。","ej":"Everyone clapped.","use":"副詞的"},{"w":"ガチャン","type":"擬音語","ja":"物が割れる・当たる音","en":"crash/clang","ex":"お皿をガチャンと割ってしまった。","ej":"I broke a plate with a crash.","use":"〜と"},{"w":"ピンポン","type":"擬音語","ja":"玄関チャイムの音","en":"doorbell chime","ex":"ピンポンと玄関のチャイムが鳴った。","ej":"The doorbell went ding-dong.","use":"〜と"},{"w":"コンコン","type":"擬音語","ja":"軽くノックする音","en":"knock knock","ex":"ドアをコンコンとノックした。","ej":"I knocked on the door.","use":"〜と"},{"w":"チクタク","type":"擬音語","ja":"時計が進む音","en":"clock ticking","ex":"時計がチクタク鳴っている。","ej":"The clock is ticking.","use":"副詞的"},{"w":"ゴーゴー","type":"擬音語","ja":"風などが激しく鳴る音","en":"roaring (wind)","ex":"風がゴーゴー吹いている。","ej":"The wind is roaring.","use":"副詞的"},{"w":"カチカチ","type":"擬音語","ja":"堅い物が当たる音","en":"clicking/ticking","ex":"秒針がカチカチ動く。","ej":"The second hand clicks along.","use":"副詞的"},{"w":"ブーブー","type":"擬音語","ja":"車の警笛の音","en":"car horn honking","ex":"車がブーブーとクラクションを鳴らす。","ej":"The car honks its horn.","use":"〜と"},{"w":"コケコッコー","type":"擬音語","ja":"にわとりの鳴き声","en":"rooster crowing","ex":"にわとりがコケコッコーと鳴いた。","ej":"The rooster crowed.","use":"〜と"},{"w":"モーモー","type":"擬音語","ja":"牛の鳴き声","en":"cow mooing","ex":"牛がモーモー鳴いている。","ej":"The cow is mooing.","use":"副詞的"},{"w":"ピヨピヨ","type":"擬音語","ja":"ひよこの鳴き声","en":"chick peeping","ex":"ひよこがピヨピヨ鳴く。","ej":"The chick peeps.","use":"副詞的"},{"w":"リンリン","type":"擬音語","ja":"鈴が鳴る音","en":"bell ringing","ex":"鈴がリンリンと鳴る。","ej":"The bell rings.","use":"〜と"}]},{"label":"気持ち・感情","items":[{"w":"どきどき","type":"擬態語","ja":"緊張や興奮で胸が高鳴る","en":"heart pounding","ex":"発表の前は心臓がどきどきする。","ej":"My heart pounds before a presentation.","use":"〜する"},{"w":"わくわく","type":"擬態語","ja":"楽しみで心が弾む","en":"excited/thrilled","ex":"旅行の前日はわくわくする。","ej":"I'm thrilled the day before a trip.","use":"〜する"},{"w":"いらいら","type":"擬態語","ja":"思い通りにならず腹立たしい","en":"irritated","ex":"電車が遅れていらいらした。","ej":"I got irritated because the train was late.","use":"〜する"},{"w":"はらはら","type":"擬態語","ja":"心配でひやひやする","en":"on edge/anxious","ex":"試合の結果にはらはらした。","ej":"I was on edge about the game's result.","use":"〜する"},{"w":"うっとり","type":"擬態語","ja":"うつくしさに心を奪われる","en":"enchanted","ex":"きれいな音楽にうっとりした。","ej":"I was enchanted by the beautiful music.","use":"〜する"},{"w":"むかむか","type":"擬態語","ja":"腹が立つ・吐き気がする","en":"feeling sick/angry","ex":"失礼な態度にむかむかする。","ej":"His rude attitude makes me sick.","use":"〜する"},{"w":"そわそわ","type":"擬態語","ja":"落ち着かない様子","en":"restless","ex":"結果が気になってそわそわする。","ej":"I'm restless, worried about the result.","use":"〜する"},{"w":"うきうき","type":"擬態語","ja":"うれしくて心が浮き立つ","en":"cheerful/buoyant","ex":"週末が近づいてうきうきする。","ej":"I feel cheerful as the weekend nears.","use":"〜する"},{"w":"くよくよ","type":"擬態語","ja":"小さなことを気にして悩む","en":"fretting/moping","ex":"小さな失敗をくよくよ悩む。","ej":"I fret over small mistakes.","use":"〜する"},{"w":"がっかり","type":"擬態語","ja":"期待が外れて落ち込む","en":"disappointed","ex":"試験に落ちてがっかりした。","ej":"I was disappointed to fail the exam.","use":"〜する"},{"w":"ほっと","type":"擬態語","ja":"安心する様子","en":"relieved","ex":"無事に着いてほっとした。","ej":"I was relieved to arrive safely.","use":"〜する"},{"w":"びくびく","type":"擬態語","ja":"こわがっておびえる","en":"nervous/scared","ex":"怒られるかとびくびくしていた。","ej":"I was nervous about being scolded.","use":"〜する"},{"w":"うんざり","type":"擬態語","ja":"飽きていやになる","en":"fed up","ex":"毎日同じ仕事にうんざりする。","ej":"I'm fed up with the same work every day.","use":"〜する"},{"w":"しんみり","type":"擬態語","ja":"しみじみと静かな気持ち","en":"solemn/touched","ex":"昔の話をしてしんみりした。","ej":"We grew wistful talking about old times.","use":"〜する"},{"w":"すっきり","type":"擬態語","ja":"気分がさわやかになる","en":"refreshed","ex":"部屋を片づけて気分がすっきりした。","ej":"I felt refreshed after tidying the room.","use":"〜する"},{"w":"もやもや","type":"擬態語","ja":"気持ちがはっきりしない","en":"uneasy/unclear feeling","ex":"理由が分からず気持ちがもやもやする。","ej":"I feel uneasy not knowing the reason.","use":"〜する"},{"w":"うずうず","type":"擬態語","ja":"したくてたまらない","en":"itching to do","ex":"早くやりたくてうずうずする。","ej":"I'm itching to get started.","use":"〜する"},{"w":"にこにこ","type":"擬態語","ja":"うれしそうに笑う様子","en":"smiling happily","ex":"彼女はいつもにこにこしている。","ej":"She's always smiling.","use":"〜する"}]},{"label":"人の動き・様子","items":[{"w":"うろうろ","type":"擬態語","ja":"あてもなく歩き回る","en":"wandering around","ex":"道に迷って駅前をうろうろした。","ej":"Lost, I wandered around the station.","use":"〜する"},{"w":"のろのろ","type":"擬態語","ja":"動きが遅い様子","en":"slowly/sluggishly","ex":"車がのろのろ走っている。","ej":"The cars are crawling along.","use":"副詞的"},{"w":"てきぱき","type":"擬態語","ja":"手際よく素早く","en":"briskly/efficiently","ex":"彼女は仕事をてきぱき片づける。","ej":"She handles work efficiently.","use":"副詞的"},{"w":"よろよろ","type":"擬態語","ja":"足元が不安定に歩く","en":"staggering","ex":"疲れてよろよろ歩いた。","ej":"I staggered along, exhausted.","use":"副詞的"},{"w":"ぐずぐず","type":"擬態語","ja":"決められず時間をかける","en":"dawdling","ex":"ぐずぐずしていると遅れるよ。","ej":"If you dawdle, you'll be late.","use":"〜する"},{"w":"さっさと","type":"擬態語","ja":"早く手早く行う","en":"quickly/promptly","ex":"さっさと宿題を終わらせなさい。","ej":"Finish your homework quickly.","use":"副詞的"},{"w":"こそこそ","type":"擬態語","ja":"人目をさけてひそかに","en":"sneakily","ex":"何をこそこそ話しているの。","ej":"What are you whispering about?","use":"副詞的"},{"w":"だらだら","type":"擬態語","ja":"しまりなく過ごす","en":"lazily/idly","ex":"休みの日は家でだらだら過ごす。","ej":"On days off I laze around at home.","use":"〜する"},{"w":"ふらふら","type":"擬態語","ja":"力が入らず不安定","en":"unsteady/woozy","ex":"熱で頭がふらふらする。","ej":"My head feels woozy from the fever.","use":"〜する"},{"w":"ばたばた","type":"擬態語","ja":"忙しく動き回る","en":"hectic/busy","ex":"朝はいつもばたばたしている。","ej":"Mornings are always hectic.","use":"〜する"},{"w":"のんびり","type":"擬態語","ja":"ゆったりくつろぐ","en":"relaxed/leisurely","ex":"週末は家でのんびりする。","ej":"I relax at home on weekends.","use":"〜する"},{"w":"きょろきょろ","type":"擬態語","ja":"あちこち見回す","en":"looking around","ex":"初めての町できょろきょろした。","ej":"I looked around the unfamiliar town.","use":"〜する"},{"w":"うとうと","type":"擬態語","ja":"浅く眠りかける","en":"dozing off","ex":"電車の中でうとうとした。","ej":"I dozed off on the train.","use":"〜する"},{"w":"ぐるぐる","type":"擬態語","ja":"何度も回る様子","en":"round and round","ex":"同じ場所をぐるぐる回った。","ej":"I went round and round the same spot.","use":"副詞的"},{"w":"ちょこちょこ","type":"擬態語","ja":"小刻みに動く様子","en":"scurrying/frequently","ex":"子どもがちょこちょこ動き回る。","ej":"The child scurries about.","use":"副詞的"},{"w":"すたすた","type":"擬態語","ja":"さっさと速く歩く","en":"walking briskly","ex":"彼はすたすたと歩いて行った。","ej":"He walked off briskly.","use":"〜と"},{"w":"のっそり","type":"擬態語","ja":"動作が鈍く重い","en":"sluggishly","ex":"熊がのっそりと出てきた。","ej":"The bear lumbered out.","use":"〜と"},{"w":"そろそろ","type":"擬態語","ja":"そのうちに・ゆっくりと","en":"soon/gradually","ex":"そろそろ帰る時間だ。","ej":"It's about time to head home.","use":"副詞的"}]},{"label":"からだ・体調・痛み","items":[{"w":"ずきずき","type":"擬態語","ja":"脈打つように痛む","en":"throbbing pain","ex":"歯がずきずき痛む。","ej":"My tooth is throbbing.","use":"〜する"},{"w":"ちくちく","type":"擬態語","ja":"針で刺すように痛む","en":"prickling","ex":"セーターがちくちくする。","ej":"The sweater feels prickly.","use":"〜する"},{"w":"ぐったり","type":"擬態語","ja":"疲れて力が抜ける","en":"limp/exhausted","ex":"暑さでぐったりした。","ej":"I went limp from the heat.","use":"〜する"},{"w":"くらくら","type":"擬態語","ja":"めまいがする","en":"dizzy","ex":"立ち上がると頭がくらくらした。","ej":"I got dizzy when I stood up.","use":"〜する"},{"w":"ぺこぺこ","type":"擬態語","ja":"とてもお腹がすいた","en":"starving","ex":"お腹がぺこぺこだ。","ej":"I'm starving.","use":"〜だ"},{"w":"へとへと","type":"擬態語","ja":"ひどく疲れた","en":"worn out","ex":"一日歩いてへとへとだ。","ej":"I'm worn out from walking all day.","use":"〜だ"},{"w":"がんがん","type":"擬態語","ja":"頭が激しく痛む","en":"pounding headache","ex":"頭ががんがん痛い。","ej":"My head is pounding.","use":"副詞的"},{"w":"むずむず","type":"擬態語","ja":"むずがゆい感じ","en":"itchy/restless","ex":"鼻がむずむずする。","ej":"My nose feels itchy.","use":"〜する"},{"w":"ぞくぞく","type":"擬態語","ja":"寒気やスリルで震える","en":"shivering/thrilled","ex":"風邪で背中がぞくぞくする。","ej":"I get chills down my back from a cold.","use":"〜する"},{"w":"ひりひり","type":"擬態語","ja":"焼けるように痛む","en":"stinging/burning","ex":"日焼けで肌がひりひりする。","ej":"My sunburned skin stings.","use":"〜する"},{"w":"きりきり","type":"擬態語","ja":"胃などが鋭く痛む","en":"sharp stomach pain","ex":"緊張で胃がきりきり痛む。","ej":"My stomach aches sharply from stress.","use":"副詞的"},{"w":"ぶるぶる","type":"擬態語","ja":"寒さや恐怖で震える","en":"shivering","ex":"寒くて体がぶるぶる震えた。","ej":"I shivered with cold.","use":"副詞的"},{"w":"かさかさ","type":"擬態語","ja":"肌が乾いて荒れる","en":"dry/rough skin","ex":"冬は肌がかさかさになる。","ej":"My skin gets dry in winter.","use":"〜する"},{"w":"がくがく","type":"擬態語","ja":"こわくて足などが震える","en":"trembling (legs)","ex":"怖くて足ががくがくした。","ej":"My legs trembled with fear.","use":"〜する"},{"w":"くたくた","type":"擬態語","ja":"疲れきった様子","en":"dead tired","ex":"残業でくたくたになった。","ej":"I'm dead tired from overtime.","use":"〜だ"},{"w":"ぜいぜい","type":"擬音語","ja":"苦しそうに息をする","en":"wheezing","ex":"走った後、ぜいぜい息をした。","ej":"I wheezed after running.","use":"副詞的"},{"w":"じんじん","type":"擬態語","ja":"しびれるように痛む","en":"throbbing/numb","ex":"指先がじんじんしびれる。","ej":"My fingertips are numb and tingling.","use":"〜する"},{"w":"はあはあ","type":"擬音語","ja":"激しく息を切らす","en":"panting","ex":"階段を上ってはあはあ言った。","ej":"I panted after climbing the stairs.","use":"副詞的"}]},{"label":"食感・味","items":[{"w":"さくさく","type":"擬態語","ja":"軽くて歯切れがよい","en":"crispy/crunchy","ex":"このクッキーはさくさくしている。","ej":"These cookies are crispy.","use":"〜する"},{"w":"もちもち","type":"擬態語","ja":"弾力があり柔らかい","en":"chewy/springy","ex":"このパンはもちもちだ。","ej":"This bread is chewy.","use":"〜だ"},{"w":"ぱりぱり","type":"擬態語","ja":"薄くてパリッとした","en":"crisp","ex":"のりがぱりぱりでおいしい。","ej":"The seaweed is crisp and tasty.","use":"〜だ"},{"w":"とろとろ","type":"擬態語","ja":"とけて柔らかい","en":"melty/creamy","ex":"とろとろのオムレツを作る。","ej":"I make a creamy omelet.","use":"〜だ"},{"w":"こってり","type":"擬態語","ja":"味が濃く脂っこい","en":"rich/heavy","ex":"こってりしたラーメンが好きだ。","ej":"I like rich ramen.","use":"〜する"},{"w":"あっさり","type":"擬態語","ja":"味がさっぱりして軽い","en":"light/plain taste","ex":"あっさりした味が好みだ。","ej":"I prefer a light taste.","use":"〜する"},{"w":"ぷりぷり","type":"擬態語","ja":"弾力があり新鮮","en":"plump/springy","ex":"このエビはぷりぷりしている。","ej":"This shrimp is plump and springy.","use":"〜する"},{"w":"しゃきしゃき","type":"擬態語","ja":"野菜が歯ごたえよい","en":"crunchy (veg)","ex":"野菜がしゃきしゃきしている。","ej":"The vegetables are crunchy.","use":"〜する"},{"w":"ねばねば","type":"擬態語","ja":"粘り気がある","en":"sticky/gooey","ex":"納豆はねばねばしている。","ej":"Natto is sticky.","use":"〜する"},{"w":"さっぱり","type":"擬態語","ja":"口当たりがさわやか","en":"refreshing taste","ex":"さっぱりした飲み物が欲しい。","ej":"I want a refreshing drink.","use":"〜する"},{"w":"ほくほく","type":"擬態語","ja":"温かくてやわらかい","en":"warm and fluffy","ex":"焼きいもがほくほくしている。","ej":"The baked sweet potato is warm and fluffy.","use":"〜する"},{"w":"こりこり","type":"擬態語","ja":"適度に固く歯ごたえがある","en":"firm/chewy","ex":"貝がこりこりした食感だ。","ej":"The shellfish has a firm texture.","use":"〜する"},{"w":"かりかり","type":"擬態語","ja":"固く焼けて香ばしい","en":"crispy","ex":"ベーコンをかりかりに焼く。","ej":"I fry the bacon until crispy.","use":"〜だ"},{"w":"ぷちぷち","type":"擬態語","ja":"小粒がはじける食感","en":"popping texture","ex":"いくらのぷちぷちした食感が好きだ。","ej":"I love the popping texture of salmon roe.","use":"〜する"},{"w":"しっとり","type":"擬態語","ja":"ほどよく湿って柔らかい","en":"moist","ex":"このケーキはしっとりしている。","ej":"This cake is moist.","use":"〜する"},{"w":"ぷるぷる","type":"擬態語","ja":"やわらかく揺れる","en":"jiggly","ex":"ゼリーがぷるぷるしている。","ej":"The jelly is jiggly.","use":"〜する"},{"w":"こんがり","type":"擬態語","ja":"ほどよく焼けた色","en":"nicely browned","ex":"パンをこんがり焼いた。","ej":"I toasted the bread nicely.","use":"副詞的"},{"w":"ぴりぴり","type":"擬態語","ja":"舌がしびれる辛さ","en":"spicy/tingly","ex":"このカレーはぴりぴり辛い。","ej":"This curry is tinglingly spicy.","use":"副詞的"}]},{"label":"天気・自然","items":[{"w":"ぽかぽか","type":"擬態語","ja":"気持ちよく暖かい","en":"pleasantly warm","ex":"今日はぽかぽか暖かい。","ej":"It's pleasantly warm today.","use":"副詞的"},{"w":"じめじめ","type":"擬態語","ja":"湿気が多く不快","en":"damp/humid","ex":"梅雨はじめじめする。","ej":"The rainy season is damp.","use":"〜する"},{"w":"むしむし","type":"擬態語","ja":"蒸し暑い","en":"muggy","ex":"夏の夜はむしむしする。","ej":"Summer nights are muggy.","use":"〜する"},{"w":"からから","type":"擬態語","ja":"水分がなく乾いた","en":"bone-dry","ex":"のどがからからだ。","ej":"My throat is parched.","use":"〜だ"},{"w":"しとしと","type":"擬態語","ja":"雨が静かに降る","en":"drizzling softly","ex":"雨がしとしと降っている。","ej":"The rain is drizzling softly.","use":"副詞的"},{"w":"ぎらぎら","type":"擬態語","ja":"強く照りつける","en":"glaring (sun)","ex":"太陽がぎらぎら照りつける。","ej":"The sun glares down.","use":"副詞的"},{"w":"どんより","type":"擬態語","ja":"空が暗く曇る","en":"gloomy/overcast","ex":"空がどんより曇っている。","ej":"The sky is gloomy and overcast.","use":"〜する"},{"w":"ひんやり","type":"擬態語","ja":"冷たく感じる","en":"chilly/cool","ex":"朝の空気がひんやりする。","ej":"The morning air feels cool.","use":"〜する"},{"w":"ぱらぱら","type":"擬態語","ja":"雨などがまばらに降る","en":"sprinkling","ex":"雨がぱらぱら降ってきた。","ej":"It started to sprinkle.","use":"副詞的"},{"w":"びゅうびゅう","type":"擬音語","ja":"風が強く吹く音","en":"wind howling","ex":"風がびゅうびゅう吹く。","ej":"The wind howls.","use":"副詞的"},{"w":"そよそよ","type":"擬態語","ja":"風がやさしく吹く","en":"gentle breeze","ex":"風がそよそよ吹いている。","ej":"A gentle breeze is blowing.","use":"副詞的"},{"w":"ぽつぽつ","type":"擬態語","ja":"雨が少しずつ降り始める","en":"raindrops starting","ex":"雨がぽつぽつ降り出した。","ej":"Raindrops began to fall.","use":"副詞的"},{"w":"しんしん","type":"擬態語","ja":"雪が静かに降る","en":"snow falling silently","ex":"雪がしんしんと降る。","ej":"The snow falls silently.","use":"〜と"},{"w":"むわむわ","type":"擬態語","ja":"熱気がこもって蒸す","en":"stiflingly humid","ex":"部屋がむわむわと蒸し暑い。","ej":"The room is stiflingly humid.","use":"〜と"},{"w":"かんかん","type":"擬態語","ja":"日が強く照る","en":"blazing sun","ex":"太陽がかんかん照りだ。","ej":"The sun is blazing.","use":"副詞的"},{"w":"じりじり","type":"擬態語","ja":"日差しが焼けつく","en":"scorching","ex":"日差しがじりじり照りつける。","ej":"The sunlight scorches down.","use":"副詞的"},{"w":"もくもく","type":"擬態語","ja":"煙や雲が盛り上がる","en":"billowing","ex":"煙がもくもく上がる。","ej":"Smoke billows up.","use":"副詞的"},{"w":"ざわざわ","type":"擬音語","ja":"木の葉などがそよぐ音","en":"rustling","ex":"木の葉が風でざわざわ音を立てる。","ej":"The leaves rustle in the wind.","use":"副詞的"}]},{"label":"状態・質感・光","items":[{"w":"つるつる","type":"擬態語","ja":"表面がなめらか","en":"smooth/slippery","ex":"床がつるつるして滑る。","ej":"The floor is slippery.","use":"〜する"},{"w":"ざらざら","type":"擬態語","ja":"表面が粗い","en":"rough/gritty","ex":"壁がざらざらしている。","ej":"The wall is rough.","use":"〜する"},{"w":"べたべた","type":"擬態語","ja":"ねばついて張りつく","en":"sticky","ex":"手がべたべたする。","ej":"My hands are sticky.","use":"〜する"},{"w":"ふわふわ","type":"擬態語","ja":"軽く柔らかい","en":"fluffy/soft","ex":"このタオルはふわふわだ。","ej":"This towel is fluffy.","use":"〜だ"},{"w":"ぴかぴか","type":"擬態語","ja":"つやがあって光る","en":"shiny/sparkling","ex":"靴をぴかぴかに磨いた。","ej":"I polished my shoes until they shone.","use":"〜だ"},{"w":"きらきら","type":"擬態語","ja":"明るく輝く","en":"glittering","ex":"星がきらきら光っている。","ej":"The stars are glittering.","use":"副詞的"},{"w":"ぐちゃぐちゃ","type":"擬態語","ja":"ひどく乱れて汚い","en":"messy/mushy","ex":"机の上がぐちゃぐちゃだ。","ej":"My desk is a mess.","use":"〜だ"},{"w":"ぼろぼろ","type":"擬態語","ja":"古びて傷んだ様子","en":"worn-out/tattered","ex":"靴がぼろぼろになった。","ej":"My shoes are worn out.","use":"〜だ"},{"w":"ぎゅうぎゅう","type":"擬態語","ja":"すきまなく詰まる","en":"packed tight","ex":"電車がぎゅうぎゅうで混んでいる。","ej":"The train is packed tight.","use":"〜だ"},{"w":"さらさら","type":"擬態語","ja":"湿り気がなくなめらか","en":"silky/smooth","ex":"彼女の髪はさらさらだ。","ej":"Her hair is silky.","use":"〜だ"},{"w":"でこぼこ","type":"擬態語","ja":"面が平らでない","en":"bumpy/uneven","ex":"この道はでこぼこしている。","ej":"This road is bumpy.","use":"〜する"},{"w":"ぬるぬる","type":"擬態語","ja":"ぬめってすべる","en":"slimy","ex":"石がぬるぬるして滑る。","ej":"The rocks are slimy and slippery.","use":"〜する"},{"w":"ふかふか","type":"擬態語","ja":"柔らかくふくらんだ","en":"soft and fluffy","ex":"このベッドはふかふかだ。","ej":"This bed is soft and fluffy.","use":"〜だ"},{"w":"ごわごわ","type":"擬態語","ja":"固くてなめらかでない","en":"stiff (fabric)","ex":"タオルがごわごわしている。","ej":"The towel is stiff.","use":"〜する"},{"w":"すべすべ","type":"擬態語","ja":"肌などがなめらか","en":"smooth (skin)","ex":"赤ちゃんの肌はすべすべだ。","ej":"A baby's skin is smooth.","use":"〜だ"},{"w":"びしょびしょ","type":"擬態語","ja":"ひどくぬれた","en":"soaking wet","ex":"雨で服がびしょびしょになった。","ej":"My clothes got soaking wet in the rain.","use":"〜だ"},{"w":"てかてか","type":"擬態語","ja":"つやが出て光る","en":"shiny/greasy","ex":"額がてかてか光っている。","ej":"My forehead is shiny.","use":"副詞的"},{"w":"もこもこ","type":"擬態語","ja":"厚くふくらんで柔らかい","en":"fluffy/puffy","ex":"もこもこのセーターを着る。","ej":"I wear a fluffy sweater.","use":"〜だ"}]}]};
+</script>
+<script>
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function speak(text, btn){
+  if(!('speechSynthesis' in window)) return;
+  try{
+    window.speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(text); u.lang='ja-JP'; u.rate=0.95;
+    if(btn){ btn.classList.add('playing'); u.onend=function(){btn.classList.remove('playing');}; u.onerror=function(){btn.classList.remove('playing');}; }
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+window.__speak=speak;
+
+var groups = (ONOMATOPE.groups)||[];
+var cur='all', qf='';
+var chips=document.getElementById('chips');
+chips.innerHTML=[{k:'all',l:'すべて'}].concat(groups.map(function(g){return {k:g.label,l:g.label};}))
+  .map(function(c){return '<button class="chip'+(c.k==='all'?' on':'')+'" data-k="'+esc(c.k)+'">'+esc(c.l)+'</button>';}).join('');
+chips.addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;cur=b.getAttribute('data-k');
+  for(var i=0;i<chips.children.length;i++){chips.children[i].classList.toggle('on',chips.children[i]===b);}render();});
+document.getElementById('q').addEventListener('input',function(e){qf=e.target.value.trim().toLowerCase();render();});
+
+function itemHTML(it){
+  var cls = it.type==='擬音語' ? 'on-sound' : 'on-state';
+  var say = '<button type="button" class="o-say" aria-label="読み上げ" onclick="__speak(\''+esc(it.ex).replace(/'/g,"\\'")+'\',this)">🔊</button>';
+  return '<div class="o-item"><div class="o-top">'
+      + '<span class="o-w">'+esc(it.w)+'</span>'
+      + '<span class="o-badge '+cls+'">'+esc(it.type)+'</span>'
+      + '<span class="o-right">'+say+'</span></div>'
+    + '<div class="o-ja">'+esc(it.ja)+(it.en?' <span class="en">／ '+esc(it.en)+'</span>':'')+'</div>'
+    + '<div class="o-ex"><div class="o-ex-jp">'+esc(it.ex)+'</div>'
+      + (it.ej?'<div class="o-ex-en en">'+esc(it.ej)+'</div>':'')+'</div>'
+    + (it.use?'<div class="o-use">使い方：'+esc(it.use)+'</div>':'')
+  + '</div>';
+}
+function match(it){
+  if(!qf) return true;
+  return ((it.w||'')+' '+(it.ja||'')+' '+(it.en||'')+' '+(it.ex||'')+' '+(it.ej||'')+' '+(it.type||'')).toLowerCase().indexOf(qf)>=0;
+}
+function render(){
+  var html='', shown=0;
+  groups.forEach(function(g){
+    if(cur!=='all' && cur!==g.label) return;
+    var items=(g.items||[]).filter(match);
+    if(!items.length) return;
+    shown+=items.length;
+    html+='<div class="ghead"><span class="gbar"></span>'+esc(g.label)+'（'+items.length+'）</div>';
+    html+=items.map(itemHTML).join('');
+  });
+  document.getElementById('cnt').textContent=shown+' 語'+(cur!=='all'?'（'+cur+'）':'')+(qf?' ・「'+qf+'」':'');
+  document.getElementById('list').innerHTML=html||'<div class="empty">該当する語がありません。</div>';
+}
+render();
+</script>
+<script>
+/* === EN表示トグル === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent=
+    "body.hide-en .en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;"
+   +"font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;"
+   +"background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);"
+   +"-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#8A4A0B;"
+   +"margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>';
+    b.setAttribute('aria-pressed', h?'false':'true');
+    b.title=h?'英語の補助：OFF（タップで表示 / show English）':'英語の補助：ON（タップで非表示 / hide English）'; }
+  b.addEventListener('click',function(){
+    var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY, h?'1':'0'); }catch(e){}
+    paint();
+  });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

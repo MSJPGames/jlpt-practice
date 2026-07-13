@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BJT 第1部 聴解 練習 ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#3C5A78; --accent-bg:#E4EAF1;
+    --ok:#3B6D11; --ok-bg:#EAF3DE; --ng:#9A3D1C; --ng-bg:#FAECE7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.7;-webkit-text-size-adjust:100%}
+  .container{max-width:480px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.25rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none;cursor:pointer;background:none;border:0;font-family:inherit}
+  .app-header{text-align:center;padding:1.1rem 0 .5rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:22px;font-weight:700}
+  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12px;color:#6b5d40;line-height:1.65;margin:.6rem 0 1rem}
+  .hidden{display:none}
+  .lead{font-size:13px;color:var(--text-muted);margin:.2rem 2px 1rem}
+  .cat{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:var(--radius);padding:14px 15px;margin-bottom:11px;cursor:pointer;width:100%;text-align:left;font-family:inherit;
+    -webkit-tap-highlight-color:transparent;transition:transform .1s,box-shadow .12s}
+  .cat:hover{box-shadow:0 4px 16px rgba(0,0,0,.07)}
+  .cat:active{transform:scale(.99)}
+  .cat.mix{border-left-color:#854F0B;background:linear-gradient(135deg,#FFFFFF,#FAF3E6)}
+  .cat-ic{width:44px;height:44px;border-radius:11px;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .cat.mix .cat-ic{background:#FAEEDA;color:#854F0B}
+  .cat-info{flex:1;min-width:0}
+  .cat-name{font-size:15px;font-weight:700}
+  .cat-desc{font-size:12px;color:var(--text-muted);margin-top:2px}
+  .cat-arrow{font-size:20px;color:var(--text-hint)}
+  /* quiz */
+  .qtop{display:flex;align-items:center;gap:10px;margin:.4rem 0 1rem}
+  .pill{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;background:var(--accent-bg);color:var(--accent)}
+  .prog{font-size:13px;font-weight:700;color:var(--text-muted)}
+  .progbar{flex:1;height:7px;background:#ECE8E1;border-radius:5px;overflow:hidden}
+  .progbar>span{display:block;height:100%;background:var(--accent);border-radius:5px;transition:width .25s}
+  .audio-card{background:linear-gradient(135deg,#3C5A78,#4A6B8A);border-radius:var(--radius);padding:18px 16px;margin-bottom:14px;text-align:center;color:#fff}
+  .audio-card .ac-hint{font-size:12.5px;opacity:.9;margin-bottom:12px}
+  .playbtn{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:30px;padding:12px 26px;cursor:pointer;background:#fff;color:var(--accent);
+    display:inline-flex;align-items:center;gap:9px;transition:transform .1s;-webkit-tap-highlight-color:transparent}
+  .playbtn:active{transform:scale(.97)}
+  .playbtn .ico{font-size:16px}
+  .ac-src{font-size:10.5px;opacity:.7;margin-top:10px;letter-spacing:.02em}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 16px;margin-bottom:14px}
+  .q-text{font-size:16px;font-weight:600;white-space:pre-line;line-height:1.8}
+  .choices{display:flex;flex-direction:column;gap:8px}
+  .choice{display:flex;align-items:flex-start;gap:10px;padding:12px 13px;border:1px solid var(--border);border-radius:11px;cursor:pointer;
+    font-size:15px;background:#fff;-webkit-tap-highlight-color:transparent;transition:background .1s,border-color .1s;width:100%;text-align:left;font-family:inherit}
+  .choice:hover{background:#FAF9F6}
+  .choice .cn{font-weight:700;color:var(--text-muted);flex-shrink:0}
+  .choice.correct{border-color:var(--ok);background:var(--ok-bg)}
+  .choice.wrong{border-color:var(--ng);background:var(--ng-bg)}
+  .choice:disabled{cursor:default}
+  .exp{margin-top:12px;font-size:13px;color:var(--text-muted);background:#F3F0EA;border-radius:10px;padding:12px 14px;line-height:1.7;display:none}
+  .exp.show{display:block}
+  .exp .mk{font-weight:700;margin-right:6px}
+  .mk.ok{color:var(--ok)} .mk.ng{color:var(--ng)}
+  .script{margin-top:11px;padding-top:11px;border-top:1px dashed #d8d2c8}
+  .script .sc-h{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.05em;margin-bottom:6px}
+  .script .sc-setup{font-size:12.5px;color:var(--text-muted);margin-bottom:6px}
+  .script .sc-turn{font-size:13.5px;color:var(--text);margin:3px 0}
+  .script .sc-turn b{color:var(--accent);margin-right:5px}
+  .btn{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:14px 16px;cursor:pointer;width:100%;transition:transform .1s}
+  .primary{background:var(--accent);color:#fff}
+  .primary:active{transform:scale(.99)}
+  .ghost{background:#F0EEE8;color:var(--text)}
+  /* result */
+  .rcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 18px;text-align:center;margin-bottom:14px}
+  .rbig{font-size:34px;font-weight:700;color:var(--accent)}
+  .rsub{font-size:13px;color:var(--text-muted);margin-top:6px}
+  .rmsg{font-size:14px;font-weight:700;margin-top:10px}
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.5rem}
+</style>
+</head>
+<body>
+<div class="container">
+  <button class="back" id="backBtn">‹ もどる</button>
+  <div class="app-header">
+    <div class="app-logo">BJT — 練習</div>
+    <div class="app-title">第1部 聴解テスト 練習</div>
+    <div class="app-sub">ビジネス日本語 ・ 音声を聞いて答える</div>
+  </div>
+
+  <!-- ホーム -->
+  <div id="home">
+    <div class="note">これは BJT の<b>出題形式に合わせたオリジナル練習問題</b>です（公式の問題・音声ではありません）。音声を聞いて答えます。1回<b>10問</b>。<br>※本番の「場面把握」「発言聴解」は<b>写真</b>を見て解きますが、ここでは画像なしで解けるよう場面を音声で示しています。</div>
+    <div class="lead">練習する パートを えらんでください。</div>
+    <div id="cats"></div>
+  </div>
+
+  <!-- クイズ -->
+  <div id="quiz" class="hidden">
+    <div class="qtop">
+      <span class="pill" id="secPill"></span>
+      <span class="prog" id="prog"></span>
+      <span class="progbar"><span id="progFill" style="width:0%"></span></span>
+    </div>
+    <div class="audio-card">
+      <div class="ac-hint">音声を聞いて、質問に答えましょう。</div>
+      <button class="playbtn" id="playBtn"><span class="ico" id="playIco">▶</span><span id="playTxt">再生する</span></button>
+      <div class="ac-src" id="acSrc"></div>
+    </div>
+    <div class="card">
+      <div class="q-text" id="qText"></div>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="exp" id="exp"></div>
+    <button class="btn primary hidden" id="nextBtn" style="margin-top:14px"></button>
+  </div>
+
+  <!-- 結果 -->
+  <div id="result" class="hidden">
+    <div class="rcard">
+      <div class="rbig" id="rScore"></div>
+      <div class="rsub" id="rRate"></div>
+      <div class="rmsg" id="rMsg"></div>
+    </div>
+    <button class="btn primary" id="againBtn" style="margin-bottom:10px">同じパートで もう10問</button>
+    <button class="btn ghost" id="homeBtn">パートを えらびなおす</button>
+  </div>
+
+  <div class="foot">© 2025 日本語の部屋 ・ BJT形式 聴解練習（オリジナル）</div>
+</div>
+
+<script src="bjt_choukai_data.js"></script>
+<script>
+(function(){
+  "use strict";
+  var PER=10, AUDIO_DIR="audio/", AUDIO_PREFIX="bjt_"; // audio/bjt_<id>.mp3
+
+  var DATA = window.BJT_CHOUKAI || [];
+  // セクション順にグループ化
+  var order=[], map={};
+  DATA.forEach(function(d){ if(!map[d.sec]){ map[d.sec]=[]; order.push(d.sec); } map[d.sec].push(d); });
+  var SECTIONS = order.map(function(name){
+    var ic = name.indexOf("場面")>=0?"場":(name.indexOf("発言")>=0?"言":"会");
+    var desc = name.indexOf("場面")>=0?"短い場面を聞いて状況をつかむ":(name.indexOf("発言")>=0?"発言を聞いて意図をつかむ":"会話・説明を聞いて答える");
+    return {key:name, name:name, ic:ic, desc:desc, items:map[name]};
+  });
+
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+  var $=function(id){return document.getElementById(id);};
+  var home=$("home"), quiz=$("quiz"), result=$("result");
+  var pool=[], cur=0, correct=0, answered=false, curSec="";
+
+  /* ---------- 音声：mp3優先、なければ読み上げにフォールバック ---------- */
+  var curAudio=null, usingTTS=false;
+  function stopAudio(){
+    if(curAudio){ try{curAudio.pause();}catch(e){} curAudio=null; }
+    if(window.speechSynthesis){ try{window.speechSynthesis.cancel();}catch(e){} }
+    setPlayUI(false);
+  }
+  function setPlayUI(playing){
+    $("playIco").textContent = playing?"❚❚":"▶";
+    $("playTxt").textContent = playing?"再生中…":"再生する";
+  }
+  function pickVoices(){
+    var vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
+    var ja=vs.filter(function(v){return /ja[-_]?JP|Japanese|日本/i.test(v.lang+" "+v.name);});
+    var male=ja.filter(function(v){return /keita|ichiro|male|daichi|naoki|男/i.test(v.name);})[0];
+    var fem =ja.filter(function(v){return /nanami|haruka|ayumi|female|aoi|mayu|shiori|女/i.test(v.name);})[0];
+    return {ja:ja[0]||null, male:male||ja[0]||null, fem:fem||ja[0]||null};
+  }
+  function ttsPlay(it){
+    if(!window.speechSynthesis){ return; }
+    usingTTS=true; $("acSrc").textContent="（ブラウザの読み上げ音声を使用）";
+    var segs=[];
+    if(it.setup) segs.push({w:"ナ",t:it.setup});
+    it.turns.forEach(function(tn){ segs.push({w:tn.w,t:tn.t}); });
+    if(it.q) segs.push({w:"ナ",t:it.q});
+    var V=pickVoices();
+    speechSynthesis.cancel();
+    setPlayUI(true);
+    var i=0;
+    function next(){
+      if(i>=segs.length){ setPlayUI(false); return; }
+      var s=segs[i++];
+      var u=new SpeechSynthesisUtterance(s.t);
+      u.lang="ja-JP"; u.rate=0.95;
+      if(s.w==="男"){ u.voice=V.male; u.pitch=0.8; }
+      else if(s.w==="女"){ u.voice=V.fem; u.pitch=1.15; }
+      else { u.voice=V.ja; u.pitch=1.0; u.rate=0.92; }
+      u.onend=next; u.onerror=function(){ setPlayUI(false); };
+      speechSynthesis.speak(u);
+    }
+    next();
+  }
+  function play(it){
+    stopAudio();
+    usingTTS=false;
+    var url=AUDIO_DIR+AUDIO_PREFIX+it.id+".mp3";
+    var a=new Audio();
+    var fellBack=false;
+    var fallback=function(){ if(fellBack) return; fellBack=true; curAudio=null; ttsPlay(it); };
+    a.src=url;
+    a.addEventListener("error", fallback);
+    a.addEventListener("playing", function(){ $("acSrc").textContent="（生成音声 mp3 を再生中）"; setPlayUI(true); });
+    a.addEventListener("ended", function(){ setPlayUI(false); });
+    curAudio=a;
+    var p=a.play();
+    if(p&&p.then){ p.then(function(){ setPlayUI(true); }).catch(function(){ fallback(); }); }
+  }
+  $("playBtn").addEventListener("click", function(){
+    var it=pool[cur]&&pool[cur].it; if(!it) return;
+    // トグル：再生中なら止める
+    if((curAudio&&!curAudio.paused)|| (usingTTS&&window.speechSynthesis&&speechSynthesis.speaking)){ stopAudio(); return; }
+    play(it);
+  });
+  // voices が非同期で読み込まれる場合に備える
+  if(window.speechSynthesis){ speechSynthesis.onvoiceschanged=function(){ pickVoices(); }; }
+
+  /* ---------- ホーム描画 ---------- */
+  (function(){
+    var box=$("cats"), html="";
+    var all=0; SECTIONS.forEach(function(s){ all+=s.items.length; });
+    html+='<button class="cat mix" data-k="__all"><span class="cat-ic">★</span><span class="cat-info"><span class="cat-name">ミックス（全部から）</span><span class="cat-desc">全パートから 10問 ・ 計'+all+'問</span></span><span class="cat-arrow">›</span></button>';
+    SECTIONS.forEach(function(s){
+      html+='<button class="cat" data-k="'+s.key+'"><span class="cat-ic">'+s.ic+'</span><span class="cat-info"><span class="cat-name">'+s.name+'</span><span class="cat-desc">'+s.desc+' ・ '+s.items.length+'問</span></span><span class="cat-arrow">›</span></button>';
+    });
+    box.innerHTML=html;
+    box.querySelectorAll(".cat").forEach(function(b){ b.addEventListener("click",function(){ start(b.getAttribute("data-k")); }); });
+  })();
+
+  function start(key){
+    var items=[];
+    if(key==="__all"){ SECTIONS.forEach(function(s){ s.items.forEach(function(it){ items.push({it:it, sec:s.name}); }); }); curSec="ミックス"; }
+    else { var s=SECTIONS.filter(function(x){return x.key===key;})[0]; s.items.forEach(function(it){ items.push({it:it, sec:s.name}); }); curSec=s.name; }
+    pool=shuffle(items).slice(0, PER);
+    cur=0; correct=0;
+    home.classList.add("hidden"); result.classList.add("hidden"); quiz.classList.remove("hidden");
+    render();
+    window.scrollTo({top:0});
+  }
+
+  function render(){
+    answered=false; stopAudio();
+    var o=pool[cur], it=o.it;
+    $("secPill").textContent=curSec+"／"+o.sec;
+    $("prog").textContent=(cur+1)+" / "+pool.length;
+    $("progFill").style.width=Math.round((cur)/pool.length*100)+"%";
+    $("acSrc").textContent="";
+    setPlayUI(false);
+    $("qText").textContent=it.q;
+    // choices shuffle
+    var opts=it.cs.map(function(c,ci){ return {t:c, ok:ci===it.a}; });
+    opts=shuffle(opts);
+    var ch=$("choices"); ch.innerHTML="";
+    opts.forEach(function(op,ci){
+      var b=document.createElement("button"); b.className="choice";
+      b.innerHTML='<span class="cn">'+(ci+1)+'</span><span>'+op.t+'</span>';
+      b.addEventListener("click",function(){ pick(b, op.ok, ch, it); });
+      ch.appendChild(b);
+    });
+    var e=$("exp"); e.className="exp"; e.innerHTML="";
+    var nb=$("nextBtn"); nb.className="btn primary hidden";
+    // 自動再生を試みる（ユーザー操作直後なので多くの環境で許可される。ダメでも▶ボタンで再生可）
+    setTimeout(function(){ play(it); }, 200);
+  }
+
+  function buildScriptHTML(it){
+    var h='<div class="script"><div class="sc-h">スクリプト（音声の内容）</div>';
+    if(it.setup) h+='<div class="sc-setup">'+it.setup+'</div>';
+    it.turns.forEach(function(tn){ h+='<div class="sc-turn"><b>'+tn.w+'：</b>'+tn.t+'</div>'; });
+    h+='</div>';
+    return h;
+  }
+
+  function pick(btn, ok, ch, it){
+    if(answered) return; answered=true;
+    var btns=ch.querySelectorAll(".choice");
+    btns.forEach(function(b){ b.disabled=true; });
+    if(ok){ correct++; btn.classList.add("correct"); }
+    else { btn.classList.add("wrong"); }
+    markCorrect(ch, it);
+    var mk = ok ? '<span class="mk ok">○ 正解</span>' : '<span class="mk ng">✗ 不正解</span>';
+    var e=$("exp"); e.innerHTML=mk+(it.ex||"")+buildScriptHTML(it); e.classList.add("show");
+    var nb=$("nextBtn"); nb.classList.remove("hidden");
+    nb.textContent=(cur+1>=pool.length)?"結果を みる":"つぎへ";
+    $("progFill").style.width=Math.round((cur+1)/pool.length*100)+"%";
+  }
+  function markCorrect(ch, it){
+    var correctText=it.cs[it.a];
+    ch.querySelectorAll(".choice").forEach(function(b){
+      var t=b.querySelector("span:last-child").textContent;
+      if(t===correctText) b.classList.add("correct");
+    });
+  }
+
+  $("nextBtn").addEventListener("click", function(){
+    stopAudio();
+    if(cur+1>=pool.length){ finish(); }
+    else { cur++; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+  });
+
+  function finish(){
+    stopAudio();
+    quiz.classList.add("hidden"); result.classList.remove("hidden");
+    var n=pool.length, pct=Math.round(correct/n*100);
+    $("rScore").textContent=correct+" / "+n;
+    $("rRate").textContent="正答率 "+pct+"％";
+    var msg = pct>=80?"すばらしい！ 聞き取りの力が ついています。" : pct>=50?"いい かんじです。もう すこし！" : "だいじょうぶ。音声を くりかえし 聞きましょう。";
+    $("rMsg").textContent=msg;
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  $("againBtn").addEventListener("click", function(){
+    var key=curSec==="ミックス"?"__all":(SECTIONS.filter(function(s){return s.name===curSec;})[0]||{}).key;
+    start(key);
+  });
+  $("homeBtn").addEventListener("click", goHome);
+  $("backBtn").addEventListener("click", function(){
+    if(!quiz.classList.contains("hidden")||!result.classList.contains("hidden")){ goHome(); }
+    else { location.href="bjt.html"; }
+  });
+  function goHome(){ stopAudio(); quiz.classList.add("hidden"); result.classList.add("hidden"); home.classList.remove("hidden"); window.scrollTo({top:0}); }
+
+  // データが無いとき
+  if(!DATA.length){ $("cats").innerHTML='<div class="note">データ（bjt_choukai_data.js）が読み込めませんでした。</div>'; }
+})();
+</script>
+</body>
+</html>

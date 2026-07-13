@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BJT 第3部 読解 練習 ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#3C5A78; --accent-bg:#E4EAF1;
+    --ok:#3B6D11; --ok-bg:#EAF3DE; --ng:#9A3D1C; --ng-bg:#FAECE7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.7;-webkit-text-size-adjust:100%}
+  .container{max-width:480px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.25rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none;cursor:pointer;background:none;border:0;font-family:inherit}
+  .app-header{text-align:center;padding:1.1rem 0 .5rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:22px;font-weight:700}
+  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12px;color:#6b5d40;line-height:1.65;margin:.6rem 0 1rem}
+  .hidden{display:none}
+  .lead{font-size:13px;color:var(--text-muted);margin:.2rem 2px 1rem}
+  .cat{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:var(--radius);padding:14px 15px;margin-bottom:11px;cursor:pointer;width:100%;text-align:left;font-family:inherit;
+    -webkit-tap-highlight-color:transparent;transition:transform .1s,box-shadow .12s}
+  .cat:hover{box-shadow:0 4px 16px rgba(0,0,0,.07)}
+  .cat:active{transform:scale(.99)}
+  .cat.mix{border-left-color:#854F0B;background:linear-gradient(135deg,#FFFFFF,#FAF3E6)}
+  .cat-ic{width:44px;height:44px;border-radius:11px;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .cat.mix .cat-ic{background:#FAEEDA;color:#854F0B}
+  .cat-info{flex:1;min-width:0}
+  .cat-name{font-size:15px;font-weight:700}
+  .cat-desc{font-size:12px;color:var(--text-muted);margin-top:2px}
+  .cat-arrow{font-size:20px;color:var(--text-hint)}
+  /* quiz */
+  .qtop{display:flex;align-items:center;gap:10px;margin:.4rem 0 1rem}
+  .pill{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;background:var(--accent-bg);color:var(--accent)}
+  .prog{font-size:13px;font-weight:700;color:var(--text-muted)}
+  .progbar{flex:1;height:7px;background:#ECE8E1;border-radius:5px;overflow:hidden}
+  .progbar>span{display:block;height:100%;background:var(--accent);border-radius:5px;transition:width .25s}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 16px;margin-bottom:14px}
+  .q-text{font-size:16px;font-weight:600;white-space:pre-line;line-height:1.8}
+  .passage{background:#F7F5F0;border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin:10px 0;font-size:14px;white-space:pre-line;font-weight:400;line-height:1.9}
+  .q-sub{font-size:15px;font-weight:600;margin-top:8px}
+  .choices{display:flex;flex-direction:column;gap:8px}
+  .choice{display:flex;align-items:flex-start;gap:10px;padding:12px 13px;border:1px solid var(--border);border-radius:11px;cursor:pointer;
+    font-size:15px;background:#fff;-webkit-tap-highlight-color:transparent;transition:background .1s,border-color .1s;width:100%;text-align:left;font-family:inherit}
+  .choice:hover{background:#FAF9F6}
+  .choice .cn{font-weight:700;color:var(--text-muted);flex-shrink:0}
+  .choice.correct{border-color:var(--ok);background:var(--ok-bg)}
+  .choice.wrong{border-color:var(--ng);background:var(--ng-bg)}
+  .choice:disabled{cursor:default}
+  .exp{margin-top:12px;font-size:13px;color:var(--text-muted);background:#F3F0EA;border-radius:10px;padding:11px 13px;line-height:1.7;display:none}
+  .exp.show{display:block}
+  .exp .mk{font-weight:700;margin-right:6px}
+  .mk.ok{color:var(--ok)} .mk.ng{color:var(--ng)}
+  .btn{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:14px 16px;cursor:pointer;width:100%;transition:transform .1s}
+  .primary{background:var(--accent);color:#fff}
+  .primary:active{transform:scale(.99)}
+  .ghost{background:#F0EEE8;color:var(--text)}
+  /* result */
+  .rcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 18px;text-align:center;margin-bottom:14px}
+  .rbig{font-size:34px;font-weight:700;color:var(--accent)}
+  .rsub{font-size:13px;color:var(--text-muted);margin-top:6px}
+  .rmsg{font-size:14px;font-weight:700;margin-top:10px}
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.5rem}
+</style>
+</head>
+<body>
+<div class="container">
+  <button class="back" id="backBtn">‹ もどる</button>
+  <div class="app-header">
+    <div class="app-logo">BJT — 練習</div>
+    <div class="app-title">第3部 読解テスト 練習</div>
+    <div class="app-sub">ビジネス日本語 ・ 語彙・文法／表現読解／総合読解</div>
+  </div>
+
+  <!-- ホーム -->
+  <div id="home">
+    <div class="note">これは BJT の<b>出題形式に合わせたオリジナル練習問題</b>です（公式の問題ではありません）。1回<b>10問</b>を出題します。隙間時間にどうぞ。</div>
+    <div class="lead">練習する パートを えらんでください。</div>
+    <div id="cats"></div>
+  </div>
+
+  <!-- クイズ -->
+  <div id="quiz" class="hidden">
+    <div class="qtop">
+      <span class="pill" id="secPill"></span>
+      <span class="prog" id="prog"></span>
+      <span class="progbar"><span id="progFill" style="width:0%"></span></span>
+    </div>
+    <div class="card">
+      <div class="q-text" id="qText"></div>
+      <div id="qExtra"></div>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="exp" id="exp"></div>
+    <button class="btn primary hidden" id="nextBtn" style="margin-top:14px"></button>
+  </div>
+
+  <!-- 結果 -->
+  <div id="result" class="hidden">
+    <div class="rcard">
+      <div class="rbig" id="rScore"></div>
+      <div class="rsub" id="rRate"></div>
+      <div class="rmsg" id="rMsg"></div>
+    </div>
+    <button class="btn primary" id="againBtn" style="margin-bottom:10px">同じパートで もう10問</button>
+    <button class="btn ghost" id="homeBtn">パートを えらびなおす</button>
+  </div>
+
+  <div class="foot">© 2025 日本語の部屋 ・ BJT形式 練習（オリジナル）</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var PER=10;
+  var SECTIONS=[
+    { key:"goi", name:"語彙・文法", ic:"語", desc:"ビジネスの ことば・文法を えらぶ", items:[
+      {q:"「アポイント（アポ）」の いみは？", cs:["面会や打ち合わせの約束","会社の住所","出張の費用","名刺のこと"], a:0, ex:"アポイント＝面会の約束。「アポを取る」のように使います。"},
+      {q:"「納期」の いみは？", cs:["商品などを納める期限","会議の日時","給料日","入社の日"], a:0, ex:"納期＝品物やサービスを納める期限。読みは「のうき」。"},
+      {q:"「先方の ご都合を うかがう」の「先方」は だれですか。", cs:["相手・取引先","自分の上司","会社の受付","自分自身"], a:0, ex:"先方（せんぽう）＝相手方。取引先など話している相手を指します。"},
+      {q:"会議は 都合により 来週に （　）ことに なりました。", cs:["延期する","出席する","報告する","記入する"], a:0, ex:"日程を後ろにずらす＝延期する。「延期になりました」。"},
+      {q:"メールの 最後に「ご不明な点が ございましたら、お気軽に （　）ください。」", cs:["お問い合わせ","お問い合わせて","ご問い合わせし","問い合わせられ"], a:0, ex:"「お＋ます形＋ください」。お問い合わせください、が正しい形。"},
+      {q:"「議事録」とは 何ですか。", cs:["会議の内容を記録した文書","出張の申請書","商品の見積もり","社員の名簿"], a:0, ex:"議事録（ぎじろく）＝会議で話し合った内容・決定事項の記録。"},
+      {q:"「本件に つきまして、（　）ご確認ください。」いちばん ていねいなのは？", cs:["ご査収のうえ","確認して","見て","チェックで"], a:0, ex:"「ご査収（さしゅう）のうえ」＝内容を確認して受け取ってください、の意。ビジネス文書向き。"},
+      {q:"電話で「山田は ただいま 席を （　）おります。」", cs:["外して","はずれて","抜けて","離れて"], a:0, ex:"慣用表現「席を外す」。不在を表す丁寧な言い方。"},
+      {q:"「〜に ともない」の 使い方が 正しいのは？", cs:["組織変更に伴い、担当が変わります","雨に伴い、映画を見た","本を伴い、読みました","昼に伴い、食べます"], a:0, ex:"「〜に伴い」＝〜と一緒に／〜の変化につれて。あらたまった書き言葉。"},
+      {q:"「早急に ご対応 いたします。」の「早急」の 読みは？", cs:["さっきゅう","そうきゅう","はやきゅう","そうがら"], a:0, ex:"本来は「さっきゅう」。「そうきゅう」も広く使われますが、正式には「さっきゅう」。"},
+      {q:"「あいにく その 商品は （　）おります。」在庫が ない ときの 言い方。", cs:["品切れになって","品切れをして","品切れがなって","品切れにされて"], a:0, ex:"「品切れになる」。「〜になっております」で丁寧に状況を伝える。"},
+      {q:"会議 （　） 出席します。正しい 助詞は？", cs:["に","を","へ","で"], a:0, ex:"「会議に出席する」。出席・参加の対象は「に」。"},
+      {q:"「請求書」と「領収書」の ちがいで 正しいのは？", cs:["請求書は代金を求める書類、領収書は受け取った証明","どちらも同じもの","請求書は受取証明、領収書は見積もり","領収書は注文書のこと"], a:0, ex:"請求書＝支払いを求める。領収書＝支払いを受け取った証明。"},
+      {q:"「その ご依頼には （　）かねます。」の 意味は？", cs:["応じることができない","すぐに応じる","喜んで応じる","必ず応じる"], a:0, ex:"「〜かねます」＝〜できない、の丁寧な言い方。断りの表現。"},
+      {q:"「お手数を （　）が、ご返信ください。」", cs:["おかけします","かけます","おかけになります","かけられます"], a:0, ex:"相手に迷惑をかける側なので謙譲の「おかけします」。依頼の前置きの定番。"},
+      {q:"「折り返し お電話 いたします。」の「折り返し」の いみは？", cs:["こちらからすぐにかけ直すこと","電話を切ること","伝言を残すこと","会議を始めること"], a:0, ex:"折り返し＝受けた電話に対して、こちらからかけ直すこと。"}
+    ]},
+    { key:"hyogen", name:"表現読解", ic:"敬", desc:"場面に あう ていねいな 言い方を えらぶ", items:[
+      {q:"取引先へ 送る メールの 書き出しとして 適切なのは？", cs:["いつもお世話になっております。","こんにちは、元気ですか。","ご苦労さまです。","やあ、どうも。"], a:0, ex:"社外メールの定番の書き出しは「いつもお世話になっております」。"},
+      {q:"自分の 会社を へりくだって 言う ことばは？", cs:["弊社","御社","貴社","本社"], a:0, ex:"自社＝弊社（へいしゃ）。相手の会社＝御社（話し言葉）・貴社（書き言葉）。"},
+      {q:"部長が 話す ことを 尊敬語で 言うと？", cs:["部長がおっしゃったとおりです","部長が申したとおりです","部長が言わせたとおりです","部長がいたしたとおりです"], a:0, ex:"「言う」の尊敬語＝おっしゃる。「申す」は謙譲語なので身内・自分側に使う。"},
+      {q:"取引先を 訪問する とき、自分が 行くことを 言うなら？", cs:["明日、御社へ伺います","明日、御社へいらっしゃいます","明日、御社へお越しになります","明日、御社へ参られます"], a:0, ex:"「行く」の謙譲語＝伺う／参る。「いらっしゃる・お越しになる」は相手を高める尊敬語。"},
+      {q:"相手に 資料を 見て ほしい とき、適切なのは？", cs:["こちらの資料をご覧ください","こちらの資料を拝見ください","こちらの資料を見てあげてください","こちらの資料を見せてもらってください"], a:0, ex:"「見る」の尊敬語＝ご覧になる。「拝見する」は自分が見るときの謙譲語。"},
+      {q:"依頼を 断る ときの、やわらかい 言い方は？", cs:["あいにくですが、今回は見送らせていただきます","無理です、できません","それはちょっと嫌です","やりたくないのでやりません"], a:0, ex:"「あいにく」「見送らせていただく」でやわらかく断る。ビジネス向きの表現。"},
+      {q:"上司に 用件を 尋ねる とき 適切なのは？", cs:["お手すきのときに、少しお時間よろしいでしょうか","ちょっと今いい？","話があるんだけど","今すぐ来て"], a:0, ex:"「お手すき」「お時間よろしいでしょうか」で丁寧に都合を尋ねる。"},
+      {q:"電話で 相手が 不在。伝言を たのむ とき 適切なのは？", cs:["恐れ入りますが、ご伝言をお願いできますでしょうか","伝えといて","メモしといてね","言っておいてよ"], a:0, ex:"「恐れ入りますが」「〜できますでしょうか」で丁寧に依頼する。"},
+      {q:"注文の 内容を 理解した ことを 伝えるなら？", cs:["承知いたしました","わかったよ","了解、了解","なるほどね"], a:0, ex:"「承知いたしました」がもっとも丁寧。目上・社外には「了解」より「承知」。"},
+      {q:"ミスを して 謝る とき、ビジネスで 適切なのは？", cs:["ご迷惑をおかけし、申し訳ございません","ごめんね","すみませんでした、てへ","悪かったです"], a:0, ex:"「ご迷惑をおかけし、申し訳ございません」が正式な謝罪表現。"},
+      {q:"メールの 結びとして 適切なのは？", cs:["何卒よろしくお願いいたします","じゃあね","そういうことで","よろしく〜"], a:0, ex:"結びの定番は「何卒（なにとぞ）よろしくお願いいたします」。"},
+      {q:"来客に お茶を 出す とき 適切な 一言は？", cs:["どうぞ、召し上がってください","食べてください","いただいてください","お茶にしてやってください"], a:0, ex:"「食べる・飲む」の尊敬語＝召し上がる。相手の動作を高める。"}
+    ]},
+    { key:"sogo", name:"総合読解", ic:"文", desc:"ビジネス文書・メールを 読んで こたえる", items:[
+      {passage:"件名：会議日程 変更のお知らせ\n\n営業部の みなさま\n\nお疲れさまです。総務部の 佐藤です。\n来週 火曜に 予定していた 定例会議ですが、\n会議室の 都合により、同じ週の 木曜 15時からに\n変更いたします。場所は これまでどおり 第2会議室です。\nよろしくお願いいたします。", sub:"会議は いつに 変わりましたか。", cs:["木曜 15時から","火曜 15時から","木曜 13時から","水曜 15時から"], a:0, ex:"「木曜 15時からに 変更」とあります。場所は第2会議室のままです。"},
+      {passage:"【社内のお願い】\n\n今月は 電気の 使用量を 減らす 取り組みを 行います。\nお昼休みは 使わない 部屋の 電気を 消してください。\nまた、退社時には パソコンの 電源も お切りください。\nご協力を お願いします。　　総務部", sub:"社員は お昼休みに 何を しますか。", cs:["使わない部屋の電気を消す","パソコンを買いかえる","会議室を予約する","窓を開ける"], a:0, ex:"「お昼休みは 使わない 部屋の 電気を 消してください」とあります。"},
+      {passage:"件名：お見積りの件\n\n株式会社ミドリ 田中さま\n\nお世話になっております。\nお問い合わせの 商品について、お見積りを 添付いたします。\nなお、ご注文から 納品までは 約2週間 いただいております。\nご検討のほど よろしくお願いいたします。", sub:"注文してから 届くまで、どのくらい かかりますか。", cs:["約2週間","約2日","当日","約2か月"], a:0, ex:"「ご注文から 納品までは 約2週間」とあります。"},
+      {passage:"件名：説明会 会場のご案内\n\nこの度は お申し込み ありがとうございます。\n説明会は 4月10日 14時より、本社ビル 5階の\n大会議室にて 行います。1階 受付で お名前を\nお伝えのうえ、5階まで お越しください。", sub:"参加者は はじめに どこへ 行きますか。", cs:["1階の受付","5階の大会議室","本社ビルの外","3階の事務所"], a:0, ex:"「1階 受付で お名前を お伝えのうえ、5階まで」とあります。まず受付へ。"},
+      {passage:"件名：資料 送付のお願い\n\n山田さま\n\nお世話になっております。\n先日の 打ち合わせで お話しした 新商品の\nパンフレットを、来週の 月曜までに\nメールで お送りいただけますでしょうか。\nお手数ですが、よろしくお願いいたします。", sub:"相手に 何を してほしいと 言っていますか。", cs:["パンフレットをメールで送る","会議に出席する","商品を購入する","電話をかけ直す"], a:0, ex:"「パンフレットを…メールで お送りいただけますでしょうか」と依頼しています。"},
+      {passage:"件名：納品遅れの お詫び\n\nこの度は、ご注文の 商品の お届けが\n遅れており、誠に 申し訳ございません。\n原因は 工場の 機械の 故障によるものです。\n現在 復旧が 進んでおり、今週中には\n発送できる 見込みです。", sub:"納品が 遅れている 原因は 何ですか。", cs:["工場の機械の故障","注文の間違い","天気が悪いこと","担当者の休み"], a:0, ex:"「原因は 工場の 機械の 故障による」とあります。"},
+      {passage:"＜出張報告（要旨）＞\n\n7月3日、大阪支社を 訪問し、新システムの\n導入について 打ち合わせを 行いました。\n先方は 前向きで、来月から 試験的に\n使い始めることで 合意しました。\n正式な 契約は 試験の 結果を 見て 判断します。", sub:"打ち合わせで 決まった ことは 何ですか。", cs:["来月から試験的に使い始める","すぐに正式契約する","導入を取りやめる","大阪支社を閉じる"], a:0, ex:"「来月から 試験的に 使い始めることで 合意」とあります。正式契約は結果を見て判断。"},
+      {passage:"件名：忘年会 出欠の ご確認\n\n今年の 忘年会を 12月20日（金）19時より\n開催します。会場は 駅前の「花亭」です。\n出欠を 12月6日までに、幹事の 鈴木まで\nメールで お知らせください。\n会費は 当日 受付で お預かりします。", sub:"参加する 人は 6日までに 何を しますか。", cs:["幹事にメールで出欠を知らせる","会費を振り込む","会場を予約する","料理を注文する"], a:0, ex:"「出欠を 12月6日までに…メールで お知らせください」とあります。会費は当日です。"}
+    ]}
+  ];
+
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+  var $=function(id){return document.getElementById(id);};
+  var home=$("home"), quiz=$("quiz"), result=$("result");
+  var pool=[], cur=0, correct=0, answered=false, curSec="";
+
+  // ホーム描画
+  (function(){
+    var box=$("cats"), html="";
+    var all=0; SECTIONS.forEach(function(s){ all+=s.items.length; });
+    html+='<button class="cat mix" data-k="__all"><span class="cat-ic">★</span><span class="cat-info"><span class="cat-name">ミックス（全部から）</span><span class="cat-desc">全パートから 10問 ・ 計'+all+'問</span></span><span class="cat-arrow">›</span></button>';
+    SECTIONS.forEach(function(s){
+      html+='<button class="cat" data-k="'+s.key+'"><span class="cat-ic">'+s.ic+'</span><span class="cat-info"><span class="cat-name">'+s.name+'</span><span class="cat-desc">'+s.desc+' ・ '+s.items.length+'問</span></span><span class="cat-arrow">›</span></button>';
+    });
+    box.innerHTML=html;
+    box.querySelectorAll(".cat").forEach(function(b){ b.addEventListener("click",function(){ start(b.getAttribute("data-k")); }); });
+  })();
+
+  function start(key){
+    var items=[];
+    if(key==="__all"){ SECTIONS.forEach(function(s){ s.items.forEach(function(it){ items.push({it:it, sec:s.name}); }); }); curSec="ミックス"; }
+    else { var s=SECTIONS.filter(function(x){return x.key===key;})[0]; s.items.forEach(function(it){ items.push({it:it, sec:s.name}); }); curSec=s.name; }
+    pool=shuffle(items).slice(0, PER);
+    cur=0; correct=0;
+    home.classList.add("hidden"); result.classList.add("hidden"); quiz.classList.remove("hidden");
+    render();
+    window.scrollTo({top:0});
+  }
+
+  function render(){
+    answered=false;
+    var o=pool[cur], it=o.it;
+    $("secPill").textContent=curSec+"／"+o.sec;
+    $("prog").textContent=(cur+1)+" / "+pool.length;
+    $("progFill").style.width=Math.round((cur)/pool.length*100)+"%";
+    $("qText").textContent=it.q||"つぎの 文章を 読んで、質問に こたえてください。";
+    var extra="";
+    if(it.passage){ extra+='<div class="passage">'+it.passage+'</div>'; }
+    if(it.sub){ extra+='<div class="q-sub">'+it.sub+'</div>'; }
+    $("qExtra").innerHTML=extra;
+    var opts=it.cs.map(function(c,ci){ return {t:c, ok:ci===it.a}; });
+    opts=shuffle(opts);
+    var ch=$("choices"); ch.innerHTML="";
+    opts.forEach(function(op,ci){
+      var b=document.createElement("button"); b.className="choice";
+      b.innerHTML='<span class="cn">'+(ci+1)+'</span><span>'+op.t+'</span>';
+      b.addEventListener("click",function(){ pick(b, op.ok, ch, it.ex); });
+      ch.appendChild(b);
+    });
+    var e=$("exp"); e.className="exp"; e.innerHTML="";
+    var nb=$("nextBtn"); nb.className="btn primary hidden";
+  }
+
+  function pick(btn, ok, ch, ex){
+    if(answered) return; answered=true;
+    var btns=ch.querySelectorAll(".choice");
+    btns.forEach(function(b){ b.disabled=true; });
+    if(ok){ correct++; btn.classList.add("correct"); }
+    else { btn.classList.add("wrong"); }
+    markCorrect(ch);
+    var mk = ok ? '<span class="mk ok">○ 正解</span>' : '<span class="mk ng">✗ 不正解</span>';
+    var e=$("exp"); e.innerHTML=mk+(ex||""); e.classList.add("show");
+    var nb=$("nextBtn"); nb.classList.remove("hidden");
+    nb.textContent=(cur+1>=pool.length)?"結果を みる":"つぎへ";
+    $("progFill").style.width=Math.round((cur+1)/pool.length*100)+"%";
+  }
+  function markCorrect(ch){
+    var o=pool[cur], it=o.it, correctText=it.cs[it.a];
+    ch.querySelectorAll(".choice").forEach(function(b){
+      var t=b.querySelector("span:last-child").textContent;
+      if(t===correctText) b.classList.add("correct");
+    });
+  }
+
+  $("nextBtn").addEventListener("click", function(){
+    if(cur+1>=pool.length){ finish(); }
+    else { cur++; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+  });
+
+  function finish(){
+    quiz.classList.add("hidden"); result.classList.remove("hidden");
+    var n=pool.length, pct=Math.round(correct/n*100);
+    $("rScore").textContent=correct+" / "+n;
+    $("rRate").textContent="正答率 "+pct+"％";
+    var msg = pct>=80?"すばらしい！ ビジネス日本語の 力が ついています。" : pct>=50?"いい かんじです。もう すこし！" : "だいじょうぶ。くりかえして おぼえましょう。";
+    $("rMsg").textContent=msg;
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  $("againBtn").addEventListener("click", function(){
+    var key=curSec==="ミックス"?"__all":(SECTIONS.filter(function(s){return s.name===curSec;})[0]||{}).key;
+    start(key);
+  });
+  $("homeBtn").addEventListener("click", goHome);
+  $("backBtn").addEventListener("click", function(){
+    if(!quiz.classList.contains("hidden")||!result.classList.contains("hidden")){ goHome(); }
+    else { location.href="bjt.html"; }
+  });
+  function goHome(){ quiz.classList.add("hidden"); result.classList.add("hidden"); home.classList.remove("hidden"); window.scrollTo({top:0}); }
+})();
+</script>
+</body>
+</html>

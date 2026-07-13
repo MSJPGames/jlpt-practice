@@ -224,8 +224,8 @@
     <div class="set-block">
       <div class="set-h">出題の起点 ・ Base form（動詞）</div>
       <div class="seg" id="startSeg">
-        <button data-start="dict" class="on">辞書形<small>dictionary</small></button>
-        <button data-start="masu">ます形<small>masu-form</small></button>
+        <button data-start="masu" class="on">ます形<small>masu-form</small></button>
+        <button data-start="dict">辞書形<small>dictionary form</small></button>
       </div>
     </div>
     <div class="set-block">
@@ -814,8 +814,8 @@ try{ const v=+localStorage.getItem('nnh_renshu_lesson'); if(!isNaN(v)&&v>0) maxL
 { const B=BOOKS[currentBook]; if(maxLesson<B.min) maxLesson=B.min; if(maxLesson>B.max) maxLesson=B.max; }
 let soundOn=true;
 try{ soundOn = localStorage.getItem('nnh_renshu_sound')!=='0'; }catch(e){}
-let startForm='dict';    // 出題の起点：'dict'（辞書形）or 'masu'（ます形）／動詞のみ有効
-try{ const s=localStorage.getItem('nnh_renshu_start'); if(s==='masu'||s==='dict') startForm=s; }catch(e){}
+let startForm='masu';    // 出題の起点：既定は'masu'（ます形）。'dict'（辞書形）も選択可／動詞のみ有効
+try{ const s=localStorage.getItem('nnh_renshu_start_v2'); if(s==='masu'||s==='dict') startForm=s; }catch(e){}
 
 /* ===================== 効果音（ブラウザ内生成・外部ファイル不要） ===================== */
 let audioCtx=null;
@@ -974,7 +974,10 @@ function renderAnswerArea(){
       a.innerHTML=`<input class="ans-input" id="ansInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="答えを入力">
         <div class="ans-btns">${micHtml}<button class="btn btn-primary" id="checkBtn">確認</button></div>
         ${VOICE_OK ? '<div class="mic-status" id="micStatus"></div>' : ''}`;
-      const inp=$('ansInput'); if(!suppressFocus) inp.focus({preventScroll:true});
+      const inp=$('ansInput');
+      // スマホ等のタッチ端末では自動フォーカスしない（キーボードが毎回開くのを防ぐ）。パソコンは従来どおり。
+      var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints>0);
+      if(!suppressFocus && !isTouch) inp.focus({preventScroll:true});
       inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); doCheck(); }});
       $('checkBtn').onclick=doCheck;
       if(VOICE_OK){ const m=$('micBtn'); if(m) m.onclick=startVoice; }
@@ -1110,7 +1113,7 @@ $('startSeg').querySelectorAll('button').forEach(b=>{
   b.classList.toggle('on', b.dataset.start===startForm);
   b.onclick=()=>{
     startForm=b.dataset.start;
-    try{ localStorage.setItem('nnh_renshu_start', startForm); }catch(e){}
+    try{ localStorage.setItem('nnh_renshu_start_v2', startForm); }catch(e){}
     $('startSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
     suppressFocus=true; newProblem(); suppressFocus=false;
   };

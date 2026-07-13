@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>オノマトペ ・ 日本語の部屋</title>
+<meta name="description" content="各言語の擬声語・擬態語（オノマトペ）を、意味のカテゴリ別に、発音・意味・例文つきでまとめた一覧です。">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --accent:#2F7168; --accent-bg:#DDEEE7; --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.6;padding:0 1rem 3rem;-webkit-text-size-adjust:100%;}
+  .container{max-width:600px;margin:0 auto;}
+
+  .topbar{display:flex;align-items:center;gap:8px;padding:14px 0 2px;flex-wrap:wrap;}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--text-muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);transition:transform .12s;}
+  .back-link:active{transform:scale(.97);}
+  .back-arrow{font-size:16px;line-height:1;}
+
+  .lang-header{display:flex;align-items:center;gap:14px;background:var(--surface);
+    border:1px solid var(--border);border-left:5px solid var(--accent);border-radius:var(--radius);padding:16px;margin-top:1rem;}
+  .lh-chip{min-width:56px;height:56px;padding:0 10px;border-radius:14px;background:var(--accent-bg);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;white-space:nowrap;}
+  .lh-jp{font-size:20px;font-weight:700;}
+  .lh-sub{font-size:12.5px;color:var(--text-muted);margin-top:2px;}
+
+  .note{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:12px 15px;font-size:12.5px;color:var(--text-muted);line-height:1.75;margin-top:14px;}
+  .note b{color:var(--text);}
+
+  .tools{position:sticky;top:0;z-index:20;background:linear-gradient(var(--bg) 82%,rgba(247,245,240,0));padding:12px 0 8px;margin-top:10px;}
+  .search{width:100%;font-size:15px;padding:11px 14px;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--text);}
+  .search:focus{outline:none;border-color:var(--accent);}
+  .chips{display:flex;gap:6px;overflow-x:auto;margin-top:8px;scrollbar-width:none;}
+  .chips::-webkit-scrollbar{display:none;}
+  .chip{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);
+    border-radius:999px;padding:7px 13px;cursor:pointer;white-space:nowrap;}
+  .chip.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .cnt{font-size:11px;color:var(--text-hint);margin:6px 2px 2px;}
+
+  .ghead{font-size:14px;font-weight:800;color:var(--accent);margin:20px 2px 8px;display:flex;align-items:center;gap:9px;padding-top:14px;border-top:1px solid var(--border);}
+  .ghead:first-of-type{border-top:none;padding-top:2px;}
+  .gbar{width:4px;height:17px;border-radius:2px;background:var(--accent);}
+
+  .o-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:11px 13px;margin-bottom:8px;}
+  .o-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+  .o-w{font-size:19px;font-weight:700;color:var(--text);}
+  .o-r{font-size:11.5px;color:var(--text-hint);}
+  .o-badge{font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 9px;white-space:nowrap;}
+  .o-badge.on-sound{background:#E6F1FB;color:#185FA5;}
+  .o-badge.on-state{background:#EAF3DE;color:#3B6D11;}
+  .o-right{margin-left:auto;display:flex;align-items:center;gap:7px;flex-shrink:0;}
+  .o-say{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--accent);
+    font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .1s,background .1s;}
+  .o-say:active{transform:scale(.9);} .o-say.playing{background:var(--accent-bg);}
+  .o-ja{font-size:14px;font-weight:600;margin-top:5px;}
+  .o-ex{margin-top:7px;background:var(--accent-bg);border-radius:9px;padding:8px 10px;}
+  .o-ex-w{font-size:14px;font-weight:600;color:#1c2b28;}
+  .o-ex-r{font-size:11.5px;color:var(--accent);margin-top:1px;}
+  .o-ex-j{font-size:12.5px;color:var(--text-muted);margin-top:2px;}
+  .empty{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;text-align:center;color:var(--text-muted);margin-top:14px;}
+  .notfound{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;margin-top:1.5rem;color:var(--text-muted);}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2rem;line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar" id="topbar"></div>
+  <div id="content"></div>
+  <div class="app-footer">© 2025 日本語の部屋</div>
+</div>
+
+<script src="langdata.js"></script>
+<script src="onomatopedata.js"></script>
+<script>
+function getParam(n){ var m=new RegExp('[?&]'+n+'=([^&]*)').exec(location.search); return m?decodeURIComponent(m[1]):null; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function speak(text, lang, btn){
+  if(!('speechSynthesis' in window)) return;
+  try{
+    window.speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(text); u.lang=lang||'en-US'; u.rate=0.9;
+    if(btn){ btn.classList.add('playing'); u.onend=function(){btn.classList.remove('playing');}; u.onerror=function(){btn.classList.remove('playing');}; }
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+window.__speak=speak;
+
+var code = getParam('code');
+var L = (window.LANGS||[]).filter(function(x){return x.code===code;})[0];
+var ON = (window.ONOMATOPE_LANGS||{})[code];
+var content = document.getElementById('content');
+var topbar = document.getElementById('topbar');
+
+topbar.innerHTML =
+    (L?'<a href="lang.html?code='+esc(L.code)+'" class="back-link"><span class="back-arrow">‹</span>'+esc(L.jp)+'</a>':'<a href="gaikokugo.html" class="back-link"><span class="back-arrow">‹</span>一覧</a>')
+  + '<a href="gaikokugo.html" class="back-link">多言語</a>'
+  + '<a href="index.html" class="back-link">ホーム</a>';
+
+if(!L || !ON){
+  document.title = 'オノマトペ ・ 日本語の部屋';
+  content.innerHTML = '<div class="notfound">この言語のオノマトペデータがありません。<br><a href="gaikokugo.html" style="color:#2F7168;font-weight:700;">一覧から選んでください ›</a></div>';
+} else {
+  document.title = L.jp + ' のオノマトペ ・ 日本語の部屋';
+  if(L.accent) document.documentElement.style.setProperty('--accent', L.accent);
+  if(L.bg) document.documentElement.style.setProperty('--accent-bg', L.bg);
+
+  var groups = ON.groups || [];
+  var total = groups.reduce(function(a,g){return a+g.items.length;},0);
+
+  content.innerHTML =
+      '<div class="lang-header"><div class="lh-chip">'+esc(L.chip)+'</div>'
+      + '<div><div class="lh-jp">'+esc(L.jp)+' のオノマトペ</div>'
+      + '<div class="lh-sub">'+esc(ON.title||'擬声語・擬態語')+' ・ 全'+total+'語</div></div></div>'
+    + '<div class="note">'+esc(ON.intro||'音や様子を表すことばを、意味のカテゴリ別にまとめました。')+'　🔊で例文を読み上げます（端末の音声が必要）。</div>'
+    + '<div class="tools"><input class="search" id="q" type="text" placeholder="語・発音・意味・例文で検索" autocomplete="off">'
+      + '<div class="chips" id="chips"></div></div>'
+    + '<div class="cnt" id="cnt"></div>'
+    + '<div id="list"></div>';
+
+  var cur='all', qf='';
+  var chips=document.getElementById('chips');
+  chips.innerHTML=[{k:'all',l:'すべて'}].concat(groups.map(function(g){return {k:g.label,l:g.label};}))
+    .map(function(c){return '<button class="chip'+(c.k==='all'?' on':'')+'" data-k="'+esc(c.k)+'">'+esc(c.l)+'</button>';}).join('');
+  chips.addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;cur=b.getAttribute('data-k');
+    for(var i=0;i<chips.children.length;i++){chips.children[i].classList.toggle('on',chips.children[i]===b);}render();});
+  document.getElementById('q').addEventListener('input',function(e){qf=e.target.value.trim().toLowerCase();render();});
+
+  function itemHTML(it){
+    var cls = it.type==='擬音語' ? 'on-sound' : 'on-state';
+    var badge = it.type ? '<span class="o-badge '+cls+'">'+esc(it.type)+'</span>' : '';
+    var say = '<button type="button" class="o-say" aria-label="読み上げ" onclick="__speak(\''+esc(it.ex).replace(/'/g,"\\'")+'\',\''+esc(L.tts)+'\',this)">🔊</button>';
+    return '<div class="o-item"><div class="o-top">'
+        + '<span class="o-w">'+esc(it.w)+'</span>'+(it.r?'<span class="o-r">'+esc(it.r)+'</span>':'')
+        + badge
+        + '<span class="o-right">'+say+'</span></div>'
+      + '<div class="o-ja">'+esc(it.ja)+'</div>'
+      + '<div class="o-ex"><div class="o-ex-w">'+esc(it.ex)+'</div>'
+        + (it.er?'<div class="o-ex-r">'+esc(it.er)+'</div>':'')
+        + (it.ej?'<div class="o-ex-j">'+esc(it.ej)+'</div>':'')+'</div>'
+    + '</div>';
+  }
+  function match(it){
+    if(!qf) return true;
+    return ((it.w||'')+' '+(it.r||'')+' '+(it.ja||'')+' '+(it.ex||'')+' '+(it.er||'')+' '+(it.ej||'')+' '+(it.type||'')).toLowerCase().indexOf(qf)>=0;
+  }
+  function render(){
+    var html='', shown=0;
+    groups.forEach(function(g){
+      if(cur!=='all' && cur!==g.label) return;
+      var items=(g.items||[]).filter(match);
+      if(!items.length) return;
+      shown+=items.length;
+      html+='<div class="ghead"><span class="gbar"></span>'+esc(g.label)+'（'+items.length+'）</div>';
+      html+=items.map(itemHTML).join('');
+    });
+    document.getElementById('cnt').textContent=shown+' 語'+(cur!=='all'?'（'+cur+'）':'')+(qf?' ・「'+qf+'」':'');
+    document.getElementById('list').innerHTML=html||'<div class="empty">該当する語がありません。</div>';
+  }
+  render();
+}
+</script>
+</body>
+</html>

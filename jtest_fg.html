@@ -273,6 +273,56 @@
     else { location.href="jtest.html"; }
   });
   function goHome(){ quiz.classList.add("hidden"); result.classList.add("hidden"); home.classList.remove("hidden"); window.scrollTo({top:0}); }
+
+  /* === 間違えた問題の復習（後付け・共通） === */
+  var __WKEY='nnhwrong_'+((location.pathname.split('/').pop()||'quiz').replace(/\.html$/,''));
+  function __loadW(){ try{ return JSON.parse(localStorage.getItem(__WKEY)||'{}'); }catch(e){ return {}; } }
+  function __saveW(m){ try{ localStorage.setItem(__WKEY, JSON.stringify(m)); }catch(e){} }
+  function __sig(o){ var it=o.it||{}; return (o.sec||'')+'|'+String(it.q||it.sub||it.passage||'').replace(/\s+/g,'').slice(0,80)+'|'+((it.cs||[]).join('#')).slice(0,90); }
+  function __recordAns(o, ok){ if(!o) return; var m=__loadW(), k=__sig(o); if(ok){ if(m[k]){ delete m[k]; __saveW(m); } } else { m[k]={it:o.it, sec:o.sec}; __saveW(m); } __updateReviewUI(); }
+  function __wcount(){ return Object.keys(__loadW()).length; }
+  function __clearW(){ if(!confirm('復習リストにある間違えた問題をすべて消しますか？この操作は元に戻せません。')) return; localStorage.removeItem(__WKEY); __updateReviewUI(); }
+  function startReview(){
+    var items=Object.values(__loadW());
+    if(!items.length){ alert('間違えた問題はまだありません。まずは各パートに挑戦しましょう！'); return; }
+    pool=shuffle(items.map(function(x){ return {it:x.it, sec:x.sec}; })).slice(0, PER);
+    cur=0; correct=0; curSec='復習';
+    home.classList.add('hidden'); result.classList.add('hidden'); quiz.classList.remove('hidden');
+    render(); window.scrollTo({top:0});
+  }
+  function __updateReviewUI(){
+    var n=__wcount();
+    var c=document.getElementById('reviewCount'); if(c) c.textContent=n;
+    var card=document.getElementById('reviewCard'); if(card) card.style.display=n>0?'':'none';
+    var rb=document.getElementById('rReviewBtn'); if(rb){ rb.style.display=n>0?'':'none'; var rc=document.getElementById('rReviewCount'); if(rc) rc.textContent=n; }
+  }
+  function __injectReview(){
+    var homeEl=document.getElementById('home');
+    if(homeEl && !document.getElementById('reviewCard')){
+      var card=document.createElement('div'); card.id='reviewCard'; card.style.cssText='display:none;margin:0 0 14px';
+      card.innerHTML='<div id="__rvGo" role="button" style="cursor:pointer;background:#FFF6EA;border:1px solid #F0D8B0;border-left:5px solid #E8912D;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px"><div style="font-size:24px;flex-shrink:0">🔁</div><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:15px;color:#B96A12">間違えた問題を復習</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px">まちがえた問題だけをまとめて練習。正解すると自動で消えます。</div></div><div style="text-align:right;flex-shrink:0"><div style="font-size:20px;font-weight:700;color:#E8912D"><span id="reviewCount">0</span>問</div></div></div><div style="text-align:right;margin-top:5px"><span id="__rvClear" style="font-size:11px;color:var(--text-hint);text-decoration:underline;cursor:pointer">復習リストを空にする</span></div>';
+      var cats=document.getElementById('cats');
+      if(cats && cats.parentNode) cats.parentNode.insertBefore(card, cats); else homeEl.insertBefore(card, homeEl.firstChild);
+      document.getElementById('__rvGo').addEventListener('click', startReview);
+      document.getElementById('__rvClear').addEventListener('click', __clearW);
+    }
+    if(!document.getElementById('rReviewBtn')){
+      var ag=document.getElementById('againBtn');
+      if(ag && ag.parentNode){
+        var b=document.createElement('button'); b.id='rReviewBtn'; b.className=ag.className; b.style.cssText='display:none;margin-bottom:10px;border-color:#E8912D;color:#B96A12';
+        b.innerHTML='🔁 間違えた問題を復習（<span id="rReviewCount">0</span>問）';
+        b.addEventListener('click', startReview);
+        ag.parentNode.insertBefore(b, ag);
+      }
+    }
+    __updateReviewUI();
+  }
+  pick=(function(o){ return function(btn, ok){ var was=answered; var r=o.apply(this, arguments); try{ if(!was) __recordAns(pool[cur], ok); }catch(e){} return r; }; })(pick);
+  start=(function(o){ return function(key){ if(key==null){ if(curSec==='復習'){ startReview(); return; } key='__all'; } return o.call(this, key); }; })(start);
+  finish=(function(o){ return function(){ var r=o.apply(this, arguments); try{ __updateReviewUI(); }catch(e){} return r; }; })(finish);
+  goHome=(function(o){ return function(){ var r=o.apply(this, arguments); try{ __updateReviewUI(); }catch(e){} return r; }; })(goHome);
+  __injectReview();
+
 })();
 </script>
 </body>

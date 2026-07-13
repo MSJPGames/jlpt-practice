@@ -647,8 +647,6 @@ function startQuiz(sec, sub) {
   pool = shuffle(all).slice(0, TOTAL_Q);
   actualTotal = pool.length;
   current = 0; correct = 0; answered = false;
-  if(window.NNHRecord){ window.__nnhSec = sec + (sub? "／"+sub : ""); NNHRecord.init({tool:"日本語クイズ N5", level: sec + (sub? "／"+sub : "")}); }
-
   document.getElementById('home-screen').classList.add('hidden');
   document.getElementById('quiz-screen').classList.remove('hidden');
   document.getElementById('result-screen').classList.add('hidden');
@@ -765,8 +763,6 @@ function selectAnswer(chosen, q, btn, choicesEl) {
   answered = true;
   const isCorrect = chosen === q.answer;
   if (isCorrect) correct++;
-  if(window.NNHRecord){ NNHRecord.add({sec:(window.__nnhSec||''), q:String(q.question||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,120), chosen:chosen, correct:q.answer, ok:isCorrect}); }
-
   stats.total++; if (isCorrect) stats.correct++;
   localStorage.setItem('jlpt_n5_stats', JSON.stringify(stats));
   choicesEl.querySelectorAll('.choice-btn').forEach(b => {
@@ -890,8 +886,6 @@ function renderPuzzle(q) {
     var starWord = slotContents[STAR_POS];
     var isCorrect = starWord === q.answer;
     if (isCorrect) correct++;
-  if(window.NNHRecord){ NNHRecord.add({sec:(window.__nnhSec||''), q:String(q.question||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,120), chosen:starWord, correct:q.answer, ok:isCorrect}); }
-
     stats.total++; if (isCorrect) stats.correct++;
     localStorage.setItem('jlpt_n5_stats', JSON.stringify(stats));
     slotEls[STAR_POS].classList.add(isCorrect ? 'correct-slot' : 'wrong-slot');
@@ -917,15 +911,6 @@ function nextQuestion() {
   renderQuestion();
 }
 
-function nnhMountRecord(){
-  if(!window.NNHRecord) return;
-  var host=document.getElementById('nnhHost');
-  if(!host){ host=document.createElement('div'); host.id='nnhHost';
-    var acts=document.querySelector('#result-screen .result-actions');
-    if(acts&&acts.parentNode){ acts.parentNode.insertBefore(host, acts); } }
-  if(host){ host.innerHTML=''; NNHRecord.mount(host,{score:correct,total:actualTotal}); }
-}
-
 function showResult() {
   clearInterval(timerInterval);
   const elapsed = Math.floor((Date.now() - startTime) / 1000);
@@ -937,7 +922,6 @@ function showResult() {
   document.getElementById('r-time').textContent = '所要時間：' + (m > 0 ? m + '分' : '') + s + '秒';
   const pct = Math.round(correct / actualTotal * 100);
   document.getElementById('r-pct').textContent = '正答率：' + pct + '%';
-  nnhMountRecord();
   let comment = '';
   if (pct >= 90) comment = '🎉 素晴らしい！N5レベルは完璧です！';
   else if (pct >= 70) comment = '👍 よくできました！あと少しで合格ラインです。';
@@ -1456,7 +1440,6 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 window.addEventListener('load',function(){try{__updateCounts();}catch(e){}});
 setTimeout(function(){try{__updateCounts();}catch(e){}},300);
 </script>
-<script src="record_config.js"></script>
-<script src="quiz_record.js"></script>
+<script src="quiz_review.js"></script>
 </body>
 </html>

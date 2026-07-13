@@ -994,27 +994,38 @@ function answerBlock(){
 function nextButton(){ return `<button class="btn btn-ghost" id="nextBtn">次へ ›</button>`; }
 function wireNext(){ const n=$('nextBtn'); if(n){ n.onclick=newProblem; n.focus({preventScroll:true}); } }
 
+// マイク許可を最初の一度だけ永続取得しておく（以後、毎回聞かれるのを防ぐ）
+var micPrimed=false, sharedRec=null;
+function primeMic(){
+  if(micPrimed) return Promise.resolve();
+  if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){ micPrimed=true; return Promise.resolve(); }
+  return navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){
+    micPrimed=true; try{ s.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
+  }).catch(function(){ /* 許可されなくても、従来どおり認識側で確認します */ });
+}
 function startVoice(){
   if(!VOICE_OK) return;
   const inp=$('ansInput'), mic=$('micBtn'), st=$('micStatus');
   if(!inp||!mic) return;
   if(activeRec){ try{ activeRec.stop(); }catch(e){} return; }  // 押している間に再度押す → 停止
-  let rec; try{ rec=new SR(); }catch(e){ return; }
-  rec.lang='ja-JP'; rec.interimResults=false; rec.maxAlternatives=1;
-  let got=false;
-  const reset=()=>{ mic.classList.remove('listening'); mic.textContent='🎤 はなす'; };
-  rec.onresult=(e)=>{ got=true; const raw=(e.results[0][0].transcript||'').trim(); const t=toKanaDisplay(raw); inp.value=t;
-    if(st) st.textContent = (t!==raw)
-      ? '「'+t+'」と聞きました（'+raw+'→ひらがな）。直したら「確認」を。'
-      : '「'+t+'」と聞きました。直したら「確認」を押してください。'; };
-  rec.onerror=(e)=>{ const map={'not-allowed':'マイクの使用が許可されていません。設定をご確認ください。',
-    'service-not-allowed':'マイクの使用が許可されていません。','no-speech':'声が聞き取れませんでした。もう一度どうぞ。',
-    'audio-capture':'マイクが見つかりません。','network':'ネットワークエラーです。','aborted':''};
-    if(st) st.textContent = (e.error in map)?map[e.error]:('認識に失敗しました（'+e.error+'）。'); };
-  rec.onend=()=>{ activeRec=null; reset(); if(got) inp.focus({preventScroll:true}); };
-  activeRec=rec;
-  mic.classList.add('listening'); mic.textContent='● きいています…'; if(st) st.textContent='いま、答えを話してください。';
-  try{ rec.start(); }catch(e){ activeRec=null; reset(); if(st) st.textContent='音声入力を開始できませんでした。'; }
+  primeMic().then(function(){
+    let rec=sharedRec;
+    if(!rec){ try{ rec=new SR(); }catch(e){ return; } rec.lang='ja-JP'; rec.interimResults=false; rec.maxAlternatives=1; sharedRec=rec; }
+    let got=false;
+    const reset=()=>{ mic.classList.remove('listening'); mic.textContent='🎤 はなす'; };
+    rec.onresult=(e)=>{ got=true; const raw=(e.results[0][0].transcript||'').trim(); const t=toKanaDisplay(raw); inp.value=t;
+      if(st) st.textContent = (t!==raw)
+        ? '「'+t+'」と聞きました（'+raw+'→ひらがな）。直したら「確認」を。'
+        : '「'+t+'」と聞きました。直したら「確認」を押してください。'; };
+    rec.onerror=(e)=>{ const map={'not-allowed':'マイクの使用が許可されていません。設定をご確認ください。',
+      'service-not-allowed':'マイクの使用が許可されていません。','no-speech':'声が聞き取れませんでした。もう一度どうぞ。',
+      'audio-capture':'マイクが見つかりません。','network':'ネットワークエラーです。','aborted':''};
+      if(st) st.textContent = (e.error in map)?map[e.error]:('認識に失敗しました（'+e.error+'）。'); };
+    rec.onend=()=>{ activeRec=null; reset(); if(got) inp.focus({preventScroll:true}); };
+    activeRec=rec;
+    mic.classList.add('listening'); mic.textContent='● きいています…'; if(st) st.textContent='いま、答えを話してください。';
+    try{ rec.start(); }catch(e){ activeRec=null; reset(); if(st) st.textContent='音声入力を開始できませんでした。'; }
+  });
 }
 function doCheck(){
   if(answered||!current) return;

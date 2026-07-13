@@ -578,6 +578,8 @@ function startQuiz(sec, sub) {
   current = 0;
   correct = 0;
   answered = false;
+  if(window.NNHRecord){ window.__nnhSec = sec + (sub? "／"+sub : ""); NNHRecord.init({tool:"日本語クイズ N2", level: sec + (sub? "／"+sub : "")}); }
+
   elapsedSeconds = 0;
 
   hide('home-screen');
@@ -791,6 +793,8 @@ function renderPuzzle(q) {
     const starWord = slotContents[STAR_POS];
     const isCorrect = starWord === q.answer;
     if (isCorrect) correct++;
+  if(window.NNHRecord){ NNHRecord.add({sec:(window.__nnhSec||''), q:String(q.question||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,120), chosen:starWord, correct:q.answer, ok:isCorrect}); }
+
     stats.total++; if (isCorrect) stats.correct++;
     localStorage.setItem('jlpt_n2_stats', JSON.stringify(stats));
 
@@ -818,6 +822,8 @@ function selectAnswer(selected, q, btn, choicesEl) {
   answered = true;
   const isCorrect = selected === q.answer;
   if (isCorrect) correct++;
+  if(window.NNHRecord){ NNHRecord.add({sec:(window.__nnhSec||''), q:String(q.question||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,120), chosen:selected, correct:q.answer, ok:isCorrect}); }
+
   stats.total++;
   if (isCorrect) stats.correct++;
   localStorage.setItem('jlpt_n2_stats', JSON.stringify(stats));
@@ -848,6 +854,15 @@ function nextQuestion() {
   else renderQuestion();
 }
 
+function nnhMountRecord(){
+  if(!window.NNHRecord) return;
+  var host=document.getElementById('nnhHost');
+  if(!host){ host=document.createElement('div'); host.id='nnhHost';
+    var acts=document.querySelector('#result-screen .result-actions');
+    if(acts&&acts.parentNode){ acts.parentNode.insertBefore(host, acts); } }
+  if(host){ host.innerHTML=''; NNHRecord.mount(host,{score:correct,total:actualTotal}); }
+}
+
 function showResult() {
   stopTimer();
   hide('quiz-screen');
@@ -862,6 +877,7 @@ function showResult() {
     : pct >= 50 ? 'もう少しです！苦手な部分を集中して練習するとさらに伸びます。'
     : '焦らず少しずつ進めましょう。毎日練習することが合格への近道です！';
   document.getElementById('r-comment').textContent = msg;
+  nnhMountRecord();
   updateStatsBar();
 }
 
@@ -1213,5 +1229,7 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 window.addEventListener('load',function(){try{__updateCounts();}catch(e){}});
 setTimeout(function(){try{__updateCounts();}catch(e){}},300);
 </script>
+<script src="record_config.js"></script>
+<script src="quiz_record.js"></script>
 </body>
 </html>

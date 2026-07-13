@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J.TEST F-Gレベル 練習 ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#1E6E8C; --accent-bg:#DCEDF2;
+    --ok:#3B6D11; --ok-bg:#EAF3DE; --ng:#9A3D1C; --ng-bg:#FAECE7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 6rem;line-height:1.7;-webkit-text-size-adjust:100%}
+  .container{max-width:480px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.25rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none}
+  .app-header{text-align:center;padding:1.1rem 0 .5rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:22px;font-weight:700}
+  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12px;color:#6b5d40;line-height:1.65;margin:.6rem 0 1rem}
+  .sec-head{display:flex;align-items:center;gap:9px;margin:1.6rem 2px .3rem}
+  .sec-bar{width:4px;height:18px;border-radius:2px;background:var(--accent)}
+  .sec-title{font-size:15px;font-weight:700}
+  .sec-instr{font-size:12px;color:var(--text-muted);margin:0 2px .7rem}
+  .q{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px;margin-bottom:11px}
+  .q-text{font-size:15px;font-weight:600;white-space:pre-line;line-height:1.75}
+  .q-num{color:var(--accent);font-weight:700;margin-right:6px}
+  .passage{background:#F7F5F0;border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:14px;white-space:pre-line;font-weight:400;line-height:1.8}
+  .choices{margin-top:10px;display:flex;flex-direction:column;gap:7px}
+  .choice{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border:1px solid var(--border);border-radius:10px;cursor:pointer;
+    font-size:14.5px;background:#fff;-webkit-tap-highlight-color:transparent;transition:background .1s,border-color .1s}
+  .choice:hover{background:#FAF9F6}
+  .choice input{margin-top:3px;accent-color:var(--accent);flex-shrink:0}
+  .choice .cn{font-weight:700;color:var(--text-muted);flex-shrink:0}
+  .choice.correct{border-color:var(--ok);background:var(--ok-bg)}
+  .choice.wrong{border-color:var(--ng);background:var(--ng-bg)}
+  .exp{margin-top:9px;font-size:12.5px;color:var(--text-muted);background:#F3F0EA;border-radius:9px;padding:8px 11px;line-height:1.65;display:none}
+  .exp.show{display:block}
+  .exp .mk{font-weight:700;margin-right:5px}
+  .mk.ok{color:var(--ok)} .mk.ng{color:var(--ng)}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);border-top:1px solid var(--border);
+    padding:11px 1rem;display:flex;gap:10px;justify-content:center;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  .bar .inner{max-width:480px;width:100%;display:flex;gap:10px;align-items:center}
+  button{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:13px 16px;cursor:pointer;transition:transform .1s}
+  .primary{background:var(--accent);color:#fff;flex:1}
+  .primary:active{transform:scale(.98)}
+  .ghost{background:#F0EEE8;color:var(--text)}
+  .score{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap}
+  .result{background:var(--accent-bg);border:1px solid #B6D6E1;border-radius:var(--radius);padding:14px 16px;margin:0 0 1rem;text-align:center;display:none}
+  .result.show{display:block}
+  .result .big{font-size:26px;font-weight:700;color:var(--accent)}
+  .result .sub{font-size:12.5px;color:var(--text-muted);margin-top:4px}
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.5rem}
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="jtest.html" class="back">‹ J.TEST にもどる</a>
+  <div class="app-header">
+    <div class="app-logo">J.TEST — 練習</div>
+    <div class="app-title">F-Gレベル 練習問題</div>
+    <div class="app-sub">入門〜初級前期（A1・N5相当）</div>
+  </div>
+  <div class="note">これは J.TEST の<b>出題形式に合わせたオリジナル練習問題</b>です（公式の問題ではありません）。答えを選んで、下の「採点する」を押してください。</div>
+
+  <div class="result" id="result"></div>
+  <div id="quiz"></div>
+
+  <div class="foot">© 2025 日本語の部屋 ・ J.TEST形式 練習（オリジナル）</div>
+</div>
+
+<div class="bar"><div class="inner">
+  <span class="score" id="scoreLbl"></span>
+  <button class="primary" id="gradeBtn">採点する</button>
+  <button class="ghost" id="resetBtn" style="display:none">もう一度</button>
+</div></div>
+
+<script>
+(function(){
+  "use strict";
+  var SECTIONS=[
+    { title:"文法・語彙問題", instr:"（　）に 1・2・3・4 の中から いちばん いい ことばを 入れてください。", items:[
+      {q:"あさ ごはんを （　）から、がっこうへ 行きます。", cs:["たべて","のんで","みて","きいて"], a:0, ex:"ごはんは「たべる」。〜てから＝〜した後で。"},
+      {q:"この みずは とても （　）です。つめたくて おいしいです。", cs:["たかい","つめたい","むずかしい","いそがしい"], a:1, ex:"みず＋つめたい。後ろの「つめたくて」がヒント。"},
+      {q:"きのう ともだちに てがみを （　）。", cs:["かきました","ききました","はなしました","あいました"], a:0, ex:"てがみは「かく」。"},
+      {q:"ぎゅうにゅうを コップ 1 （　） のみました。", cs:["まい","はい","さつ","ひき"], a:1, ex:"コップに入った飲み物は「〜はい（杯）」。まい＝紙、さつ＝本、ひき＝動物。"},
+      {q:"へやが くらいですから、でんきを （　）ください。", cs:["けして","つけて","あけて","しめて"], a:1, ex:"暗い→電気を「つける」。けす＝消す。"},
+      {q:"あした ともだちと えいがを （　）。", cs:["みます","のみます","ききます","かきます"], a:0, ex:"えいがは「みる」。"},
+      {q:"テストは むずかしかったですが、ぜんぶ （　）。", cs:["できました","いきました","きました","みました"], a:0, ex:"問題が「できる」。"},
+      {q:"すみません。この ちずを （　）ください。えきは どこですか。", cs:["みせて","かって","のって","たべて"], a:0, ex:"相手に見せてほしい→「みせてください」。"},
+      {q:"きのうは あたまが いたかったので、くすりを （　）。", cs:["のみました","たべました","かきました","ききました"], a:0, ex:"くすりは「のむ」。"},
+      {q:"いもうとは いま こうえんで （　）います。", cs:["あそんで","よんで","のんで","かって"], a:0, ex:"公園で「あそぶ」。"},
+      {q:"あついですね。まどを （　）ましょうか。", cs:["あけ","しめ","つけ","けし"], a:0, ex:"暑い→窓を「あける」。しめる＝閉める。"},
+      {q:"わたしの へやは 3がいに （　）。", cs:["あります","います","します","なります"], a:0, ex:"もの・場所の存在は「ある」。人・動物は「いる」。"},
+      {q:"この みちを まっすぐ 行くと、ぎんこうが （　）に あります。", cs:["みぎ","うえ","なか","そと"], a:0, ex:"「〜がわ／みぎに あります」。位置のことば。"},
+      {q:"わたしは まいにち コーヒーを （　）。", cs:["のみます","たべます","よみます","ききます"], a:0, ex:"のみものは「のむ」。"},
+      {q:"きょうは てんきが いいですから、こうえんへ （　）。", cs:["行きましょう","みましょう","かきましょう","ききましょう"], a:0, ex:"場所へ「行く」。〜ましょう＝さそい。"}
+    ]},
+    { title:"漢字問題（読み）", instr:"　　の ことばは ひらがなで どう 書きますか。1・2・3・4 から えらんでください。", items:[
+      {q:"あの 山 は とても たかいです。", cs:["かわ","やま","うみ","そら"], a:1, ex:"山＝やま。"},
+      {q:"コップに 水 を 入れます。", cs:["みず","ひ","き","つち"], a:0, ex:"水＝みず。"},
+      {q:"田中 先生 は やさしいです。", cs:["せんせえ","がくせい","せんせい","せいせい"], a:2, ex:"先生＝せんせい。"},
+      {q:"あさ ごはんを 食べます 。", cs:["たべます","のべます","しょくます","くべます"], a:0, ex:"食べます＝たべます。"},
+      {q:"わたしは まいにち 学校 へ 行きます。", cs:["がこう","かっこう","がくこう","がっこう"], a:3, ex:"学校＝がっこう（小さい「っ」）。"},
+      {q:"日曜日 は やすみです。", cs:["にちようび","げつようび","かようび","きんようび"], a:0, ex:"日曜日＝にちようび。"},
+      {q:"この かばんは 大きい です。", cs:["おおきい","だいきい","たいきい","おうきい"], a:0, ex:"大きい＝おおきい。"},
+      {q:"あの 人 は だれですか。", cs:["ひと","じん","にん","かた"], a:0, ex:"一字の「人」は「ひと」。〜じん（国）・〜にん（数）とは違う。"},
+      {q:"かいぎの 時間 は 3じです。", cs:["じかん","じっかん","じくん","どきま"], a:0, ex:"時間＝じかん。"},
+      {q:"えきで 電車 に のります。", cs:["でんしゃ","てんしゃ","でんちゃ","でんし"], a:0, ex:"電車＝でんしゃ。"}
+    ]},
+    { title:"読解問題", instr:"つぎの 文を よんで、しつもんに 1・2・3・4 から こたえてください。", items:[
+      {q:"つぎの メモを 読んで、こたえてください。", passage:"たなかさんへ\n３じから かいぎが あります。\nかいぎしつは ２かいです。\nおくれないで きてください。\n　　　　　　　　　やまだ", sub:"かいぎは どこで ありますか。", cs:["１かい","２かい","３かい","やまださんの へや"], a:1, ex:"「かいぎしつは ２かいです」とあります。"},
+      {q:"つぎの 文を 読んで、こたえてください。", passage:"わたしは まいあさ ６じに おきます。\n７じに あさごはんを 食べて、８じに いえを 出ます。", sub:"この 人は なんじに あさごはんを 食べますか。", cs:["６じ","７じ","８じ","９じ"], a:1, ex:"「７じに あさごはんを 食べて」とあります。"},
+      {q:"つぎの おしらせを 読んで、こたえてください。", passage:"【おしらせ】\nあした みせは やすみです。\nあさっての 10じから あいています。", sub:"あした みせは どうですか。", cs:["10じから あいています","やすみです","よる あいています","いつも やすみです"], a:1, ex:"「あした みせは やすみです」とあります。"},
+      {q:"つぎの メールを 読んで、こたえてください。", passage:"あした いっしょに ひるごはんを 食べませんか。\nえきの まえの レストランで、12じは どうですか。", sub:"どこで あいますか。", cs:["えきの なか","えきの まえ","レストランの うえ","がっこう"], a:1, ex:"「えきの まえの レストランで」とあります。"},
+      {q:"つぎの 文を 読んで、こたえてください。", passage:"きのうは あめでしたから、うちで 本を 読みました。\nきょうは はれですから、これから こうえんへ 行きます。", sub:"きょう この 人は 何を しますか。", cs:["本を 読みます","こうえんへ 行きます","うちに います","そうじを します"], a:1, ex:"「きょうは…これから こうえんへ 行きます」とあります。"}
+    ]},
+    { title:"短文作成問題（選択式）", instr:"いちばん いい 文を 1・2・3・4 から えらんでください。", items:[
+      {q:"", cs:["わたしは としょかんで 本を 読みます。","わたしは としょかんを 本を 読みます。","わたしは としょかんで 本が 読みます。","わたしを としょかんで 本を 読みます。"], a:0, ex:"場所は「で」、目的語は「を」、主語は「は」。"},
+      {q:"", cs:["きのう ともだちと えいがを 見ました。","きのう ともだちを えいがと 見ました。","きのう ともだちと えいがが 見ました。","きのう ともだちに えいがを 見ます。"], a:0, ex:"「〜と（一緒に）」「〜を 見る」。きのう＝過去なので「見ました」。"},
+      {q:"", cs:["つくえの 上に 本が あります。","つくえの 上に 本が います。","つくえの 上で 本が あります。","つくえの 上に 本を あります。"], a:0, ex:"もの＝「ある」。存在の場所は「に」。「本が ある」。"},
+      {q:"", cs:["わたしは 日本語が すこし わかります。","わたしは 日本語を すこし わかります。","わたしに 日本語が すこし わかります。","わたしは 日本語が すこし わかりませんです。"], a:0, ex:"「〜が わかる」。ていねいな否定は「わかりません」（「〜ませんです」は×）。"},
+      {q:"", cs:["あした ともだちに てがみを 書きます。","あした ともだちを てがみに 書きます。","あした ともだちへ てがみが 書きます。","あした ともだちに てがみを 書きました。"], a:0, ex:"相手は「に」、目的語は「を」。あした＝未来なので「書きます」。"},
+      {q:"", cs:["この へやは あかるくて きれいです。","この へやは あかるいで きれいです。","この へやは あかるくて きれいだです。","この へやは あかるく きれいです。"], a:0, ex:"い形容詞の「て形」は「あかるくて」。「きれいです」（な形容詞＋です）。"}
+    ]}
+  ];
+
+  var quiz=document.getElementById("quiz");
+  var qid=0, total=0, index=[];
+  SECTIONS.forEach(function(sec){
+    var h=document.createElement("div"); h.className="sec-head";
+    h.innerHTML='<div class="sec-bar"></div><span class="sec-title">'+sec.title+'</span>';
+    quiz.appendChild(h);
+    var ins=document.createElement("div"); ins.className="sec-instr"; ins.textContent=sec.instr; quiz.appendChild(ins);
+    sec.items.forEach(function(it){
+      qid++; total++; var myid=qid;
+      var card=document.createElement("div"); card.className="q";
+      var txt='<div class="q-text"><span class="q-num">'+myid+'.</span>'+(it.q||"つぎの 文を えらんでください。")+'</div>';
+      if(it.passage){ txt+='<div class="passage">'+it.passage+'</div>'; }
+      if(it.sub){ txt+='<div class="q-text" style="margin-top:6px">'+it.sub+'</div>'; }
+      card.innerHTML=txt;
+      // 選択肢をシャッフルして正解位置の偏りをなくす
+      var opts=it.cs.map(function(c,ci){ return {t:c, ok:(ci===it.a)}; });
+      for(var k=opts.length-1;k>0;k--){ var jj=Math.floor(Math.random()*(k+1)); var tmp=opts[k]; opts[k]=opts[jj]; opts[jj]=tmp; }
+      var correctIdx=0;
+      var ch=document.createElement("div"); ch.className="choices";
+      opts.forEach(function(o,ci){
+        if(o.ok) correctIdx=ci;
+        var lab=document.createElement("label"); lab.className="choice";
+        lab.innerHTML='<input type="radio" name="q'+myid+'" value="'+ci+'"><span class="cn">'+(ci+1)+'</span><span>'+o.t+'</span>';
+        ch.appendChild(lab);
+      });
+      card.appendChild(ch);
+      var exp=document.createElement("div"); exp.className="exp"; card.appendChild(exp);
+      quiz.appendChild(card);
+      index.push({id:myid, a:correctIdx, ex:it.ex, card:card, exp:exp});
+    });
+  });
+
+  var graded=false;
+  function grade(){
+    var correct=0, answered=0;
+    index.forEach(function(o){
+      var sel=document.querySelector('input[name="q'+o.id+'"]:checked');
+      var labels=o.card.querySelectorAll('.choice');
+      labels.forEach(function(l){ l.classList.remove('correct','wrong'); });
+      labels[o.a].classList.add('correct');
+      var mk='<span class="mk ng">✗ 不正解</span>';
+      if(sel){
+        answered++;
+        var v=parseInt(sel.value,10);
+        if(v===o.a){ correct++; mk='<span class="mk ok">○ 正解</span>'; }
+        else { labels[v].classList.add('wrong'); }
+      } else { mk='<span class="mk ng">未回答</span>'; }
+      o.exp.innerHTML=mk+(o.ex||"");
+      o.exp.classList.add('show');
+    });
+    graded=true;
+    var res=document.getElementById("result");
+    var pct=Math.round(correct/total*100);
+    res.className="result show";
+    res.innerHTML='<div class="big">'+correct+' / '+total+'</div><div class="sub">正答率 '+pct+'％　（'+answered+'問 回答）</div>';
+    document.getElementById("scoreLbl").textContent=correct+" / "+total;
+    document.getElementById("gradeBtn").style.display="none";
+    document.getElementById("resetBtn").style.display="inline-block";
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+  function reset(){
+    index.forEach(function(o){
+      var labels=o.card.querySelectorAll('.choice');
+      labels.forEach(function(l){ l.classList.remove('correct','wrong'); });
+      var inputs=o.card.querySelectorAll('input'); inputs.forEach(function(i){ i.checked=false; });
+      o.exp.classList.remove('show'); o.exp.innerHTML="";
+    });
+    graded=false;
+    document.getElementById("result").className="result";
+    document.getElementById("scoreLbl").textContent="";
+    document.getElementById("gradeBtn").style.display="inline-block";
+    document.getElementById("resetBtn").style.display="none";
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+  document.getElementById("gradeBtn").addEventListener("click", grade);
+  document.getElementById("resetBtn").addEventListener("click", reset);
+})();
+</script>
+</body>
+</html>

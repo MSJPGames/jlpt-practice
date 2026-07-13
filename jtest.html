@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J.TEST（実用日本語検定）・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#1E6E8C; --accent-bg:#DCEDF2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.7;-webkit-text-size-adjust:100%}
+  .container{max-width:480px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.25rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none;-webkit-tap-highlight-color:transparent}
+  .back:hover{color:var(--text)}
+  .app-header{text-align:center;padding:1.25rem 0 .6rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:24px;font-weight:700;letter-spacing:.02em}
+  .app-sub{font-size:13px;color:var(--text-muted);margin-top:6px;line-height:1.6}
+  .lead{font-size:13.5px;color:var(--text-muted);line-height:1.75;margin:.4rem 0 1.2rem}
+  .sec-head{display:flex;align-items:center;gap:9px;margin:1.7rem 2px .8rem}
+  .sec-bar{width:4px;height:18px;border-radius:2px;background:var(--accent)}
+  .sec-title{font-size:15px;font-weight:700}
+  .level-card{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);
+    padding:14px 16px;display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;margin-bottom:11px;
+    transition:transform .12s,box-shadow .12s;-webkit-tap-highlight-color:transparent;position:relative}
+  .level-card.on:hover{box-shadow:0 4px 16px rgba(0,0,0,.08)}
+  .level-card.on:active{transform:scale(.99)}
+  .level-card.off{opacity:.62}
+  .lv-badge{min-width:60px;height:54px;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:var(--accent-bg);color:var(--accent);font-weight:700;flex-shrink:0;line-height:1.15}
+  .lv-badge b{font-size:15px}
+  .lv-badge span{font-size:10px;font-weight:700}
+  .lv-info{flex:1;min-width:0}
+  .lv-name{font-size:15px;font-weight:700}
+  .lv-desc{font-size:12px;color:var(--text-muted);margin-top:3px;line-height:1.55}
+  .lv-meta{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+  .pill{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px}
+  .pill-go{background:#EAF3DE;color:#3B6D11}
+  .pill-soon{background:#F0EEE8;color:var(--text-hint)}
+  .arrow{font-size:20px;color:var(--text-hint);flex-shrink:0}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 16px;margin-bottom:12px}
+  table.gr{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.gr th,table.gr td{border:1px solid var(--border);padding:6px 8px;text-align:center}
+  table.gr th{background:#F3F0EA;font-weight:700;color:var(--text-muted)}
+  table.gr td.l{text-align:left;font-weight:700}
+  .fmt{font-size:13px;color:var(--text)}
+  .fmt b{color:var(--accent)}
+  .fmt ul{margin:6px 0 0 1.1em}
+  .fmt li{margin:3px 0}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:12px 14px;font-size:12.5px;color:#6b5d40;line-height:1.7;margin-top:6px}
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2rem;line-height:1.9}
+  a.src{color:var(--accent);font-weight:700}
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="taisaku.html" class="back">‹ テスト一覧にもどる</a>
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">J.TEST</div>
+    <div class="app-sub">実用日本語検定 ・ Test of Practical Japanese</div>
+  </div>
+
+  <p class="lead">J.TEST（実用日本語検定）は、外国人の<b>実用的な日本語力</b>を測る検定です。1991年開始・年6回実施。<b>聴解の比重が高く、記述式も含む</b>のが特徴で、レベル試験の<b>点数に応じて級が認定</b>されます（各分野で0点がないことが条件）。</p>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">レベルを選ぶ</span></div>
+
+  <a href="jtest_fg.html" class="level-card on">
+    <div class="lv-badge"><b>F-G</b><span>入門〜初級</span></div>
+    <div class="lv-info">
+      <div class="lv-name">F-Gレベル（満点350点）</div>
+      <div class="lv-desc">F級=250点以上（A1・N5相当）／G級=180点以上。入門〜初級前期。</div>
+      <div class="lv-meta"><span class="pill pill-go">練習できます</span></div>
+    </div>
+    <span class="arrow">›</span>
+  </a>
+
+  <div class="level-card off">
+    <div class="lv-badge"><b>D-E</b><span>初級〜初中級</span></div>
+    <div class="lv-info">
+      <div class="lv-name">D-Eレベル（満点700点）</div>
+      <div class="lv-desc">D級=500点以上（B1・N3相当）／E級=350点以上（A2・N4相当）。</div>
+      <div class="lv-meta"><span class="pill pill-soon">準備中</span></div>
+    </div>
+    <span class="arrow">›</span>
+  </div>
+
+  <div class="level-card off">
+    <div class="lv-badge"><b>A-C</b><span>中級〜上級</span></div>
+    <div class="lv-info">
+      <div class="lv-name">A-Cレベル（満点1000点）</div>
+      <div class="lv-desc">特A〜C級。C級=B2・N2相当、A級=C2・N1超。上級者向け。</div>
+      <div class="lv-meta"><span class="pill pill-soon">準備中</span></div>
+    </div>
+    <span class="arrow">›</span>
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">級と認定点（目安）</span></div>
+  <div class="card">
+    <table class="gr">
+      <tr><th>試験</th><th>級</th><th>認定点</th><th>CEFR</th><th>JLPT目安</th></tr>
+      <tr><td class="l" rowspan="6">A-C<br>(1000)</td><td>特A</td><td>930〜</td><td>—</td><td>N1超</td></tr>
+      <tr><td>A</td><td>900〜</td><td>C2</td><td>N1超</td></tr>
+      <tr><td>準A</td><td>850〜</td><td>—</td><td>N1超</td></tr>
+      <tr><td>B</td><td>800〜</td><td>—</td><td>N1</td></tr>
+      <tr><td>準B</td><td>700〜</td><td>C1</td><td>N1相当</td></tr>
+      <tr><td>C</td><td>600〜</td><td>B2</td><td>N2相当</td></tr>
+      <tr><td class="l" rowspan="2">D-E<br>(700)</td><td>D</td><td>500〜</td><td>B1</td><td>N3相当</td></tr>
+      <tr><td>E</td><td>350〜</td><td>A2</td><td>N4相当</td></tr>
+      <tr><td class="l" rowspan="2">F-G<br>(350)</td><td>F</td><td>250〜</td><td>A1</td><td>N5相当</td></tr>
+      <tr><td>G</td><td>180〜</td><td>—</td><td>N5以下</td></tr>
+    </table>
+    <div class="note">認定には「全8分野で0点がないこと」が条件です。点数・基準は変更されることがあるため、最新は公式サイトでご確認ください。</div>
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">出題の形式</span></div>
+  <div class="card">
+    <div class="fmt">各レベル試験は<b>読解試験</b>と<b>聴解試験</b>で構成されます。
+      <ul>
+        <li><b>読解</b>：文法語彙／読解／漢字／短文作成（F-Gは選択式、上位は記述式）</li>
+        <li><b>聴解</b>：写真問題／聴読解問題／応答問題／会話・説明問題</li>
+      </ul>
+    </div>
+    <div class="note">当サイトの練習問題は、この<b>出題形式に合わせて作ったオリジナル問題</b>です（公式の問題ではありません）。実際の試験問題・音声は使用していません。</div>
+  </div>
+
+  <div class="foot">
+    公式情報：<a class="src" href="https://j-test.jp/" target="_blank" rel="noopener">j-test.jp</a><br>
+    © 2025 日本語の部屋
+  </div>
+</div>
+</body>
+</html>

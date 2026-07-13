@@ -994,15 +994,18 @@ function answerBlock(){
 function nextButton(){ return `<button class="btn btn-ghost" id="nextBtn">次へ ›</button>`; }
 function wireNext(){ const n=$('nextBtn'); if(n){ n.onclick=newProblem; n.focus({preventScroll:true}); } }
 
-// マイク許可を最初の一度だけ永続取得しておく（以後、毎回聞かれるのを防ぐ）
-var micPrimed=false, sharedRec=null;
+// マイク許可を最初の一度だけ取得し、セッション中はストリームを開いたまま保持する。
+// こうすると、マイク権限が「有効」な状態が続くので、「はなす」を押すたびの許可確認が出なくなる。
+// （マイク使用中インジケーターは点灯したままになります。ページを閉じると解放されます。）
+var micPrimed=false, sharedRec=null, micStream=null;
 function primeMic(){
-  if(micPrimed) return Promise.resolve();
+  if(micPrimed && micStream) return Promise.resolve();
   if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){ micPrimed=true; return Promise.resolve(); }
   return navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){
-    micPrimed=true; try{ s.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
+    micPrimed=true; micStream=s;   // ストリームを保持（stopしない）
   }).catch(function(){ /* 許可されなくても、従来どおり認識側で確認します */ });
 }
+window.addEventListener("pagehide", function(){ try{ if(micStream) micStream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){} });
 function startVoice(){
   if(!VOICE_OK) return;
   const inp=$('ansInput'), mic=$('micBtn'), st=$('micStatus');

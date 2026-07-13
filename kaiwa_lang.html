@@ -406,13 +406,25 @@
   }else{
     micBtn.textContent="🎤 このブラウザは音声非対応（文字入力をどうぞ）"; micBtn.disabled=true;
   }
-  micBtn.addEventListener("click", function(){
-    if(!recog||busy) return;
-    if(listening){ recog.stop(); return; }
+  // マイク許可を最初の一度だけ永続的に取得しておく（以後、音声認識で毎回聞かれるのを防ぐ）
+  var micPrimed=false;
+  function primeMic(){
+    if(micPrimed) return Promise.resolve();
+    if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){ micPrimed=true; return Promise.resolve(); }
+    return navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){
+      micPrimed=true; try{ s.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
+    }).catch(function(){ /* 許可されなくても、従来どおり認識側で確認します */ });
+  }
+  function startListening(){
     try{ stopAudio(); recog.start(); listening=true;
       micBtn.classList.add("rec"); micBtn.textContent="■ 話し終わったら押す";
       statusEl.textContent="どうぞ話してください…";
     }catch(e){}
+  }
+  micBtn.addEventListener("click", function(){
+    if(!recog||busy) return;
+    if(listening){ recog.stop(); return; }
+    primeMic().then(startListening);
   });
   sendBtn.addEventListener("click", function(){ sendUser(typeInput.value); });
   typeInput.addEventListener("keydown", function(e){ if(e.key==="Enter"){ sendUser(typeInput.value); } });

@@ -265,10 +265,11 @@
 
   /* === 間違えた問題の復習（後付け・共通） === */
   var __WKEY='nnhwrong_'+((location.pathname.split('/').pop()||'quiz').replace(/\.html$/,''));
+  var __CKEY='nnhcat_'+((location.pathname.split('/').pop()||'quiz').replace(/\.html$/,''));
   function __loadW(){ try{ return JSON.parse(localStorage.getItem(__WKEY)||'{}'); }catch(e){ return {}; } }
   function __saveW(m){ try{ localStorage.setItem(__WKEY, JSON.stringify(m)); }catch(e){} }
   function __sig(o){ var it=o.it||{}; return (o.sec||'')+'|'+String(it.q||it.sub||it.passage||'').replace(/\s+/g,'').slice(0,80)+'|'+((it.cs||[]).join('#')).slice(0,90); }
-  function __recordAns(o, ok){ if(!o) return; var m=__loadW(), k=__sig(o); if(ok){ if(m[k]){ delete m[k]; __saveW(m); } } else { m[k]={it:o.it, sec:o.sec}; __saveW(m); } __updateReviewUI(); }
+  function __recordAns(o, ok){ if(!o) return; var m=__loadW(), k=__sig(o); if(ok){ if(m[k]){ delete m[k]; __saveW(m); } } else { m[k]={it:o.it, sec:o.sec}; __saveW(m); } try{ var cat=o.sub||o.sec||'その他'; var cm=JSON.parse(localStorage.getItem(__CKEY)||'{}'); var cc=cm[cat]||{s:0,c:0}; cc.s++; if(ok)cc.c++; cm[cat]=cc; localStorage.setItem(__CKEY, JSON.stringify(cm)); }catch(e){} __updateReviewUI(); }
   function __wcount(){ return Object.keys(__loadW()).length; }
   function __clearW(){ if(!confirm('復習リストにある間違えた問題をすべて消しますか？この操作は元に戻せません。')) return; localStorage.removeItem(__WKEY); __updateReviewUI(); }
   function startReview(){

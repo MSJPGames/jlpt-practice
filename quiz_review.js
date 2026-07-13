@@ -13,6 +13,7 @@
   var lv = (document.title.match(/N\s*([1-5])/i) || [])[1];
   if (!lv) { var m = document.documentElement.innerHTML.match(/jlpt_n([1-5])_stats/); lv = m ? m[1] : null; }
   var WKEY = lv ? ('jlpt_n' + lv + '_wrong') : 'jlpt_quiz_wrong';
+  var CKEY = lv ? ('jlpt_n' + lv + '_catstats') : 'jlpt_quiz_catstats';
 
   var reviewing = false;
 
@@ -27,7 +28,10 @@
   }
   function removeWrong(sec, sub, q) { var mm = loadWrong(); var k = wrongSig(sec, sub, q); if (mm[k]) { delete mm[k]; saveWrong(mm); } }
   function wrongCount() { return Object.keys(loadWrong()).length; }
-  function recordAnswer(sec, sub, q, ok) { if (ok) removeWrong(sec, sub, q); else addWrong(sec, sub, q); }
+  function catTally(cat, ok) {
+    try { var m = JSON.parse(localStorage.getItem(CKEY) || '{}'); var c = m[cat] || { s: 0, c: 0 }; c.s++; if (ok) c.c++; m[cat] = c; localStorage.setItem(CKEY, JSON.stringify(m)); } catch (e) {}
+  }
+  function recordAnswer(sec, sub, q, ok) { if (ok) removeWrong(sec, sub, q); else addWrong(sec, sub, q); catTally(sub || sec || 'その他', ok); }
   function effSec(q) { try { return q._sec || section; } catch (e) { return q._sec || ''; } }
   function effSub(q) { try { return q._sub || subtype; } catch (e) { return q._sub || null; } }
 

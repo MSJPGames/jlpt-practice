@@ -522,8 +522,12 @@ function removeWrong(sec, sub, q) {
   if (m[k]) { delete m[k]; saveWrong(m); }
 }
 function wrongCount() { return Object.keys(loadWrong()).length; }
+function catTally(cat, ok) {
+  try { var m = JSON.parse(localStorage.getItem('jlpt_n3_catstats') || '{}'); var c = m[cat] || { s: 0, c: 0 }; c.s++; if (ok) c.c++; m[cat] = c; localStorage.setItem('jlpt_n3_catstats', JSON.stringify(m)); } catch (e) {}
+}
 function recordAnswer(sec, sub, q, isCorrect) {
   if (isCorrect) removeWrong(sec, sub, q); else addWrong(sec, sub, q);
+  catTally(sub || sec || 'その他', isCorrect);
 }
 function updateReviewCard() {
   const n = wrongCount();

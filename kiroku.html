@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>学習記録・苦手分野 ・ 日本語の部屋</title>
-<meta name="description" content="テスト対策クイズの成績と、間違いが多い苦手分野を、この端末の記録からまとめて表示します。">
+<meta name="description" content="テスト対策クイズの成績と、分野ごとの正答率・苦手分野を、この端末の記録からまとめて表示します。">
 <style>
   :root{
     --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
@@ -41,18 +41,20 @@
   .qc-badge{min-width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;}
   .qc-name{font-size:15px;font-weight:700;flex:1;min-width:0;}
   .qc-acc{font-size:12px;color:var(--text-muted);text-align:right;flex-shrink:0;}
-  .qc-acc b{font-size:16px;color:var(--text);}
-  .qc-out{display:inline-block;font-size:11px;font-weight:700;color:#B96A12;background:#FFF1DE;border-radius:20px;padding:2px 9px;margin-top:2px;}
+  .qc-acc b{font-size:17px;color:var(--text);}
+  .qc-out{display:inline-block;font-size:11px;font-weight:700;color:#B96A12;background:#FFF1DE;border-radius:20px;padding:2px 9px;margin-top:8px;}
   .qc-out.zero{color:#3B6D11;background:#EAF3DE;}
 
-  .bars{margin-top:11px;display:flex;flex-direction:column;gap:6px;}
+  .bars{margin-top:11px;display:flex;flex-direction:column;gap:7px;}
   .bar-row{display:flex;align-items:center;gap:9px;}
-  .bar-name{font-size:12px;width:38%;flex-shrink:0;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .bar-track{flex:1;height:14px;background:#F0EDE7;border-radius:7px;overflow:hidden;}
-  .bar-fill{height:100%;border-radius:7px;min-width:3px;}
-  .bar-val{font-size:11px;font-weight:700;color:var(--text-muted);width:34px;text-align:right;flex-shrink:0;}
+  .bar-name{font-size:12px;width:34%;flex-shrink:0;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .bar-track{flex:1;height:15px;background:#F0EDE7;border-radius:7px;overflow:hidden;position:relative;}
+  .bar-fill{height:100%;border-radius:7px;min-width:2px;}
+  .bar-right{font-size:11px;font-weight:700;color:var(--text-muted);width:66px;text-align:right;flex-shrink:0;}
+  .bar-right .out{color:#B96A12;}
+  .leg{font-size:11px;color:var(--text-hint);margin-top:9px;line-height:1.6;}
 
-  .qc-actions{margin-top:11px;display:flex;gap:8px;}
+  .qc-actions{margin-top:12px;display:flex;gap:8px;}
   .qc-btn{flex:1;text-align:center;font-size:12.5px;font-weight:700;text-decoration:none;padding:9px;border-radius:9px;border:1px solid var(--border);color:var(--text-muted);background:var(--bg);}
   .qc-btn.primary{border-color:#E8912D;color:#B96A12;background:#FFF6EA;}
 
@@ -75,8 +77,8 @@
   </div>
 
   <div class="note">
-    各クイズで解いた成績と、まだ解き直していない<b>間違い</b>を分野別にまとめました。<b>間違いが多い分野＝苦手分野</b>です。「復習する」から間違いだけを解き直すと、正解した分は自動で減っていきます。
-    <span style="display:block;margin-top:6px;color:var(--text-hint)">※ 記録はこの端末・このブラウザだけに保存されています（他の端末とは共有されません）。</span>
+    分野ごとの<b>正答率</b>を、正答率の<b>低い順（苦手な順）</b>に並べています。オレンジの数字は、まだ解き直していない<b>間違い</b>の数です。「復習する」から間違いだけを解き直すと減っていきます。
+    <span style="display:block;margin-top:6px;color:var(--text-hint)">※ 記録はこの端末・このブラウザだけに保存されています。分野別の正答率は、この記録を入れて以降の練習から集計されます。</span>
   </div>
 
   <div id="content"></div>
@@ -89,31 +91,44 @@ function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 function readJSON(k){ try{ return JSON.parse(localStorage.getItem(k)||'null'); }catch(e){ return null; } }
 
 var QUIZZES=[
-  {key:'n1', label:'JLPT N1', badge:'N1', color:'#993C1D', bg:'#FAECE7', statsKey:'jlpt_n1_stats', wrongKey:'jlpt_n1_wrong', href:'n1_quiz.html'},
-  {key:'n2', label:'JLPT N2', badge:'N2', color:'#854F0B', bg:'#FAEEDA', statsKey:'jlpt_n2_stats', wrongKey:'jlpt_n2_wrong', href:'n2_quiz.html'},
-  {key:'n3', label:'JLPT N3', badge:'N3', color:'#3C3489', bg:'#EEEDFE', statsKey:'jlpt_n3_stats', wrongKey:'jlpt_n3_wrong', href:'n3_quiz.html'},
-  {key:'n4', label:'JLPT N4', badge:'N4', color:'#185FA5', bg:'#E6F1FB', statsKey:'jlpt_n4_stats', wrongKey:'jlpt_n4_wrong', href:'n4_quiz.html'},
-  {key:'n5', label:'JLPT N5', badge:'N5', color:'#3B6D11', bg:'#EAF3DE', statsKey:'jlpt_n5_stats', wrongKey:'jlpt_n5_wrong', href:'n5_quiz.html'},
-  {key:'jt_ac', label:'J.TEST A-C', badge:'JT', color:'#1E6E8C', bg:'#E1EFF4', wrongKey:'nnhwrong_jtest_ac', href:'jtest_ac.html'},
-  {key:'jt_de', label:'J.TEST D-E', badge:'JT', color:'#1E6E8C', bg:'#E1EFF4', wrongKey:'nnhwrong_jtest_de', href:'jtest_de.html'},
-  {key:'jt_fg', label:'J.TEST F-G', badge:'JT', color:'#1E6E8C', bg:'#E1EFF4', wrongKey:'nnhwrong_jtest_fg', href:'jtest_fg.html'},
-  {key:'bjt_c', label:'BJT 聴解', badge:'BJT', color:'#3C5A78', bg:'#E4EAF1', wrongKey:'nnhwrong_bjt_choukai', href:'bjt_choukai.html'},
-  {key:'bjt_d', label:'BJT 読解', badge:'BJT', color:'#3C5A78', bg:'#E4EAF1', wrongKey:'nnhwrong_bjt_dokkai', href:'bjt_dokkai.html'}
+  {label:'JLPT N1', badge:'N1', color:'#993C1D', bg:'#FAECE7', statsKey:'jlpt_n1_stats', wrongKey:'jlpt_n1_wrong', catKey:'jlpt_n1_catstats', href:'n1_quiz.html'},
+  {label:'JLPT N2', badge:'N2', color:'#854F0B', bg:'#FAEEDA', statsKey:'jlpt_n2_stats', wrongKey:'jlpt_n2_wrong', catKey:'jlpt_n2_catstats', href:'n2_quiz.html'},
+  {label:'JLPT N3', badge:'N3', color:'#3C3489', bg:'#EEEDFE', statsKey:'jlpt_n3_stats', wrongKey:'jlpt_n3_wrong', catKey:'jlpt_n3_catstats', href:'n3_quiz.html'},
+  {label:'JLPT N4', badge:'N4', color:'#185FA5', bg:'#E6F1FB', statsKey:'jlpt_n4_stats', wrongKey:'jlpt_n4_wrong', catKey:'jlpt_n4_catstats', href:'n4_quiz.html'},
+  {label:'JLPT N5', badge:'N5', color:'#3B6D11', bg:'#EAF3DE', statsKey:'jlpt_n5_stats', wrongKey:'jlpt_n5_wrong', catKey:'jlpt_n5_catstats', href:'n5_quiz.html'},
+  {label:'J.TEST A-C', badge:'JT', color:'#1E6E8C', bg:'#E1EFF4', wrongKey:'nnhwrong_jtest_ac', catKey:'nnhcat_jtest_ac', href:'jtest_ac.html'},
+  {label:'J.TEST D-E', badge:'JT', color:'#1E6E8C', bg:'#E1EFF4', wrongKey:'nnhwrong_jtest_de', catKey:'nnhcat_jtest_de', href:'jtest_de.html'},
+  {label:'J.TEST F-G', badge:'JT', color:'#1E6E8C', bg:'#E1EFF4', wrongKey:'nnhwrong_jtest_fg', catKey:'nnhcat_jtest_fg', href:'jtest_fg.html'},
+  {label:'BJT 聴解', badge:'BJT', color:'#3C5A78', bg:'#E4EAF1', wrongKey:'nnhwrong_bjt_choukai', catKey:'nnhcat_bjt_choukai', href:'bjt_choukai.html'},
+  {label:'BJT 読解', badge:'BJT', color:'#3C5A78', bg:'#E4EAF1', wrongKey:'nnhwrong_bjt_dokkai', catKey:'nnhcat_bjt_dokkai', href:'bjt_dokkai.html'}
 ];
 
 function catOf(entry){ return entry.sub || entry.sec || 'その他'; }
+function accColor(pct){ return pct>=80 ? '#3B6D11' : pct>=60 ? '#C08A1E' : '#C0392B'; }
 
 function analyze(q){
-  var wrong=readJSON(q.wrongKey)||{};
-  var byCat={}, out=0;
-  Object.keys(wrong).forEach(function(k){
-    var c=catOf(wrong[k]); byCat[c]=(byCat[c]||0)+1; out++;
+  var wrong=readJSON(q.wrongKey)||{}, outByCat={}, out=0;
+  Object.keys(wrong).forEach(function(k){ var c=catOf(wrong[k]); outByCat[c]=(outByCat[c]||0)+1; out++; });
+  var cat=readJSON(q.catKey)||{};
+  var names={}; Object.keys(cat).forEach(function(c){names[c]=1;}); Object.keys(outByCat).forEach(function(c){names[c]=1;});
+  var cats=Object.keys(names).map(function(name){
+    var cs=cat[name]||{s:0,c:0};
+    return {name:name, seen:cs.s||0, correct:cs.c||0, acc:(cs.s>0?cs.c/cs.s:null), out:(outByCat[name]||0)};
+  });
+  // 苦手順：正答率の低い順（記録ありを先に）、記録なしは間違い数の多い順で後ろ
+  cats.sort(function(a,b){
+    if(a.acc==null && b.acc==null) return b.out-a.out;
+    if(a.acc==null) return 1;
+    if(b.acc==null) return -1;
+    if(a.acc!==b.acc) return a.acc-b.acc;
+    return b.out-a.out;
   });
   var stats=q.statsKey?readJSON(q.statsKey):null;
-  var acc=null;
-  if(stats && stats.total>0){ acc={total:stats.total, correct:stats.correct, pct:Math.round(stats.correct/stats.total*100)}; }
-  var cats=Object.keys(byCat).map(function(c){return {name:c, n:byCat[c]};}).sort(function(a,b){return b.n-a.n;});
-  return {out:out, acc:acc, cats:cats, hasData:(out>0 || acc)};
+  var seenSum=0, corrSum=0; Object.keys(cat).forEach(function(c){ seenSum+=cat[c].s||0; corrSum+=cat[c].c||0; });
+  var overall=null;
+  if(stats && stats.total>0) overall={total:stats.total, correct:stats.correct, pct:Math.round(stats.correct/stats.total*100)};
+  else if(seenSum>0) overall={total:seenSum, correct:corrSum, pct:Math.round(corrSum/seenSum*100)};
+  return {out:out, overall:overall, cats:cats, hasData:(out>0 || overall || cats.length>0)};
 }
 
 function render(){
@@ -127,37 +142,44 @@ function render(){
 
   var totalOut=results.reduce(function(a,r){return a+r.a.out;},0);
   var sumT=0, sumC=0;
-  results.forEach(function(r){ if(r.a.acc){ sumT+=r.a.acc.total; sumC+=r.a.acc.correct; } });
+  results.forEach(function(r){ if(r.a.overall){ sumT+=r.a.overall.total; sumC+=r.a.overall.correct; } });
   var overallPct = sumT>0 ? Math.round(sumC/sumT*100) : null;
 
   var html='<div class="summary">'
-    + '<div class="sum-box"><div class="sum-num">'+totalOut+'</div><div class="sum-lbl">未克服の間違い（問）</div></div>'
     + '<div class="sum-box"><div class="sum-num">'+(overallPct!=null?overallPct+'%':'—')+'</div><div class="sum-lbl">全体の正答率</div></div>'
+    + '<div class="sum-box"><div class="sum-num">'+totalOut+'</div><div class="sum-lbl">未克服の間違い（問）</div></div>'
     + '<div class="sum-box"><div class="sum-num">'+sumT+'</div><div class="sum-lbl">これまで解いた数</div></div>'
     + '</div>';
 
-  html+='<div class="sec-head">レベル・試験ごとの記録</div>';
+  html+='<div class="sec-head">レベル・試験ごとの記録（苦手な分野が上）</div>';
 
   results.forEach(function(r){
     var q=r.q, a=r.a;
-    var maxN=a.cats.length?a.cats[0].n:1;
     html+='<div class="qcard" style="--c:'+q.color+'">'
       + '<div class="qc-top">'
         + '<div class="qc-badge" style="background:'+q.bg+';color:'+q.color+'">'+esc(q.badge)+'</div>'
         + '<div class="qc-name">'+esc(q.label)+'</div>'
-        + '<div class="qc-acc">'+(a.acc?('<b>'+a.acc.pct+'%</b><br><span style="font-size:10.5px;color:var(--text-hint)">'+a.acc.correct+'/'+a.acc.total+'</span>'):'<span style="font-size:11px;color:var(--text-hint)">正答率は<br>記録対象外</span>')+'</div>'
+        + '<div class="qc-acc">'+(a.overall?('<b>'+a.overall.pct+'%</b><br><span style="font-size:10.5px;color:var(--text-hint)">'+a.overall.correct+'/'+a.overall.total+'</span>'):'<span style="font-size:11px;color:var(--text-hint)">記録なし</span>')+'</div>'
       + '</div>'
-      + '<div style="margin-top:8px"><span class="qc-out'+(a.out===0?' zero':'')+'">'+(a.out===0?'苦手なし（未克服 0問）':'未克服の間違い '+a.out+'問')+'</span></div>';
+      + '<div><span class="qc-out'+(a.out===0?' zero':'')+'">'+(a.out===0?'未克服の間違い 0問':'未克服の間違い '+a.out+'問')+'</span></div>';
 
     if(a.cats.length){
       html+='<div class="bars">';
       a.cats.forEach(function(c){
-        var w=Math.round(c.n/maxN*100);
+        var right, fill;
+        if(c.acc!=null){
+          var pct=Math.round(c.acc*100);
+          fill='<div class="bar-fill" style="width:'+pct+'%;background:'+accColor(pct)+'"></div>';
+          right='<span style="color:'+accColor(pct)+'">'+pct+'%</span> <span style="color:var(--text-hint);font-weight:400">'+c.correct+'/'+c.seen+'</span>'+(c.out>0?' <span class="out">・'+c.out+'</span>':'');
+        } else {
+          fill='<div class="bar-fill" style="width:100%;background:#F0D8B0"></div>';
+          right='<span class="out">間違い '+c.out+'</span>';
+        }
         html+='<div class="bar-row"><div class="bar-name" title="'+esc(c.name)+'">'+esc(c.name)+'</div>'
-          + '<div class="bar-track"><div class="bar-fill" style="width:'+w+'%;background:'+q.color+'"></div></div>'
-          + '<div class="bar-val">'+c.n+'</div></div>';
+          + '<div class="bar-track">'+fill+'</div>'
+          + '<div class="bar-right">'+right+'</div></div>';
       });
-      html+='</div>';
+      html+='</div><div class="leg">数字＝正答率（正解/挑戦）。「・数字」＝未克服の間違い。棒は 赤=要注意／黄=あと少し／緑=得意。</div>';
     }
 
     html+='<div class="qc-actions">'
@@ -172,16 +194,12 @@ function render(){
 
   var ca=document.getElementById('clearAll');
   if(ca) ca.addEventListener('click', function(){
-    if(!confirm('この端末に保存された、すべての成績と間違い記録を消しますか？この操作は元に戻せません。')) return;
-    QUIZZES.forEach(function(q){ try{ localStorage.removeItem(q.wrongKey); if(q.statsKey) localStorage.removeItem(q.statsKey); }catch(e){} });
+    if(!confirm('この端末に保存された、すべての成績・分野別記録・間違い記録を消しますか？この操作は元に戻せません。')) return;
+    QUIZZES.forEach(function(q){ try{ localStorage.removeItem(q.wrongKey); if(q.statsKey) localStorage.removeItem(q.statsKey); if(q.catKey) localStorage.removeItem(q.catKey); }catch(e){} });
     render();
   });
 }
 render();
-</script>
-<script>
-/* === EN表示トグル（他ページと共通・このページは日本語主体のため最小） === */
-(function(){ var KEY='nnh_en_off'; try{ if(localStorage.getItem(KEY)==='1') document.body.classList.add('hide-en'); }catch(e){} })();
 </script>
 </body>
 </html>

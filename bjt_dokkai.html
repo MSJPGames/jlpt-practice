@@ -110,6 +110,7 @@
       <div class="rsub" id="rTime" style="opacity:.85;font-size:13px"></div>
       <div class="rmsg" id="rMsg"></div>
     </div>
+    <div id="nnhRecordHost"></div>
     <button class="btn primary" id="againBtn" style="margin-bottom:10px">同じパートで もう10問</button>
     <button class="btn ghost" id="homeBtn">パートを えらびなおす</button>
   </div>
@@ -1578,9 +1579,21 @@
   start=(function(o){ return function(key){ if(key==null){ if(curSec==='復習'){ startReview(); return; } key='__all'; } return o.call(this, key); }; })(start);
   finish=(function(o){ return function(){ var r=o.apply(this, arguments); try{ __updateReviewUI(); }catch(e){} return r; }; })(finish);
   goHome=(function(o){ return function(){ var r=o.apply(this, arguments); try{ __updateReviewUI(); }catch(e){} return r; }; })(goHome);
+  // ==== 練習の記録（Wordで保存）: quiz_record.js 連携（JLPTと同じ仕組み）====
+  (function(){
+    var TOOL = "BJT 第3部 読解 練習";
+    function __q2s(it){ return String((it&&(it.q||it.sub||it.passage))||'つぎのもんだい').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,120); }
+    function __chosen(btn){ try{ var sp=btn.querySelector('span:last-child'); return sp?sp.textContent:String(btn.textContent||'').replace(/^\s*\d+\s*/,''); }catch(e){ return ''; } }
+    start=(function(o){ return function(){ var r=o.apply(this,arguments); try{ if(window.NNHRecord) NNHRecord.init({tool:TOOL, level:curSec||''}); }catch(e){} return r; }; })(start);
+    startReview=(function(o){ return function(){ var r=o.apply(this,arguments); try{ if(window.NNHRecord) NNHRecord.init({tool:TOOL, level:'復習（間違えた問題）'}); }catch(e){} return r; }; })(startReview);
+    pick=(function(o){ return function(btn, ok){ var was=answered; var r=o.apply(this,arguments); try{ if(window.NNHRecord && !was && pool[cur]){ var it=pool[cur].it||pool[cur]; NNHRecord.add({sec:(pool[cur].sec||curSec||''), q:__q2s(it), chosen:__chosen(btn), correct:(it.cs&&it.cs[it.a])||'', ok:!!ok}); } }catch(e){} return r; }; })(pick);
+    finish=(function(o){ return function(){ var r=o.apply(this,arguments); try{ if(window.NNHRecord){ var host=document.getElementById('nnhRecordHost'); if(host){ host.innerHTML=''; NNHRecord.mount(host,{score:correct,total:pool.length}); } } }catch(e){} return r; }; })(finish);
+  })();
   __injectReview();
   try{ if(/[?&]review=1/.test(location.search) && __wcount()>0){ startReview(); } }catch(e){}
 })();
 </script>
+<script src="record_config.js"></script>
+<script src="quiz_record.js"></script>
 </body>
 </html>

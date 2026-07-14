@@ -1272,6 +1272,7 @@ const visualHTML = (function() {
   return {eiga:eiga, bus:bus, sports:sports, midori:midori, gym:gym, nihongo:nihongo, pool:pool, sakura:sakura, event:event, shisetsu:shisetsu};
 })();
 updateStatsBar();
+try{ if(/[?&]review=1/.test(location.search) && typeof wrongCount==='function' && wrongCount()>0){ startReview(); } }catch(e){}
 </script>
 <!--auto-count-injected--><script>
 /* 収録問題数をデータから自動集計して表示（全カテゴリ・実行タイミング対応） */

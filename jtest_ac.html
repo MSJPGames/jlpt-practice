@@ -295,6 +295,7 @@
   finish=(function(o){ return function(){ var r=o.apply(this, arguments); try{ __updateReviewUI(); }catch(e){} return r; }; })(finish);
   goHome=(function(o){ return function(){ var r=o.apply(this, arguments); try{ __updateReviewUI(); }catch(e){} return r; }; })(goHome);
   __injectReview();
+  try{ if(/[?&]review=1/.test(location.search) && __wcount()>0){ startReview(); } }catch(e){}
 
 })();
 </script>

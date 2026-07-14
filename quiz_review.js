@@ -176,7 +176,10 @@
   });
 
   // ── 初期化 ──
-  function init() { injectUI(); updateReviewCard(); }
+  function init() {
+    injectUI(); updateReviewCard();
+    try { if (/[?&]review=1/.test(location.search) && wrongCount() > 0) window.startReview(); } catch (e) {}
+  }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();

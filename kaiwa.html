@@ -828,23 +828,52 @@
     statusEl.textContent="記録を保存しました（HTML・"+nRec+"件の録音つき）。ブラウザで開けます。";
   }
 
-  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  var recog=null, listening=false;
-  if(SR){
-    recog=new SR(); recog.lang="ja-JP"; recog.interimResults=false; recog.maxAlternatives=1;
-    recog.onresult=function(e){ var _tx=e.results[0][0].transcript; stopRec(function(u){ sendUser(_tx, u); }); };
-    recog.onerror=function(e){ stopRec(function(){}); statusEl.textContent="⚠ 音声を認識できませんでした（"+e.error+"）。文字入力もお使いいただけます。"; };
-    recog.onend=function(){ listening=false; micBtn.classList.remove("rec"); micBtn.textContent="🎤 押して話す"; stopRec(function(){}); };
-  }else{
-    micBtn.textContent="🎤 このブラウザは音声非対応（文字入力をどうぞ）"; micBtn.disabled=true;
+  // ---- 音声入力：一度だけ録音し、その録音をGeminiで文字起こし ----
+  //   マイクを「録音」の一用途だけに使うため、音声認識と録音がマイクを奪い合う問題
+  //   （Android等で音声入力できない原因）が起きません。iPhoneでも動作します。
+  //   録音は今までどおりフィードバック用に各発話へ残ります。
+  var listening=false, transcribing=false;
+  var VOICE_INPUT_OK = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && typeof MediaRecorder!=="undefined");
+  if(!VOICE_INPUT_OK){
+    micBtn.textContent="🎤 このブラウザは録音非対応（文字入力をどうぞ）"; micBtn.disabled=true;
+  }
+  function transcribeAudio(dataUrl, cb){
+    var m=/^data:([^;]+);base64,([\s\S]*)$/.exec(dataUrl||"");
+    if(!m){ cb(null,"録音が取得できませんでした"); return; }
+    var key=keyEl.value.trim();
+    if(!key){ cb(null,"APIキーが未設定です"); return; }
+    var body={ contents:[{ parts:[
+      {text:"次の音声を、話されている言語のまま、聞こえたとおりに文字起こししてください。書き起こした文だけを出力し、説明・引用符・前置きは付けないでください。聞き取れないときは何も出力しないでください。"},
+      {inlineData:{mimeType:m[1], data:m[2]}}
+    ] }], generationConfig:{ temperature:0 } };
+    fetch(ENDPOINT+"?key="+encodeURIComponent(key),{
+      method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)
+    }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+      .then(function(r){
+        if(!r.ok){ cb(null,(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"認識に失敗しました"); return; }
+        var t=""; try{ t=r.data.candidates[0].content.parts.map(function(p){return p.text||"";}).join("").trim(); }catch(e){ t=""; }
+        cb(t,null);
+      }).catch(function(){ cb(null,"通信に失敗しました"); });
+  }
+  function finishVoiceInput(){
+    transcribing=true; micBtn.disabled=true;
+    micBtn.classList.remove("rec"); micBtn.textContent="🎤 文字にしています…";
+    statusEl.textContent="音声を文字にしています…";
+    stopRec(function(u){
+      if(!u){ transcribing=false; micBtn.disabled=false; micBtn.textContent="🎤 押して話す"; statusEl.textContent="⚠ 録音できませんでした。マイクの許可をご確認のうえ、もう一度どうぞ。"; return; }
+      transcribeAudio(u, function(text, err){
+        transcribing=false; micBtn.disabled=false; micBtn.textContent="🎤 押して話す";
+        if(err || !text){ statusEl.textContent="⚠ 音声を認識できませんでした（"+(err||"聞き取れません")+"）。文字入力もお使いいただけます。"; return; }
+        statusEl.textContent=""; sendUser(text, u);
+      });
+    });
   }
   micBtn.addEventListener("click", function(){
-    if(!recog||busy) return;
-    if(listening){ recog.stop(); return; }
-    try{ stopAudio(); recog.start(); listening=true; startRec();
-      micBtn.classList.add("rec"); micBtn.textContent="■ 話し終わったら押す";
-      statusEl.textContent="どうぞ話してください…";
-    }catch(e){}
+    if(!VOICE_INPUT_OK || busy || transcribing) return;
+    if(listening){ listening=false; finishVoiceInput(); return; }
+    stopAudio(); listening=true; startRec();
+    micBtn.classList.add("rec"); micBtn.textContent="■ 話し終わったら押す";
+    statusEl.textContent="どうぞ話してください…";
   });
 
   sendBtn.addEventListener("click", function(){ sendUser(typeInput.value); });

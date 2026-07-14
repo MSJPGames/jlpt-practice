@@ -143,7 +143,7 @@
       <button class="ghost" id="feedbackBtn">◆ フィードバックをもらう</button>
       <button class="ghost" id="resetBtn">最初から</button>
     </div>
-    <button class="ghost" id="saveBtn" style="width:100%;margin-top:8px">📝 会話の記録を保存（Word）</button>
+    <button class="ghost" id="saveBtn" style="width:100%;margin-top:8px">📝 会話の記録を保存（HTML・録音つき）</button>
     <div class="credit" id="creditLine"></div>
     <div class="hint" style="margin-top:6px">ヒント: 間違えても大丈夫。まずは最後まで会話を続けてみましょう。フィードバックは日本語で返します。</div>
   </div>
@@ -304,13 +304,14 @@
 
   // ---- 表示 ----
   function addMsg(text, who){
-    transcript.push({who:who, text:text});
+    var _rec={who:who, text:text}; transcript.push(_rec);
     var d=document.createElement("div");
     d.className="msg "+(who==="model"?"guest":"staff");
     var w=document.createElement("span"); w.className="who";
     w.textContent=(who==="model")?"相手":"あなた";
     d.appendChild(w); d.appendChild(document.createTextNode(text));
     log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
+    return _rec;
   }
   function addFeedback(text){
     transcript.push({who:"feedback", text:text});
@@ -333,31 +334,39 @@
     if(!transcript.length){ statusEl.textContent="⚠ まだ記録がありません。少し会話をしてから保存してください。"; return; }
     var sc=getScenario();
     var levelLabel=levelEl.options[levelEl.selectedIndex].text;
+    var nRec=0;
     var rows=transcript.map(function(t){
       if(t.who==="feedback"){
-        return '<div style="margin:12px 0;padding:10px 12px;background:#FAF3E6;border:1px solid #EBD9B8;border-radius:8px"><b>◆ フィードバック</b><br>'+esc(t.text).replace(/\n/g,"<br>")+'</div>';
+        return '<div class="row"><div class="bubble fb-b"><div class="txt">'+esc(t.text).replace(/\n/g,"<br>")+'</div></div></div>';
       }
-      var lbl = t.who==="model" ? "相手" : "あなた";
-      var color = t.who==="model" ? "#2F7168" : "#3B6D11";
-      return '<p style="margin:8px 0"><b style="color:'+color+'">'+lbl+'：</b>'+esc(t.text).replace(/\n/g,"<br>")+'</p>';
+      var isMe = t.who!=="model";
+      var lbl = isMe ? "あなた（学習者）" : "相手";
+      var audio="";
+      if(isMe && t.audio){ nRec++; audio='<div class="rec"><span class="rec-ic">🎧</span><audio controls preload="none" src="'+t.audio+'"></audio></div>'; }
+      var fb = isMe ? '<div class="fb">先生コメント：<span class="fb-in">（発音・文法のアドバイスを書けます）</span></div>' : "";
+      return '<div class="row '+(isMe?"me":"ai")+'"><div class="bubble '+(isMe?"me-b":"ai-b")+'"><div class="lab">'+lbl+'</div><div class="txt">'+esc(t.text).replace(/\n/g,"<br>")+'</div>'+audio+fb+'</div></div>';
     }).join("");
-    var head='<h1 style="font-size:18pt;margin:0 0 10px">会話練習の記録</h1>'+
-      '<table style="font-size:10.5pt;color:#555;border-collapse:collapse;margin-bottom:12px">'+
-      '<tr><td style="padding:2px 12px 2px 0"><b>言語</b></td><td>'+esc(L.jp)+'</td></tr>'+
-      '<tr><td style="padding:2px 12px 2px 0"><b>場面</b></td><td>'+esc(sc.name)+'</td></tr>'+
-      '<tr><td style="padding:2px 12px 2px 0"><b>レベル</b></td><td>'+esc(levelLabel)+'</td></tr>'+
-      '<tr><td style="padding:2px 12px 2px 0"><b>日時</b></td><td>'+esc(nowStr())+'</td></tr>'+
-      '</table><hr>';
-    var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">'+
-      '<head><meta charset="utf-8"><title>会話練習の記録</title></head>'+
-      '<body style="font-family:\'Noto Sans JP\',sans-serif;font-size:12pt;line-height:1.7">'+head+rows+'</body></html>';
-    var blob=new Blob(["﻿"+html],{type:"application/msword"});
+    var css="body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;background:#F7F5F0;color:#1C1C1C;line-height:1.6;padding:0 1rem 3rem;}"
+      +".container{max-width:640px;margin:0 auto;}.head{text-align:center;padding:1.4rem 0 .6rem;}.h-title{font-size:22px;font-weight:700;}.h-sub{font-size:12.5px;color:#6B6560;margin-top:5px;}"
+      +".meta{background:#fff;border:1px solid #E2DDD6;border-radius:14px;padding:12px 15px;margin-top:12px;font-size:13px;color:#6B6560;line-height:1.9;}.meta b{color:#1C1C1C;}"
+      +".conv{margin-top:18px;display:flex;flex-direction:column;gap:12px;}.row{display:flex;}.row.me{justify-content:flex-end;}"
+      +".bubble{max-width:82%;border-radius:16px;padding:10px 14px;border:1px solid #E2DDD6;}.ai-b{background:#fff;border-bottom-left-radius:5px;}.me-b{background:#EAF3E6;border-color:#CDE3CE;border-bottom-right-radius:5px;}.fb-b{background:#FAF3E6;border-color:#EBD9B8;white-space:pre-wrap;}"
+      +".lab{font-size:10.5px;font-weight:700;color:#9E9890;margin-bottom:3px;}.me-b .lab{color:#3B6D11;}.txt{font-size:15px;white-space:pre-wrap;}"
+      +".rec{display:flex;align-items:center;gap:8px;margin-top:8px;background:#fff;border:1px solid #CDE3CE;border-radius:10px;padding:6px 8px;}.rec-ic{font-size:15px;}.rec audio{height:34px;flex:1;min-width:0;}"
+      +".fb{margin-top:8px;font-size:11.5px;color:#6B6560;border-top:1px dashed #CDE3CE;padding-top:6px;}.fb-in{color:#9E9890;}"
+      +".foot{text-align:center;font-size:11px;color:#9E9890;margin-top:2rem;}";
+    var html='<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>会話練習の記録 '+esc(nowStr())+'</title><style>'+css+'</style></head><body><div class="container">'
+      +'<div class="head"><div class="h-title">会話練習の記録</div><div class="h-sub">学習者の各発話は🎧でその場で再生できます（オフラインでも可）</div></div>'
+      +'<div class="meta"><div><b>言語</b>：'+esc(L.jp)+'</div><div><b>場面</b>：'+esc(sc.name)+'</div><div><b>レベル</b>：'+esc(levelLabel)+'</div><div><b>日時</b>：'+esc(nowStr())+'</div><div><b>録音</b>：学習者の発話 '+nRec+'件</div></div>'
+      +'<div class="conv">'+rows+'</div>'
+      +'<div class="foot">© 2025 日本語の部屋 ・ 会話練習の記録</div></div></body></html>';
+    var blob=new Blob([html],{type:"text/html;charset=utf-8"});
     var url=URL.createObjectURL(blob);
     var a=document.createElement("a");
-    a.href=url; a.download="会話練習_"+L.code+"_"+nowStr().replace(/[: ]/g,"-")+".doc";
+    a.href=url; a.download="会話練習_"+L.code+"_"+nowStr().replace(/[: ]/g,"-")+".html";
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function(){ URL.revokeObjectURL(url); },1500);
-    statusEl.textContent="記録をWord形式で保存しました。";
+    statusEl.textContent="記録を保存しました（HTML・"+nRec+"件の録音つき）。ブラウザで開けます。";
   }
 
   function callGemini(cb){
@@ -377,9 +386,10 @@
   function setBusy(b){ busy=b; micBtn.disabled=b; sendBtn.disabled=b; feedbackBtn.disabled=b;
     statusEl.textContent=b?"相手が考えています…":""; }
 
-  function sendUser(text){
+  function sendUser(text, audioUrl){
     if(busy) return; text=(text||"").trim(); if(!text) return;
-    addMsg(text,"user"); history.push({role:"user",parts:[{text:text}]});
+    var _t=addMsg(text,"user"); if(audioUrl&&_t){ _t.audio=audioUrl; }
+    history.push({role:"user",parts:[{text:text}]});
     typeInput.value=""; setBusy(true);
     callGemini(function(reply,err){ setBusy(false);
       if(err){ statusEl.textContent="⚠ "+err; return; }
@@ -395,36 +405,112 @@
     });
   }
 
-  // ---- 音声認識 ----
-  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  var recog=null, listening=false;
-  if(SR){
-    recog=new SR(); recog.lang=TTSLANG; recog.interimResults=false; recog.maxAlternatives=1;
-    recog.onresult=function(e){ sendUser(e.results[0][0].transcript); };
-    recog.onerror=function(e){ statusEl.textContent="⚠ 音声を認識できませんでした（"+e.error+"）。文字入力もお使いいただけます。"; };
-    recog.onend=function(){ listening=false; micBtn.classList.remove("rec"); micBtn.textContent="🎤 押して話す"; };
-  }else{
-    micBtn.textContent="🎤 このブラウザは音声非対応（文字入力をどうぞ）"; micBtn.disabled=true;
+  // ---- マイク録音（学習者の発話ごと・MediaRecorder） ----
+  var recStream=null, mediaRec=null, recChunks=[], recMime="audio/webm";
+  function ensureStream(cb){
+    if(recStream){ cb(true); return; }
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof MediaRecorder==="undefined"){ cb(false); return; }
+    navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){ recStream=s; cb(true); }).catch(function(){ cb(false); });
   }
-  // マイク許可を最初の一度だけ永続的に取得しておく（以後、音声認識で毎回聞かれるのを防ぐ）
-  var micPrimed=false;
-  function primeMic(){
-    if(micPrimed) return Promise.resolve();
-    if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){ micPrimed=true; return Promise.resolve(); }
-    return navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){
-      micPrimed=true; try{ s.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
-    }).catch(function(){ /* 許可されなくても、従来どおり認識側で確認します */ });
+  function startRec(){
+    ensureStream(function(ok){
+      if(!ok) return;
+      try{
+        recChunks=[];
+        var mime="";
+        if(MediaRecorder.isTypeSupported("audio/webm;codecs=opus")) mime="audio/webm;codecs=opus";
+        else if(MediaRecorder.isTypeSupported("audio/webm")) mime="audio/webm";
+        else if(MediaRecorder.isTypeSupported("audio/mp4")) mime="audio/mp4";
+        recMime=(mime||"audio/webm").split(";")[0];
+        mediaRec=mime?new MediaRecorder(recStream,{mimeType:mime}):new MediaRecorder(recStream);
+        mediaRec.ondataavailable=function(e){ if(e.data&&e.data.size) recChunks.push(e.data); };
+        mediaRec.start();
+      }catch(e){ mediaRec=null; }
+    });
   }
-  function startListening(){
-    try{ stopAudio(); recog.start(); listening=true;
-      micBtn.classList.add("rec"); micBtn.textContent="■ 話し終わったら押す";
-      statusEl.textContent="どうぞ話してください…";
-    }catch(e){}
+  function _encodeWav(ab){ var ch=ab.getChannelData(0), sr=ab.sampleRate, n=ch.length; var buf=new ArrayBuffer(44+n*2), v=new DataView(buf); function ws(o,s){ for(var i=0;i<s.length;i++) v.setUint8(o+i,s.charCodeAt(i)); } ws(0,"RIFF"); v.setUint32(4,36+n*2,true); ws(8,"WAVE"); ws(12,"fmt "); v.setUint32(16,16,true); v.setUint16(20,1,true); v.setUint16(22,1,true); v.setUint32(24,sr,true); v.setUint32(28,sr*2,true); v.setUint16(32,2,true); v.setUint16(34,16,true); ws(36,"data"); v.setUint32(40,n*2,true); var o=44; for(var i=0;i<n;i++){ var s=Math.max(-1,Math.min(1,ch[i])); v.setInt16(o, s<0?s*0x8000:s*0x7FFF, true); o+=2; } return new Blob([buf],{type:"audio/wav"}); }
+  function blobToWav(blob, cb){
+    try{
+      var fr=new FileReader();
+      fr.onload=function(){
+        try{
+          var AC=window.AudioContext||window.webkitAudioContext; var actx=new AC();
+          actx.decodeAudioData(fr.result, function(audio){
+            try{
+              var target=16000, OAC=window.OfflineAudioContext||window.webkitOfflineAudioContext;
+              var off=new OAC(1, Math.max(1,Math.ceil(audio.duration*target)), target);
+              var src=off.createBufferSource(); src.buffer=audio; src.connect(off.destination); src.start(0);
+              off.startRendering().then(function(rb){ var wav=_encodeWav(rb); var f2=new FileReader(); f2.onloadend=function(){ cb(f2.result); }; f2.onerror=function(){ cb(null); }; f2.readAsDataURL(wav); try{actx.close();}catch(e){} }).catch(function(){ cb(null); try{actx.close();}catch(e){} });
+            }catch(e){ cb(null); }
+          }, function(){ cb(null); try{actx.close();}catch(e){} });
+        }catch(e){ cb(null); }
+      };
+      fr.onerror=function(){ cb(null); };
+      fr.readAsArrayBuffer(blob);
+    }catch(e){ cb(null); }
+  }
+  function stopRec(cb){
+    if(!mediaRec || mediaRec.state==="inactive"){ cb(null); return; }
+    mediaRec.onstop=function(){
+      mediaRec=null;
+      try{
+        var blob=new Blob(recChunks,{type:recMime});
+        if(!blob.size){ cb(null); return; }
+        blobToWav(blob, function(wavUrl){
+          if(wavUrl){ cb(wavUrl); return; }
+          var fr=new FileReader(); fr.onloadend=function(){ cb(fr.result); }; fr.onerror=function(){ cb(null); }; fr.readAsDataURL(blob);
+        });
+      }catch(e){ cb(null); }
+    };
+    try{ mediaRec.stop(); }catch(e){ mediaRec=null; cb(null); }
+  }
+
+  // ---- 音声入力：一度だけ録音し、その録音をGeminiで文字起こし ----
+  //   マイクを「録音」の一用途だけに使うため、音声認識と録音がマイクを奪い合う問題
+  //   （Android等で音声入力できない原因）が起きません。iPhoneでも動作します。
+  //   話された言語のまま書き起こすので、外国語会話でもそのまま使えます。
+  var listening=false, transcribing=false;
+  var VOICE_INPUT_OK = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && typeof MediaRecorder!=="undefined");
+  if(!VOICE_INPUT_OK){
+    micBtn.textContent="🎤 このブラウザは録音非対応（文字入力をどうぞ）"; micBtn.disabled=true;
+  }
+  function transcribeAudio(dataUrl, cb){
+    var m=/^data:([^;]+);base64,([\s\S]*)$/.exec(dataUrl||"");
+    if(!m){ cb(null,"録音が取得できませんでした"); return; }
+    var key=keyEl.value.trim();
+    if(!key){ cb(null,"APIキーが未設定です"); return; }
+    var body={ contents:[{ parts:[
+      {text:"次の音声を、話されている言語のまま、聞こえたとおりに文字起こししてください。書き起こした文だけを出力し、説明・引用符・前置きは付けないでください。聞き取れないときは何も出力しないでください。"},
+      {inlineData:{mimeType:m[1], data:m[2]}}
+    ] }], generationConfig:{ temperature:0 } };
+    fetch(ENDPOINT+"?key="+encodeURIComponent(key),{
+      method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)
+    }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+      .then(function(r){
+        if(!r.ok){ cb(null,(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"認識に失敗しました"); return; }
+        var t=""; try{ t=r.data.candidates[0].content.parts.map(function(p){return p.text||"";}).join("").trim(); }catch(e){ t=""; }
+        cb(t,null);
+      }).catch(function(){ cb(null,"通信に失敗しました"); });
+  }
+  function finishVoiceInput(){
+    transcribing=true; micBtn.disabled=true;
+    micBtn.classList.remove("rec"); micBtn.textContent="🎤 文字にしています…";
+    statusEl.textContent="音声を文字にしています…";
+    stopRec(function(u){
+      if(!u){ transcribing=false; micBtn.disabled=false; micBtn.textContent="🎤 押して話す"; statusEl.textContent="⚠ 録音できませんでした。マイクの許可をご確認のうえ、もう一度どうぞ。"; return; }
+      transcribeAudio(u, function(text, err){
+        transcribing=false; micBtn.disabled=false; micBtn.textContent="🎤 押して話す";
+        if(err || !text){ statusEl.textContent="⚠ 音声を認識できませんでした（"+(err||"聞き取れません")+"）。文字入力もお使いいただけます。"; return; }
+        statusEl.textContent=""; sendUser(text, u);
+      });
+    });
   }
   micBtn.addEventListener("click", function(){
-    if(!recog||busy) return;
-    if(listening){ recog.stop(); return; }
-    primeMic().then(startListening);
+    if(!VOICE_INPUT_OK || busy || transcribing) return;
+    if(listening){ listening=false; finishVoiceInput(); return; }
+    stopAudio(); listening=true; startRec();
+    micBtn.classList.add("rec"); micBtn.textContent="■ 話し終わったら押す";
+    statusEl.textContent="どうぞ話してください…";
   });
   sendBtn.addEventListener("click", function(){ sendUser(typeInput.value); });
   typeInput.addEventListener("keydown", function(e){ if(e.key==="Enter"){ sendUser(typeInput.value); } });

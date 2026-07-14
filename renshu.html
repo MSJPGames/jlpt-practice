@@ -1002,11 +1002,11 @@ function wireNext(){ const n=$('nextBtn'); if(n){ n.onclick=newProblem; n.focus(
 // （マイク使用中インジケーターは点灯したままになります。ページを閉じると解放されます。）
 var micPrimed=false, sharedRec=null, micStream=null;
 function primeMic(){
-  if(micPrimed && micStream) return Promise.resolve();
-  if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){ micPrimed=true; return Promise.resolve(); }
-  return navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){
-    micPrimed=true; micStream=s;   // ストリームを保持（stopしない）
-  }).catch(function(){ /* 許可されなくても、従来どおり認識側で確認します */ });
+  // 以前はここで getUserMedia を呼び、マイクを開いたまま保持していたが、
+  // それが音声認識(SpeechRecognition)とマイクを奪い合い、Android等で音声入力
+  // できない原因になっていた。音声認識は自前でマイク権限を取得するため、
+  // ここでは何もせず、マイクを音声認識に譲る。
+  return Promise.resolve();
 }
 window.addEventListener("pagehide", function(){ try{ if(micStream) micStream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){} });
 function startVoice(){

@@ -743,6 +743,27 @@
       }catch(e){ mediaRec=null; }
     });
   }
+  function _encodeWav(ab){ var ch=ab.getChannelData(0), sr=ab.sampleRate, n=ch.length; var buf=new ArrayBuffer(44+n*2), v=new DataView(buf); function ws(o,s){ for(var i=0;i<s.length;i++) v.setUint8(o+i,s.charCodeAt(i)); } ws(0,"RIFF"); v.setUint32(4,36+n*2,true); ws(8,"WAVE"); ws(12,"fmt "); v.setUint32(16,16,true); v.setUint16(20,1,true); v.setUint16(22,1,true); v.setUint32(24,sr,true); v.setUint32(28,sr*2,true); v.setUint16(32,2,true); v.setUint16(34,16,true); ws(36,"data"); v.setUint32(40,n*2,true); var o=44; for(var i=0;i<n;i++){ var s=Math.max(-1,Math.min(1,ch[i])); v.setInt16(o, s<0?s*0x8000:s*0x7FFF, true); o+=2; } return new Blob([buf],{type:"audio/wav"}); }
+  function blobToWav(blob, cb){
+    try{
+      var fr=new FileReader();
+      fr.onload=function(){
+        try{
+          var AC=window.AudioContext||window.webkitAudioContext; var actx=new AC();
+          actx.decodeAudioData(fr.result, function(audio){
+            try{
+              var target=16000, OAC=window.OfflineAudioContext||window.webkitOfflineAudioContext;
+              var off=new OAC(1, Math.max(1,Math.ceil(audio.duration*target)), target);
+              var src=off.createBufferSource(); src.buffer=audio; src.connect(off.destination); src.start(0);
+              off.startRendering().then(function(rb){ var wav=_encodeWav(rb); var f2=new FileReader(); f2.onloadend=function(){ cb(f2.result); }; f2.onerror=function(){ cb(null); }; f2.readAsDataURL(wav); try{actx.close();}catch(e){} }).catch(function(){ cb(null); try{actx.close();}catch(e){} });
+            }catch(e){ cb(null); }
+          }, function(){ cb(null); try{actx.close();}catch(e){} });
+        }catch(e){ cb(null); }
+      };
+      fr.onerror=function(){ cb(null); };
+      fr.readAsArrayBuffer(blob);
+    }catch(e){ cb(null); }
+  }
   function stopRec(cb){
     if(!mediaRec || mediaRec.state==="inactive"){ cb(null); return; }
     mediaRec.onstop=function(){
@@ -750,10 +771,10 @@
       try{
         var blob=new Blob(recChunks,{type:recMime});
         if(!blob.size){ cb(null); return; }
-        var fr=new FileReader();
-        fr.onloadend=function(){ cb(fr.result); };
-        fr.onerror=function(){ cb(null); };
-        fr.readAsDataURL(blob);
+        blobToWav(blob, function(wavUrl){
+          if(wavUrl){ cb(wavUrl); return; }
+          var fr=new FileReader(); fr.onloadend=function(){ cb(fr.result); }; fr.onerror=function(){ cb(null); }; fr.readAsDataURL(blob);
+        });
       }catch(e){ cb(null); }
     };
     try{ mediaRec.stop(); }catch(e){ mediaRec=null; cb(null); }

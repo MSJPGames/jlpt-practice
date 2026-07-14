@@ -64,12 +64,6 @@
   .chk input{width:auto;accent-color:var(--accent)}
   .chk label{margin:0;font-weight:400;color:var(--text)}
   .app-foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.5rem;line-height:1.8}
-  .gfocus{background:var(--accent-tint);border:1px solid #C9CEF0;border-radius:var(--radius);padding:13px 15px;margin-bottom:14px}
-  .gf-title{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);margin-bottom:6px}
-  .gf-p{font-size:18px;font-weight:700;line-height:1.4}
-  .gf-lv{font-size:11px;font-weight:700;background:#fff;border:1px solid #C9CEF0;color:var(--accent);padding:1px 7px;border-radius:20px;vertical-align:middle;margin-left:6px}
-  .gf-ex{font-size:13px;color:var(--text-muted);margin-top:5px}
-  .gf-hint{font-size:12px;color:var(--text-hint);margin-top:7px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -103,6 +97,7 @@
       <label for="practiceMode">練習モード</label>
       <select id="practiceMode">
         <option value="general" selected>一般の場面</option>
+        <option value="textbook">みんなの日本語（教科書の練習C）</option>
       </select>
     </div>
 
@@ -245,7 +240,7 @@
       <button class="ghost" id="feedbackBtn">◆ フィードバックをもらう</button>
       <button class="ghost" id="resetBtn">最初から</button>
     </div>
-    <button class="ghost" id="saveBtn" style="width:100%;margin-top:8px">📝 会話の記録を保存（Word）</button>
+    <button class="ghost" id="saveBtn" style="width:100%;margin-top:8px">📄 会話の記録を保存（HTML・録音つき）</button>
     <div class="credit" id="creditLine"></div>
     <div class="hint" style="margin-top:6px">ヒント: 間違えても大丈夫。まずは最後まで会話を続けてみましょう。</div>
   </div>
@@ -273,7 +268,6 @@
   };
 
   var $=function(id){ return document.getElementById(id); };
-  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(m){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]; }); }
   var keyEl=$("key"), scenarioEl=$("scenario"), levelEl=$("level"), roleEl=$("role"), foreignEl=$("foreignMode");
   var practiceModeEl=$("practiceMode"), generalBox=$("generalBox"), textbookBox=$("textbookBox"), roleBox=$("roleBox");
   var lessonEl=$("lesson"), renshuCEl=$("renshuC");
@@ -511,37 +505,6 @@
     ]}
   ];
 
-  // ---- 文法フォーカス（文法ページからのリンク ?g=...&ex=...&lv=...）----
-  var grammarFocus=null;
-  (function(){
-    var qs;
-    try{ qs=new URLSearchParams(location.search); }catch(e){ return; }
-    var g=(qs.get("g")||"").trim();
-    if(!g) return;
-    grammarFocus={ pattern:g, example:(qs.get("ex")||"").trim(), level:(qs.get("lv")||"").trim() };
-    // 公開版でも確実に一般モードで動くように
-    if(practiceModeEl) practiceModeEl.value="general";
-    // 自由会話シナリオを先頭に追加（相手役＝AIが、その文法を引き出す話題から始める）
-    SCENARIOS.unshift({ id:"grammarfocus", name:"文法の会話練習（自由会話）", roles:[
-      { v:"student", label:"学習者（自由に話す）",
-        sit:"決まった場面のロールプレイではありません。私は日本語の学習者、あなたは会話の練習相手です。『今日のねらい』の文法を私が自然に使えるように、あなたが話題や質問をふって、やさしく会話を進めてください。",
-        starts:"" }
-    ]});
-    // レベルに合わせて語彙制限の既定を設定（kaiwaは N3 まで対応）
-    var map={ "N5":"n5","N4":"n4","N3":"n3" };
-    if(map[grammarFocus.level] && vocabLevelEl){ vocabLevelEl.value=map[grammarFocus.level]; }
-    // バナー表示
-    if(setupCard){
-      var b=document.createElement("div");
-      b.className="gfocus";
-      b.innerHTML='<div class="gf-title">🎯 この文法で会話練習</div>'+
-        '<div class="gf-p">'+escapeHtml(grammarFocus.pattern)+(grammarFocus.level?' <span class="gf-lv">'+escapeHtml(grammarFocus.level)+'</span>':'')+'</div>'+
-        (grammarFocus.example?'<div class="gf-ex">例文：'+escapeHtml(grammarFocus.example)+'</div>':'')+
-        '<div class="gf-hint">下で Gemini API キーを入れて「会話をはじめる」を押すと、この文法を使う会話練習ができます。場面は下の「場面」から自由に変えてもOKです。</div>';
-      setupCard.insertBefore(b, setupCard.firstChild);
-    }
-  })();
-
   function getScenario(){
     for(var i=0;i<SCENARIOS.length;i++){ if(SCENARIOS[i].id===scenarioEl.value) return SCENARIOS[i]; }
     return SCENARIOS[0];
@@ -566,9 +529,7 @@
     });
     if(saved){ roleEl.value=saved; }
   }
-  populateScenarios();
-  if(grammarFocus){ scenarioEl.value="grammarfocus"; }
-  populateRoles();
+  populateScenarios(); populateRoles();
   scenarioEl.addEventListener("change", function(){ store.set("scenario",scenarioEl.value); populateRoles(); });
   roleEl.addEventListener("change", function(){ store.set("role_"+getScenario().id, roleEl.value); });
 
@@ -658,12 +619,6 @@
       lines.push(r.sit);
     }
 
-    if(grammarFocus){
-      lines.push("——今日のねらい（文法フォーカス）——");
-      lines.push("この会話は、文法「"+grammarFocus.pattern+"」を学習者（私）が使う練習です。"+(grammarFocus.example?"例文:「"+grammarFocus.example+"」":""));
-      lines.push("あなた（相手役）は、学習者がこの文法を自然に使いたくなるような質問や話題を選んで会話を進めてください。学習者がこの文法を使えたら、会話の流れの中で自然に受け止めてください。あなた自身も時々この文法を会話の中で自然に使い、さりげなくお手本を示してください（ただし不自然になるほど無理に繰り返さないこと）。最初の一言は、この文法を引き出しやすい質問や場面から始めてください。");
-    }
-
     if(foreign){
       lines.push("設定: あなた（相手役）は日本語が母語ではない人です。基本は簡単な日本語で話しますが、時々みじかい英語（Hello / Thank you / Excuse me など）を自然にまじえてかまいません。");
     }else{
@@ -705,16 +660,15 @@
 
   // ---- 表示 ----
   function addMsg(text, who){
-    transcript.push({who:who, text:text});
     var d=document.createElement("div");
     d.className="msg "+(who==="model"?"guest":"staff");
     var w=document.createElement("span"); w.className="who";
     w.textContent=(who==="model")?"相手":"あなた";
     d.appendChild(w); d.appendChild(document.createTextNode(text));
     log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
+    return d;
   }
   function addFeedback(text){
-    transcript.push({who:"feedback", text:text});
     var d=document.createElement("div"); d.className="feedback";
     d.textContent="◆ フィードバック\n"+text;
     log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
@@ -726,42 +680,7 @@
     log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
   }
 
-  var history=[], systemText="", busy=false, transcript=[];
-
-  function pad2(n){ return (n<10?"0":"")+n; }
-  function nowStr(){ var d=new Date(); return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate())+" "+pad2(d.getHours())+":"+pad2(d.getMinutes()); }
-  function exportDoc(){
-    if(!transcript.length){ statusEl.textContent="⚠ まだ記録がありません。少し会話をしてから保存してください。"; return; }
-    var sceneInfo;
-    if(isTextbook()){ var rc=getRenshuC(); sceneInfo="みんなの日本語 第"+currentLesson()+"課・練習C "+rc.code+"（"+rc.desc+"）"; }
-    else { sceneInfo=getScenario().name; }
-    var levelLabel=levelEl.options[levelEl.selectedIndex].text;
-    var metaRows=
-      '<tr><td style="padding:2px 12px 2px 0"><b>場面</b></td><td>'+escapeHtml(sceneInfo)+'</td></tr>'+
-      (grammarFocus?'<tr><td style="padding:2px 12px 2px 0"><b>文法フォーカス</b></td><td>'+escapeHtml(grammarFocus.pattern)+'</td></tr>':'')+
-      '<tr><td style="padding:2px 12px 2px 0"><b>レベル</b></td><td>'+escapeHtml(levelLabel)+'</td></tr>'+
-      '<tr><td style="padding:2px 12px 2px 0"><b>日時</b></td><td>'+escapeHtml(nowStr())+'</td></tr>';
-    var rows=transcript.map(function(t){
-      if(t.who==="feedback"){
-        return '<div style="margin:12px 0;padding:10px 12px;background:#FAF3E6;border:1px solid #EBD9B8;border-radius:8px"><b>◆ フィードバック</b><br>'+escapeHtml(t.text).replace(/\n/g,"<br>")+'</div>';
-      }
-      var lbl = t.who==="model" ? "相手" : "あなた";
-      var color = t.who==="model" ? "#4A5DB0" : "#3B6D11";
-      return '<p style="margin:8px 0"><b style="color:'+color+'">'+lbl+'：</b>'+escapeHtml(t.text).replace(/\n/g,"<br>")+'</p>';
-    }).join("");
-    var head='<h1 style="font-size:18pt;margin:0 0 10px">会話練習の記録</h1>'+
-      '<table style="font-size:10.5pt;color:#555;border-collapse:collapse;margin-bottom:12px">'+metaRows+'</table><hr>';
-    var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">'+
-      '<head><meta charset="utf-8"><title>会話練習の記録</title></head>'+
-      '<body style="font-family:\'Noto Sans JP\',sans-serif;font-size:12pt;line-height:1.7">'+head+rows+'</body></html>';
-    var blob=new Blob(["﻿"+html],{type:"application/msword"});
-    var url=URL.createObjectURL(blob);
-    var a=document.createElement("a");
-    a.href=url; a.download="会話練習_"+nowStr().replace(/[: ]/g,"-")+".doc";
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(function(){ URL.revokeObjectURL(url); },1500);
-    statusEl.textContent="記録をWord形式で保存しました。";
-  }
+  var history=[], systemText="", busy=false;
 
   function callGemini(cb){
     var key=keyEl.value.trim();
@@ -781,9 +700,10 @@
   function setBusy(b){ busy=b; micBtn.disabled=b; sendBtn.disabled=b; feedbackBtn.disabled=b;
     statusEl.textContent=b?"相手が考えています…":""; }
 
-  function sendUser(text){
+  function sendUser(text, audioUrl){
     if(busy) return; text=(text||"").trim(); if(!text) return;
-    addMsg(text,"user"); history.push({role:"user",parts:[{text:text}]});
+    var _uel=addMsg(text,"user"); if(audioUrl&&_uel){ try{ _uel.dataset.audio=audioUrl; }catch(e){} }
+    history.push({role:"user",parts:[{text:text}]});
     typeInput.value=""; setBusy(true);
     callGemini(function(reply,err){ setBusy(false);
       if(err){ statusEl.textContent="⚠ "+err; return; }
@@ -800,41 +720,116 @@
   }
 
   // ---- 音声認識 ----
+  // ---- マイク録音（学習者の発話ごと・MediaRecorder） ----
+  var recStream=null, mediaRec=null, recChunks=[], recMime="audio/webm";
+  function ensureStream(cb){
+    if(recStream){ cb(true); return; }
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof MediaRecorder==="undefined"){ cb(false); return; }
+    navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){ recStream=s; cb(true); }).catch(function(){ cb(false); });
+  }
+  function startRec(){
+    ensureStream(function(ok){
+      if(!ok) return;
+      try{
+        recChunks=[];
+        var mime="";
+        if(MediaRecorder.isTypeSupported("audio/webm;codecs=opus")) mime="audio/webm;codecs=opus";
+        else if(MediaRecorder.isTypeSupported("audio/webm")) mime="audio/webm";
+        else if(MediaRecorder.isTypeSupported("audio/mp4")) mime="audio/mp4";
+        recMime=(mime||"audio/webm").split(";")[0];
+        mediaRec=mime?new MediaRecorder(recStream,{mimeType:mime}):new MediaRecorder(recStream);
+        mediaRec.ondataavailable=function(e){ if(e.data&&e.data.size) recChunks.push(e.data); };
+        mediaRec.start();
+      }catch(e){ mediaRec=null; }
+    });
+  }
+  function stopRec(cb){
+    if(!mediaRec || mediaRec.state==="inactive"){ cb(null); return; }
+    mediaRec.onstop=function(){
+      mediaRec=null;
+      try{
+        var blob=new Blob(recChunks,{type:recMime});
+        if(!blob.size){ cb(null); return; }
+        var fr=new FileReader();
+        fr.onloadend=function(){ cb(fr.result); };
+        fr.onerror=function(){ cb(null); };
+        fr.readAsDataURL(blob);
+      }catch(e){ cb(null); }
+    };
+    try{ mediaRec.stop(); }catch(e){ mediaRec=null; cb(null); }
+  }
+
+  // ---- 会話の記録を HTML（録音つき・自己完結）で保存 ----
+  function escHtml(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function saveTranscript(){
+    if(!log.children.length){ statusEl.textContent="まだ記録がありません。"; return; }
+    var now=new Date(), p2=function(n){return (n<10?"0":"")+n;};
+    var dstr=now.getFullYear()+"/"+p2(now.getMonth()+1)+"/"+p2(now.getDate())+" "+p2(now.getHours())+":"+p2(now.getMinutes());
+    var stamp=""+now.getFullYear()+p2(now.getMonth()+1)+p2(now.getDate())+"_"+p2(now.getHours())+p2(now.getMinutes());
+    var titleInfo="";
+    try{ if(isTextbook()){ var rc=getRenshuC(); titleInfo="みんなの日本語 第"+currentLesson()+"課・練習C "+rc.code+"／「"+rc.desc+"」"; } else { titleInfo=getScenario().name+"（相手："+getRole()+"）"; } }catch(e){}
+    var rows="", nRec=0;
+    for(var i=0;i<log.children.length;i++){
+      var el=log.children[i];
+      if(el.classList.contains("feedback")){
+        rows+='<div class="row"><div class="bubble fb-b"><div class="txt">'+escHtml(el.textContent)+'</div></div></div>';
+      } else if(el.classList.contains("msg")){
+        var isMe=el.classList.contains("staff");
+        var who=isMe?"あなた（学習者）":"相手";
+        var txt=el.lastChild?el.lastChild.textContent:el.textContent;
+        var audio="";
+        if(isMe && el.dataset && el.dataset.audio){ nRec++; audio='<div class="rec"><span class="rec-ic">🎧</span><audio controls preload="none" src="'+el.dataset.audio+'"></audio></div>'; }
+        var fb=isMe?'<div class="fb">先生コメント：<span class="fb-in">（発音・文法のアドバイスを書けます）</span></div>':"";
+        rows+='<div class="row '+(isMe?"me":"ai")+'"><div class="bubble '+(isMe?"me-b":"ai-b")+'"><div class="lab">'+who+'</div><div class="txt">'+escHtml(txt)+'</div>'+audio+fb+'</div></div>';
+      } else {
+        rows+='<div class="row"><div class="note-b">'+escHtml(el.textContent)+'</div></div>';
+      }
+    }
+    var css="body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;background:#F7F5F0;color:#1C1C1C;line-height:1.6;padding:0 1rem 3rem;}"
+      +".container{max-width:640px;margin:0 auto;}.head{text-align:center;padding:1.4rem 0 .6rem;}.h-title{font-size:22px;font-weight:700;}.h-sub{font-size:12.5px;color:#6B6560;margin-top:5px;}"
+      +".meta{background:#fff;border:1px solid #E2DDD6;border-radius:14px;padding:12px 15px;margin-top:12px;font-size:13px;color:#6B6560;line-height:1.9;}.meta b{color:#1C1C1C;}"
+      +".conv{margin-top:18px;display:flex;flex-direction:column;gap:12px;}.row{display:flex;}.row.me{justify-content:flex-end;}"
+      +".bubble{max-width:82%;border-radius:16px;padding:10px 14px;border:1px solid #E2DDD6;}.ai-b{background:#fff;border-bottom-left-radius:5px;}.me-b{background:#EAF1FB;border-color:#CFE0F3;border-bottom-right-radius:5px;}.fb-b{background:#FBF3DC;border-color:#E5D9A8;white-space:pre-wrap;}"
+      +".lab{font-size:10.5px;font-weight:700;color:#9E9890;margin-bottom:3px;}.me-b .lab{color:#2D5A8E;}.txt{font-size:15px;white-space:pre-wrap;}"
+      +".rec{display:flex;align-items:center;gap:8px;margin-top:8px;background:#fff;border:1px solid #CFE0F3;border-radius:10px;padding:6px 8px;}.rec-ic{font-size:15px;}.rec audio{height:34px;flex:1;min-width:0;}"
+      +".fb{margin-top:8px;font-size:11.5px;color:#6B6560;border-top:1px dashed #CFE0F3;padding-top:6px;}.fb-in{color:#9E9890;}"
+      +".note-b{align-self:center;margin:0 auto;background:#eef1f7;color:#5b6675;font-size:12.5px;padding:8px 12px;border-radius:10px;text-align:center;max-width:92%;white-space:pre-wrap;}"
+      +".foot{text-align:center;font-size:11px;color:#9E9890;margin-top:2rem;}";
+    var doc='<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>会話練習の記録 '+dstr+'</title><style>'+css+'</style></head><body><div class="container">'
+      +'<div class="head"><div class="h-title">会話練習の記録</div><div class="h-sub">学習者の各発話は🎧でその場で再生できます（オフラインでも可）</div></div>'
+      +'<div class="meta">'+(titleInfo?'<div><b>場面</b>：'+escHtml(titleInfo)+'</div>':'')+'<div><b>日時</b>：'+dstr+'</div><div><b>録音</b>：学習者の発話 '+nRec+'件</div></div>'
+      +'<div class="conv">'+rows+'</div>'
+      +'<div class="foot">© 2025 日本語の部屋 ・ 会話練習の記録</div></div></body></html>';
+    var blob=new Blob([doc],{type:"text/html;charset=utf-8"});
+    var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="会話練習_"+stamp+".html";
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ try{URL.revokeObjectURL(a.href);}catch(e){} a.remove(); },1000);
+    statusEl.textContent="記録を保存しました（HTML・"+nRec+"件の録音つき）。ブラウザで開けます。";
+  }
+
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   var recog=null, listening=false;
   if(SR){
     recog=new SR(); recog.lang="ja-JP"; recog.interimResults=false; recog.maxAlternatives=1;
-    recog.onresult=function(e){ sendUser(e.results[0][0].transcript); };
-    recog.onerror=function(e){ statusEl.textContent="⚠ 音声を認識できませんでした（"+e.error+"）。文字入力もお使いいただけます。"; };
-    recog.onend=function(){ listening=false; micBtn.classList.remove("rec"); micBtn.textContent="🎤 押して話す"; };
+    recog.onresult=function(e){ var _tx=e.results[0][0].transcript; stopRec(function(u){ sendUser(_tx, u); }); };
+    recog.onerror=function(e){ stopRec(function(){}); statusEl.textContent="⚠ 音声を認識できませんでした（"+e.error+"）。文字入力もお使いいただけます。"; };
+    recog.onend=function(){ listening=false; micBtn.classList.remove("rec"); micBtn.textContent="🎤 押して話す"; stopRec(function(){}); };
   }else{
     micBtn.textContent="🎤 このブラウザは音声非対応（文字入力をどうぞ）"; micBtn.disabled=true;
-  }
-  // マイク許可を最初の一度だけ永続的に取得しておく（以後、音声認識で毎回聞かれるのを防ぐ）
-  var micPrimed=false;
-  function primeMic(){
-    if(micPrimed) return Promise.resolve();
-    if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){ micPrimed=true; return Promise.resolve(); }
-    return navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){
-      micPrimed=true; try{ s.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
-    }).catch(function(){ /* 許可されなくても、従来どおり認識側で確認します */ });
-  }
-  function startListening(){
-    try{ stopAudio(); recog.start(); listening=true;
-      micBtn.classList.add("rec"); micBtn.textContent="■ 話し終わったら押す";
-      statusEl.textContent="どうぞ話してください…";
-    }catch(e){}
   }
   micBtn.addEventListener("click", function(){
     if(!recog||busy) return;
     if(listening){ recog.stop(); return; }
-    primeMic().then(startListening);
+    try{ stopAudio(); recog.start(); listening=true; startRec();
+      micBtn.classList.add("rec"); micBtn.textContent="■ 話し終わったら押す";
+      statusEl.textContent="どうぞ話してください…";
+    }catch(e){}
   });
 
   sendBtn.addEventListener("click", function(){ sendUser(typeInput.value); });
   typeInput.addEventListener("keydown", function(e){ if(e.key==="Enter"){ sendUser(typeInput.value); } });
   feedbackBtn.addEventListener("click", requestFeedback);
-  $("saveBtn").addEventListener("click", exportDoc);
+  var _saveBtn=$("saveBtn"); if(_saveBtn) _saveBtn.addEventListener("click", saveTranscript);
 
   function startConversation(){
     var key=keyEl.value.trim();
@@ -847,8 +842,9 @@
     if(isTextbook()){ store.set("lesson",lessonEl.value); store.set("renshuC_"+currentLesson(),renshuCEl.value); }
     else { store.set("scenario",scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value); }
     store.set("vocab_level",vocabLevelEl.value); store.set("vocab_list",vocabListEl.value);
-    systemText=buildSystem(); history=[]; transcript=[]; log.innerHTML=""; creditLine.textContent="";
+    systemText=buildSystem(); history=[]; log.innerHTML=""; creditLine.textContent="";
     setupCard.classList.add("hidden"); talkCard.classList.remove("hidden");
+    try{ ensureStream(function(){}); }catch(e){}
 
     if(isTextbook()){
       var rc=getRenshuC();

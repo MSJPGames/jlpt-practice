@@ -100,6 +100,7 @@
     <div class="qtop">
       <span class="pill" id="secPill"></span>
       <span class="prog" id="prog"></span>
+      <span class="prog" id="qTimer" style="color:var(--accent)">⏱ 0:00</span>
       <span class="progbar"><span id="progFill" style="width:0%"></span></span>
     </div>
     <div class="audio-card">
@@ -120,6 +121,7 @@
     <div class="rcard">
       <div class="rbig" id="rScore"></div>
       <div class="rsub" id="rRate"></div>
+      <div class="rsub" id="rTime" style="opacity:.85;font-size:13px"></div>
       <div class="rmsg" id="rMsg"></div>
     </div>
     <button class="btn primary" id="againBtn" style="margin-bottom:10px">同じパートで もう10問</button>
@@ -149,6 +151,10 @@
   var $=function(id){return document.getElementById(id);};
   var home=$("home"), quiz=$("quiz"), result=$("result");
   var pool=[], cur=0, correct=0, answered=false, curSec="";
+  var __startTime=0, __timerIv=null;
+  function __fmtT(ms){ var s=Math.max(0,Math.floor(ms/1000)); var m=Math.floor(s/60); s=s%60; return m+":"+(s<10?"0":"")+s; }
+  function __startTimer(){ __startTime=Date.now(); if(__timerIv) clearInterval(__timerIv); var el=document.getElementById("qTimer"); function up(){ if(el) el.textContent="⏱ "+__fmtT(Date.now()-__startTime); } up(); __timerIv=setInterval(up,1000); }
+  function __stopTimer(){ if(__timerIv){ clearInterval(__timerIv); __timerIv=null; } }
 
   /* ---------- 音声：mp3優先、なければ読み上げにフォールバック ---------- */
   var curAudio=null, usingTTS=false;
@@ -233,7 +239,7 @@
     if(key==="__all"){ SECTIONS.forEach(function(s){ s.items.forEach(function(it){ items.push({it:it, sec:s.name}); }); }); curSec="ミックス"; }
     else { var s=SECTIONS.filter(function(x){return x.key===key;})[0]; s.items.forEach(function(it){ items.push({it:it, sec:s.name}); }); curSec=s.name; }
     pool=shuffle(items).slice(0, PER);
-    cur=0; correct=0;
+    cur=0; correct=0; __startTimer();
     home.classList.add("hidden"); result.classList.add("hidden"); quiz.classList.remove("hidden");
     render();
     window.scrollTo({top:0});
@@ -301,10 +307,12 @@
 
   function finish(){
     stopAudio();
+    __stopTimer(); var __elapsed=Date.now()-__startTime;
     quiz.classList.add("hidden"); result.classList.remove("hidden");
     var n=pool.length, pct=Math.round(correct/n*100);
     $("rScore").textContent=correct+" / "+n;
     $("rRate").textContent="正答率 "+pct+"％";
+    $("rTime").textContent="⏱ かかった時間 "+__fmtT(__elapsed);
     var msg = pct>=80?"すばらしい！ 聞き取りの力が ついています。" : pct>=50?"いい かんじです。もう すこし！" : "だいじょうぶ。音声を くりかえし 聞きましょう。";
     $("rMsg").textContent=msg;
     window.scrollTo({top:0,behavior:"smooth"});
@@ -319,7 +327,7 @@
     if(!quiz.classList.contains("hidden")||!result.classList.contains("hidden")){ goHome(); }
     else { location.href="bjt.html"; }
   });
-  function goHome(){ stopAudio(); quiz.classList.add("hidden"); result.classList.add("hidden"); home.classList.remove("hidden"); window.scrollTo({top:0}); }
+  function goHome(){ stopAudio(); __stopTimer(); quiz.classList.add("hidden"); result.classList.add("hidden"); home.classList.remove("hidden"); window.scrollTo({top:0}); }
 
   // データが無いとき
   if(!DATA.length){ $("cats").innerHTML='<div class="note">データ（bjt_choukai_data.js）が読み込めませんでした。</div>'; }
@@ -337,7 +345,7 @@
     var items=Object.values(__loadW());
     if(!items.length){ alert('間違えた問題はまだありません。まずは各パートに挑戦しましょう！'); return; }
     pool=shuffle(items.map(function(x){ return {it:x.it, sec:x.sec}; })).slice(0, PER);
-    cur=0; correct=0; curSec='復習';
+    cur=0; correct=0; curSec='復習'; __startTimer();
     home.classList.add('hidden'); result.classList.add('hidden'); quiz.classList.remove('hidden');
     render(); window.scrollTo({top:0});
   }

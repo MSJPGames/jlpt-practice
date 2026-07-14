@@ -41,19 +41,6 @@
   /* グループ見出し（4分類） */
   .group-head { display: flex; align-items: center; gap: 10px; margin: 1.9rem 0 0.85rem; }
   .group-head:first-of-type { margin-top: 1.5rem; }
-  .intro-cta { display: flex; align-items: center; gap: 12px; text-decoration: none; margin: 0.3rem 0 0.4rem;
-    background: linear-gradient(135deg, #FFFFFF, #E3F0EC); border: 1px solid #CFE3DC; border-left: 4px solid #2F7168;
-    border-radius: 14px; padding: 13px 15px; color: inherit; -webkit-tap-highlight-color: transparent;
-    transition: transform 0.12s, box-shadow 0.12s; }
-  .intro-cta:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
-  .intro-cta:active { transform: scale(0.99); }
-  .intro-cta .ic-icon { font-size: 21px; width: 34px; height: 34px; flex-shrink: 0; display: flex; align-items: center;
-    justify-content: center; background: #DDEEE7; color: #2F7168; border-radius: 10px; }
-  .intro-cta .ic-txt { flex: 1; min-width: 0; }
-  .intro-cta .ic-txt b { display: block; font-size: 15px; font-weight: 700; color: #1C1C1C; }
-  .intro-cta .ic-sub { display: block; font-size: 11.5px; color: #2F7168; font-weight: 700; margin-top: 2px;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .intro-cta .ic-arrow { color: #2F7168; font-size: 20px; flex-shrink: 0; }
   .gh-bar { width: 4px; height: 20px; border-radius: 2px; flex-shrink: 0; }
   .gh-title { font-size: 16px; font-weight: 700; letter-spacing: 0.01em; }
   .gh-en { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-hint); text-transform: uppercase; margin-left: 7px; }
@@ -63,6 +50,7 @@
   .gh-bar.bar-test { background: #185FA5; }
   .gh-bar.bar-lang { background: #2F7168; }
   .gh-bar.bar-edu { background: #8A3A5B; }
+  .gh-bar.bar-talk { background: #4A5DB0; }
 
   /* レベルリスト */
   .level-list { display: flex; flex-direction: column; gap: 10px; }
@@ -241,6 +229,12 @@
   .play-banner.edu .pb-pill { background: #F6E5EE; color: #8A3A5B; }
   .play-banner.edu .pb-arrow { color: #8A3A5B; }
   .play-banner.edu .pb-float span { color: #8A3A5B; }
+  .play-banner.talk { background: linear-gradient(135deg, #FFFFFF, #EEEFFA); }
+  .play-banner.talk::before { background: #4A5DB0; }
+  .play-banner.talk .pb-icon { background: #ECEEF9; color: #4A5DB0; }
+  .play-banner.talk .pb-pill { background: #ECEEF9; color: #4A5DB0; }
+  .play-banner.talk .pb-arrow { color: #4A5DB0; }
+  .play-banner.talk .pb-float span { color: #4A5DB0; }
 </style>
 </head>
 <body>
@@ -251,12 +245,6 @@
     <div class="app-title">日本語の部屋</div>
     <div class="app-sub">あそんで まなぶ ・ Play &amp; Learn Japanese</div>
   </div>
-
-  <a class="intro-cta" href="hajimete.html">
-    <span class="ic-icon">🌐</span>
-    <span class="ic-txt"><b>はじめての方へ ・ Getting Started</b><span class="ic-sub">English ・ 中文 ・ Tiếng Việt ・ Português ・ Tagalog</span></span>
-    <span class="ic-arrow">›</span>
-  </a>
 
   <div class="group-head"><div class="gh-bar bar-game"></div><span class="gh-title">ゲーム</span><span class="gh-en">Games</span></div>
 
@@ -316,6 +304,22 @@
       <div class="pb-title">活用を学ぶ</div>
       <div class="pb-desc">活用表で確認 → 変形ドリルで練習。動詞・形容詞・敬語に対応</div>
       <span class="pb-pill">文法 ・ 確認 / 練習</span>
+    </div>
+    <span class="pb-arrow">›</span>
+  </a>
+
+  <div class="group-head"><div class="gh-bar bar-talk"></div><span class="gh-title">会話</span><span class="gh-en">Speaking</span></div>
+
+  <a href="kaiwa.html" class="play-banner talk">
+    <div class="pb-float">
+      <span style="top:4px;right:18px;font-size:42px;">話</span>
+      <span style="bottom:6px;right:58px;font-size:34px;">す</span>
+    </div>
+    <div class="pb-icon">話</div>
+    <div class="pb-info">
+      <div class="pb-title">AIと会話練習</div>
+      <div class="pb-desc">場面を選んで、AI相手に声で会話。話す力をきたえる（無料・音声つき）</div>
+      <span class="pb-pill">会話 ・ 音声 / 場面別</span>
     </div>
     <span class="pb-arrow">›</span>
   </a>

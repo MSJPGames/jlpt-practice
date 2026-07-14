@@ -13,7 +13,6 @@
     --text-muted: #6B6560;
     --text-hint: #9E9890;
     --radius: 14px;
-    --radius-sm: 10px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -22,115 +21,42 @@
     color: var(--text);
     min-height: 100vh;
     padding: 0 1rem 2rem;
+    line-height: 1.6;
   }
   .container { max-width: 480px; margin: 0 auto; }
 
   /* ヘッダー */
-  .app-header { text-align: center; padding: 2rem 0 1.5rem; }
+  .app-header { text-align: center; padding: 2.2rem 0 1.6rem; }
   .app-logo { font-size: 13px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 10px; }
-  .app-title { font-size: 26px; font-weight: 700; color: #1C1C1C; letter-spacing: 0.02em; }
-  .app-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+  .app-title { font-size: 27px; font-weight: 700; color: #1C1C1C; letter-spacing: 0.02em; }
+  .app-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
 
-  /* セクションラベル */
-  .section-label {
-    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
-    color: var(--text-hint); margin: 1.5rem 0 0.75rem;
-    text-transform: uppercase;
-  }
-
-  /* グループ見出し（4分類） */
-  .group-head { display: flex; align-items: center; gap: 10px; margin: 1.9rem 0 0.85rem; }
-  .group-head:first-of-type { margin-top: 1.5rem; }
-  .gh-bar { width: 4px; height: 20px; border-radius: 2px; flex-shrink: 0; }
-  .gh-title { font-size: 16px; font-weight: 700; letter-spacing: 0.01em; }
-  .gh-en { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-hint); text-transform: uppercase; margin-left: 7px; }
-  .gh-bar.bar-game { background: #3B6D11; }
-  .gh-bar.bar-char { background: #1F6F6B; }
-  .gh-bar.bar-gram { background: #854F0B; }
-  .gh-bar.bar-test { background: #185FA5; }
-  .gh-bar.bar-lang { background: #2F7168; }
-  .gh-bar.bar-edu { background: #8A3A5B; }
-  .gh-bar.bar-talk { background: #4A5DB0; }
-
-  /* レベルリスト */
-  .level-list { display: flex; flex-direction: column; gap: 10px; }
-
-  .level-card {
+  /* 入口カード */
+  .entry {
+    display: flex; align-items: center; gap: 14px;
     background: var(--surface);
     border: 1px solid var(--border);
+    border-left: 5px solid var(--c);
     border-radius: var(--radius);
-    padding: 14px 16px;
-    display: flex; align-items: center; gap: 14px;
-    text-decoration: none; color: inherit;
-    transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
-    position: relative; overflow: hidden;
+    padding: 17px 16px; margin-bottom: 12px;
+    text-decoration: none; color: var(--text);
     -webkit-tap-highlight-color: transparent;
+    transition: transform 0.12s, box-shadow 0.12s;
   }
-  .level-card.available:active {
-    transform: scale(0.98);
-  }
-  .level-card.available:hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-  }
-  .level-card.disabled {
-    opacity: 0.6;
-    pointer-events: none;
-  }
-
-  /* レベルバッジ */
-  .level-badge {
-    width: 52px; height: 52px;
-    border-radius: 13px;
+  .entry:active { transform: scale(0.985); }
+  .entry:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .entry-ic {
+    width: 50px; height: 50px; border-radius: 13px; flex-shrink: 0;
+    background: var(--cs);
     display: flex; align-items: center; justify-content: center;
-    font-size: 16px; font-weight: 700;
-    flex-shrink: 0; letter-spacing: 0.02em;
+    font-size: 25px;
   }
-  .badge-n5 { background: #EAF3DE; color: #3B6D11; }
-  .badge-n4 { background: #E6F1FB; color: #185FA5; }
-  .badge-n3 { background: #EEEDFE; color: #3C3489; }
-  .badge-n2 { background: #FAEEDA; color: #854F0B; }
-  .badge-n1 { background: #FAECE7; color: #993C1D; }
+  .entry-tx { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .entry-title { font-size: 16px; font-weight: 700; }
+  .entry-sub { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .entry-ar { font-size: 22px; color: var(--text-hint); flex-shrink: 0; }
 
-  /* レベル情報 */
-  .level-info { flex: 1; min-width: 0; }
-  .level-name { font-size: 15px; font-weight: 700; color: var(--text); }
-  .level-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
-  .level-meta { display: flex; align-items: center; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
-
-  /* ステータスバッジ */
-  .status-pill {
-    font-size: 10px; font-weight: 700;
-    padding: 2px 9px; border-radius: 20px;
-    display: inline-block;
-  }
-  .pill-ready { background: #EAF3DE; color: #3B6D11; }
-  .pill-coming { background: #F0EEE8; color: var(--text-hint); }
-  .level-count { font-size: 11px; color: var(--text-hint); }
-
-  /* 矢印 */
-  .level-arrow {
-    font-size: 20px; color: var(--text-hint);
-    flex-shrink: 0; transition: transform 0.12s;
-  }
-  .level-card.available:hover .level-arrow { transform: translateX(3px); }
-  .level-arrow.dim { opacity: 0.3; }
-
-  /* アクセントライン */
-  .level-card.available::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 3px; border-radius: 3px 0 0 3px;
-  }
-  .card-n3::before { background: #534AB7; }
-  .card-n4::before { background: #185FA5; }
-  .card-n5::before { background: #3B6D11; }
-
-  /* フッター */
-  .app-footer {
-    text-align: center; font-size: 11px; color: var(--text-hint);
-    margin-top: 2rem; line-height: 1.8;
-  }
-
-  /* 最近の更新 */
+  /* 更新履歴 */
   .updates {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -154,87 +80,10 @@
   }
   .update-text { font-size: 13px; line-height: 1.5; color: var(--text-muted); }
 
-  /* あそび場への入口バナー */
-  .play-banner {
-    display: flex; align-items: center; gap: 14px;
-    background: linear-gradient(135deg, #FFFFFF, #F2F7EA);
-    border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 14px 16px; text-decoration: none; color: inherit;
-    position: relative; overflow: hidden;
-    transition: transform 0.12s, box-shadow 0.12s;
-    -webkit-tap-highlight-color: transparent;
+  .app-footer {
+    text-align: center; font-size: 11px; color: var(--text-hint);
+    margin-top: 2rem; line-height: 1.8;
   }
-  .play-banner:active { transform: scale(0.98); }
-  .play-banner:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-  .play-banner::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 3px; background: #3B6D11; border-radius: 3px 0 0 3px;
-  }
-  .pb-float { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-  .pb-float span { position: absolute; font-weight: 800; color: #3B6D11; opacity: 0.06; }
-  .pb-icon {
-    width: 52px; height: 52px; border-radius: 13px; flex-shrink: 0;
-    background: #EAF3DE; color: #3B6D11;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; font-weight: 800;
-  }
-  .pb-info { flex: 1; min-width: 0; position: relative; }
-  .pb-title { font-size: 15px; font-weight: 700; }
-  .pb-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
-  .pb-pill {
-    display: inline-block; margin-top: 6px; font-size: 10px; font-weight: 700;
-    padding: 2px 9px; border-radius: 20px; background: #EAF3DE; color: #3B6D11;
-  }
-  .pb-arrow { font-size: 20px; color: #3B6D11; flex-shrink: 0; position: relative; transition: transform 0.12s; }
-  .play-banner:hover .pb-arrow { transform: translateX(3px); }
-  .play-banner.learn { background: linear-gradient(135deg, #FFFFFF, #F0EFFA); }
-  .play-banner.learn::before { background: #3C3489; }
-  .play-banner.learn .pb-icon { background: #EEEDFE; color: #3C3489; }
-  .play-banner.learn .pb-pill { background: #EEEDFE; color: #3C3489; }
-  .play-banner.learn .pb-arrow { color: #3C3489; }
-  .play-banner.learn .pb-float span { color: #3C3489; }
-  .play-banner.kanji { background: linear-gradient(135deg, #FFFFFF, #E6F0EF); }
-  .play-banner.kanji::before { background: #1F6F6B; }
-  .play-banner.kanji .pb-icon { background: #DFF0EE; color: #1F6F6B; }
-  .play-banner.kanji .pb-pill { background: #DFF0EE; color: #1F6F6B; }
-  .play-banner.kanji .pb-arrow { color: #1F6F6B; }
-  .play-banner.kanji .pb-float span { color: #1F6F6B; }
-  .play-banner.conj { background: linear-gradient(135deg, #FFFFFF, #FAF3E6); }
-  .play-banner.conj::before { background: #854F0B; }
-  .play-banner.conj .pb-icon { background: #FAEEDA; color: #854F0B; }
-  .play-banner.conj .pb-pill { background: #FAEEDA; color: #854F0B; }
-  .play-banner.conj .pb-arrow { color: #854F0B; }
-  .play-banner.conj .pb-float span { color: #854F0B; }
-  .play-banner.drill { background: linear-gradient(135deg, #FFFFFF, #FAEEEA); }
-  .play-banner.drill::before { background: #9A3D1C; }
-  .play-banner.drill .pb-icon { background: #FAECE7; color: #9A3D1C; }
-  .play-banner.drill .pb-pill { background: #FAECE7; color: #9A3D1C; }
-  .play-banner.drill .pb-arrow { color: #9A3D1C; }
-  .play-banner.drill .pb-float span { color: #9A3D1C; }
-  .play-banner.test { background: linear-gradient(135deg, #FFFFFF, #EAF1FA); }
-  .play-banner.test::before { background: #185FA5; }
-  .play-banner.test .pb-icon { background: #E6F1FB; color: #185FA5; }
-  .play-banner.test .pb-pill { background: #E6F1FB; color: #185FA5; }
-  .play-banner.test .pb-arrow { color: #185FA5; }
-  .play-banner.test .pb-float span { color: #185FA5; }
-  .play-banner.lang { background: linear-gradient(135deg, #FFFFFF, #E3F0EC); }
-  .play-banner.lang::before { background: #2F7168; }
-  .play-banner.lang .pb-icon { background: #DDEEE7; color: #2F7168; }
-  .play-banner.lang .pb-pill { background: #DDEEE7; color: #2F7168; }
-  .play-banner.lang .pb-arrow { color: #2F7168; }
-  .play-banner.lang .pb-float span { color: #2F7168; }
-  .play-banner.edu { background: linear-gradient(135deg, #FFFFFF, #F6E9F0); }
-  .play-banner.edu::before { background: #8A3A5B; }
-  .play-banner.edu .pb-icon { background: #F6E5EE; color: #8A3A5B; }
-  .play-banner.edu .pb-pill { background: #F6E5EE; color: #8A3A5B; }
-  .play-banner.edu .pb-arrow { color: #8A3A5B; }
-  .play-banner.edu .pb-float span { color: #8A3A5B; }
-  .play-banner.talk { background: linear-gradient(135deg, #FFFFFF, #EEEFFA); }
-  .play-banner.talk::before { background: #4A5DB0; }
-  .play-banner.talk .pb-icon { background: #ECEEF9; color: #4A5DB0; }
-  .play-banner.talk .pb-pill { background: #ECEEF9; color: #4A5DB0; }
-  .play-banner.talk .pb-arrow { color: #4A5DB0; }
-  .play-banner.talk .pb-float span { color: #4A5DB0; }
 </style>
 </head>
 <body>
@@ -246,130 +95,40 @@
     <div class="app-sub">あそんで まなぶ ・ Play &amp; Learn Japanese</div>
   </div>
 
-  <div class="group-head"><div class="gh-bar bar-game"></div><span class="gh-title">ゲーム</span><span class="gh-en">Games</span></div>
-
-  <a href="games.html" class="play-banner">
-    <div class="pb-float">
-      <span style="top:4px;right:18px;font-size:42px;">あ</span>
-      <span style="bottom:6px;right:58px;font-size:34px;">ア</span>
-    </div>
-    <div class="pb-icon">▶</div>
-    <div class="pb-info">
-      <div class="pb-title">あそんでなれる</div>
-      <div class="pb-desc">ゲームで気軽に。すきま時間で日本語に慣れる</div>
-      <span class="pb-pill">ゲーム ・ 6種類</span>
-    </div>
-    <span class="pb-arrow">›</span>
+  <a href="hajimete.html" class="entry" style="--c:#2F7168;--cs:#E3EFED">
+    <span class="entry-ic">🔰</span>
+    <span class="entry-tx">
+      <span class="entry-title">はじめての方へ</span>
+      <span class="entry-sub">このサイトの使い方 ・ First-time guide</span>
+    </span>
+    <span class="entry-ar">›</span>
   </a>
 
-  <div class="group-head"><div class="gh-bar bar-char"></div><span class="gh-title">文字練習</span><span class="gh-en">Characters</span></div>
-
-  <a href="hiragana.html" class="play-banner learn">
-    <div class="pb-float">
-      <span style="top:4px;right:18px;font-size:42px;">書</span>
-      <span style="bottom:6px;right:58px;font-size:34px;">順</span>
-    </div>
-    <div class="pb-icon">字</div>
-    <div class="pb-info">
-      <div class="pb-title">かなを学ぶ</div>
-      <div class="pb-desc">五十音を書き順・発音から。ひらがな・カタカナの解説</div>
-      <span class="pb-pill">解説 ・ ひらがな / カタカナ</span>
-    </div>
-    <span class="pb-arrow">›</span>
+  <a href="games.html" class="entry" style="--c:#3B6D11;--cs:#EAF3DE">
+    <span class="entry-ic">🎮</span>
+    <span class="entry-tx">
+      <span class="entry-title">日本語であそぶ</span>
+      <span class="entry-sub">ゲームで気軽に。すきま時間で日本語に慣れる</span>
+    </span>
+    <span class="entry-ar">›</span>
   </a>
 
-  <a href="kanji.html" class="play-banner kanji" style="margin-top:10px;">
-    <div class="pb-float">
-      <span style="top:4px;right:18px;font-size:42px;">漢</span>
-      <span style="bottom:6px;right:58px;font-size:34px;">字</span>
-    </div>
-    <div class="pb-icon">漢</div>
-    <div class="pb-info">
-      <div class="pb-title">漢字を見る</div>
-      <div class="pb-desc">JLPT・学年・漢検の級で、漢字をまとめて見る</div>
-      <span class="pb-pill">一覧 ・ N5〜N1 / 学年 / 漢検</span>
-    </div>
-    <span class="pb-arrow">›</span>
+  <a href="manabu.html" class="entry" style="--c:#185FA5;--cs:#E6F1FB">
+    <span class="entry-ic">📖</span>
+    <span class="entry-tx">
+      <span class="entry-title">日本語を学ぶ</span>
+      <span class="entry-sub">文字・漢字・文法・会話・テスト対策・日本語教育</span>
+    </span>
+    <span class="entry-ar">›</span>
   </a>
 
-  <div class="group-head"><div class="gh-bar bar-gram"></div><span class="gh-title">文法</span><span class="gh-en">Grammar</span></div>
-
-  <a href="bunpou.html" class="play-banner conj">
-    <div class="pb-float">
-      <span style="top:4px;right:18px;font-size:42px;">活</span>
-      <span style="bottom:6px;right:58px;font-size:34px;">用</span>
-    </div>
-    <div class="pb-icon">活</div>
-    <div class="pb-info">
-      <div class="pb-title">活用を学ぶ</div>
-      <div class="pb-desc">活用表で確認 → 変形ドリルで練習。動詞・形容詞・敬語に対応</div>
-      <span class="pb-pill">文法 ・ 確認 / 練習</span>
-    </div>
-    <span class="pb-arrow">›</span>
-  </a>
-
-  <div class="group-head"><div class="gh-bar bar-talk"></div><span class="gh-title">会話</span><span class="gh-en">Speaking</span></div>
-
-  <a href="kaiwa.html" class="play-banner talk">
-    <div class="pb-float">
-      <span style="top:4px;right:18px;font-size:42px;">話</span>
-      <span style="bottom:6px;right:58px;font-size:34px;">す</span>
-    </div>
-    <div class="pb-icon">話</div>
-    <div class="pb-info">
-      <div class="pb-title">AIと会話練習</div>
-      <div class="pb-desc">場面を選んで、AI相手に声で会話。話す力をきたえる（無料・音声つき）</div>
-      <span class="pb-pill">会話 ・ 音声 / 場面別</span>
-    </div>
-    <span class="pb-arrow">›</span>
-  </a>
-
-  <div class="group-head"><div class="gh-bar bar-test"></div><span class="gh-title">テスト対策</span><span class="gh-en">JLPT</span></div>
-
-  <a href="taisaku.html" class="play-banner test">
-    <div class="pb-float">
-      <span style="top:4px;right:18px;font-size:42px;">試</span>
-      <span style="bottom:6px;right:58px;font-size:34px;">験</span>
-    </div>
-    <div class="pb-icon">試</div>
-    <div class="pb-info">
-      <div class="pb-title">レベル別テスト</div>
-      <div class="pb-desc">N5〜N3で力だめし。レベルを選んで挑戦（N2・N1は準備中）</div>
-      <span class="pb-pill">JLPT ・ N5〜N1</span>
-    </div>
-    <span class="pb-arrow">›</span>
-  </a>
-
-  <div class="group-head"><div class="gh-bar bar-edu"></div><span class="gh-title">日本語教育</span><span class="gh-en">Teaching Japanese</span></div>
-
-  <a href="nihongokyoiku.html" class="play-banner edu">
-    <div class="pb-float">
-      <span style="top:4px;right:18px;font-size:42px;">教</span>
-      <span style="bottom:6px;right:58px;font-size:34px;">員</span>
-    </div>
-    <div class="pb-icon">教</div>
-    <div class="pb-info">
-      <div class="pb-title">教える人のために</div>
-      <div class="pb-desc">日本語教員試験（登録日本語教員・日本語教育能力検定）の要点まとめと過去問形式ドリル</div>
-      <span class="pb-pill">日本語教育 ・ 要点 / ドリル</span>
-    </div>
-    <span class="pb-arrow">›</span>
-  </a>
-
-  <div class="group-head"><div class="gh-bar bar-lang"></div><span class="gh-title">外国語</span><span class="gh-en">Languages</span></div>
-
-  <a href="gaikokugo.html" class="play-banner lang">
-    <div class="pb-float">
-      <span style="top:4px;right:18px;font-size:42px;">語</span>
-      <span style="bottom:6px;right:58px;font-size:34px;">A</span>
-    </div>
-    <div class="pb-icon">語</div>
-    <div class="pb-info">
-      <div class="pb-title">言語の基礎</div>
-      <div class="pb-desc">いろいろな言語のあいさつ・数字・基本文型・活用や、生活・就学の支援情報</div>
-      <span class="pb-pill">外国語 ・ あいさつ / 文型 / 活用</span>
-    </div>
-    <span class="pb-arrow">›</span>
+  <a href="gaikokugo.html" class="entry" style="--c:#8A3A5B;--cs:#F6E5EE">
+    <span class="entry-ic">🌐</span>
+    <span class="entry-tx">
+      <span class="entry-title">多言語を学ぶ</span>
+      <span class="entry-sub">いろいろな言語のあいさつ・文型・活用や、生活・就学の支援情報</span>
+    </span>
+    <span class="entry-ar">›</span>
   </a>
 
   <!--
@@ -377,7 +136,7 @@
        古いものは下から消してOK（3〜4件だけ残すのがおすすめ）。
   -->
   <div class="updates">
-    <div class="updates-head">最近の更新</div>
+    <div class="updates-head">更新履歴</div>
     <div class="update-row">
       <div class="update-date">2026.07.10</div>
       <div class="update-text">「日本語教育」コーナーを新設（教員試験の要点まとめ・過去問形式ドリル）。中学以降の漢字一覧と漢検の練習ドリルも追加しました。</div>

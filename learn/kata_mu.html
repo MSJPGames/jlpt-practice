@@ -75,6 +75,20 @@
   .t-msg.win{color:#B8860B;}
   .trace-ctrl{display:flex;gap:10px;}
 </style>
+
+<style id="nari-css">
+.nr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:.6rem;}
+.nr-stage{position:relative;height:196px;display:flex;align-items:center;justify-content:center;background:#FCFBF8;border:1px dashed var(--border);border-radius:12px;overflow:hidden;}
+.nr-stage svg{position:absolute;width:186px;height:186px;display:block;}
+.nr-steps{display:flex;gap:5px;margin-top:12px;}
+.nr-step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--text-hint);padding:6px 2px;border-radius:8px;background:var(--bg);transition:.25s;line-height:1.25;}
+.nr-step small{display:block;font-weight:500;font-size:9.5px;margin-top:1px;opacity:.85;}
+.nr-step.on{color:#fff;background:var(--accent);}
+.nr-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:10px;}
+.nr-cap{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
+.nr-replay{background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:700;color:var(--text-muted);cursor:pointer;flex-shrink:0;}
+.nr-replay:active{transform:scale(.96);}
+</style>
 </head>
 <body>
 <div class="container">
@@ -91,6 +105,26 @@
     <button class="replay" type="button">↻ もう一度</button>
     <div class="reading"><div class="rom">mu</div><div class="ipa2">[mɯ]</div><span class="kaku">2画</span></div>
   </div>
+
+  <div class="label">成り立ち（なりたち）</div>
+  <div class="nr-wrap">
+    <div class="nr-stage nr-kata">
+      <svg viewBox="0 0 1000 1000">
+        <clipPath id="nrclip"><rect x="120" y="150" width="760" height="350"/></clipPath>
+        <rect class="HL" x="120" y="150" width="760" height="350" rx="16" fill="var(--accent)" opacity="0"/>
+        <path class="KF" fill="#1C1C1C"/>
+        <path class="KK" fill="var(--accent)" clip-path="url(#nrclip)" opacity="0"/>
+        <g class="KGG"><path class="KA" fill="#1C1C1C" opacity="0"/></g>
+      </svg>
+    </div>
+    <div class="nr-steps">
+      <div class="nr-step" data-s="0">漢字<small>牟</small></div>
+      <div class="nr-step" data-s="1">一部をとる<small>上の部分</small></div>
+      <div class="nr-step" data-s="2">カタカナ<small>ム</small></div>
+    </div>
+    <div class="nr-foot"><span class="nr-cap">「牟」の上の部分だけをとって「ム」になりました</span><button class="nr-replay" type="button">↻ もう一度</button></div>
+  </div>
+
   <div class="label">発音</div>
   <div class="note">「mu」と発音します。ひらがなの「む」と同じ音です。</div>
 
@@ -244,5 +278,50 @@ function JLPTTrace(cfg){
     document.getElementById('treset').addEventListener('click',function(){pad.reset();});
   })();</script>
 </div>
+<script>window.NR={"mode": "part", "KF": "M219.24 367.23L185 303.32Q221.52 303.32 277.83 302.17Q334.13 301.03 405.27 298.75Q476.41 296.47 557.83 293.80Q639.24 291.14 724.46 288.10L725.22 302.55Q644.57 313.21 525.87 325Q407.17 336.79 239.78 352.01Q235.98 358.86 230.65 362.28Q225.33 365.71 219.24 367.23M584.46 219.62L592.07 211.25Q652.17 224.95 692.50 244.35Q732.83 263.75 756.03 285.43Q779.24 307.12 787.99 326.52Q796.74 345.92 793.70 359.62Q790.65 373.32 780 378.26Q769.35 383.21 752.61 374.84Q738.91 348.21 710.76 318.53Q682.61 288.86 649.13 262.61Q615.65 236.36 584.46 219.62M419.35 151.14L502.28 171.68Q499.24 177.77 492.39 182.34Q485.54 186.90 471.85 186.90Q456.63 208.21 434.95 233.70Q413.26 259.18 388.91 283.91Q364.57 308.64 340.98 329.18L325 329.18Q341.74 304.84 359.62 273.64Q377.50 242.45 393.10 210.11Q408.70 177.77 419.35 151.14M273.26 504.95L289.24 482.12L684.13 482.12L722.93 434.18Q722.93 434.18 730.16 439.51Q737.39 444.84 748.42 453.59Q759.46 462.34 771.63 472.23Q783.80 482.12 794.46 492.77Q791.41 504.95 773.91 504.95L273.26 504.95M156.85 654.08L150 631.25L738.15 631.25L777.72 583.32Q777.72 583.32 784.57 588.64Q791.41 593.97 802.83 602.72Q814.24 611.47 826.79 621.74Q839.35 632.01 850 641.90Q846.96 654.08 829.46 654.08L156.85 654.08M472.61 848.86L472.61 370.27L551.74 378.64Q550.22 386.25 544.13 391.96Q538.04 397.66 523.59 399.95L523.59 829.84Q523.59 833.64 517.12 838.21Q510.65 842.77 501.14 845.82Q491.63 848.86 482.50 848.86L472.61 848.86M307.50 375.60L382.83 405.27Q379.78 411.36 372.55 415.16Q365.33 418.97 353.91 418.21Q323.48 476.79 283.15 524.73Q242.83 572.66 198.70 603.10L188.80 593.97Q223.04 556.68 255 498.86Q286.96 441.03 307.50 375.60", "KA": "M433.26 174.42L514.65 190.70Q508.95 206.16 502.03 223.26Q495.12 240.35 486.98 266.40Q479.65 286.74 468.26 323.37Q456.86 360 442.62 404.36Q428.37 448.72 412.50 495.93Q396.63 543.14 381.16 587.91Q365.70 632.67 353.08 668.08Q340.47 703.49 331.51 724.65L257.44 727.09Q268.02 702.67 281.86 665.23Q295.70 627.79 311.98 581.40Q328.26 535 344.13 486.57Q360 438.14 374.65 392.56Q389.30 346.98 400.29 310.35Q411.28 273.72 417.79 252.56Q425.12 224.07 428.37 207.38Q431.63 190.70 433.26 174.42M608.26 491.05L669.30 463.37Q691.28 495.12 716.92 538.26Q742.56 581.40 768.20 629.01Q793.84 676.63 815.41 719.77Q836.98 762.91 850 794.65L781.63 825.58Q769.42 792.21 749.07 747.03Q728.72 701.86 704.71 653.84Q680.70 605.81 655.47 562.67Q630.23 519.53 608.26 491.05M225.70 707.56Q255 705.93 296.92 702.27Q338.84 698.60 387.67 694.13Q436.51 689.65 487.38 683.95Q538.26 678.26 586.28 672.97Q634.30 667.67 674.19 662.38Q714.07 657.09 740.12 653.84L758.02 716.51Q730.35 720.58 688.02 725.47Q645.70 730.35 596.45 735.64Q547.21 740.93 494.71 747.03Q442.21 753.14 392.56 758.84Q342.91 764.53 300.58 768.60Q258.26 772.67 229.77 775.12Q214.30 776.74 197.21 779.19Q180.12 781.63 162.21 784.07L150 708.37Q168.72 709.19 188.66 708.78Q208.60 708.37 225.70 707.56", "gy": -175};</script>
+<script>
+(function(){
+ var NR=window.NR; if(!NR) return;
+ var wrap=document.querySelector('.nr-wrap'); if(!wrap) return;
+ var steps=[].slice.call(wrap.querySelectorAll('.nr-step'));
+ function lit(i){steps.forEach(function(s,j){s.classList.toggle('on',j===i);});}
+ var timers=[]; function clearT(){timers.forEach(clearTimeout);timers=[];}
+ var replay=wrap.querySelector('.nr-replay');
+ if(NR.mode==='hira'){
+   var L=[0,1,2,3].map(function(i){return wrap.querySelector('.L'+i);});
+   L[0].setAttribute('d',NR.L0);L[1].setAttribute('d',NR.L1);L[2].setAttribute('d',NR.L2);L[3].setAttribute('d',NR.L3);
+   function cross(a,b){L[a].style.transition='opacity .55s';L[b].style.transition='opacity .55s';L[a].style.opacity=0;L[b].style.opacity=1;}
+   function play(){clearT();
+     L.forEach(function(p,i){p.style.transition='none';p.style.opacity=i===0?1:0;});lit(0);
+     void wrap.getBoundingClientRect();
+     timers.push(setTimeout(function(){cross(0,1);lit(1);},1100));
+     timers.push(setTimeout(function(){cross(1,2);lit(2);},2300));
+     timers.push(setTimeout(function(){cross(2,3);lit(3);},3700));
+   }
+   replay.addEventListener('click',play); play();
+ } else {
+   var KF=wrap.querySelector('.KF'),KK=wrap.querySelector('.KK'),KA=wrap.querySelector('.KA'),KGG=wrap.querySelector('.KGG'),HL=wrap.querySelector('.HL');
+   KF.setAttribute('d',NR.KF);KA.setAttribute('d',NR.KA);
+   if(NR.mode==='part'&&KK){KK.setAttribute('d',NR.KF);}
+   function play(){clearT();
+     KF.style.transition='none';KF.style.opacity=1;
+     KA.style.transition='none';KA.style.opacity=0;
+     if(KK){KK.style.transition='none';KK.style.opacity=0;}
+     if(HL){HL.style.transition='none';HL.style.opacity=0;}
+     KGG.style.transformOrigin='500px 500px';KGG.style.transition='none';
+     KGG.style.transform=NR.mode==='part'?('translate(0px,'+(NR.gy||0)+'px) scale(.5)'):'scale(.82)';
+     lit(0); void wrap.getBoundingClientRect();
+     if(NR.mode==='part'){
+       timers.push(setTimeout(function(){HL.style.transition='opacity .4s';HL.style.opacity=.16;KF.style.transition='opacity .5s';KF.style.opacity=.14;KK.style.transition='opacity .3s';KK.style.opacity=1;lit(1);},1100));
+       timers.push(setTimeout(function(){HL.style.transition='opacity .4s';HL.style.opacity=0;KK.style.transition='opacity .5s';KK.style.opacity=0;KF.style.opacity=0;KA.style.transition='opacity .55s';KA.style.opacity=1;KGG.style.transition='transform .6s cubic-bezier(.2,.7,.2,1)';KGG.style.transform='translate(0,0) scale(1)';lit(2);},2500));
+     } else {
+       timers.push(setTimeout(function(){lit(1);},1100));
+       timers.push(setTimeout(function(){KF.style.transition='opacity .55s';KF.style.opacity=0;KA.style.transition='opacity .6s';KA.style.opacity=1;KGG.style.transition='transform .6s cubic-bezier(.2,.7,.2,1)';KGG.style.transform='scale(1)';lit(2);},2300));
+     }
+   }
+   replay.addEventListener('click',play); play();
+ }
+})();
+</script>
 </body>
 </html>

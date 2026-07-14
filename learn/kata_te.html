@@ -75,6 +75,20 @@
   .t-msg.win{color:#B8860B;}
   .trace-ctrl{display:flex;gap:10px;}
 </style>
+
+<style id="nari-css">
+.nr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:.6rem;}
+.nr-stage{position:relative;height:196px;display:flex;align-items:center;justify-content:center;background:#FCFBF8;border:1px dashed var(--border);border-radius:12px;overflow:hidden;}
+.nr-stage svg{position:absolute;width:186px;height:186px;display:block;}
+.nr-steps{display:flex;gap:5px;margin-top:12px;}
+.nr-step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--text-hint);padding:6px 2px;border-radius:8px;background:var(--bg);transition:.25s;line-height:1.25;}
+.nr-step small{display:block;font-weight:500;font-size:9.5px;margin-top:1px;opacity:.85;}
+.nr-step.on{color:#fff;background:var(--accent);}
+.nr-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:10px;}
+.nr-cap{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
+.nr-replay{background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:700;color:var(--text-muted);cursor:pointer;flex-shrink:0;}
+.nr-replay:active{transform:scale(.96);}
+</style>
 </head>
 <body>
 <div class="container">
@@ -91,6 +105,26 @@
     <button class="replay" type="button">↻ もう一度</button>
     <div class="reading"><div class="rom">te</div><div class="ipa2">[te]</div><span class="kaku">3画</span></div>
   </div>
+
+  <div class="label">成り立ち（なりたち）</div>
+  <div class="nr-wrap">
+    <div class="nr-stage nr-kata">
+      <svg viewBox="0 0 1000 1000">
+        <clipPath id="nrclip"><rect x="120" y="150" width="760" height="700"/></clipPath>
+        <rect class="HL" x="120" y="150" width="760" height="700" rx="16" fill="var(--accent)" opacity="0"/>
+        <path class="KF" fill="#1C1C1C"/>
+        <path class="KK" fill="var(--accent)" clip-path="url(#nrclip)" opacity="0"/>
+        <g class="KGG"><path class="KA" fill="#1C1C1C" opacity="0"/></g>
+      </svg>
+    </div>
+    <div class="nr-steps">
+      <div class="nr-step" data-s="0">漢字<small>天</small></div>
+      <div class="nr-step" data-s="1">簡略化<small>くずす</small></div>
+      <div class="nr-step" data-s="2">カタカナ<small>テ</small></div>
+    </div>
+    <div class="nr-foot"><span class="nr-cap">漢字「天」を簡単にして「テ」になりました</span><button class="nr-replay" type="button">↻ もう一度</button></div>
+  </div>
+
   <div class="label">発音</div>
   <div class="note">「te」と発音します。ひらがなの「て」と同じ音です。</div>
 
@@ -244,5 +278,50 @@ function JLPTTrace(cfg){
     document.getElementById('treset').addEventListener('click',function(){pad.reset();});
   })();</script>
 </div>
+<script>window.NR={"mode": "whole", "KF": "M726.91 213.81L766.18 165.48Q766.18 165.48 773.73 170.77Q781.28 176.05 792.23 185.11Q803.18 194.17 816.02 204.75Q828.86 215.32 838.67 225.13Q837.16 230.42 832.25 233.44Q827.35 236.46 819.80 236.46L168.12 236.46L162.84 213.81L726.91 213.81M702.75 432.79L742.02 385.22Q742.02 385.22 749.19 390.51Q756.36 395.79 767.69 404.48Q779.02 413.16 791.10 423.73Q803.18 434.30 813 444.12Q809.98 455.45 794.12 455.45L193.04 455.45L187.76 432.79L702.75 432.79M507.17 443.37L520.77 439.59Q529.83 487.16 550.59 534.74Q571.36 582.31 609.12 627.62Q646.87 672.92 705.77 712.57Q764.67 752.21 850 785.44L848.49 793.74Q828.86 796.01 815.64 804.31Q802.43 812.62 797.90 834.52Q718.61 797.52 665.75 750.70Q612.89 703.88 580.80 651.78Q548.71 599.68 531.72 546.44Q514.72 493.20 507.17 443.37M456.58 214.56L512.46 214.56Q510.95 285.54 508.31 349.35Q505.66 413.16 496.22 470.93Q486.79 528.69 465.26 579.67Q443.74 630.64 405.23 675.57Q366.72 720.50 306.69 759.39Q246.66 798.27 159.82 830.74L150 817.15Q243.64 774.11 301.78 725.40Q359.92 676.70 392.02 620.44Q424.11 564.19 437.32 500.76Q450.54 437.32 453.18 365.59Q455.83 293.85 456.58 214.56", "KA": "M252.44 234.51L252.44 163.66Q270.37 165.37 289.57 167.07Q308.78 168.78 329.27 168.78Q344.63 168.78 379.21 168.78Q413.78 168.78 458.17 168.78Q502.56 168.78 546.95 168.78Q591.34 168.78 625.91 168.78Q660.49 168.78 675 168.78Q692.93 168.78 714.70 167.50Q736.46 166.22 754.39 163.66L754.39 234.51Q735.61 232.80 714.70 232.38Q693.78 231.95 675 231.95Q660.49 231.95 626.34 231.95Q592.20 231.95 547.80 231.95Q503.41 231.95 459.02 231.95Q414.63 231.95 379.63 231.95Q344.63 231.95 330.12 231.95Q309.63 231.95 289.15 232.38Q268.66 232.80 252.44 234.51M150 448.78L150 377.93Q167.93 379.63 186.28 380.91Q204.63 382.20 224.27 382.20Q235.37 382.20 268.23 382.20Q301.10 382.20 348.48 382.20Q395.85 382.20 450.49 382.20Q505.12 382.20 559.76 382.20Q614.39 382.20 661.34 382.20Q708.29 382.20 741.16 382.20Q774.02 382.20 783.41 382.20Q797.07 382.20 815.85 381.34Q834.63 380.49 850 377.93L850 448.78Q836.34 447.93 817.99 447.50Q799.63 447.07 783.41 447.07Q774.02 447.07 741.16 447.07Q708.29 447.07 661.34 447.07Q614.39 447.07 559.76 447.07Q505.12 447.07 450.49 447.07Q395.85 447.07 348.48 447.07Q301.10 447.07 268.23 447.07Q235.37 447.07 224.27 447.07Q205.49 447.07 186.71 447.07Q167.93 447.07 150 448.78M480.37 412.93L552.07 412.93Q552.07 493.17 540.55 560.18Q529.02 627.20 500.85 680.12Q485.49 709.15 459.45 737.74Q433.41 766.34 401.40 791.95Q369.39 817.56 332.68 836.34L269.51 789.39Q319.02 768.90 362.56 733.90Q406.10 698.90 430.85 658.78Q463.29 607.56 471.83 545.67Q480.37 483.78 480.37 412.93"};</script>
+<script>
+(function(){
+ var NR=window.NR; if(!NR) return;
+ var wrap=document.querySelector('.nr-wrap'); if(!wrap) return;
+ var steps=[].slice.call(wrap.querySelectorAll('.nr-step'));
+ function lit(i){steps.forEach(function(s,j){s.classList.toggle('on',j===i);});}
+ var timers=[]; function clearT(){timers.forEach(clearTimeout);timers=[];}
+ var replay=wrap.querySelector('.nr-replay');
+ if(NR.mode==='hira'){
+   var L=[0,1,2,3].map(function(i){return wrap.querySelector('.L'+i);});
+   L[0].setAttribute('d',NR.L0);L[1].setAttribute('d',NR.L1);L[2].setAttribute('d',NR.L2);L[3].setAttribute('d',NR.L3);
+   function cross(a,b){L[a].style.transition='opacity .55s';L[b].style.transition='opacity .55s';L[a].style.opacity=0;L[b].style.opacity=1;}
+   function play(){clearT();
+     L.forEach(function(p,i){p.style.transition='none';p.style.opacity=i===0?1:0;});lit(0);
+     void wrap.getBoundingClientRect();
+     timers.push(setTimeout(function(){cross(0,1);lit(1);},1100));
+     timers.push(setTimeout(function(){cross(1,2);lit(2);},2300));
+     timers.push(setTimeout(function(){cross(2,3);lit(3);},3700));
+   }
+   replay.addEventListener('click',play); play();
+ } else {
+   var KF=wrap.querySelector('.KF'),KK=wrap.querySelector('.KK'),KA=wrap.querySelector('.KA'),KGG=wrap.querySelector('.KGG'),HL=wrap.querySelector('.HL');
+   KF.setAttribute('d',NR.KF);KA.setAttribute('d',NR.KA);
+   if(NR.mode==='part'&&KK){KK.setAttribute('d',NR.KF);}
+   function play(){clearT();
+     KF.style.transition='none';KF.style.opacity=1;
+     KA.style.transition='none';KA.style.opacity=0;
+     if(KK){KK.style.transition='none';KK.style.opacity=0;}
+     if(HL){HL.style.transition='none';HL.style.opacity=0;}
+     KGG.style.transformOrigin='500px 500px';KGG.style.transition='none';
+     KGG.style.transform=NR.mode==='part'?('translate(0px,'+(NR.gy||0)+'px) scale(.5)'):'scale(.82)';
+     lit(0); void wrap.getBoundingClientRect();
+     if(NR.mode==='part'){
+       timers.push(setTimeout(function(){HL.style.transition='opacity .4s';HL.style.opacity=.16;KF.style.transition='opacity .5s';KF.style.opacity=.14;KK.style.transition='opacity .3s';KK.style.opacity=1;lit(1);},1100));
+       timers.push(setTimeout(function(){HL.style.transition='opacity .4s';HL.style.opacity=0;KK.style.transition='opacity .5s';KK.style.opacity=0;KF.style.opacity=0;KA.style.transition='opacity .55s';KA.style.opacity=1;KGG.style.transition='transform .6s cubic-bezier(.2,.7,.2,1)';KGG.style.transform='translate(0,0) scale(1)';lit(2);},2500));
+     } else {
+       timers.push(setTimeout(function(){lit(1);},1100));
+       timers.push(setTimeout(function(){KF.style.transition='opacity .55s';KF.style.opacity=0;KA.style.transition='opacity .6s';KA.style.opacity=1;KGG.style.transition='transform .6s cubic-bezier(.2,.7,.2,1)';KGG.style.transform='scale(1)';lit(2);},2300));
+     }
+   }
+   replay.addEventListener('click',play); play();
+ }
+})();
+</script>
 </body>
 </html>

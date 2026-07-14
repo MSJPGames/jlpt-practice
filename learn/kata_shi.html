@@ -75,6 +75,20 @@
   .t-msg.win{color:#B8860B;}
   .trace-ctrl{display:flex;gap:10px;}
 </style>
+
+<style id="nari-css">
+.nr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:.6rem;}
+.nr-stage{position:relative;height:196px;display:flex;align-items:center;justify-content:center;background:#FCFBF8;border:1px dashed var(--border);border-radius:12px;overflow:hidden;}
+.nr-stage svg{position:absolute;width:186px;height:186px;display:block;}
+.nr-steps{display:flex;gap:5px;margin-top:12px;}
+.nr-step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--text-hint);padding:6px 2px;border-radius:8px;background:var(--bg);transition:.25s;line-height:1.25;}
+.nr-step small{display:block;font-weight:500;font-size:9.5px;margin-top:1px;opacity:.85;}
+.nr-step.on{color:#fff;background:var(--accent);}
+.nr-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:10px;}
+.nr-cap{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
+.nr-replay{background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:700;color:var(--text-muted);cursor:pointer;flex-shrink:0;}
+.nr-replay:active{transform:scale(.96);}
+</style>
 </head>
 <body>
 <div class="container">
@@ -91,6 +105,26 @@
     <button class="replay" type="button">↻ もう一度</button>
     <div class="reading"><div class="rom">shi</div><div class="ipa2">[ɕi]</div><span class="kaku">3画</span></div>
   </div>
+
+  <div class="label">成り立ち（なりたち）</div>
+  <div class="nr-wrap">
+    <div class="nr-stage nr-kata">
+      <svg viewBox="0 0 1000 1000">
+        <clipPath id="nrclip"><rect x="120" y="150" width="760" height="700"/></clipPath>
+        <rect class="HL" x="120" y="150" width="760" height="700" rx="16" fill="var(--accent)" opacity="0"/>
+        <path class="KF" fill="#1C1C1C"/>
+        <path class="KK" fill="var(--accent)" clip-path="url(#nrclip)" opacity="0"/>
+        <g class="KGG"><path class="KA" fill="#1C1C1C" opacity="0"/></g>
+      </svg>
+    </div>
+    <div class="nr-steps">
+      <div class="nr-step" data-s="0">漢字<small>之</small></div>
+      <div class="nr-step" data-s="1">簡略化<small>くずす</small></div>
+      <div class="nr-step" data-s="2">カタカナ<small>シ</small></div>
+    </div>
+    <div class="nr-foot"><span class="nr-cap">漢字「之」を簡単にして「シ」になりました</span><button class="nr-replay" type="button">↻ もう一度</button></div>
+  </div>
+
   <div class="label">発音</div>
   <div class="note">「シ」は [ɕi]。英語の she に近く、si ではなく shi。</div>
 
@@ -246,5 +280,50 @@ function JLPTTrace(cfg){
     document.getElementById('treset').addEventListener('click',function(){pad.reset();});
   })();</script>
 </div>
+<script>window.NR={"mode": "whole", "KF": "M198.09 354.20L191.22 332.06L722.52 332.06L722.52 354.20L198.09 354.20M472.14 344.27L472.14 168.70L550.76 177.10Q550 184.73 543.51 190.46Q537.02 196.18 522.52 197.71L522.52 344.27L472.14 344.27M700.38 332.06L691.98 332.06L728.63 299.24L785.11 352.67Q779.77 358.02 772.52 359.54Q765.27 361.07 750.76 361.83Q705.73 429.01 639.31 496.18Q572.90 563.36 492.37 622.14Q411.83 680.92 320.99 725.19L311.83 713.74Q368.32 678.63 425.57 633.21Q482.82 587.79 534.73 537.40Q586.64 487.02 629.39 434.35Q672.14 381.68 700.38 332.06M316.41 616.03L285.88 660.31Q275.19 679.39 260.31 705.34Q245.42 731.30 230.53 756.11Q215.65 780.92 204.96 797.71Q210.31 806.11 209.16 813.36Q208.02 820.61 204.20 825.19L150 775.57Q166.79 761.07 188.55 739.69Q210.31 718.32 231.68 695.42Q253.05 672.52 268.32 654.96L282.06 604.58L316.41 616.03M275.19 664.89L285.88 659.54Q314.12 712.98 354.20 739.69Q394.27 766.41 452.67 774.81Q511.07 783.21 593.51 783.21Q614.89 783.21 648.85 783.21Q682.82 783.21 720.23 782.82Q757.63 782.44 792.37 782.06Q827.10 781.68 850 780.92L850 792.37Q833.97 794.66 826.72 805.73Q819.47 816.79 817.94 831.30Q799.62 831.30 769.85 831.30Q740.08 831.30 706.49 831.30Q672.90 831.30 642.37 831.30Q611.83 831.30 591.22 831.30Q527.10 831.30 478.63 824.81Q430.15 818.32 392.75 800.38Q355.34 782.44 326.72 749.62Q298.09 716.79 275.19 664.89", "KA": "M280.11 212.89L319.14 154.77Q338.23 165.18 364.25 181.66Q390.27 198.14 418.03 216.36Q445.79 234.57 469.64 250.62Q493.49 266.67 507.37 277.08L466.60 336.06Q450.99 324.78 427.57 308.30Q404.15 291.82 377.26 274.04Q350.37 256.26 324.78 240.21Q299.19 224.16 280.11 212.89M228.93 845.23L189.03 774.97Q236.74 766.29 287.05 751.98Q337.36 737.67 386.80 718.15Q436.25 698.64 479.62 673.48Q551.61 631.85 613.20 581.54Q674.78 531.23 724.23 473.98Q773.67 416.73 808.36 356.01L850 427.14Q793.62 514.75 707.31 595.42Q621 676.08 516.91 737.67Q472.68 762.83 421.07 784.08Q369.45 805.33 319.58 820.94Q269.70 836.56 228.93 845.23M150 408.92L188.17 349.94Q207.25 359.48 234.14 375.53Q261.03 391.57 288.79 408.49Q316.54 425.40 340.83 441.02Q365.12 456.63 379 467.04L339.10 527.76Q322.61 515.61 298.76 499.57Q274.91 483.52 248.02 466.60Q221.13 449.69 195.11 434.08Q169.08 418.46 150 408.92"};</script>
+<script>
+(function(){
+ var NR=window.NR; if(!NR) return;
+ var wrap=document.querySelector('.nr-wrap'); if(!wrap) return;
+ var steps=[].slice.call(wrap.querySelectorAll('.nr-step'));
+ function lit(i){steps.forEach(function(s,j){s.classList.toggle('on',j===i);});}
+ var timers=[]; function clearT(){timers.forEach(clearTimeout);timers=[];}
+ var replay=wrap.querySelector('.nr-replay');
+ if(NR.mode==='hira'){
+   var L=[0,1,2,3].map(function(i){return wrap.querySelector('.L'+i);});
+   L[0].setAttribute('d',NR.L0);L[1].setAttribute('d',NR.L1);L[2].setAttribute('d',NR.L2);L[3].setAttribute('d',NR.L3);
+   function cross(a,b){L[a].style.transition='opacity .55s';L[b].style.transition='opacity .55s';L[a].style.opacity=0;L[b].style.opacity=1;}
+   function play(){clearT();
+     L.forEach(function(p,i){p.style.transition='none';p.style.opacity=i===0?1:0;});lit(0);
+     void wrap.getBoundingClientRect();
+     timers.push(setTimeout(function(){cross(0,1);lit(1);},1100));
+     timers.push(setTimeout(function(){cross(1,2);lit(2);},2300));
+     timers.push(setTimeout(function(){cross(2,3);lit(3);},3700));
+   }
+   replay.addEventListener('click',play); play();
+ } else {
+   var KF=wrap.querySelector('.KF'),KK=wrap.querySelector('.KK'),KA=wrap.querySelector('.KA'),KGG=wrap.querySelector('.KGG'),HL=wrap.querySelector('.HL');
+   KF.setAttribute('d',NR.KF);KA.setAttribute('d',NR.KA);
+   if(NR.mode==='part'&&KK){KK.setAttribute('d',NR.KF);}
+   function play(){clearT();
+     KF.style.transition='none';KF.style.opacity=1;
+     KA.style.transition='none';KA.style.opacity=0;
+     if(KK){KK.style.transition='none';KK.style.opacity=0;}
+     if(HL){HL.style.transition='none';HL.style.opacity=0;}
+     KGG.style.transformOrigin='500px 500px';KGG.style.transition='none';
+     KGG.style.transform=NR.mode==='part'?('translate(0px,'+(NR.gy||0)+'px) scale(.5)'):'scale(.82)';
+     lit(0); void wrap.getBoundingClientRect();
+     if(NR.mode==='part'){
+       timers.push(setTimeout(function(){HL.style.transition='opacity .4s';HL.style.opacity=.16;KF.style.transition='opacity .5s';KF.style.opacity=.14;KK.style.transition='opacity .3s';KK.style.opacity=1;lit(1);},1100));
+       timers.push(setTimeout(function(){HL.style.transition='opacity .4s';HL.style.opacity=0;KK.style.transition='opacity .5s';KK.style.opacity=0;KF.style.opacity=0;KA.style.transition='opacity .55s';KA.style.opacity=1;KGG.style.transition='transform .6s cubic-bezier(.2,.7,.2,1)';KGG.style.transform='translate(0,0) scale(1)';lit(2);},2500));
+     } else {
+       timers.push(setTimeout(function(){lit(1);},1100));
+       timers.push(setTimeout(function(){KF.style.transition='opacity .55s';KF.style.opacity=0;KA.style.transition='opacity .6s';KA.style.opacity=1;KGG.style.transition='transform .6s cubic-bezier(.2,.7,.2,1)';KGG.style.transform='scale(1)';lit(2);},2300));
+     }
+   }
+   replay.addEventListener('click',play); play();
+ }
+})();
+</script>
 </body>
 </html>

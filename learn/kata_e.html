@@ -75,6 +75,20 @@
   .t-msg.win{color:#B8860B;}
   .trace-ctrl{display:flex;gap:10px;}
 </style>
+
+<style id="nari-css">
+.nr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:.6rem;}
+.nr-stage{position:relative;height:196px;display:flex;align-items:center;justify-content:center;background:#FCFBF8;border:1px dashed var(--border);border-radius:12px;overflow:hidden;}
+.nr-stage svg{position:absolute;width:186px;height:186px;display:block;}
+.nr-steps{display:flex;gap:5px;margin-top:12px;}
+.nr-step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--text-hint);padding:6px 2px;border-radius:8px;background:var(--bg);transition:.25s;line-height:1.25;}
+.nr-step small{display:block;font-weight:500;font-size:9.5px;margin-top:1px;opacity:.85;}
+.nr-step.on{color:#fff;background:var(--accent);}
+.nr-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:10px;}
+.nr-cap{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
+.nr-replay{background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:700;color:var(--text-muted);cursor:pointer;flex-shrink:0;}
+.nr-replay:active{transform:scale(.96);}
+</style>
 </head>
 <body>
 <div class="container">
@@ -91,6 +105,26 @@
     <button class="replay" type="button">↻ もう一度</button>
     <div class="reading"><div class="rom">e</div><div class="ipa2">[e]</div><span class="kaku">3画</span></div>
   </div>
+
+  <div class="label">成り立ち（なりたち）</div>
+  <div class="nr-wrap">
+    <div class="nr-stage nr-kata">
+      <svg viewBox="0 0 1000 1000">
+        <clipPath id="nrclip"><rect x="490" y="150" width="390" height="700"/></clipPath>
+        <rect class="HL" x="490" y="150" width="390" height="700" rx="16" fill="var(--accent)" opacity="0"/>
+        <path class="KF" fill="#1C1C1C"/>
+        <path class="KK" fill="var(--accent)" clip-path="url(#nrclip)" opacity="0"/>
+        <g class="KGG"><path class="KA" fill="#1C1C1C" opacity="0"/></g>
+      </svg>
+    </div>
+    <div class="nr-steps">
+      <div class="nr-step" data-s="0">漢字<small>江</small></div>
+      <div class="nr-step" data-s="1">一部をとる<small>右の部分</small></div>
+      <div class="nr-step" data-s="2">カタカナ<small>エ</small></div>
+    </div>
+    <div class="nr-foot"><span class="nr-cap">「江」の右の部分だけをとって「エ」になりました</span><button class="nr-replay" type="button">↻ もう一度</button></div>
+  </div>
+
   <div class="label">発音</div>
   <div class="note">口を少し横に開いて「エ」。ひらがなの「え」と同じ音です。</div>
 
@@ -244,5 +278,50 @@ function JLPTTrace(cfg){
     document.getElementById('treset').addEventListener('click',function(){pad.reset();});
   })();</script>
 </div>
+<script>window.NR={"mode": "part", "KF": "M373.26 258.68L367.37 237.32L722.53 237.32L757.16 192.37Q757.16 192.37 763.42 197.53Q769.68 202.68 780 210.79Q790.32 218.89 801.37 228.47Q812.42 238.05 822 246.89Q819.05 258.68 802.11 258.68L373.26 258.68M332 775.95L326.11 753.84L749.05 753.84L783.68 708.16Q783.68 708.16 790.32 713.68Q796.95 719.21 807.26 727.68Q817.58 736.16 829 745.74Q840.42 755.32 850 764.16Q847.05 775.95 830.84 775.95L332 775.95M553.79 773.74L553.79 238.05L605.37 238.05L605.37 773.74L553.79 773.74M208.95 176.89L215.58 169.53Q257.58 176.16 284.11 188.32Q310.63 200.47 324.63 214.84Q338.63 229.21 341.95 243.21Q345.26 257.21 340.47 267.16Q335.68 277.11 324.63 280.05Q313.58 283 300.32 275.63Q293.68 257.95 278.58 239.16Q263.47 220.37 245.05 204.16Q226.63 187.95 208.95 176.89M150 336.05L156.63 329.42Q196.42 333.11 221.47 343.79Q246.53 354.47 259.42 368.11Q272.32 381.74 275.26 395Q278.21 408.26 273.42 417.47Q268.63 426.68 257.95 429.63Q247.26 432.58 234 425.95Q227.37 409 213.74 392.42Q200.11 375.84 183.16 360.74Q166.21 345.63 150 336.05M203.05 623.42Q209.68 623.42 213 621.58Q216.32 619.74 222.21 608.68Q226.63 600.58 231.05 593.21Q235.47 585.84 243.58 569.63Q251.68 553.42 267.89 521.74Q284.11 490.05 311.74 435.16Q339.37 380.26 383.58 293.32L396.84 297.74Q385.79 325 371.42 359.26Q357.05 393.53 341.95 429.63Q326.84 465.74 313.58 498.53Q300.32 531.32 290.37 555.63Q280.42 579.95 276.74 591Q270.84 607.21 267.53 623.42Q264.21 639.63 264.21 653.63Q264.21 665.42 267.53 678.68Q270.84 691.95 274.53 706.32Q278.21 720.68 281.16 738.74Q284.11 756.79 283.37 778.89Q282.63 803.21 271.58 816.84Q260.53 830.47 241.37 830.47Q231.05 830.47 224.79 820.53Q218.53 810.58 217.05 793.63Q222.21 755.32 222.58 724.74Q222.95 694.16 218.89 674.63Q214.84 655.11 206 649.95Q198.63 644.79 189.79 642.58Q180.95 640.37 168.42 639.63L168.42 623.42Q168.42 623.42 175.42 623.42Q182.42 623.42 190.89 623.42Q199.37 623.42 203.05 623.42", "KA": "M201.32 309.44L201.32 235.40Q218.15 237.92 238.76 239.18Q259.38 240.44 272 240.44L734.74 240.44Q754.09 240.44 772.60 238.76Q791.11 237.08 806.25 235.40L806.25 309.44Q790.26 307.75 771.33 306.91Q752.40 306.07 734.74 306.07L272 306.07Q260.22 306.07 238.76 306.91Q217.31 307.75 201.32 309.44M532.81 729.27L461.30 729.27L461.30 277.46L532.81 277.46L532.81 729.27M150 764.60L150 688.04Q168.51 690.56 187.44 691.83Q206.37 693.09 224.04 693.09L780.17 693.09Q799.52 693.09 816.77 691.41Q834.01 689.72 850 688.04L850 764.60Q833.17 762.92 812.98 762.08Q792.79 761.24 780.17 761.24L224.04 761.24Q207.21 761.24 188.28 762.08Q169.35 762.92 150 764.60", "gy": 0};</script>
+<script>
+(function(){
+ var NR=window.NR; if(!NR) return;
+ var wrap=document.querySelector('.nr-wrap'); if(!wrap) return;
+ var steps=[].slice.call(wrap.querySelectorAll('.nr-step'));
+ function lit(i){steps.forEach(function(s,j){s.classList.toggle('on',j===i);});}
+ var timers=[]; function clearT(){timers.forEach(clearTimeout);timers=[];}
+ var replay=wrap.querySelector('.nr-replay');
+ if(NR.mode==='hira'){
+   var L=[0,1,2,3].map(function(i){return wrap.querySelector('.L'+i);});
+   L[0].setAttribute('d',NR.L0);L[1].setAttribute('d',NR.L1);L[2].setAttribute('d',NR.L2);L[3].setAttribute('d',NR.L3);
+   function cross(a,b){L[a].style.transition='opacity .55s';L[b].style.transition='opacity .55s';L[a].style.opacity=0;L[b].style.opacity=1;}
+   function play(){clearT();
+     L.forEach(function(p,i){p.style.transition='none';p.style.opacity=i===0?1:0;});lit(0);
+     void wrap.getBoundingClientRect();
+     timers.push(setTimeout(function(){cross(0,1);lit(1);},1100));
+     timers.push(setTimeout(function(){cross(1,2);lit(2);},2300));
+     timers.push(setTimeout(function(){cross(2,3);lit(3);},3700));
+   }
+   replay.addEventListener('click',play); play();
+ } else {
+   var KF=wrap.querySelector('.KF'),KK=wrap.querySelector('.KK'),KA=wrap.querySelector('.KA'),KGG=wrap.querySelector('.KGG'),HL=wrap.querySelector('.HL');
+   KF.setAttribute('d',NR.KF);KA.setAttribute('d',NR.KA);
+   if(NR.mode==='part'&&KK){KK.setAttribute('d',NR.KF);}
+   function play(){clearT();
+     KF.style.transition='none';KF.style.opacity=1;
+     KA.style.transition='none';KA.style.opacity=0;
+     if(KK){KK.style.transition='none';KK.style.opacity=0;}
+     if(HL){HL.style.transition='none';HL.style.opacity=0;}
+     KGG.style.transformOrigin='500px 500px';KGG.style.transition='none';
+     KGG.style.transform=NR.mode==='part'?('translate(0px,'+(NR.gy||0)+'px) scale(.5)'):'scale(.82)';
+     lit(0); void wrap.getBoundingClientRect();
+     if(NR.mode==='part'){
+       timers.push(setTimeout(function(){HL.style.transition='opacity .4s';HL.style.opacity=.16;KF.style.transition='opacity .5s';KF.style.opacity=.14;KK.style.transition='opacity .3s';KK.style.opacity=1;lit(1);},1100));
+       timers.push(setTimeout(function(){HL.style.transition='opacity .4s';HL.style.opacity=0;KK.style.transition='opacity .5s';KK.style.opacity=0;KF.style.opacity=0;KA.style.transition='opacity .55s';KA.style.opacity=1;KGG.style.transition='transform .6s cubic-bezier(.2,.7,.2,1)';KGG.style.transform='translate(0,0) scale(1)';lit(2);},2500));
+     } else {
+       timers.push(setTimeout(function(){lit(1);},1100));
+       timers.push(setTimeout(function(){KF.style.transition='opacity .55s';KF.style.opacity=0;KA.style.transition='opacity .6s';KA.style.opacity=1;KGG.style.transition='transform .6s cubic-bezier(.2,.7,.2,1)';KGG.style.transform='scale(1)';lit(2);},2300));
+     }
+   }
+   replay.addEventListener('click',play); play();
+ }
+})();
+</script>
 </body>
 </html>

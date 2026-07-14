@@ -75,6 +75,20 @@
   .t-msg.win{color:#B8860B;}
   .trace-ctrl{display:flex;gap:10px;}
 </style>
+
+<style id="nari-css">
+.nr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:.6rem;}
+.nr-stage{position:relative;height:196px;display:flex;align-items:center;justify-content:center;background:#FCFBF8;border:1px dashed var(--border);border-radius:12px;overflow:hidden;}
+.nr-stage svg{position:absolute;width:186px;height:186px;display:block;}
+.nr-steps{display:flex;gap:5px;margin-top:12px;}
+.nr-step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--text-hint);padding:6px 2px;border-radius:8px;background:var(--bg);transition:.25s;line-height:1.25;}
+.nr-step small{display:block;font-weight:500;font-size:9.5px;margin-top:1px;opacity:.85;}
+.nr-step.on{color:#fff;background:var(--accent);}
+.nr-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:10px;}
+.nr-cap{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
+.nr-replay{background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:700;color:var(--text-muted);cursor:pointer;flex-shrink:0;}
+.nr-replay:active{transform:scale(.96);}
+</style>
 </head>
 <body>
 <div class="container">
@@ -91,6 +105,26 @@
     <button class="replay" type="button">↻ もう一度</button>
     <div class="reading"><div class="rom">fu</div><div class="ipa2">[ɸɯ]</div><span class="kaku">1画</span></div>
   </div>
+
+  <div class="label">成り立ち（なりたち）</div>
+  <div class="nr-wrap">
+    <div class="nr-stage nr-kata">
+      <svg viewBox="0 0 1000 1000">
+        <clipPath id="nrclip"><rect x="120" y="150" width="760" height="350"/></clipPath>
+        <rect class="HL" x="120" y="150" width="760" height="350" rx="16" fill="var(--accent)" opacity="0"/>
+        <path class="KF" fill="#1C1C1C"/>
+        <path class="KK" fill="var(--accent)" clip-path="url(#nrclip)" opacity="0"/>
+        <g class="KGG"><path class="KA" fill="#1C1C1C" opacity="0"/></g>
+      </svg>
+    </div>
+    <div class="nr-steps">
+      <div class="nr-step" data-s="0">漢字<small>不</small></div>
+      <div class="nr-step" data-s="1">一部をとる<small>上の部分</small></div>
+      <div class="nr-step" data-s="2">カタカナ<small>フ</small></div>
+    </div>
+    <div class="nr-foot"><span class="nr-cap">「不」の上の部分だけをとって「フ」になりました</span><button class="nr-replay" type="button">↻ もう一度</button></div>
+  </div>
+
   <div class="label">発音</div>
   <div class="note">「フ」は [ɸɯ]。f より唇を近づけすぎない、息に近い音です。</div>
 
@@ -244,5 +278,50 @@ function JLPTTrace(cfg){
     document.getElementById('treset').addEventListener('click',function(){pad.reset();});
   })();</script>
 </div>
+<script>window.NR={"mode": "part", "KF": "M562.04 388.18L569.69 378.99Q647.81 404.27 700.27 431.46Q752.74 458.64 784.52 485.07Q816.30 511.49 830.09 534.08Q843.87 556.67 843.49 572.37Q843.11 588.07 832.39 593.82Q821.66 599.56 804.05 591.90Q787.96 566.63 760.01 538.68Q732.06 510.72 697.98 483.15Q663.89 455.58 628.67 430.69Q593.44 405.80 562.04 388.18M169.15 230.42L163.02 208.21L735.12 208.21L775.71 157.66Q775.71 157.66 783.37 163.40Q791.03 169.15 802.13 178.34Q813.24 187.53 826.26 198.25Q839.28 208.97 850 218.16Q847.70 230.42 829.32 230.42L169.15 230.42M480.09 842.34L480.09 356.78L495.40 336.87L554.38 359.08Q552.08 364.44 546.33 367.89Q540.59 371.33 530.63 372.87L530.63 827.02Q529.87 829.32 523.74 832.77Q517.61 836.21 508.42 839.28Q499.23 842.34 489.28 842.34L480.09 842.34M534.46 215.10L607.22 215.10Q562.04 297.05 493.11 372.10Q424.18 447.16 338.02 510.34Q251.86 573.52 156.89 619.47L150 608.75Q211.27 571.99 269.09 526.42Q326.91 480.85 378.23 429.16Q429.54 377.46 469.37 323.09Q509.19 268.71 534.46 215.10", "KA": "M785.97 150.96L844.70 188.51Q839.89 199.11 836.52 210.66Q833.15 222.21 830.26 236.66Q822.56 275.17 810.04 320.91Q797.52 366.64 779.71 415.27Q761.90 463.89 738.31 509.63Q714.72 555.36 686.80 591.95Q642.50 647.80 588.58 696.42Q534.66 745.05 465.34 783.56Q396.01 822.08 307.43 850L241.95 777.79Q336.31 753.71 405.16 719.53Q474 685.35 526 641.06Q577.99 596.77 617.47 545.74Q652.13 502.41 677.65 446.56Q703.16 390.72 720.01 334.39Q736.86 278.06 743.60 231.84Q730.12 231.84 692.57 231.84Q655.02 231.84 603.99 231.84Q552.96 231.84 497.59 231.84Q442.23 231.84 391.20 231.84Q340.17 231.84 302.61 231.84Q265.06 231.84 251.58 231.84Q222.70 231.84 198.62 232.81Q174.55 233.77 155.30 234.73L155.30 150Q168.78 150.96 185.14 152.89Q201.51 154.81 218.84 155.30Q236.18 155.78 251.58 155.78Q263.14 155.78 292.98 155.78Q322.83 155.78 363.76 155.78Q404.68 155.78 451.38 155.78Q498.07 155.78 543.81 155.78Q589.55 155.78 629.50 155.78Q669.46 155.78 697.39 155.78Q725.31 155.78 734.94 155.78Q745.53 155.78 759.01 155.30Q772.49 154.81 785.97 150.96", "gy": -175};</script>
+<script>
+(function(){
+ var NR=window.NR; if(!NR) return;
+ var wrap=document.querySelector('.nr-wrap'); if(!wrap) return;
+ var steps=[].slice.call(wrap.querySelectorAll('.nr-step'));
+ function lit(i){steps.forEach(function(s,j){s.classList.toggle('on',j===i);});}
+ var timers=[]; function clearT(){timers.forEach(clearTimeout);timers=[];}
+ var replay=wrap.querySelector('.nr-replay');
+ if(NR.mode==='hira'){
+   var L=[0,1,2,3].map(function(i){return wrap.querySelector('.L'+i);});
+   L[0].setAttribute('d',NR.L0);L[1].setAttribute('d',NR.L1);L[2].setAttribute('d',NR.L2);L[3].setAttribute('d',NR.L3);
+   function cross(a,b){L[a].style.transition='opacity .55s';L[b].style.transition='opacity .55s';L[a].style.opacity=0;L[b].style.opacity=1;}
+   function play(){clearT();
+     L.forEach(function(p,i){p.style.transition='none';p.style.opacity=i===0?1:0;});lit(0);
+     void wrap.getBoundingClientRect();
+     timers.push(setTimeout(function(){cross(0,1);lit(1);},1100));
+     timers.push(setTimeout(function(){cross(1,2);lit(2);},2300));
+     timers.push(setTimeout(function(){cross(2,3);lit(3);},3700));
+   }
+   replay.addEventListener('click',play); play();
+ } else {
+   var KF=wrap.querySelector('.KF'),KK=wrap.querySelector('.KK'),KA=wrap.querySelector('.KA'),KGG=wrap.querySelector('.KGG'),HL=wrap.querySelector('.HL');
+   KF.setAttribute('d',NR.KF);KA.setAttribute('d',NR.KA);
+   if(NR.mode==='part'&&KK){KK.setAttribute('d',NR.KF);}
+   function play(){clearT();
+     KF.style.transition='none';KF.style.opacity=1;
+     KA.style.transition='none';KA.style.opacity=0;
+     if(KK){KK.style.transition='none';KK.style.opacity=0;}
+     if(HL){HL.style.transition='none';HL.style.opacity=0;}
+     KGG.style.transformOrigin='500px 500px';KGG.style.transition='none';
+     KGG.style.transform=NR.mode==='part'?('translate(0px,'+(NR.gy||0)+'px) scale(.5)'):'scale(.82)';
+     lit(0); void wrap.getBoundingClientRect();
+     if(NR.mode==='part'){
+       timers.push(setTimeout(function(){HL.style.transition='opacity .4s';HL.style.opacity=.16;KF.style.transition='opacity .5s';KF.style.opacity=.14;KK.style.transition='opacity .3s';KK.style.opacity=1;lit(1);},1100));
+       timers.push(setTimeout(function(){HL.style.transition='opacity .4s';HL.style.opacity=0;KK.style.transition='opacity .5s';KK.style.opacity=0;KF.style.opacity=0;KA.style.transition='opacity .55s';KA.style.opacity=1;KGG.style.transition='transform .6s cubic-bezier(.2,.7,.2,1)';KGG.style.transform='translate(0,0) scale(1)';lit(2);},2500));
+     } else {
+       timers.push(setTimeout(function(){lit(1);},1100));
+       timers.push(setTimeout(function(){KF.style.transition='opacity .55s';KF.style.opacity=0;KA.style.transition='opacity .6s';KA.style.opacity=1;KGG.style.transition='transform .6s cubic-bezier(.2,.7,.2,1)';KGG.style.transform='scale(1)';lit(2);},2300));
+     }
+   }
+   replay.addEventListener('click',play); play();
+ }
+})();
+</script>
 </body>
 </html>

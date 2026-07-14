@@ -75,6 +75,20 @@
   .t-msg.win{color:#B8860B;}
   .trace-ctrl{display:flex;gap:10px;}
 </style>
+
+<style id="nari-css">
+.nr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:.6rem;}
+.nr-stage{position:relative;height:196px;display:flex;align-items:center;justify-content:center;background:#FCFBF8;border:1px dashed var(--border);border-radius:12px;overflow:hidden;}
+.nr-stage svg{position:absolute;width:186px;height:186px;display:block;}
+.nr-steps{display:flex;gap:5px;margin-top:12px;}
+.nr-step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--text-hint);padding:6px 2px;border-radius:8px;background:var(--bg);transition:.25s;line-height:1.25;}
+.nr-step small{display:block;font-weight:500;font-size:9.5px;margin-top:1px;opacity:.85;}
+.nr-step.on{color:#fff;background:var(--accent);}
+.nr-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:10px;}
+.nr-cap{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
+.nr-replay{background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:700;color:var(--text-muted);cursor:pointer;flex-shrink:0;}
+.nr-replay:active{transform:scale(.96);}
+</style>
 </head>
 <body>
 <div class="container">
@@ -91,6 +105,24 @@
     <button class="replay" type="button">↻ もう一度</button>
     <div class="reading"><div class="rom">ni</div><div class="ipa2">[ɲi]</div><span class="kaku">3画</span></div>
   </div>
+
+  <div class="label">成り立ち（なりたち）</div>
+  <div class="nr-wrap">
+    <div class="nr-stage nr-hira">
+      <svg viewBox="0 0 1000 1000"><path class="L0" fill="#1C1C1C"/></svg>
+      <svg viewBox="0 0 1000 1000"><path class="L1" fill="#1C1C1C" opacity="0"/></svg>
+      <svg viewBox="0 0 1000 1000"><path class="L2" fill="#1C1C1C" opacity="0"/></svg>
+      <svg viewBox="0 0 1000 1000"><path class="L3" fill="#1C1C1C" opacity="0"/></svg>
+    </div>
+    <div class="nr-steps">
+      <div class="nr-step" data-s="0">楷書<small>仁</small></div>
+      <div class="nr-step" data-s="1">行書<small>筆で</small></div>
+      <div class="nr-step" data-s="2">草書<small>くずす</small></div>
+      <div class="nr-step" data-s="3">ひらがな<small>に</small></div>
+    </div>
+    <div class="nr-foot"><span class="nr-cap">漢字「仁」をくずして生まれた字です</span><button class="nr-replay" type="button">↻ もう一度</button></div>
+  </div>
+
   <div class="label">発音</div>
   <div class="note">「ni」と発音します。</div>
 
@@ -244,5 +276,50 @@ function JLPTTrace(cfg){
     document.getElementById('treset').addEventListener('click',function(){pad.reset();});
   })();</script>
 </div>
+<script>window.NR={"mode": "hira", "L0": "M258.62 844.72L258.62 379.31L282 349.89L332.54 368.75Q331.03 374.03 325.38 377.80Q319.72 381.57 309.91 383.08L309.91 827.37Q309.91 829.63 303.50 833.78Q297.09 837.93 287.66 841.33Q278.23 844.72 268.43 844.72L258.62 844.72M329.53 155.28L410.24 181.68Q408.73 188.47 401.56 193Q394.40 197.52 381.57 196.77Q354.42 266.92 319.72 331.79Q285.02 396.66 245.04 451.35Q205.06 506.03 160.56 547.52L150 540.73Q183.94 493.97 217.51 432.11Q251.08 370.26 280.50 299.35Q309.91 228.45 329.53 155.28M393.64 329.53L386.85 304.63L708.19 304.63L745.91 256.36Q745.91 256.36 752.69 262.02Q759.48 267.67 770.42 277.10Q781.36 286.53 793.43 297.09Q805.50 307.65 815.30 317.46Q812.28 329.53 794.94 329.53L393.64 329.53M358.19 769.29L352.16 745.15L742.13 745.15L779.85 696.88Q779.85 696.88 787.02 702.53Q794.18 708.19 805.12 717.24Q816.06 726.29 828.13 736.85Q840.19 747.41 850 757.22Q847.74 769.29 829.63 769.29", "L1": "M446.55 225.20Q454.49 239.64 446.55 252.63Q438.61 265.62 429.23 275.72Q425.62 280.05 422.73 283.30Q419.84 286.55 417.68 290.16Q414.79 295.21 413.35 303.15Q411.90 311.09 408.30 316.86Q395.30 339.96 379.43 360.53Q363.55 381.10 356.33 399.86Q359.94 415.74 361.02 428.73Q362.10 441.72 354.16 456.16Q357.05 516.06 357.77 579.94Q358.50 643.81 356.33 705.16Q354.16 766.51 346.95 819.19Q323.85 822.08 312.30 809.09Q300.76 796.10 292.10 780.94Q289.21 775.89 286.32 770.84Q283.43 765.79 279.83 761.45Q284.88 754.96 287.76 745.94Q290.65 736.92 296.43 731.86Q301.48 683.51 304 642.73Q306.53 601.95 307.25 562.25Q307.97 522.56 305.81 479.25Q292.82 496.58 279.83 519.67Q266.83 542.77 252.40 565.14Q237.96 587.52 219.20 604.12Q211.98 610.61 201.52 617.83Q191.05 625.05 178.78 627.57Q166.51 630.10 152.80 622.88Q147.03 602.67 153.16 591.85Q159.30 581.02 167.96 572.36Q174.45 565.86 179.86 558.29Q185.28 550.71 186.72 539.88Q196.10 539.88 200.80 533.02Q205.49 526.17 209.10 518.95Q212.70 511.73 216.31 506.68Q219.92 501.63 227.14 502.35Q228.58 483.59 237.24 473.84Q245.90 464.10 253.12 456.88Q256.01 456.16 257.45 459.05Q258.90 461.93 260.34 461.93Q265.39 456.16 263.59 451.47Q261.78 446.78 258.90 445.33Q288.49 394.09 315.19 345.73Q341.90 297.38 364.27 238.92Q356.33 224.48 351.64 211.49Q346.95 198.50 339.73 182.62Q371.49 176.12 402.16 187.67Q432.83 199.22 446.55 225.20M850 690.72Q831.23 698.66 814.63 697.58Q798.03 696.50 779.99 692.89Q773.50 691.45 766.64 690Q759.78 688.56 752.57 687.84Q708.54 682.79 663.07 686.75Q617.60 690.72 572.13 696.50Q545.43 699.39 519.44 702.63Q493.46 705.88 468.20 706.60Q451.60 715.26 429.95 709.85Q408.30 704.44 390.61 688.92Q372.93 673.40 367.88 652.47Q417.68 644.53 477.94 638.76Q538.21 632.99 599.20 630.10Q660.18 627.21 711.43 628.65Q717.20 625.05 720.09 617.83Q722.97 610.61 730.91 609.89Q756.17 617.83 778.19 627.21Q800.20 636.59 818.60 651.03Q837.01 665.46 850 690.72M785.77 360.17Q766.28 363.05 738.13 367.75Q709.98 372.44 679.31 376.41Q648.63 380.38 622.65 381.10Q621.21 381.10 618.32 378.57Q615.43 376.05 613.27 376.05Q601.72 376.77 589.81 378.93Q577.90 381.10 566.36 383.26Q543.98 386.87 521.61 389.40Q499.23 391.92 478.30 387.23Q457.37 382.54 437.89 365.22Q437.89 360.17 435.72 357.64Q433.56 355.12 431.39 352.23Q428.50 350.06 426.70 346.82Q424.90 343.57 424.90 338.52Q471.81 331.30 517.64 328.77Q563.47 326.25 610.02 321.19Q656.57 316.14 704.93 303.15L707.10 295.21Q736.69 303.15 756.53 317.58Q776.38 332.02 785.77 360.17", "L2": "M479.82 150Q468.67 169.73 453.22 179.60Q437.78 189.46 420.63 196.32Q403.47 203.19 388.03 216.91Q347.71 252.08 318.97 311.70Q290.23 371.32 276.51 441.67Q262.78 512.01 266.22 581.50Q270.50 651.84 273.51 717.89Q276.51 783.95 288.52 850Q272.22 848.28 261.07 834.99Q249.92 821.69 241.34 806.25Q218.18 763.36 214.74 710.60Q211.31 657.84 208.74 590.07Q206.17 517.16 211.74 452.82Q217.32 388.48 241.34 327.57Q248.20 308.70 257.21 288.97Q266.22 269.24 277.37 252.94Q309.97 209.19 358.43 182.60Q406.90 156 479.82 150M756.04 445.96Q730.31 470.83 692.99 472.98Q655.68 475.12 619.65 473.41Q603.35 472.55 587.91 472.55Q572.47 472.55 559.60 474.26Q515.85 468.26 478.53 455.39Q441.22 442.52 412.91 421.08Q460.09 408.21 520.14 402.21Q580.19 396.20 640.66 400.49Q701.14 404.78 748.32 424.51Q748.32 430.51 750.90 434.38Q753.47 438.24 756.04 445.96M792.07 775.37Q791.22 782.23 780.92 773.65Q778.35 771.94 775.35 769.79Q772.34 767.65 769.77 767.65Q757.76 771.08 744.89 769.36Q732.02 767.65 720.01 765.07Q716.58 764.22 714.87 764.22Q714.01 755.64 717.44 750.49Q711.44 751.35 711.44 754.35Q711.44 757.35 708.86 759.07Q646.24 735.91 601.20 695.59Q556.17 655.27 515.85 609.80Q540.72 600.37 566.03 606.37Q591.34 612.38 615.36 625.25Q639.38 638.11 660.82 651.84Q665.97 655.27 671.12 658.70Q676.26 662.13 681.41 664.71Q713.15 683.58 739.74 705.02Q766.34 726.47 786.93 745.34Q785.21 753.06 786.50 758.21Q787.78 763.36 789.50 768.50Q791.22 772.79 792.07 775.37", "L3": "M451.01 295.65L451.01 225.03Q487.20 230.33 535.31 233.42Q583.42 236.51 635.06 236.07Q686.70 235.62 733.92 232.53Q781.15 229.45 813.81 224.15L813.81 295.65Q778.50 299.18 731.27 301.39Q684.05 303.59 633.29 303.59Q582.53 303.59 534.87 301.39Q487.20 299.18 451.01 295.65M421.88 578.12L485.44 584.30Q479.26 608.13 475.73 627.55Q472.19 646.97 472.19 665.51Q472.19 680.52 478.81 695.08Q485.44 709.65 501.77 720.68Q518.10 731.72 547.23 738.34Q576.36 744.96 621.37 744.96Q681.40 744.96 734.36 739.22Q787.33 733.48 840.29 722.01L842.06 796.15Q800.57 804.98 745.40 809.84Q690.23 814.69 621.37 814.69Q510.15 814.69 458.51 779.38Q406.87 744.07 406.87 682.28Q406.87 660.21 410.84 635.06Q414.82 609.90 421.88 578.12M203.85 150L282.41 157.06Q280.64 164.12 277.55 175.16Q274.46 186.19 271.37 197.23Q268.28 208.26 266.52 216.20Q262.11 240.92 255.93 273.14Q249.75 305.36 244.01 341.99Q238.27 378.63 233.42 416.14Q228.56 453.66 225.47 488.97Q222.38 524.27 222.38 554.29Q222.38 586.95 224.59 616.08Q226.80 645.21 230.33 677.87Q238.27 657.57 247.10 634.62Q255.93 611.66 265.20 589.16Q274.46 566.65 281.53 548.99L318.60 577.24Q307.12 609.02 293.88 646.97Q280.64 684.93 270.49 719.80Q260.34 754.67 255.93 774.97Q254.16 784.68 252.40 796.15Q250.63 807.63 251.51 814.69Q252.40 821.75 252.84 830.14Q253.28 838.52 254.16 845.59L190.61 850Q177.36 803.22 167.65 729.51Q157.94 655.80 157.94 566.65Q157.94 518.10 162.36 467.34Q166.77 416.58 173.83 368.47Q180.90 320.37 187.52 280.20Q194.14 240.04 197.67 212.67Q200.32 196.78 202.08 180.45Q203.85 164.12 203.85 150"};</script>
+<script>
+(function(){
+ var NR=window.NR; if(!NR) return;
+ var wrap=document.querySelector('.nr-wrap'); if(!wrap) return;
+ var steps=[].slice.call(wrap.querySelectorAll('.nr-step'));
+ function lit(i){steps.forEach(function(s,j){s.classList.toggle('on',j===i);});}
+ var timers=[]; function clearT(){timers.forEach(clearTimeout);timers=[];}
+ var replay=wrap.querySelector('.nr-replay');
+ if(NR.mode==='hira'){
+   var L=[0,1,2,3].map(function(i){return wrap.querySelector('.L'+i);});
+   L[0].setAttribute('d',NR.L0);L[1].setAttribute('d',NR.L1);L[2].setAttribute('d',NR.L2);L[3].setAttribute('d',NR.L3);
+   function cross(a,b){L[a].style.transition='opacity .55s';L[b].style.transition='opacity .55s';L[a].style.opacity=0;L[b].style.opacity=1;}
+   function play(){clearT();
+     L.forEach(function(p,i){p.style.transition='none';p.style.opacity=i===0?1:0;});lit(0);
+     void wrap.getBoundingClientRect();
+     timers.push(setTimeout(function(){cross(0,1);lit(1);},1100));
+     timers.push(setTimeout(function(){cross(1,2);lit(2);},2300));
+     timers.push(setTimeout(function(){cross(2,3);lit(3);},3700));
+   }
+   replay.addEventListener('click',play); play();
+ } else {
+   var KF=wrap.querySelector('.KF'),KK=wrap.querySelector('.KK'),KA=wrap.querySelector('.KA'),KGG=wrap.querySelector('.KGG'),HL=wrap.querySelector('.HL');
+   KF.setAttribute('d',NR.KF);KA.setAttribute('d',NR.KA);
+   if(NR.mode==='part'&&KK){KK.setAttribute('d',NR.KF);}
+   function play(){clearT();
+     KF.style.transition='none';KF.style.opacity=1;
+     KA.style.transition='none';KA.style.opacity=0;
+     if(KK){KK.style.transition='none';KK.style.opacity=0;}
+     if(HL){HL.style.transition='none';HL.style.opacity=0;}
+     KGG.style.transformOrigin='500px 500px';KGG.style.transition='none';
+     KGG.style.transform=NR.mode==='part'?('translate(0px,'+(NR.gy||0)+'px) scale(.5)'):'scale(.82)';
+     lit(0); void wrap.getBoundingClientRect();
+     if(NR.mode==='part'){
+       timers.push(setTimeout(function(){HL.style.transition='opacity .4s';HL.style.opacity=.16;KF.style.transition='opacity .5s';KF.style.opacity=.14;KK.style.transition='opacity .3s';KK.style.opacity=1;lit(1);},1100));
+       timers.push(setTimeout(function(){HL.style.transition='opacity .4s';HL.style.opacity=0;KK.style.transition='opacity .5s';KK.style.opacity=0;KF.style.opacity=0;KA.style.transition='opacity .55s';KA.style.opacity=1;KGG.style.transition='transform .6s cubic-bezier(.2,.7,.2,1)';KGG.style.transform='translate(0,0) scale(1)';lit(2);},2500));
+     } else {
+       timers.push(setTimeout(function(){lit(1);},1100));
+       timers.push(setTimeout(function(){KF.style.transition='opacity .55s';KF.style.opacity=0;KA.style.transition='opacity .6s';KA.style.opacity=1;KGG.style.transition='transform .6s cubic-bezier(.2,.7,.2,1)';KGG.style.transform='scale(1)';lit(2);},2300));
+     }
+   }
+   replay.addEventListener('click',play); play();
+ }
+})();
+</script>
 </body>
 </html>

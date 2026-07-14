@@ -79,7 +79,8 @@
 <style id="nari-css">
 .nr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:.6rem;}
 .nr-stage{position:relative;height:196px;display:flex;align-items:center;justify-content:center;background:#FCFBF8;border:1px dashed var(--border);border-radius:12px;overflow:hidden;}
-.nr-stage svg{position:absolute;width:186px;height:186px;display:block;}
+.nr-stage svg{width:190px;height:190px;display:block;}
+.nr-stage text{font-size:640px;text-anchor:middle;dominant-baseline:central;}
 .nr-steps{display:flex;gap:5px;margin-top:12px;}
 .nr-step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--text-hint);padding:6px 2px;border-radius:8px;background:var(--bg);transition:.25s;line-height:1.25;}
 .nr-step small{display:block;font-weight:500;font-size:9.5px;margin-top:1px;opacity:.85;}
@@ -105,16 +106,16 @@
     <button class="replay" type="button">↻ もう一度</button>
     <div class="reading"><div class="rom">chi</div><div class="ipa2">[tɕi]</div><span class="kaku">3画</span></div>
   </div>
-
+<style>@font-face{font-family:nrS;src:url(data:font/woff2;base64,d09GMgABAAAAAAM4ABEAAAAAEgAAAALdAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAAGZdkGyAcbAZgACwRCAqBYIFcATYCJAMICwgABCAFhB4HIAwHFyQYCBvSECiOlO4qhU3wQHZ+b3Ym+LA3+dYBCnQwOlcgq7uigjqhFJZwcT/mnQexBAD9//dO3/2/TYXxP+94ZJ0PmsgYmyaVrUFrIMbRHDyREk1wCgb4OBBqb7U1NtKjJMnMJOfc3evsbx2BIFR9AlCvUDzs6hkwQh0TQnctmTtd3YAv75vrmQaE7nfMDKhjgKZ9eAcQ+nTH/JnqBmyAGQANRTq5FFsy5yAPDyWaREs40rho/ouUvebvCGMzSotnfcDldaZf3fkBt2fW3FkzZpbHG78em06VOJ1sKUWERu9jNmpyNQgIFpdDMKmkIyJyEVYUgDIHAFRMjxHM5vwIKkJ3o0cgEbob/aQwOh6GUbMvf/os13SsbLepAazIrGvjlXwsDhNoW7UxQH8sFpOwiyrQMh85rBT1zuBe2rYzjZSzjc2gVol0QIAVnmujAIiQABmvyAQUCgHDaxi998w9iiIQi+ERAEgAzB10gRtASqeLyghrSE4s27k1/xFLRiQ/vYn9F6/eeSQ42DLaseboyZtxO4MjkyPSHbi64+uI5Jq2sP3JF2JvhI8lZ6T5ZvLFrH35wyKGz9Ve7okKye8M6f1MxfuQb02YtuInNsMDb6rxwOY8YZsc0fTNKuUHgHfLG5cP086gG5fkPdkAmNGsKWrV/1dgiesUy3urriaxZtx0dIv8hJrSB5pkYRyJUEHAGEywQGcM1ghnM5aMshsr2nzBJialdFUzDWIrhbgUkYkdHRu1lPGhdqrIpJ3bLE4emRTiN998szVQ0ehF4XIcSiXJuswyQwVFMOhY882SyXAecwV4ZdLPEJl0W2y+uRwGCPD5X28YD58FpnOYy045OjqVlNGHjUZ6DTZYr0YwsJrrc68ybOlhvTLFMso62DwBs8yUearFv8fiUpkWCrLpuspGZnCYxoO5Xh6LeZwsNW5tupxHUhUZV7Ez6oYwNlxQOxCRiK//Q98lXcMOwoTCXAMAAAA=) format("woff2");}@font-face{font-family:nrG;src:url(data:font/woff2;base64,d09GMgABAAAAAAQ0ABEAAAAACvQAAAPXAAIBBgAAAAAAAAAAAAAAAAAAAAAAAAAAGYNsG4ESHIEuBmAALBEICoVwhVYBNgIkAwwLDAAEIAWENgcgDAcXJBgMG6gJCI6E3ETrJSZX8SMenuy+/tyqnjdktDS+7QiOIKVMt+fdr+0jpsPOVPOXndhw6+bx6GIRXqeTAv9zOe36LVvW84kHXIGchuFZdNS935jP751Ga9Pa2CZc3IvWJOsFXGARRozppmKl5umhlCLCyghlsG/HvY8RQoMvwAcKPQtcgQQ4B439T10sgarFg49DRRqH7K3kwbngcKMkjSP2LldAdQcVkBR6mcWLGQmRT2/QZiiGqS2fix61eVH0IMpLFBbpOpTOUG1Wl/MMwou4XBm/7UmoJBSKCdNqw7Txr6qULnQOQYlTcqkzQ0DDOcBysliB5WRxACuZpQ4+iZiTjiFLoMlQ8t5JRZdmhBoh0GNkQp06qfyAKiSiIAyuMk8GClCAAhRShTCxw52bJ/+odR3oO2lxWabvCEyXwBhuJ3ZeVgOOh0D/EMQSKoMhZ5C2CUX+Nq5RRbosbQEsn1+OXWSxEEj1iZMX0uYusIWBZcwb/cF8THkJxSXRBxCQeqfv0UcDBNs0KPQBFArBmDfKciJ9OAcBGNn7NYMqUIcGYgAQJ7C4cuC6Onr3sN0fX365+OW+7L3BG6sPdDzw2WcT3o6+nX9OFueqYvM5vjgni9uw7enF+suFmfMefrjb9Ut1lwkjvS8MuNCcS9OvfgzZH6cffGnNCWCvxtmxrM3V/N09YUHt133vrmhONB0ffFrjUvrpvyvJPgarbz+Y9kBnpGVo5lxVX4Vxjx1z8Y6Jn/3tn+6mVUfv7VVC7a2vv3HN+r+vbW9cefTe/jEr24d+7uvzybnHEFsVV+FucDaddI2b9//SfS8ta442oo1rjTg9918ZYx1RUt10APX+tlDL4IyZk/rIjH3oiPO3jX//t79/6WpcccTWVtHf3vr6s+es/fnc9oblR2xvlQLtg2+0OuBmAIEUlXs/ufbz3c2G/2ty/gv+OGP6Dfo1nrCl/DJfm6EigaC4ZN9P5L9skc5ngsMo4AFwlmI+gSpL1UoTbl21bWpFUYs7WGlCP4+apMmrmmyJX01hXHRoqhwWrk0rRsQzhqBxQTISUgpCQ5mcAlkxMAoCceQsWzZPRxxgjRMhq0xD2rBcCeMSgEDOW5YDxXApPvOiVQgDcsEqlkEhpDIEYovDViyiIWwiIdgyDIojVSyBfCKghJy8ihgka0UJaZGMiISEgpCHjJ6Vg02YfqfdkLHWQCjl3t8Iwpk6EpcqTowiRM7cbiddw1WAFEUzA9SoYRmpCBUuy0DWoX2ojEoV5fQk5OcEazlr5fnGWfVKlBc+U1wpWhD/7Wt4tbYfI5zvECGOsa0AAAA=) format("woff2");}</style>
   <div class="label">成り立ち（なりたち）</div>
   <div class="nr-wrap">
     <div class="nr-stage nr-kata">
       <svg viewBox="0 0 1000 1000">
         <clipPath id="nrclip"><rect x="120" y="150" width="760" height="700"/></clipPath>
         <rect class="HL" x="120" y="150" width="760" height="700" rx="16" fill="var(--accent)" opacity="0"/>
-        <path class="KF" fill="#1C1C1C"/>
-        <path class="KK" fill="var(--accent)" clip-path="url(#nrclip)" opacity="0"/>
-        <g class="KGG"><path class="KA" fill="#1C1C1C" opacity="0"/></g>
+        <text class="KF" x="500" y="500" fill="#1C1C1C" style="font-family:nrS">千</text>
+        <text class="KK" x="500" y="500" fill="var(--accent)" clip-path="url(#nrclip)" style="font-family:nrS;opacity:0">千</text>
+        <g class="KGG"><text class="KA" x="500" y="500" fill="#1C1C1C" style="font-family:nrG;opacity:0">チ</text></g>
       </svg>
     </div>
     <div class="nr-steps">
@@ -278,7 +279,7 @@ function JLPTTrace(cfg){
     document.getElementById('treset').addEventListener('click',function(){pad.reset();});
   })();</script>
 </div>
-<script>window.NR={"mode": "whole", "KF": "M711.54 152.31L768.46 206.15Q763.85 210 753.85 210Q743.85 210 728.46 204.62Q678.46 215.38 616.92 225.77Q555.38 236.15 487.31 244.23Q419.23 252.31 348.08 258.08Q276.92 263.85 207.69 264.62L205.38 249.23Q271.54 243.85 343.08 233.46Q414.62 223.08 483.08 210Q551.54 196.92 610.77 181.92Q670 166.92 711.54 152.31M523.08 218.46L523.08 830.77Q523.08 832.31 517.69 836.92Q512.31 841.54 502.31 844.62Q492.31 847.69 479.23 847.69L470.77 847.69L470.77 227.69L523.08 218.46M734.62 451.54L775.38 400Q775.38 400 782.69 406.15Q790 412.31 801.92 421.54Q813.85 430.77 826.54 441.54Q839.23 452.31 850 462.31Q846.92 474.62 829.23 474.62L156.15 474.62L150 451.54", "KA": "M233.15 281.52L216.18 218.73Q248.42 219.58 298.06 219.15Q347.70 218.73 402 214.91Q456.30 211.09 501.27 206Q530.12 201.76 561.94 196.24Q593.76 190.73 623.88 183.94Q654 177.15 679.45 170.36Q704.91 163.58 720.18 156.79L765.15 215.33Q750.73 218.73 738.85 222.12Q726.97 225.52 717.64 228.06Q693.03 234 660.36 240.79Q627.70 247.58 591.64 253.94Q555.58 260.30 520.79 264.55Q474.12 271.33 421.94 274.73Q369.76 278.12 320.55 279.39Q271.33 280.67 233.15 281.52M330.73 843.21L263.70 796.55Q336.67 762.61 384.61 715.09Q432.55 667.58 456.30 601.39Q480.06 535.21 480.06 447.82Q480.06 447.82 480.06 423.64Q480.06 399.45 480.06 356.61Q480.06 313.76 480.06 255.21L548.79 245.88Q548.79 266.24 548.79 292.12Q548.79 318 548.79 345.58Q548.79 373.15 548.79 396.06Q548.79 418.97 548.79 432.97Q548.79 446.97 548.79 446.97Q548.79 536.91 527.15 609.45Q505.52 682 457.58 739.70Q409.64 797.39 330.73 843.21M150 491.09L150 420.67Q164.42 421.52 184.79 422.79Q205.15 424.06 224.67 424.06Q236.55 424.06 269.64 424.06Q302.73 424.06 349.82 424.06Q396.91 424.06 450.79 424.06Q504.67 424.06 558.55 424.06Q612.42 424.06 659.09 424.06Q705.76 424.06 738.85 424.06Q771.94 424.06 782.97 424.06Q792.30 424.06 804.61 423.64Q816.91 423.21 829.21 422.36Q841.52 421.52 850 420.67L850 491.09Q836.42 489.39 818.61 488.55Q800.79 487.70 784.67 487.70Q773.64 487.70 740.97 487.70Q708.30 487.70 661.21 487.70Q614.12 487.70 560.24 487.70Q506.36 487.70 452.06 487.70Q397.76 487.70 350.24 487.70Q302.73 487.70 270.06 487.70Q237.39 487.70 226.36 487.70Q206 487.70 186.06 488.55Q166.12 489.39 150 491.09"};</script>
+<script>window.NR={"mode":"whole","gy":0};</script>
 <script>
 (function(){
  var NR=window.NR; if(!NR) return;
@@ -289,7 +290,6 @@ function JLPTTrace(cfg){
  var replay=wrap.querySelector('.nr-replay');
  if(NR.mode==='hira'){
    var L=[0,1,2,3].map(function(i){return wrap.querySelector('.L'+i);});
-   L[0].setAttribute('d',NR.L0);L[1].setAttribute('d',NR.L1);L[2].setAttribute('d',NR.L2);L[3].setAttribute('d',NR.L3);
    function cross(a,b){L[a].style.transition='opacity .55s';L[b].style.transition='opacity .55s';L[a].style.opacity=0;L[b].style.opacity=1;}
    function play(){clearT();
      L.forEach(function(p,i){p.style.transition='none';p.style.opacity=i===0?1:0;});lit(0);
@@ -301,8 +301,6 @@ function JLPTTrace(cfg){
    replay.addEventListener('click',play); play();
  } else {
    var KF=wrap.querySelector('.KF'),KK=wrap.querySelector('.KK'),KA=wrap.querySelector('.KA'),KGG=wrap.querySelector('.KGG'),HL=wrap.querySelector('.HL');
-   KF.setAttribute('d',NR.KF);KA.setAttribute('d',NR.KA);
-   if(NR.mode==='part'&&KK){KK.setAttribute('d',NR.KF);}
    function play(){clearT();
      KF.style.transition='none';KF.style.opacity=1;
      KA.style.transition='none';KA.style.opacity=0;

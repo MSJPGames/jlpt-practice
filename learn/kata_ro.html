@@ -79,7 +79,8 @@
 <style id="nari-css">
 .nr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:.6rem;}
 .nr-stage{position:relative;height:196px;display:flex;align-items:center;justify-content:center;background:#FCFBF8;border:1px dashed var(--border);border-radius:12px;overflow:hidden;}
-.nr-stage svg{position:absolute;width:186px;height:186px;display:block;}
+.nr-stage svg{width:190px;height:190px;display:block;}
+.nr-stage text{font-size:640px;text-anchor:middle;dominant-baseline:central;}
 .nr-steps{display:flex;gap:5px;margin-top:12px;}
 .nr-step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--text-hint);padding:6px 2px;border-radius:8px;background:var(--bg);transition:.25s;line-height:1.25;}
 .nr-step small{display:block;font-weight:500;font-size:9.5px;margin-top:1px;opacity:.85;}
@@ -105,16 +106,16 @@
     <button class="replay" type="button">↻ もう一度</button>
     <div class="reading"><div class="rom">ro</div><div class="ipa2">[ɾo]</div><span class="kaku">3画</span></div>
   </div>
-
+<style>@font-face{font-family:nrS;src:url(data:font/woff2;base64,d09GMgABAAAAAANwABEAAAAAEtAAAAMXAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAAGZdkGyAcbAZgACwRCAqDMIJ0ATYCJAMICwgABCAFhB4HIAwHFyQYCBtqEQiOw7ixe+BkF6XMwQPZfb7ZmQO8J//7JyIES7NKqqRo4grUEk3ufkGiEQeSNP+X0/uNRafxvf/8QAPqBRpYdGtFbeql2Rhbs0jTojkwsCzXaAoGeBwI9TbVAmXQYbgIEZHYs13Dv3UEAnv1GqAeU9woKatpUYdYpQ+bM3W8ugJfftTUEeNApY8enDhGHQJk3IcfBJU+fnD6RHUF9sASAA1FoDAxrW+APN8eV97tiDTOWv5FynLL7whjNUrzZPmYYSOH2q/u9DHDR0yaOmnCxPF4499zZJKCBgqxEs0+cg1LQ0QXg6CD2flgi79AoiRnYY0CsCIAGBtWpoWlFFFCLZgIRZUgCyYCqaMIrA5hF0xi+vhJw8ZjTb5baWCNWLLTbCVvZzMWoK3VOoBqzBZ9mJMCmjBihzVZ5VdfTsEXtQlysrEa1CIRmEm5wX2mDAAREsCzFTpQKAS0rGEo3PFrCABR7C7tBIAEwBJwBNYDJwAABQBYYaUcHGwHe+HanXDsEqJ1vLb4wAFb22m2+a3bD7jfThprt//WrSjbfXfvttlRB+xtbr+DsKs5FbQpcJNfUjAVM+Q/pkHarnKw27DEtrIxr7Trc4bMWmVnW5HX+SWyPqa8wnu3e7VL/YMgpwCn0IBgyuZTwI8I+XuXg613x8hpyE0d99hJZjpfkHD+6+2rcf1TVvHNfqecb9ZSvgQ8n589Xy86xTbjnNwoIwBLNHeMWvT/MVzBbXSZhiAQojBgw21jGyYpYzVAgASiXaRZ2YAOZgUFJh1Qw5HVUNJmJ1QUeAst6EvctpZkZS1RhommMzNJki6ezjVLoSs03CRDRtBFGW266SbLkjhpZ4UTDFqJjh9mkgkSRYO625xuEl2zEaYaYyRdlQa6UrNNN9WgGmOMMtp0TUYYZYbxBk1llsDEJFm8CkmylatXr1x2Ak8UNaY+8dje0/rpLLe5R5tmjEkm0o+VRyfJw2ziTEaS2Lkw2wSDxhmBqSONMNuIKDktrkPP80iEM+MiZtOuCGPFGbUB4Yz4+t/+ZbpeJaauAkLEIlUBAA==) format("woff2");}@font-face{font-family:nrG;src:url(data:font/woff2;base64,d09GMgABAAAAAAQkABEAAAAACpwAAAPKAAIBBgAAAAAAAAAAAAAAAAAAAAAAAAAAGYNsG4ESHIEuBmAALBEICoUYhSoBNgIkAwwLDAAEIAWENgcgDAcXJBgMG3wJAC4O7DYfH4CFTehUogC2L9HgeV6v/18750yGj87TFfIk5s5koFywm+kexE6/+78yKqGCOiEU6HmfolSg8UJFloxHUxjLarC2Ir66EFH23dWa2nw2qECSRUnjAXVsZOS7OKALgiJ2yEWhykpWmE4Voa2RFTqVLt5UOF9zazhlg/BxrWnzjKBvvwZBiPERgPdpRq6V67dzznDE+9rzPDCZandzONJOMcM5Qk6tgyPvdBZ58ABMAAw0401R0/wopl4eY7CR1aD8GolSK2Uw4kuz0sArnmyR69qZSbheu1co9t32PIw1mc4cbxKbGrH885g+NEoQKtY7DhHmW8/cC1T4KnhCha+CA1T0VtAAX4i27lYnT0i3HwQDk+HCgBBCEGBkTFKIECHsb0wwMI1xeqNWVjAdpsN0mE6dTjTcPaAkqP6mNc3Qx5m3GXp78TxjOfvgMK8IMVwN4XqyikTAPC2oOBj3EbT6vDMEwDhm7AbW+T+Wg9itACNqAAzNwJK1dBOL5y/4RdXqC31ELEAAjAnGl8Biwur3iaGxgEYj0PT7vifxwVAEAEl8+wYAEAAgAoRAbJCFPPwGFtbqVdpahx6OHge56PE3Kq/coGT1J29eJVK+fVvK5QzpXx7mXb9dFptUu+gvGa2N+Kyr0W+WDC6XFWJQsq7lPqBtF5H7xrOPPjwjtnhfOrV3YXQghwsNiczb7hzeOicUrQjEAjtN3X9YcOG+jLvdZrLm46b3LQz3m0R42DolN7VfaO4dNGfbP80G11wYtTG7kQcPXyzptz7Tnl4XHfTNYszBsdUJr2VFJKqnRvVOPSU2NDRvV8LZ0sSfmrYT3z0vHLMmBgPbAxGtYpFVbjGxMjKwOvvvumXroPhhAAQwxFy264PbB8z/LaTU94Bv33kX/Jc94az/l9pvPAZMDAAE9JH/v4Gkz3JixhkIgGQUJcz34NwvQICNGdbAbUH2UogOAzfgmi9McoNv0J/n+YrV3uVr7IbyA2RbeVeTup6hSlw1i61Js+nqFdnlJZYlEjwtXJYqaZ06tZqrEaEn28CZ97c1iPMUNKpWx9Ijo1OaZStXB1e7bq4Ey0qeok6WjRwFLkulbTxd2sW5KjXYyNPJY9nGUdTBstZmlu3SMoq2cqV0yXO0szVo0mS6eqvZ5lliuaU2mZfPpVZ16zH1Za9rH2eZb+cOUce4z7M1bHzpvL74HNRt0Iwa/Eyz2SJe4MhxpzsluXq5udCMM2umGVfXZNpeYgow52O76Tnx+fRJZCDy6/+xF9byV7SNHkAa8Iq3Kw==) format("woff2");}</style>
   <div class="label">成り立ち（なりたち）</div>
   <div class="nr-wrap">
     <div class="nr-stage nr-kata">
       <svg viewBox="0 0 1000 1000">
         <clipPath id="nrclip"><rect x="120" y="150" width="760" height="350"/></clipPath>
         <rect class="HL" x="120" y="150" width="760" height="350" rx="16" fill="var(--accent)" opacity="0"/>
-        <path class="KF" fill="#1C1C1C"/>
-        <path class="KK" fill="var(--accent)" clip-path="url(#nrclip)" opacity="0"/>
-        <g class="KGG"><path class="KA" fill="#1C1C1C" opacity="0"/></g>
+        <text class="KF" x="500" y="500" fill="#1C1C1C" style="font-family:nrS">呂</text>
+        <text class="KK" x="500" y="500" fill="var(--accent)" clip-path="url(#nrclip)" style="font-family:nrS;opacity:0">呂</text>
+        <g class="KGG"><text class="KA" x="500" y="500" fill="#1C1C1C" style="font-family:nrG;opacity:0">ロ</text></g>
       </svg>
     </div>
     <div class="nr-steps">
@@ -278,7 +279,7 @@ function JLPTTrace(cfg){
     document.getElementById('treset').addEventListener('click',function(){pad.reset();});
   })();</script>
 </div>
-<script>window.NR={"mode": "part", "KF": "M220.08 786.65L220.08 762.90L738.74 762.90L738.74 786.65L220.08 786.65M197.91 850L197.91 544.34L197.91 518.21L255.71 544.34L738.74 544.34L738.74 566.52L250.17 566.52L250.17 832.58Q250.17 834.95 243.44 839.31Q236.71 843.67 226.81 846.83Q216.91 850 206.62 850L197.91 850M715.78 841.29L715.78 544.34L707.86 544.34L737.16 511.09L802.09 560.97Q798.13 565.72 789.42 570.08Q780.71 574.43 768.04 576.81L768.04 823.87Q768.04 826.24 760.12 830.60Q752.21 834.95 742.31 838.12Q732.41 841.29 723.70 841.29L715.78 841.29M455.26 385.97L525.74 385.97Q513.07 414.48 497.23 446.15Q481.39 477.83 464.37 506.33Q447.34 534.84 430.71 554.64L411.71 554.64Q419.63 534.84 427.94 504.75Q436.26 474.66 443.38 442.99Q450.51 411.31 455.26 385.97M273.13 408.94L273.13 385.97L690.44 385.97L690.44 408.94L273.13 408.94M244.63 455.66L244.63 182.47L244.63 156.33L300.85 182.47L694.40 182.47L694.40 205.43L296.10 205.43L296.10 438.24Q296.10 440.61 289.76 444.97Q283.43 449.32 273.13 452.49Q262.84 455.66 252.55 455.66L244.63 455.66M669.85 446.95L669.85 182.47L661.93 182.47L691.23 150L755.37 199.10Q752.21 203.85 743.10 208.60Q733.99 213.35 722.12 215.72L722.12 430.32Q722.12 432.69 714.20 436.65Q706.28 440.61 696.38 443.78Q686.48 446.95 677.77 446.95", "KA": "M150.98 161.26Q180.35 162.24 200.91 162.73Q221.47 163.22 238.11 163.22Q249.86 163.22 281.19 163.22Q312.52 163.22 357.06 163.22Q401.61 163.22 452.52 163.22Q503.43 163.22 553.85 163.22Q604.27 163.22 648.32 163.22Q692.38 163.22 722.73 163.22Q753.08 163.22 763.85 163.22Q779.51 163.22 803.50 162.73Q827.48 162.24 850 161.26Q849.02 178.88 848.53 198.95Q848.04 219.02 848.04 237.62Q848.04 247.41 848.04 276.29Q848.04 305.17 848.04 346.29Q848.04 387.41 848.04 434.90Q848.04 482.38 848.04 529.37Q848.04 576.36 848.04 616.50Q848.04 656.64 848.04 684.55Q848.04 712.45 848.04 720.28Q848.04 731.05 848.04 749.65Q848.04 768.25 848.53 786.85Q849.02 805.45 849.51 819.65Q850 833.85 850 838.74L765.80 838.74Q765.80 832.87 766.29 814.76Q766.78 796.64 767.27 773.64Q767.76 750.63 767.76 730.07Q767.76 723.22 767.76 692.87Q767.76 662.52 767.76 617.97Q767.76 573.43 767.76 522.03Q767.76 470.63 767.76 421.19Q767.76 371.75 767.76 330.63Q767.76 289.51 767.76 265.03Q767.76 240.56 767.76 240.56L232.24 240.56Q232.24 240.56 232.24 264.55Q232.24 288.53 232.24 329.65Q232.24 370.77 232.24 420.21Q232.24 469.65 232.24 520.56Q232.24 571.47 232.24 616.01Q232.24 660.56 232.24 690.91Q232.24 721.26 232.24 730.07Q232.24 742.80 232.24 759.44Q232.24 776.08 232.73 792.24Q233.22 808.39 233.71 821.12Q234.20 833.85 234.20 838.74L150 838.74Q150 833.85 150.49 819.65Q150.98 805.45 151.47 786.85Q151.96 768.25 151.96 750.14Q151.96 732.03 151.96 719.30Q151.96 711.47 151.96 683.08Q151.96 654.69 151.96 613.57Q151.96 572.45 151.96 524.97Q151.96 477.48 151.96 430Q151.96 382.52 151.96 341.89Q151.96 301.26 151.96 273.36Q151.96 245.45 151.96 237.62Q151.96 220 151.96 199.44Q151.96 178.88 150.98 161.26M194.06 705.59L799.09 705.59L799.09 781.96L194.06 781.96", "gy": -175};</script>
+<script>window.NR={"mode":"part","gy":-175};</script>
 <script>
 (function(){
  var NR=window.NR; if(!NR) return;
@@ -289,7 +290,6 @@ function JLPTTrace(cfg){
  var replay=wrap.querySelector('.nr-replay');
  if(NR.mode==='hira'){
    var L=[0,1,2,3].map(function(i){return wrap.querySelector('.L'+i);});
-   L[0].setAttribute('d',NR.L0);L[1].setAttribute('d',NR.L1);L[2].setAttribute('d',NR.L2);L[3].setAttribute('d',NR.L3);
    function cross(a,b){L[a].style.transition='opacity .55s';L[b].style.transition='opacity .55s';L[a].style.opacity=0;L[b].style.opacity=1;}
    function play(){clearT();
      L.forEach(function(p,i){p.style.transition='none';p.style.opacity=i===0?1:0;});lit(0);
@@ -301,8 +301,6 @@ function JLPTTrace(cfg){
    replay.addEventListener('click',play); play();
  } else {
    var KF=wrap.querySelector('.KF'),KK=wrap.querySelector('.KK'),KA=wrap.querySelector('.KA'),KGG=wrap.querySelector('.KGG'),HL=wrap.querySelector('.HL');
-   KF.setAttribute('d',NR.KF);KA.setAttribute('d',NR.KA);
-   if(NR.mode==='part'&&KK){KK.setAttribute('d',NR.KF);}
    function play(){clearT();
      KF.style.transition='none';KF.style.opacity=1;
      KA.style.transition='none';KA.style.opacity=0;

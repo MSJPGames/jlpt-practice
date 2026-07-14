@@ -79,7 +79,8 @@
 <style id="nari-css">
 .nr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:.6rem;}
 .nr-stage{position:relative;height:196px;display:flex;align-items:center;justify-content:center;background:#FCFBF8;border:1px dashed var(--border);border-radius:12px;overflow:hidden;}
-.nr-stage svg{position:absolute;width:186px;height:186px;display:block;}
+.nr-stage svg{width:190px;height:190px;display:block;}
+.nr-stage text{font-size:640px;text-anchor:middle;dominant-baseline:central;}
 .nr-steps{display:flex;gap:5px;margin-top:12px;}
 .nr-step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--text-hint);padding:6px 2px;border-radius:8px;background:var(--bg);transition:.25s;line-height:1.25;}
 .nr-step small{display:block;font-weight:500;font-size:9.5px;margin-top:1px;opacity:.85;}
@@ -105,16 +106,16 @@
     <button class="replay" type="button">↻ もう一度</button>
     <div class="reading"><div class="rom">mi</div><div class="ipa2">[mi]</div><span class="kaku">3画</span></div>
   </div>
-
+<style>@font-face{font-family:nrS;src:url(data:font/woff2;base64,d09GMgABAAAAAAMgABEAAAAAEgAAAALHAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAAGZdkGyAcbAZgACwRCAqBYIFCATYCJAMICwgABCAFhB4HIAwHFyQYCBu4EAieBe7ehrCRIVybThoJuhvCCZ7n9/ff2vfsD6mJyYwQkzxymyy2N0muUAKzcBfmtmNaSUdF0++4R0ImlESEqHZ78/BTEluBY6AB1gyIte3+/3un71KD0vifdzyyTqCBRX/sitrUiZaNNSmLNOxEcxCFFuEUDPBzIJRtSyXITw/FRTskRPbYfqO/dQTBU78A9A3lbllFY8A7KQq9b/645jnoyw/NsitS6MM92wXvJKGxD0+SQh/vOW95DjoCZwAslGgGto5dgLneE3+q9sbYV5z/Ykyl83fE3oVawXxG+qaU/dU9Lxh2d9xttuPxxr9nyiOgQ+n0JJAFruFsq8gaCA3mcsGdSCjkSM4AEQqAJgEAIyoMCGTTEaoFD+noI0gLHpLpUiRXbuEmbGLq+BS9BhH5dvXgipw5s1jNkxzCCaw9VjNALWdKJ75kA5ZSYYQrGZWnXYbMFpu5ZtoWdFWiAQTC8II9BkB8ArJYiQUoikDDsG3nvPKzBRBkNXsBYABwtlACdQBSDnQYDzVzcf3EmatBx6ZvuE/zVdA73KtlOZzfzTtBVoA/qRf+Oi3UZ9/xeEPBdX+8woaW/7fiSP/kC0MW9wMsvOSxFndyd9RQlzLvm6sxnwAflnKX/KoLEvDM/fIHcMYKR+nq/zcQIiGkGUNQkgBEPysrYYjDHSHwQhdacRF1A5oBMyykm2ALb3ZhQ6MvVor8sBOdSc51Jid7iEeXnMLHwyvMOaJ9AjSyvP8OhaVhMXd2thfj5nYzfhcSJWeGtJ0NNyu0bvNsR6OPdbQwpVHToVF0d3ZEaliYmTvrYc1crJGOfFw8PPycKrziytrayuIJQqd7/d7Dya2t1ksj1lF4spOFnS1NWes8yUpj0lWQl7P5cRukFZaTp1h37C5raF+bnufgoszZkWmeQ+zty7of8QX5+p+PaXmnd40DiAQiYwA=) format("woff2");}@font-face{font-family:nrG;src:url(data:font/woff2;base64,d09GMgABAAAAAAP8ABEAAAAACfQAAAOfAAIBBgAAAAAAAAAAAAAAAAAAAAAAAAAAGYNsG4ESHIEuBmAALBEICoNwg3IBNgIkAwwLDAAEIAWENgcgDAcXJBgMG8QICC4HbGM0Wk8NKrVS9h7h7hHSkmNdfg87F0ciGaGSw/O4pu8nuWJGoNobAjpCzcJOOFTTlWMhJ4EsCDPdjTVNy44lpUADVgSSwPYpD5QH1BNmV6Hr5Hj4/8u8b2atVVxdXIEVri0JdZA5AY5ojKMVE2p/6mZAv0eixVEC63yJZWmW0PTyIpp+6FyzTWg6wrUdLqI/Imii3wSRuKfvGpsco2fTWZ5jyOFoPEtWSIJwtUhkHW6sY0xV1dTWMrYaUxi2kghDqlhLWYQuwqEkCqcRCoduKhaMTwdKKeIhI5TBvh33YvA0CGG9AHimJH3cPH3Bxlgs88CGrdNtQBaLnegasFEcHYosTmLkwnYLHgCKEZKtMJoToo+3EqVHIZ3Okk7nvUFImmP0au5HVRrLGhkKccCOO9/bkzCVq9aHZFIKWeGJJzmxD4Ic1EJAs2HVc2AenbPCPDrngHnxnAF8EjnXV6INdSCJvBWPVH4gfISAdNBFQIBNFyahiCGMj/LI4AzO4AzOtGdKFZpxPRL6R61S0L1eoxMo+TTJNvRwR7ELNJ/xhcRG88kWPONCZ6A2ESb/jD8O1GM2DxhaH5aJk+gBqqxwOqOsY3z/CrejSu/UXirAFOECAahB9g0uDwg2sQwXGIag/CWaFtp1DAkAJZNfHAAHQABYcAXpsMR04Gs2Vrmd5zco4PoYA/+bG/h2cL96tFndjspH1fsD0DWjVcjCmpaLTEu9xBbKISV8HE70Ng3KW5g5u5NNnhtcffPaahIGOS77mZn96bCc+qaEyf6cVpuJTIxmmEBXso1sIk0yBrf9gV6ETlmFmb05XsSxweTN+oPQS17uZbazx8sXMfA1+YfoagACVHiSfobHulF/I1r/AT8nF+X1MnbFWfot7WX/4KEACEzx/0O/evKQFxMOpYAri17HegGOfFqGcFJei0qk5AfOsDOJTGcmJdaTSev3bzIqI9nk2I5mXY/iiMi3YsVVqVyFaiXASjnG1UHBJATl2xSJeM6VBdjnDyxV/9uBFcxxqEAx1z5DRIcmkRAJJIgC9WKuCBolchCUZwqLBWRkodQoFmFoisgVQoPeoGk6g+sD0cRsosCJUuXKVSvR70STDo/uvbroDAAhhAH70u79g9CiP0diWImyNSGKbnZH5RomBhVcqYqA9cN2j8hCjREVyVAf1kRDrZrFlas6J1viXEVHVFp1E9FJpHxKGuTr375a9x+s8w2IiGO/AAAA) format("woff2");}</style>
   <div class="label">成り立ち（なりたち）</div>
   <div class="nr-wrap">
     <div class="nr-stage nr-kata">
       <svg viewBox="0 0 1000 1000">
         <clipPath id="nrclip"><rect x="120" y="150" width="760" height="700"/></clipPath>
         <rect class="HL" x="120" y="150" width="760" height="700" rx="16" fill="var(--accent)" opacity="0"/>
-        <path class="KF" fill="#1C1C1C"/>
-        <path class="KK" fill="var(--accent)" clip-path="url(#nrclip)" opacity="0"/>
-        <g class="KGG"><path class="KA" fill="#1C1C1C" opacity="0"/></g>
+        <text class="KF" x="500" y="500" fill="#1C1C1C" style="font-family:nrS">三</text>
+        <text class="KK" x="500" y="500" fill="var(--accent)" clip-path="url(#nrclip)" style="font-family:nrS;opacity:0">三</text>
+        <g class="KGG"><text class="KA" x="500" y="500" fill="#1C1C1C" style="font-family:nrG;opacity:0">ミ</text></g>
       </svg>
     </div>
     <div class="nr-steps">
@@ -278,7 +279,7 @@ function JLPTTrace(cfg){
     document.getElementById('treset').addEventListener('click',function(){pad.reset();});
   })();</script>
 </div>
-<script>window.NR={"mode": "whole", "KF": "M695.95 255.34L735.98 204.75Q735.98 204.75 743.53 210.41Q751.08 216.07 762.78 225.51Q774.49 234.95 787.32 245.15Q800.16 255.34 810.73 265.16Q808.47 277.24 790.35 277.24L199.08 277.24L192.29 255.34L695.95 255.34M624.97 500.76L664.99 451.67Q664.99 451.67 672.55 457.34Q680.10 463 691.42 472.06Q702.75 481.12 715.21 491.32Q727.67 501.51 737.49 511.33Q736.73 523.41 717.85 523.41L253.45 523.41L247.41 500.76L624.97 500.76M729.94 772.60L772.98 719.74Q772.98 719.74 780.53 725.78Q788.08 731.82 800.16 741.26Q812.24 750.70 825.46 761.65Q838.67 772.60 850 783.17Q846.98 795.25 829.61 795.25L156.80 795.25L150 772.60", "KA": "M297.70 216.24L323.66 150Q358.57 154.48 406.01 162.53Q453.45 170.59 506.71 181.33Q559.97 192.07 613.24 204.60Q666.50 217.14 713.04 229.67Q759.59 242.20 793.61 253.84L764.96 322.76Q731.84 311.13 686.19 298.15Q640.54 285.17 589.07 272.63Q537.60 260.10 484.34 248.91Q431.07 237.72 383.18 229.22Q335.29 220.72 297.70 216.24M256.52 453.45L283.38 386.32Q329.03 394.37 389 406.01Q448.98 417.65 512.98 432.42Q576.98 447.19 635.17 462.85Q693.35 478.52 734.53 493.73L705.88 562.66Q667.39 547.44 610.55 531.33Q553.71 515.22 490.15 500Q426.60 484.78 365.28 472.70Q303.96 460.61 256.52 453.45M206.39 714.83L234.14 646.80Q279.80 653.96 335.74 665.15Q391.69 676.34 451.66 690.22Q511.64 704.09 569.82 719.31Q628.01 734.53 679.03 750.19Q730.05 765.86 766.75 781.07L736.32 850Q700.51 834.78 649.49 818.22Q598.47 801.66 539.83 786Q481.20 770.33 420.78 756.91Q360.36 743.48 305.31 732.74Q250.26 721.99 206.39 714.83"};</script>
+<script>window.NR={"mode":"whole","gy":0};</script>
 <script>
 (function(){
  var NR=window.NR; if(!NR) return;
@@ -289,7 +290,6 @@ function JLPTTrace(cfg){
  var replay=wrap.querySelector('.nr-replay');
  if(NR.mode==='hira'){
    var L=[0,1,2,3].map(function(i){return wrap.querySelector('.L'+i);});
-   L[0].setAttribute('d',NR.L0);L[1].setAttribute('d',NR.L1);L[2].setAttribute('d',NR.L2);L[3].setAttribute('d',NR.L3);
    function cross(a,b){L[a].style.transition='opacity .55s';L[b].style.transition='opacity .55s';L[a].style.opacity=0;L[b].style.opacity=1;}
    function play(){clearT();
      L.forEach(function(p,i){p.style.transition='none';p.style.opacity=i===0?1:0;});lit(0);
@@ -301,8 +301,6 @@ function JLPTTrace(cfg){
    replay.addEventListener('click',play); play();
  } else {
    var KF=wrap.querySelector('.KF'),KK=wrap.querySelector('.KK'),KA=wrap.querySelector('.KA'),KGG=wrap.querySelector('.KGG'),HL=wrap.querySelector('.HL');
-   KF.setAttribute('d',NR.KF);KA.setAttribute('d',NR.KA);
-   if(NR.mode==='part'&&KK){KK.setAttribute('d',NR.KF);}
    function play(){clearT();
      KF.style.transition='none';KF.style.opacity=1;
      KA.style.transition='none';KA.style.opacity=0;

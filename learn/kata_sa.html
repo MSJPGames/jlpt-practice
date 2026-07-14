@@ -79,7 +79,8 @@
 <style id="nari-css">
 .nr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:.6rem;}
 .nr-stage{position:relative;height:196px;display:flex;align-items:center;justify-content:center;background:#FCFBF8;border:1px dashed var(--border);border-radius:12px;overflow:hidden;}
-.nr-stage svg{position:absolute;width:186px;height:186px;display:block;}
+.nr-stage svg{width:190px;height:190px;display:block;}
+.nr-stage text{font-size:640px;text-anchor:middle;dominant-baseline:central;}
 .nr-steps{display:flex;gap:5px;margin-top:12px;}
 .nr-step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--text-hint);padding:6px 2px;border-radius:8px;background:var(--bg);transition:.25s;line-height:1.25;}
 .nr-step small{display:block;font-weight:500;font-size:9.5px;margin-top:1px;opacity:.85;}
@@ -105,16 +106,16 @@
     <button class="replay" type="button">↻ もう一度</button>
     <div class="reading"><div class="rom">sa</div><div class="ipa2">[sa]</div><span class="kaku">3画</span></div>
   </div>
-
+<style>@font-face{font-family:nrS;src:url(data:font/woff2;base64,d09GMgABAAAAAAQAABEAAAAAFDgAAAOlAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAAGZdkGyAcbAZgACwRCAqGGIUgATYCJAMICwgABCAFhB4HIAwHFyQYCBuWEiiOw8YxjSRJniznePgaa+/v7pnki8UxSSqh31ApmRJoGc8MfX349/TPbW6djszkrJPYZYCeqT8YX5r/y+l9alBhvDWyXqCBRWNsWsvbOJZmkW7bg9uMCY4tGOBxIJRhbzolcAQdDtvGEBGRnqAj/FkXCLa8ByjvoC7Gxqfm0o0NpgsDnc30MHz4us6aJoDp9ZrWBroRoKY3rwGY3qzpbqWHYQpIAAllxZ5ri1uDvDxLj0lLC0zdI/kDJidIfoPUyaDJCOMbhNoq8a3b3VBd09bZ1tJ63d/49ejxfDFWbHFcsLZTkFT2jwaCAP3R0GXBCqnIYZChgFIK5qvw8XJJJI4VFA1eA74CocFrwGeygOchHLlxwU9tQjNkwuV0ADJIwu+dab5FZkMM6UVUCFhieJxAHb5AYgRotIVNtzISEHkt9LZM+//JQFkTK0CAFdzjVQEQYxPQR3GgoAhcX/7/D0m1dCUIICabo9UGZEATTCAKEPsAKAAGVC2pQiGnlJqrWFY5CxvKmz/fXqQouYH19apUMWO2HDGcr2Bzz7A8kqcQjd6sULpUYAnzrcLLJjLY1lx+2HfhUqOFGx3JmA1MoZy2iFTcosgzWH/Y5DYuv0B5E5trdEdSHMSZQftMucoYk2bLlpATz3FABRNXIpNfJyZhe4Iq5XIVMQq3PTiiGxM8bngZ3TCYPH8BFoR9jjB6H51jnWzFPhOfNlGY/bazsqsQ/0VW2VnaEVP5j9RA3+AzDWYHErq1B3r7PnTpIOtvt0RZL38UaDAh+9PM462hLtHSXiFh6HLMD+3Jt5xT2S7f62U75s1qDFheFDY8L3Or+5l1cY3GJhawfBZexaS//RO4xGU7O+bhe1i+Xj7mZZyAvMJPOm1yYWDdNrsK7dBfMoZ5C/A9HDI89NoO27qXucHEAZpE1rCy/vcc8q8GybwACBbHHl/Nli0+GwtVnsDdWooxSJEDjmFBJHiFRBEtk4mMfAuJVKSPRLHycB9XIjimwpnABUeN5y2ABy2r5osTpVqbKjU4zup169YumFdH97F40ihZB7WgTQsvLiBd3C1WwclRo1ODWpxkmThx+nXrpJGqQZ3/7rLVqNOjmUYnNU88ng8PibyFSJAhQ4IQEBKH4lMuD0xpslxck+Zbi+vSoE0rLqu0PkYqqMS9DfLmi9gQLTSa1GBgrRr9apwk/m7pepyWwYzqAai1eyP/J+ymM0DGIP//2HfJvBvXfBIQYigkbgAAAA==) format("woff2");}@font-face{font-family:nrG;src:url(data:font/woff2;base64,d09GMgABAAAAAAQEABEAAAAACqQAAAOpAAIBBgAAAAAAAAAAAAAAAAAAAAAAAAAAGYNsG4ESHIEuBmAALBEICoUghDIBNgIkAwwLDAAEIAWENgcgDAcXJBgMGwQJKB6FccNd4kqJiAv19pcwR6jkBJGurFqj1QFBZAJ6ZsoYQgKK/J9ahzaXIKaHvVQ0xcTTNK0nFRuRYTMZO61MsLPSkZK8wf64VzU/LwMH5nxiABdQNBj8FhvrZQ76F42OMUGyCRfnQmuSFji1Yslal4p6rc2h0B2Bw38ij0iIHBK0NczF4NMIod5n4D257hWL6/vogSQOOC0eRjm1hxzPQyQO3U8E0APtCIWUxJH7JQXKHaAAmdygfoZYEBPp8nqtWmKc/PLJ6JafVkUrXF4qt0rNYczrzouaDHi4jMuIKL/bg6iyIdwuvXzjVMReVZQWP5dAnFpIrQXWFW0Dil0RBcWuSICSriiALyLh5GNpGJUAxe+dKXQqRagWAt2QxmrVGilfURUyIieMbhLVAgIECBA2oWeW4kzZlf7TGkENJ1/LHRqOlCyMOqTtxGOSalIGmMNj4AiK0ZA6kO0T8vR1XKtCdnm2K2R98+HYmyNWQlldxji5rKUrZrfQ9JRn/MV0bHkp+aUxDAnIhrJvMayI9fvUyw1DcrlgyjNlWUu9vwEGjM77NYEKqEU9fiDaRRzJqfbWuiOSuPkEvB13/lsTcd7dnXU33mn/88tn5951m9rz7rgn0nl39+74/NAzdU1XPNfl5bXaxsuffrD2tsy5yt3yo5b+I8T7bx3YfdviU8T5wcCyyRVtB00tv+q55rCtXeNFuxcLBn1rRbN7RV1nR+Gulb7OelHbWfPzkp+ebL9lZOu9B+e2jLx2XPtj4Y039uu+acEJodPd/iUTS1v2n1x6Dpcf/G///KJdq9b377FcNLOX1XW0F+yS+trrWU1HzXdTPrLjguGf2f5YPHRhx7kfVug8DAJZFO8sKp7Zp2nB/9Up/QG/nTn/xubbeNjy8qN0e6pFIQNBfum2f9IflttMtwuG0ccDad+uijEq5shPA9i2KrvLF3kN7iQQhFFfgkyjVwXJGr+C3LRoF1QcHqt2LUyIx43B6ICDjR1hBjrSJWCGh+TGAY1fUlLUKKtDhrKgg3+bBSNFWOlMQEZAkh/YxSVwcWmcB1gkCUlgExXBAdUeKSWO4VQWm6QkCeyhhASwahvY5xcg7OJ8UsKoOAcLGxvCbJnDmBnzZm0Zm2iGDhb0MadWl/cD2g93xMSAXbKBjt0/2c6GME2wRy3sjsNZMoIK4aVJXlwWn4auijfINT8b5zb+fKapvDfNpuejvOjx/CrRDP+3rf7Nan+w1XQ3Is7B4gA=) format("woff2");}</style>
   <div class="label">成り立ち（なりたち）</div>
   <div class="nr-wrap">
     <div class="nr-stage nr-kata">
       <svg viewBox="0 0 1000 1000">
         <clipPath id="nrclip"><rect x="120" y="150" width="390" height="700"/></clipPath>
         <rect class="HL" x="120" y="150" width="390" height="700" rx="16" fill="var(--accent)" opacity="0"/>
-        <path class="KF" fill="#1C1C1C"/>
-        <path class="KK" fill="var(--accent)" clip-path="url(#nrclip)" opacity="0"/>
-        <g class="KGG"><path class="KA" fill="#1C1C1C" opacity="0"/></g>
+        <text class="KF" x="500" y="500" fill="#1C1C1C" style="font-family:nrS">散</text>
+        <text class="KK" x="500" y="500" fill="var(--accent)" clip-path="url(#nrclip)" style="font-family:nrS;opacity:0">散</text>
+        <g class="KGG"><text class="KA" x="500" y="500" fill="#1C1C1C" style="font-family:nrG;opacity:0">サ</text></g>
       </svg>
     </div>
     <div class="nr-steps">
@@ -278,7 +279,7 @@ function JLPTTrace(cfg){
     document.getElementById('treset').addEventListener('click',function(){pad.reset();});
   })();</script>
 </div>
-<script>window.NR={"mode": "part", "KF": "M243.93 393.02L243.93 158.95L312.51 165.65Q311.77 173.11 306.92 177.96Q302.08 182.80 289.40 184.29L289.40 393.02L243.93 393.02M376.62 393.02L376.62 158.95L448.94 166.40Q448.19 173.86 441.85 179.07Q435.52 184.29 422.84 185.78L422.84 393.02L376.62 393.02M165.65 278.22L159.69 256.60L443.72 256.60L473.54 217.09Q473.54 217.09 482.85 225.29Q492.17 233.49 505.22 244.68Q518.26 255.86 527.96 266.29Q525.72 278.22 509.32 278.22L165.65 278.22M155.22 401.97L150 380.35L451.17 380.35L482.48 340.10Q482.48 340.10 492.17 348.30Q501.86 356.50 515.28 367.68Q528.70 378.86 539.88 390.04Q536.90 401.97 520.50 401.97L155.22 401.97M205.17 839.56L205.17 464.59L205.17 441.48L261.08 464.59L252.13 464.59L252.13 823.16Q252.13 826.89 241.32 833.23Q230.51 839.56 212.62 839.56L205.17 839.56M225.29 486.95L225.29 464.59L442.23 464.59L442.23 486.95L225.29 486.95M225.29 580.14L225.29 557.77L442.23 557.77L442.23 580.14L225.29 580.14M225.29 674.81L225.29 653.19L442.23 653.19L442.23 674.81L225.29 674.81M417.63 756.82L417.63 464.59L410.92 464.59L434.77 437.75L492.17 480.24Q489.19 483.97 481.74 488.07Q474.28 492.17 464.59 493.66L464.59 762.78Q464.59 782.16 460.12 796.33Q455.64 810.49 441.85 819.44Q428.06 828.38 398.24 832.11Q397.50 820.18 394.52 810.49Q391.53 800.80 385.57 795.58Q379.61 789.62 368.05 785.14Q356.50 780.67 338.60 777.69L338.60 765.76Q338.60 765.76 346.81 766.51Q355.01 767.25 366.93 768.37Q378.86 769.49 389.30 769.86Q399.73 770.23 404.21 770.23Q412.41 770.23 415.02 766.88Q417.63 763.53 417.63 756.82M571.94 353.51L583.12 332.64Q598.78 432.53 629.71 521.25Q660.65 609.96 713.95 680.40Q767.25 750.85 850 796.33L847.76 803.78Q832.11 806.02 819.81 814.96Q807.51 823.91 801.54 841.05Q727 787.38 680.78 712.46Q634.56 637.54 609.21 546.59Q583.87 455.64 571.94 353.51M731.47 322.95L788.13 322.95Q778.43 409.42 758.68 485.84Q738.92 562.25 703.89 627.10Q668.85 691.96 613.68 745.63Q558.52 799.31 478.75 841.05L471.30 831.36Q538.39 785.14 584.98 729.98Q631.58 674.81 661.77 611.08Q691.96 547.34 708.73 475.03Q725.51 402.72 731.47 322.95M603.25 159.69L683.01 177.58Q681.52 184.29 674.81 189.14Q668.10 193.98 655.43 194.73Q633.07 291.64 595.79 377.37Q558.52 463.10 507.83 521.99L496.65 515.28Q520.50 469.81 541.75 412.41Q562.99 355.01 578.65 290.52Q594.30 226.04 603.25 159.69M584.61 344.57L584.61 322.95L748.62 322.95L783.65 278.97Q783.65 278.97 790.36 284.19Q797.07 289.40 807.14 297.23Q817.20 305.06 828.01 314.38Q838.82 323.70 847.76 332.64Q845.53 344.57 828.38 344.57", "KA": "M684.62 229.82L684.62 423.86Q684.62 505.73 674.39 568.77Q664.15 631.81 637.95 680.94Q611.75 730.06 566.32 768.13Q520.88 806.20 450.47 837.31L395.61 785.73Q452.11 763.63 493.86 737.43Q535.61 711.23 563.45 671.93Q591.29 632.63 605.20 573.68Q619.12 514.74 619.12 428.77L619.12 229.82Q619.12 205.26 617.49 186.84Q615.85 168.42 615.03 162.69L688.71 162.69Q687.89 168.42 686.26 186.84Q684.62 205.26 684.62 229.82M317.02 167.60L389.88 167.60Q389.06 173.33 387.43 189.71Q385.79 206.08 385.79 227.37L385.79 527.02Q385.79 541.75 386.61 557.72Q387.43 573.68 388.25 585.56Q389.06 597.43 389.06 601.52L317.02 601.52Q317.02 597.43 317.84 585.96Q318.65 574.50 319.47 558.54Q320.29 542.57 320.29 527.02L320.29 227.37Q320.29 213.45 319.47 197.49Q318.65 181.52 317.02 167.60M150 397.66L150 326.43Q154.09 327.25 166.78 328.48Q179.47 329.71 197.49 330.94Q215.50 332.16 231.87 332.16L774.68 332.16Q801.70 332.16 821.35 330.53Q840.99 328.89 850 328.07L850 397.66Q842.63 396.84 822.16 396.02Q801.70 395.20 774.68 395.20L231.87 395.20Q214.68 395.20 197.49 395.61Q180.29 396.02 167.60 396.84Q154.91 397.66 150 397.66", "gy": 0};</script>
+<script>window.NR={"mode":"part","gy":0};</script>
 <script>
 (function(){
  var NR=window.NR; if(!NR) return;
@@ -289,7 +290,6 @@ function JLPTTrace(cfg){
  var replay=wrap.querySelector('.nr-replay');
  if(NR.mode==='hira'){
    var L=[0,1,2,3].map(function(i){return wrap.querySelector('.L'+i);});
-   L[0].setAttribute('d',NR.L0);L[1].setAttribute('d',NR.L1);L[2].setAttribute('d',NR.L2);L[3].setAttribute('d',NR.L3);
    function cross(a,b){L[a].style.transition='opacity .55s';L[b].style.transition='opacity .55s';L[a].style.opacity=0;L[b].style.opacity=1;}
    function play(){clearT();
      L.forEach(function(p,i){p.style.transition='none';p.style.opacity=i===0?1:0;});lit(0);
@@ -301,8 +301,6 @@ function JLPTTrace(cfg){
    replay.addEventListener('click',play); play();
  } else {
    var KF=wrap.querySelector('.KF'),KK=wrap.querySelector('.KK'),KA=wrap.querySelector('.KA'),KGG=wrap.querySelector('.KGG'),HL=wrap.querySelector('.HL');
-   KF.setAttribute('d',NR.KF);KA.setAttribute('d',NR.KA);
-   if(NR.mode==='part'&&KK){KK.setAttribute('d',NR.KF);}
    function play(){clearT();
      KF.style.transition='none';KF.style.opacity=1;
      KA.style.transition='none';KA.style.opacity=0;

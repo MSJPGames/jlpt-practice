@@ -79,7 +79,8 @@
 <style id="nari-css">
 .nr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:.6rem;}
 .nr-stage{position:relative;height:196px;display:flex;align-items:center;justify-content:center;background:#FCFBF8;border:1px dashed var(--border);border-radius:12px;overflow:hidden;}
-.nr-stage svg{position:absolute;width:186px;height:186px;display:block;}
+.nr-stage svg{width:190px;height:190px;display:block;}
+.nr-stage text{font-size:640px;text-anchor:middle;dominant-baseline:central;}
 .nr-steps{display:flex;gap:5px;margin-top:12px;}
 .nr-step{flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--text-hint);padding:6px 2px;border-radius:8px;background:var(--bg);transition:.25s;line-height:1.25;}
 .nr-step small{display:block;font-weight:500;font-size:9.5px;margin-top:1px;opacity:.85;}
@@ -105,16 +106,16 @@
     <button class="replay" type="button">↻ もう一度</button>
     <div class="reading"><div class="rom">o</div><div class="ipa2">[o]</div><span class="kaku">3画</span></div>
   </div>
-
+<style>@font-face{font-family:nrS;src:url(data:font/woff2;base64,d09GMgABAAAAAAQAABEAAAAAE9gAAAOnAAIAxQAAAAAAAAAAAAAAAAAAAAAAAAAAGZdkGyAcbAZgACwRCAqFOIRmATYCJAMICwgABCAFhB4HIAwHFyQYCBtcEgCOwnEvJkNbvHAI0Uo88B3qv5E1kNe2vFAs3eDxEkwqTqMJ1PL98J72smaAM7nrYOukdgf5S/N/Ob1PDSrM1rAj6wUaWHStRXNg2Rhbs0ijMSYH5FMwwONAKEDM5hqnDT89CBWBWi1/1gUIuvwekD+hTo1NrZ3R0YbSgzISo9F1+vBhiSFRhNLDA2Ij0FGCot58AKH06IDkWHSdjgAKgAglQJR0DRsF6Xo6LLhqDIArC9U/gEtmFL8BKeXQyKE4Iig0sHzrJkcEh8QlxsXEnvc3/nn88JQJAoRJpNB594CiCH8+CCpITwZNfAQgO+Q4oIIC7DQgZDY0U84o1OI7UDzgEU28A8IDHoE4IwT5HmQ9abTom7igaKASW4fqgAqikMnFaCKGeiAH8ZbMHcAS8eEAhKAMosAAj7q46dbODPSP22UILv5/OcgnRCCeeCW4J90JgLA3ArShMCBDIeD48b+ABuscAwJQIeM6xqdpB3yQ+8AvVxgAoEgom6pNT0krmLnb+rSki8SDnvZh8U4SSdqdSBxADmh2U5JmpEtzsyjQ7OiNCkYmJtibaegCaPTGrcNsd8T2bOMXxAs6OVpXxXlHVlZoqzjbzs9daYHmfN5jzbF3DrWgedcFItGCbXici0SKpp0l3nHmeLXzsP9vsye9sFdq3t5dk67Dm+joE00pQ7ir9J0MvGj3MhTNzT2N/TSGmEoCqakfxgmjDSarP+jvLmwpcM3od9OoL3RMJJ6RBdN0McZyGn9mJcwzhpe2TiUhsBxAw/n0mS2Cbn204ID/4F8Il5lHSVzCerWjpb9hjHxsXwwnJ+W3KpsEf18FfuWrTma6sdsKBFPEj2ZXdMV+2Nz0i5qF9ij3PLoCSSq+tGOjE87fN3n9GLX/qRLuLeA3WytbXzUF/GUh3UpmAKrIVgbk079PgBUWfhwWbSCEKszSgvHjpyVJqFoEWFjjCQfJ1AD2QJ+BwHNnkGFQzsBx1cpA6fvIIOcbZPeloBkqQVIQKRgCPEVq5HgagTKMgWBxAoXAJylcsqTE06SAT+OWF2CHFHiQODEUSAHbWyWLg3ESIlGEUBhL9jAm0iVLFMBahDDv0xyFCJMiWoBEBFLh6zlK5JhTpMWMHTtmtKBgMZfmJnKobl7NsKZxXdlZkghxYmGZasKjaIJsVKkNUpRdU7XECBAlBJGhQqQL8aNW9VWre9PjCEFlBcG8F+R/yTNaA0gf8vev/VIKL0Uq7QEIapgHAA==) format("woff2");}@font-face{font-family:nrG;src:url(data:font/woff2;base64,d09GMgABAAAAAARcABEAAAAACzQAAAQBAAIBBgAAAAAAAAAAAAAAAAAAAAAAAAAAGYNsG4ESHIEuBmAALBEICoYwhg4BNgIkAwwLDAAEIAWENgcgDAcXJBgMG+AJAB6HsWP6QCTyxBBLV4Pn/+uq7osfGV0VmU1HwcoGGAmgB1yZK8gr0Ps5s53i4fv7du68b628rOPtYH3hfOMP/CfggAowlMbjbhciypL7417V/LzcBQfGxsYFNj0aDH6LjfUyB+WiwTE2SDZGPJi0pTVBC1jgFKyEcSko1NwaKm2PDM41Zd0i6Fs/BiFcvgLgI3RravfOg9ygJLzlTIx7DQYz/iiJkJ0IcwMlqtImEbNzCe69BwYAjW6TWs0x6iXU812WWRPNqEzWoIpbliEpOrclF2/AUydz/7Ww10wynuiX7X7o69TL3KSarZkr8zpGQvZiEI0o1YNp1E5GLlDvqecJ9Z56DlBfWk8HvCHympQdo0IQ73lrDKtUAlFBCFgjssJkWpmf6xMaoRMs75ZiBb3QC73QS++las7uU9WvvqY1yYrGaO9mxT3pjbGBswcO7UqFVZoJ18VG4gFjWSg/aHcRevlersMB7aEdBXbY35Yz3TEHWkcDGLqKqXp6D5Pbh/GTKjUv6K1YgAC0ufYjYDFw9ZSL7kUsZZ2g8zWfMh8fQQAox/ktBuAAYAIX5Ajy5OFVmF5tWrjlnHfbXdz+pRzn4lfNK77qP/zcl84r75RLLvkKlNfdcc+qs/c957xS2Xnl26u5/3nzCinzimdrj37N6Rg49OgX7oMBaRfr6G6a80KxO9w0s7imeaXJ8UjLBfjFsh0N37TVH9SmjX19Ox0bVv67ojZAIcqS4sRoQ3/HK4/v+3210x3I5f1u54raTw7yyzJzLpgvBtyVaz+xay/YU3ed77zYqcijKWY+5j9DlGJXeN11NJ3U8oaV6+WIJKQsZZJr4+22un2qy9jbu82xfuWvK6p9ZCIvcTlqru9rf+zB6c9WOefsTMaedS5Xvx5Y8tZSc9aTzXpnK9c+ua8ms7P2qrPFyPHgK/VMvY8H8uHLz87VktG7ARCghfHOK7d8fGbx6H8VSv0D8Nf5Izftv8YjHM7VpWoxYNAACPT2/1+gvhwWKJciAGUWfeoJjo0CHHZRZQ64aYHjFKkqgbvgXCiq3SXULPK6UNnqA6GuO1YIHSLhvq2hNZ6kkVcTS7dOXXq1CXaX51im+CR5+FkaheTkpAzrQCim29nr/rZ2XklxHZq0shSF5YRY9vPL8sso8POxuCUl5Fh2s8X5WRockJSX4eXXoN1uSTlJlgNsCVmW7fayHBQSlrCfX1BejC2jW7tOnXq12arbiCmzpu0xEs8hZnHKjLYy7LVnWeo5nCFm5z1J7cPGE4rr8a7BgkJXql0X4mCVjrNF+ZtzAvxK/LGwb2T169tdp55cIgoYm7+Mble9KPM8qV+NDJHf3/XAmm47Wa4CJAu2eAMA) format("woff2");}</style>
   <div class="label">成り立ち（なりたち）</div>
   <div class="nr-wrap">
     <div class="nr-stage nr-kata">
       <svg viewBox="0 0 1000 1000">
         <clipPath id="nrclip"><rect x="120" y="150" width="390" height="700"/></clipPath>
         <rect class="HL" x="120" y="150" width="390" height="700" rx="16" fill="var(--accent)" opacity="0"/>
-        <path class="KF" fill="#1C1C1C"/>
-        <path class="KK" fill="var(--accent)" clip-path="url(#nrclip)" opacity="0"/>
-        <g class="KGG"><path class="KA" fill="#1C1C1C" opacity="0"/></g>
+        <text class="KF" x="500" y="500" fill="#1C1C1C" style="font-family:nrS">於</text>
+        <text class="KK" x="500" y="500" fill="var(--accent)" clip-path="url(#nrclip)" style="font-family:nrS;opacity:0">於</text>
+        <g class="KGG"><text class="KA" x="500" y="500" fill="#1C1C1C" style="font-family:nrG;opacity:0">オ</text></g>
       </svg>
     </div>
     <div class="nr-steps">
@@ -278,7 +279,7 @@ function JLPTTrace(cfg){
     document.getElementById('treset').addEventListener('click',function(){pad.reset();});
   })();</script>
 </div>
-<script>window.NR={"mode": "part", "KF": "M557.90 440.25L566.02 433.61Q612.49 448.37 642.36 467.54Q672.23 486.72 687.72 506.27Q703.21 525.82 707.64 542.41Q712.07 559.01 707.64 570.44Q703.21 581.88 692.89 584.83Q682.56 587.78 668.55 579.66Q661.91 556.06 643.84 530.24Q625.76 504.43 602.90 480.45Q580.03 456.48 557.90 440.25M498.16 644.57L505.53 634.98Q580.77 654.16 632.40 678.13Q684.04 702.11 715.02 726.45Q746 750.79 760.01 772.92Q774.03 795.05 774.39 811.28Q774.76 827.50 764.44 833.40Q754.11 839.30 736.41 831.93Q721.65 806.85 694.73 779.93Q667.81 753 634.25 727.56Q600.68 702.11 565.28 680.72Q529.87 659.33 498.16 644.57M296.79 319.28L296.79 168.07L369.81 175.45Q369.07 182.82 363.91 187.62Q358.75 192.41 346.21 194.63L346.21 319.28L296.79 319.28M165.49 328.13L159.59 306.74L403.74 306.74L439.15 261.75Q439.15 261.75 445.42 266.91Q451.69 272.08 461.64 280.56Q471.60 289.04 482.30 298.26Q492.99 307.48 501.84 316.33Q499.63 328.13 481.93 328.13L165.49 328.13M402.27 443.94L394.89 443.94L421.44 413.70L476.77 459.43Q473.08 463.86 466.07 466.81Q459.06 469.76 448 471.23Q445.79 545.73 441.73 603.27Q437.67 660.80 431.77 701.74Q425.87 742.68 417.02 768.12Q408.17 793.57 397.10 804.64Q383.83 819.39 364.65 826.40Q345.47 833.40 324.82 832.67Q324.82 821.60 322.23 812.38Q319.65 803.16 313.01 798Q305.64 792.83 289.78 788.41Q273.92 783.98 256.22 781.03L256.95 767.76Q269.49 768.49 285.72 770.34Q301.95 772.18 316.33 772.92Q330.72 773.66 338.09 773.66Q355.06 773.66 363.17 765.54Q374.24 754.48 381.98 715.38Q389.73 676.29 394.52 608.06Q399.32 539.83 402.27 443.94M276.13 465.33L276.13 443.94L418.49 443.94L418.49 465.33L276.13 465.33M653.06 201.26Q634.62 254.37 601.42 303.79Q568.23 353.21 526.92 395.26Q485.62 437.30 441.36 467.54L434.72 457.96Q462.75 432.14 490.41 396.36Q518.07 360.59 542.78 320.02Q567.49 279.45 584.83 238.51Q602.16 197.58 609.54 162.17L690.67 179.87Q689.20 185.77 682.93 188.72Q676.66 191.68 664.86 193.15Q683.30 237.41 712.07 279.45Q740.83 321.50 776.61 356.53Q812.38 391.57 850 415.17L848.52 425.50Q833.77 429.19 823.08 440.25Q812.38 451.32 807.96 466.07Q754.85 419.60 713.91 349.89Q672.97 280.19 653.06 201.26M259.91 317.81L311.54 317.81Q310.06 388.62 306.01 459.06Q301.95 529.50 288.30 596.63Q274.66 663.75 244.78 724.60Q214.91 785.46 161.06 837.83L150 826.03Q191.31 771.44 213.80 709.85Q236.30 648.26 245.89 582.98Q255.48 517.70 257.32 450.58Q259.17 383.46 259.91 317.81", "KA": "M564.66 150.43L644.83 150.43Q642.24 167.67 640.95 186.21Q639.66 204.74 639.66 222.84Q640.52 246.12 640.95 285.34Q641.38 324.57 642.24 373.71Q643.10 422.84 643.97 477.16Q644.83 531.47 645.69 585.78Q646.55 640.09 647.41 690.09Q648.28 740.09 648.28 780.60Q648.28 814.22 628.45 831.90Q608.62 849.57 569.83 849.57Q537.07 849.57 500.43 848.28Q463.79 846.98 431.90 844.40L425.86 773.71Q456.90 778.88 490.09 781.47Q523.28 784.05 547.41 784.05Q565.52 784.05 572.41 775.43Q579.31 766.81 579.31 749.57Q579.31 718.53 579.31 674.57Q579.31 630.60 578.88 579.31Q578.45 528.02 577.59 475.43Q576.72 422.84 575.86 374.14Q575 325.43 574.57 285.78Q574.14 246.12 572.41 222.84Q570.69 197.84 568.97 181.03Q567.24 164.22 564.66 150.43M181.90 374.57L181.90 301.29Q200.86 303.02 221.12 304.74Q241.38 306.47 261.21 306.47Q270.69 306.47 300.86 306.47Q331.03 306.47 375 306.47Q418.97 306.47 468.97 306.47Q518.97 306.47 569.40 306.47Q619.83 306.47 663.36 306.47Q706.90 306.47 737.07 306.47Q767.24 306.47 776.72 306.47Q793.97 306.47 815.95 304.31Q837.93 302.16 850 301.29L850 373.71Q835.34 372.84 815.09 372.41Q794.83 371.98 779.31 371.98Q770.69 371.98 740.95 371.98Q711.21 371.98 666.81 371.98Q622.41 371.98 571.98 371.98Q521.55 371.98 470.26 371.98Q418.97 371.98 375 371.98Q331.03 371.98 300.86 371.98Q270.69 371.98 262.93 371.98Q241.38 371.98 221.55 372.41Q201.72 372.84 181.90 374.57M200 759.91L150 703.88Q218.97 671.12 281.47 627.59Q343.97 584.05 397.41 537.07Q450.86 490.09 491.38 443.97Q531.90 397.84 555.17 359.05L589.66 358.19L590.52 416.81Q566.38 454.74 525.86 500.86Q485.34 546.98 433.19 593.97Q381.03 640.95 321.12 684.05Q261.21 727.16 200 759.91", "gy": 0};</script>
+<script>window.NR={"mode":"part","gy":0};</script>
 <script>
 (function(){
  var NR=window.NR; if(!NR) return;
@@ -289,7 +290,6 @@ function JLPTTrace(cfg){
  var replay=wrap.querySelector('.nr-replay');
  if(NR.mode==='hira'){
    var L=[0,1,2,3].map(function(i){return wrap.querySelector('.L'+i);});
-   L[0].setAttribute('d',NR.L0);L[1].setAttribute('d',NR.L1);L[2].setAttribute('d',NR.L2);L[3].setAttribute('d',NR.L3);
    function cross(a,b){L[a].style.transition='opacity .55s';L[b].style.transition='opacity .55s';L[a].style.opacity=0;L[b].style.opacity=1;}
    function play(){clearT();
      L.forEach(function(p,i){p.style.transition='none';p.style.opacity=i===0?1:0;});lit(0);
@@ -301,8 +301,6 @@ function JLPTTrace(cfg){
    replay.addEventListener('click',play); play();
  } else {
    var KF=wrap.querySelector('.KF'),KK=wrap.querySelector('.KK'),KA=wrap.querySelector('.KA'),KGG=wrap.querySelector('.KGG'),HL=wrap.querySelector('.HL');
-   KF.setAttribute('d',NR.KF);KA.setAttribute('d',NR.KA);
-   if(NR.mode==='part'&&KK){KK.setAttribute('d',NR.KF);}
    function play(){clearT();
      KF.style.transition='none';KF.style.opacity=1;
      KA.style.transition='none';KA.style.opacity=0;

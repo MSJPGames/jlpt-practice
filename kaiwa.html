@@ -64,113 +64,121 @@
   .chk input{width:auto;accent-color:var(--accent)}
   .chk label{margin:0;font-weight:400;color:var(--text)}
   .app-foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.5rem;line-height:1.8}
+  .langbar{display:flex;gap:6px;justify-content:flex-end;margin:6px 0 0}
+  .langbtn{background:#F0EEE8;color:var(--text-muted);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer}
+  .langbtn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <a class="backlink" href="index.html">‹ 日本語の部屋</a>
+  <div class="langbar" id="langbar" role="group" aria-label="言語 / Language / 语言">
+    <button type="button" class="langbtn active" data-lang="ja">日本語</button>
+    <button type="button" class="langbtn" data-lang="en">EN</button>
+    <button type="button" class="langbtn" data-lang="zh">中文</button>
+  </div>
   <div class="app-head">
     <div class="app-logo">Speaking Practice</div>
-    <h1>🗣️ 会話練習</h1>
-    <p class="lead">場面を選んで、話しかけると相手役が声で返事をします。無料で、スマホだけでできます。</p>
+    <h1 data-i18n="app.h1">🗣️ 会話練習</h1>
+    <p class="lead" data-i18n="app.lead">場面を選んで、話しかけると相手役が声で返事をします。無料で、スマホだけでできます。</p>
   </div>
 
   <!-- 合言葉ゲート（PASSCODE が設定されているときだけ表示）-->
   <div class="card hidden" id="gateCard">
-    <label for="gateInput">合言葉</label>
-    <input type="password" id="gateInput" placeholder="先生から聞いた合言葉を入力" autocomplete="off">
-    <button class="primary" id="gateBtn" style="width:100%;margin-top:10px">入る</button>
+    <label for="gateInput" data-i18n="gate.label">合言葉</label>
+    <input type="password" id="gateInput" placeholder="先生から聞いた合言葉を入力" data-i18n-ph="gate.ph" autocomplete="off">
+    <button class="primary" id="gateBtn" style="width:100%;margin-top:10px" data-i18n="gate.btn">入る</button>
     <div class="status" id="gateStatus"></div>
-    <div class="hint" style="margin-top:6px">このページは授業用です。合言葉を知っている人だけが使えます。</div>
+    <div class="hint" style="margin-top:6px" data-i18n="gate.hint">このページは授業用です。合言葉を知っている人だけが使えます。</div>
   </div>
 
   <!-- 設定 -->
   <div class="card" id="setupCard">
-    <label for="key">あなたの無料 Gemini API キー</label>
-    <input type="password" id="key" placeholder="ここにキーを貼り付け（例: AIza...）" autocomplete="off">
-    <div class="hint" style="margin-top:6px">
+    <label for="key" data-i18n="key.label">あなたの無料 Gemini API キー</label>
+    <input type="password" id="key" placeholder="ここにキーを貼り付け（例: AIza...）" data-i18n-ph="key.ph" autocomplete="off">
+    <div class="hint" style="margin-top:6px" data-i18n-html="key.hint">
       キーは<strong>この端末の中だけ</strong>に保存され、外部には送られません（Google以外）。
       <span style="display:block;margin-top:4px">取り方: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> でログイン →「Create API key」→ コピーして貼り付け（無料）。</span>
     </div>
 
     <div style="margin-top:12px" id="practiceModeRow">
-      <label for="practiceMode">練習モード</label>
+      <label for="practiceMode" data-i18n="mode.label">練習モード</label>
       <select id="practiceMode">
-        <option value="general" selected>一般の場面</option>
-        <option value="textbook">みんなの日本語（教科書の練習C）</option>
+        <option value="general" selected data-i18n="mode.general">一般の場面</option>
+        <option value="textbook" data-i18n="mode.textbook">みんなの日本語（教科書の練習C）</option>
       </select>
     </div>
 
     <div id="generalBox" style="margin-top:12px">
-      <label for="scenario">場面</label>
+      <label for="scenario" data-i18n="scenario.label">場面</label>
       <select id="scenario"></select>
     </div>
 
     <div id="textbookBox" style="margin-top:12px;display:none">
       <div class="row">
         <div style="flex:0 0 120px">
-          <label for="lesson">課</label>
+          <label for="lesson" data-i18n="lesson.label">課</label>
           <select id="lesson"></select>
         </div>
         <div style="flex:1">
-          <label for="renshuC">練習C（やりとり）</label>
+          <label for="renshuC" data-i18n="renshuC.label">練習C（やりとり）</label>
           <select id="renshuC"></select>
         </div>
       </div>
-      <div class="hint" style="margin-top:4px">『みんなの日本語 初級Ⅰ・Ⅱ』全50課の練習C（やりとり）から選べます。相手役が、その練習の目標に合わせて会話をリードします。</div>
+      <div class="hint" style="margin-top:4px" data-i18n="textbook.hint">『みんなの日本語 初級Ⅰ・Ⅱ』全50課の練習C（やりとり）から選べます。相手役が、その練習の目標に合わせて会話をリードします。</div>
     </div>
 
     <div class="row" style="margin-top:12px">
       <div>
-        <label for="level">レベル（速さ）</label>
+        <label for="level" data-i18n="level.label">レベル（速さ）</label>
         <select id="level">
-          <option value="beginner">初級（やさしく・ゆっくり）</option>
-          <option value="intermediate" selected>中級（ふつうの速さ）</option>
-          <option value="advanced">上級（難しい場面も）</option>
+          <option value="beginner" data-i18n="level.beginner">初級（やさしく・ゆっくり）</option>
+          <option value="intermediate" selected data-i18n="level.intermediate">中級（ふつうの速さ）</option>
+          <option value="advanced" data-i18n="level.advanced">上級（難しい場面も）</option>
         </select>
       </div>
       <div id="roleBox">
-        <label for="role">あなたの役</label>
+        <label for="role" data-i18n="role.label">あなたの役</label>
         <select id="role"></select>
       </div>
     </div>
 
     <div class="chk">
       <input type="checkbox" id="foreignMode">
-      <label for="foreignMode">外国人モード（相手が英語を少しまじえる・上級者向け）</label>
+      <label for="foreignMode" data-i18n="foreign.label">外国人モード（相手が英語を少しまじえる・上級者向け）</label>
     </div>
-    <div class="hint" style="margin-top:4px">オフのときは、相手は<strong>必ず日本語だけ</strong>で話します。オンにすると、英語まじりの相手への対応を練習できます（接客などの場面向け）。</div>
+    <div class="hint" style="margin-top:4px" data-i18n-html="foreign.hint">オフのときは、相手は<strong>必ず日本語だけ</strong>で話します。オンにすると、英語まじりの相手への対応を練習できます（接客などの場面向け）。</div>
 
     <div style="margin-top:12px">
-      <label for="vocabLevel">語彙・文法のレベル（教科書に合わせる）</label>
+      <label for="vocabLevel" data-i18n="vocab.label">語彙・文法のレベル（教科書に合わせる）</label>
       <select id="vocabLevel">
-        <option value="none" selected>制限なし（自然な日本語）</option>
-        <option value="textbook">みんなの日本語・選んだ課まで（教科書モードのとき）</option>
-        <option value="n5">やさしい（JLPT N5 相当・入門〜初級前半）</option>
-        <option value="n4">初級（JLPT N4 相当・初級修了レベル）</option>
-        <option value="n3">初中級（JLPT N3 相当）</option>
-        <option value="custom">自分で貼り付け（下の欄に語彙・文法を入力）</option>
+        <option value="none" selected data-i18n="vocab.none">制限なし（自然な日本語）</option>
+        <option value="textbook" data-i18n="vocab.textbook">みんなの日本語・選んだ課まで（教科書モードのとき）</option>
+        <option value="n5" data-i18n="vocab.n5">やさしい（JLPT N5 相当・入門〜初級前半）</option>
+        <option value="n4" data-i18n="vocab.n4">初級（JLPT N4 相当・初級修了レベル）</option>
+        <option value="n3" data-i18n="vocab.n3">初中級（JLPT N3 相当）</option>
+        <option value="custom" data-i18n="vocab.custom">自分で貼り付け（下の欄に語彙・文法を入力）</option>
       </select>
-      <textarea id="vocabList" rows="4" placeholder="「この課まで」を選んだときに使います。習った語彙・文法・表現を貼り付けてください。例）語彙: メニュー、注文、いくら、〜てください／文法: 〜たいです、〜てもいいですか"></textarea>
-      <div class="hint" style="margin-top:4px">教科書の進度に合わせて、相手役が使う言葉をやさしくします。いちばん正確なのは「この課までの範囲」に実際の語彙・文法リストを貼る方法です。</div>
+      <textarea id="vocabList" rows="4" placeholder="「この課まで」を選んだときに使います。習った語彙・文法・表現を貼り付けてください。例）語彙: メニュー、注文、いくら、〜てください／文法: 〜たいです、〜てもいいですか" data-i18n-ph="vocab.ph"></textarea>
+      <div class="hint" style="margin-top:4px" data-i18n="vocab.hint">教科書の進度に合わせて、相手役が使う言葉をやさしくします。いちばん正確なのは「この課までの範囲」に実際の語彙・文法リストを貼る方法です。</div>
     </div>
 
     <!-- 声の設定 -->
     <details id="voiceSettings">
-      <summary>声の設定（より自然な声にする）</summary>
+      <summary data-i18n="voice.summary">声の設定（より自然な声にする）</summary>
 
       <div style="margin-top:10px">
-        <label for="engineSelect">声の種類</label>
+        <label for="engineSelect" data-i18n="engine.label">声の種類</label>
         <select id="engineSelect">
-          <option value="gemini" selected>Gemini 自然音声（おすすめ・なめらか）</option>
-          <option value="browser">ブラウザの声（すぐ使える・機械的）</option>
-          <option value="voicevox">VOICEVOX（自分でエンジンを用意する上級者向け）</option>
+          <option value="gemini" selected data-i18n="engine.gemini">Gemini 自然音声（おすすめ・なめらか）</option>
+          <option value="browser" data-i18n="engine.browser">ブラウザの声（すぐ使える・機械的）</option>
+          <option value="voicevox" data-i18n="engine.voicevox">VOICEVOX（自分でエンジンを用意する上級者向け）</option>
         </select>
-        <div class="hint" style="margin-top:4px">「Gemini 自然音声」は、今のキーのまま、より人間らしい声で読み上げます（試験的機能。使えないときは自動でブラウザの声に切り替わります）。1回の返事で消費が少し増えます。</div>
+        <div class="hint" style="margin-top:4px" data-i18n="engine.hint">「Gemini 自然音声」は、今のキーのまま、より人間らしい声で読み上げます（試験的機能。使えないときは自動でブラウザの声に切り替わります）。1回の返事で消費が少し増えます。</div>
       </div>
 
       <div id="geminiVoiceBox" style="margin-top:10px">
-        <label for="gVoice">Geminiの声</label>
+        <label for="gVoice" data-i18n="gvoice.label">Geminiの声</label>
         <div class="row">
           <div style="flex:2">
             <select id="gVoice">
@@ -183,40 +191,40 @@
             </select>
           </div>
           <div style="flex:1;display:flex;align-items:flex-end">
-            <button class="ghost" id="gTest" style="width:100%">この声で試聴</button>
+            <button class="ghost" id="gTest" style="width:100%" data-i18n="gvoice.test">この声で試聴</button>
           </div>
         </div>
       </div>
 
       <div id="browserVoiceBox" style="margin-top:10px">
-        <label for="voiceSelect">読み上げの声（この端末で使えるもの）</label>
-        <select id="voiceSelect"><option value="">自動で選ぶ</option></select>
-        <div class="hint" style="margin-top:4px">端末によって声の種類が違います。「Google 日本語」「Microsoft ... Natural」「Kyoko」などがあれば、それを選ぶと自然になります。</div>
-        <div class="sliderrow"><label for="rate">話す速さ</label><input type="range" id="rate" min="0.6" max="1.2" step="0.05" value="1"></div>
-        <div class="sliderrow"><label for="pitch">声の高さ</label><input type="range" id="pitch" min="0.7" max="1.3" step="0.05" value="1"></div>
-        <button class="ghost" id="testVoice" style="margin-top:8px">この声で試し聞き</button>
+        <label for="voiceSelect" data-i18n="bvoice.label">読み上げの声（この端末で使えるもの）</label>
+        <select id="voiceSelect"><option value="" data-i18n="bvoice.auto">自動で選ぶ</option></select>
+        <div class="hint" style="margin-top:4px" data-i18n="bvoice.hint">端末によって声の種類が違います。「Google 日本語」「Microsoft ... Natural」「Kyoko」などがあれば、それを選ぶと自然になります。</div>
+        <div class="sliderrow"><label for="rate" data-i18n="rate.label">話す速さ</label><input type="range" id="rate" min="0.6" max="1.2" step="0.05" value="1"></div>
+        <div class="sliderrow"><label for="pitch" data-i18n="pitch.label">声の高さ</label><input type="range" id="pitch" min="0.7" max="1.3" step="0.05" value="1"></div>
+        <button class="ghost" id="testVoice" style="margin-top:8px" data-i18n="bvoice.test">この声で試し聞き</button>
       </div>
 
       <div id="voicevoxBox" style="margin-top:14px;border-top:1px dashed var(--line);padding-top:10px">
-        <label for="vvUrl">VOICEVOX を使う（任意・上級）— エンジンURL</label>
-        <input type="text" id="vvUrl" placeholder="例: http://localhost:50021（空欄ならブラウザの声を使用）" autocomplete="off">
+        <label for="vvUrl" data-i18n="vv.url.label">VOICEVOX を使う（任意・上級）— エンジンURL</label>
+        <input type="text" id="vvUrl" placeholder="例: http://localhost:50021（空欄ならブラウザの声を使用）" data-i18n-ph="vv.url.ph" autocomplete="off">
         <div class="row" style="margin-top:8px">
           <div style="flex:2">
-            <label for="vvSpeaker">話者ID</label>
+            <label for="vvSpeaker" data-i18n="vv.spk.label">話者ID</label>
             <input type="number" id="vvSpeaker" value="3" min="0" step="1">
           </div>
           <div style="flex:1;display:flex;align-items:flex-end">
-            <button class="ghost" id="vvTest" style="width:100%">VOICEVOXで試聴</button>
+            <button class="ghost" id="vvTest" style="width:100%" data-i18n="vv.test">VOICEVOXで試聴</button>
           </div>
         </div>
-        <div class="hint" style="margin-top:6px">
+        <div class="hint" style="margin-top:6px" data-i18n="vv.hint">
           VOICEVOX はより自然で表情のある声が出せますが、多人数で使うにはエンジンをネット上に用意（CORS許可）する必要があります。
           利用時は規約にしたがい話者のクレジット表記が必要です。うまく鳴らないときは自動でブラウザの声に切り替わります。
         </div>
       </div>
     </details>
 
-    <button class="primary" id="startBtn" style="width:100%;margin-top:14px">会話をはじめる</button>
+    <button class="primary" id="startBtn" style="width:100%;margin-top:14px" data-i18n="start.btn">会話をはじめる</button>
     <div class="status" id="setupStatus"></div>
   </div>
 
@@ -225,27 +233,27 @@
     <div id="log"></div>
     <div class="status" id="status"></div>
 
-    <button class="mic primary" id="micBtn">🎤 押して話す</button>
+    <button class="mic primary" id="micBtn" data-i18n="talk.mic">🎤 押して話す</button>
 
     <div class="row" style="margin-top:8px">
       <div style="flex:3">
-        <input type="text" id="typeInput" placeholder="声が使えないときは、ここに入力して送信">
+        <input type="text" id="typeInput" placeholder="声が使えないときは、ここに入力して送信" data-i18n-ph="talk.type.ph">
       </div>
       <div style="flex:1">
-        <button class="ghost" id="sendBtn" style="width:100%">送信</button>
+        <button class="ghost" id="sendBtn" style="width:100%" data-i18n="talk.send">送信</button>
       </div>
     </div>
 
     <div class="barbtns">
-      <button class="ghost" id="feedbackBtn">◆ フィードバックをもらう</button>
-      <button class="ghost" id="resetBtn">最初から</button>
+      <button class="ghost" id="feedbackBtn" data-i18n="talk.feedback">◆ フィードバックをもらう</button>
+      <button class="ghost" id="resetBtn" data-i18n="talk.reset">最初から</button>
     </div>
-    <button class="ghost" id="saveBtn" style="width:100%;margin-top:8px">📄 会話の記録を保存（HTML・録音つき）</button>
+    <button class="ghost" id="saveBtn" style="width:100%;margin-top:8px" data-i18n="talk.save">📄 会話の記録を保存（HTML・録音つき）</button>
     <div class="credit" id="creditLine"></div>
-    <div class="hint" style="margin-top:6px">ヒント: 間違えても大丈夫。まずは最後まで会話を続けてみましょう。</div>
+    <div class="hint" style="margin-top:6px" data-i18n="talk.hint">ヒント: 間違えても大丈夫。まずは最後まで会話を続けてみましょう。</div>
   </div>
 
-  <p class="hint">※ 音声認識は Chrome（パソコン・Android）で最もよく動きます。iPhone など声がうまく使えない場合は、下の入力欄に文字で送信すれば同じように練習できます。</p>
+  <p class="hint" data-i18n="foot.hint">※ 音声認識は Chrome（パソコン・Android）で最もよく動きます。iPhone など声がうまく使えない場合は、下の入力欄に文字で送信すれば同じように練習できます。</p>
 </div>
 
 <script>
@@ -509,6 +517,34 @@
     ]}
   ];
 
+  // ==== 設定ページの多言語（日本語/English/中文）====
+  var UI_LANG = store.get("kaiwa_ui_lang") || "ja";
+  var SCN_I18N = {
+    restaurant:{ en:"At a restaurant", zh:"在餐厅", roles:{
+      staff:{en:"Waiter (serve the customer)", zh:"店员（接待客人）"},
+      guest:{en:"Customer (order food)", zh:"顾客（点餐）"} } },
+    interview:{ en:"Job / part-time interview", zh:"求职・兼职面试", roles:{
+      applicant:{en:"Applicant (be interviewed)", zh:"应聘者（接受面试）"},
+      interviewer:{en:"Interviewer (run the interview)", zh:"面试官（进行面试）"} } },
+    media_interview:{ en:"Interview (press / talk)", zh:"采访（访谈・对谈）", roles:{
+      guest:{en:"Interviewee (guest)", zh:"接受采访（嘉宾）"},
+      reporter:{en:"Interviewer (reporter)", zh:"进行采访（记者）"} } },
+    hospital:{ en:"Hospital reception", zh:"医院挂号台", roles:{
+      patient:{en:"Patient (describe symptoms)", zh:"患者（说明症状）"},
+      reception:{en:"Receptionist (help the patient)", zh:"挂号人员（接待患者）"} } },
+    directions:{ en:"Asking for directions", zh:"问路", roles:{
+      asker:{en:"Ask the way", zh:"问路的人"},
+      helper:{en:"Give directions", zh:"指路的人"} } },
+    phone:{ en:"Booking by phone", zh:"电话预约", roles:{
+      caller:{en:"Make a booking (call in)", zh:"打电话预约"},
+      shop:{en:"Shop staff (take the booking)", zh:"店家（接受预约）"} } },
+    shopping:{ en:"Shopping / convenience store", zh:"购物・便利店", roles:{
+      customer:{en:"Customer (shopping)", zh:"顾客（购物）"},
+      clerk:{en:"Clerk (work the register)", zh:"店员（收银）"} } }
+  };
+  function scnName(s){ var t=SCN_I18N[s.id]; return (UI_LANG!=="ja"&&t&&t[UI_LANG])?t[UI_LANG]:s.name; }
+  function roleLabel(sid,r){ var t=SCN_I18N[sid]; return (UI_LANG!=="ja"&&t&&t.roles&&t.roles[r.v]&&t.roles[r.v][UI_LANG])?t.roles[r.v][UI_LANG]:r.label; }
+
   function getScenario(){
     for(var i=0;i<SCENARIOS.length;i++){ if(SCENARIOS[i].id===scenarioEl.value) return SCENARIOS[i]; }
     return SCENARIOS[0];
@@ -521,7 +557,7 @@
   function populateScenarios(){
     scenarioEl.innerHTML="";
     SCENARIOS.forEach(function(s){
-      var o=document.createElement("option"); o.value=s.id; o.textContent=s.name; scenarioEl.appendChild(o);
+      var o=document.createElement("option"); o.value=s.id; o.textContent=scnName(s); scenarioEl.appendChild(o);
     });
     var saved=store.get("scenario"); if(saved) scenarioEl.value=saved;
   }
@@ -529,7 +565,7 @@
     var sc=getScenario(); var saved=store.get("role_"+sc.id);
     roleEl.innerHTML="";
     sc.roles.forEach(function(r){
-      var o=document.createElement("option"); o.value=r.v; o.textContent=r.label; roleEl.appendChild(o);
+      var o=document.createElement("option"); o.value=r.v; o.textContent=roleLabel(sc.id,r); roleEl.appendChild(o);
     });
     if(saved){ roleEl.value=saved; }
   }
@@ -924,6 +960,169 @@
   resetBtn.addEventListener("click", function(){ stopAudio();
     talkCard.classList.add("hidden"); setupCard.classList.remove("hidden"); setupStatus.textContent="";
   });
+
+  // ==== 多言語辞書と切り替え ====
+  var I18N = {
+    en: {
+      "app.h1":"🗣️ Speaking Practice",
+      "app.lead":"Pick a situation, speak, and your partner replies out loud. Free, and works on your phone alone.",
+      "gate.label":"Passcode",
+      "gate.ph":"Enter the passcode from your teacher",
+      "gate.btn":"Enter",
+      "gate.hint":"This page is for class use. Only people who know the passcode can use it.",
+      "key.label":"Your free Gemini API key",
+      "key.ph":"Paste your key here (e.g. AIza...)",
+      "key.hint":"Your key is saved <strong>only on this device</strong> and is never sent anywhere else (except Google). <span style=\"display:block;margin-top:4px\">How to get one: sign in at <a href=\"https://aistudio.google.com/apikey\" target=\"_blank\" rel=\"noopener\">aistudio.google.com/apikey</a> &rarr; “Create API key” &rarr; copy and paste it here (free).</span>",
+      "mode.label":"Practice mode",
+      "mode.general":"General situations",
+      "mode.textbook":"Minna no Nihongo (Textbook Practice C)",
+      "scenario.label":"Situation",
+      "lesson.label":"Lesson",
+      "renshuC.label":"Practice C (dialogue)",
+      "textbook.hint":"Choose from Practice C (dialogue) across all 50 lessons of “Minna no Nihongo Elementary I & II”. Your partner leads the conversation toward that lesson’s goal.",
+      "level.label":"Level (speed)",
+      "level.beginner":"Beginner (easy & slow)",
+      "level.intermediate":"Intermediate (normal speed)",
+      "level.advanced":"Advanced (incl. tricky situations)",
+      "role.label":"Your role",
+      "foreign.label":"Foreigner mode (partner mixes in a little English; for advanced)",
+      "foreign.hint":"When off, your partner speaks <strong>only Japanese</strong>. When on, you can practice handling a partner who mixes in some English (good for customer-service situations).",
+      "vocab.label":"Vocabulary & grammar level (match your textbook)",
+      "vocab.none":"No limit (natural Japanese)",
+      "vocab.textbook":"Minna no Nihongo, up to the chosen lesson (in textbook mode)",
+      "vocab.n5":"Easy (approx. JLPT N5, intro to early beginner)",
+      "vocab.n4":"Beginner (approx. JLPT N4, end of beginner)",
+      "vocab.n3":"Lower-intermediate (approx. JLPT N3)",
+      "vocab.custom":"Paste your own (enter vocab & grammar below)",
+      "vocab.ph":"Used when you choose “up to this lesson”. Paste the vocabulary, grammar and expressions you have learned. e.g. Vocab: menu, order, how much, ~te kudasai / Grammar: ~tai desu, ~te mo ii desu ka",
+      "vocab.hint":"Your partner uses simpler language to match your textbook progress. The most accurate way is to paste the actual vocab & grammar list into “up to this lesson”.",
+      "voice.summary":"Voice settings (make the voice more natural)",
+      "engine.label":"Voice type",
+      "engine.gemini":"Gemini natural voice (recommended, smooth)",
+      "engine.browser":"Browser voice (ready to use, robotic)",
+      "engine.voicevox":"VOICEVOX (for advanced users who run their own engine)",
+      "engine.hint":"“Gemini natural voice” reads replies aloud in a more human-like voice using your current key (experimental; falls back to the browser voice automatically if unavailable). Each reply uses a little more quota.",
+      "gvoice.label":"Gemini voice",
+      "gvoice.test":"Preview this voice",
+      "bvoice.label":"Reading voice (available on this device)",
+      "bvoice.auto":"Choose automatically",
+      "bvoice.hint":"Available voices differ by device. If you have “Google Japanese”, “Microsoft ... Natural”, “Kyoko”, etc., choosing one sounds more natural.",
+      "rate.label":"Speaking speed",
+      "pitch.label":"Pitch",
+      "bvoice.test":"Test this voice",
+      "vv.url.label":"Use VOICEVOX (optional, advanced) — engine URL",
+      "vv.url.ph":"e.g. http://localhost:50021 (blank = use browser voice)",
+      "vv.spk.label":"Speaker ID",
+      "vv.test":"Preview with VOICEVOX",
+      "vv.hint":"VOICEVOX can produce more natural, expressive voices, but to use it with many people you must host the engine online (with CORS enabled). Follow its terms and credit the speaker. If it does not play, it falls back to the browser voice automatically.",
+      "start.btn":"Start conversation",
+      "talk.mic":"🎤 Push to talk",
+      "talk.type.ph":"If voice is not available, type here and send",
+      "talk.send":"Send",
+      "talk.feedback":"◆ Get feedback",
+      "talk.reset":"Start over",
+      "talk.save":"📄 Save the conversation record (HTML, with audio)",
+      "talk.hint":"Tip: mistakes are fine. First, just try to keep the conversation going to the end.",
+      "foot.hint":"* Speech recognition works best in Chrome (PC / Android). If voice does not work well (e.g. on iPhone), type into the box below and send — you can practice the same way."
+    },
+    zh: {
+      "app.h1":"🗣️ 会话练习",
+      "app.lead":"选择场景，开口说话，对话伙伴就会用声音回复你。免费，只用手机即可。",
+      "gate.label":"暗号",
+      "gate.ph":"输入老师告诉你的暗号",
+      "gate.btn":"进入",
+      "gate.hint":"本页面供课堂使用。只有知道暗号的人才能使用。",
+      "key.label":"你的免费 Gemini API 密钥",
+      "key.ph":"在此粘贴密钥（例：AIza...）",
+      "key.hint":"密钥<strong>仅保存在本设备中</strong>，不会发送到外部（Google 除外）。<span style=\"display:block;margin-top:4px\">获取方法：登录 <a href=\"https://aistudio.google.com/apikey\" target=\"_blank\" rel=\"noopener\">aistudio.google.com/apikey</a> &rarr;「Create API key」&rarr; 复制并粘贴到此处（免费）。</span>",
+      "mode.label":"练习模式",
+      "mode.general":"常见场景",
+      "mode.textbook":"大家的日本语（课本练习C）",
+      "scenario.label":"场景",
+      "lesson.label":"课",
+      "renshuC.label":"练习C（对话）",
+      "textbook.hint":"可从《大家的日本语 初级Ⅰ・Ⅱ》全50课的练习C（对话）中选择。对话伙伴会按照该练习的目标引导会话。",
+      "level.label":"级别（语速）",
+      "level.beginner":"初级（简单・慢速）",
+      "level.intermediate":"中级（正常语速）",
+      "level.advanced":"高级（含较难场景）",
+      "role.label":"你的角色",
+      "foreign.label":"外国人模式（对话方夹杂少量英语・适合高级）",
+      "foreign.hint":"关闭时，对话方<strong>只说日语</strong>。开启后，可练习应对夹杂英语的对话方（适合服务接待等场景）。",
+      "vocab.label":"词汇・语法级别（配合课本）",
+      "vocab.none":"不限制（自然日语）",
+      "vocab.textbook":"大家的日本语・到所选课为止（课本模式时）",
+      "vocab.n5":"简单（约 JLPT N5・入门至初级前半）",
+      "vocab.n4":"初级（约 JLPT N4・初级结业水平）",
+      "vocab.n3":"初中级（约 JLPT N3）",
+      "vocab.custom":"自行粘贴（在下框输入词汇・语法）",
+      "vocab.ph":"选择「到本课为止」时使用。请粘贴已学过的词汇・语法・表达。例）词汇：菜单、点餐、多少钱、〜てください／语法：〜たいです、〜てもいいですか",
+      "vocab.hint":"对话伙伴会配合课本进度使用更简单的语言。最准确的方法是把实际的词汇・语法列表粘贴到「到本课为止」。",
+      "voice.summary":"语音设置（让声音更自然）",
+      "engine.label":"语音类型",
+      "engine.gemini":"Gemini 自然语音（推荐・流畅）",
+      "engine.browser":"浏览器语音（即可使用・机械感）",
+      "engine.voicevox":"VOICEVOX（适合自备引擎的高级用户）",
+      "engine.hint":"「Gemini 自然语音」用当前密钥以更接近真人的声音朗读回复（实验功能；无法使用时会自动切换为浏览器语音）。每次回复的消耗会略微增加。",
+      "gvoice.label":"Gemini 的声音",
+      "gvoice.test":"试听此语音",
+      "bvoice.label":"朗读语音（本设备可用）",
+      "bvoice.auto":"自动选择",
+      "bvoice.hint":"不同设备可用的语音不同。若有「Google 日本語」「Microsoft ... Natural」「Kyoko」等，选择它会更自然。",
+      "rate.label":"语速",
+      "pitch.label":"音高",
+      "bvoice.test":"试听此语音",
+      "vv.url.label":"使用 VOICEVOX（可选・高级）— 引擎URL",
+      "vv.url.ph":"例：http://localhost:50021（留空则使用浏览器语音）",
+      "vv.spk.label":"说话人ID",
+      "vv.test":"用 VOICEVOX 试听",
+      "vv.hint":"VOICEVOX 能产生更自然、有表现力的声音，但要供多人使用需将引擎部署到网上（并允许 CORS）。使用时须遵守其条款并标注说话人来源。若无法播放，会自动切换为浏览器语音。",
+      "start.btn":"开始会话",
+      "talk.mic":"🎤 按住说话",
+      "talk.type.ph":"无法使用语音时，在此输入并发送",
+      "talk.send":"发送",
+      "talk.feedback":"◆ 获取反馈",
+      "talk.reset":"重新开始",
+      "talk.save":"📄 保存会话记录（HTML・含录音）",
+      "talk.hint":"提示：说错也没关系。先试着把会话进行到最后吧。",
+      "foot.hint":"※ 语音识别在 Chrome（电脑・Android）上效果最好。若语音无法正常使用（如 iPhone），在下方输入框用文字发送即可，同样可以练习。"
+    }
+  };
+  var __i18nSnap = null;
+  function __snapJa(){
+    __i18nSnap = [];
+    var add=function(sel,kind,getter){ [].forEach.call(document.querySelectorAll(sel), function(el){ __i18nSnap.push([kind,el,el.getAttribute(sel==='[data-i18n-ph]'?'data-i18n-ph':(sel==='[data-i18n-html]'?'data-i18n-html':'data-i18n')), getter(el)]); }); };
+    add('[data-i18n]','t',function(el){return el.textContent;});
+    add('[data-i18n-html]','h',function(el){return el.innerHTML;});
+    add('[data-i18n-ph]','p',function(el){return el.getAttribute('placeholder');});
+  }
+  function applyLang(lang){
+    UI_LANG = lang;
+    try{ store.set("kaiwa_ui_lang", lang); }catch(e){}
+    if(!__i18nSnap) __snapJa();
+    var dict = I18N[lang] || null;
+    __i18nSnap.forEach(function(rec){
+      var kind=rec[0], el=rec[1], key=rec[2], ja=rec[3];
+      var val = (dict && dict[key]!=null) ? dict[key] : ja; // 訳が無ければ日本語に戻す
+      if(kind==='t') el.textContent=val;
+      else if(kind==='h') el.innerHTML=val;
+      else if(kind==='p') el.setAttribute('placeholder', val);
+    });
+    // 動的な選択肢（場面・役）を現在の言語で作り直し、選択は保持
+    try{ var sv=scenarioEl.value; populateScenarios(); if(sv) scenarioEl.value=sv;
+         var rv=roleEl.value; populateRoles(); if(rv) roleEl.value=rv; }catch(e){}
+    try{ document.documentElement.lang = (lang==='zh'?'zh':(lang==='en'?'en':'ja')); }catch(e){}
+    var lb=document.getElementById('langbar');
+    if(lb){ [].forEach.call(lb.querySelectorAll('.langbtn'), function(btn){ btn.classList.toggle('active', btn.getAttribute('data-lang')===lang); }); }
+  }
+  (function wireLang(){
+    var lb=document.getElementById('langbar');
+    if(lb){ lb.addEventListener('click', function(e){
+      var b=e.target && e.target.closest ? e.target.closest('.langbtn') : null;
+      if(!b) return; applyLang(b.getAttribute('data-lang'));
+    }); }
+    applyLang(UI_LANG);
+  })();
 })();
 </script>
 </body>

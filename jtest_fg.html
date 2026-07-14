@@ -122,7 +122,7 @@
 (function(){
   "use strict";
   var PER=10;
-  var SECTIONS=[
+  /*<DATA>*/ var SECTIONS=[
     { key:"goi", name:"文法・語彙", ic:"あ", desc:"（　）に いちばん いい ことばを 入れる", items:[
       {q:"あさ ごはんを （　）から、がっこうへ 行きます。", cs:["たべて","のんで","みて","きいて"], a:0, ex:"ごはんは「たべる」。〜てから＝〜した後で。"},
       {q:"この みずは とても （　）です。つめたくて おいしいです。", cs:["たかい","つめたい","むずかしい","いそがしい"], a:1, ex:"後ろの「つめたくて」がヒント。みず＝つめたい。"},
@@ -167,7 +167,7 @@
       {q:"いちばん いい 文を えらんでください。", cs:["あした ともだちに てがみを 書きます。","あした ともだちを てがみに 書きます。","あした ともだちへ てがみが 書きます。","あした ともだちに てがみを 書きました。"], a:0, ex:"相手は「に」、目的語は「を」。あした＝未来なので「書きます」。"},
       {q:"いちばん いい 文を えらんでください。", cs:["この へやは あかるくて きれいです。","この へやは あかるいで きれいです。","この へやは あかるくて きれいだです。","この へやは あかるく きれいです。"], a:0, ex:"い形容詞の て形は「あかるくて」。「きれいです」。"}
     ]}
-  ];
+  ]; /*</DATA>*/
 
   function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
   var $=function(id){return document.getElementById(id);};
@@ -343,6 +343,195 @@
   })();
   __injectReview();
   try{ if(/[?&]review=1/.test(location.search) && __wcount()>0){ startReview(); } }catch(e){}
+
+
+  /* ===== 問題エディタ＋報告ボタン（J.TEST/BJT用・JLPTと同等の機能）===== */
+  (function(){
+    var EDIT_HASH='db4a90baf98e410b96a88c64bcdfd1ccc1ebbf6434b5e8d1f3e5e86cbf99e0e7';
+    var EXPORT_NAME='jtest_fg.html';
+    var EXPORT_KIND='html';           /* 'html' or 'bjtchoukai' */
+    var FORMSPREE='https://formspree.io/f/xlgygdzd';
+    var D=function(id){return document.getElementById(id);};
+    function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    /* --- CSS --- */
+    var st=document.createElement('style'); st.textContent=[
+     '.edov{position:fixed;inset:0;background:#F7F5F0;z-index:300;overflow:auto;display:none;padding:14px}',
+     '.edwrap{max-width:640px;margin:0 auto}',
+     '.edhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}',
+     '.edcard{background:#fff;border:1px solid #E2DDD6;border-radius:10px;padding:11px 13px;margin-bottom:10px}',
+     '.edbtn{font-family:inherit;font-weight:700;border:none;border-radius:8px;padding:8px 13px;cursor:pointer;font-size:13px}',
+     '.edmodal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:320;display:none;align-items:center;justify-content:center;padding:14px}',
+     '.edmbox{background:#fff;border-radius:12px;padding:16px;max-width:460px;width:100%;max-height:92vh;overflow:auto}',
+     '.edlab{font-size:12px;font-weight:700;color:#6B6560;margin:9px 0 3px;display:block}',
+     '.edinp,.edta{width:100%;border:1px solid #E2DDD6;border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;background:#FCFBF9;color:#1C1C1C}',
+     '.edta{min-height:58px;resize:vertical;line-height:1.6}',
+     '.rpmodal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:340;display:none;align-items:center;justify-content:center;padding:14px}',
+     '.rpbox{background:#fff;border-radius:12px;padding:18px;max-width:360px;width:100%}',
+     '.rpbtn{flex:1;padding:11px;border-radius:8px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;border:none}',
+     '.rep-link{margin-top:8px;font-size:12px;color:#9E9890;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:inherit;padding:2px 4px}'
+    ].join(''); document.head.appendChild(st);
+
+    /* --- エディタ画面 --- */
+    var ov=document.createElement('div'); ov.className='edov'; ov.id='edov';
+    ov.innerHTML='<div class="edwrap">'
+      +'<div class="edhead"><div style="font-size:17px;font-weight:800">📝 問題エディタ</div>'
+      +'<button class="edbtn" style="background:#eee;color:#333" onclick="edClose()">閉じる</button></div>'
+      +'<div class="edcard" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">'
+      +'<label class="edlab" style="margin:0">パート</label>'
+      +'<select id="edsec" class="edinp" style="width:auto;flex:1;min-width:150px"></select>'
+      +'<button class="edbtn" style="background:#2D5A8E;color:#fff" onclick="edExport()">💾 修正版をダウンロード</button></div>'
+      +'<div class="edcard" style="font-size:11.5px;color:#9E9890;line-height:1.7">編集した内容はこの画面（端末内）に反映されます。確定するには「修正版をダウンロード」で保存し、GitHubにアップロードしてください。<br>※正確な保存のため、公開サイト（サーバー）から開いて操作してください。</div>'
+      +'<div id="edlist"></div></div>';
+    document.body.appendChild(ov);
+
+    /* --- 編集モーダル --- */
+    var em=document.createElement('div'); em.className='edmodal'; em.id='edmodal';
+    em.innerHTML='<div class="edmbox"><div id="edmtitle" style="font-size:15px;font-weight:800;margin-bottom:6px"></div>'
+      +'<div id="edpassagewrap" style="display:none"><label class="edlab">本文（読解の文章）</label><textarea id="edpassage" class="edta"></textarea></div>'
+      +'<div id="edsubwrap" style="display:none"><label class="edlab">設問（sub）</label><textarea id="edsub" class="edta" style="min-height:44px"></textarea></div>'
+      +'<label class="edlab">問題文</label><textarea id="edq" class="edta"></textarea>'
+      +'<label class="edlab">選択肢（正解は左の○で指定）</label>'
+      +[0,1,2,3].map(function(i){return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><input type="radio" name="edans" value="'+i+'" id="edans'+i+'" style="flex-shrink:0"><input class="edinp" id="edc'+i+'" style="flex:1"></div>';}).join('')
+      +'<label class="edlab">解説</label><textarea id="edex" class="edta"></textarea>'
+      +'<div style="display:flex;gap:8px;margin-top:12px"><button class="edbtn" style="flex:1;background:#eee;color:#333" onclick="edCloseModal()">キャンセル</button>'
+      +'<button class="edbtn" style="flex:1;background:#2F7168;color:#fff" onclick="edSaveEdit()">保存</button></div></div>';
+    document.body.appendChild(em);
+
+    /* --- 報告モーダル --- */
+    var rp=document.createElement('div'); rp.className='rpmodal'; rp.id='rpmodal';
+    rp.innerHTML='<div class="rpbox"><div id="rpform"><div style="font-size:15px;font-weight:800;margin-bottom:5px">⚠ この問題を報告</div>'
+      +'<div id="rpinfo" style="font-size:12px;color:#6B6560;margin-bottom:10px;line-height:1.6"></div>'
+      +'<textarea id="rpmsg" class="edta" placeholder="気づいた点（誤りや不自然な点など）を書いてください。" style="min-height:90px"></textarea>'
+      +'<div style="display:flex;gap:8px;margin-top:10px"><button class="rpbtn" style="background:#eee;color:#333" onclick="closeReport()">キャンセル</button>'
+      +'<button class="rpbtn" style="background:#2F7168;color:#fff" onclick="sendReport()">送信する</button></div></div>'
+      +'<div id="rpsent" style="display:none;text-align:center;padding:12px 0"><div style="font-size:34px">✓</div><div style="font-weight:700;margin-top:6px">送信しました。ありがとうございます。</div></div></div>';
+    document.body.appendChild(rp);
+
+    /* --- ✎ トリガー（ホーム画面・目立たない）--- */
+    try{ var h=D('home'); if(h){ var t=document.createElement('div'); t.style.cssText='text-align:right;margin-top:8px';
+      t.innerHTML='<span onclick="openEditor()" style="color:#9E9890;font-size:11px;cursor:pointer;opacity:.4;user-select:none;padding:6px 10px;display:inline-block">✎</span>';
+      h.appendChild(t); } }catch(e){}
+
+    /* --- 確認済み状態（localStorage）--- */
+    function rkey(si,ii){ return 'edrev_'+EXPORT_NAME+'_'+si+'_'+ii; }
+    function isRev(si,ii){ return localStorage.getItem(rkey(si,ii))==='1'; }
+    function setRev(si,ii,v){ try{ if(v) localStorage.setItem(rkey(si,ii),'1'); else localStorage.removeItem(rkey(si,ii)); }catch(e){} }
+
+    window.openEditor=function(){
+      var input=prompt('パスワードを入力してください：'); if(!input) return;
+      crypto.subtle.digest('SHA-256', new TextEncoder().encode(input)).then(function(buf){
+        var hex=Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+        if(hex===EDIT_HASH){
+          var sel=D('edsec');
+          if(!sel.options.length){ SECTIONS.forEach(function(s,si){ var o=document.createElement('option'); o.value=si; o.textContent=s.name+'（'+s.items.length+'問）'; sel.appendChild(o); }); sel.addEventListener('change',edLoad); }
+          D('edov').style.display='block'; edLoad();
+        } else alert('パスワードが違います。');
+      });
+    };
+    window.edClose=function(){ D('edov').style.display='none'; };
+
+    window.edLoad=function(){
+      var si=+D('edsec').value; var sec=SECTIONS[si]; if(!sec) return;
+      var list=D('edlist'); list.innerHTML='';
+      var hid=sec.items.filter(function(x){return x.hidden;}).length;
+      var bar=document.createElement('div'); bar.className='edcard'; bar.style.fontSize='12px'; bar.style.color='#6B6560';
+      bar.textContent='このパート：全 '+sec.items.length+' 問 ／ 非表示 '+hid+' 問';
+      list.appendChild(bar);
+      sec.items.forEach(function(it,ii){
+        var rev=isRev(si,ii);
+        var q=(it.q||it.sub||it.passage||'（問題文なし）');
+        var prev=esc(String(q).replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').slice(0,60))+'…';
+        var ch=it.cs.map(function(c,ci){ return '<span style="font-size:12px;padding:2px 7px;border-radius:4px;background:'+(ci===it.a?'#2F7168':'#F0EEE8')+';color:'+(ci===it.a?'#fff':'#6B6560')+';border:1px solid #E2DDD6;margin:2px 3px 2px 0;display:inline-block">'+esc(c)+'</span>'; }).join('');
+        var card=document.createElement('div'); card.className='edcard';
+        card.style.display='flex'; card.style.gap='10px'; card.style.alignItems='flex-start';
+        if(it.hidden){ card.style.opacity='.5'; card.style.borderStyle='dashed'; } else if(rev){ card.style.opacity='.7'; card.style.borderColor='#27ae60'; }
+        card.innerHTML='<div style="flex:1;min-width:0">'
+          +'<div style="font-size:11px;color:#9E9890;margin-bottom:3px"><b>#'+(ii+1)+'</b> '+(rev?'<span style="color:#27ae60;font-weight:700">✓ 確認済み</span>':'<span style="color:#B33;font-weight:700">● 未確認</span>')+(it.hidden?' <span style="color:#fff;background:#777;border-radius:4px;padding:1px 6px">非表示</span>':'')+'</div>'
+          +'<div style="font-size:14px;line-height:1.5;margin-bottom:5px;word-break:break-all">'+prev+'</div>'
+          +'<div>'+ch+'</div>'
+          +'<div style="font-size:12px;color:#27ae60;margin-top:4px">正解：'+esc(it.cs[it.a])+'</div>'
+          +(it.ex?'<div style="font-size:11.5px;color:#6B6560;margin-top:3px">解説：'+esc(String(it.ex).slice(0,90))+'</div>':'')
+          +'</div>'
+          +'<div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">'
+          +'<button class="edbtn" style="background:#2F7168;color:#fff;padding:7px 12px" onclick="edEdit('+si+','+ii+')">編集</button>'
+          +'<button class="edbtn" style="padding:5px 8px;font-size:11px;background:'+(rev?'#eee':'#27ae60')+';color:'+(rev?'#6B6560':'#fff')+'" onclick="edToggleRev('+si+','+ii+')">'+(rev?'未確認へ':'✓確認済み')+'</button>'
+          +'<button class="edbtn" style="padding:5px 8px;font-size:11px;background:'+(it.hidden?'#2D5A8E':'#eee')+';color:'+(it.hidden?'#fff':'#6B6560')+'" onclick="edToggleHidden('+si+','+ii+')">'+(it.hidden?'表示へ':'非表示')+'</button>'
+          +'</div>';
+        list.appendChild(card);
+      });
+    };
+    window.edToggleRev=function(si,ii){ setRev(si,ii,!isRev(si,ii)); edLoad(); };
+    window.edToggleHidden=function(si,ii){ var it=SECTIONS[si].items[ii]; if(it.hidden) delete it.hidden; else it.hidden=true; edLoad(); };
+
+    var edEditing=null;
+    window.edEdit=function(si,ii){
+      var it=SECTIONS[si].items[ii]; if(!it) return; edEditing=[si,ii];
+      D('edmtitle').textContent='パート「'+SECTIONS[si].name+'」 #'+(ii+1)+' を編集';
+      var pw=D('edpassagewrap'); if(it.passage!=null){ pw.style.display='block'; D('edpassage').value=it.passage||''; } else pw.style.display='none';
+      var sw=D('edsubwrap'); if(it.sub!=null){ sw.style.display='block'; D('edsub').value=it.sub||''; } else sw.style.display='none';
+      D('edq').value=it.q||'';
+      for(var i=0;i<4;i++){ D('edc'+i).value=(it.cs&&it.cs[i]!=null)?it.cs[i]:''; }
+      var r=D('edans'+(it.a||0)); if(r) r.checked=true;
+      D('edex').value=it.ex||'';
+      D('edmodal').style.display='flex';
+    };
+    window.edCloseModal=function(){ D('edmodal').style.display='none'; };
+    window.edSaveEdit=function(){
+      if(!edEditing) return; var it=SECTIONS[edEditing[0]].items[edEditing[1]];
+      if(D('edpassagewrap').style.display!=='none') it.passage=D('edpassage').value;
+      if(D('edsubwrap').style.display!=='none') it.sub=D('edsub').value;
+      it.q=D('edq').value;
+      it.cs=[0,1,2,3].map(function(i){return D('edc'+i).value;});
+      var sel=document.querySelector('input[name="edans"]:checked'); it.a=sel?+sel.value:0;
+      it.ex=D('edex').value;
+      setRev(edEditing[0],edEditing[1],false);
+      edCloseModal(); edLoad();
+    };
+
+    function dl(blob,name){ var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){try{URL.revokeObjectURL(a.href);}catch(e){}},1500); }
+    window.edExport=function(){
+      if(EXPORT_KIND==='bjtchoukai'){
+        try{ var js='window.BJT_CHOUKAI = '+JSON.stringify(window.BJT_CHOUKAI)+';\n'; dl(new Blob([js],{type:'text/javascript;charset=utf-8'}),'bjt_choukai_data.js'); }
+        catch(e){ alert('ダウンロードに失敗しました。'); }
+        return;
+      }
+      fetch(location.href,{cache:'no-store'}).then(function(r){return r.text();}).then(function(src){
+        var re=/\/\*<DATA>\*\/[\s\S]*?\/\*<\/DATA>\*\//;
+        if(!re.test(src)){ alert('データ範囲のマーカーが見つかりません。公開サイト（サーバー）から開いて、もう一度お試しください。'); return; }
+        src=src.replace(re,'/*<DATA>*/ var SECTIONS='+JSON.stringify(SECTIONS)+'; /*</DATA>*/');
+        dl(new Blob([src],{type:'text/html;charset=utf-8'}),EXPORT_NAME);
+      }).catch(function(){ alert('ダウンロードに失敗しました。公開サイト（サーバー）から開いてお試しください。'); });
+    };
+
+    /* --- 報告 --- */
+    window.openReport=function(){
+      if(!pool.length||!pool[cur]) return;
+      var it=pool[cur].it||pool[cur];
+      D('rpinfo').textContent='問題：'+String(it.q||it.sub||it.passage||'').replace(/<[^>]*>/g,' ').slice(0,50)+'…';
+      D('rpmsg').value=''; D('rpform').style.display='block'; D('rpsent').style.display='none'; D('rpmodal').style.display='flex';
+    };
+    window.closeReport=function(){ D('rpmodal').style.display='none'; };
+    window.sendReport=function(){
+      var msg=D('rpmsg').value.trim(); if(!msg){ alert('コメントを入力してください。'); return; }
+      var it=(pool[cur]&&(pool[cur].it||pool[cur]))||{};
+      var body={ message:msg, test:EXPORT_NAME, section:curSec+((pool[cur]&&pool[cur].sec)?(' / '+pool[cur].sec):''),
+        question:String(it.q||it.sub||it.passage||''), choices:(it.cs||[]).join(' / '), answer:(it.cs&&it.cs[it.a])||'' };
+      fetch(FORMSPREE,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)})
+        .then(function(res){ if(res.ok){ D('rpform').style.display='none'; D('rpsent').style.display='block'; setTimeout(closeReport,1800); } else alert('送信に失敗しました。'); })
+        .catch(function(){ alert('送信に失敗しました。ネット接続をご確認ください。'); });
+    };
+
+    /* --- 出題画面に報告ボタンを差し込む（解答後）--- */
+    if(typeof pick==='function'){
+      var _pick=pick; pick=function(){ var r=_pick.apply(this,arguments); try{ var e=D('exp'); if(e && !D('repInBtn')){ var bb=document.createElement('div'); bb.style.textAlign='right'; bb.innerHTML='<button id="repInBtn" class="rep-link" onclick="openReport()">⚠ この問題を報告</button>'; e.appendChild(bb); } }catch(err){} return r; };
+    }
+
+    /* --- 非表示問題を出題から除外 --- */
+    function filterHidden(){ try{ pool=pool.filter(function(x){ return !((x.it||x).hidden); }); }catch(e){} }
+    if(typeof start==='function'){ var _s=start; start=function(){ var r=_s.apply(this,arguments); filterHidden(); try{ if(pool.length){ if(cur>=pool.length) cur=0; render(); } }catch(e){} return r; }; }
+    if(typeof startReview==='function'){ var _sr=startReview; startReview=function(){ var r=_sr.apply(this,arguments); filterHidden(); try{ if(pool.length){ if(cur>=pool.length) cur=0; render(); } }catch(e){} return r; }; }
+  })();
 
 })();
 </script>

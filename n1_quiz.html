@@ -908,7 +908,7 @@ function setReviewed(catStr, idx, val) {
 function openEditor() {
   const input = prompt('パスワードを入力してください：');
   if (!input) return;
-  const HASH = '81b05204f10c10a100d03aef959546cef59357c8177aa3779265b048ac75757e';
+  const HASH = '89c8c24ac1d962dc9b9514510fe68937ce5f7465216d51b0aecc74a6ac09de39';
   crypto.subtle.digest('SHA-256', new TextEncoder().encode(input)).then(buf => {
     const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
     if (hex === HASH) {
@@ -1208,6 +1208,5 @@ updateStatsBar();
 </script>
 <script src="record_config.js"></script>
 <script src="quiz_record.js"></script>
-<script src="quiz_review.js"></script>
 </body>
 </html>

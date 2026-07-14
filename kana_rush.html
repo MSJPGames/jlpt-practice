@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ひらがなラッシュ</title>
+<title>カタカナラッシュ</title>
 <style>
   :root {
     --bg: #F7F5F0;
@@ -12,9 +12,9 @@
     --text: #1C1C1C;
     --text-muted: #6B6560;
     --text-hint: #9E9890;
-    --go: #3B6D11;
-    --go-soft: #EAF3DE;
-    --go-deep: #2C520C;
+    --go: #185FA5;
+    --go-soft: #E6F1FB;
+    --go-deep: #0E436F;
     --miss: #C0432A;
     --miss-soft: #FAECE7;
     --gold: #B8860B;
@@ -32,87 +32,33 @@
   .frame {
     width: 100%; max-width: 460px; height: 100dvh; max-height: 880px;
     display: flex; flex-direction: column; position: relative;
-    padding: 16px 16px 20px;
+    padding: 18px 18px 24px;
   }
 
   /* ====== 共通画面 ====== */
-  .screen { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+  .screen { flex: 1; display: flex; flex-direction: column; }
   .hidden { display: none !important; }
 
   /* ====== スタート / 終了 ====== */
   .center-card {
     flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 20px; text-align: center;
+    align-items: center; justify-content: center; gap: 22px; text-align: center;
   }
   .logo { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; color: var(--text-hint); }
-  .big-title { font-size: 38px; font-weight: 800; letter-spacing: 0.04em; line-height: 1.1; }
+  .big-title { font-size: 40px; font-weight: 800; letter-spacing: 0.04em; line-height: 1.1; }
   .big-title small { display:block; font-size: 14px; font-weight:600; color: var(--text-muted); letter-spacing:0.08em; margin-top:8px; }
-  .lede { font-size: 14px; color: var(--text-muted); line-height: 1.8; max-width: 300px; }
+  .lede { font-size: 14px; color: var(--text-muted); line-height: 1.8; max-width: 280px; }
   .lede b { color: var(--go-deep); font-weight: 700; }
-
-  /* ====== モード選択カード ====== */
-  .mode-list { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; }
-  .mode-card {
-    font-family: inherit; cursor: pointer; text-align: left;
-    border: 1px solid var(--border); background: var(--surface);
-    border-radius: var(--radius); padding: 18px 18px;
-    display: flex; align-items: center; gap: 14px; color: inherit;
-    position: relative; overflow: hidden;
-    box-shadow: 0 2px 0 var(--border);
-    transition: transform .1s, box-shadow .1s, border-color .12s;
-  }
-  .mode-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background: var(--go); }
-  .mode-card:active { transform: translateY(2px); box-shadow: 0 0 0 var(--border); }
-  .mode-ic {
-    width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
-    background: var(--go-soft); color: var(--go);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 26px; font-weight: 800;
-  }
-  .mode-tx { flex: 1; min-width: 0; }
-  .mode-nm { font-size: 17px; font-weight: 800; }
-  .mode-ds { font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
-  .mode-ar { font-size: 22px; color: var(--text-hint); flex-shrink: 0; }
-  .mode-card.word::before { background: var(--gold); }
-  .mode-card.word .mode-ic { background: #FBF0D6; color: #8A6608; }
-
-  /* 難易度カード */
-  .diff-list { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; }
-  .diff-card {
-    font-family: inherit; cursor: pointer; text-align: left;
-    border: 1px solid var(--border); background: var(--surface);
-    border-radius: var(--radius); padding: 15px 16px;
-    display: flex; align-items: center; gap: 13px; color: inherit;
-    position: relative; overflow: hidden; box-shadow: 0 2px 0 var(--border);
-    transition: transform .1s, box-shadow .1s;
-  }
-  .diff-card:active { transform: translateY(2px); box-shadow: 0 0 0 var(--border); }
-  .diff-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; }
-  .diff-card.d1::before { background: #5C8F2A; }
-  .diff-card.d2::before { background: var(--gold); }
-  .diff-card.d3::before { background: var(--miss); }
-  .diff-badge {
-    width: 46px; height: 46px; border-radius: 13px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; font-weight: 800;
-  }
-  .diff-card.d1 .diff-badge { background: var(--go-soft); color: var(--go); }
-  .diff-card.d2 .diff-badge { background: #FBF0D6; color: #8A6608; }
-  .diff-card.d3 .diff-badge { background: var(--miss-soft); color: var(--miss); }
-  .diff-tx { flex: 1; min-width: 0; }
-  .diff-nm { font-size: 16px; font-weight: 800; }
-  .diff-ds { font-size: 11.5px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
-  .diff-ar { font-size: 20px; color: var(--text-hint); }
 
   .btn {
     border: none; cursor: pointer; font-family: inherit;
     font-size: 17px; font-weight: 700; letter-spacing: 0.04em;
     padding: 16px 44px; border-radius: 999px;
     background: var(--go); color: #fff;
-    box-shadow: 0 6px 0 var(--go-deep), 0 10px 20px rgba(59,109,17,0.25);
+    box-shadow: 0 6px 0 var(--go-deep), 0 10px 20px rgba(24,95,165,0.25);
     transition: transform .08s, box-shadow .08s;
   }
-  .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--go-deep), 0 4px 10px rgba(59,109,17,0.2); }
+  .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--go-deep), 0 4px 10px rgba(24,95,165,0.2); }
   .btn-text {
     background: none; border: none; cursor: pointer; font-family: inherit;
     font-size: 14px; font-weight: 600; color: var(--text-muted);
@@ -128,7 +74,7 @@
 
   /* ベストスコア表 */
   .board { width: 100%; max-width: 300px; display: flex; flex-direction: column; gap: 6px; }
-  .board-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-hint); margin-bottom: 2px; }
+  .board-title { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-hint); margin-bottom: 2px; }
   .brow {
     display: flex; align-items: center; gap: 10px; padding: 7px 12px; text-align: left;
     background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
@@ -142,52 +88,51 @@
   .bdate { font-size: 11px; color: var(--text-hint); }
   .bnew { font-size: 9px; font-weight: 800; color: #fff; background: var(--go); padding: 2px 6px; border-radius: 6px; letter-spacing: 0.05em; }
 
-  .game-back {
-    align-self: flex-start; font-size: 13px; font-weight: 600;
-    color: var(--text-muted); text-decoration: none; padding: 2px 0; background:none; border:none; font-family:inherit; cursor:pointer;
-  }
-  .game-back:active { opacity: .6; }
-
   /* ====== HUD ====== */
-  .hud { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .hud { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
   .timebar-wrap { flex: 1; height: 10px; background: var(--border); border-radius: 999px; overflow: hidden; }
   .timebar { height: 100%; width: 100%; background: var(--go);
     border-radius: 999px; transition: width .25s linear, background .25s; }
   .timebar.low { background: var(--miss); }
-  .hud-num { font-size: 20px; font-weight: 800; min-width: 52px; text-align: right; font-variant-numeric: tabular-nums; }
+  .hud-num { font-size: 20px; font-weight: 800; min-width: 56px; text-align: right; font-variant-numeric: tabular-nums; }
   .hud-num small { font-size: 10px; font-weight: 700; color: var(--text-hint); display: block; letter-spacing: 0.08em; }
-  .quit, .soundbtn {
-    width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%;
+  .quit {
+    width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%;
     border: 1px solid var(--border); background: var(--surface);
-    color: var(--text-muted); font-size: 15px; font-weight: 700;
+    color: var(--text-muted); font-size: 16px; font-weight: 700;
     cursor: pointer; display: flex; align-items: center; justify-content: center;
     font-family: inherit;
   }
-  .quit:active, .soundbtn:active { transform: scale(.92); }
+  .quit:active { transform: scale(.92); }
+  .soundbtn {
+    width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text-muted); font-size: 15px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-family: inherit;
+  }
+  .soundbtn:active { transform: scale(.92); }
   .soundbtn.off { opacity: .55; }
+  .game-back {
+    align-self: flex-start; font-size: 13px; font-weight: 600;
+    color: var(--text-muted); text-decoration: none; padding: 2px 0;
+  }
+  .game-back:active { opacity: .6; }
 
   /* ====== お題 ====== */
-  .prompt-zone { text-align: center; padding: 14px 0 8px; position: relative; }
-  .prompt-label { font-size: 12px; color: var(--text-hint); font-weight: 700; letter-spacing: 0.1em; }
+  .prompt-zone { text-align: center; padding: 22px 0 14px; position: relative; }
+  .prompt-label { font-size: 12px; color: var(--text-hint); font-weight: 700; letter-spacing: 0.12em; }
   .prompt-target {
-    font-size: 52px; font-weight: 800; color: var(--text); line-height: 1.1; letter-spacing: 0.02em;
+    font-size: 58px; font-weight: 800; color: var(--text); line-height: 1.1;
+    letter-spacing: 0.02em;
   }
-  .prompt-en { font-size: 12px; color: var(--text-hint); font-weight: 600; margin-top: 2px; min-height: 16px; }
-  .prompt-sound {
-    display:inline-flex; align-items:center; gap:5px; margin-top:6px;
-    font-family:inherit; font-size:12px; font-weight:700; color: var(--text-muted);
-    background: var(--surface); border:1px solid var(--border); border-radius:999px;
-    padding:5px 13px; cursor:pointer;
-  }
-  .prompt-sound:active { transform: scale(.95); }
   .prompt-zone.pop .prompt-target { animation: targetpop .28s ease; }
   @keyframes targetpop { 0%{transform:scale(.7);opacity:0} 60%{transform:scale(1.08)} 100%{transform:scale(1);opacity:1} }
 
   /* コンボ表示 */
   .combo {
-    position: absolute; top: 2px; left: 50%;
+    position: absolute; top: 6px; left: 50%;
     transform: translate(-50%,-50%) scale(.6);
-    font-size: 34px; font-weight: 800; color: var(--gold);
+    font-size: 38px; font-weight: 800; color: var(--gold);
     opacity: 0; pointer-events: none; white-space: nowrap;
     text-shadow: 0 2px 10px rgba(184,134,11,0.28);
   }
@@ -202,7 +147,7 @@
     @keyframes comboflashrm { 0%{opacity:0} 25%{opacity:1} 100%{opacity:0} }
   }
 
-  /* ====== グリッド（文字練習） ====== */
+  /* ====== グリッド ====== */
   .grid {
     flex: 1; display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 12px; align-content: center; padding: 6px 0;
@@ -235,107 +180,31 @@
     80%{transform:translateX(6px)}
   }
 
-  /* ====== 単語練習エリア ====== */
-  .word-area { flex: 1; display: flex; flex-direction: column; min-height: 0; }
-  .slots { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding: 6px 0 10px; min-height: 54px; }
-  .slots.shake { animation: shake .4s ease; }
-  .slot {
-    width: 40px; height: 46px; border-radius: 10px;
-    background: var(--surface); border: 2px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px; font-weight: 700; color: var(--text);
-  }
-  .slot.filled { border-color: var(--go); background: var(--go-soft); }
-  .slot.bad { border-color: var(--miss); background: var(--miss-soft); color: var(--miss); }
-  .slot.cursor { border-color: var(--text-hint); border-style: dashed; }
-
-  .kb { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
-  .kb-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-  .key {
-    font-family: inherit; cursor: pointer;
-    height: 44px; border-radius: 10px;
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--text); font-size: 21px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 2px 0 var(--border); transition: transform .05s;
-  }
-  .key:active { transform: translateY(2px); box-shadow: 0 0 0 var(--border); background: var(--go-soft); }
-  .key.blank { visibility: hidden; box-shadow: none; }
-  .key.mod { background: #F0EEE8; font-size: 17px; font-weight: 800; color: var(--text-muted); }
-  .key.mod:active { background: #E6E2D8; }
-  .key.del { background: var(--miss-soft); color: var(--miss); font-size: 18px; }
-
   /* 全画面フラッシュ */
   .flash { position: absolute; inset: 0; pointer-events: none; opacity: 0; border-radius: var(--radius); }
-  .flash.go { background: radial-gradient(circle, rgba(59,109,17,0.16), transparent 70%); animation: flashout .4s ease; }
-  .flash.bad { background: radial-gradient(circle, rgba(192,67,42,0.16), transparent 70%); animation: flashout .4s ease; }
+  .flash.go { background: radial-gradient(circle, rgba(24,95,165,0.18), transparent 70%); animation: flashout .4s ease; }
+  .flash.bad { background: radial-gradient(circle, rgba(192,67,42,0.18), transparent 70%); animation: flashout .4s ease; }
   @keyframes flashout { from{opacity:1} to{opacity:0} }
 
   /* パーティクル */
   .particle { position: absolute; width: 9px; height: 9px; border-radius: 50%;
     background: var(--go); pointer-events: none; will-change: transform, opacity; }
 
-  .hint-row { text-align:center; font-size: 11px; color: var(--text-hint); margin-top: 6px; letter-spacing: 0.06em; min-height: 15px; }
+  .hint-row { text-align:center; font-size: 11px; color: var(--text-hint); margin-top: 6px; letter-spacing: 0.06em; }
 </style>
 </head>
 <body>
 <div class="frame">
 
-  <!-- スタート画面（モード選択） -->
+  <!-- スタート画面 -->
   <div id="startScreen" class="screen">
     <a href="games.html" class="game-back">‹ もどる</a>
     <div class="center-card">
       <div class="logo">NIHONGO NO HEYA</div>
-      <div class="big-title">ひらがなラッシュ<small>HIRAGANA RUSH ・ 60秒</small></div>
-      <div class="lede">なにをれんしゅうする？</div>
-      <div class="mode-list">
-        <button class="mode-card" id="modeChar" type="button">
-          <div class="mode-ic">字</div>
-          <div class="mode-tx">
-            <div class="mode-nm">文字練習</div>
-            <div class="mode-ds">ローマ字を見て、正しいひらがなをタップ</div>
-          </div>
-          <div class="mode-ar">›</div>
-        </button>
-        <button class="mode-card word" id="modeWord" type="button">
-          <div class="mode-ic">語</div>
-          <div class="mode-tx">
-            <div class="mode-nm">単語練習</div>
-            <div class="mode-ds">かなキーボードで単語を入力。難易度3段階</div>
-          </div>
-          <div class="mode-ar">›</div>
-        </button>
-      </div>
+      <div class="big-title">カタカナラッシュ<small>KATAKANA RUSH ・ 60秒</small></div>
+      <div class="lede"><b>カタカナ</b>をできるだけ早くタップ。<br>連続で当てると<b>コンボ</b>がのびる。</div>
+      <button class="btn" id="startBtn">スタート</button>
       <div class="hint-row">考えるより、指で反応</div>
-    </div>
-  </div>
-
-  <!-- 難易度選択画面（単語練習） -->
-  <div id="diffScreen" class="screen hidden">
-    <button class="game-back" id="diffBack" type="button">‹ もどる</button>
-    <div class="center-card">
-      <div class="logo">単語練習 ・ WORD PRACTICE</div>
-      <div class="big-title" style="font-size:30px;">難易度をえらぶ</div>
-      <div class="diff-list">
-        <button class="diff-card d1" data-lv="easy" type="button">
-          <div class="diff-badge">や</div>
-          <div class="diff-tx"><div class="diff-nm">やさしい</div>
-            <div class="diff-ds">2〜3文字・清音（ねこ、やま…）</div></div>
-          <div class="diff-ar">›</div>
-        </button>
-        <button class="diff-card d2" data-lv="normal" type="button">
-          <div class="diff-badge">ふ</div>
-          <div class="diff-tx"><div class="diff-nm">ふつう</div>
-            <div class="diff-ds">濁音・半濁音・長め（たまご、でんわ…）</div></div>
-          <div class="diff-ar">›</div>
-        </button>
-        <button class="diff-card d3" data-lv="hard" type="button">
-          <div class="diff-badge">む</div>
-          <div class="diff-tx"><div class="diff-nm">むずかしい</div>
-            <div class="diff-ds">拗音・促音・長め（がっこう、りょこう…）</div></div>
-          <div class="diff-ar">›</div>
-        </button>
-      </div>
     </div>
   </div>
 
@@ -349,22 +218,12 @@
     </div>
 
     <div class="prompt-zone" id="promptZone">
-      <div class="prompt-label" id="promptLabel">この音は？</div>
+      <div class="prompt-label">この音は？</div>
       <div class="prompt-target" id="promptTarget">ka</div>
-      <div class="prompt-en" id="promptEn"></div>
-      <button class="prompt-sound hidden" id="promptSound" type="button">🔊 もう一度きく</button>
       <div class="combo" id="comboTag"></div>
     </div>
 
-    <!-- 文字練習：3x3グリッド -->
     <div class="grid" id="grid"></div>
-
-    <!-- 単語練習：スロット＋かなキーボード -->
-    <div class="word-area hidden" id="wordArea">
-      <div class="slots" id="slots"></div>
-      <div class="kb" id="kb"></div>
-    </div>
-
     <div class="hint-row" id="streakHint">　</div>
   </div>
 
@@ -377,8 +236,8 @@
       <div class="board" id="board"></div>
       <div class="lede" id="endMsg"></div>
       <button class="btn" id="againBtn">もう一回</button>
-      <button class="btn-text" id="toStart" type="button">モードをえらぶ</button>
-      <a href="../learn/hiragana.html" class="btn-text">もっとくわしく学ぶ →</a>
+      <a href="games.html" class="btn-text">トップに戻る</a>
+      <a href="../learn/katakana.html" class="btn-text">もっとくわしく学ぶ →</a>
     </div>
   </div>
 
@@ -386,268 +245,136 @@
 
 <script>
 (function(){
-  const KIND = 'hira'; // hira / kata
-
-  // ===== 単一かな（文字練習用） =====
+  // 基本の五十音（よく使うもの中心）
   const KANA = [
-    ['あ','a'],['い','i'],['う','u'],['え','e'],['お','o'],
-    ['か','ka'],['き','ki'],['く','ku'],['け','ke'],['こ','ko'],
-    ['さ','sa'],['し','shi'],['す','su'],['せ','se'],['そ','so'],
-    ['た','ta'],['ち','chi'],['つ','tsu'],['て','te'],['と','to'],
-    ['な','na'],['に','ni'],['ぬ','nu'],['ね','ne'],['の','no'],
-    ['は','ha'],['ひ','hi'],['ふ','fu'],['へ','he'],['ほ','ho'],
-    ['ま','ma'],['み','mi'],['む','mu'],['め','me'],['も','mo'],
-    ['や','ya'],['ゆ','yu'],['よ','yo'],
-    ['ら','ra'],['り','ri'],['る','ru'],['れ','re'],['ろ','ro'],
-    ['わ','wa'],['を','wo'],['ん','n']
+    ['ア','a'],['イ','i'],['ウ','u'],['エ','e'],['オ','o'],
+    ['カ','ka'],['キ','ki'],['ク','ku'],['ケ','ke'],['コ','ko'],
+    ['サ','sa'],['シ','shi'],['ス','su'],['セ','se'],['ソ','so'],
+    ['タ','ta'],['チ','chi'],['ツ','tsu'],['テ','te'],['ト','to'],
+    ['ナ','na'],['ニ','ni'],['ヌ','nu'],['ネ','ne'],['ノ','no'],
+    ['ハ','ha'],['ヒ','hi'],['フ','fu'],['ヘ','he'],['ホ','ho'],
+    ['マ','ma'],['ミ','mi'],['ム','mu'],['メ','me'],['モ','mo'],
+    ['ヤ','ya'],['ユ','yu'],['ヨ','yo'],
+    ['ラ','ra'],['リ','ri'],['ル','ru'],['レ','re'],['ロ','ro'],
+    ['ワ','wa'],['ヲ','wo'],['ン','n']
   ];
-
-  // ===== 単語リスト（単語練習用） kana / yomi(ローマ字) / en =====
-  const WORDS = {
-    easy: [
-      {k:'ねこ',y:'neko',e:'cat'},{k:'いぬ',y:'inu',e:'dog'},{k:'やま',y:'yama',e:'mountain'},
-      {k:'かわ',y:'kawa',e:'river'},{k:'そら',y:'sora',e:'sky'},{k:'うみ',y:'umi',e:'sea'},
-      {k:'はな',y:'hana',e:'flower'},{k:'ほし',y:'hoshi',e:'star'},{k:'とり',y:'tori',e:'bird'},
-      {k:'くち',y:'kuchi',e:'mouth'},{k:'みみ',y:'mimi',e:'ear'},{k:'あし',y:'ashi',e:'foot'},
-      {k:'いえ',y:'ie',e:'house'},{k:'ふね',y:'fune',e:'boat'},{k:'つき',y:'tsuki',e:'moon'}
-    ],
-    normal: [
-      {k:'たまご',y:'tamago',e:'egg'},{k:'みかん',y:'mikan',e:'orange'},{k:'かばん',y:'kaban',e:'bag'},
-      {k:'でんわ',y:'denwa',e:'phone'},{k:'みず',y:'mizu',e:'water'},{k:'かぎ',y:'kagi',e:'key'},
-      {k:'ごはん',y:'gohan',e:'rice/meal'},{k:'なまえ',y:'namae',e:'name'},{k:'まど',y:'mado',e:'window'},
-      {k:'ともだち',y:'tomodachi',e:'friend'},{k:'えんぴつ',y:'enpitsu',e:'pencil'},{k:'たべもの',y:'tabemono',e:'food'},
-      {k:'でぐち',y:'deguchi',e:'exit'},{k:'ぼうし',y:'boushi',e:'hat'}
-    ],
-    hard: [
-      {k:'がっこう',y:'gakkou',e:'school'},{k:'でんしゃ',y:'densha',e:'train'},{k:'びょういん',y:'byouin',e:'hospital'},
-      {k:'しゃしん',y:'shashin',e:'photo'},{k:'りょこう',y:'ryokou',e:'trip'},{k:'きって',y:'kitte',e:'stamp'},
-      {k:'きっぷ',y:'kippu',e:'ticket'},{k:'しゅくだい',y:'shukudai',e:'homework'},{k:'ひこうき',y:'hikouki',e:'airplane'},
-      {k:'べんきょう',y:'benkyou',e:'study'},{k:'とうきょう',y:'toukyou',e:'Tokyo'},{k:'ぎゅうにゅう',y:'gyuunyuu',e:'milk'}
-    ]
-  };
-
-  // ===== かなキーボード配列（ひらがな） =====
-  const KB_GRID = [
-    ['あ','い','う','え','お'],
-    ['か','き','く','け','こ'],
-    ['さ','し','す','せ','そ'],
-    ['た','ち','つ','て','と'],
-    ['な','に','ぬ','ね','の'],
-    ['は','ひ','ふ','へ','ほ'],
-    ['ま','み','む','め','も'],
-    ['や','','ゆ','','よ'],
-    ['ら','り','る','れ','ろ'],
-    ['わ','','ん','','を']
-  ];
-  // 濁点・半濁点・小文字の変換（前後）
-  const DAKU = {'か':'が','き':'ぎ','く':'ぐ','け':'げ','こ':'ご','さ':'ざ','し':'じ','す':'ず','せ':'ぜ','そ':'ぞ','た':'だ','ち':'ぢ','つ':'づ','て':'で','と':'ど','は':'ば','ひ':'び','ふ':'ぶ','へ':'べ','ほ':'ぼ','う':'ゔ'};
-  const HANDAKU = {'は':'ぱ','ひ':'ぴ','ふ':'ぷ','へ':'ぺ','ほ':'ぽ'};
-  const SMALL = {'あ':'ぁ','い':'ぃ','う':'ぅ','え':'ぇ','お':'ぉ','つ':'っ','や':'ゃ','ゆ':'ゅ','よ':'ょ','わ':'ゎ'};
-  const CHOON = 'ー';
-
-  const ROUND_TIME = 60;
+  const ROUND_TIME = 60; // 秒
   const CELLS = 9;
-  const CHAR_COMBO = 2000;    // 文字練習：この時間内でコンボ継続
-  const WORD_PER_CHAR = 1600; // 単語練習：1文字あたりの猶予(コンボ判定)
+  const COMBO_WINDOW = 2000; // この時間(ミリ秒)以内に正解するとコンボ継続。短くすると難しく、長くすると簡単になる
 
   const $ = id => document.getElementById(id);
-  const startScreen=$('startScreen'), diffScreen=$('diffScreen'), gameScreen=$('gameScreen'), endScreen=$('endScreen');
-  const grid=$('grid'), wordArea=$('wordArea'), slotsEl=$('slots'), kbEl=$('kb');
-  const promptTarget=$('promptTarget'), promptZone=$('promptZone'), promptLabel=$('promptLabel'), promptEn=$('promptEn'), promptSound=$('promptSound');
+  const startScreen=$('startScreen'), gameScreen=$('gameScreen'), endScreen=$('endScreen');
+  const grid=$('grid'), promptTarget=$('promptTarget'), promptZone=$('promptZone');
   const scoreVal=$('scoreVal'), timebar=$('timebar'), comboTag=$('comboTag'), streakHint=$('streakHint');
 
-  let mode='char', level='easy';
-  let count=0, streak=0, maxStreak=0, timeLeft=0, timer=null, accepting=false, roundStart=0;
-  let target=null;      // char: [kana,romaji] / word: {k,y,e}
-  let typed='';         // word入力中のかな
-  let lastWord=null;
+  let count=0, streak=0, maxStreak=0, timeLeft=0, timer=null, target=null, accepting=false, roundStart=0;
 
-  // ===== 読み上げ =====
+  // ===== 読み上げ（ブラウザ内蔵の音声合成） =====
   const speechOK = ('speechSynthesis' in window);
   let soundOn = true;
   function jaVoice(){
     if(!speechOK) return null;
     const ja = speechSynthesis.getVoices().filter(v=>/^ja(-|_)/i.test(v.lang) || (v.lang||'').toLowerCase().startsWith('ja'));
     if(!ja.length) return null;
-    const bright = /female|kyoko|haruka|ayumi|nanami|sayaka|mizuki|google/i;
+    const bright = /female|kyoko|haruka|ayumi|nanami|sayaka|mizuki|google/i; // 明るめ・女性系を優先
     return ja.find(v=>bright.test(v.name)) || ja[0];
   }
   function speak(text){
     if(!speechOK || !soundOn) return;
     try {
-      speechSynthesis.cancel();
+      speechSynthesis.cancel();            // 連打しても溜まらないよう毎回リセット
       const u = new SpeechSynthesisUtterance(text);
-      u.lang='ja-JP'; u.rate=1.0; u.pitch=1.3;
-      const v=jaVoice(); if(v) u.voice=v;
+      u.lang = 'ja-JP'; u.rate = 1.05; u.pitch = 1.4;   // pitchを上げると明るく、下げると暗くなる
+      const v = jaVoice(); if(v) u.voice = v;
       speechSynthesis.speak(u);
     } catch(e){}
   }
-  if(speechOK){ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged=()=>{ jaVoice(); }; }
+  if(speechOK){ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = ()=>{ jaVoice(); }; }
 
-  // ===== ベストスコア（モード/難易度別） =====
-  const SCORE_BASE = KIND==='hira' ? 'hiragana_rush' : 'katakana_rush';
-  function scoreKey(){ return SCORE_BASE + (mode==='char' ? '_char' : '_word_'+level); }
-  function modeLabel(){ return mode==='char' ? '文字練習' : ('単語練習・'+({easy:'やさしい',normal:'ふつう',hard:'むずかしい'}[level])); }
-  let storageOK=true, memScores={};
-  try { localStorage.setItem('__t','1'); localStorage.removeItem('__t'); } catch(e){ storageOK=false; }
-  function loadScores(){ if(!storageOK) return (memScores[scoreKey()]||[]).slice();
-    try { return JSON.parse(localStorage.getItem(scoreKey()))||[]; } catch(e){ return []; } }
-  function saveScores(list){ if(!storageOK){ memScores[scoreKey()]=list.slice(); return; }
-    try { localStorage.setItem(scoreKey(), JSON.stringify(list)); } catch(e){} }
+  // ===== ベストスコア保存（この端末のブラウザに保存） =====
+  const SCORE_KEY = 'katakana_rush_scores';
+  let storageOK = true, memScores = [];
+  try { localStorage.setItem('__kr_t','1'); localStorage.removeItem('__kr_t'); } catch(e){ storageOK = false; }
+  function loadScores(){
+    if(!storageOK) return memScores.slice();
+    try { return JSON.parse(localStorage.getItem(SCORE_KEY)) || []; } catch(e){ return []; }
+  }
+  function saveScores(list){
+    if(!storageOK){ memScores = list.slice(); return; }
+    try { localStorage.setItem(SCORE_KEY, JSON.stringify(list)); } catch(e){}
+  }
   function renderBoard(list, entry){
-    $('board').innerHTML = '<div class="board-title">ベストスコア TOP5 ・ '+modeLabel()+'</div>' +
-      list.map((s,i)=>{ const hi=(s===entry);
-        return '<div class="brow'+(hi?' hi':'')+'"><span class="brank">'+(i+1)+'</span>'+
+    const board = $('board');
+    board.innerHTML = '<div class="board-title">ベストスコア TOP5</div>' +
+      list.map((s,i)=>{
+        const hi = (s===entry);
+        return '<div class="brow'+(hi?' hi':'')+'">'+
+          '<span class="brank">'+(i+1)+'</span>'+
           '<span class="bscore">'+s.score+'<small>個</small></span>'+
-          '<span class="bdate">'+s.date+'</span>'+(hi?'<span class="bnew">NEW</span>':'')+'</div>';
+          '<span class="bdate">'+s.date+'</span>'+
+          (hi?'<span class="bnew">NEW</span>':'')+
+          '</div>';
       }).join('');
   }
 
   function rand(n){ return Math.floor(Math.random()*n); }
   function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=rand(i+1);[a[i],a[j]]=[a[j],a[i]];} return a; }
 
-  // ===================== 文字練習 =====================
-  function newCharRound(){
+  function newRound(){
     target = KANA[rand(KANA.length)];
-    promptLabel.textContent='この音は？';
-    promptTarget.textContent=target[1];
-    promptEn.textContent=''; promptSound.classList.add('hidden');
+    promptTarget.textContent = target[1];               // ローマ字を提示
     promptZone.classList.remove('pop'); void promptZone.offsetWidth; promptZone.classList.add('pop');
+
+    // 8個のダミー＋正解1個
     const pool = shuffle(KANA.filter(k=>k[0]!==target[0])).slice(0, CELLS-1);
     const cells = shuffle([target, ...pool]);
+
     grid.innerHTML='';
     cells.forEach((k,i)=>{
       const c=document.createElement('div');
-      c.className='cell'; c.textContent=k[0]; c.style.animationDelay=(i*18)+'ms';
-      c.addEventListener('pointerdown', ()=>tapCell(k,c), {passive:true});
+      c.className='cell'; c.textContent=k[0];
+      c.style.animationDelay=(i*18)+'ms';
+      c.addEventListener('pointerdown', ()=>tap(k,c), {passive:true});
       grid.appendChild(c);
     });
-    accepting=true; roundStart=performance.now();
+    accepting=true;
+    roundStart=performance.now();
   }
-  function tapCell(k, cell){
+
+  function tap(k, cell){
     if(!accepting) return;
     if(k[0]===target[0]){
-      accepting=false; count++; scoreVal.textContent=count;
-      speak(target[0]); cell.classList.add('correct'); burst(cell); flash('go');
-      const fast=(performance.now()-roundStart)<=CHAR_COMBO;
-      bumpStreak(fast);
-      setTimeout(newCharRound,120);
-    } else {
-      breakStreak();
-      cell.classList.remove('wrong'); void cell.offsetWidth; cell.classList.add('wrong'); flash('bad');
-    }
-  }
-
-  // ===================== 単語練習 =====================
-  function buildKeyboard(){
-    kbEl.innerHTML='';
-    KB_GRID.forEach(row=>{
-      const r=document.createElement('div'); r.className='kb-row';
-      row.forEach(ch=>{
-        const b=document.createElement('button'); b.type='button';
-        if(ch===''){ b.className='key blank'; }
-        else { b.className='key'; b.textContent=ch; b.addEventListener('click',()=>pressKey(ch)); }
-        r.appendChild(b);
-      });
-      kbEl.appendChild(r);
-    });
-    // 修飾＋長音＋削除の行
-    const r=document.createElement('div'); r.className='kb-row';
-    [['゛','daku'],['゜','handaku'],['小','small'],[CHOON,'choon'],['⌫','del']].forEach(([label,act])=>{
-      const b=document.createElement('button'); b.type='button';
-      b.className='key '+(act==='del'?'del':'mod'); b.textContent=label;
-      b.addEventListener('click',()=>pressMod(act));
-      r.appendChild(b);
-    });
-    kbEl.appendChild(r);
-  }
-
-  function newWordRound(){
-    const list=WORDS[level];
-    let w; do { w=list[rand(list.length)]; } while(list.length>1 && w===lastWord);
-    lastWord=w; target=w; typed='';
-    promptLabel.textContent='この単語を入力';
-    promptTarget.textContent=w.y;
-    promptEn.textContent=w.e||'';
-    promptSound.classList.toggle('hidden', !speechOK);
-    promptZone.classList.remove('pop'); void promptZone.offsetWidth; promptZone.classList.add('pop');
-    renderSlots();
-    speak(w.k);
-    accepting=true; roundStart=performance.now();
-  }
-
-  function renderSlots(){
-    const tk=target.k; slotsEl.innerHTML='';
-    for(let i=0;i<tk.length;i++){
-      const s=document.createElement('div'); s.className='slot';
-      const ch=typed[i];
-      if(ch!==undefined){
-        s.textContent=ch;
-        s.classList.add(ch===tk[i]?'filled':'bad');
-      } else if(i===typed.length){
-        s.classList.add('cursor');
+      accepting=false;
+      count++;
+      scoreVal.textContent = count;
+      speak(target[0]);          // 正解したカタカナを発音
+      cell.classList.add('correct');
+      burst(cell);
+      flash('go');
+      // 速さでコンボ判定：規定時間内ならコンボ継続して表示、遅ければ0に戻す
+      const fast = (performance.now() - roundStart) <= COMBO_WINDOW;
+      if(fast){
+        streak++; if(streak>maxStreak) maxStreak=streak;
+        comboTag.textContent = '×'+streak;
+        comboTag.classList.remove('show'); void comboTag.offsetWidth; comboTag.classList.add('show');
+        streakHint.textContent = streak+'連続！';
+      } else {
+        streak=0;
+        streakHint.textContent='　';
       }
-      slotsEl.appendChild(s);
+      setTimeout(newRound, 120);
+    } else {
+      streak=0;
+      streakHint.textContent='　';
+      cell.classList.remove('wrong'); void cell.offsetWidth; cell.classList.add('wrong');
+      flash('bad');
     }
   }
 
-  function pressKey(ch){
-    if(!accepting || mode!=='word') return;
-    if(typed.length>=target.k.length){ shakeSlots(); return; }
-    typed+=ch; afterWordInput();
-  }
-  function pressMod(act){
-    if(!accepting || mode!=='word') return;
-    if(act==='del'){ if(typed.length){ typed=typed.slice(0,-1); afterWordInput(); } return; }
-    if(act==='choon'){
-      if(typed.length>=target.k.length){ shakeSlots(); return; }
-      typed+=CHOON; afterWordInput(); return;
-    }
-    // 濁点/半濁点/小：直前の文字を変換（トグル）
-    if(!typed.length){ return; }
-    const last=typed[typed.length-1];
-    let map=null, rev=null;
-    if(act==='daku'){ map=DAKU; }
-    else if(act==='handaku'){ map=HANDAKU; }
-    else if(act==='small'){ map=SMALL; }
-    rev = invert(map);
-    let nx=null;
-    if(map[last]) nx=map[last];
-    else if(rev[last]) nx=rev[last];
-    if(nx){ typed=typed.slice(0,-1)+nx; afterWordInput(); }
-    else { shakeSlots(); }
-  }
-  function invert(m){ const o={}; for(const k in m) o[m[k]]=k; return o; }
-
-  function afterWordInput(){
-    renderSlots();
-    if(typed===target.k){ wordCorrect(); }
-  }
-  function wordCorrect(){
-    accepting=false; count++; scoreVal.textContent=count;
-    // 全スロットを正解表示
-    slotsEl.querySelectorAll('.slot').forEach(s=>{ s.classList.remove('bad','cursor'); s.classList.add('filled'); });
-    burst(slotsEl); flash('go');
-    const fast=(performance.now()-roundStart)<=(WORD_PER_CHAR*target.k.length);
-    bumpStreak(fast);
-    setTimeout(newWordRound,300);
-  }
-  function shakeSlots(){ slotsEl.classList.remove('shake'); void slotsEl.offsetWidth; slotsEl.classList.add('shake'); }
-
-  // ===== 共通：コンボ =====
-  function bumpStreak(fast){
-    if(fast){ streak++; if(streak>maxStreak) maxStreak=streak;
-      comboTag.textContent='×'+streak;
-      comboTag.classList.remove('show'); void comboTag.offsetWidth; comboTag.classList.add('show');
-      streakHint.textContent=streak+'連続！';
-    } else { streak=0; streakHint.textContent='　'; }
-  }
-  function breakStreak(){ streak=0; streakHint.textContent='　'; }
-
-  function burst(el){
-    const r=el.getBoundingClientRect(), f=document.querySelector('.frame').getBoundingClientRect();
+  function burst(cell){
+    const r=cell.getBoundingClientRect(), f=document.querySelector('.frame').getBoundingClientRect();
     const cx=r.left-f.left+r.width/2, cy=r.top-f.top+r.height/2;
-    const colors=['#3B6D11','#5C8F2A','#B8860B','#2C520C'];
+    const colors=['#185FA5','#3E83C4','#B8860B','#0E436F'];
     for(let i=0;i<10;i++){
       const p=document.createElement('div'); p.className='particle';
       p.style.background=colors[rand(colors.length)];
@@ -655,99 +382,77 @@
       document.querySelector('.frame').appendChild(p);
       const ang=Math.random()*Math.PI*2, dist=40+Math.random()*60;
       const dx=Math.cos(ang)*dist, dy=Math.sin(ang)*dist;
-      p.animate([{transform:'translate(-50%,-50%) scale(1)',opacity:1},
-        {transform:`translate(${dx-4}px,${dy-4}px) scale(0)`,opacity:0}],
-        {duration:480+Math.random()*200, easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>p.remove();
+      p.animate([
+        {transform:'translate(-50%,-50%) scale(1)', opacity:1},
+        {transform:`translate(${dx-4}px,${dy-4}px) scale(0)`, opacity:0}
+      ], {duration:480+Math.random()*200, easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>p.remove();
     }
   }
+
   function flash(type){
-    const host = mode==='word' ? wordArea : grid;
-    const f=document.createElement('div'); f.className='flash '+(type==='go'?'go':'bad');
-    host.appendChild(f); setTimeout(()=>f.remove(),400);
+    const f=document.createElement('div');
+    f.className='flash '+(type==='go'?'go':'bad');
+    grid.appendChild(f); setTimeout(()=>f.remove(),400);
   }
 
   function tick(){
-    timeLeft-=0.25;
-    const pct=Math.max(0, timeLeft/ROUND_TIME*100);
-    timebar.style.width=pct+'%'; timebar.classList.toggle('low', timeLeft<=10);
+    timeLeft -= 0.25;
+    const pct = Math.max(0, timeLeft/ROUND_TIME*100);
+    timebar.style.width = pct+'%';
+    timebar.classList.toggle('low', timeLeft<=10);
     if(timeLeft<=0){ endGame(); }
   }
 
   function startGame(){
-    count=0; streak=0; maxStreak=0; timeLeft=ROUND_TIME; lastWord=null; typed='';
+    count=0; streak=0; maxStreak=0; timeLeft=ROUND_TIME;
     scoreVal.textContent='0'; streakHint.textContent='　';
     timebar.style.width='100%'; timebar.classList.remove('low');
-    startScreen.classList.add('hidden'); diffScreen.classList.add('hidden'); endScreen.classList.add('hidden');
+    startScreen.classList.add('hidden'); endScreen.classList.add('hidden');
     gameScreen.classList.remove('hidden');
-    if(mode==='word'){
-      grid.classList.add('hidden'); wordArea.classList.remove('hidden');
-      buildKeyboard(); newWordRound();
-    } else {
-      wordArea.classList.add('hidden'); grid.classList.remove('hidden');
-      promptSound.classList.add('hidden');
-      newCharRound();
-    }
+    newRound();
     clearInterval(timer); timer=setInterval(tick,250);
   }
 
   function endGame(){
     clearInterval(timer); accepting=false;
-    if(speechOK) speechSynthesis.cancel();
     gameScreen.classList.add('hidden'); endScreen.classList.remove('hidden');
     $('finalScore').textContent=count;
-    const list=loadScores();
-    const prevBest=list.reduce((m,s)=>Math.max(m,s.score||0),0);
-    const d=new Date();
-    const entry={score:count, date:(d.getMonth()+1)+'/'+d.getDate(), t:d.getTime()};
-    list.push(entry); list.sort((a,b)=>(b.score-a.score)||(a.t-b.t));
-    const top=list.slice(0,5); saveScores(top);
-    renderBoard(top, top.indexOf(entry)>=0?entry:null);
-    const isBest=count>prevBest && count>0;
-    $('bestLine').textContent=(maxStreak>=3)?('このプレイ 最高コンボ ×'+maxStreak):'　';
+
+    // 今回の記録を保存（ベスト判定は挿入前のリストで）
+    const list = loadScores();
+    const prevBest = list.reduce((m,s)=> Math.max(m, s.score||0), 0);
+    const d = new Date();
+    const entry = { score: count, date: (d.getMonth()+1)+'/'+d.getDate(), t: d.getTime() };
+    list.push(entry);
+    list.sort((a,b)=> (b.score-a.score) || (a.t-b.t)); // 高い順、同点は先に出した方が上
+    const top = list.slice(0,5);
+    saveScores(top);
+    renderBoard(top, top.indexOf(entry)>=0 ? entry : null);
+
+    const isBest = count > prevBest && count > 0;
+    $('bestLine').textContent = (maxStreak>=3) ? ('このプレイ 最高コンボ ×'+maxStreak) : '　';
     let msg;
-    if(mode==='word'){
-      if(count>=18) msg='単語名人！すらすら打ててる。';
-      else if(count>=10) msg='いい調子。指が覚えてきた。';
-      else if(count>=5) msg='その調子。読みとかなをつなげよう。';
-      else msg='まずは短い単語から、ゆっくり確実に。';
-    } else {
-      if(count>=40) msg='かな名人！指が覚えてる。';
-      else if(count>=25) msg='いい反応。コンボが効いてる。';
-      else if(count>=12) msg='その調子。もう一回いける。';
-      else msg='まずは音と形を合わせる感覚から。';
-    }
-    $('endMsg').innerHTML=msg+(isBest?'<br><b style="color:#B8860B">自己ベスト更新！（'+modeLabel()+'）</b>':'');
+    if(count>=40) msg='かな名人！指が覚えてる。';
+    else if(count>=25) msg='いい反応。コンボが効いてる。';
+    else if(count>=12) msg='その調子。もう一回いける。';
+    else msg='まずは音と形を合わせる感覚から。';
+    $('endMsg').innerHTML = msg + (isBest ? '<br><b style="color:#B8860B">自己ベスト更新！</b>' : '');
   }
 
-  function toStartScreen(){
+  function quitGame(){
     clearInterval(timer); accepting=false;
-    if(speechOK) speechSynthesis.cancel();
-    gameScreen.classList.add('hidden'); endScreen.classList.add('hidden'); diffScreen.classList.add('hidden');
+    gameScreen.classList.add('hidden');
     startScreen.classList.remove('hidden');
   }
 
-  // ===== イベント =====
-  $('modeChar').addEventListener('click', ()=>{ mode='char'; startGame(); });
-  $('modeWord').addEventListener('click', ()=>{ startScreen.classList.add('hidden'); diffScreen.classList.remove('hidden'); });
-  $('diffBack').addEventListener('click', ()=>{ diffScreen.classList.add('hidden'); startScreen.classList.remove('hidden'); });
-  document.querySelectorAll('.diff-card').forEach(c=>{
-    c.addEventListener('click', ()=>{ mode='word'; level=c.dataset.lv; startGame(); });
-  });
+  $('startBtn').addEventListener('click', startGame);
   $('againBtn').addEventListener('click', startGame);
-  $('quitBtn').addEventListener('click', toStartScreen);
-  $('toStart').addEventListener('click', toStartScreen);
-  promptSound.addEventListener('click', ()=>{ if(mode==='word' && target) speak(target.k); });
+  $('quitBtn').addEventListener('click', quitGame);
   $('soundBtn').addEventListener('click', (e)=>{
-    soundOn=!soundOn;
-    e.currentTarget.textContent=soundOn?'🔊':'🔇';
-    e.currentTarget.classList.toggle('off',!soundOn);
+    soundOn = !soundOn;
+    e.currentTarget.textContent = soundOn ? '🔊' : '🔇';
+    e.currentTarget.classList.toggle('off', !soundOn);
     if(!soundOn && speechOK) speechSynthesis.cancel();
-  });
-
-  // 物理キーボードでも遊べるように（PC補助）：ローマ字ではなく、Backspace/対応かなは扱わずシンプルに削除のみ
-  document.addEventListener('keydown', (e)=>{
-    if(mode!=='word' || !accepting) return;
-    if(e.key==='Backspace'){ e.preventDefault(); if(typed.length){ typed=typed.slice(0,-1); afterWordInput(); } }
   });
 })();
 </script>

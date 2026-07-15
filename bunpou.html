@@ -81,8 +81,20 @@
   .hin .pb-pill { background: #E4EAF1; color: #3C5A78; }
   .hin .pb-arrow { color: #3C5A78; }
   .hin .pb-float span { color: #3C5A78; }
+  /* 敬語（表現）= テラコッタ */
+  .exp { background: linear-gradient(135deg, #FFFFFF, #FAECE7); }
+  .exp::before { background: #9A3D1C; }
+  .exp .pb-icon { background: #FAECE7; color: #9A3D1C; }
+  .exp .pb-pill { background: #FAECE7; color: #9A3D1C; }
+  .exp .pb-arrow { color: #9A3D1C; }
+  .exp .pb-float span { color: #9A3D1C; }
 
   .lead { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem; }
+  .grp { display: flex; align-items: center; gap: 9px; margin: 1.7rem 2px 0.85rem; }
+  .grp:first-of-type { margin-top: 0.3rem; }
+  .grp-bar { width: 4px; height: 18px; border-radius: 2px; background: #6B6560; }
+  .grp-title { font-size: 15px; font-weight: 700; }
+  .grp-en { font-size: 11px; font-weight: 600; letter-spacing: 0.03em; color: var(--text-hint); }
   .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2rem; line-height: 1.8; }
 </style>
 </head>
@@ -94,11 +106,17 @@
   <div class="app-header">
     <div class="app-logo">NIHONGO NO HEYA</div>
     <div class="app-title">文法を学ぶ</div>
-    <div class="app-sub">活用を まなぶ ・ Grammar</div>
+    <div class="app-sub">活用と文型・表現・品詞 ・ Grammar</div>
   </div>
 
   <div class="lead">
-    動詞・形容詞の活用を、<b>確認</b>（活用表で形を調べる）と <b>練習</b>（変形ドリルで身につける）から選べます。
+    <b>活用</b>（動詞・形容詞の形）と、<b>文型・表現</b>（文型・敬語・品詞）にわけています。学びたいものを選んでください。
+  </div>
+
+  <div class="grp">
+    <span class="grp-bar" style="background:#854F0B"></span>
+    <span class="grp-title">活用</span>
+    <span class="grp-en">Conjugation</span>
   </div>
 
   <a href="katsuyo.html" class="play-banner conj">
@@ -125,14 +143,32 @@
     <span class="pb-arrow">›</span>
   </a>
 
+  <div class="grp">
+    <span class="grp-bar" style="background:#3B6D11"></span>
+    <span class="grp-title">文型・表現</span>
+    <span class="grp-en">Patterns &amp; Expressions</span>
+  </div>
+
   <a href="bunkei.html" class="play-banner pat">
     <div class="pb-float"><span style="top:4px;right:18px;font-size:46px;">文</span><span style="bottom:4px;right:62px;font-size:36px;">型</span></div>
     <div class="pb-icon">文</div>
     <div class="pb-info">
-      <div class="pb-title">文型と表現を見る</div>
+      <div class="pb-title">文型を見る</div>
       <div class="pb-en">Patterns — grammar with examples</div>
-      <div class="pb-desc">文型に加え、敬語（尊敬・謙譲）などの表現も解説。接続・例文・英訳つき</div>
-      <span class="pb-pill">解説 ・ 文型 / 敬語 ・ N5〜N3</span>
+      <div class="pb-desc">活用を使う文型の解説。接続・例文・英訳、JLPTレベルつき</div>
+      <span class="pb-pill">解説 ・ N5〜N3</span>
+    </div>
+    <span class="pb-arrow">›</span>
+  </a>
+
+  <a href="keigo.html" class="play-banner exp">
+    <div class="pb-float"><span style="top:4px;right:18px;font-size:46px;">敬</span><span style="bottom:4px;right:62px;font-size:36px;">語</span></div>
+    <div class="pb-icon">敬</div>
+    <div class="pb-info">
+      <div class="pb-title">敬語を見る</div>
+      <div class="pb-en">Keigo — honorific expressions</div>
+      <div class="pb-desc">尊敬・謙譲・丁寧などの敬語。5分類・特定形の動詞・作り方・美化語</div>
+      <span class="pb-pill">解説 ・ 尊敬 / 謙譲 / 美化語</span>
     </div>
     <span class="pb-arrow">›</span>
   </a>

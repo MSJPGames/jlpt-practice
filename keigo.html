@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>敬語 ・ Keigo ・ 日本語の部屋</title>
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E2DDD6;
+    --text: #1C1C1C;
+    --text-muted: #6B6560;
+    --text-hint: #9E9890;
+    --radius: 14px;
+    --radius-sm: 10px;
+
+    --g1: #185FA5; --g1-bg: #E6F1FB;   /* 1グループ */
+    --g2: #3B6D11; --g2-bg: #EAF3DE;   /* 2グループ */
+    --g3: #3C3489; --g3-bg: #EEEDFE;   /* 3グループ */
+    --ia: #854F0B; --ia-bg: #FAEEDA;   /* い形容詞 */
+    --na: #1F6F6B; --na-bg: #DFF0EE;   /* な形容詞 */
+    --son: #9A3D1C; --son-bg: #FAECE7;   /* 尊敬語 */
+    --ken1: #185FA5; --ken1-bg: #E6F1FB; /* 謙譲語Ⅰ */
+    --ken2: #1F6F6B; --ken2-bg: #DFF0EE; /* 謙譲語Ⅱ(丁重語) */
+    --bika: #854F0B; --bika-bg: #FAEEDA; /* 美化語 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 1rem 3rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+
+  /* 戻る */
+  .back {
+    display: inline-flex; align-items: center; gap: 5px;
+    margin-top: 1.25rem; font-size: 13px; font-weight: 600;
+    color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  /* ヘッダー */
+  .app-header { text-align: center; padding: 1.25rem 0 0.5rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .app-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
+  .app-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+
+  /* ローマ字トグル */
+  .roma-toggle {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; margin: 1rem 0 0.25rem;
+  }
+  .roma-toggle label {
+    font-size: 12px; font-weight: 600; color: var(--text-muted);
+    cursor: pointer; user-select: none;
+  }
+  .switch { position: relative; width: 42px; height: 24px; flex-shrink: 0; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; inset: 0; cursor: pointer;
+    background: #D8D3CB; border-radius: 24px; transition: background 0.18s;
+  }
+  .slider::before {
+    content: ''; position: absolute; height: 18px; width: 18px;
+    left: 3px; top: 3px; background: #fff; border-radius: 50%;
+    transition: transform 0.18s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .switch input:checked + .slider { background: var(--g2); }
+  .switch input:checked + .slider::before { transform: translateX(18px); }
+  .switch input:focus-visible + .slider { outline: 2px solid var(--g1); outline-offset: 2px; }
+
+  /* タブ */
+  .tabs {
+    display: flex; gap: 5px; margin: 0.75rem 0 1.25rem;
+    background: #ECE8E1; padding: 4px; border-radius: 12px;
+  }
+  .tab {
+    flex: 1; text-align: center; padding: 9px 2px;
+    font-size: 12px; font-weight: 700; color: var(--text-muted);
+    background: transparent; border: none; border-radius: 9px;
+    cursor: pointer; transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+    -webkit-tap-highlight-color: transparent; line-height: 1.3;
+  }
+  .tab small { display: block; font-size: 9px; font-weight: 600; color: var(--text-hint); margin-top: 2px; }
+  .tab.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+  .tab.active small { color: var(--text-muted); }
+  .tab:focus-visible { outline: 2px solid var(--g1); outline-offset: 1px; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* 説明カード */
+  .note {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 13px 15px;
+    font-size: 12.5px; line-height: 1.7; color: var(--text-muted);
+    margin-bottom: 1rem; position: relative; overflow: hidden;
+  }
+  .note b { color: var(--text); font-weight: 700; }
+  .note .accent { font-weight: 700; }
+
+  .group-legend { display: flex; flex-direction: column; gap: 7px; margin-top: 4px; }
+  .gl-row { display: flex; align-items: baseline; gap: 9px; }
+  .gl-tag {
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px;
+    flex-shrink: 0; min-width: 78px; text-align: center;
+  }
+  .tag-g1 { background: var(--g1-bg); color: var(--g1); }
+  .tag-g2 { background: var(--g2-bg); color: var(--g2); }
+  .tag-g3 { background: var(--g3-bg); color: var(--g3); }
+  .vg { border-radius: 4px; padding: 0 1px; }
+  .vg-g1 { color: var(--g1); background: var(--g1-bg); }
+  .vg-g2 { color: var(--g2); background: var(--g2-bg); }
+  .vg-g3 { color: var(--g3); background: var(--g3-bg); }
+  .gl-note { font-size: 12px; color: var(--muted, #6B6560); margin-top: 6px; line-height: 1.8; }
+  .gl-txt { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .gl-txt b { color: var(--text); }
+
+  /* セクションラベル */
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--text-hint); margin: 1.4rem 0 0.6rem; text-transform: uppercase;
+  }
+
+  /* ピッカー */
+  .picker-group { margin-bottom: 0.85rem; }
+  .pg-head { font-size: 11px; font-weight: 700; margin-bottom: 7px; display: flex; align-items: center; gap: 7px; }
+  .pg-dot { width: 8px; height: 8px; border-radius: 3px; flex-shrink: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    border: 1px solid var(--border); background: var(--surface);
+    border-radius: 20px; padding: 7px 13px;
+    font-size: 14px; font-weight: 600; color: var(--text);
+    cursor: pointer; transition: transform 0.1s, border-color 0.12s, background 0.12s;
+    -webkit-tap-highlight-color: transparent; font-family: inherit;
+  }
+  .chip:active { transform: scale(0.95); }
+  .chip:focus-visible { outline: 2px solid currentColor; outline-offset: 1px; }
+  .chip .ex { font-size: 10px; color: var(--text-hint); margin-left: 4px; font-weight: 500; }
+
+  .chip.sel-g1 { background: var(--g1-bg); border-color: var(--g1); color: var(--g1); }
+  .chip.sel-g2 { background: var(--g2-bg); border-color: var(--g2); color: var(--g2); }
+  .chip.sel-g3 { background: var(--g3-bg); border-color: var(--g3); color: var(--g3); }
+  .chip.sel-ia { background: var(--ia-bg); border-color: var(--ia); color: var(--ia); }
+  .chip.sel-na { background: var(--na-bg); border-color: var(--na); color: var(--na); }
+  .chip.sel-g1 .ex, .chip.sel-g2 .ex, .chip.sel-g3 .ex,
+  .chip.sel-ia .ex, .chip.sel-na .ex { color: inherit; opacity: 0.65; }
+
+  /* 活用カード */
+  .conj-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; margin-top: 1rem;
+  }
+  .conj-head {
+    padding: 16px 16px 14px; border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .conj-head::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  }
+  .ch-g1::before { background: var(--g1); } .ch-g2::before { background: var(--g2); }
+  .ch-g3::before { background: var(--g3); } .ch-ia::before { background: var(--ia); }
+  .ch-na::before { background: var(--na); }
+  .conj-word { font-size: 26px; font-weight: 700; line-height: 1.2; }
+  .conj-read { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+  .conj-roma { font-size: 12px; color: var(--text-hint); font-style: italic; margin-top: 1px; display: none; }
+  body.show-roma .conj-roma { display: block; }
+  .conj-meta { display: flex; align-items: center; gap: 8px; margin-top: 9px; }
+  .conj-typetag { font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+  .tt-g1 { background: var(--g1-bg); color: var(--g1); } .tt-g2 { background: var(--g2-bg); color: var(--g2); }
+  .tt-g3 { background: var(--g3-bg); color: var(--g3); } .tt-ia { background: var(--ia-bg); color: var(--ia); }
+  .tt-na { background: var(--na-bg); color: var(--na); }
+  .conj-en { font-size: 12px; color: var(--text-muted); }
+
+  .sub-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--text-hint);
+    padding: 11px 16px 5px; text-transform: uppercase;
+  }
+
+  .row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 16px; border-top: 1px solid #F1EEE9;
+  }
+  .row:first-of-type { border-top: none; }
+  .row-label { flex: 0 0 38%; min-width: 0; }
+  .rl-jp { font-size: 13px; font-weight: 700; }
+  .rl-en { font-size: 10.5px; color: var(--text-hint); margin-top: 1px; line-height: 1.35; }
+  .row-val { flex: 1; min-width: 0; text-align: right; }
+  .rv-main { font-size: 17px; font-weight: 600; line-height: 1.3; word-break: break-word; }
+  .rv-read { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; }
+  .rv-roma { font-size: 11px; color: var(--text-hint); font-style: italic; margin-top: 1px; display: none; }
+  body.show-roma .rv-roma { display: block; }
+  .rv-polite { font-size: 11px; color: var(--text-hint); margin-top: 3px; }
+  .rv-polite span { color: var(--text-muted); font-weight: 600; }
+
+  /* 音便 表 */
+  .onbin-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; margin-top: 0.6rem;
+  }
+  .onbin-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 15px; border-top: 1px solid #F1EEE9; font-size: 13px;
+  }
+  .onbin-row:first-child { border-top: none; }
+  .ob-end {
+    flex: 0 0 64px; font-weight: 700; font-size: 15px;
+    background: var(--g1-bg); color: var(--g1);
+    border-radius: 8px; text-align: center; padding: 5px 0;
+  }
+  .onbin-row.g2 .ob-end { background: var(--g2-bg); color: var(--g2); font-size: 11px; }
+  .onbin-row.g3 .ob-end { background: var(--g3-bg); color: var(--g3); font-size: 11px; }
+  .ob-arrow { color: var(--text-hint); font-weight: 700; }
+  .ob-form { font-weight: 700; }
+  .ob-ex { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .ob-ex b { color: var(--text); font-weight: 600; }
+  .ob-body { flex: 1; min-width: 0; }
+  .ob-warn { color: #993C1D; font-weight: 600; }
+
+  /* 丁寧形⇔普通形 対応表 */
+  .corr-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; margin-top: 0.6rem;
+  }
+  .corr-row { display: flex; align-items: stretch; border-top: 1px solid #F1EEE9; }
+  .corr-row:first-child { border-top: none; }
+  .corr-head { background: #FAF8F4; }
+  .cc-label {
+    flex: 0 0 52px; padding: 10px 4px 10px 14px;
+    display: flex; flex-direction: column; justify-content: center; gap: 1px;
+  }
+  .cl-t { font-size: 11px; font-weight: 700; color: var(--text); }
+  .cl-p { font-size: 10px; font-weight: 600; color: var(--text-hint); }
+  .cl-p.neg { color: #993C1D; }
+  .cc-cell { flex: 1; min-width: 0; padding: 10px 12px; border-left: 1px solid #F1EEE9; }
+  .cc-h { display: flex; flex-direction: column; justify-content: center; font-size: 11px; font-weight: 700; color: var(--text-muted); }
+  .cc-h small { font-size: 9px; font-weight: 600; color: var(--text-hint); }
+  .cc-h-g1 { color: var(--g1); } .cc-h-g2 { color: var(--g2); } .cc-h-g3 { color: var(--g3); }
+  .cc-h-ia { color: var(--ia); } .cc-h-na { color: var(--na); }
+  .cc-main { font-size: 14px; font-weight: 600; line-height: 1.35; word-break: break-word; }
+  .cc-read { font-size: 10.5px; color: var(--text-muted); margin-top: 1px; }
+  .cc-roma { font-size: 10px; color: var(--text-hint); font-style: italic; margin-top: 1px; display: none; }
+  body.show-roma .cc-roma { display: block; }
+
+  /* 敬語 */
+  .kg-list { display: flex; flex-direction: column; gap: 10px; }
+  .kg-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .kg-base { padding: 10px 15px; background: #FAF8F4; border-bottom: 1px solid var(--border); }
+  .kg-base-w { font-size: 16px; font-weight: 700; }
+  .kg-base-r { font-size: 11.5px; color: var(--text-muted); margin-left: 8px; }
+  .kg-base-en { font-size: 11px; color: var(--text-hint); margin-left: 8px; }
+  .kg-row { display: flex; align-items: flex-start; gap: 11px; padding: 10px 15px; border-top: 1px solid #F1EEE9; }
+  .kg-row:first-of-type { border-top: none; }
+  .kg-tag { flex: 0 0 auto; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; margin-top: 2px; }
+  .kg-tag.son { background: var(--son-bg); color: var(--son); }
+  .kg-tag.ken1 { background: var(--ken1-bg); color: var(--ken1); }
+  .kg-tag.ken2 { background: var(--ken2-bg); color: var(--ken2); }
+  .kg-vals { flex: 1; min-width: 0; }
+  .kg-w { font-size: 16px; font-weight: 600; line-height: 1.4; word-break: break-word; }
+  .kg-w .kw-note { font-size: 11px; font-weight: 600; color: var(--text-hint); margin-left: 5px; }
+  .kg-w.empty { color: var(--text-hint); font-weight: 500; font-size: 14px; }
+  .kg-r { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+  .kg-roma { font-size: 10.5px; color: var(--text-hint); font-style: italic; margin-top: 1px; display: none; }
+  body.show-roma .kg-roma { display: block; }
+  .kg-hint { font-size: 10.5px; color: var(--text-hint); margin-top: 2px; }
+
+  /* 敬語の5分類 一覧 */
+  .kg5-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem;
+  }
+  .kg5-title {
+    padding: 12px 15px; font-size: 13px; font-weight: 700;
+    border-bottom: 1px solid var(--border); background: #FAF8F4;
+  }
+  .kg5-title small { font-weight: 600; color: var(--text-hint); font-size: 11px; margin-left: 6px; }
+  .kg5-row { display: flex; align-items: flex-start; gap: 11px; padding: 11px 15px; border-top: 1px solid #F1EEE9; }
+  .kg5-row:first-of-type { border-top: none; }
+  .kg5-num {
+    flex: 0 0 auto; width: 24px; height: 24px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; margin-top: 1px;
+  }
+  .kg5-body { flex: 1; min-width: 0; }
+  .kg5-name { font-size: 13.5px; font-weight: 700; }
+  .kg5-name .sub { font-size: 11px; font-weight: 600; color: var(--text-hint); margin-left: 5px; }
+  .kg5-def { font-size: 11.5px; color: var(--text-muted); line-height: 1.55; margin-top: 2px; }
+  .kg5-def .eg { color: var(--text); font-weight: 600; }
+  .n-son { background: var(--son-bg); color: var(--son); }
+  .n-ken1 { background: var(--ken1-bg); color: var(--ken1); }
+  .n-ken2 { background: var(--ken2-bg); color: var(--ken2); }
+  .n-tei { background: #ECE8E1; color: var(--text-muted); }
+  .n-bika { background: var(--bika-bg); color: var(--bika); }
+
+  .bika-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+  .bika-chip {
+    border: 1px solid var(--bika-bg); background: var(--bika-bg); color: var(--bika);
+    border-radius: 10px; padding: 6px 11px; font-size: 14px; font-weight: 600;
+  }
+  .bika-chip .bc-r { font-size: 10px; font-weight: 500; opacity: 0.7; margin-left: 5px; }
+
+  .kg-pat {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 13px 15px 13px 17px; margin-bottom: 10px; position: relative; overflow: hidden;
+  }
+  .kg-pat::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
+  .kg-pat.son::before { background: var(--son); }
+  .kg-pat.ken1::before { background: var(--ken1); }
+  .kg-pat-h { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .kg-pat.son .kg-pat-h { color: var(--son); }
+  .kg-pat.ken1 .kg-pat-h { color: var(--ken1); }
+  .kg-pat-row { font-size: 12.5px; line-height: 1.55; color: var(--text-muted); margin-top: 6px; }
+  .kg-pat-row .formula { font-weight: 700; color: var(--text); }
+  .kg-pat-row .eg { color: var(--text); }
+  .kg-pat-row b { color: var(--text); }
+
+  /* 活用を使う文型 */
+  .pat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .pat-group { border-top: 1px solid #F1EEE9; }
+  .pat-group:first-child { border-top: none; }
+  .pat-head { width: 100%; display: flex; align-items: center; gap: 9px; padding: 12px 15px; background: none; border: none; cursor: pointer; font-family: inherit; text-align: left; -webkit-tap-highlight-color: transparent; }
+  .pat-head:focus-visible { outline: 2px solid var(--g1); outline-offset: -2px; }
+  .pat-form { font-size: 14px; font-weight: 700; color: var(--text); }
+  .pat-count { font-size: 10px; font-weight: 700; color: var(--text-hint); background: #F0EEE8; border-radius: 10px; padding: 1px 7px; }
+  .pat-chev { margin-left: auto; font-size: 18px; color: var(--text-hint); transition: transform 0.15s; }
+  .pat-head.open .pat-chev { transform: rotate(90deg); }
+  .pat-body { display: none; padding: 2px 15px 8px; }
+  .pat-body.open { display: block; }
+  .pat-row { display: block; padding: 10px 18px 11px 0; border-top: 1px solid #F4F1EC; text-decoration: none; color: inherit; position: relative; -webkit-tap-highlight-color: transparent; }
+  .pat-row:first-child { border-top: none; }
+  .pat-row:hover .pat-p, .pat-row:active .pat-p { color: var(--g1); }
+  .pat-p { font-size: 13px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .pat-lvl { font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 8px; }
+  .pat-lvl.lvl-n5 { background: #EAF3DE; color: #3B6D11; }
+  .pat-lvl.lvl-n4 { background: #E6F1FB; color: #185FA5; }
+  .pat-lvl.lvl-n3 { background: #EEEDFE; color: #3C3489; }
+  .pat-lvl.lvl-n2 { background: #FAEEDA; color: #854F0B; }
+  .pat-lvl.lvl-n1 { background: #FAECE7; color: #993C1D; }
+  .pat-mean { font-size: 10px; font-weight: 700; color: var(--text-hint); }
+  .pat-en { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .pat-ex { font-size: 15px; font-weight: 600; margin-top: 4px; word-break: break-word; }
+  .pat-ex-r { font-size: 11px; color: var(--text-muted); margin-left: 8px; font-weight: 400; }
+  .pat-ex-roma { font-size: 10.5px; color: var(--text-hint); font-style: italic; margin-left: 8px; display: none; }
+  body.show-roma .pat-ex-roma { display: inline; }
+  .pat-go { position: absolute; right: 0; top: 50%; transform: translateY(-50%); color: var(--text-hint); font-size: 17px; transition: transform 0.12s; }
+  .pat-row:hover .pat-go { transform: translateY(-50%) translateX(2px); color: var(--g1); }
+
+  .app-footer {
+    text-align: center; font-size: 11px; color: var(--text-hint);
+    margin-top: 2.5rem; line-height: 1.8;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="bunpou.html" class="back">‹ 文法を学ぶにもどる</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">敬語</div>
+    <div class="app-sub">敬語の種類と使い方 ・ Keigo (honorifics)</div>
+  </div>
+
+    <div class="note" style="padding:0;border:none;background:none;margin-bottom:0.5rem;">
+      日本語の<b>敬語</b>は、文化審議会「敬語の指針」で<b>5種類</b>に分けられます。
+    </div>
+    <div class="kg5-card">
+      <div class="kg5-title">敬語の5分類<small>Five categories</small></div>
+      <div class="kg5-row">
+        <div class="kg5-num n-son">1</div>
+        <div class="kg5-body"><div class="kg5-name">尊敬語<span class="sub">respectful</span></div>
+          <div class="kg5-def"><b>相手（目上の人）の動作・ものごと</b>を高める。例：先生が<span class="eg">召し上がる</span></div></div>
+      </div>
+      <div class="kg5-row">
+        <div class="kg5-num n-ken1">2</div>
+        <div class="kg5-body"><div class="kg5-name">謙譲語Ⅰ<span class="sub">humble Ⅰ</span></div>
+          <div class="kg5-def"><b>自分の動作を、向かう先の相手を立てて</b>へりくだる。例：先生に<span class="eg">申し上げる</span>・<span class="eg">伺う</span></div></div>
+      </div>
+      <div class="kg5-row">
+        <div class="kg5-num n-ken2">3</div>
+        <div class="kg5-body"><div class="kg5-name">謙譲語Ⅱ<span class="sub">丁重語 ・ courteous</span></div>
+          <div class="kg5-def">自分の動作を<b>聞き手にあらたまって</b>言う（特定の相手は立てない）。例：明日<span class="eg">参ります</span>・<span class="eg">申します</span></div></div>
+      </div>
+      <div class="kg5-row">
+        <div class="kg5-num n-tei">4</div>
+        <div class="kg5-body"><div class="kg5-name">丁寧語<span class="sub">polite</span></div>
+          <div class="kg5-def"><b>です・ます</b>で聞き手にていねいに言う（＝このページの「丁寧形」）。例：明日東京へ<span class="eg">行きます</span></div></div>
+      </div>
+      <div class="kg5-row">
+        <div class="kg5-num n-bika">5</div>
+        <div class="kg5-body"><div class="kg5-name">美化語<span class="sub">beautification</span></div>
+          <div class="kg5-def"><b>お・ご</b>を付けて上品に言う（相手を高めるためではない）。例：<span class="eg">お酒</span>・<span class="eg">ご飯</span></div></div>
+      </div>
+    </div>
+
+    <div class="note" style="margin-bottom:0.85rem;">
+      <b>謙譲語Ⅰ と Ⅱ の違い：</b>Ⅰは<b>立てたい相手（向かう先）がいる</b>とき（先生に伺う）。Ⅱは相手を立てるのではなく、<b>聞き手にあらたまって</b>自分のことを言うとき（〔誰にともなく〕明日参ります）。
+    </div>
+
+    <div class="section-label">特定形の敬語動詞 ・ Special verbs</div>
+    <div class="note" style="margin-bottom:0.85rem;">
+      よく使う動詞は、専用の形（特定形）に変わります。これは規則ではなく<b>暗記</b>します。特定形がない動詞は、下の「規則的な作り方」を使います。
+    </div>
+    <div id="keigoList" class="kg-list"></div>
+
+    <div class="section-label">規則的な作り方 ・ Regular patterns</div>
+    <div class="kg-pat son">
+      <div class="kg-pat-h">尊敬語の作り方</div>
+      <div class="kg-pat-row"><span class="formula">お＋ます形＋になる</span><br><span class="eg">書く→お書きになる ／ 読む→お読みになる ／ 使う→お使いになる</span></div>
+      <div class="kg-pat-row"><span class="formula">〜（ら）れる</span>（受身と同じ形・軽い尊敬）<br><span class="eg">書く→書かれる ／ 来る→来られる</span></div>
+      <div class="kg-pat-row"><span class="formula">お＋ます形＋ください</span>（依頼）<br><span class="eg">待つ→お待ちください ／ 書く→お書きください</span></div>
+    </div>
+    <div class="kg-pat ken1">
+      <div class="kg-pat-h">謙譲語Ⅰの作り方</div>
+      <div class="kg-pat-row"><span class="formula">お＋ます形＋する</span><br><span class="eg">持つ→お持ちする ／ 届ける→お届けする ／ 知らせる→お知らせする</span></div>
+      <div class="kg-pat-row"><span class="formula">ご＋漢語＋する</span><br><span class="eg">案内する→ご案内する ／ 連絡する→ご連絡する ／ 説明する→ご説明する</span></div>
+      <div class="kg-pat-row" style="color:var(--text-hint)">※謙譲語Ⅱ（参る・申す・おる・いたす・存じる）は規則ではなく、語ごとに決まった<b>特定形</b>です。</div>
+    </div>
+
+    <div class="note" style="margin-top:0.4rem;">
+      <b>注意：ます形が不規則な敬語動詞</b><br>
+      <b>いらっしゃる・おっしゃる・なさる・くださる・ござる</b> は、ます形が <b>〜います</b> になります。<br>
+      例：いらっしゃ<b>います</b>（×いらっしゃります） ／ くださ<b>います</b> ／ おっしゃ<b>います</b>
+    </div>
+
+    <div class="section-label">美化語 ・ Word beautification</div>
+    <div class="note">
+      ものごとを上品に言うために <b>お・ご</b> を付けます（相手を高める尊敬の「お」とは別）。
+      <div class="bika-chips" id="bikaChips"></div>
+    </div>
+
+  <div class="app-footer">
+    敬語は基本的な使い方の紹介です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+<script>
+/* ===== 敬語：データと描画 ===== */
+(function(){
+const KEIGO=[
+  {base:'する',kana:'する',en:'to do',son:[['なさる','なさる']],ken1:[],ken2:[['いたす','いたす']]},
+  {base:'いる',kana:'いる',en:'to be (exist)',son:[['いらっしゃる','いらっしゃる'],['おいでになる','おいでになる']],ken1:[],ken2:[['おる','おる']]},
+  {base:'行く・来る',kana:'いく・くる',en:'to go / come',son:[['いらっしゃる','いらっしゃる'],['おいでになる','おいでになる']],ken1:[['伺う','うかがう']],ken2:[['参る','まいる']]},
+  {base:'言う',kana:'いう',en:'to say',son:[['おっしゃる','おっしゃる']],ken1:[['申し上げる','もうしあげる']],ken2:[['申す','もうす']]},
+  {base:'見る',kana:'みる',en:'to see',son:[['ご覧になる','ごらんになる']],ken1:[['拝見する','はいけんする']],ken2:[]},
+  {base:'食べる・飲む',kana:'たべる・のむ',en:'to eat / drink',son:[['召し上がる','めしあがる']],ken1:[['いただく','いただく']],ken2:[]},
+  {base:'もらう',kana:'もらう',en:'to receive',son:[],ken1:[['いただく','いただく'],['頂戴する','ちょうだいする']],ken2:[]},
+  {base:'あげる',kana:'あげる',en:'to give',son:[],ken1:[['差し上げる','さしあげる']],ken2:[]},
+  {base:'くれる',kana:'くれる',en:'to give (to me)',son:[['くださる','くださる']],ken1:[],ken2:[]},
+  {base:'知っている',kana:'しっている',en:'to know',son:[['ご存じだ','ごぞんじだ']],ken1:[['存じ上げる','ぞんじあげる','人を']],ken2:[['存じる','ぞんじる','物事を']]},
+  {base:'聞く',kana:'きく',en:'to ask / hear',son:[],ken1:[['伺う','うかがう'],['拝聴する','はいちょうする']],ken2:[]},
+  {base:'会う',kana:'あう',en:'to meet',son:[],ken1:[['お目にかかる','おめにかかる']],ken2:[]},
+  {base:'寝る',kana:'ねる',en:'to sleep',son:[['お休みになる','おやすみになる']],ken1:[],ken2:[]},
+];
+const BIKA=[['お酒','おさけ'],['お茶','おちゃ'],['お料理','おりょうり'],['お菓子','おかし'],['ご飯','ごはん'],['お金','おかね'],['お店','おみせ'],['お話','おはなし']];
+const KG_LABEL={son:'尊敬語',ken1:'謙譲語Ⅰ',ken2:'謙譲語Ⅱ'};
+function kgRow(arr, kind){
+  if(!arr.length) return '';
+  const words = arr.map(a=>a[0]+(a[2]?`<span class="kw-note">（${a[2]}）</span>`:'')).join('／');
+  const reads = arr.map(a=>a[1]).join('／');
+  return `<div class="kg-row"><span class="kg-tag ${kind}">${KG_LABEL[kind]}</span><div class="kg-vals">
+    <div class="kg-w">${words}</div>
+    <div class="kg-r">${reads}</div>
+  </div></div>`;
+}
+function renderKeigo(){
+  var el=document.getElementById('keigoList');
+  if(el) el.innerHTML = KEIGO.map(v=>`
+    <div class="kg-card">
+      <div class="kg-base"><span class="kg-base-w">${v.base}</span><span class="kg-base-r">${v.kana}</span><span class="kg-base-en">${v.en}</span></div>
+      ${kgRow(v.son,'son')}${kgRow(v.ken1,'ken1')}${kgRow(v.ken2,'ken2')}
+    </div>`).join('');
+  var bc=document.getElementById('bikaChips');
+  if(bc) bc.innerHTML = BIKA.map(b=>`<span class="bika-chip">${b[0]}<span class="bc-r">${b[1]}</span></span>`).join('');
+}
+renderKeigo();
+})();
+</script>
+</body>
+</html>

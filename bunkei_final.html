@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文型解説 ・ Grammar Patterns ・ 日本語の部屋</title>
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --n5: #3B6D11; --n5-bg: #EAF3DE;
+    --n4: #185FA5; --n4-bg: #E6F1FB;
+    --n3: #3C3489; --n3-bg: #EEEDFE;
+    --n2: #854F0B; --n2-bg: #FAEEDA;
+    --n1: #993C1D; --n1-bg: #FAECE7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+  .app-header { text-align: center; padding: 1rem 0 0.5rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .app-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
+  .app-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+
+  .filter { display: flex; gap: 6px; margin: 1rem 0 1.25rem; background: #ECE8E1; padding: 4px; border-radius: 11px; }
+  .filter button {
+    flex: 1; padding: 9px 4px; font-size: 13px; font-weight: 700; color: var(--text-muted);
+    background: transparent; border: none; border-radius: 8px; cursor: pointer; font-family: inherit;
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s; -webkit-tap-highlight-color: transparent;
+  }
+  .filter button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+  #filterBook { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; cursor: grab; padding-bottom: 5px; }
+  #filterBook.dragging { cursor: grabbing; scroll-behavior: auto; }
+  #filterBook::-webkit-scrollbar { height: 7px; }
+  #filterBook::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.22); border-radius: 4px; }
+  #filterBook::-webkit-scrollbar-track { background: transparent; }
+  #filterBook button { flex: 0 0 auto; white-space: nowrap; padding-left: 12px; padding-right: 12px; }
+
+  .cat-head { font-size: 16px; font-weight: 700; margin: 1.6rem 0 0.3rem; display: flex; align-items: center; gap: 9px; }
+  .cat-head:first-of-type { margin-top: 0.5rem; }
+  .cat-bar { width: 4px; height: 19px; border-radius: 2px; }
+  .form-head { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--text-hint); text-transform: uppercase; margin: 1rem 0 0.5rem; }
+
+  .bk-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 15px 16px; margin-bottom: 10px; scroll-margin-top: 16px;
+  }
+  .bk-card:target { animation: flash 1.4s ease; border-color: var(--n4); }
+  @keyframes flash { 0% { background: #FFF3DC; } 100% { background: var(--surface); } }
+  .bk-top { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+  .bk-p { font-size: 18px; font-weight: 700; }
+  .bk-lvl { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 8px; }
+  .lvl-n5 { background: var(--n5-bg); color: var(--n5); }
+  .lvl-n4 { background: var(--n4-bg); color: var(--n4); }
+  .lvl-n3 { background: var(--n3-bg); color: var(--n3); }
+  .lvl-n2 { background: var(--n2-bg); color: var(--n2); }
+  .lvl-n1 { background: var(--n1-bg); color: var(--n1); }
+  .lvl-other { background: #ECE8E1; color: var(--text-muted); }
+  .bk-en { font-size: 13px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+  .bk-setsuzoku {
+    font-size: 12px; color: var(--text); background: #FAF8F4; border: 1px solid var(--border);
+    border-radius: 8px; padding: 7px 11px; margin-top: 10px;
+  }
+  .bk-setsuzoku b { font-weight: 700; }
+  .bk-ex { margin-top: 11px; display: flex; flex-direction: column; gap: 9px; }
+  .bk-ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .bk-ex-ja { font-size: 14px; font-weight: 600; line-height: 1.5; }
+  .bk-ex-en { font-size: 12px; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
+  .bk-note { font-size: 11.5px; color: var(--text-hint); margin-top: 10px; line-height: 1.55; }
+  .bk-note b { color: var(--text-muted); }
+  .bk-kaiwa { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; font-size: 12.5px; font-weight: 700;
+    color: #4A5DB0; background: #ECEEF9; border: 1px solid #C9CEF0; border-radius: 20px; padding: 7px 14px;
+    text-decoration: none; -webkit-tap-highlight-color: transparent; transition: background .15s, transform .1s; }
+  .bk-kaiwa:hover { background: #E1E4F6; }
+  .bk-kaiwa:active { transform: scale(.98); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  /* 検索窓 */
+  .search-wrap { position: relative; margin: 1.1rem 0 0.7rem; }
+  .search-wrap .s-ico { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--text-hint); pointer-events: none; }
+  #search {
+    width: 100%; font-family: inherit; font-size: 15px; color: var(--text);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 11px;
+    padding: 12px 40px; -webkit-appearance: none; appearance: none; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  #search:focus { border-color: var(--n4); box-shadow: 0 0 0 3px var(--n4-bg); }
+  #search::placeholder { color: var(--text-hint); }
+  #search::-webkit-search-cancel-button { display: none; }
+  .s-clear {
+    position: absolute; right: 9px; top: 50%; transform: translateY(-50%);
+    width: 26px; height: 26px; border: none; background: #ECE8E1; color: var(--text-muted);
+    border-radius: 50%; font-size: 16px; line-height: 1; cursor: pointer; padding: 0;
+    display: none; align-items: center; justify-content: center;
+  }
+  .s-clear.show { display: flex; }
+
+  .result-meta { font-size: 11px; color: var(--text-hint); margin: 0 2px 1rem; }
+
+  /* 五十音の行見出し */
+  .goju-head {
+    display: inline-block; font-size: 14px; font-weight: 800; color: var(--n4);
+    background: var(--n4-bg); padding: 2px 13px; border-radius: 999px; margin: 1.4rem 0 0.6rem;
+  }
+  .goju-head:first-of-type { margin-top: 0.2rem; }
+
+  /* カードの分類タグ */
+  .bk-cat { font-size: 10px; font-weight: 700; color: var(--text-hint); letter-spacing: 0.03em; margin-bottom: 5px; }
+  .bk-cat b { color: var(--text-muted); font-weight: 700; }
+
+  .no-result { text-align: center; color: var(--text-muted); padding: 36px 10px; font-size: 14px; line-height: 1.7; }
+
+  /* モード切替（解説 / 課別） */
+  .mode-toggle { display: flex; gap: 6px; margin: 1rem 0 0.9rem; background: #ECE8E1; padding: 4px; border-radius: 11px; }
+  .mode-toggle button {
+    flex: 1; padding: 10px 4px; font-size: 13.5px; font-weight: 700; color: var(--text-muted);
+    background: transparent; border: none; border-radius: 8px; cursor: pointer; font-family: inherit;
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s; -webkit-tap-highlight-color: transparent;
+  }
+  .mode-toggle button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+
+  /* 出典タグ（解説カード内・教科書＋課） */
+  .src-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .src-tag { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 2px 9px; border-radius: 8px; }
+
+  /* 課別モード */
+  .ka-head { display: flex; align-items: center; gap: 8px; margin: 1.5rem 0 0.6rem; }
+  .ka-head:first-of-type { margin-top: 0.3rem; }
+  .ka-badge { font-size: 14px; font-weight: 800; padding: 3px 12px; border-radius: 999px; }
+  .ka-book { font-size: 11px; font-weight: 700; color: var(--text-hint); }
+  .ka-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 3px 16px; margin-bottom: 10px; }
+  .ka-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 11px 0; border-top: 1px solid var(--border); font-size: 14.5px; line-height: 1.5; }
+  .ka-row:first-child { border-top: none; }
+  .ka-row .kdot { color: var(--text-hint); font-size: 11px; flex-shrink: 0; }
+  .ka-row .kp { flex: 1; min-width: 55%; }
+  .row-tags { display: flex; gap: 5px; margin-left: auto; flex-shrink: 0; }
+  .tg { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; border: none; cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent; }
+  .tg-book { background: #F1EEE8; color: var(--text-muted); }
+  .tg.lv-n5 { background: var(--n5-bg); color: var(--n5); }
+  .tg.lv-n4 { background: var(--n4-bg); color: var(--n4); }
+  .tg.lv-n3 { background: var(--n3-bg); color: var(--n3); }
+  .tg.lv-n2 { background: var(--n2-bg); color: var(--n2); }
+  .tg.lv-n1 { background: var(--n1-bg); color: var(--n1); }
+  .tg.lv-other { background: #ECE8E1; color: var(--text-muted); }
+  .book-sec-head { display: flex; align-items: center; gap: 9px; font-size: 16px; font-weight: 700; margin: 1.7rem 0 0.8rem; }
+  .book-sec:first-child .book-sec-head { margin-top: 0.4rem; }
+  .book-bar { width: 4px; height: 19px; border-radius: 2px; flex-shrink: 0; }
+  .book-sec-num { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--text-hint); }
+  .ka-links { padding: 11px 0 13px; border-top: 1px dashed var(--border); display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+  .ka-links .lab { font-size: 11px; font-weight: 700; color: var(--text-hint); }
+  .ka-link { font-size: 12px; font-weight: 700; color: var(--n5); background: var(--n5-bg); padding: 3px 10px; border-radius: 999px; text-decoration: none; cursor: pointer; border: none; font-family: inherit; }
+  .ka-link:hover { filter: brightness(0.97); }
+  mark { background: #FBE7C2; color: inherit; border-radius: 3px; padding: 0 1px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="katsuyo.html" class="back">‹ 活用表にもどる</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">文型解説</div>
+    <div class="app-sub">活用を使う文型 ・ Grammar Patterns</div>
+  </div>
+
+  <div class="mode-toggle" id="mode">
+    <button data-mode="kaisetsu" class="on">解説で見る</button>
+    <button data-mode="book">教科書で見る</button>
+  </div>
+
+  <div class="search-wrap">
+    <span class="s-ico">🔍</span>
+    <input id="search" type="search" inputmode="search" autocomplete="off" placeholder="文型・タグでさがす（例：たい・N5・15課）">
+    <button id="sClear" class="s-clear" type="button" aria-label="消す">×</button>
+  </div>
+
+  <div class="filter" id="filter">
+    <button data-lv="all" class="on">すべて</button>
+    <button data-lv="N5">N5</button>
+    <button data-lv="N4">N4</button>
+    <button data-lv="N3">N3</button>
+    <button data-lv="N2">N2</button>
+    <button data-lv="N1">N1</button>
+    <button data-lv="その他">その他</button>
+  </div>
+
+  <div class="filter" id="filterBook" style="display:none;"></div>
+
+  <div class="result-meta" id="meta"></div>
+
+  <div id="list"></div>
+
+  <div class="app-footer">
+    例文・レベルは目安です（『みんなの日本語』ほか参考）<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+const CATBAR={ '動詞':'#185FA5', 'い形容詞':'#854F0B', 'な形容詞':'#1F6F6B' };
+const D=[
+  // 動詞 ・ 辞書形
+  {cat:'動詞',form:'辞書形',id:'dict-koto-dekiru',p:'〜ことができます',lvl:'N4',en:'can do ~ / be able to ~',setu:'辞書形 ＋ ことができます',ex:[['私はピアノを弾くことができます。','I can play the piano.'],['ここで写真を撮ることができます。','You can take photos here.']],note:'名詞のときは「名詞＋ができます」。'},
+  {cat:'動詞',form:'辞書形',id:'dict-mae-ni',p:'〜まえに',lvl:'N4',en:'before doing ~',setu:'辞書形 ＋ まえに',ex:[['寝るまえに、歯をみがきます。','I brush my teeth before going to bed.']],note:'名詞のときは「名詞＋のまえに」（食事のまえに）。'},
+  {cat:'動詞',form:'辞書形',id:'dict-toki',p:'〜とき',lvl:'N4',en:'when ~',setu:'辞書形・た形・ない形・い形/な形/名詞 ＋ とき',ex:[['日本へ行くとき、かばんを買いました。','When I was on my way to Japan, I bought a bag.'],['子どものとき、よく泣きました。','When I was a child, I cried a lot.']],note:'「行くとき」は出発前、「行ったとき」は到着後。'},
+  {cat:'動詞',form:'辞書形',id:'dict-tsumori',p:'〜つもりです',lvl:'N4',en:'intend to ~ / plan to ~',setu:'辞書形 ＋ つもりです（否定は ないつもりです）',ex:[['夏休みに国へ帰るつもりです。','I intend to go back to my country during summer vacation.']],note:''},
+  {cat:'動詞',form:'辞書形',id:'tameni',p:'〜ために',lvl:'N3',en:"in order to ~ (purpose)",setu:'辞書形 ＋ ために',ex:[['日本語を勉強するために、日本へ来ました。',"I came to Japan in order to study Japanese."]],note:'名詞のときは「名詞＋のために」。'},
+  {cat:'動詞',form:'辞書形',id:'tokoroda',p:'〜ところです',lvl:'N3',en:"be about to ~",setu:'辞書形 ＋ ところだ',ex:[['これから出かけるところです。',"I'm just about to go out now."]],note:'「〜ているところ」＝最中、「〜たところ」＝直後。'},
+  {cat:'動詞',form:'辞書形',id:'uchini',p:'〜うちに',lvl:'N3',en:"while ~ / before it changes",setu:'辞書形・〜ている・ない形 ＋ うちに',ex:[['熱いうちに、召し上がってください。',"Please eat it while it's hot."]],note:'名詞のときは「名詞＋のうちに」。'},
+  {cat:'動詞',form:'辞書形',id:'kotonisuru',p:'〜ことにします',lvl:'N4',en:"decide to ~",setu:'辞書形・ない形 ＋ ことにする',ex:[['来月から運動することにしました。',"I've decided to start exercising next month."]],note:'自分の意志で決めるとき。'},
+  {cat:'動詞',form:'辞書形',id:'kotoninaru',p:'〜ことになります',lvl:'N4',en:"it has been decided that ~",setu:'辞書形・ない形 ＋ ことになる',ex:[['来月、大阪へ転勤することになりました。',"It has been decided that I'll be transferred to Osaka next month."]],note:'自分の決定は「ことにする」。'},
+  {cat:'動詞',form:'辞書形',id:'bekida',p:'〜べきです',lvl:'N2',en:"should ~ / ought to ~",setu:'辞書形 ＋ べきだ（する→すべき／するべき）',ex:[['約束は守るべきだ。',"You should keep your promises."]],note:'否定は「〜べきではない」。'},
+  {cat:'動詞',form:'辞書形',id:'tokorodatta',p:'〜ところでした',lvl:'N2',en:"almost ~ed / was about to ~",setu:'辞書形 ＋ ところだった',ex:[['あぶない！車にぶつかるところだった。',"Watch out! I almost got hit by a car."]],note:'実際には起こらなかったことを表す。'},
+  // 動詞 ・ 普通形（推量・伝聞）
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'souda-hearsay',p:'〜そうです',lvl:'N3',en:"I hear that ~ (hearsay)",setu:'普通形 ＋ そうだ',ex:[['田中さんは来月結婚するそうだ。',"I hear that Mr. Tanaka is getting married next month."]],note:'様態の「降りそうだ（=今にも降る）」とは別。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'youda',p:'〜ようです／みたいです',lvl:'N3',en:"it seems ~ / looks like ~",setu:'普通形 ＋ ようだ（な形＋な・名詞＋の）',ex:[['だれか来たようだ。',"It seems that someone has come."]],note:'話し言葉では「みたいだ」。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'rashii',p:'〜らしいです',lvl:'N3',en:"apparently ~ / seem ~",setu:'普通形 ＋ らしい',ex:[['山田さんは会社をやめたらしい。',"Apparently Mr. Yamada has quit the company."]],note:'人から聞いた情報にもとづく推量。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'hazuda',p:'〜はずです',lvl:'N3',en:"should be ~ / be supposed to",setu:'普通形 ＋ はずだ（な形＋な・名詞＋の）',ex:[['彼は今日来るはずです。',"He is supposed to come today."]],note:'根拠のある確信。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'kamoshirenai',p:'〜かもしれません',lvl:'N3',en:"might ~ / maybe ~",setu:'普通形 ＋ かもしれない',ex:[['明日は雨が降るかもしれません。',"It might rain tomorrow."]],note:'可能性は「〜だろう」より低い。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'darou',p:'〜でしょう',lvl:'N3',en:"probably ~",setu:'普通形 ＋ だろう（ていねいは でしょう）',ex:[['試験は難しいだろう。',"The exam will probably be difficult."]],note:'「でしょう？」と上げると確認になる。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'nichigainai',p:'〜にちがいありません',lvl:'N2',en:"must be ~ / surely ~",setu:'普通形 ＋ にちがいない',ex:[['彼は知っているにちがいない。',"He must know."]],note:'強い確信。'},
+  {cat:'動詞',form:'普通形（推量・伝聞）',id:'monoda',p:'〜ものです',lvl:'N2',en:"should ~ / used to ~ (general truth)",setu:'普通形 ＋ ものだ',ex:[['子どもは早く寝るものだ。',"Children should go to bed early."]],note:'「〜たものだ」は「昔よく〜した」。'},
+  // 動詞 ・ 普通形（理由・逆接）
+  {cat:'動詞',form:'普通形（理由・逆接）',id:'node',p:'〜ので',lvl:'N3',en:"because ~ (reason)",setu:'普通形 ＋ ので（な形＋な・名詞＋な）',ex:[['用事があるので、お先に失礼します。',"I have something to do, so I'll leave first."]],note:'「から」よりていねい・客観的。'},
+  {cat:'動詞',form:'普通形（理由・逆接）',id:'noni',p:'〜のに',lvl:'N3',en:"although ~ / even though ~",setu:'普通形 ＋ のに（な形＋な・名詞＋な）',ex:[['薬を飲んだのに、まだ熱が下がらない。',"Even though I took medicine, my fever still hasn't gone down."]],note:'意外・不満の気持ちを含む。'},
+  {cat:'動詞',form:'普通形（理由・逆接）',id:'shi',p:'〜し',lvl:'N3',en:"and (besides) ~ (listing reasons)",setu:'普通形 ＋ し',ex:[['この店は安いし、おいしい。',"This shop is cheap, and the food is good too."]],note:'理由を並べて述べる。'},
+  {cat:'動詞',form:'普通形（理由・逆接）',id:'kuseni',p:'〜くせに',lvl:'N2',en:"even though ~ (criticism)",setu:'普通形 ＋ くせに',ex:[['知っているくせに、教えてくれない。',"Even though he knows, he won't tell me."]],note:'非難・不満の気持ちを含む。主語は同じ。'},
+  {cat:'動詞',form:'普通形（理由・逆接）',id:'wakeda',p:'〜わけです',lvl:'N2',en:"that's why ~ / no wonder ~",setu:'普通形 ＋ わけだ',ex:[['道理で寒いわけだ。雪が降っている。',"No wonder it's cold — it's snowing."]],note:'当然の結論として納得するとき。'},
+  // 動詞 ・ 連用形（ます形）
+  {cat:'動詞',form:'連用形（ます形）',id:'masu-tai',p:'〜たいです',lvl:'N5',en:'want to ~',setu:'ます形（語幹）＋ たいです',ex:[['冷たい水が飲みたいです。','I want to drink some cold water.']],note:'他人の願望は「〜たがっています」。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'masu-nagara',p:'〜ながら',lvl:'N4',en:'while doing ~',setu:'ます形（語幹）＋ ながら',ex:[['音楽を聞きながら、勉強します。','I study while listening to music.']],note:'二つの動作を同時にする。主語は同じ。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'masu-mashou',p:'〜ましょう',lvl:'N5',en:"let's ~ / shall we ~",setu:'ます形（語幹）＋ ましょう／ましょうか／ませんか',ex:[['いっしょに昼ごはんを食べましょう。',"Let's eat lunch together."]],note:'「〜ませんか」はより控えめな誘い方。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'masu-yasui',p:'〜やすいです／〜にくいです',lvl:'N4',en:'easy / hard to ~',setu:'ます形（語幹）＋ やすい／にくい',ex:[['このペンは書きやすいです。','This pen is easy to write with.'],['この道は暗くて歩きにくいです。','This street is dark and hard to walk on.']],note:'い形容詞として活用する。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'sugiru',p:'〜すぎます',lvl:'N3',en:"too much / over~",setu:'ます形（語幹）＋ すぎる',ex:[['ゆうべは飲みすぎました。',"I drank too much last night."]],note:'い形・な形にも付く（高すぎる・ひますぎる）。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'hajimeru',p:'〜はじめます',lvl:'N3',en:"start ~ing",setu:'ます形（語幹）＋ 始める（／終わる・続ける）',ex:[['桜が咲き始めました。',"The cherry blossoms have started to bloom."]],note:'「〜終わる」「〜続ける」も同じ作り方。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'tagaru',p:'〜たがります',lvl:'N3',en:"(third person) wants to ~",setu:'ます形（語幹）＋ たがる',ex:[['子どもは外で遊びたがる。',"Children want to play outside."]],note:'自分の願望は「〜たい」。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'nasai',p:'〜なさい',lvl:'N4',en:"(gentle command) do ~",setu:'ます形（語幹）＋ なさい',ex:[['早く起きなさい。',"Get up quickly."]],note:'親が子に、先生が生徒に使う。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'youganai',p:'〜ようがありません',lvl:'N2',en:"there's no way to ~",setu:'ます形（語幹）＋ ようがない',ex:[['連絡先がないので、知らせようがない。',"I have no contact details, so there's no way to let them know."]],note:'手段がなくて不可能なとき。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'tsutsuaru',p:'〜つつあります',lvl:'N1',en:"be gradually ~ing",setu:'ます形（語幹）＋ つつある',ex:[['景気は回復しつつある。',"The economy is gradually recovering."]],note:'書き言葉的。変化が進行中であることを表す。'},
+  {cat:'動詞',form:'連用形（ます形）',id:'kaneru',p:'〜かねます',lvl:'N1',en:"cannot ~ / be unable to ~",setu:'ます形（語幹）＋ かねる',ex:[['その件については、お答えしかねます。',"I am unable to answer regarding that matter."]],note:'ていねいに断るときに使う改まった表現。'},
+  // 動詞 ・ て形
+  {cat:'動詞',form:'て形',id:'te-kudasai',p:'〜てください',lvl:'N5',en:'please do ~ (request)',setu:'て形 ＋ ください',ex:[['ここに住所を書いてください。','Please write your address here.']],note:'やわらかく言うときは「〜てくださいませんか」。'},
+  {cat:'動詞',form:'て形',id:'te-mo-ii',p:'〜てもいいです',lvl:'N5',en:"may ~ / it's OK to ~ (permission)",setu:'て形 ＋ もいいです',ex:[['ここでたばこを吸ってもいいですか。','May I smoke here?']],note:'答えは「はい、どうぞ」「いいえ、〜てはいけません」。'},
+  {cat:'動詞',form:'て形',id:'te-wa-ikenai',p:'〜てはいけません',lvl:'N5',en:'must not ~ (prohibition)',setu:'て形 ＋ はいけません',ex:[['ここに入ってはいけません。','You must not enter here.']],note:'話し言葉では「〜ちゃいけない」。'},
+  {cat:'動詞',form:'て形',id:'te-iru',p:'〜ています',lvl:'N5',en:'be ~ing / state / habit',setu:'て形 ＋ います',ex:[['今、雨が降っています。','It is raining now.'],['兄は銀行で働いています。','My older brother works at a bank.']],note:'進行・結果の状態・習慣を表す。'},
+  {cat:'動詞',form:'て形',id:'te-kara',p:'〜てから',lvl:'N4',en:'after doing ~',setu:'て形 ＋ から',ex:[['手を洗ってから、ごはんを食べます。','I eat after washing my hands.']],note:'前の動作が終わってから次をする。'},
+  {cat:'動詞',form:'て形',id:'temiru',p:'〜てみます',lvl:'N4',en:"try ~ing",setu:'て形 ＋ みる',ex:[['この服を着てみてもいいですか。',"May I try on this dress?"]],note:'ためしに何かをする。'},
+  {cat:'動詞',form:'て形',id:'temo',p:'〜ても',lvl:'N3',en:"even if ~",setu:'て形 ＋ も',ex:[['雨が降っても、行きます。',"Even if it rains, I'll go."]],note:'疑問詞と使うと「いくら〜ても」。'},
+  {cat:'動詞',form:'て形',id:'teshimau',p:'〜てしまいます',lvl:'N3',en:"do completely / by mistake (regret)",setu:'て形 ＋ しまう',ex:[['大切な書類をなくしてしまった。',"I lost an important document (unfortunately)."]],note:'完了、または残念な気持ち。話し言葉「〜ちゃう」。'},
+  {cat:'動詞',form:'て形',id:'teoku',p:'〜ておきます',lvl:'N3',en:"do ~ in advance / leave as is",setu:'て形 ＋ おく',ex:[['旅行の前にホテルを予約しておきます。',"I'll book a hotel in advance before the trip."]],note:'準備。話し言葉「〜とく」。'},
+  {cat:'動詞',form:'て形',id:'tehoshii',p:'〜てほしいです',lvl:'N3',en:"want someone to ~",setu:'て形 ＋ ほしい',ex:[['もっと早く来てほしかった。',"I wanted you to come earlier."]],note:'相手にしてもらいたいこと。'},
+  // 動詞 ・ ない形
+  {cat:'動詞',form:'ない形',id:'nai-de-kudasai',p:'〜ないでください',lvl:'N5',en:"please don't ~",setu:'ない形 ＋ でください',ex:[['ここで写真を撮らないでください。',"Please don't take photos here."]],note:''},
+  {cat:'動詞',form:'ない形',id:'nakereba-naranai',p:'〜なければなりません',lvl:'N4',en:'must ~ / have to ~',setu:'ない形（語幹）＋ なければなりません',ex:[['毎日薬を飲まなければなりません。','I have to take medicine every day.']],note:'＝「〜なくてはいけません」。話し言葉「〜なきゃ」。'},
+  {cat:'動詞',form:'ない形',id:'nakutemo-ii',p:'〜なくてもいいです',lvl:'N4',en:"don't have to ~",setu:'ない形（語幹）＋ なくてもいいです',ex:[['明日は来なくてもいいです。',"You don't have to come tomorrow."]],note:''},
+  {cat:'動詞',form:'ない形',id:'nai-hou-ga-ii',p:'〜ないほうがいいです',lvl:'N4',en:'had better not ~ (advice)',setu:'ない形 ＋ ほうがいいです',ex:[['たばこは吸わないほうがいいです。',"You'd better not smoke."]],note:'肯定の助言は「た形＋ほうがいいです」。'},
+  {cat:'動詞',form:'ない形',id:'naito',p:'〜ないと（いけない）',lvl:'N4',en:"have to ~ / if not ~",setu:'ない形 ＋ と（いけない・だめだ）',ex:[['もう行かないと。',"I have to go now."]],note:'「〜なければならない」のくだけた言い方。'},
+  {cat:'動詞',form:'ない形',id:'nakunaru',p:'〜なくなります',lvl:'N3',en:"come not to ~ / stop ~ing",setu:'ない形（語幹）＋ なくなる',ex:[['最近、彼は学校に来なくなった。',"Recently he stopped coming to school."]],note:'できなくなる変化は「〜られなくなる」。'},
+  // 動詞 ・ た形
+  {cat:'動詞',form:'た形',id:'ta-koto-ga-aru',p:'〜たことがあります',lvl:'N4',en:'have done ~ (experience)',setu:'た形 ＋ ことがあります',ex:[['北海道へ行ったことがあります。','I have been to Hokkaido.']],note:'過去の経験を表す。'},
+  {cat:'動詞',form:'た形',id:'ta-hou-ga-ii',p:'〜たほうがいいです',lvl:'N4',en:'had better ~ (advice)',setu:'た形 ＋ ほうがいいです',ex:[['早く病院へ行ったほうがいいです。',"You'd better go to the hospital soon."]],note:''},
+  {cat:'動詞',form:'た形',id:'tari-tari',p:'〜たり〜たりします',lvl:'N4',en:'do things like ~ and ~',setu:'た形 ＋ り、〜た形 ＋ り します',ex:[['日曜日はそうじをしたり、せんたくをしたりします。','On Sundays I do things like cleaning and laundry.']],note:'動作を例として並べる。'},
+  {cat:'動詞',form:'た形',id:'ta-ato-de',p:'〜たあとで',lvl:'N4',en:'after ~',setu:'た形 ＋ あとで',ex:[['仕事が終わったあとで、飲みに行きます。','After work, I go out for a drink.']],note:'名詞のときは「名詞＋のあとで」。'},
+  {cat:'動詞',form:'た形',id:'tara',p:'〜たら',lvl:'N4',en:"if / when ~",setu:'た形 ＋ ら',ex:[['駅に着いたら、電話してください。',"When you arrive at the station, please call me."]],note:'最も広く使える条件表現。'},
+  {cat:'動詞',form:'た形',id:'tatokoro',p:'〜たところです',lvl:'N3',en:"have just ~ed",setu:'た形 ＋ ところだ',ex:[['今、家に帰ってきたところです。',"I've just come home now."]],note:'動作の直後を表す。'},
+  {cat:'動詞',form:'た形',id:'tabakari',p:'〜たばかりです',lvl:'N3',en:"just did ~ (a moment ago)",setu:'た形 ＋ ばかりだ',ex:[['さっき昼ごはんを食べたばかりです。',"I just ate lunch a little while ago."]],note:'「〜たところ」より時間に幅がある。'},
+  {cat:'動詞',form:'た形',id:'tamama',p:'〜たまま',lvl:'N3',en:"leaving ~ (in a state)",setu:'た形 ＋ まま',ex:[['電気をつけたまま、寝てしまった。',"I fell asleep with the light left on."]],note:'ある状態が続いたまま次のことをする。'},
+  // 動詞 ・ 意向形
+  {cat:'動詞',form:'意向形',id:'you-to-omou',p:'〜（よ）うと思います',lvl:'N4',en:'I think I will ~ / intend to ~',setu:'意向形 ＋ と思います',ex:[['週末はうちで休もうと思います。','I think I will rest at home this weekend.']],note:'その場で決めたことは「〜ようと思います」より「〜ます」。'},
+  {cat:'動詞',form:'意向形',id:'you-to-suru',p:'〜（よ）うとします',lvl:'N4',en:'try to ~ / be about to ~',setu:'意向形 ＋ とします',ex:[['出かけようとしたとき、電話が鳴りました。','Just as I was about to go out, the phone rang.']],note:''},
+  // 動詞 ・ 条件形
+  {cat:'動詞',form:'条件形',id:'ba',p:'〜ば、…',lvl:'N4',en:'if ~ (condition)',setu:'条件形（〜ば）',ex:[['安ければ、買います。',"If it's cheap, I'll buy it."],['ボタンを押せば、ドアが開きます。','If you press the button, the door opens.']],note:'自然・一般的な条件によく使う。'},
+  {cat:'動詞',form:'条件形',id:'ba-yokatta',p:'〜ばよかった',lvl:'N3',en:'should have ~ (regret)',setu:'条件形 ＋ よかった',ex:[['もっと早く来ればよかった。','I should have come earlier.']],note:'しなかったことへの後悔。'},
+  // 動詞 ・ 可能動詞
+  {cat:'動詞',form:'可能動詞',id:'you-ni-naru',p:'〜ようになります',lvl:'N4',en:'come to be able to ~ (change)',setu:'可能動詞（辞書形）＋ ようになります',ex:[['日本語が話せるようになりました。','I have become able to speak Japanese.']],note:'能力・習慣の変化。否定は「〜なくなりました」。'},
+  {cat:'動詞',form:'可能動詞',id:'kanou-joukyou',p:'可能動詞〈能力・状況〉',lvl:'N4',en:'can ~ (ability / situation)',setu:'〈物・こと〉が ＋ 可能動詞',ex:[['私は日本語が話せます。','I can speak Japanese.'],['このカードで払えます。','You can pay with this card.']],note:'能力（話せる）だけでなく、状況的な可能（払える・入れる）にも使う。対象は「が」で示す。'},
+  {cat:'動詞',form:'可能動詞',id:'dekiru-kansei',p:'できます〈完成・出現〉',lvl:'N4',en:'be ready / come into being',setu:'できる ＝ 出来上がる・生じる（可能とは別の用法）',ex:[['昼ごはんができました。','Lunch is ready.'],['駅前に新しい店ができました。','A new shop has opened near the station.'],['日本人の友達ができました。','I made a Japanese friend.']],note:'「〜できる（可能）」とは別の用法。「赤ちゃんができる」＝妊娠する。'},
+  // 動詞 ・ 受身動詞
+  {cat:'動詞',form:'受身動詞',id:'ukemi-chokusetsu',p:'〜（ら）れます〈直接受身〉',lvl:'N4',en:'be ~ed (direct passive)',setu:'〈受ける人〉は〈する人〉に ＋ 受身動詞',ex:[['私は先生にほめられました。','I was praised by the teacher.'],['弟は父にしかられました。','My brother was scolded by our father.']],note:'動作を受ける人が主語。する人は「に」で示す。'},
+  {cat:'動詞',form:'受身動詞',id:'ukemi-mochinushi',p:'〜（ら）れます〈持ち主の受身〉',lvl:'N4',en:'have your ~ ~ed',setu:'〈人〉は〈人〉に〈体・持ち物〉を ＋ 受身動詞',ex:[['私は弟に日記を読まれました。','I had my diary read by my brother.'],['電車で足を踏まれました。','I had my foot stepped on in the train.']],note:'体の一部や持ち物を「を」で示す。迷惑・被害を表すことが多い。'},
+  {cat:'動詞',form:'受身動詞',id:'ukemi-meiwaku',p:'〜（ら）れます〈迷惑・間接受身〉',lvl:'N3',en:'be adversely affected by ~',setu:'自動詞でも作れる：〈人〉は〜に ＋ 受身動詞',ex:[['雨に降られて、ぬれてしまいました。','I got rained on and got wet.'],['夜、子どもに泣かれて眠れませんでした。',"The baby cried on me at night, so I could not sleep."]],note:'「迷惑の受身」。降る・泣く・来る などの自動詞からも作り、被害・迷惑を表す。'},
+  {cat:'動詞',form:'受身動詞',id:'ukemi-hijou',p:'〜（ら）れます〈物の受身〉',lvl:'N4',en:'(a thing) is ~ed',setu:'〈物・こと〉が／は ＋ 受身動詞。作り手は「〜によって」',ex:[['このお酒は米から作られます。','This sake is made from rice.'],['オリンピックは4年に一度開かれます。','The Olympics are held once every four years.']],note:'「非情の受身」。作られる・行われる・輸出される など。行為者は「に」より「によって」。'},
+  {cat:'動詞',form:'受身動詞',id:'jihatsu',p:'〜（ら）れます〈自発〉',lvl:'N2',en:'~ comes about naturally (spontaneous)',setu:'思考・感情の動詞 ＋ （ら）れる',ex:[['故郷のことが思い出されます。','Memories of my hometown come to mind naturally.'],['子どもの将来が案じられます。',"I cannot help worrying about my child's future."]],note:'「自然とそうなる」用法。思い出される・感じられる・案じられる など限られた動詞で使う。'},
+  // 動詞 ・ 使役動詞
+  {cat:'動詞',form:'使役動詞',id:'saseru-kyousei',p:'〜（さ）せます〈強制・指示〉',lvl:'N4',en:'make someone do ~ (coercion)',setu:'〈人〉に〈物〉を ＋ 使役（他動詞）／〈人〉を ＋ 使役（自動詞）',ex:[['先生は学生に本を読ませました。','The teacher made the students read the book.'],['母は子どもを塾へ行かせます。','The mother makes her child go to cram school.']],note:'目上が目下にさせる基本の使役。他動詞は人を「に」、自動詞は人を「を」で示す。目上の人には使えない。'},
+  {cat:'動詞',form:'使役動詞',id:'saseru-kyoka',p:'〜（さ）せます〈許可・容認〉',lvl:'N4',en:'let / allow someone to ~ (permission)',setu:'〈人〉に ＋ 使役（相手の希望を認める）',ex:[['母は子どもを好きなだけ遊ばせました。','The mother let her child play as much as they wanted.'],['娘が行きたがっているので、留学させます。','My daughter wants to go, so I will let her study abroad.']],note:'強制と同じ形だが、相手の希望を認める「〜させる」。「〜させてあげる／〜させておく」も許可・放任の用法。文脈で強制と区別する。'},
+  {cat:'動詞',form:'使役動詞',id:'saseru-yuuhatsu',p:'〜（さ）せます〈誘発・感情〉',lvl:'N3',en:'cause (an emotion) in someone',setu:'〈人〉を ＋ 感情の使役（泣く→泣かせる 等）',ex:[['彼はいつもみんなを笑わせます。','He always makes everyone laugh.'],['私は両親を心配させてしまった。','I ended up making my parents worry.']],note:'感情・生理的反応を引き起こす用法。喜ばせる・悲しませる・驚かせる・困らせる など。相手は「を」で示す。'},
+  {cat:'動詞',form:'使役動詞',id:'sasete-kudasai',p:'〜（さ）せてください',lvl:'N4',en:'please let me ~',setu:'使役動詞の て形 ＋ ください',ex:[['その仕事は私にやらせてください。','Please let me do that job.']],note:'自分がしたいことの許可を求める。'},
+  {cat:'動詞',form:'使役動詞',id:'saserareru',p:'〜（さ）せられます',lvl:'N3',en:"be made to ~ (causative-passive)",setu:'使役動詞 → せる を せられる に変える',ex:[['子どものとき、毎日ピアノを練習させられた。',"As a child, I was made to practice the piano every day."]],note:'1グループは「〜される」とも（飲ませられる→飲まされる）。'},
+  // 動詞 ・ 命令形・禁止形
+  {cat:'動詞',form:'命令形・禁止形',id:'meirei-kinshi',p:'〜ろ（命令）／〜な（禁止）',lvl:'N4',en:'(blunt) command / prohibition',setu:'命令形（〜ろ・〜け）／ 辞書形 ＋ な',ex:[['早く起きろ。','Get up, now!'],['ここに入るな。',"Don't come in here!"]],note:'とても強い言い方。ふつうは「〜てください／〜ないでください」を使う。'},
+  // い形容詞
+  {cat:'い形容詞',form:'て形',id:'i-te',p:'〜くて、…',lvl:'N5',en:'~ and ~ / because ~',setu:'い形容詞：〜い → 〜くて',ex:[['このへやは広くて明るいです。','This room is spacious and bright.']],note:'文をつなぐ。理由を表すこともある。'},
+  {cat:'い形容詞',form:'副詞形',id:'i-ku-naru',p:'〜くなります',lvl:'N4',en:'become ~ (change)',setu:'い形容詞：〜い → 〜く ＋ なります',ex:[['さむくなりましたね。',"It's gotten cold, hasn't it?"]],note:'自然な変化。'},
+  {cat:'い形容詞',form:'副詞形',id:'i-ku-suru',p:'〜くします',lvl:'N4',en:'make it ~',setu:'い形容詞：〜い → 〜く ＋ する',ex:[['テレビの音を大きくしてください。','Please make the TV louder.']],note:'人が意図的に変える。'},
+  {cat:'い形容詞',form:'条件形',id:'i-kereba',p:'〜ければ、…',lvl:'N4',en:'if ~ (i-adjective)',setu:'い形容詞：〜い → 〜ければ',ex:[['天気がよければ、出かけます。',"If the weather is good, I'll go out."]],note:'「いい」は「よければ」。'},
+  // な形容詞
+  {cat:'な形容詞',form:'て形',id:'na-de',p:'〜で、…',lvl:'N5',en:'~ and ~ / because ~',setu:'な形容詞：語幹 ＋ で',ex:[['この町はしずかできれいです。','This town is quiet and beautiful.']],note:'名詞文も同じ：「学生で…」。'},
+  {cat:'な形容詞',form:'副詞形',id:'na-ni-naru',p:'〜になります',lvl:'N4',en:'become ~ (change)',setu:'な形容詞：語幹 ＋ に ＋ なります',ex:[['病気が治って、元気になりました。','I recovered and became healthy.']],note:''},
+  {cat:'な形容詞',form:'副詞形',id:'na-ni-suru',p:'〜にします',lvl:'N4',en:'make it ~',setu:'な形容詞：語幹 ＋ に ＋ する',ex:[['へやをきれいにします。','I will make the room clean.']],note:'「〜にします」は選択にも使う（コーヒーにします）。'},
+  {cat:'な形容詞',form:'名詞修飾',id:'na-shuushoku',p:'〜な＋名詞',lvl:'N5',en:'~ (modifies a noun)',setu:'な形容詞：語幹 ＋ な ＋ 名詞',ex:[['しずかなへやがほしいです。','I want a quiet room.']],note:'名詞の前では必ず「な」が付く。'},
+  {cat:'な形容詞',form:'条件形',id:'na-nara',p:'〜なら、…',lvl:'N4',en:'if ~ / as for ~',setu:'な形容詞：語幹 ＋ なら',ex:[['ひまなら、手伝ってください。',"If you're free, please help me."]],note:'相手の話を受けて言うことが多い。'},
+  // 文型 ・ は と が（現象文／判断文）
+  {cat:'文型',form:'は と が',id:'ha-ga-genshou',p:'〜が…〈現象文〉／〜は…〈判断文〉',lvl:'N4',en:'GA for observed events; WA for topic/judgment',setu:'新しく気づいた出来事は「が」、話題・既知のことは「は」',ex:[['あっ、雨が降ってきた。','Oh, it has started to rain.'],['山田さんは医者です。','Mr. Yamada is a doctor.']],note:'現象文＝目の前の出来事をそのまま描写（が）。判断文＝ある主題について述べる（は）。'},
+  // ===== JLPT N3〜N1 文型 追加分 =====
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-01", "p": "〜ように", "lvl": "N3", "en": "so that ~ / in order that ~", "setu": "辞書形・ない形 ＋ ように", "ex": [["わすれないように、メモしておきます。", "I make a note so that I won’t forget."]], "note": "無意志的な目的。意志動詞の目的は「ために」。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-02", "p": "〜ようにする", "lvl": "N3", "en": "try to ~ / make a habit of ~", "setu": "辞書形・ない形 ＋ ようにする", "ex": [["毎日野菜を食べるようにしています。", "I try to eat vegetables every day."]], "note": "努力・心がけを表す。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-03", "p": "〜おかげで", "lvl": "N3", "en": "thanks to ~ / owing to ~", "setu": "普通形（な形＋な・名詞＋の）＋ おかげで", "ex": [["先生のおかげで合格できました。", "Thanks to my teacher, I was able to pass."]], "note": "よい結果の原因。悪い結果は「せいで」。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-04", "p": "〜せいで", "lvl": "N3", "en": "because of ~ (blame)", "setu": "普通形（な形＋な・名詞＋の）＋ せいで", "ex": [["雨のせいで試合が中止になった。", "The match was canceled because of the rain."]], "note": "悪い結果の原因。「せいか」は推量。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-05", "p": "〜として", "lvl": "N3", "en": "as ~ / in the capacity of ~", "setu": "名詞 ＋ として", "ex": [["留学生として日本に来ました。", "I came to Japan as an exchange student."]], "note": "立場・資格・役割を表す。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-06", "p": "〜にとって", "lvl": "N3", "en": "for ~ / to ~ (from the viewpoint of)", "setu": "名詞 ＋ にとって", "ex": [["私にとって家族が一番大切です。", "For me, family is the most important thing."]], "note": "評価・判断の主体を示す。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-07", "p": "〜に対して", "lvl": "N3", "en": "toward ~ / in contrast to ~", "setu": "名詞 ＋ に対して", "ex": [["お客様に対して、ていねいに話します。", "I speak politely toward customers."]], "note": "対象・対比を表す。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-08", "p": "〜について", "lvl": "N3", "en": "about ~ / concerning ~", "setu": "名詞 ＋ について", "ex": [["日本の文化について研究しています。", "I am researching Japanese culture."]], "note": "話題・テーマを示す。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-09", "p": "〜によって", "lvl": "N3", "en": "depending on / by means of / due to ~", "setu": "名詞 ＋ によって", "ex": [["国によって習慣がちがいます。", "Customs differ depending on the country."]], "note": "受身の動作主にも使う（〜によって作られた）。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-10", "p": "〜によると", "lvl": "N3", "en": "according to ~", "setu": "名詞 ＋ によると（文末は「そうだ」など）", "ex": [["天気予報によると、明日は雨だそうです。", "According to the forecast, it will rain tomorrow."]], "note": "情報源を示す。文末は伝聞。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-11", "p": "〜代わりに", "lvl": "N3", "en": "instead of ~ / in exchange for ~", "setu": "辞書形・名詞＋の ＋ 代わりに", "ex": [["社長の代わりに、私が会議に出ます。", "I will attend the meeting instead of the president."]], "note": "代理・交換・埋め合わせ。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-12", "p": "〜たびに", "lvl": "N3", "en": "every time ~ / whenever ~", "setu": "辞書形・名詞＋の ＋ たびに", "ex": [["この写真を見るたびに、旅行を思い出します。", "Every time I see this photo, I remember the trip."]], "note": "反復的な出来事。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-13", "p": "〜ついでに", "lvl": "N3", "en": "while (you’re at it) ~", "setu": "辞書形・た形・名詞＋の ＋ ついでに", "ex": [["買い物のついでに、郵便局に寄りました。", "While out shopping, I stopped by the post office."]], "note": "ある行動のついでに別のことをする。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-14", "p": "〜とおりに", "lvl": "N3", "en": "just as ~ / in the way ~", "setu": "辞書形・た形・名詞＋の ＋ とおりに", "ex": [["説明書のとおりに組み立てました。", "I assembled it just as the manual said."]], "note": "手本・指示のとおり。"},
+  {"cat": "文型", "form": "動詞た形", "id": "n3-15", "p": "〜たとたん", "lvl": "N3", "en": "the moment ~ / just as ~", "setu": "た形 ＋ とたん（に）", "ex": [["ドアを開けたとたん、猫が飛び出した。", "The moment I opened the door, the cat leapt out."]], "note": "直後に予想外のことが起こる。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-16", "p": "〜最中に", "lvl": "N3", "en": "in the middle of ~", "setu": "〜ている・名詞＋の ＋ 最中に", "ex": [["会議の最中に、電話が鳴りました。", "The phone rang in the middle of the meeting."]], "note": "まさに進行中のとき。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-17", "p": "〜際に", "lvl": "N3", "en": "on the occasion of ~ / when ~", "setu": "辞書形・た形・名詞＋の ＋ 際（に）", "ex": [["お帰りの際に、鍵をお返しください。", "Please return the key when you leave."]], "note": "あらたまった場面の「とき」。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-18", "p": "〜向け", "lvl": "N3", "en": "intended for ~ / aimed at ~", "setu": "名詞 ＋ 向け", "ex": [["これは子ども向けの番組です。", "This is a program aimed at children."]], "note": "対象を限定。「向き」は適性（子ども向き）。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-19", "p": "〜一方だ", "lvl": "N3", "en": "keep ~ing / more and more ~", "setu": "辞書形 ＋ 一方だ", "ex": [["物価は上がる一方だ。", "Prices just keep rising."]], "note": "一方向に変化し続ける。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-20", "p": "〜ほど", "lvl": "N3", "en": "to the extent that ~", "setu": "辞書形・い形・名詞 ＋ ほど", "ex": [["立てないほど疲れました。", "I was so tired I couldn’t stand."]], "note": "程度を表す。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-21", "p": "〜くらい／ぐらい", "lvl": "N3", "en": "about ~ / to the extent that ~", "setu": "辞書形・い形・名詞 ＋ くらい", "ex": [["泣きたいくらいうれしかった。", "I was so happy I could have cried."]], "note": "程度・軽視（〜くらいできる）。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-22", "p": "〜わけにはいかない", "lvl": "N3", "en": "cannot afford to ~ / must not ~", "setu": "辞書形・ない形 ＋ わけにはいかない", "ex": [["大事な会議だから、休むわけにはいかない。", "It’s an important meeting, so I can’t take the day off."]], "note": "事情があってできない／しないわけにいかない＝しなければ。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n3-23", "p": "〜わけではない", "lvl": "N3", "en": "it doesn’t mean that ~", "setu": "普通形（な形＋な／である・名詞＋の／である）＋ わけではない", "ex": [["全部きらいなわけではない。", "It’s not that I dislike all of it."]], "note": "部分否定。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n3-24", "p": "〜わけがない", "lvl": "N3", "en": "there’s no way that ~", "setu": "普通形（な形＋な・名詞＋の）＋ わけがない", "ex": [["あの人がうそをつくわけがない。", "There’s no way that person would lie."]], "note": "強い否定の確信。"},
+  {"cat": "文型", "form": "動詞ない形", "id": "n3-25", "p": "〜ずに", "lvl": "N3", "en": "without doing ~", "setu": "ない形（〜ない→〜ず）＋ に（する→せずに）", "ex": [["朝ごはんを食べずに出かけた。", "I went out without eating breakfast."]], "note": "「〜ないで」の書き言葉的表現。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-26", "p": "〜だらけ", "lvl": "N3", "en": "full of ~ / covered with ~", "setu": "名詞 ＋ だらけ", "ex": [["子どもは泥だらけになって帰ってきた。", "The child came home covered in mud."]], "note": "好ましくないものが多い。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-27", "p": "〜っぽい", "lvl": "N3", "en": "-ish / tends to ~", "setu": "名詞・ます形（語幹）＋ っぽい", "ex": [["この牛乳は水っぽい。", "This milk tastes watery."]], "note": "性質・傾向を表す。"},
+  {"cat": "文型", "form": "動詞て形", "id": "n3-28", "p": "〜てあります", "lvl": "N3", "en": "has been done (and remains) ~", "setu": "て形 ＋ ある", "ex": [["かべに絵がかけてあります。", "A picture has been hung on the wall."]], "note": "意図的な結果の状態。他動詞に付く。"},
+  {"cat": "文型", "form": "動詞て形", "id": "n3-29", "p": "〜ていきます／〜てきます", "lvl": "N3", "en": "go on ~ing / come to ~", "setu": "て形 ＋ いく／くる", "ex": [["これから寒くなっていきます。", "It will keep getting colder from now on."], ["日本語がわかってきました。", "I’ve gradually come to understand Japanese."]], "note": "変化の方向・継続。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-30", "p": "〜ことになっている", "lvl": "N3", "en": "be scheduled/expected to ~ (rule)", "setu": "辞書形・ない形 ＋ ことになっている", "ex": [["9時に集合することになっています。", "We are supposed to gather at nine."]], "note": "規則・予定・習慣。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-31", "p": "〜ことはない", "lvl": "N3", "en": "there is no need to ~", "setu": "辞書形 ＋ ことはない", "ex": [["そんなに心配することはないよ。", "There’s no need to worry so much."]], "note": "助言・励まし。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n3-32", "p": "〜もの／もん", "lvl": "N3", "en": "because ~ (casual excuse)", "setu": "普通形（な形＋な・名詞＋な）＋ もの", "ex": [["だって、時間がなかったんだもん。", "But I didn’t have any time!"]], "note": "言い訳・甘えを含む話し言葉。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n3-33", "p": "〜ものだから", "lvl": "N3", "en": "because ~ (explaining/excusing)", "setu": "普通形（な形＋な・名詞＋な）＋ ものだから", "ex": [["道が込んでいたものだから、遅れました。", "I was late because the roads were congested."]], "note": "理由の言い訳。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n3-34", "p": "〜とか", "lvl": "N3", "en": "things like ~ / such as ~", "setu": "普通形・名詞 ＋ とか", "ex": [["週末は掃除とか洗濯とかで忙しい。", "On weekends I’m busy with things like cleaning and laundry."]], "note": "例を列挙。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n3-35", "p": "〜って", "lvl": "N3", "en": "(casual) they say / as for ~", "setu": "普通形・名詞 ＋ って", "ex": [["田中さん、来ないって。", "Tanaka says he’s not coming."]], "note": "引用「と」・主題「は」のくだけた形。"},
+  {"cat": "文型", "form": "動詞た形", "id": "n3-36", "p": "〜たって", "lvl": "N3", "en": "even if ~ (casual)", "setu": "た形／い形＋くたって ＋ って", "ex": [["今から急いだって、間に合わないよ。", "Even if you hurry now, you won’t make it."]], "note": "「〜ても」のくだけた形。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-37", "p": "〜と（自然の結果）", "lvl": "N3", "en": "when/whenever ~ (natural result)", "setu": "辞書形・ない形 ＋ と", "ex": [["春になると、桜が咲きます。", "When spring comes, the cherry blossoms bloom."]], "note": "必然・習慣的な結果。命令・依頼は続かない。"},
+  {"cat": "文型", "form": "動詞ます形", "id": "n3-38", "p": "〜方（かた）", "lvl": "N3", "en": "way of ~ing / how to ~", "setu": "ます形（語幹）＋ 方", "ex": [["この漢字の読み方がわかりません。", "I don’t know how to read this kanji."]], "note": "方法・仕方を表す。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-39", "p": "〜という〜", "lvl": "N3", "en": "a ~ called ~ / the ~ that ~", "setu": "名詞 ＋ という ＋ 名詞", "ex": [["「さくら」という店を知っていますか。", "Do you know a shop called “Sakura”?"]], "note": "名前・内容を導く。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n3-40", "p": "〜ということ", "lvl": "N3", "en": "the fact that ~ / that means ~", "setu": "普通形 ＋ ということ", "ex": [["彼が正しかったということがわかった。", "I realized that he had been right."]], "note": "内容を名詞化する。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n3-41", "p": "〜かも", "lvl": "N3", "en": "might ~ (casual)", "setu": "普通形（な形・名詞は語幹）＋ かも", "ex": [["明日は休みかも。", "Tomorrow might be a day off."]], "note": "「かもしれない」のくだけた形。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-42", "p": "〜予定です", "lvl": "N3", "en": "be scheduled to ~", "setu": "辞書形・名詞＋の ＋ 予定だ", "ex": [["来月、引っ越す予定です。", "I’m scheduled to move next month."]], "note": "決まっている予定。"},
+  {"cat": "文型", "form": "動詞た形", "id": "n3-43", "p": "〜たら（発見・きっかけ）", "lvl": "N3", "en": "when ~, (I found) ~", "setu": "た形 ＋ ら", "ex": [["窓を開けたら、雪が降っていた。", "When I opened the window, I found it was snowing."]], "note": "過去の発見・意外な結果。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-44", "p": "〜なりに", "lvl": "N3", "en": "in one’s own way ~", "setu": "名詞・普通形 ＋ なりに", "ex": [["私なりに一生けんめいがんばりました。", "I did my very best in my own way."]], "note": "その立場相応に。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-45", "p": "〜つもりだった", "lvl": "N3", "en": "I had intended to ~ (but)", "setu": "た形・辞書形 ＋ つもりだった", "ex": [["すぐ返すつもりだったのに、忘れていた。", "I meant to return it right away, but I forgot."]], "note": "実現しなかった意図。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n3-46", "p": "〜のに（目的）", "lvl": "N3", "en": "for the purpose of ~ing", "setu": "辞書形 ＋ のに（＋いる・使う・必要だ）", "ex": [["この道具は、びんを開けるのに使います。", "This tool is used for opening bottles."]], "note": "目的・用途。「逆接ののに」とは別。"},
+  {"cat": "文型", "form": "動詞た形", "id": "n2-01", "p": "〜あげく", "lvl": "N2", "en": "after (much) ~, in the end ~", "setu": "た形・名詞＋の ＋ あげく", "ex": [["さんざん迷ったあげく、買わないことにした。", "After agonizing over it, I decided not to buy it."]], "note": "長い経過の末、多くは悪い結果。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-02", "p": "〜上で", "lvl": "N2", "en": "after ~ / upon ~ / in the process of ~", "setu": "た形・名詞＋の ＋ 上で", "ex": [["よく考えた上で、お返事します。", "I will reply after thinking it over carefully."]], "note": "手順・前提を表す。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-03", "p": "〜上で（の）", "lvl": "N2", "en": "for the purpose of / in ~ing", "setu": "辞書形・名詞＋の ＋ 上で", "ex": [["生活する上で、健康が一番大切だ。", "Health is most important in living one’s life."]], "note": "ある行為の場面・観点。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-04", "p": "〜以上（は）", "lvl": "N2", "en": "now that ~ / since ~", "setu": "普通形（名詞＋である）＋ 以上（は）", "ex": [["約束した以上、守らなければならない。", "Now that I’ve promised, I must keep it."]], "note": "当然の帰結を導く。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-05", "p": "〜一方（で）", "lvl": "N2", "en": "on one hand ~, on the other ~", "setu": "普通形（な形＋な／である・名詞＋である）＋ 一方（で）", "ex": [["都会は便利な一方で、物価が高い。", "Cities are convenient, but on the other hand prices are high."]], "note": "対比・並行する二面。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-06", "p": "〜かぎり", "lvl": "N2", "en": "as long as ~ / as far as ~", "setu": "辞書形・ている・名詞＋である ＋ かぎり", "ex": [["私が知るかぎり、彼は正直な人だ。", "As far as I know, he is an honest person."]], "note": "範囲・条件を限定。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-07", "p": "〜かねる", "lvl": "N2", "en": "be unable to ~ / hard to ~", "setu": "ます形（語幹）＋ かねる", "ex": [["その件はお答えしかねます。", "I am unable to answer on that matter."]], "note": "心理的にできない、ていねいな拒否。"},
+  {"cat": "文型", "form": "動詞ます形", "id": "n2-08", "p": "〜かねない", "lvl": "N2", "en": "might ~ / could well ~ (negative)", "setu": "ます形（語幹）＋ かねない", "ex": [["そんな無理をすると、病気になりかねない。", "If you overdo it like that, you could well fall ill."]], "note": "悪い可能性を心配する。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-09", "p": "〜をかぎりに", "lvl": "N2", "en": "starting/ending from ~", "setu": "名詞 ＋ をかぎりに", "ex": [["今日をかぎりに、たばこをやめます。", "As of today, I’m quitting smoking."]], "note": "ある時点を区切りにする。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-10", "p": "〜をきっかけに", "lvl": "N2", "en": "triggered by ~ / with ~ as a start", "setu": "名詞・た形＋の ＋ をきっかけに", "ex": [["留学をきっかけに、日本語を始めた。", "I started Japanese, prompted by studying abroad."]], "note": "契機・始まりのきっかけ。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-11", "p": "〜を契機に", "lvl": "N2", "en": "on the occasion of ~ / triggered by ~", "setu": "名詞・た形＋の ＋ を契機に", "ex": [["結婚を契機に、生活が変わった。", "My life changed with marriage as the turning point."]], "note": "「をきっかけに」の硬い表現。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-12", "p": "〜ことから", "lvl": "N2", "en": "from the fact that ~ / because ~", "setu": "普通形（な形＋な／である・名詞＋である）＋ ことから", "ex": [["窓ガラスが割れていることから、泥棒に入られたとわかった。", "From the broken window, we knew a burglar had entered."]], "note": "判断の根拠・由来。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-13", "p": "〜ことに", "lvl": "N2", "en": "to one’s ~ (surprise, etc.)", "setu": "い形・な形＋な・た形 ＋ ことに", "ex": [["驚いたことに、彼は全問正解だった。", "To my surprise, he got every question right."]], "note": "感情を強調して文頭に置く。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-14", "p": "〜さえ", "lvl": "N2", "en": "even ~", "setu": "名詞（＋助詞）＋ さえ", "ex": [["専門家でさえ答えられない問題だ。", "It’s a problem even experts can’t answer."]], "note": "極端な例を挙げる。"},
+  {"cat": "文型", "form": "動詞ば形", "id": "n2-15", "p": "〜さえ〜ば", "lvl": "N2", "en": "if only ~ / as long as ~", "setu": "ます形＋さえすれば／名詞＋さえ＋ば", "ex": [["薬を飲みさえすれば、すぐ治ります。", "As long as you take the medicine, you’ll recover soon."]], "note": "唯一の条件を示す。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-16", "p": "〜次第", "lvl": "N2", "en": "as soon as ~", "setu": "ます形（語幹）＋ 次第", "ex": [["会議が終わり次第、ご連絡します。", "I’ll contact you as soon as the meeting ends."]], "note": "あらたまった表現。後件は未来。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-17", "p": "〜次第だ／次第で", "lvl": "N2", "en": "depending on ~", "setu": "名詞 ＋ 次第だ", "ex": [["成功するかどうかは努力次第だ。", "Whether you succeed depends on your effort."]], "note": "〜によって決まる。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-18", "p": "〜得る（うる／える）", "lvl": "N2", "en": "can ~ / be possible to ~", "setu": "ます形（語幹）＋ 得る", "ex": [["だれにでも起こり得ることだ。", "It’s something that can happen to anyone."]], "note": "否定は「〜得ない（えない）」。"},
+  {"cat": "文型", "form": "動詞ない形", "id": "n2-19", "p": "〜ざるを得ない", "lvl": "N2", "en": "have no choice but to ~", "setu": "ない形（〜ない→〜ざる）＋ を得ない（する→せざるを得ない）", "ex": [["台風なので、中止せざるを得ない。", "Because of the typhoon, we have no choice but to cancel."]], "note": "不本意ながらそうするしかない。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-20", "p": "〜ところを", "lvl": "N2", "en": "although (it is) ~ / at a time when ~", "setu": "辞書形・ている・名詞＋の ＋ ところを", "ex": [["お忙しいところを、ありがとうございます。", "Thank you, even though you are busy."]], "note": "あいさつや依頼で相手の状況に配慮。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n2-21", "p": "〜としても", "lvl": "N2", "en": "even if ~ / even assuming ~", "setu": "普通形 ＋ としても", "ex": [["本当だとしても、信じられない。", "Even if it’s true, I can’t believe it."]], "note": "仮定の逆接。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-22", "p": "〜とともに", "lvl": "N2", "en": "along with ~ / as ~", "setu": "辞書形・名詞 ＋ とともに", "ex": [["年をとるとともに、体力が落ちる。", "As one ages, physical strength declines."]], "note": "同時変化・並列。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-23", "p": "〜にかけては", "lvl": "N2", "en": "when it comes to ~ (one excels)", "setu": "名詞 ＋ にかけては", "ex": [["料理にかけては、彼女の右に出る者はいない。", "When it comes to cooking, no one beats her."]], "note": "得意分野を示す。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-24", "p": "〜に加えて", "lvl": "N2", "en": "in addition to ~", "setu": "名詞 ＋ に加えて", "ex": [["風に加えて、雨も降ってきた。", "In addition to the wind, it started to rain."]], "note": "付け加え。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-25", "p": "〜に先立って", "lvl": "N2", "en": "prior to ~ / before ~", "setu": "辞書形・名詞 ＋ に先立って", "ex": [["開店に先立って、あいさつがあった。", "Prior to the opening, there was a greeting."]], "note": "重要な事の前の準備。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-26", "p": "〜にしたがって", "lvl": "N2", "en": "in accordance with ~ / as ~", "setu": "辞書形・名詞 ＋ にしたがって", "ex": [["山を登るにしたがって、寒くなった。", "As I climbed the mountain, it got colder."]], "note": "変化の並行、または規則に従う。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-27", "p": "〜にしても", "lvl": "N2", "en": "even if / even ~ / whether ~", "setu": "普通形・名詞 ＋ にしても", "ex": [["冗談にしても、言い過ぎだ。", "Even as a joke, that goes too far."]], "note": "逆接・譲歩。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-28", "p": "〜にわたって", "lvl": "N2", "en": "over (a span of) ~ / throughout ~", "setu": "名詞 ＋ にわたって", "ex": [["工事は3年にわたって続いた。", "The construction continued over three years."]], "note": "期間・範囲の広がり。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-29", "p": "〜に反して", "lvl": "N2", "en": "contrary to ~", "setu": "名詞 ＋ に反して", "ex": [["予想に反して、雨は降らなかった。", "Contrary to expectations, it didn’t rain."]], "note": "予想・期待と逆。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-30", "p": "〜に基づいて", "lvl": "N2", "en": "based on ~", "setu": "名詞 ＋ に基づいて", "ex": [["事実に基づいて記事を書く。", "I write the article based on the facts."]], "note": "根拠・基準。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-31", "p": "〜にこたえて", "lvl": "N2", "en": "in response to ~", "setu": "名詞 ＋ にこたえて", "ex": [["ファンの期待にこたえて、優勝した。", "Responding to the fans’ hopes, they won."]], "note": "要望・期待に応じる。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-32", "p": "〜をめぐって", "lvl": "N2", "en": "concerning ~ / over ~ (dispute)", "setu": "名詞 ＋ をめぐって", "ex": [["新しい制度をめぐって、議論が続いている。", "Debate continues over the new system."]], "note": "ある事柄を中心に争う・論じる。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-33", "p": "〜を通じて／を通して", "lvl": "N2", "en": "through ~ / throughout ~", "setu": "名詞 ＋ を通じて", "ex": [["インターネットを通じて世界とつながる。", "We connect with the world through the internet."]], "note": "手段・媒介、または期間全体。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-34", "p": "〜を込めて", "lvl": "N2", "en": "with (feeling) ~ / full of ~", "setu": "名詞 ＋ を込めて", "ex": [["心を込めて手紙を書いた。", "I wrote the letter with all my heart."]], "note": "感情・思いを込める。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-35", "p": "〜をもとに", "lvl": "N2", "en": "based on ~ / drawing on ~", "setu": "名詞 ＋ をもとに", "ex": [["実話をもとに映画が作られた。", "The film was made based on a true story."]], "note": "素材・土台にする。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n2-36", "p": "〜ものだ", "lvl": "N2", "en": "how ~! / used to ~ / should ~", "setu": "普通形（な形＋な）＋ ものだ", "ex": [["月日がたつのは早いものだ。", "How quickly time passes!"]], "note": "感嘆・回想・一般的真理。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n2-37", "p": "〜ものか", "lvl": "N2", "en": "absolutely not ~ / as if ~", "setu": "普通形（な形＋な・名詞＋な）＋ ものか", "ex": [["あんな店、二度と行くものか。", "I’ll never go to that shop again!"]], "note": "強い否定・反発。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n2-38", "p": "〜ものの", "lvl": "N2", "en": "although ~ / but ~", "setu": "普通形（な形＋な／である・名詞＋である）＋ ものの", "ex": [["免許は取ったものの、車がない。", "I got my license, but I don’t have a car."]], "note": "逆接。予想と違う結果。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n2-39", "p": "〜ばかりに", "lvl": "N2", "en": "simply because ~ (regret)", "setu": "普通形（な形＋な／である・名詞＋である）＋ ばかりに", "ex": [["一言多かったばかりに、けんかになった。", "Simply because I said one word too many, we quarreled."]], "note": "ささいな原因で悪い結果。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n2-40", "p": "〜どころか", "lvl": "N2", "en": "far from ~ / let alone ~", "setu": "普通形（な形・名詞は語幹）＋ どころか", "ex": [["感謝されるどころか、しかられた。", "Far from being thanked, I was scolded."]], "note": "予想と正反対。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-41", "p": "〜どころではない", "lvl": "N2", "en": "this is no time for ~", "setu": "辞書形・名詞 ＋ どころではない", "ex": [["忙しくて、旅行どころではない。", "I’m too busy — this is no time for travel."]], "note": "余裕がなくてとても無理。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-42", "p": "〜ばかりだ", "lvl": "N2", "en": "only get worse / keep ~ing", "setu": "辞書形 ＋ ばかりだ", "ex": [["景気は悪くなるばかりだ。", "The economy only keeps getting worse."]], "note": "一方的に進む（多くは悪い方向）。"},
+  {"cat": "文型", "form": "動詞て形", "id": "n2-43", "p": "〜てたまらない", "lvl": "N2", "en": "unbearably ~ / can’t help ~", "setu": "て形（い形＋くて・な形＋で）＋ たまらない", "ex": [["のどがかわいてたまらない。", "I’m unbearably thirsty."]], "note": "感情・感覚が抑えられない。"},
+  {"cat": "文型", "form": "動詞て形", "id": "n2-44", "p": "〜てしかたがない／てしようがない", "lvl": "N2", "en": "extremely ~ / can’t help but ~", "setu": "て形（い形＋くて・な形＋で）＋ しかたがない", "ex": [["結果が気になってしかたがない。", "I can’t help worrying about the result."]], "note": "「てたまらない」に近い。"},
+  {"cat": "文型", "form": "動詞ない形", "id": "n2-45", "p": "〜ないことには", "lvl": "N2", "en": "unless ~ / without ~ing", "setu": "ない形 ＋ ことには", "ex": [["実際に見ないことには、わからない。", "Unless I actually see it, I can’t tell."]], "note": "前提条件がなければ後件も成立しない。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-46", "p": "〜よりほかない／ほかない", "lvl": "N2", "en": "have no choice but to ~", "setu": "辞書形 ＋ よりほか（は）ない／ほかない", "ex": [["こうなったら、あきらめるほかない。", "Now that it’s come to this, I have no choice but to give up."]], "note": "ほかに方法がない。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-47", "p": "〜おきに", "lvl": "N2", "en": "at intervals of ~ / every other ~", "setu": "数量詞 ＋ おきに", "ex": [["この薬は6時間おきに飲みます。", "Take this medicine every six hours."]], "note": "一定間隔をあける。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-48", "p": "〜つつ／つつも", "lvl": "N2", "en": "while ~ / even though ~", "setu": "ます形（語幹）＋ つつ（も）", "ex": [["体に悪いと知りつつ、吸ってしまう。", "Even knowing it’s bad for me, I end up smoking."]], "note": "同時進行、または逆接（つつも）。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n2-49", "p": "〜というものだ", "lvl": "N2", "en": "that’s just what ~ is / really ~", "setu": "普通形（な形・名詞は語幹）＋ というものだ", "ex": [["それは言い過ぎというものだ。", "That’s just going too far."]], "note": "話し手の評価・断定。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n2-50", "p": "〜というわけだ", "lvl": "N2", "en": "this means that ~ / so that’s why ~", "setu": "普通形 ＋ というわけだ", "ex": [["つまり、間に合わなかったというわけだ。", "In other words, that means we didn’t make it."]], "note": "結論・言い換え。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n2-51", "p": "〜にもかかわらず", "lvl": "N2", "en": "in spite of ~ / despite ~", "setu": "普通形（な形・名詞は語幹）＋ にもかかわらず", "ex": [["努力したにもかかわらず、失敗した。", "Despite my efforts, I failed."]], "note": "強い逆接。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-52", "p": "〜において", "lvl": "N2", "en": "in ~ / at ~ (formal place/time)", "setu": "名詞 ＋ において", "ex": [["会議は東京において行われた。", "The conference was held in Tokyo."]], "note": "あらたまった「で」。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-53", "p": "〜に応じて", "lvl": "N2", "en": "according to ~ / in response to ~", "setu": "名詞 ＋ に応じて", "ex": [["収入に応じて税金を払う。", "You pay taxes according to your income."]], "note": "変化に対応して。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-01", "p": "〜が早いか", "lvl": "N1", "en": "as soon as ~ / no sooner than ~", "setu": "辞書形・た形 ＋ が早いか", "ex": [["席に着くが早いか、寝てしまった。", "No sooner had he sat down than he fell asleep."]], "note": "直後の動作。書き言葉的。"},
+  {"cat": "文型", "form": "動詞た形", "id": "n1-02", "p": "〜や否や／や", "lvl": "N1", "en": "the instant ~ / as soon as ~", "setu": "辞書形 ＋ や（否や）", "ex": [["ベルが鳴るや否や、教室を飛び出した。", "The instant the bell rang, he dashed out of the classroom."]], "note": "硬い書き言葉。"},
+  {"cat": "文型", "form": "動詞た形", "id": "n1-03", "p": "〜なり", "lvl": "N1", "en": "as soon as ~ / the moment ~", "setu": "辞書形 ＋ なり", "ex": [["母は電話を切るなり、泣き出した。", "The moment she hung up, my mother burst into tears."]], "note": "同じ主語の予想外の動作。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-04", "p": "〜を皮切りに", "lvl": "N1", "en": "starting with ~ / beginning from ~", "setu": "名詞・た形＋の ＋ を皮切りに", "ex": [["東京を皮切りに、全国ツアーが始まった。", "Starting with Tokyo, the nationwide tour began."]], "note": "それを始まりに次々と展開。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-05", "p": "〜たところで", "lvl": "N1", "en": "even if ~ (it’s useless)", "setu": "た形 ＋ ところで", "ex": [["今から走ったところで、間に合わない。", "Even if you run now, you won’t make it."]], "note": "後件は否定的・無駄。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-06", "p": "〜とばかりに", "lvl": "N1", "en": "as if to say ~", "setu": "普通形（引用）＋ とばかりに", "ex": [["帰れとばかりに、ドアを指さした。", "He pointed at the door as if to say “get out.”"]], "note": "口に出さずその態度を示す。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-07", "p": "〜んばかり", "lvl": "N1", "en": "almost (to the point of) ~", "setu": "ない形（語幹）＋ んばかり（する→せんばかり）", "ex": [["あふれんばかりの笑顔だった。", "It was a smile all but overflowing."]], "note": "今にも〜しそうな様子。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-08", "p": "〜べく", "lvl": "N1", "en": "in order to ~", "setu": "辞書形 ＋ べく（する→すべく）", "ex": [["真実を確かめるべく、現地へ向かった。", "He headed to the site in order to verify the truth."]], "note": "目的を表す硬い表現。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-09", "p": "〜べくもない", "lvl": "N1", "en": "cannot possibly ~", "setu": "辞書形 ＋ べくもない", "ex": [["勝てるべくもない相手だった。", "It was an opponent we could not possibly beat."]], "note": "当然できない。"},
+  {"cat": "文型", "form": "動詞ない形", "id": "n1-10", "p": "〜ないではいられない／ずにはいられない", "lvl": "N1", "en": "can’t help but ~", "setu": "ない形 ＋ ではいられない（〜ず＋にはいられない）", "ex": [["あの映画は泣かずにはいられない。", "You can’t help crying at that movie."]], "note": "感情を抑えられない。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-11", "p": "〜まで（のこと）だ", "lvl": "N1", "en": "will simply ~ / that’s all", "setu": "辞書形 ＋ まで（のこと）だ", "ex": [["だめなら、また来るまでだ。", "If it doesn’t work, I’ll simply come again."]], "note": "覚悟・唯一の対処。"},
+  {"cat": "文型", "form": "動詞た形", "id": "n1-12", "p": "〜たまで（のこと）だ", "lvl": "N1", "en": "I merely ~ / it’s just that ~", "setu": "た形 ＋ まで（のこと）だ", "ex": [["本当のことを言ったまでだ。", "I merely told the truth."]], "note": "それ以上の意図はない。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-13", "p": "〜をよそに", "lvl": "N1", "en": "ignoring ~ / in defiance of ~", "setu": "名詞 ＋ をよそに", "ex": [["親の心配をよそに、彼は旅に出た。", "Ignoring his parents’ worry, he set off on a journey."]], "note": "他人の気持ちを無視して。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-14", "p": "〜をかえりみず／もかまわず", "lvl": "N1", "en": "without regard for ~", "setu": "名詞 ＋ をかえりみず", "ex": [["危険をかえりみず、川に飛び込んだ。", "Without regard for danger, he jumped into the river."]], "note": "普通は気にすることを気にせず。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-15", "p": "〜にあって", "lvl": "N1", "en": "in (a situation of) ~ / being at ~", "setu": "名詞 ＋ にあって", "ex": [["非常時にあって、冷静さが求められる。", "In times of emergency, composure is required."]], "note": "特別な状況・立場を示す硬い表現。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-16", "p": "〜に至る", "lvl": "N1", "en": "reach the point of ~ / lead to ~", "setu": "辞書形・名詞 ＋ に至る", "ex": [["話し合いは深夜に至った。", "The discussion went on into the dead of night."]], "note": "ある極まった状態に達する。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-17", "p": "〜に至って", "lvl": "N1", "en": "only when ~ / upon reaching ~", "setu": "辞書形・名詞 ＋ に至って", "ex": [["事故が起きるに至って、ようやく対策した。", "Only when the accident happened did they finally act."]], "note": "極端な段階になって。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-18", "p": "〜に難くない", "lvl": "N1", "en": "not hard to ~", "setu": "ます形（語幹）・名詞 ＋ に難くない", "ex": [["彼の苦労は想像に難くない。", "His hardship is not hard to imagine."]], "note": "容易に〜できる、硬い表現。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-19", "p": "〜たる者", "lvl": "N1", "en": "one who is (a) ~ / as befits a ~", "setu": "名詞 ＋ たる者", "ex": [["リーダーたる者、責任を持て。", "One who is a leader must take responsibility."]], "note": "その立場にふさわしい心構え。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-20", "p": "〜ならではの", "lvl": "N1", "en": "unique to ~ / only ~ can", "setu": "名詞 ＋ ならでは（の）", "ex": [["この店ならではの味だ。", "It’s a flavor only this shop can offer."]], "note": "そのものだけの良さ。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-21", "p": "〜ともなく／ともなしに", "lvl": "N1", "en": "without particularly ~ing", "setu": "辞書形・疑問詞 ＋ ともなく", "ex": [["見るともなく外を見ていた。", "I was gazing outside without really looking."]], "note": "無意識・意図せず。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-22", "p": "〜ともなると／ともなれば", "lvl": "N1", "en": "when it comes to ~ / once ~", "setu": "辞書形・名詞 ＋ ともなると", "ex": [["社長ともなると、責任が重い。", "Once you become president, the responsibility is heavy."]], "note": "高い立場・段階になれば当然。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-23", "p": "〜きり／きりだ", "lvl": "N1", "en": "only ~ / (nothing) since ~", "setu": "た形・名詞 ＋ きり", "ex": [["彼とは去年会ったきりだ。", "I haven’t seen him since last year."]], "note": "それ以来ずっとその状態。"},
+  {"cat": "文型", "form": "動詞た形", "id": "n1-24", "p": "〜て以来", "lvl": "N1", "en": "ever since ~", "setu": "て形 ＋ 以来", "ex": [["日本に来て以来、彼に会っていない。", "I haven’t seen him ever since I came to Japan."]], "note": "ある時点からずっと。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-25", "p": "〜が最後／たら最後", "lvl": "N1", "en": "once ~, then (inevitably) ~", "setu": "た形 ＋ ら最後／辞書形＋が最後", "ex": [["彼は寝たら最後、朝まで起きない。", "Once he falls asleep, he won’t wake till morning."]], "note": "一度そうなると必ず悪い結果。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-26", "p": "〜かぎりだ", "lvl": "N1", "en": "extremely ~ / couldn’t be more ~", "setu": "い形・な形＋な ＋ かぎりだ", "ex": [["一人で心細いかぎりだ。", "Being alone, I couldn’t feel more uneasy."]], "note": "感情の最上級的表現。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-27", "p": "〜きわまる／きわまりない", "lvl": "N1", "en": "extremely ~ / utterly ~", "setu": "な形（語幹）＋ きわまる／きわまりない", "ex": [["失礼きわまる態度だ。", "It’s an utterly rude attitude."]], "note": "程度が極限。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-28", "p": "〜の至り", "lvl": "N1", "en": "the height of ~ / utmost ~", "setu": "名詞 ＋ の至り", "ex": [["光栄の至りです。", "It is the greatest of honors."]], "note": "あらたまった感情表現。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-29", "p": "〜の極み", "lvl": "N1", "en": "the height/extreme of ~", "setu": "名詞 ＋ の極み", "ex": [["ぜいたくの極みだ。", "It is the height of luxury."]], "note": "これ以上ない極限。"},
+  {"cat": "文型", "form": "動詞ない形", "id": "n1-30", "p": "〜なくして（は）", "lvl": "N1", "en": "without ~, (not) ~", "setu": "名詞・辞書形＋こと ＋ なくして（は）", "ex": [["努力なくして成功はない。", "Without effort, there is no success."]], "note": "それがなければ成立しない、硬い表現。"},
+  {"cat": "文型", "form": "動詞ない形", "id": "n1-31", "p": "〜ないまでも", "lvl": "N1", "en": "even if not ~, at least ~", "setu": "ない形 ＋ までも", "ex": [["毎日とは言わないまでも、時々は運動しよう。", "If not every day, at least let’s exercise sometimes."]], "note": "高い程度は無理でも最低限は。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-32", "p": "〜いかんによらず／いかんにかかわらず", "lvl": "N1", "en": "regardless of ~", "setu": "名詞（＋の）＋ いかんによらず", "ex": [["理由のいかんによらず、遅刻は認めない。", "Regardless of the reason, tardiness is not allowed."]], "note": "どうであろうと関係なく。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-33", "p": "〜いかんだ／いかんで", "lvl": "N1", "en": "depend on ~", "setu": "名詞（＋の）＋ いかんだ", "ex": [["成否は君の努力いかんだ。", "Success or failure depends on your effort."]], "note": "〜次第だの硬い表現。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-34", "p": "〜ときたら", "lvl": "N1", "en": "when it comes to ~ (complaint)", "setu": "名詞 ＋ ときたら", "ex": [["うちの犬ときたら、いたずらばかりだ。", "As for our dog, it’s nothing but mischief."]], "note": "不満・非難を込めた話題提示。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-35", "p": "〜たりとも〜ない", "lvl": "N1", "en": "not even a single ~", "setu": "数量詞（一〜）＋ たりとも〜ない", "ex": [["一円たりともむだにできない。", "I can’t waste even a single yen."]], "note": "最小単位も許さない。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-36", "p": "〜たりとも / をおいて", "lvl": "N1", "en": "apart from ~, there is no ~", "setu": "名詞 ＋ をおいて（〜ない）", "ex": [["彼をおいて適任者はいない。", "There is no one suitable apart from him."]], "note": "それ以外に考えられない。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-37", "p": "〜まじき", "lvl": "N1", "en": "unforgivable / must not ~", "setu": "辞書形 ＋ まじき", "ex": [["教師にあるまじき行為だ。", "It is conduct unbecoming of a teacher."]], "note": "その立場として許されない。硬い。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-38", "p": "〜ものを", "lvl": "N1", "en": "if only ~ / (regret) though ~", "setu": "普通形（な形＋な）＋ ものを", "ex": [["早く言えばよかったものを。", "If only you had said so sooner."]], "note": "非難・後悔を込めた逆接。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n1-39", "p": "〜とあれば", "lvl": "N1", "en": "if it is a case of ~ / if (for the sake of) ~", "setu": "普通形（名詞・な形は語幹）＋ とあれば", "ex": [["子どものためとあれば、何でもする。", "If it’s for my child, I’ll do anything."]], "note": "特別な事情なら当然。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n1-40", "p": "〜といえども", "lvl": "N1", "en": "even though ~ / although ~", "setu": "普通形・名詞 ＋ といえども", "ex": [["専門家といえども、間違うことはある。", "Even experts make mistakes."]], "note": "硬い逆接・譲歩。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n1-41", "p": "〜（よ）うが／（よ）うと", "lvl": "N1", "en": "no matter ~ / even if ~", "setu": "意向形 ＋ が／と", "ex": [["だれに何と言われようが、気にしない。", "No matter what anyone says, I don’t care."]], "note": "どんな場合でも変わらない。"},
+  {"cat": "文型", "form": "動詞意向形", "id": "n1-42", "p": "〜（よ）うが〜まいが", "lvl": "N1", "en": "whether or not ~", "setu": "意向形＋が ＋ 辞書形＋まいが", "ex": [["雨が降ろうが降るまいが、出かける。", "Whether or not it rains, I’m going out."]], "note": "どちらでも関係ない。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-43", "p": "〜までもない", "lvl": "N1", "en": "there is no need to ~ (go so far as)", "setu": "辞書形 ＋ までもない", "ex": [["言うまでもないことだ。", "It goes without saying."]], "note": "わざわざ〜する必要がない。"},
+  {"cat": "文型", "form": "動詞た形", "id": "n1-44", "p": "〜そばから", "lvl": "N1", "en": "no sooner ~ than (repeatedly)", "setu": "辞書形・た形 ＋ そばから", "ex": [["教えるそばから忘れてしまう。", "No sooner do I teach it than he forgets."]], "note": "繰り返し直後に元に戻る。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-45", "p": "〜きらいがある", "lvl": "N1", "en": "tend to ~ (undesirable)", "setu": "辞書形・名詞＋の ＋ きらいがある", "ex": [["彼は物事を大げさに言うきらいがある。", "He tends to exaggerate things."]], "note": "好ましくない傾向。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-46", "p": "〜すら", "lvl": "N1", "en": "even ~ / not even ~", "setu": "名詞（＋助詞）＋ すら", "ex": [["水すら飲めないほど疲れた。", "I was so tired I couldn’t even drink water."]], "note": "極端な例。「さえ」の硬い形。"},
+  {"cat": "文型", "form": "名詞", "id": "n1-47", "p": "〜であれ", "lvl": "N1", "en": "no matter ~ / whatever/whoever ~", "setu": "疑問詞・名詞 ＋ であれ", "ex": [["どんな理由であれ、暴力はいけない。", "Whatever the reason, violence is wrong."]], "note": "どんな場合でも。"},
+  {"cat": "文型", "form": "動詞普通形", "id": "n1-48", "p": "〜ないともかぎらない", "lvl": "N1", "en": "it’s not impossible that ~", "setu": "ない形 ＋ とも限らない", "ex": [["事故が起きないとも限らない。", "It’s not impossible that an accident could happen."]], "note": "可能性を否定できない。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n1-49", "p": "〜ないではおかない／ずにはおかない", "lvl": "N1", "en": "will surely ~ / won’t leave it undone", "setu": "ない形 ＋ ではおかない（〜ず＋にはおかない）", "ex": [["この事件は社会に影響を与えずにはおかない。", "This affair will surely affect society."]], "note": "必然的にそうなる／させる。"},
+  {"cat": "文型", "form": "動詞ます形", "id": "n2-nagaramo", "p": "〜ながら（も）", "lvl": "N2", "en": "although ~ / even though ~ (concessive)", "setu": "ます形（語幹）・い形・な形（語幹）・名詞 ＋ ながら（も）", "ex": [["体に悪いと知りながらも、たばこをやめられない。", "Even though I know it’s bad for me, I can’t quit smoking."], ["狭いながらも、楽しいわが家です。", "Cramped though it is, it’s my happy home."]], "note": "逆接・譲歩を表す。同時進行の「〜ながら」（N4）とは別。名詞・形容詞にも付く（子どもながら・残念ながら）。"},
+  {"cat": "文型", "form": "動詞ます形", "id": "n4-nagara-shukan", "p": "〜ながら（習慣行為）", "lvl": "N4", "en": "while ~ing (two ongoing activities in parallel)", "setu": "ます形（語幹）＋ ながら", "ska": 11, "ex": [["彼は働きながら大学に通っています。", "He goes to university while working."], ["子育てをしながら、仕事を続けています。", "She keeps working while raising her children."]], "note": "一時的な同時動作（音楽を聞きながら勉強する）ではなく、二つの動作・状態を長期にわたり並行して続けることを表す。"}
+];
+
+/* === みんなの日本語 初級 課タグ（解説カードのid → 課番号） ===
+   ここに無い解説カードは初級の範囲外（N2/N1など）。初級ⅠとⅡは統合して「みんなの日本語 初級」として扱う。 */
+const MINNA_KA = {
+  'dict-koto-dekiru':18,'dict-mae-ni':18,'dict-toki':23,'dict-tsumori':31,'tameni':42,'tokoroda':46,
+  'souda-hearsay':47,'youda':47,'hazuda':46,'kamoshirenai':32,'darou':32,'node':39,'noni':45,'shi':28,
+  'masu-tai':13,'masu-nagara':28,'masu-mashou':6,'masu-yasui':44,'sugiru':44,'te-kudasai':14,'te-mo-ii':15,
+  'te-wa-ikenai':15,'te-iru':14,'te-kara':16,'temiru':40,'temo':25,'teshimau':29,'teoku':30,
+  'nai-de-kudasai':17,'nakereba-naranai':17,'nakutemo-ii':17,'nai-hou-ga-ii':32,'ta-koto-ga-aru':19,
+  'ta-hou-ga-ii':32,'tari-tari':19,'ta-ato-de':34,'tara':25,'tatokoro':46,'tabakari':46,'you-to-omou':31,
+  'ba':35,'you-ni-naru':36,'sasete-kudasai':48,'meirei-kinshi':33,'i-te':16,'i-ku-naru':19,'i-ku-suru':44,
+  'i-kereba':35,'na-de':16,'na-ni-naru':19,'na-ni-suru':44,'na-shuushoku':8,'na-nara':35
+};
+D.forEach(d => { if (MINNA_KA[d.id] != null) d.ka = MINNA_KA[d.id]; });
+
+/* === げんき 第3版 課タグ（解説カードのid → 課番号） ===
+   ここに無い解説カードはげんきの範囲外。ズレがあればこの表を直してください。 */
+const GENKI_KA = {
+  'dict-koto-dekiru':13,'dict-mae-ni':17,'dict-toki':16,'dict-tsumori':10,'kotonisuru':23,
+  'souda-hearsay':17,'youda':17,'hazuda':19,'kamoshirenai':14,'darou':12,'node':12,'noni':22,'shi':13,
+  'masu-tai':11,'masu-nagara':18,'masu-mashou':5,'masu-yasui':20,'sugiru':12,
+  'te-kudasai':6,'te-mo-ii':6,'te-wa-ikenai':6,'te-iru':7,'te-kara':17,'temiru':13,'temo':23,
+  'teshimau':18,'teoku':15,'tehoshii':21,'nai-de-kudasai':8,'nakereba-naranai':12,'nakutemo-ii':17,
+  'nai-hou-ga-ii':12,'ta-koto-ga-aru':11,'ta-hou-ga-ii':12,'tari-tari':11,'tara':17,
+  'you-to-omou':15,'ba':22,'ba-yokatta':18,'sasete-kudasai':22,'saserareru':23,'meirei-kinshi':22,
+  'i-te':7,'i-ku-naru':10,'i-ku-suru':21,'i-kereba':22,'na-de':7,'na-ni-naru':10,'na-ni-suru':21,
+  'na-shuushoku':5,'na-nara':13
+};
+D.forEach(d => { if (GENKI_KA[d.id] != null) d.gka = GENKI_KA[d.id]; });
+
+/* === つなぐ日本語 初級 初版 課タグ（解説カードのid → 課番号） === */
+const TSUNAGU_KA = {
+  'dict-koto-dekiru':17,'dict-mae-ni':12,'dict-toki':11,'dict-tsumori':17,'tameni':27,'tokoroda':22,'kotonisuru':26,
+  'bekida':30,'souda-hearsay':26,'youda':22,'rashii':26,'hazuda':25,'kamoshirenai':23,'darou':23,'node':12,'noni':17,'shi':18,
+  'masu-tai':3,'masu-nagara':15,'masu-mashou':5,'masu-yasui':18,'sugiru':29,'nasai':27,
+  'te-kudasai':9,'te-mo-ii':9,'te-wa-ikenai':9,'te-iru':9,'te-kara':18,'temiru':12,'temo':23,'teshimau':15,'teoku':25,
+  'nai-de-kudasai':9,'nakereba-naranai':25,'nai-hou-ga-ii':14,'ta-koto-ga-aru':14,'ta-hou-ga-ii':14,'tari-tari':13,
+  'ta-ato-de':13,'tara':13,'tabakari':22,'tamama':27,'you-to-omou':13,'ba':14,'you-ni-naru':20,'saserareru':29,'meirei-kinshi':23,
+  'i-te':10,'i-ku-naru':14,'i-ku-suru':26,'i-kereba':15,'na-de':10,'na-ni-naru':14,'na-ni-suru':26,'na-shuushoku':6,'na-nara':13
+};
+D.forEach(d => { if (TSUNAGU_KA[d.id] != null) d.tka = TSUNAGU_KA[d.id]; });
+
+/* === 大地 初級 初版 課タグ（解説カードのid → 課番号） === */
+const DAICHI_KA = {
+  'dict-koto-dekiru':14,'dict-mae-ni':14,'dict-toki':26,'tameni':30,'tokoroda':37,'kotonisuru':29,
+  'souda-hearsay':28,'youda':39,'kamoshirenai':32,'darou':33,'node':25,'noni':39,'shi':29,
+  'masu-tai':13,'masu-nagara':27,'masu-mashou':8,'masu-yasui':35,'sugiru':31,'nasai':38,
+  'te-kudasai':15,'te-mo-ii':16,'te-wa-ikenai':16,'te-iru':15,'te-kara':17,'temiru':37,'temo':21,'teshimau':34,'teoku':31,
+  'nai-de-kudasai':17,'nakereba-naranai':26,'nakutemo-ii':17,'nai-hou-ga-ii':32,'ta-koto-ga-aru':18,'ta-hou-ga-ii':32,
+  'tari-tari':18,'ta-ato-de':18,'tara':21,'tabakari':39,'tamama':34,'you-to-omou':30,'ba':33,'you-ni-naru':24,'meirei-kinshi':38,
+  'i-te':11,'i-ku-naru':23,'i-ku-suru':31,'i-kereba':33,'na-de':11,'na-ni-naru':23,'na-ni-suru':31,'na-shuushoku':7
+};
+D.forEach(d => { if (DAICHI_KA[d.id] != null) d.dka = DAICHI_KA[d.id]; });
+
+/* === できる日本語 中級 初版 課タグ（解説カードのid → 課番号） === */
+const DEKIRU_KA = {
+  'tehoshii':1,'hazuda':2,'uchini':2,'kuseni':8,'wakeda':9,'tokorodatta':9,'kaneru':10,'tsutsuaru':11,
+  'monoda':16,'youganai':18,'nichigainai':18,'bekida':19
+};
+D.forEach(d => { if (DEKIRU_KA[d.id] != null) d.eka = DEKIRU_KA[d.id]; });
+
+/* === できる日本語 初中級 初版 課タグ（解説カードのid → 課番号） === */
+const DEKIRUS_KA = {
+  'na-nara':4,'temiru':2,'masu-yasui':2,'sugiru':2,'tara':3,'you-to-omou':3,'dict-tsumori':3,'tameni':3,'nakereba-naranai':3,
+  'teshimau':5,'kamoshirenai':5,'ta-ato-de':5,'shi':6,'teoku':6,'i-ku-suru':7,'na-ni-suru':7,'ba':9,
+  'noni':10,'youda':10,'te-iru':10,'tokoroda':10,'you-ni-naru':11,'tabakari':11,'meirei-kinshi':11,
+  'rashii':12,'kotonisuru':12,'saserareru':13
+};
+D.forEach(d => { if (DEKIRUS_KA[d.id] != null) d.ska = DEKIRUS_KA[d.id]; });
+
+/* === できる日本語 初級 初版 課タグ（解説カードのid → 課番号） === */
+const DEKIRUK_KA = {
+  'masu-tai':5,'masu-mashou':6,'te-kudasai':7,'te-iru':7,'dict-koto-dekiru':9,'te-mo-ii':10,'nai-de-kudasai':10,
+  'i-ku-naru':10,'na-ni-naru':10,'i-te':8,'na-de':8,'tari-tari':11,'dict-toki':11,'te-kara':12,'dict-mae-ni':12,
+  'nai-hou-ga-ii':12,'ta-hou-ga-ii':12,'ta-koto-ga-aru':13,'te-wa-ikenai':14,'nakereba-naranai':14,'nakutemo-ii':14,
+  'souda-hearsay':15,'tara':15,'temo':15
+};
+D.forEach(d => { if (DEKIRUK_KA[d.id] != null) d.kka = DEKIRUK_KA[d.id]; });
+
+/* === 教科書ごとの文型データ ===
+   みんなの日本語は初級Ⅰ＆Ⅱを1冊「みんなの日本語 初級」として持つ（全50課・224文型）。 */
+const LESSONS = [
+  { l:1,  p:["〜は〜です（名前・国籍・身分・職業）","〜は〜じゃ（では）ありません","〜は〜ですか","〜は〜の〜です（所属）","〜も〜です","〜は−歳です"] },
+  { l:2,  p:["これ／それ／あれは〜です","それは〜ですか、〜ですか","これは〜の〜です（内容）","これは〈人〉の〜です（所有）","この〜は〈人〉のです"] },
+  { l:3,  p:["ここは〈場所〉です","〈場所〉はあそこです","〈場所・物・人〉は〜です","〜はこちらです","国／会社は〜です","〜は〜の〜です（内容）","〜は−円です"] },
+  { l:4,  p:["−時−分です","〜は〜曜日と〜曜日です","〜は−時から−時までです","−時に〜ます","〜から〜まで〜ます","〜ます、〜ました","〜ます／〜ません／〜ました／〜ませんでした"] },
+  { l:5,  p:["〈場所〉へ行きます","〈乗り物〉で行きます","〈人〉と行きます","〈日時〉に行きます"] },
+  { l:6,  p:["〜を〈動詞〉ます","〜を食べます／飲みます","〈場所〉で〜ます","いっしょに〜ませんか","〜ましょう"] },
+  { l:7,  p:["〜で〜ます（道具・手段）","〜で〜ます（言語）","〜は〈言語〉で〜です","わたしは〈人〉に〈物〉をあげます","わたしは〈人〉に（から）〈物〉をもらいます","もう〜ました／まだです"] },
+  { l:8,  p:["〜は〈形容詞〉です","〈な形容詞〉です／じゃありません","〈い形容詞〉です／くないです","〜は〈い形容詞〉〈名詞〉です","〜は〈な形容詞〉〈名詞〉です"] },
+  { l:9,  p:["〜は〜が好きです","〜は〜が上手です","〜は〜がわかります","〜は〜があります","〜から、〜（理由）"] },
+  { l:10, p:["〜に〜がいます","〜に〜があります","〜の〈位置〉に〜があります／います","〜は〜にいます","〜は〜にあります"] },
+  { l:11, p:["助数詞（−つ）があります","助数詞（−枚／−台）","助数詞（−人）","〈期間〉に〈−回〉〜ます","〈期間〉〜ます","〈期間〉かかります"] },
+  { l:12, p:["〈名詞／形容詞〉でした／かったです","名詞・形容詞の過去時制","〜は〜より〈形容詞〉です","〜と〜とどちらが〈形容詞〉ですか","〜のほうが〈形容詞〉です","〜［の中］で、〜がいちばん〈形容詞〉です"] },
+  { l:13, p:["わたしは〜がほしいです","〜を（が）〈ます形〉＋たいです","〜たいです／〜たくないです","〜へ〈ます形／名詞〉に行きます／来ます"] },
+  { l:14, p:["〈て形〉の活用","〈て形〉＋ください","〈ます形〉＋ましょうか","〈て形〉＋います（進行）"] },
+  { l:15, p:["〈て形〉＋もいいですか","〈て形〉＋はいけません","〈て形〉＋います（状態、身分・職業）"] },
+  { l:16, p:["〈て形〉、〈て形〉〜（動作の順序）","〈て形〉＋から、〜","〜は〜が〜","〈い形容詞〉くて、〜／〈な形容詞・名詞〉で、〜"] },
+  { l:17, p:["〈ない形〉の活用","〈ない形〉＋ないでください","〈ない形〉＋なければなりません","〈ない形〉＋なくてもいいです","〜は（目的語のとりたて）"] },
+  { l:18, p:["〈辞書形〉の活用","〈名詞〉＋ができます／〈辞書形〉＋ことができます（能力）","〈名詞〉＋ができます／〈辞書形〉＋ことができます（可能性）","趣味は〈名詞／辞書形＋こと〉です","〈辞書形／名詞の／期間〉＋まえに"] },
+  { l:19, p:["〈た形〉の活用","〈た形〉＋ことがあります","〈た形〉＋り、〈た形〉＋りします","〈い形容詞〉くなります／〈な形容詞・名詞〉になります"] },
+  { l:20, p:["普通形","普通体の動詞文・形容詞文・名詞文","後続句を用いた文型"] },
+  { l:21, p:["〈普通形〉＋と思います（推測）","〈普通形〉＋と思います（意見）","「文」〈普通形〉＋と言います","〈普通形〉＋でしょう？"] },
+  { l:22, p:["名詞修飾","これは〈名詞修飾〉です","〈名詞修飾〉は〜です","〜は〈名詞修飾〉を〜","〜は〈名詞修飾〉が〜","〈名詞修飾〉（時間・約束・用事）があります"] },
+  { l:23, p:["〈動詞普通形〉＋とき、〜","〈辞書形・た形〉＋とき、〜","〈形容詞／名詞の〉＋とき、〜","〈動詞辞書形〉＋と、〜"] },
+  { l:24, p:["〜をくれます","これは〜です。〜が〜ます。","〈て形〉＋もらいます","〈て形〉＋くれます","〈て形〉＋あげます"] },
+  { l:25, p:["活用〈〜たら〉〈〜ても〉","普通形過去＋ら、〜（仮定条件）","〈た形〉＋ら、〜（確定条件）","〈て形／い形容詞くて〉＋も、〜／〈な形容詞・名詞〉で＋も、〜（逆説の仮定条件）"] },
+  { l:26, p:["〜んですか","どうして〜んですか","〜ません。〜んです","〜んですが、〜ていただけませんか","〜んですが、疑問詞〜たらいいですか"] },
+  { l:27, p:["〜が（可能動詞）","〜が見えます／聞こえます","〜ができます（成立・実現）","〜しか〜ません","〜は、〜は〜（対比）"] },
+  { l:28, p:["〜ながら","〜ています（習慣）","〜し、〜し、〜（並列描写）","〜し、〜し、〜（理由の列挙）","どうして、〜んですか","〜し、〜から"] },
+  { l:29, p:["〜が〈自動詞〉ています","〜は〈自動詞〉ています","〈て形〉＋しまいました（完了）","〈て形〉＋しまいました（遺憾）"] },
+  { l:30, p:["〜が〜てあります","〜は〜てあります","〈て形〉＋おきます（準備）","〈て形〉＋おきます（措置）","〈て形〉＋おきます（放置）"] },
+  { l:31, p:["意向形","〈意向形〉＋と思っています","まだ〜ていません","〜つもりです","〜予定です"] },
+  { l:32, p:["〜ほうがいいです","〜でしょう","〜かもしれません"] },
+  { l:33, p:["命令形","禁止形","「〜」と書いてあります／読みます","〜は〜という意味です","〜と言っていました","〜と伝えていただけませんか"] },
+  { l:34, p:["〜とおりに、〜","〜あとで、〜","〜て／〜ないで〜","〜ないで、〜"] },
+  { l:35, p:["〈動詞〉＋ば、〜","〈い形容詞〉ければ、〜","〈な形容詞／名詞〉なら、〜","疑問詞〜ばいいですか","〈名詞〉なら、〜"] },
+  { l:36, p:["〜ように、〜（目標）","〜ようになります（変化）","〜ようにしています（習慣）","〜ようにしてください"] },
+  { l:37, p:["〈人〉は〜に〜（ら）れます（受身）","〈人〉は〜に〈所有物〉を〜（ら）れます","〈物〉が〜（ら）れます"] },
+  { l:38, p:["〜のは〈形容詞〉です","〜のが〈形容詞〉です","〜のを忘れました","〜のを知っています","〜のは〈名詞〉です"] },
+  { l:39, p:["〈て形〉、〜（原因・理由）","〈い形容詞〉くて、〜","〈な形容詞〉で、〜","〈名詞〉で、〜","〜ので、〜"] },
+  { l:40, p:["疑問詞〜か、〜","〜かどうか、〜","〈て形〉＋みます"] },
+  { l:41, p:["〜をいただきます","〜をくださいます","〜をやります","〈て形〉＋いただきます","〈て形〉＋くださいます","〈て形〉＋やります","〈て形〉＋くださいませんか"] },
+  { l:42, p:["〜ために、〜（目的）","〜は〜のに、〜（用途）","〜のに〜かかります"] },
+  { l:43, p:["〜そうです（様態・動詞）","〜そうです（様態・形容詞）","〈て形〉＋来ます"] },
+  { l:44, p:["〜すぎます","〜やすいです／〜にくいです","〈い形容詞〉く／〈な形容詞〉にします","〈名詞〉にします"] },
+  { l:45, p:["〜場合は、〜","〜のに、〜（逆接）"] },
+  { l:46, p:["〜ところです","〜たばかりです","〜はずです"] },
+  { l:47, p:["〜そうです（伝聞）","〜ようです（推量）"] },
+  { l:48, p:["〜させます（強制）","〜させます（容認）","〜させていただけませんか"] },
+  { l:49, p:["〜（ら）れます（尊敬）","お〜になります","特別な尊敬語","お／ご〜ください"] },
+  { l:50, p:["お／ご〜します（謙譲）","特別な謙譲語（目上のための行為）","特別な謙譲語（自分自身のこと）"] }
+];
+
+/* ★ 教科書を足すときは、この BOOKS 配列に1冊追加してください。
+   id / name / short / accent / bg / levels（[[課上限,レベル]...]、目安）。
+   文型データ自体は下の PATTERNS（教科書横断）で管理します。
+   追加候補：つなぐ日本語 / いろどり / まるごと など */
+const BOOKS = [
+  { id:'minna',   name:'みんなの日本語 初級 第2版', short:'みん日', accent:'#3B6D11', bg:'#EAF3DE', levels:[[25,'N5'],[50,'N4']] },
+  { id:'genki',   name:'げんき 第3版',            short:'げんき', accent:'#185FA5', bg:'#E6F1FB', levels:[[12,'N5'],[23,'N4']] },
+  { id:'tsunagu', name:'つなぐ日本語 初級 初版',        short:'つなぐ', accent:'#854F0B', bg:'#FAEEDA', levels:[[15,'N5'],[30,'N4']] },
+  { id:'daichi',  name:'大地 初級 初版',           short:'大地',   accent:'#993C1D', bg:'#FAECE7', levels:[[22,'N5'],[42,'N4']] },
+  { id:'dekiru',  name:'できる日本語 中級 初版',     short:'できる中', accent:'#1F6F6B', bg:'#DFF0EE', levels:[] }, // levels空＝全て「その他」
+  { id:'dekirus', name:'できる日本語 初中級 初版',   short:'できる初中', accent:'#3C3489', bg:'#EEEDFE', levels:[] },
+  { id:'dekiruk', name:'できる日本語 初級 初版',     short:'できる初', accent:'#8A6D3B', bg:'#F1E7D2', levels:[[8,'N5'],[15,'N4']] },
+  { id:'irodoriN', name:'いろどり 入門',   short:'いろ入門', accent:'#A21CAF', bg:'#F7E3FA', levels:[[18,'N5']] },
+  { id:'irodori1', name:'いろどり 初級1', short:'いろ初1', accent:'#BE185D', bg:'#FBE3EC', levels:[[18,'N4']] },
+  { id:'irodori2', name:'いろどり 初級2', short:'いろ初2', accent:'#7C3AED', bg:'#EDE6FD', levels:[[18,'N4']] },
+  { id:'maruN', name:'まるごと 入門(A1)', short:'まる入門', accent:'#0E7490', bg:'#DDEEF3', levels:[[18,'N5']] },
+  { id:'maru1', name:'まるごと 初級1(A2)', short:'まる初1', accent:'#1D4ED8', bg:'#DBE6F5', levels:[[18,'N4']] },
+  { id:'maru2', name:'まるごと 初級2(A2)', short:'まる初2', accent:'#4338CA', bg:'#DEE3F5', levels:[[18,'N4']] },
+  { id:'maruS', name:'まるごと 初中級(A2/B1)', short:'まる初中', accent:'#0F766E', bg:'#D8EDEA', levels:[[9,'N3']] },
+  { id:'maruC1', name:'まるごと 中級1(B1)', short:'まる中1', accent:'#155E75', bg:'#DBEAF0', levels:[[9,'N3']] },
+  { id:'maruC2', name:'まるごと 中級2(B1)', short:'まる中2', accent:'#3730A3', bg:'#E2E1F3', levels:[[9,'N3']] },
+  { id:'minchu', name:'みんなの日本語 中級 Ⅰ＋Ⅱ', short:'みん中', accent:'#9F1239', bg:'#FBE0E8', levels:[[12,'N3'],[24,'N2']] }
+];
+function levelOf(book, l){ for(const r of book.levels){ if(l <= r[0]) return r[1]; } return 'その他'; }
+function lvCls(v){ return v==='その他' ? 'other' : String(v||'').toLowerCase(); }
+
+/* === 文型データ（教科書横断） ======================================================
+   1つの文型が「どの教科書の何課に出るか」を持つ。重なる文型は複数の教科書タグが付く。
+   ・みん日：上の LESSONS から自動生成。
+   ・げんき：下の GENKI_MAP で合流。 s='みん日の文型'（重なる→タグ追加） / n='新しい文型'（重ならない→新規追加）。
+     同じ文型が複数の課に出る場合は、その課ぶんだけ行を並べればOK（例：{g:2,s:'〜も〜です'} と {g:4,s:'〜も〜です'}）。
+   ================================================================================ */
+const PATTERNS = [];
+const _byText = {};
+function _add(text){ if(!_byText[text]){ const o={ p:text, books:{} }; _byText[text]=o; PATTERNS.push(o); } return _byText[text]; }
+function _tag(o, bookId, lesson){ const a=(o.books[bookId]=o.books[bookId]||[]); if(!a.includes(lesson)) a.push(lesson); }
+
+// みん日（LESSONS から）
+LESSONS.forEach(ls => ls.p.forEach(p => _tag(_add(p), 'minna', ls.l)));
+
+// げんき（文法さくいん L1〜23・番号つき文法項目）
+const GENKI_MAP = [
+  {g:1,s:'〜は〜です（名前・国籍・身分・職業）'},{g:1,s:'〜は〜ですか'},{g:1,s:'〜は〜の〜です（所属）'},
+  {g:2,s:'これ／それ／あれは〜です'},{g:2,n:'〈この／その／あの／どの〉＋名詞'},{g:2,s:'ここは〈場所〉です'},{g:2,s:'これは〈人〉の〜です（所有）'},{g:2,s:'〜も〜です'},{g:2,s:'〜は〜じゃ（では）ありません'},
+  {g:3,s:'〈辞書形〉の活用'},{g:3,n:'助詞（を・で・に・へ）'},{g:3,s:'−時−分です'},{g:3,s:'いっしょに〜ませんか'},{g:3,n:'頻度の副詞（よく・ときどき…）'},{g:3,n:'語順'},
+  {g:4,s:'〜に〜があります'},{g:4,s:'〜の〈位置〉に〜があります／います'},{g:4,s:'〈名詞／形容詞〉でした／かったです'},{g:4,s:'〜ます、〜ました'},{g:4,s:'〜も〜です'},{g:4,n:'時間の長さ（〜時間）'},{g:4,n:'数量の表現（たくさん・すこし）'},{g:4,n:'〜と〜（and・名詞の並列）'},
+  {g:5,s:'〜は〈形容詞〉です'},{g:5,s:'〈名詞／形容詞〉でした／かったです'},{g:5,s:'〜は〈い形容詞〉〈名詞〉です'},{g:5,s:'〜は〜が好きです'},{g:5,s:'〜ましょう'},{g:5,s:'助数詞（−つ）があります'},
+  {g:6,s:'〈て形〉の活用'},{g:6,s:'〈て形〉＋ください'},{g:6,s:'〈て形〉、〈て形〉〜（動作の順序）'},{g:6,s:'〈て形〉＋もいいですか'},{g:6,s:'〈て形〉＋はいけません'},{g:6,s:'〜から、〜（理由）'},{g:6,s:'〈ます形〉＋ましょうか'},
+  {g:7,s:'〈て形〉＋います（進行）'},{g:7,s:'〈て形〉＋います（状態、身分・職業）'},{g:7,n:'〜が〜（体の部分の描写）'},{g:7,s:'〈い形容詞〉くて、〜／〈な形容詞・名詞〉で、〜'},{g:7,s:'〜へ〈ます形／名詞〉に行きます／来ます'},{g:7,s:'助数詞（−人）'},
+  {g:8,s:'普通形'},{g:8,s:'普通体の動詞文・形容詞文・名詞文'},{g:8,s:'〈普通形〉＋と思います（意見）'},{g:8,s:'〜と言っていました'},{g:8,s:'〈ない形〉＋ないでください'},{g:8,n:'〈辞書形〉のが〜（好き 等）'},{g:8,n:'〜が（主語）'},{g:8,n:'なにか／なにも'},
+  {g:9,n:'過去の普通形'},{g:9,s:'名詞修飾'},
+  {g:10,s:'〜のほうが〈形容詞〉です'},{g:10,s:'〜［の中］で、〜がいちばん〈形容詞〉です'},{g:10,n:'〜の（＝もの／one）'},{g:10,s:'〜つもりです'},{g:10,s:'〈い形容詞〉くなります／〈な形容詞・名詞〉になります'},{g:10,n:'どこか（に）／どこにも'},{g:10,n:'〜で（合計・範囲）'},
+  {g:11,s:'〜たいです／〜たくないです'},{g:11,s:'〈た形〉＋り、〈た形〉＋りします'},{g:11,s:'〈た形〉＋ことがあります'},{g:11,n:'〜や〜（名詞の列挙）'},
+  {g:12,s:'〜んですか'},{g:12,s:'〜すぎます'},{g:12,s:'〜ほうがいいです'},{g:12,s:'〜ので、〜'},{g:12,s:'〈ない形〉＋なければなりません'},{g:12,s:'〈普通形〉＋でしょう？'},
+  {g:13,s:'〈名詞〉＋ができます／〈辞書形〉＋ことができます（能力）'},{g:13,s:'〜し、〜し、〜（並列描写）'},{g:13,s:'〜そうです（様態・動詞）'},{g:13,s:'〈て形〉＋みます'},{g:13,s:'〈な形容詞／名詞〉なら、〜'},{g:13,s:'〈期間〉に〈−回〉〜ます'},
+  {g:14,s:'わたしは〜がほしいです'},{g:14,s:'〜かもしれません'},{g:14,s:'わたしは〈人〉に〈物〉をあげます'},{g:14,n:'〜たらどうですか'},{g:14,s:'〜しか〜ません'},
+  {g:15,s:'意向形'},{g:15,s:'〈意向形〉＋と思っています'},{g:15,s:'〈て形〉＋おきます（準備）'},{g:15,s:'名詞修飾'},
+  {g:16,s:'〈て形〉＋あげます'},{g:16,s:'〈て形〉＋くださいませんか'},{g:16,n:'〜といいですね／が'},{g:16,s:'〈動詞普通形〉＋とき、〜'},{g:16,n:'〜てすみませんでした'},
+  {g:17,s:'〜そうです（伝聞）'},{g:17,n:'〜って（引用・口語）'},{g:17,s:'〈た形〉＋ら、〜（確定条件）'},{g:17,s:'〈ない形〉＋なくてもいいです'},{g:17,n:'〜みたいです（推量）'},{g:17,s:'〈て形〉＋から、〜'},{g:17,s:'〈辞書形／名詞の／期間〉＋まえに'},
+  {g:18,n:'自動詞と他動詞'},{g:18,s:'〜が〈自動詞〉ています'},{g:18,s:'〈て形〉＋しまいました（完了）'},{g:18,s:'〈動詞辞書形〉＋と、〜'},{g:18,s:'〜ながら'},{g:18,n:'〜ばよかったです'},
+  {g:19,s:'お〜になります'},{g:19,s:'お／ご〜ください'},{g:19,n:'〜てくれてありがとう'},{g:19,n:'〜てよかったです'},{g:19,s:'〜はずです'},
+  {g:20,s:'お／ご〜します（謙譲）'},{g:20,s:'特別な謙譲語（自分自身のこと）'},{g:20,s:'〜ないで、〜'},{g:20,s:'〜かどうか、〜'},{g:20,n:'〜という〜（名前・呼称）'},
+  {g:21,s:'〈人〉は〜に〜（ら）れます（受身）'},{g:21,s:'〜が〜てあります'},{g:21,n:'〜あいだに'},{g:21,s:'〈い形容詞〉く／〈な形容詞〉にします'},{g:21,n:'〜てほしい'},
+  {g:22,s:'〜させます（強制）'},{g:22,n:'〜させてあげる／くれる／もらう'},{g:22,s:'命令形'},{g:22,s:'〈動詞〉＋ば、〜'},{g:22,s:'〜のに、〜（逆接）'},{g:22,n:'〜のように／のような'},
+  {g:23,n:'使役受身（〜させられる）'},{g:23,s:'〈て形／い形容詞くて〉＋も、〜／〈な形容詞・名詞〉で＋も、〜（逆説の仮定条件）'},{g:23,n:'〜ことにする'},{g:23,n:'〜ことにしている'},{g:23,n:'〜まで（till）'},{g:23,n:'〜かた（〜方）'}
+];
+const GENKI_UNMATCHED = [];
+GENKI_MAP.forEach(e=>{
+  if(e.s){ const o=_byText[e.s]; if(o){ _tag(o,'genki',e.g); } else { GENKI_UNMATCHED.push(e.s); } }
+  else { _tag(_add(e.n),'genki',e.g); }
+});
+if(GENKI_UNMATCHED.length) console.warn('げんき→みん日 未一致:', GENKI_UNMATCHED);
+
+// つなぐ日本語 初級 初版（文型索引から主要な文型を選定・L1〜30）
+// s='既存の文型と表記一致'（→タグ統合） / n='新しい文型'（→新規追加）。
+const TSUNAGU_MAP = [
+  {l:1,s:'〜ます／〜ません／〜ました／〜ませんでした'},{l:1,s:'〜は〜です（名前・国籍・身分・職業）'},{l:1,s:'〜は〜の〜です（所属）'},{l:1,s:'〜も〜です'},
+  {l:2,s:'〈い形容詞〉です／くないです'},{l:2,n:'名詞修飾（形容詞＋名詞）'},
+  {l:3,s:'〜たいです／〜たくないです'},{l:3,s:'いっしょに〜ませんか'},
+  {l:5,s:'〜ましょう'},{l:5,n:'〜がほしいです'},{l:5,s:'〜へ〈ます形／名詞〉に行きます／来ます'},
+  {l:6,s:'〈な形容詞〉です／じゃありません'},{l:6,s:'〜から、〜（理由）'},
+  {l:7,s:'〈ない形〉の活用'},{l:7,s:'〈辞書形〉の活用'},{l:7,s:'普通形'},
+  {l:8,s:'〈た形〉の活用'},
+  {l:9,s:'〈て形〉の活用'},{l:9,s:'〈て形〉＋ください'},{l:9,s:'〈て形〉＋はいけません'},{l:9,s:'〈て形〉＋もいいですか'},{l:9,s:'〈ない形〉＋ないでください'},{l:9,s:'〈て形〉＋います（進行）'},{l:9,n:'〜までに〜'},
+  {l:10,s:'〈て形〉＋います（状態、身分・職業）'},{l:10,s:'〈い形容詞〉くて、〜／〈な形容詞・名詞〉で、〜'},{l:10,n:'〜は〜が〜です'},{l:10,s:'〈普通形〉＋と思います（意見）'},{l:10,n:'〜が、〜（逆接）'},
+  {l:11,s:'わたしは〈人〉に〈物〉をあげます'},{l:11,s:'〈て形〉＋もらいます'},{l:11,s:'〈ます形〉＋ましょうか'},{l:11,n:'〜とか、〜とか'},{l:11,s:'〈動詞普通形〉＋とき、〜'},
+  {l:12,n:'〜んです'},{l:12,s:'〜んですが、〜ていただけませんか'},{l:12,s:'〈て形〉＋みます'},{l:12,s:'〈辞書形／名詞の／期間〉＋まえに'},{l:12,s:'名詞修飾'},
+  {l:13,n:'〜たら、〜'},{l:13,s:'〈た形〉＋り、〈た形〉＋りします'},{l:13,s:'意向形'},{l:13,s:'〈意向形〉＋と思っています'},{l:13,n:'〜か〜か（選択）'},{l:13,n:'〜たあとで、〜'},
+  {l:14,s:'〈動詞〉＋ば、〜'},{l:14,s:'〈た形〉＋ことがあります'},{l:14,n:'〜たほうがいいです'},{l:14,n:'〜ないほうがいいです'},{l:14,s:'〈い形容詞〉くなります／〈な形容詞・名詞〉になります'},{l:14,s:'〈名詞〉＋ができます／〈辞書形〉＋ことができます（能力）'},
+  {l:15,s:'〈て形〉＋しまいました（完了）'},{l:15,s:'〜ながら'},{l:15,s:'〈い形容詞〉ければ、〜'},{l:15,s:'〈な形容詞／名詞〉なら、〜'},
+  {l:16,n:'尊敬語'},{l:16,n:'謙譲語'},{l:16,s:'お〜になります'},{l:16,s:'お／ご〜します（謙譲）'},
+  {l:17,s:'〜つもりです'},{l:17,s:'〜のに、〜（逆接）'},{l:17,n:'〜より〜のほうが〜（比較）'},
+  {l:18,s:'〈て形〉＋から、〜'},{l:18,s:'〜し、〜から'},{l:18,s:'〈動詞辞書形〉＋と、〜'},{l:18,s:'〜やすいです／〜にくいです'},
+  {l:19,n:'可能形（〜られる／れる）'},{l:19,s:'〈人〉は〜に〜（ら）れます（受身）'},{l:19,s:'〈ない形〉＋なければなりません'},{l:19,n:'疑問詞＋でも〜'},
+  {l:20,n:'〜のは〜／のが〜／のを〜（名詞化）'},{l:20,s:'自動詞と他動詞'},{l:20,s:'〜が見えます／聞こえます'},{l:20,s:'〜ようになります（変化）'},
+  {l:21,s:'〜ようにしてください'},{l:21,s:'〜でしょう'},
+  {l:22,s:'〜ところです'},{l:22,s:'〜たばかりです'},{l:22,s:'〜ようです（推量）'},{l:22,n:'〜そうです（様態）'},
+  {l:23,s:'命令形'},{l:23,s:'禁止形'},{l:23,s:'〈て形／い形容詞くて〉＋も、〜／〈な形容詞・名詞〉で＋も、〜（逆説の仮定条件）'},{l:23,s:'〜かもしれません'},
+  {l:24,s:'〈て形〉＋いただきます'},{l:24,s:'〈て形〉＋くださいます'},{l:24,s:'〈て形〉＋くれます'},{l:24,s:'〈て形〉＋来ます'},
+  {l:25,s:'〈て形〉＋おきます（準備）'},{l:25,s:'〜が〜てあります'},{l:25,s:'〜はずです'},{l:25,s:'まだ〜ていません'},{l:25,s:'〜場合は、〜'},
+  {l:26,n:'〜ことにします'},{l:26,s:'〜そうです（伝聞）'},{l:26,s:'〜と言っていました'},{l:26,n:'〜らしいです'},{l:26,n:'〈な形容詞／名詞〉にします'},
+  {l:27,n:'使役形（〜させる）'},{l:27,s:'〜ために、〜（目的）'},{l:27,n:'〜というのは、〜（説明）'},{l:27,n:'〜て、〜（方法・手段）'},
+  {l:28,s:'お／ご〜ください'},{l:28,s:'〜ように、〜（目標）'},{l:28,s:'〜かどうか、〜'},{l:28,s:'疑問詞〜か、〜'},{l:28,s:'〜みたいです（推量）'},
+  {l:29,s:'〜しか〜ません'},{l:29,s:'使役受身（〜させられる）'},{l:29,s:'〜させていただけませんか'},{l:29,s:'〜すぎます'},{l:29,n:'〜ため（に）、〜（原因）'},{l:29,n:'〜じゃなくて、〜'},
+  {l:30,n:'〜べきです'},{l:30,n:'〜んじゃないでしょうか'},{l:30,n:'〈て形〉＋いきます（変化）'},{l:30,n:'〜がします（におい・音・味）'}
+];
+const TSUNAGU_UNMATCHED = [];
+TSUNAGU_MAP.forEach(e=>{
+  if(e.s){ const o=_byText[e.s]; if(o){ _tag(o,'tsunagu',e.l); } else { TSUNAGU_UNMATCHED.push(e.s); } }
+  else { _tag(_add(e.n),'tsunagu',e.l); }
+});
+if(TSUNAGU_UNMATCHED.length) console.warn('つなぐ→既存 未一致:', TSUNAGU_UNMATCHED);
+
+// 大地 初級 初版（学習項目一覧から主要な文型を選定・初級1＋2統合＝L1〜42）
+const DAICHI_MAP = [
+  {l:1,s:'〜は〜です（名前・国籍・身分・職業）'},{l:1,s:'〜は〜じゃ（では）ありません'},{l:1,s:'〜は〜ですか'},{l:1,s:'〜は〜の〜です（所属）'},{l:1,s:'〜も〜です'},
+  {l:2,s:'これ／それ／あれは〜です'},{l:2,s:'〈この／その／あの／どの〉＋名詞'},{l:2,s:'これは〜の〜です（内容）'},{l:2,s:'これは〈人〉の〜です（所有）'},
+  {l:3,s:'ここは〈場所〉です'},{l:3,s:'〈場所・物・人〉は〜です'},{l:3,s:'〜は−円です'},
+  {l:4,s:'〜を〈動詞〉ます'},{l:4,s:'〈場所〉で〜ます'},{l:4,s:'〜と〜（and・名詞の並列）'},
+  {l:5,s:'−時−分です'},{l:5,s:'〜ます、〜ました'},{l:5,s:'−時に〜ます'},{l:5,s:'〜から〜まで〜ます'},
+  {l:6,s:'〈場所〉へ行きます'},{l:6,s:'〈乗り物〉で行きます'},{l:6,s:'〈人〉と行きます'},{l:6,s:'いっしょに〜ませんか'},
+  {l:7,s:'〜は〈形容詞〉です'},{l:7,s:'〈な形容詞〉です／じゃありません'},{l:7,s:'〈い形容詞〉です／くないです'},{l:7,s:'〜は〈い形容詞〉〈名詞〉です'},
+  {l:8,s:'〜に〜があります'},{l:8,s:'〜の〈位置〉に〜があります／います'},{l:8,s:'〜ましょう'},{l:8,s:'〜や〜（名詞の列挙）'},
+  {l:9,s:'〜は〜が好きです'},{l:9,s:'〜は〜がわかります'},{l:9,s:'〜から、〜（理由）'},{l:9,s:'〜は〜があります'},
+  {l:10,s:'わたしは〈人〉に〈物〉をあげます'},{l:10,s:'わたしは〈人〉に（から）〈物〉をもらいます'},{l:10,s:'助数詞（−枚／−台）'},{l:10,s:'〈名詞〉にします'},
+  {l:11,s:'〜は〜より〈形容詞〉です'},{l:11,s:'〜と〜とどちらが〈形容詞〉ですか'},{l:11,s:'〜のほうが〈形容詞〉です'},{l:11,s:'〜［の中］で、〜がいちばん〈形容詞〉です'},
+  {l:12,s:'〈名詞／形容詞〉でした／かったです'},{l:12,s:'〈期間〉〜ます'},
+  {l:13,s:'わたしは〜がほしいです'},{l:13,s:'〜たいです／〜たくないです'},{l:13,s:'〜へ〈ます形／名詞〉に行きます／来ます'},{l:13,s:'〈ます形〉＋ましょうか'},{l:13,s:'〜かた（〜方）'},
+  {l:14,n:'動詞のグループ分け'},{l:14,s:'〈辞書形〉の活用'},{l:14,s:'〈名詞〉＋ができます／〈辞書形〉＋ことができます（能力）'},{l:14,s:'〈辞書形／名詞の／期間〉＋まえに'},{l:14,s:'〜とか、〜とか'},
+  {l:15,s:'〈て形〉の活用'},{l:15,s:'〈て形〉＋ください'},{l:15,s:'〈て形〉＋くださいませんか'},{l:15,s:'〈て形〉＋います（進行）'},
+  {l:16,s:'〈て形〉＋もいいですか'},{l:16,s:'〈て形〉＋はいけません'},{l:16,s:'〈て形〉＋います（状態、身分・職業）'},{l:16,s:'〈て形〉、〈て形〉〜（動作の順序）'},
+  {l:17,s:'〈ない形〉の活用'},{l:17,s:'〈ない形〉＋ないでください'},{l:17,s:'〈ない形〉＋なくてもいいです'},{l:17,s:'〈て形〉＋から、〜'},
+  {l:18,s:'〈た形〉の活用'},{l:18,s:'〈た形〉＋ことがあります'},{l:18,s:'〈た形〉＋り、〈た形〉＋りします'},{l:18,s:'〜たあとで、〜'},
+  {l:19,s:'普通形'},{l:19,s:'〈普通形〉＋と思います（意見）'},{l:19,s:'「文」〈普通形〉＋と言います'},
+  {l:20,s:'名詞修飾'},{l:20,n:'〈て形〉＋います（着脱）'},
+  {l:21,s:'普通形過去＋ら、〜（仮定条件）'},{l:21,s:'〈た形〉＋ら、〜（確定条件）'},{l:21,s:'〈て形／い形容詞くて〉＋も、〜／〈な形容詞・名詞〉で＋も、〜（逆説の仮定条件）'},
+  {l:22,s:'〜をくれます'},{l:22,s:'〈て形〉＋くれます'},{l:22,s:'〈て形〉＋もらいます'},{l:22,s:'〈て形〉＋あげます'},{l:22,s:'〜てくれてありがとう'},
+  {l:23,s:'〈い形容詞〉くなります／〈な形容詞・名詞〉になります'},{l:23,s:'〈動詞辞書形〉＋と、〜'},{l:23,s:'〈て形〉＋来ます'},{l:23,s:'〈普通形〉＋でしょう？'},
+  {l:24,s:'可能形（〜られる／れる）'},{l:24,s:'〜ようになります（変化）'},{l:24,n:'〜なくなります'},
+  {l:25,s:'〜ので、〜'},{l:25,s:'疑問詞〜か、〜'},{l:25,s:'〜かどうか、〜'},{l:25,s:'まだ〜ていません'},
+  {l:26,s:'〈動詞普通形〉＋とき、〜'},{l:26,s:'〈ない形〉＋なければなりません'},
+  {l:27,s:'〜んですか'},{l:27,s:'〜ながら'},{l:27,s:'〜たらどうですか'},{l:27,n:'〜ていただけませんか'},
+  {l:28,n:'〈て形〉＋います（動作・作用の結果）'},{l:28,s:'〜そうです（伝聞）'},{l:28,s:'〜がします（におい・音・味）'},
+  {l:29,s:'〜し、〜し、〜（並列描写）'},{l:29,s:'〜ことにする'},{l:29,n:'〜ことになる'},{l:29,n:'〜ことになっている'},{l:29,n:'〜けど、〜（逆接）'},
+  {l:30,s:'意向形'},{l:30,s:'〈意向形〉＋と思っています'},{l:30,s:'〜ために、〜（目的）'},
+  {l:31,s:'〈て形〉＋おきます（準備）'},{l:31,s:'〜が〜てあります'},{l:31,s:'〜すぎます'},{l:31,s:'〈い形容詞〉く／〈な形容詞〉にします'},
+  {l:32,s:'〜ほうがいいです'},{l:32,s:'〜かもしれません'},{l:32,s:'〜て／〜ないで〜'},
+  {l:33,s:'〈動詞〉＋ば、〜'},{l:33,s:'〜でしょう'},{l:33,s:'〜んじゃないでしょうか'},
+  {l:34,s:'〈て形〉＋しまいました（完了）'},{l:34,n:'〜たまま、〜'},{l:34,s:'〜のは〈形容詞〉です'},{l:34,s:'〜のは〜／のが〜／のを〜（名詞化）'},
+  {l:35,s:'〜ように、〜（目標）'},{l:35,s:'〜ようにしています（習慣）'},{l:35,s:'〜やすいです／〜にくいです'},
+  {l:36,s:'〈人〉は〜に〜（ら）れます（受身）'},{l:36,s:'〈物〉が〜（ら）れます'},{l:36,s:'〜という〜（名前・呼称）'},
+  {l:37,s:'〜そうです（様態・形容詞）'},{l:37,s:'〜そうです（様態・動詞）'},{l:37,s:'〜ところです'},{l:37,s:'〈て形〉＋みます'},{l:37,n:'〜てくれませんか'},
+  {l:38,s:'命令形'},{l:38,s:'禁止形'},{l:38,n:'〜なさい'},{l:38,s:'〜は〜という意味です'},{l:38,s:'〜と言っていました'},
+  {l:39,s:'〜ようです（推量）'},{l:39,s:'〜のに、〜（逆接）'},{l:39,s:'〜たばかりです'},
+  {l:40,s:'〜させます（強制）'},{l:40,s:'〜させていただけませんか'},
+  {l:41,s:'特別な尊敬語'},{l:41,s:'お〜になります'},{l:41,s:'お／ご〜ください'},
+  {l:42,s:'特別な謙譲語（目上のための行為）'},{l:42,s:'お／ご〜します（謙譲）'}
+];
+const DAICHI_UNMATCHED = [];
+DAICHI_MAP.forEach(e=>{
+  if(e.s){ const o=_byText[e.s]; if(o){ _tag(o,'daichi',e.l); } else { DAICHI_UNMATCHED.push(e.s); } }
+  else { _tag(_add(e.n),'daichi',e.l); }
+});
+if(DAICHI_UNMATCHED.length) console.warn('大地→既存 未一致:', DAICHI_UNMATCHED);
+
+// できる日本語 中級 初版（シラバス一覧・番号つき学習項目 L1〜20／レベルは「その他」）
+// 中級のため既存（初級）とはほぼ重ならない。表記が完全一致する項目のみ自動でタグ統合される。
+const DEKIRU = [
+  { l:1, p:['〜において／〜における','〜上（で）','〜てほしい／〜てもらいたい','〜よね','〜とか〜とか','〜だけ／〜だけの','〜でしょう／〜だろう','〜から〜にかけて','〜と、A／V','〜がきっかけで','〜っぽい','〜でも（極端な例）'] },
+  { l:2, p:['〜ている','〜によって（さまざまだ）','〜うちに','〜わりに','〜（が）いいんじゃない','〜ようになっている','〜に限り','〜こそ／〜からこそ','〜につき','〜ということだ','〜でしょうか','〜はずだ','〜向け'] },
+  { l:3, p:['〜はずがない','〜なんて（驚き）','〜（ば）ほど','〜でも（例示）','こんな〜／そんな〜／あんな〜／どんな〜','〜ふうに','〜ことで','〜なあ','〜ことがある／〜こともある','〜にとって','〜ことだし','〜てくれない？／〜てくれる？','〜じゃない／〜んじゃない'] },
+  { l:4, p:['お・ご〜です／お・ご〜でしょう','〜場合','〜ないことには〜ない','〜たいことがあるんですが','〜（よ）うとする','〜みたいなんですが／〜ようなんですが','〜ていただきたいんですが','〜には','〜にかかわらず／〜にかかわりなく','〜次第','〜途中で／〜途中（に）','〜を〜として','〜を背にして','〜に沿って／〜に沿う／〜に沿った'] },
+  { l:5, p:['〜によって／〜により／〜による（原因）','〜おそれがある','〜そうにないんですが','〜とか（で）','〜てしまったようなんです','〜ところへ／〜ところに／〜ところで','〜につれて','〜ものだ／〜ものではない（当然）','〜とおり（に）／〜どおり（に）','〜際','〜こと（指示）','〜まま','〜だらけ'] },
+  { l:6, p:['〜に囲まれている／〜に囲まれた','〜（が）〜を占める','〜がち','〜に比べ（て）','〜に備えて','〜に代わって／〜に代わり','〜のような／〜のように（例示）','〜に限る','〜を中心に（して）／〜を中心として','〜をはじめ（として）／〜をはじめとする','〜を通して／〜を通じて','〜ことから','〜といえば／〜というと'] },
+  { l:7, p:['〜どころではない／〜どころじゃない','〜たところ','〜ことになった','〜限り／〜限りは','〜かなと思って','〜にしては','〜につき','〜もんだ／〜ものだ','〜ながら（も）','〜につけ（て）','〜さえ','〜に反して／〜に反する／〜に反した','〜からして'] },
+  { l:8, p:['〜のことなんですが','〜（さ）せていただけませんか','〜ものですから／〜ものだから／〜もので','〜の代わりに／〜に代わって','〜おかげで／〜おかげだ','〜くせに','〜せいで／〜せいか／〜せいだ','〜にきまっている','〜（さ）せる（誘発）','〜ことはない','〜のことになると／〜のこととなると','〜にしたら／〜にすれば／〜にしてみたら／〜にしてみれば','〜たびに','〜ば／〜なら（ば）／〜たら／〜たのに'] },
+  { l:9, p:['〜がたい','〜ように（同様）','〜とともに（変化）','〜をもとに（して）／〜をもとにした','〜でしょう？／〜だろう？（確認）','〜っけ','〜というわけだ／〜わけだ','〜っこない','〜もん／〜んだもん','〜ほど／〜くらい／〜ぐらい','〜ところだった','〜てたまらない','〜わけではない／〜というわけではない'] },
+  { l:10, p:['〜といったら','とても〜ない','〜はもちろん／〜はもとより','〜（さ）せていただきます','ご・お〜いたします','〜つもりだ','〜ように思う','〜ております','〜かねます','〜ことに（は）','〜だけあって／〜だけのことはある','〜ついでに'] },
+  { l:11, p:['〜ということだ／〜とのことだ','〜に対して','〜ものの／〜とはいうものの','〜といっても','〜とは〜ことだ／〜とは〜ということだ','〜にしても／〜にしろ／〜にせよ','〜つつある','〜結果','〜づらい','〜んだから／〜のだから','〜からすると／〜からすれば／〜から見ると／〜から見れば','〜というより（も）','〜のではないでしょうか／〜んじゃないでしょうか'] },
+  { l:12, p:['〜にしても〜にしても／〜にしろ〜にしろ／〜にせよ〜にせよ','〜ばかりが／〜一方だ','〜気味','〜からといって','〜に応じて／〜に応じた','〜さえ〜ば','〜に対して／〜に対する（対象）','〜やら〜やら','〜なんて／〜なんか／〜など','〜として〜ない','〜というものだ','〜とは限らない'] },
+  { l:13, p:['〜とともに（一緒に）','〜しかない','〜ないではいられない／〜ずにはいられない','〜一方（で）','〜（さ）せられる','〜のみならず','〜と同時に','〜によって／〜により／〜による','〜だけに','〜としても','〜に先立って／〜に先立ち','どちらかというと／どちらかといえば'] },
+  { l:14, p:['〜ばかりでなく／〜ばかりか','〜（か）と思うと／〜（か）と思ったら','〜てならない','〜ことは〜が','〜によっては','〜からには','〜どころか','〜得る／〜得ない','〜に限らず','〜げ','〜たとたん（に）','〜なんて〜んだろう／なんて〜だろう','〜以来'] },
+  { l:15, p:['〜といった','〜を通して／〜を通じて','〜に関して／〜に関する','〜ばかりに','〜か〜ないかのうちに','〜ことだ','〜てしかたがない／〜てしょうがない','〜代わりに','〜としたら／〜とすれば／〜とすると','〜かねない','〜てからでないと／〜てからでなければ','〜わけにはいかない／〜わけにもいかない'] },
+  { l:16, p:['〜ものだ／〜もんだ','〜にかけては','〜はともかく（として）','〜ないことはない／〜ないこともない','〜も〜ば〜も／〜も〜なら〜も','〜にわたって／〜にわたり／〜にわたる','〜きり／〜きれない','〜にもかかわらず','〜からいうと／〜からいって／〜からいえば','〜となると／〜となったら','〜次第だ／〜次第で','〜ぬく','〜つつ'] },
+  { l:17, p:['〜（っ）きりだ（それだけ）','〜てはじめて','〜にすぎない','〜にあたって／〜にあたり','〜を問わず','〜上で','〜反面','〜というか','〜以上（は）／〜上は','〜限り／〜限りの','〜ていただけないでしょうか','〜ところ（を）','〜ていただけないかと思って'] },
+  { l:18, p:['〜つつ（も）','〜っぱなし','〜ことなく','〜上（に）','〜向き','〜（よ）うにも〜ない','〜にしたがって','〜にほかならない','〜あげく','〜ようがない','〜わけがない','〜ことだろう／〜ことか','〜に違いない'] },
+  { l:19, p:['〜といえば／〜というと','〜べきだ／〜べきではない／〜べき','〜ほど〜はない','〜（より）ほかない／〜（より）ほかしかたがない','〜（っ）きり／〜（っ）きりだ（そのまま）','〜最中に','〜かけだ／〜かけの／〜かける','〜に伴って／〜に伴い／〜に伴う','〜ざるを得ない','〜を契機（にして）／〜を契機として','〜をめぐって／〜をめぐり／〜をめぐる','〜上の／〜上'] },
+  { l:20, p:['〜あっての〜','〜にもまして','〜にこしたことはない','〜というものではない／〜というものでもない','〜に基づいて／〜に基づく／〜に基づいた','〜あまり（に）／〜あまりの','〜まい','〜てでも','〜末（に）／〜末の','〜てまで／〜てまでして','〜のもとで／〜のもとに','〜ないものでしょうか'] }
+];
+DEKIRU.forEach(ls => ls.p.forEach(p => _tag(_add(p), 'dekiru', ls.l)));
+
+// できる日本語 初中級 初版（シラバス一覧・番号つき学習項目 L1〜15／レベルは「その他」）
+// 初級とかなり重なるため、s=既存の文型と表記一致（→タグ統合） / n=新しい文型（→新規追加）。
+const DEKIRUS_MAP = [
+  {l:1,n:'いらっしゃいます／参ります'},{l:1,n:'〜と申します'},{l:1,s:'〜ので、〜'},{l:1,s:'可能形（〜られる／れる）'},{l:1,n:'〜なら、〜（条件）'},{l:1,n:'〜のが〈形容詞〉'},{l:1,s:'〜のは〈形容詞〉です'},{l:1,s:'〜ようになります（変化）'},
+  {l:2,s:'〜そうです（様態・形容詞）'},{l:2,s:'〈て形〉＋みます'},{l:2,n:'〈て形〉＋もらえませんか'},{l:2,s:'〜やすいです／〜にくいです'},{l:2,s:'〜すぎます'},{l:2,s:'〜が〜てあります'},{l:2,s:'「〜」と書いてあります／読みます'},{l:2,s:'〜は〜という意味です'},{l:2,s:'〈名詞〉にします'},
+  {l:3,s:'〈た形〉＋ら、〜（確定条件）'},{l:3,s:'〈意向形〉＋と思っています'},{l:3,s:'〜つもりです'},{l:3,s:'疑問詞〜か、〜'},{l:3,s:'〜かどうか、〜'},{l:3,s:'〜ために、〜（目的）'},{l:3,s:'〜んですか'},{l:3,s:'〈ない形〉＋なければなりません'},
+  {l:4,n:'〜んですが、〜'},{l:4,n:'〜たらいいですか'},{l:4,n:'〜といいです'},{l:4,s:'〜までに〜'},{l:4,s:'〈動詞辞書形〉＋と、〜'},{l:4,n:'〜じゃなくて、〜'},
+  {l:5,s:'〈て形〉＋しまいました（完了）'},{l:5,s:'〜かもしれません'},{l:5,s:'〜たあとで、〜'},{l:5,s:'〜ていただけませんか'},{l:5,n:'〜て、〜（理由）'},{l:5,n:'〜たら、〜た（発見）'},
+  {l:6,s:'〈ます形〉＋ましょうか'},{l:6,s:'〜し、〜し、〜（並列描写）'},{l:6,n:'〜のは〜です（強調構文）'},{l:6,n:'〜そうです（予測）'},{l:6,s:'〈て形〉＋おきます（準備）'},
+  {l:7,s:'特別な尊敬語'},{l:7,s:'お〜になります'},{l:7,s:'お／ご〜します（謙譲）'},{l:7,n:'〈形容詞〉の副詞的用法（〜く／〜に＋V）'},{l:7,n:'〜ている間に、〜'},{l:7,s:'〈い形容詞〉く／〈な形容詞〉にします'},
+  {l:8,s:'〈て形〉＋あげます'},{l:8,s:'〈て形〉＋もらいます'},{l:8,s:'〈て形〉＋くれます'},{l:8,s:'〜をいただきます'},{l:8,s:'〜をくださいます'},{l:8,s:'〈て形〉＋いただきます'},{l:8,s:'〈て形〉＋くださいます'},
+  {l:9,s:'〜ことになっている'},{l:9,s:'〜ように、〜（目標）'},{l:9,s:'〈動詞〉＋ば、〜'},{l:9,s:'〜ようにしてください'},{l:9,s:'お／ご〜ください'},{l:9,s:'〜そうです（様態・動詞）'},{l:9,n:'〈て形〉＋おきます（放置）'},{l:9,s:'意向形'},
+  {l:10,s:'〈人〉は〜に〜（ら）れます（受身）'},{l:10,s:'〜のに、〜（逆接）'},{l:10,s:'〜みたいです（推量）'},{l:10,s:'〜ようです（推量）'},{l:10,s:'〜ところです'},{l:10,n:'〜たところです'},{l:10,s:'〈て形〉＋来ます'},{l:10,s:'〈て形〉＋います（進行）'},{l:10,n:'〈形容詞〉そうに〜'},{l:10,s:'〈物〉が〜（ら）れます'},
+  {l:11,s:'〜ようになります（変化）'},{l:11,s:'〜なくなります'},{l:11,s:'〜たばかりです'},{l:11,n:'〜ながら（習慣行為）'},{l:11,s:'〜と言っていました'},{l:11,s:'命令形'},{l:11,s:'禁止形'},
+  {l:12,n:'数量＋も／しか〜（強調）'},{l:12,s:'〜たらどうですか'},{l:12,s:'〜ないで、〜'},{l:12,s:'〜らしいです'},{l:12,n:'〜ないで〜（付帯状況）'},{l:12,n:'〜のに〜／〜に〜（用途）'},{l:12,s:'〜やすいです／〜にくいです'},{l:12,s:'〜ようにしています（習慣）'},{l:12,s:'〜ことにする'},
+  {l:13,s:'〜させます（強制）'},{l:13,n:'〜のを見ました（知覚）'},{l:13,n:'〜ていました（過去の習慣）'},{l:13,n:'〜ばかり〜ています'},{l:13,s:'使役受身（〜させられる）'},{l:13,n:'使役＋てくれます／てもらいます'},
+  {l:14,n:'〜って何ですか'},{l:14,n:'〜というのは、〜'},{l:14,n:'〜と言われています'},{l:14,s:'〜のように／のような'},{l:14,n:'〜かな／〜（よ）うかな'},{l:14,n:'〜なんかどうですか'},{l:14,n:'〜がっています（第三者の様子）'},
+  {l:15,n:'〜からです（理由）'},{l:15,n:'〜んだって（伝聞・口語）'},{l:15,n:'〜のはどうですか'},{l:15,n:'〜だけじゃなくて、〜も'},{l:15,n:'〜ないと、〜'},{l:15,n:'〜ために、〜（原因）'},{l:15,n:'〜ていきます（変化）'}
+];
+const DEKIRUS_UNMATCHED = [];
+DEKIRUS_MAP.forEach(e=>{
+  if(e.s){ const o=_byText[e.s]; if(o){ _tag(o,'dekirus',e.l); } else { DEKIRUS_UNMATCHED.push(e.s); } }
+  else { _tag(_add(e.n),'dekirus',e.l); }
+});
+if(DEKIRUS_UNMATCHED.length) console.warn('できる初中級→既存 未一致:', DEKIRUS_UNMATCHED);
+
+// できる日本語 初級 初版（シラバス・番号つき学習項目 L1〜15／初級なのでN5・N4）
+const DEKIRUK_MAP = [
+  {l:1,s:'〜は〜です（名前・国籍・身分・職業）'},{l:1,s:'〜は〜じゃ（では）ありません'},{l:1,s:'〜は〜ですか'},{l:1,s:'〜は〜の〜です（所属）'},{l:1,s:'〜は−歳です'},{l:1,s:'〜と〜（and・名詞の並列）'},{l:1,s:'〜も〜です'},
+  {l:2,s:'ここは〈場所〉です'},{l:2,s:'〈この／その／あの／どの〉＋名詞'},{l:2,s:'〜は−円です'},{l:2,n:'〜をください'},{l:2,s:'これは〜の〜です（内容）'},{l:2,s:'これは〈人〉の〜です（所有）'},
+  {l:3,s:'〜から〜まで〜ます'},{l:3,s:'〜を〈動詞〉ます'},{l:3,s:'〈場所〉へ行きます'},{l:3,s:'〜ます／〜ません／〜ました／〜ませんでした'},{l:3,s:'〈場所〉で〜ます'},{l:3,s:'〜や〜（名詞の列挙）'},{l:3,n:'何も〜ません'},{l:3,s:'−時に〜ます'},{l:3,n:'疑問詞＋も〜ません'},
+  {l:4,s:'〜は〈形容詞〉です'},{l:4,s:'〈い形容詞〉です／くないです'},{l:4,s:'〜は〈い形容詞〉〈名詞〉です'},{l:4,s:'〜に〜があります'},{l:4,s:'〜が、〜（逆接）'},
+  {l:5,s:'〈名詞／形容詞〉でした／かったです'},{l:5,s:'〜から、〜（理由）'},{l:5,s:'わたしは〜がほしいです'},{l:5,s:'〜は〜が好きです'},{l:5,s:'〜たいです／〜たくないです'},{l:5,s:'〜へ〈ます形／名詞〉に行きます／来ます'},
+  {l:6,s:'いっしょに〜ませんか'},{l:6,s:'〜［の中］で、〜がいちばん〈形容詞〉です'},{l:6,s:'〜と〜とどちらが〈形容詞〉ですか'},{l:6,s:'もう〜ました／まだです'},
+  {l:7,s:'〜は〜にあります'},{l:7,s:'〜は〜にいます'},{l:7,s:'〈て形〉＋ください'},{l:7,s:'〜で〜ます（道具・手段）'},{l:7,s:'〜かた（〜方）'},{l:7,s:'〈て形〉＋います（進行）'},{l:7,s:'〈ます形〉＋ましょうか'},
+  {l:8,s:'〈て形〉＋います（状態、身分・職業）'},{l:8,s:'〜は〜が上手です'},{l:8,s:'〈い形容詞〉くて、〜／〈な形容詞・名詞〉で、〜'},{l:8,s:'わたしは〈人〉に〈物〉をあげます'},{l:8,s:'〜をくれます'},
+  {l:9,s:'趣味は〈名詞／辞書形＋こと〉です'},{l:9,s:'〈期間〉に〈−回〉〜ます'},{l:9,s:'〈名詞〉＋ができます／〈辞書形〉＋ことができます（能力）'},{l:9,s:'〈て形〉、〈て形〉〜（動作の順序）'},
+  {l:10,s:'まだ〜ていません'},{l:10,s:'〈て形〉＋来ます'},{l:10,s:'〜が見えます／聞こえます'},{l:10,s:'〈て形〉＋もいいですか'},{l:10,s:'〈ない形〉＋ないでください'},{l:10,n:'〜ことができます（状況・可能）'},{l:10,s:'〈い形容詞〉くなります／〈な形容詞・名詞〉になります'},
+  {l:11,s:'〜は、〜は〜（対比）'},{l:11,s:'〜ています（習慣）'},{l:11,s:'〈た形〉＋り、〈た形〉＋りします'},{l:11,s:'〈動詞普通形〉＋とき、〜'},
+  {l:12,s:'〜んですか'},{l:12,s:'〜ほうがいいです'},{l:12,s:'〈て形〉＋から、〜'},{l:12,s:'〈辞書形／名詞の／期間〉＋まえに'},
+  {l:13,s:'〈た形〉＋ことがあります'},{l:13,s:'〜という〜（名前・呼称）'},{l:13,s:'名詞修飾'},{l:13,s:'〈て形〉＋います（着脱）'},
+  {l:14,s:'〈動詞辞書形〉＋と、〜'},{l:14,s:'「文」〈普通形〉＋と言います'},{l:14,s:'〈て形〉＋はいけません'},{l:14,s:'〈ない形〉＋なければなりません'},{l:14,s:'〈ない形〉＋なくてもいいです'},{l:14,s:'〈普通形〉＋と思います（意見）'},
+  {l:15,s:'〜そうです（伝聞）'},{l:15,n:'〜で（原因）'},{l:15,s:'〈た形〉＋ら、〜（確定条件）'},{l:15,n:'〜と思います（推量）'},{l:15,s:'〈て形／い形容詞くて〉＋も、〜／〈な形容詞・名詞〉で＋も、〜（逆説の仮定条件）'}
+];
+const DEKIRUK_UNMATCHED = [];
+DEKIRUK_MAP.forEach(e=>{
+  if(e.s){ const o=_byText[e.s]; if(o){ _tag(o,'dekiruk',e.l); } else { DEKIRUK_UNMATCHED.push(e.s); } }
+  else { _tag(_add(e.n),'dekiruk',e.l); }
+});
+if(DEKIRUK_UNMATCHED.length) console.warn('できる初級→既存 未一致:', DEKIRUK_UNMATCHED);
+
+// いろどり（入門・初級1・初級2／各課の文型。表記一致のみ自動統合）
+const IRODORIN_DATA = [
+  {l:3,p:["Nです", "N1はN2です", "【場所】から来ました", "Nは？", "Sか？", "Nも", "Nじゃないです"]},
+  {l:4,p:["N1とN2", "【疑問表現】ですか？", "【場所】に住んでいます", "N1のN2（属性）"]},
+  {l:5,p:["Nが好きです", "Nは好きじゃないです", "Nはちょっと…", "V-ますか？（マス形）", "V-る？（辞書形）", "NをV-ます", "（Nは）V-ません", "（Nは）V-ないです", "あまりV-ません ＜頻度＞"]},
+  {l:6,p:["N、お願いします", "N、ください", "Nにします", "N、【数】お願いします", "N、【数】ください", "N（は）ありますか？"]},
+  {l:7,p:["ここは【場所】です", "【場所】にNがあります", "【場所】にNが【数】あります", "（Nは）ありません／ないです", "ナA-です", "イA-いです", "ナA-じゃないです", "イA-くないです"]},
+  {l:8,p:["【場所】でV-ます", "【人】は【場所】にいます", "（【人】は)いません／いないです", "【もの】は【ここ／そこ／あそこ】にあります", "Nの【位置】にあります"]},
+  {l:9,p:["【時間】に／ごろV-ます", "【時間】から【時間】まで", "【日時】がいいです"]},
+  {l:10,p:["V-てください", "V-て", "V-てくれる？", "Nですね　＜確認＞", "N、貸してください", "N、借りてもいいですか？", "N、いいですか？", "N、ありますか？"]},
+  {l:11,p:["Nは何ですか？", "どんなN", "あまりナA-じゃないです／イA-くないです　＜程度＞", "【いつも／たいてい／よく／ときどき】V-ます　＜頻度＞", "【あまり／ぜんぜん】V-ません　＜頻度＞", "【人】と／【場所】でV-ます"]},
+  {l:12,p:["【日時】に【場所】で【イベント】があります", "Nに行きます", "V-ませんか？", "V-ましょう", "V-に行きます"]},
+  {l:13,p:["この【乗り物】は【場所】に行きますか？", "ここは【場所】ですか？", "【乗り物】で来ます", "【時間／期間】かかります", "【場所】で【乗り物】に乗ります", "【場所】で【乗り物】を降ります", "【場所】から【場所】まで"]},
+  {l:14,p:["【場所】にN（は）ありますか？", "Nの【位置】にいます", "ナA-なNですね", "イA-いNですね"]},
+  {l:15,p:["Nがほしいんですが", "ナA-ですね", "イA-いですね", "ナA！", "イA-い!"]},
+  {l:16,p:["【これ／それ／あれ】（は）いくらですか？", "【この／その／あの】N", "【数量】ずつ"]},
+  {l:17,p:["V-ました", "V-ませんでした", "何もV-ませんでした", "どこにもV-ませんでした", "ナA-でした", "イA-かったです", "Nでした", "N-じゃなかったです", "ナA-じゃなかったです", "イA-くなかったです"]},
+  {l:18,p:["V-たいです", "どこかV-ます", "S1。あと、S2。", "【場所】へ行きます", "S1。それから、S2。", "S1。それに、S2。", "S1。でも、S2。"]}
+];
+// いろどり → 共通文型 対応表（一致するものは統合し相互参照タグを表示、無いものは独自文型）
+const IRO_MERGE = {
+  "V-てください":"〈て形〉＋ください",
+  "V-て":"〈て形〉、〈て形〉〜（動作の順序）",
+  "V-てから、 ～":"〈て形〉＋から、〜",
+  "V-てみます":"〈て形〉＋みます",
+  "V-てもいいですか？":"〈て形〉＋もいいですか",
+  "V-てはいけません／だめです":"〈て形〉＋はいけません",
+  "V-てしまいました":"〈て形〉＋しまいました（完了）",
+  "V-てあげます":"〈て形〉＋あげます",
+  "V-てもらいます":"〈て形〉＋もらいます",
+  "V-てくれます":"〈て形〉＋くれます",
+  "V-てもらえませんか？":"〈て形〉＋もらえませんか",
+  "V-たことがあります":"〈た形〉＋ことがあります",
+  "V1-たり、V2-たり（します）":"〈た形〉＋り、〈た形〉＋りします",
+  "V-たほうがいいです":"〜たほうがいいです",
+  "V-ないほうがいいです":"〜ないほうがいいです",
+  "V-たばかりです":"〜たばかりです",
+  "V-ないでください":"〈ない形〉＋ないでください",
+  "V-なければなりません":"〈ない形〉＋なければなりません",
+  "V-（よ）うと思います／思っています":"〈意向形〉＋と思っています",
+  "S（普通形）そうです":"〜そうです（伝聞）",
+  "V-そうです":"〜そうです（様態・動詞）",
+  "ナA-／イA- そうです":"〜そうです（様態・形容詞）",
+  "V-すぎます":"〜すぎます",
+  "イA-すぎます":"〜すぎます",
+  "ナA-／イA- すぎます":"〜すぎます",
+  "V-にくいです":"〜やすいです／〜にくいです",
+  "V-やすいです":"〜やすいです／〜にくいです",
+  "V-方":"〜かた（〜方）",
+  "V-ましょう":"〜ましょう",
+  "V-ましょうか？":"〈ます形〉＋ましょうか",
+  "V(命令形）":"命令形",
+  "V-るな（禁止の命令形）":"禁止形",
+  "S（普通形）かもしれません":"〜かもしれません",
+  "S（普通形）と言っていました":"〜と言っていました",
+  "S（普通形）と思います":"〈普通形〉＋と思います（意見）",
+  "V-ることができます":"〈名詞〉＋ができます／〈辞書形〉＋ことができます（能力）",
+  "V-ると、～":"〈動詞辞書形〉＋と、〜",
+  "～たら、～":"〜たら、〜",
+  "V-る前に、～":"〈辞書形／名詞の／期間〉＋まえに",
+  "V-たあと、～":"〜たあとで、〜",
+  "V-ながら、～":"〜ながら",
+  "～んですか？":"〜んですか",
+  "V-ています ①":"〜ている",
+  "V-ています ②":"〜ている",
+  "V-ています ③":"〜ている",
+  "V-たいです":"〜たいです／〜たくないです",
+  "V-（られ）ます　＜可能形①＞":"可能形（〜られる／れる）",
+  "V-（られ）ます　＜可能形②＞":"可能形（〜られる／れる）",
+  "V-れます　＜可能形③＞":"可能形（〜られる／れる）",
+  "V-（ら）れます　＜受身①＞":"〈人〉は〜に〜（ら）れます（受身）",
+  "V-（ら）れます　＜受身②＞":"〈人〉は〜に〜（ら）れます（受身）",
+  "NをV-(ら)れます　＜受身③＞":"〈人〉は〜に〜（ら）れます（受身）",
+  "V-（ら）れます　＜受身④＞":"〈人〉は〜に〜（ら）れます（受身）",
+  "V-なくちゃならない":"〈ない形〉＋なければなりません",
+  "V-るように、～":"〜ように、〜（目標）",
+  "V-るようにしています":"〜ようにしています（習慣）",
+  "V-るために、～":"〜ために、〜（目的）",
+  "Nのために、～":"〜ために、〜（目的）",
+  "S1ので、S2":"〜ので、〜",
+  "Nの前に、～":"〈辞書形／名詞の／期間〉＋まえに",
+  "V-たままです":"〜たまま、〜",
+  "Nのとき、～":"〈形容詞／名詞の〉＋とき、〜",
+  "N1というN2":"〜という〜（名前・呼称）",
+  "V-るといいです（よ）":"〜といいです",
+  "V-ないで、～　＜方法＞":"〜ないで〜（付帯状況）"
+,
+  "Nです":"〜は〜です（名前・国籍・身分・職業）",
+  "N1はN2です":"〜は〜です（名前・国籍・身分・職業）",
+  "Nじゃないです":"〜は〜じゃ（では）ありません",
+  "Nも":"〜も〜です",
+  "N1とN2":"〜と〜（and・名詞の並列）",
+  "Nが好きです":"〜は〜が好きです",
+  "NをV-ます":"〜を〈動詞〉ます",
+  "ナA-です":"〈な形容詞〉です／じゃありません",
+  "イA-いです":"〈い形容詞〉です／くないです",
+  "ナA-じゃないです":"〈な形容詞〉です／じゃありません",
+  "イA-くないです":"〈い形容詞〉です／くないです",
+  "ナA-でした":"〈名詞／形容詞〉でした／かったです",
+  "イA-かったです":"〈名詞／形容詞〉でした／かったです",
+  "Nでした":"〈名詞／形容詞〉でした／かったです",
+  "V-に行きます":"〜へ〈ます形／名詞〉に行きます／来ます",
+  "V-ませんか？":"いっしょに〜ませんか"
+,
+  "V-る？（辞書形）":"〈辞書形〉の活用",
+  "自動詞":"自動詞と他動詞",
+  "他動詞":"自動詞と他動詞",
+  "丁寧体・普通体":"普通形",
+  "V（普通形）＋N ①":"名詞修飾",
+  "V（普通形）＋N ②":"名詞修飾"
+,
+  "N1は、～。（でも、）N2は、～。　＜対比＞":"〜は、〜は〜（対比）"
+,
+  "【場所】でV-ます":"〈場所〉で〜ます"
+,
+  "【いつも／たいてい／よく／ときどき】V-ます　＜頻度＞":"頻度の副詞（よく・ときどき…）",
+  "あまりV-ません ＜頻度＞":"頻度の副詞（よく・ときどき…）",
+  "【あまり／ぜんぜん】V-ません　＜頻度＞":"頻度の副詞（よく・ときどき…）"
+,
+  "N（は）ありますか？":"〜は〜があります",
+  "Nにします":"〈名詞〉にします"
+,
+  "N、ありますか？":"〜は〜があります"
+,
+  "ここは【場所】です":"ここは〈場所〉です",
+  "【場所】にNがあります":"〜に〜があります"
+,
+  "【人】は【場所】にいます":"〜は〜にいます",
+  "【もの】は【ここ／そこ／あそこ】にあります":"〜は〜にあります",
+  "【場所】にNが【数】あります":"助数詞（−つ）があります"
+};
+function iroAdd(p, book, l){ const c=IRO_MERGE[p]; if(c && _byText[c]){ _tag(_byText[c], book, l); } else { _tag(_add(p), book, l); } }
+IRODORIN_DATA.forEach(ls=> ls.p.forEach(p=> iroAdd(p,'irodoriN',ls.l)));
+const IRODORI1_DATA = [
+  {l:1,p:["丁寧体・普通体", "【期間】になります", "【時点】（に）来ました", "V-ています ①"]},
+  {l:2,p:["V-ることです", "V-るのが好きです", "【人】と【場所】でV-ます", "V1-て、V2", "V-ています ②", "Nができます"]},
+  {l:3,p:["Nに／ナA-に／イA-く　なります", "いちばん　ナA-です／イA-いです", "イA-い のが 好きです", "イA-い のが 苦手です", "ナA-です／イA-いです から", "S1から、S2", "N1やN2", "N1とか（N2とか）"]},
+  {l:4,p:["Sね　＜共感＞", "非過去・過去", "V-ています ③", "N／ナA-／イA-い／V-る　でしょう"]},
+  {l:5,p:["イA-くて、～", "ナA-で、～", "Nで、～", "イA-いけど、～", "ナA-だけど、～", "Nだけど、～", "V-ることができます"]},
+  {l:6,p:["Nに行きたいんですが…", "V-て、～", "N1じゃなくて、N2"]},
+  {l:7,p:["Nはどうですか？", "Nでもいいですか？", "Nで、～　＜原因・理由＞", "V-て、～　＜原因・理由＞"]},
+  {l:8,p:["もうV-ました", "V-たことがあります", "V-に行きませんか？", "Nの前に、～", "Nのあと（で）、～", "V-たいんですが…"]},
+  {l:9,p:["Nで　＜手段＞", "N1はN2がナA-です／イA-いです ①", "NはV-るのがナA-／イA-いです ①", "N1は、～。（でも、）N2は、～。　＜対比＞", "V-てもらえませんか？", "V-方"]},
+  {l:10,p:["V-てみたいんですが…", "【期間】（に）～回", "V-ましょうか？", "聞き返し", "Nのとき、～", "イA-いとき、～", "ナA-なとき、～"]},
+  {l:11,p:["V-て行きます", "V-て来ます", "N1とN2（と）、どっちがいいですか？", "S。どれがいいですか？", "Nのほうがいいです", "【疑問詞】でもいいです"]},
+  {l:12,p:["ナA-／イA- そうです", "ナA-／イA- そうなN", "イA-くて、～", "イA-くなくて、～", "V-てみます", "自動詞", "他動詞", "イA-くないですか？"]},
+  {l:13,p:["～んですが…", "V-そうです", "V-たいとき、～", "V-ると、～", "はい、【否定文】／いいえ、【肯定文】"]},
+  {l:14,p:["Nで、～／ナA-で、～／イA-くて、～／V-て、～　＜原因・理由＞", "S1。それで、S2", "V-てもいいですか？", "V-てもいいでしょうか？", "V-なければなりません", "～んです ①"]},
+  {l:15,p:["～んです ②", "V-ないでください", "V（普通形）＋N ①", "V-る前に、～", "V-たあと、～", "～とき（に）、～"]},
+  {l:16,p:["V-るといいです（よ）", "V-すぎます", "V1-たり、V2-たり（します）", "V-るようにしています", "V-ないように しています"]},
+  {l:17,p:["V（普通形）＋N ②", "【人】に【物】をもらいます", "【人】が【物】をくれます"]},
+  {l:18,p:["S（普通形）そうです", "【人】に【物】をあげます", "S（普通形）と言っていました", "S（普通形）と思います"]}
+];
+IRODORI1_DATA.forEach(ls=> ls.p.forEach(p=> iroAdd(p,'irodori1',ls.l)));
+const IRODORI2_DATA = [
+  {l:1,p:["N1というN2", "V-たばかりです", "V-ていました", "それ／そこ　＜文脈指示＞", "～て、～", "～から、～", "～けど、～", "＜2つの文を1つにする＞"]},
+  {l:2,p:["N1はN2が ナA-です／イA-いです　②", "V-ている＋人", "Sよ", "Sし、～"]},
+  {l:3,p:["S1ので、S2", "Sよね", "Nで～", "ナA-な／イA-い／V-る のは、Nです"]},
+  {l:4,p:["Nなら、～", "V-て、～　＜方法＞", "V-ないで、～　＜方法＞", "V-ちゃだめです", "V-てから、 ～", "S1が、S2"]},
+  {l:5,p:["V-（られ）ます　＜可能形①＞", "～ところ", "S（普通形） って聞きました", "S（普通形） って言っていました", "【疑問詞】V-たらいいですか？", "V-たほうがいいです", "V-ないほうがいいです"]},
+  {l:6,p:["V-るつもりです", "V-（られ）て、～", "V-（られ）なくて、～", "S1し、S2し、～", "V-る／V-ている／V-た とき、～", "【人】と【人数】で"]},
+  {l:7,p:["～たら、～", "V-（ら）れます　＜受身①＞", "V-（られ）ます　＜可能形②＞"]},
+  {l:8,p:["もうV-ました", "まだV-て（い）ません", "まだV-ます", "【疑問詞】＋S（普通形）か、～"]},
+  {l:9,p:["～んですか？", "Nしか+否定文", "Nだけ", "V-たりして、～", "V-なくちゃならない", "V-れます　＜可能形③＞", "S（普通形）+人が～", "S（普通形）+人も～", "V-ながら、～", "Nによって"]},
+  {l:10,p:["【疑問詞】V-ばいいですか？", "V-てはいけません／だめです", "Vちゃいけません／だめです", "V-なくちゃ", "V-るように、～", "V-ないように、～", "V-（ら）れます　＜受身②＞", "S（普通形）の？", "V-なきゃ"]},
+  {l:11,p:["V-てみてもいいですか？", "ナA-／イA- すぎます", "イA-すぎます", "ナA-な／イA-い の", "NをV-(ら)れます　＜受身③＞", "S（普通形）かもしれません", "V-てしまいました"]},
+  {l:12,p:["V-るまで、～", "V-にくいです", "V-やすいです", "N1とN2（と）、どちら／どっちが～か？", "（N1より）N2のほうが～"]},
+  {l:13,p:["V-（ら）れます　＜受身④＞", "V-てあります", "N1だけじゃなくて、N2も～", "Nなら、～", "【疑問詞】V-ても、～"]},
+  {l:14,p:["ナA-に／イA-く V", "Nのために、～"]},
+  {l:15,p:["V-たままです", "V-るのにいいです"]},
+  {l:16,p:["V(命令形）", "V-るな（禁止の命令形）", "V-ないようにしてください", "V-（られ）なくなります", "Sても、～", "V（普通形）かどうか、～"]},
+  {l:17,p:["V-（られ）るように なりました"]},
+  {l:18,p:["V-（よ）うと思います／思っています", "V-るために、～", "V-てあげます", "V-てもらいます", "V-てくれます"]}
+];
+IRODORI2_DATA.forEach(ls=> ls.p.forEach(p=> iroAdd(p,'irodori2',ls.l)));
+
+
+// まるごと（入門〜中級2の6レベル／各課・トピックの文型。表記一致のみ自動統合）
+const MARUN_DATA = [
+  {l:3,p:["〜は〜です", "〜ができる", "〜も"]},
+  {l:4,p:["〜と〜", "〜に住んでいる", "N1のN2（属性）"]},
+  {l:5,p:["〜が好き", "〜は好きじゃない", "〜を〜ます", "よく"]},
+  {l:6,p:["好きな〜", "〜で（〜ます）", "〜は〜です"]},
+  {l:7,p:["〜に〜がある", "〜に〜がいる", "〜が【数】ある", "〜は〜です"]},
+  {l:8,p:["〜は〜の〜"]},
+  {l:9,p:["〜時", "〜時に（〜ます）"]},
+  {l:10,p:["〜から〜まで", "〜時間", "〜がいい"]},
+  {l:11,p:["〜が好き", "〜ができる", "〜で（〜ます）", "ときどき・あまり・ぜんぜん"]},
+  {l:12,p:["〜に〜がある", "〜で〜がある", "〜に行く", "〜ませんか", "〜ましょう"]},
+  {l:13,p:["〜から〜まで〜で〜ます", "〜に乗る・〜を降りる", "〜は〜がいい", "〜から"]},
+  {l:14,p:["形容詞＋N", "〜に〜がある", "〜の〜", "〜は〜にある", "〜は〜にいる"]},
+  {l:15,p:["〜が欲しい", "あげる", "もらう", "〜ました"]},
+  {l:16,p:["〜はいくらですか", "〜をください"]},
+  {l:17,p:["〜ました", "〜かったです", "〜でした", "どこにも・なにも"]},
+  {l:18,p:["それから", "でも", "そして", "〜たい"]}
+];
+// まるごと → 共通文型 対応表（一致すれば統合し相互参照、無ければ独自文型）
+const MARU_MERGE = {
+  "〜は〜です":"〜は〜です（名前・国籍・身分・職業）",
+  "〜も":"〜も〜です",
+  "〜と〜":"〜と〜（and・名詞の並列）",
+  "〜が好き":"〜は〜が好きです",
+  "〜（の）が好き":"〜は〜が好きです",
+  "〜を〜ます":"〜を〈動詞〉ます",
+  "形容詞＋N":"名詞修飾（形容詞＋名詞）",
+  "〜が欲しい":"〜がほしいです",
+  "〜をください":"〜をください",
+  "〜かったです":"〈名詞／形容詞〉でした／かったです",
+  "〜でした":"〈名詞／形容詞〉でした／かったです",
+  "〜ている":"〜ている",
+  "〜になる":"〈い形容詞〉くなります／〈な形容詞・名詞〉になります",
+  "〜くなる":"〈い形容詞〉くなります／〈な形容詞・名詞〉になります",
+  "〜くて":"〈い形容詞〉くて、〜",
+  "〜や〜（など）":"〜や〜（名詞の列挙）",
+  "〜てください":"〈て形〉＋ください",
+  "〜てくださいませんか":"〈て形〉＋くださいませんか",
+  "〜かた":"〜かた（〜方）",
+  "〜たい／たくない":"〜たいです／〜たくないです",
+  "〜てみる":"〈て形〉＋みます",
+  "〜ましょうか":"〈ます形〉＋ましょうか",
+  "〜たことがある":"〈た形〉＋ことがあります",
+  "〜すぎる":"〜すぎます",
+  "〜まえに":"〈辞書形／名詞の／期間〉＋まえに",
+  "〜のまえに":"〈辞書形／名詞の／期間〉＋まえに",
+  "〜のあとで":"〜たあとで、〜",
+  "〜ないでください":"〈ない形〉＋ないでください",
+  "〜たり〜たり":"〈た形〉＋り、〈た形〉＋りします",
+  "〜んです":"〜んです",
+  "〜と思う":"〈普通形〉＋と思います（意見）",
+  "〜と言っていた":"〜と言っていました",
+  "〜という意味":"〜は〜という意味です",
+  "〜というN":"〜という〜（名前・呼称）",
+  "〜ので":"〜ので、〜",
+  "〜てはいけない／だめ":"〈て形〉＋はいけません",
+  "〜てから":"〈て形〉＋から、〜",
+  "〜たほうがいい":"〜たほうがいいです",
+  "〜ないほうがいい":"〜ないほうがいいです",
+  "〜たら":"〜たら、〜",
+  "〜なくなる":"〜なくなります",
+  "〜てしまう":"〈て形〉＋しまいました（完了）",
+  "〜にくい":"〜やすいです／〜にくいです",
+  "〜やすい":"〜やすいです／〜にくいです",
+  "〜ために":"〜ために、〜（目的）",
+  "〜のために":"〜ために、〜（目的）",
+  "〜たまま":"〜たまま、〜",
+  "〜ようにしている":"〜ようにしています（習慣）",
+  "〜のに":"〜のに、〜（逆接）",
+  "〜かもしれない":"〜かもしれません",
+  "〜ようになる":"〜ようになります（変化）",
+  "〜なら":"〜なら、〜（条件）",
+  "〜なければならない":"〈ない形〉＋なければなりません",
+  "〜みたい":"〜みたいです（推量）",
+  "〜ように":"〜ように、〜（目標）",
+  "〜（よ）うと思っている":"〈意向形〉＋と思っています",
+  "〜でしょう":"〜でしょう",
+  "〜てあげる":"〈て形〉＋あげます",
+  "〜なくてもいい／だいじょうぶ":"〈ない形〉＋なくてもいいです",
+  "〜て欲しい":"〜てほしい",
+  "〜ながら":"〜ながら",
+  "〜てくれる":"〈て形〉＋くれます",
+  "〜てもらう":"〈て形〉＋もらいます",
+  "〜ことができる":"〈名詞〉＋ができます／〈辞書形〉＋ことができます（能力）",
+  "お〜になる":"お〜になります",
+  "〜たあと":"〜たあとで、〜",
+  "〜（さ）せる　＜使役＞":"使役形（〜させる）",
+  "〜さ（せら）れる　＜使役受身＞":"使役受身（〜させられる）",
+  "〜こと（が）ある":"〜ことがある／〜こともある",
+  "〜をはじめ":"〜をはじめ（として）／〜をはじめとする",
+  "〜にもかかわらず":"〜にもかかわらず",
+  "〜ております":"〜ております",
+  "〜らしい":"〜らしいです",
+  "〜ことになる":"〜ことになる",
+  "〜ことにする":"〜ことにする",
+  "〜ようだ":"〜ようです（推量）",
+  "お／ご〜ください":"お／ご〜ください",
+  "〜つもりだ":"〜つもりだ",
+  "〜はずだ":"〜はずだ",
+  "〜ことになっている":"〜ことになっている",
+  "〜べきだ":"〜べきだ／〜べきではない／〜べき",
+  "〜（ら）れる　＜尊敬＞":"〜（ら）れます（尊敬）",
+  "〜たところだ":"〜たところ",
+  "〜ているうちに":"〜うちに",
+  "〜わけだ":"〜というわけだ／〜わけだ",
+  "〜っていうか":"〜というか",
+  "〜っていうより（は）":"〜というより（も）",
+  "〜たばかりだ":"〜たばかりです",
+  "〜ないこともない":"〜ないことはない／〜ないこともない",
+  "〜しかない":"〜しかない",
+  "〜に違いない":"〜に違いない",
+  "〜ことに":"〜ことに（は）",
+  "〜どころか":"〜どころか",
+  "〜っぽい":"〜っぽい",
+  "〜わけじゃない":"〜わけではない／〜というわけではない",
+  "〜にかぎる":"〜に限る",
+  "〜うちに":"〜うちに",
+  "〜かどうか":"〜かどうか、〜",
+  "〜せいで":"〜せいで／〜せいか／〜せいだ",
+  "〜に関する":"〜に関して／〜に関する",
+  "〜といえば":"〜といえば／〜というと",
+  "〜に対して":"〜に対して",
+  "〜はもちろん、〜も":"〜はもちろん／〜はもとより",
+  "〜ている間／間に":"〜ている間に、〜",
+  "〜とのことだ":"〜ということだ／〜とのことだ",
+  "〜たとおり／〜どおり":"〜とおり（に）／〜どおり（に）",
+  "〜ながら（も）":"〜ながら（も）",
+  "〜（よ）うとする":"〜（よ）うとする",
+  "お〜です":"お・ご〜です／お・ご〜でしょう",
+  "〜ほど〜ない":"〜ほど〜はない",
+  "〜一方（で）":"〜一方（で）",
+  "一方（で）":"〜一方（で）",
+  "〜によって":"〜によって／〜により／〜による",
+  "〜わけ（が）ない":"〜わけがない",
+  "〜とはかぎらない":"〜とは限らない",
+  "〜において":"〜において／〜における",
+  "〜からといって":"〜からといって",
+  "〜にとって":"〜にとって",
+  "〜（ら）れる　＜受身＞":"〈人〉は〜に〜（ら）れます（受身）",
+  "〜たらどうでしょうか":"〜たらどうですか"
+,
+  "〜といい":"〜といいです",
+  "〜（られ）る　＜可能＞":"可能形（〜られる／れる）",
+  "〜より〜方が〜":"〜より〜のほうが〜（比較）",
+  "〜みたいだ":"〜みたいです（推量）"
+,
+  "普通体・丁寧体使い分け":"普通形",
+  "自動詞・他動詞":"自動詞と他動詞"
+,
+  "〜で（〜ます）":"〈場所〉で〜ます"
+,
+  "〜が":"〜が、〜（逆接）"
+,
+  "ときどき・あまり・ぜんぜん":"頻度の副詞（よく・ときどき…）"
+,
+  "〜に〜がある":"〜に〜があります"
+,
+  "〜は〜にある":"〜は〜にあります",
+  "〜は〜にいる":"〜は〜にいます",
+  "〜が【数】ある":"助数詞（−つ）があります"
+,
+  "〜に〜がいる":"〜に〜がいます"
+};
+function maruAdd(p, book, l){ const c=MARU_MERGE[p]; if(c && _byText[c]){ _tag(_byText[c], book, l); } else { _tag(_add(p), book, l); } }
+MARUN_DATA.forEach(ls=> ls.p.forEach(p=> maruAdd(p,'maruN',ls.l)));
+const MARU1_DATA = [
+  {l:1,p:["〜ている", "〜に", "〜で"]},
+  {l:2,p:["〜こと", "〜とき"]},
+  {l:3,p:["〜になる", "〜くなる", "〜（の）が好き", "〜のは好きじゃない", "〜から"]},
+  {l:4,p:["〜です／でした", "〜です／かったです", "〜ます／ました", "〜ている"]},
+  {l:5,p:["〜くて", "〜で", "〜けど", "〜や〜（など）"]},
+  {l:6,p:["〜てください", "〜て", "〜くて〜な／〜い＋Ｎ", "〜で〜な／〜い＋Ｎ", "〜じゃなくて"]},
+  {l:7,p:["〜でもいい", "〜で", "〜て"]},
+  {l:8,p:["もう（〜た）", "まだ", "〜のまえに", "〜のあとで", "〜に行く"]},
+  {l:9,p:["〜は〜が〜", "〜は〜のが〜", "〜てくださいませんか", "〜かた"]},
+  {l:10,p:["〜たい／たくない", "〜に〜回（ぐらい）", "〜てみる", "〜ましょうか"]},
+  {l:11,p:["〜ていく／くる", "〜てくる", "【疑問詞】＋でも", "〜と〜（と）どちらが〜", "〜がいい"]},
+  {l:12,p:["〜そうだ", "〜そうな〜", "〜くて／くなくて", "〜で／じゃなくて"]},
+  {l:13,p:["〜たことがある", "〜すぎる", "〜が"]},
+  {l:14,p:["〜て【期間】になる", "〜てもいい"]},
+  {l:15,p:["〜まえに", "〜といい", "〜ないでください"]},
+  {l:16,p:["〜たり〜たり", "文＋人　＜連体修飾節＞"]},
+  {l:17,p:["〜んです", "あげる", "もらう", "文＋N　＜連体修飾節＞"]},
+  {l:18,p:["〜と思う", "〜と言っていた"]}
+];
+MARU1_DATA.forEach(ls=> ls.p.forEach(p=> maruAdd(p,'maru1',ls.l)));
+const MARU2_DATA = [
+  {l:1,p:["〜という意味", "〜というN", "文＋N　＜連体修飾節＞"]},
+  {l:2,p:["〜は〜が〜", "文＋人　＜連体修飾節＞", "〜ている", "〜そうだ", "〜そうな＋N", "〜く／〜に", "〜そうに"]},
+  {l:3,p:["〜ので", "〜のは〜だ", "〜なら〜がいい", "〜ずつ"]},
+  {l:4,p:["〜てはいけない／だめ", "〜ちゃいけない／だめ", "〜てから", "〜て〜", "〜ないで", "〜と"]},
+  {l:5,p:["〜たほうがいい", "〜ないほうがいい", "〜とき"]},
+  {l:6,p:["〜（られ）る　＜可能＞", "〜し"]},
+  {l:7,p:["〜（られ）る　＜可能＞", "文＋人　＜連体修飾節＞", "〜たら"]},
+  {l:8,p:["もう（〜た）", "まだ（〜ない）", "まだ（〜ます／ています）", "もう（〜ません／ました）", "〜か知っていますか"]},
+  {l:9,p:["〜ていた", "〜（られ）て", "〜（られ）なくて", "〜しか（〜ない）", "〜だけ"]},
+  {l:10,p:["〜ように", "〜たり", "〜ように願う", "〜ように祈る"]},
+  {l:11,p:["〜なくなる", "〜てしまう", "〜ないで", "〜まで"]},
+  {l:12,p:["〜にくい", "〜やすい", "どちら／どっちが〜", "〜のほうが〜"]},
+  {l:13,p:["【疑問詞】＋〜ても", "〜と〜で", "〜（ら）れる　＜受身＞"]},
+  {l:14,p:["〜そうだ", "〜ために", "〜のために", "〜てある"]},
+  {l:15,p:["〜たまま", "〜ようにしている", "〜ないようにしている", "〜のに"]},
+  {l:16,p:["〜（られ）なくなった", "〜たら", "〜にする", "〜になる"]},
+  {l:17,p:["〜そうだ", "〜てから", "〜まで", "〜かもしれない"]},
+  {l:18,p:["〜（ら）れる　＜受身＞", "〜ようになる", "〜なくなる", "〜（られ）るようになる", "〜（られ）なくなる"]}
+];
+MARU2_DATA.forEach(ls=> ls.p.forEach(p=> maruAdd(p,'maru2',ls.l)));
+const MARUS_DATA = [
+  {l:1,p:["〜なら", "〜って言って（い）ました", "実は、〜んです", "応援の表現", "〜なければならない", "〜さ", "【助詞】のN"]},
+  {l:2,p:["〜けど／なくて", "〜から", "〜けど、〜から", "〜ても", "〜ば／なければ"]},
+  {l:3,p:["〜ないですか", "〜ませんか", "〜から", "〜ので", "〜みたい", "〜ないです／ありません"]},
+  {l:4,p:["普通体・丁寧体使い分け", "〜てくれる", "〜てもらう"]},
+  {l:5,p:["〜ように", "普通体・丁寧体使い分け", "〜（よ）うと思っている", "〜そうだ", "〜も"]},
+  {l:6,p:["〜でしょう", "〜（よ）うと思うんですが", "〜よ／ね／よね", "〜てあげる", "〜なくてもいい／だいじょうぶ"]},
+  {l:7,p:["〜て（い）て", "〜のことで", "〜かもしれない", "〜のに", "〜て欲しい"]},
+  {l:8,p:["〜そうだ", "普通体・丁寧体使い分け", "自動詞・他動詞", "〜ながら"]},
+  {l:9,p:["〜たら、〜たいと思って（い）る", "〜ことができる", "〜より〜方が〜"]}
+];
+MARUS_DATA.forEach(ls=> ls.p.forEach(p=> maruAdd(p,'maruS',ls.l)));
+const MARUC1_DATA = [
+  {l:1,p:["尊敬の動詞", "お〜になる", "〜はじめる", "名詞で終わる言い方", "〜ばと思っている", "〜といいな"]},
+  {l:2,p:["〜みたいだ", "〜でしょうか", "〜ばいい", "連用中止", "〜たあと", "〜ておく", "自動詞・他動詞", "〜てくる"]},
+  {l:3,p:["〜（さ）せてください", "〜さ（せら）れる　＜使役受身＞", "〜（さ）せる　＜使役＞", "〜こと（が）ある", "〜をはじめ", "〜と", "まるで〜ようだ", "〜かな（あ）"]},
+  {l:4,p:["謙譲の動詞", "お／ご〜する", "〜ていただけますか／ませんか", "〜になります", "〜にもかかわらず", "お／ご〜いただく", "お／ご〜", "〜ております", "〜でございます"]},
+  {l:5,p:["〜らしい", "〜って", "〜ことになる", "〜ことにする", "〜だっけ", "〜ようだ", "〜ばかり", "〜たがる", "お／ご〜ください"]},
+  {l:6,p:["〜つもりだ", "文＋N　＜連体修飾節：外の関係＞", "〜はずだ", "〜てすませる", "〜に劣らぬ／に劣らない", "〜ずに", "〜たらどうでしょうか"]},
+  {l:7,p:["〜（さ）せていただく", "〜ことになっている", "〜んでしょうか", "〜ていく", "〜べきだ", "〜である"]},
+  {l:8,p:["〜（ら）れる　＜尊敬＞", "〜ようだ", "〜の", "〜やつ", "〜だろう", "〜もあれば〜も", "〜たら〜のに", "もしも〜たら"]},
+  {l:9,p:["〜たところだ", "〜ていた", "〜ているうちに", "〜わけだ", "というわけで", "〜たとしたら", "〜のでした"]}
+];
+MARUC1_DATA.forEach(ls=> ls.p.forEach(p=> maruAdd(p,'maruC1',ls.l)));
+const MARUC2_DATA = [
+  {l:1,p:["〜って", "〜っていうか", "〜っていうより（は）", "〜ところ（がある）", "〜ってことだ", "〜と", "〜という", "〜たばかりだ", "〜（ら）れる　＜自発＞"]},
+  {l:2,p:["〜ないこともない", "〜ないわけにはいかない", "〜しかない", "〜のはどう", "〜に違いない", "〜ほか", "〜ことに", "〜ため"]},
+  {l:3,p:["〜なんて", "〜どころか", "〜（の）は、〜ことだ", "〜なんか", "〜たところ", "〜っぽい", "〜わけじゃない", "〜くらいないなら"]},
+  {l:4,p:["せっかく〜から", "〜にかぎる", "〜（の）かわりに", "〜なんか", "〜には", "〜うちに", "〜かどうか", "〜て（い）る場合じゃない"]},
+  {l:5,p:["〜せいで", "〜によると", "〜見込みだ", "〜に関する", "〜といえば", "〜に対して", "〜はもちろん、〜も"]},
+  {l:6,p:["〜てもらえない", "〜てもらって（も）いい", "さすがに", "〜って言っても", "〜ぶん", "〜ている間／間に", "〜そうになる", "〜とのことだ"]},
+  {l:7,p:["〜（って）感じ", "〜（って）気がする", "まるで〜みたいだ／ようだ", "〜ぐらい", "〜たとおり／〜どおり", "〜ながら（も）", "〜（よ）うとする", "〜ものだ"]},
+  {l:8,p:["お〜です", "〜たつもりだ", "〜ほど〜ない", "〜たと思う", "〜一方（で）", "一方（で）", "〜によって", "とても（〜ない）", "〜（ら）れる　＜受身＞"]},
+  {l:9,p:["〜わけ（が）ない", "〜じゃない", "〜って", "〜とはかぎらない", "〜において", "〜であろう", "〜からといって", "〜にとって"]}
+];
+MARUC2_DATA.forEach(ls=> ls.p.forEach(p=> maruAdd(p,'maruC2',ls.l)));
+
+
+// みんなの日本語 中級（Ⅰ＝課1〜12・Ⅱ＝課13〜24を統合／レベルの目安 Ⅰ=N3・Ⅱ=N2）
+const MINCHU_DATA = [
+  {l:1,p:["〜てもらえませんか・〜ていただけませんか", "〜のようだ・〜のような〜・〜のように…（比喩・例示）", "〜ことは／が／を", "〜を〜と言う", "〜という〜", "いつ／どこ／何／だれ／どんな〜ても"]},
+  {l:2,p:["〜たら、〜た（出現）", "〜たら、〜た（発見）", "〜というのは〜のことだ", "…という〜", "…ように言う／注意する／伝える／頼む", "〜みたいだ・〜みたいな〜・〜みたいに…（比喩・例示）"]},
+  {l:3,p:["〜（さ）せてもらえませんか（使役依頼）", "…ことにする・…ことにしている", "…ことになる・…ことになっている", "〜てほしい・〜ないでほしい", "〜そうな〜・〜そうに…（予想・外観）", "〜なさそう・〜そうもない"]},
+  {l:4,p:["…ということだ（伝聞）", "…の・…の？", "〜ちゃう・〜とく・〜てる（縮約）", "〜（さ）せられる・〜される（使役受身）", "〜である（である体）", "〜ます、〜ます、…（中止形）", "〜（た）がる・〜（た）がっている", "…こと・…ということ"]},
+  {l:5,p:["あ〜・そ〜（文脈指示）", "…んじゃない？", "〜たところに／で", "〜（よ）うとする", "…のだろうか", "〜との／での／からの／までの／への〜", "…だろう・…だろうと思う（推量）"]},
+  {l:6,p:["…て・…って…（引用）", "〜って…（主題）", "〜つもりはない（否定の意志）", "〜つもりだった（過去の意志）", "〜てばかりいる・〜ばかり〜ている", "…とか…", "〜てくる（事態の出現）", "〜てくる（近づく）・〜ていく（離れる）"]},
+  {l:7,p:["〜なくてはならない／いけない（義務）", "〜なくてもかまわない（不必要）", "…だけだ・ただ…だけでいい", "…かな（終助詞）", "〜なんか…・…なんて…", "〜（さ）せる（感情使役）", "〜（さ）せられる（感情使役の受身）", "…なら、…"]},
+  {l:8,p:["〜あいだ、…・〜あいだに、…", "〜まで、…・〜までに、…", "〜た（名詞修飾）", "〜によって…", "〜まま、…・〜のまま…", "…からだ（原因・理由）"]},
+  {l:9,p:["お〜です（尊敬）", "〜てもかまわない", "…ほど〜ない・…ほどではない（比較）", "〜ほど〜はない／いない（比較）", "…ため［に］、…・…ためだ（原因・理由）", "〜たら／〜ば、…た（反事実的用法）"]},
+  {l:10,p:["…はずだ（確信）", "…はずが／はない", "…はずだった", "…ことが／もある", "〜た結果、…・…の結果、…", "〜出す・〜始める・〜終わる・〜続ける（複合動詞）"]},
+  {l:11,p:["〜てくる・〜ていく（変化）", "〜たら［どう］？", "…より…ほうが…（比較）", "〜らしい（典型的な性質）", "〜らしい（伝聞・推量）", "〜として", "〜ず［に］…（付帯状況・手段）", "〜ている（経験・経歴）"]},
+  {l:12,p:["…もの／もんだから", "〜（ら）れる（間接受身・自動詞）", "〜（ら）れる（間接受身・他動詞）", "〜たり〜たり", "〜っぱなし", "…おかげで、…・…おかげだ", "…せいで、…・…せいだ"]},
+  {l:13,p:["〜たて", "たとえ〜ても", "〜たりしない", "〜ほど", "…んだって？", "〜ながら（も）", "つまり、〜と（って）いうことだ", "〜よね"]},
+  {l:14,p:["〜際", "〜といった", "〜に（も）わたって", "〜うちに", "〜にとって", "〜とは", "〜において", "〜わけだ", "〜のではないだろうか", "〜っけ？", "〜げ"]},
+  {l:15,p:["…という", "〜たびに", "〜に関する", "〜わけではない", "〜のではないか", "〜のだ（言い換え）", "〜ほどのものじゃない", "〜だけでなく", "〜といえば"]},
+  {l:16,p:["〜に応じて", "〜によって", "〜とみられる", "〜としている", "〜にもかかわらず", "〜とともに", "〜たところ", "あんまり〜から", "〜ところだった", "〜に限って"]},
+  {l:17,p:["〜からなる", "〜としては", "〜上", "〜により", "〜ことから", "〜ざるを得ない", "〜てはじめて", "〜ったら", "〜にしては", "〜からには", "〜でしょ。"]},
+  {l:18,p:["〜に違いない", "〜に比べて", "〜ものだ・〜ものではない", "あった（発見）", "だって、…もの", "〜たところで", "〜だって（取りたて助詞）", "〜こそ（取りたて助詞）"]},
+  {l:19,p:["〜を対象に", "〜ばかりでなく", "〜にほかならない", "〜を通して", "〜から〜にかけて", "〜はともかく", "〜ためには", "決して〜ない"]},
+  {l:20,p:["〜のもとで", "そう", "ぞ（終助詞）", "…と同時に", "〜しかない", "〜の末", "〜て以来", "…くらい", "〜をこめて", "〜ば〜だけ", "〜たとたん（に）", "〜からといって"]},
+  {l:21,p:["〜もせずに", "〜といえども", "よほど〜でも", "いかに〜か", "…とか。（終助詞）", "〜に言わせれば、…", "〜に基づいて", "〜と言える", "一方（で）", "〜に限らず"]},
+  {l:22,p:["〜次第だ", "〜をもって〜とする", "〜においては", "〜うる", "…のであろう", "〜と思われる", "〜としても", "〜（よ）うにも〜ない", "〜わりに", "〜べきだ", "〜というより"]},
+  {l:23,p:["〜に及ぶ", "…可能性がある", "この〜", "〜上で", "〜につれて", "〜ことに", "〜恐れのある／がある", "〜までもない", "〜がきっかけで・〜をきっかけに", "〜をはじめ"]},
+  {l:24,p:["〜ざる", "〜から〜に至るまで", "〜きる", "〜ならぬ〜", "〜さえ〜ば", "〜として〜ない", "〜以上（は）", "〜ないかぎり", "〜わけにはいかない／ゆかない", "〜あまり（に）"]}
+];
+// みん中 → 共通文型 対応表（一致すれば統合し相互参照、無ければ独自文型）
+const MINCHU_MERGE = {
+  "〜こそ（取りたて助詞）":"〜こそ／〜からこそ",
+  "〜た（名詞修飾）":"名詞修飾",
+  "〜（さ）せられる・〜される（使役受身）":"使役受身（〜させられる）"
+,
+  "〜あまり（に）":"〜あまり（に）／〜あまりの"
+};
+function minchuAdd(p, l){ const c=MINCHU_MERGE[p]; if(c && _byText[c]){ _tag(_byText[c],'minchu',l); } else { _tag(_add(p),'minchu',l); } }
+MINCHU_DATA.forEach(ls=> ls.p.forEach(p=> minchuAdd(p,ls.l)));
+
+// 教科書ごとの「課 → 文型リスト」索引を作る
+function lessonsOf(bookId){
+  const map={};
+  PATTERNS.forEach(o=>{ (o.books[bookId]||[]).forEach(l=>{ (map[l]=map[l]||[]).push(o); }); });
+  return Object.keys(map).map(Number).sort((a,b)=>a-b).map(l=>({ l, items: map[l] }));
+}
+
+/* --- 五十音順ソート・検索 --- */
+function toHira(s){ return s.replace(/[\u30A1-\u30F6]/g, c=>String.fromCharCode(c.charCodeAt(0)-0x60)); }
+function yomiKey(p){ return toHira(p.replace(/^[〜～\s]+/,'').replace(/[（）()]/g,'')); }
+const GOJU=[
+  ['あ','あいうえおぁぃぅぇぉ'],['か','かきくけこがぎぐげご'],['さ','さしすせそざじずぜぞ'],
+  ['た','たちつてとだぢづでどっ'],['な','なにぬねの'],['は','はひふへほばびぶべぼぱぴぷぺぽ'],
+  ['ま','まみむめも'],['や','やゆよゃゅょ'],['ら','らりるれろ'],['わ','わをん']
+];
+function rowLabel(key){ const c=key[0]||''; for(const [lab,set] of GOJU){ if(set.indexOf(c)>=0) return lab; } return 'その他'; }
+const CATSHORT={'動詞':'動詞','い形容詞':'い形容詞','な形容詞':'な形容詞','文型':'文型'};
+const SORTED=[...D].map(d=>({...d,_key:yomiKey(d.p)}))
+  .sort((a,b)=> a._key<b._key?-1 : a._key>b._key?1 : 0);
+
+function matches(d,q){
+  if(!q) return true;
+  const bkStr = (d.ka!=null) ? ('みんなの日本語 初級 第2版 みん日 第'+d.ka+'課 '+d.ka+'課') : '';
+  const gkStr = (d.gka!=null) ? ('げんき 第3版 第'+d.gka+'課 '+d.gka+'課') : '';
+  const tkStr = (d.tka!=null) ? ('つなぐ日本語 初級 初版 つなぐ 第'+d.tka+'課 '+d.tka+'課') : '';
+  const dkStr = (d.dka!=null) ? ('大地 初級 初版 第'+d.dka+'課 '+d.dka+'課') : '';
+  const ekStr = (d.eka!=null) ? ('できる日本語 中級 初版 第'+d.eka+'課 '+d.eka+'課') : '';
+  const skStr = (d.ska!=null) ? ('できる日本語 初中級 初版 第'+d.ska+'課 '+d.ska+'課') : '';
+  const kkStr = (d.kka!=null) ? ('できる日本語 初級 初版 第'+d.kka+'課 '+d.kka+'課') : '';
+  const hay = toHira(d.p+' '+d.en+' '+d.setu+' '+(d.note||'')+' '+d._key+' '+d.lvl+' '+bkStr+' '+gkStr+' '+tkStr+' '+dkStr+' '+ekStr+' '+skStr+' '+kkStr).toLowerCase();
+  return hay.indexOf(q)>=0;
+}
+
+let curLevel='all', curQuery='', mode='kaisetsu', curBook='all';
+
+/* ---- ハイライト（toHiraは文字数を変えないので元文字列にそのまま対応） ---- */
+function esc(s){ return s.replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+function hi(text,q){
+  if(!q) return esc(text);
+  const h=toHira(text).toLowerCase(), i=h.indexOf(q);
+  if(i<0) return esc(text);
+  return esc(text.slice(0,i))+'<mark>'+esc(text.slice(i,i+q.length))+'</mark>'+esc(text.slice(i+q.length));
+}
+
+/* ---- 解説モード（既存の解説カード＋課タグ） ---- */
+function renderKaisetsu(){
+  const list=document.getElementById('list');
+  const rows=SORTED.filter(d=>(curLevel==='all'||d.lvl===curLevel)&&matches(d,curQuery));
+  document.getElementById('meta').textContent = rows.length+' 件'+(curLevel!=='all'?' ・ '+curLevel:'');
+  if(!rows.length){ list.innerHTML='<div class="no-result">見つかりませんでした。<br>ことばを変えてさがしてみてください。</div>'; return; }
+  let html='', curRow='';
+  rows.forEach(d=>{
+    const rl=rowLabel(d._key);
+    if(rl!==curRow){ curRow=rl; html+=`<div class="goju-head">${rl}</div>`; }
+    const ex=d.ex.map(e=>`<div class="bk-ex-item"><div class="bk-ex-ja">${e[0]}</div><div class="bk-ex-en">${e[1]}</div></div>`).join('');
+    const _srcMap={ minna:d.ka, genki:d.gka, tsunagu:d.tka, daichi:d.dka, dekiru:d.eka, dekirus:d.ska, dekiruk:d.kka };
+    const _srcTags=BOOKS.filter(b=>_srcMap[b.id]!=null).map(b=>
+      `<span class="src-tag" style="background:${b.bg};color:${b.accent}">${b.short} 第${_srcMap[b.id]}課</span>`);
+    const tag=_srcTags.length?`<div class="src-tags">${_srcTags.join('')}</div>`:'';
+    html+=`<div class="bk-card" id="${d.id}">
+      <div class="bk-cat"><b>${CATSHORT[d.cat]}</b> ・ ${d.form}</div>
+      <div class="bk-top"><span class="bk-p">${d.p}</span><span class="bk-lvl lvl-${lvCls(d.lvl)}">${d.lvl}</span></div>
+      <div class="bk-en">${d.en}</div>
+      <div class="bk-setsuzoku"><b>接続：</b>${d.setu}</div>
+      <div class="bk-ex">${ex}</div>
+      ${d.note?`<div class="bk-note">${d.note}</div>`:''}
+      ${tag}
+      <div><a class="bk-kaiwa" href="kaiwa.html?g=${encodeURIComponent(d.p)}&lv=${encodeURIComponent(d.lvl)}&ex=${encodeURIComponent(d.ex&&d.ex[0]?d.ex[0][0]:'')}">🗣️ この文法で会話練習</a></div>
+    </div>`;
+  });
+  list.innerHTML=html;
+}
+
+/* ---- 教科書で見るモード（教科書ごと・全文型、教科書＆レベルのタグ付き） ---- */
+function renderBooks(){
+  const list=document.getElementById('list');
+  const q=curQuery;
+  let total=0, html='';
+  BOOKS.forEach(book=>{
+    if(curBook!=='all' && curBook!==book.id) return;
+    let inner='', bookCount=0;
+    lessonsOf(book.id).forEach(ls=>{
+      const lv=levelOf(book, ls.l);
+      if(curLevel!=='all' && curLevel!==lv) return;
+      const items=ls.items.filter(o=>{
+        if(!q) return true;
+        const others=Object.keys(o.books).map(bid=>{ const bb=BOOKS.find(x=>x.id===bid); return bb?(bb.short+' '+bb.name):''; }).join(' ');
+        return toHira(o.p+' '+book.short+' '+book.name+' '+lv+' 第'+ls.l+'課 '+ls.l+'課 '+others).toLowerCase().indexOf(q)>=0;
+      });
+      if(!items.length) return;
+      bookCount+=items.length; total+=items.length;
+      const rows=items.map(o=>{
+        // 他の教科書のタグ（重なっている文型に表示）
+        const xt=Object.keys(o.books).filter(bid=>bid!==book.id).map(bid=>{
+          const bb=BOOKS.find(x=>x.id===bid); if(!bb) return '';
+          return `<button class="tg xtag" type="button" data-book="${bid}" style="background:${bb.bg};color:${bb.accent}">${bb.short} L${o.books[bid].join('・')}</button>`;
+        }).join('');
+        return `<div class="ka-row"><span class="kdot">●</span><span class="kp">${hi(o.p,q)}</span>${xt?`<span class="row-tags">${xt}</span>`:''}</div>`;
+      }).join('');
+      const links = (book.id==='minna') ? D.filter(d=> d.ka===ls.l) : [];
+      const linkHtml = links.length?`<div class="ka-links"><span class="lab">🔎 解説へ</span>`+
+        links.map(d=>`<button class="ka-link" type="button" data-jump="${d.id}">${d.p}</button>`).join('')+`</div>`:'';
+      inner += `<div class="ka-head"><span class="ka-badge" style="background:${book.bg};color:${book.accent}">第${ls.l}課</span>`+
+        `<button class="tg tg-book" type="button" data-book="${book.id}">${book.short}</button>`+
+        `<button class="tg lv-${lvCls(lv)}" type="button" data-lv="${lv}">${lv}</button>`+
+        `</div><div class="ka-card">${rows}${linkHtml}</div>`;
+    });
+    if(!bookCount) return;
+    html += `<div class="book-sec"><div class="book-sec-head"><span class="book-bar" style="background:${book.accent}"></span><span>${book.name}</span><span class="book-sec-num">${bookCount}文型</span></div>${inner}</div>`;
+  });
+  const bkName = (curBook!=='all') ? ((BOOKS.find(b=>b.id===curBook)||{}).short||'') : '';
+  document.getElementById('meta').textContent = (q?'該当 ':'ぜんぶで ')+total+' 文型'+(bkName?' ・ '+bkName:'')+(curLevel!=='all'?' ・ '+curLevel:'');
+  if(!html){ list.innerHTML='<div class="no-result">見つかりませんでした。<br>ことば・レベル（例：N5）・課番号（例：15）でさがしてください。</div>'; return; }
+  list.innerHTML=html;
+  list.querySelectorAll('.ka-link').forEach(a=>a.addEventListener('click',()=>jumpToKaisetsu(a.dataset.jump)));
+  list.querySelectorAll('.tg[data-book]').forEach(a=>a.addEventListener('click',()=>setBook(a.dataset.book)));
+  list.querySelectorAll('.tg[data-lv]').forEach(a=>a.addEventListener('click',()=>setLevel(a.dataset.lv)));
+}
+
+function render(){ if(mode==='book') renderBooks(); else renderKaisetsu(); }
+
+function swapFilters(){
+  document.getElementById('filter').style.display = 'flex'; // レベルフィルタは両モードで使う
+  document.getElementById('filterBook').style.display = (mode==='book') ? 'flex' : 'none';
+}
+function setModeButtons(){ document.querySelectorAll('#mode button').forEach(b=>b.classList.toggle('on',b.dataset.mode===mode)); }
+
+function setBook(id){
+  curBook=id;
+  document.querySelectorAll('#filterBook button').forEach(x=>x.classList.toggle('on',x.dataset.bk===id));
+  render();
+}
+function setLevel(lv){
+  curLevel=lv;
+  document.querySelectorAll('#filter button').forEach(x=>x.classList.toggle('on',x.dataset.lv===lv));
+  render();
+}
+
+// 教科書フィルタを BOOKS から生成（教科書を足すと自動で増える）
+function buildBookFilter(){
+  const box=document.getElementById('filterBook');
+  box.innerHTML='';
+  const items=[{bk:'all',label:'すべて'}].concat(BOOKS.map(b=>({bk:b.id,label:b.short})));
+  items.forEach(it=>{ const btn=document.createElement('button'); btn.type='button'; btn.dataset.bk=it.bk; btn.textContent=it.label; if(it.bk===curBook) btn.classList.add('on'); btn.onclick=()=>setBook(it.bk); box.appendChild(btn); });
+  if(!box.dataset.scrollBound){ box.dataset.scrollBound='1'; bindHScroll(box); }
+}
+
+// PC（マウス）でも教科書フィルタを横スクロールできるようにする
+function bindHScroll(box){
+  // マウスホイールの縦回転を横スクロールに変換
+  box.addEventListener('wheel', e=>{
+    if(box.scrollWidth<=box.clientWidth) return;               // はみ出していなければ何もしない
+    const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if(d===0) return;
+    box.scrollLeft += d;
+    e.preventDefault();                                        // ページの縦スクロールを止める
+  }, {passive:false});
+  // ドラッグ（クリック＆スワイプ）で移動
+  let down=false, startX=0, startL=0, moved=0;
+  box.addEventListener('pointerdown', e=>{
+    if(e.pointerType==='mouse' && e.button!==0) return;
+    down=true; moved=0; startX=e.clientX; startL=box.scrollLeft;
+    box.classList.add('dragging');
+  });
+  box.addEventListener('pointermove', e=>{
+    if(!down) return;
+    const dx=e.clientX-startX; moved=Math.max(moved,Math.abs(dx));
+    box.scrollLeft=startL-dx;
+    if(Math.abs(dx)>3) e.preventDefault();
+  });
+  const end=()=>{ down=false; box.classList.remove('dragging'); };
+  box.addEventListener('pointerup', end);
+  box.addEventListener('pointercancel', end);
+  box.addEventListener('pointerleave', end);
+  // ドラッグ後の誤クリック（ボタン選択）を防ぐ
+  box.addEventListener('click', e=>{ if(moved>6){ e.preventDefault(); e.stopPropagation(); } }, true);
+}
+
+// 「解説へ」から該当の解説カードへ移動
+function jumpToKaisetsu(id){
+  mode='kaisetsu'; setModeButtons(); swapFilters();
+  setLevel('all');
+  sIn.value=''; curQuery=''; sClear.classList.remove('show');
+  render();
+  requestAnimationFrame(()=>{ const el=document.getElementById(id); if(el){ history.replaceState(null,'','#'+id); el.scrollIntoView({behavior:'smooth',block:'start'}); } });
+}
+
+buildBookFilter();
+swapFilters();
+render();
+
+// モード切替（解説 / 教科書）
+document.querySelectorAll('#mode button').forEach(b=>{
+  b.onclick=()=>{ mode=b.dataset.mode; setModeButtons(); swapFilters(); render(); window.scrollTo({top:0}); };
+});
+// レベルフィルタ（両モード）
+document.getElementById('filter').querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>setLevel(b.dataset.lv);
+});
+// 検索（両モード共通）
+const sIn=document.getElementById('search'), sClear=document.getElementById('sClear');
+sIn.addEventListener('input',()=>{
+  curQuery=toHira(sIn.value.trim()).toLowerCase();
+  sClear.classList.toggle('show', sIn.value.length>0);
+  render();
+});
+sClear.addEventListener('click',()=>{ sIn.value=''; curQuery=''; sClear.classList.remove('show'); render(); sIn.focus(); });
+
+// ハッシュがあれば解説モードでその文型へスクロール
+if(location.hash){ const el=document.getElementById(location.hash.slice(1)); if(el){ el.scrollIntoView(); } }
+</script>
+</body>
+</html>

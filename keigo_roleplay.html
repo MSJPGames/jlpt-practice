@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIと敬語ロールプレイ ・ Keigo Role-play ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#9A3D1C; --accent-bg:#FAECE7;
+    --ai:#185FA5; --ai-bg:#E9F1FB; --ok:#3B6D11; --ok-bg:#EAF3DE; --hint:#854F0B; --hint-bg:#FBF3E2;
+    --retry:#8a5a10; --retry-bg:#FBF1DE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 1.5rem;line-height:1.7;-webkit-text-size-adjust:100%}
+  .container{max-width:520px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.2rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none;background:none;border:0;cursor:pointer;font-family:inherit}
+  .back:hover{color:var(--text)}
+  .app-header{text-align:center;padding:1rem 0 .5rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:22px;font-weight:700}
+  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12.5px;color:#6b5d40;line-height:1.65;margin:.6rem 0 1rem}
+  .hidden{display:none}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 15px;margin-bottom:14px}
+  .card-h{font-size:11px;font-weight:700;letter-spacing:.07em;color:var(--text-hint);text-transform:uppercase;margin-bottom:10px}
+  label.f{display:block;font-size:12.5px;font-weight:700;color:var(--text-muted);margin:11px 0 5px}
+  label.f:first-of-type{margin-top:0}
+  select,input.k{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:14px;background:#FCFBF9;color:var(--text);-webkit-appearance:none;appearance:none}
+  select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%236B6560' stroke-width='1.5'/></svg>");background-repeat:no-repeat;background-position:right 12px center}
+  .two{display:flex;gap:10px}
+  .two>div{flex:1;min-width:0}
+  .kh{font-size:11.5px;color:var(--text-hint);margin-top:7px;line-height:1.6}
+  .kh a{color:var(--ai);font-weight:700}
+  .keystate{font-size:11.5px;font-weight:700;margin-top:6px}
+  .keystate.ok{color:var(--ok)} .keystate.no{color:var(--accent)}
+  .scdesc{font-size:12px;color:var(--text-muted);margin-top:6px;line-height:1.55;background:#FAF8F4;border-radius:9px;padding:8px 11px}
+  .scdesc b{color:var(--accent)}
+  textarea.dtl{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:14px;line-height:1.55;background:#FCFBF9;color:var(--text);resize:vertical;min-height:56px;max-height:160px}
+  .dh{font-size:11.5px;color:var(--text-hint);margin-top:5px;line-height:1.5}
+  .seg{display:flex;gap:6px;background:#ECE8E1;padding:4px;border-radius:11px;margin-bottom:2px}
+  .seg button{flex:1;border:0;background:none;font-family:inherit;font-size:13px;font-weight:700;color:var(--text-muted);padding:8px;border-radius:8px;cursor:pointer}
+  .seg button.on{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.07)}
+  .primary{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:14px 16px;cursor:pointer;background:var(--accent);color:#fff;width:100%}
+  .primary:active{transform:scale(.99)}
+  .taskbar{background:linear-gradient(135deg,#FFFFFF,#FAF3EE);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);padding:12px 15px;margin-bottom:12px}
+  .taskbar .tb-h{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--accent);margin-bottom:4px}
+  .taskbar .tb-t{font-size:14px;font-weight:700}
+  .taskbar .tb-d{font-size:12.5px;color:var(--text-muted);margin-top:3px;line-height:1.55}
+  .taskbar .tb-goal{font-size:12px;color:var(--ok);margin-top:5px;line-height:1.5}
+  .taskbar .tb-set{font-size:11px;color:var(--text-hint);margin-top:5px}
+  .chat{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+  .msg{display:flex;gap:8px;max-width:90%}
+  .msg .av{width:30px;height:30px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
+  .msg .bub{padding:10px 13px;border-radius:13px;font-size:14.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+  .msg.ai{align-self:flex-start}
+  .msg.ai .av{background:var(--ai-bg);color:var(--ai)}
+  .msg.ai .bub{background:var(--surface);border:1px solid var(--border);border-top-left-radius:4px}
+  .msg.me{align-self:flex-end;flex-direction:row-reverse}
+  .msg.me .av{background:var(--accent-bg);color:var(--accent)}
+  .msg.me .bub{background:var(--accent);color:#fff;border-top-right-radius:4px}
+  .hintline{display:block;margin-top:6px;padding:7px 10px;background:var(--hint-bg);border-radius:9px;font-size:12.5px;color:var(--hint);font-weight:600}
+  .fb{background:#EEF5EA;border:1px solid #CFE3C2;border-radius:var(--radius);padding:12px 15px;font-size:13.5px;line-height:1.7;white-space:pre-wrap;margin-bottom:12px}
+  .fb .fb-h{font-weight:700;color:var(--ok);margin-bottom:5px;font-size:12px;letter-spacing:.05em}
+  .verdict{border-radius:var(--radius);padding:14px 15px;margin-bottom:12px;white-space:pre-wrap;line-height:1.7;font-size:13.5px}
+  .verdict .vh{font-size:16px;font-weight:800;margin-bottom:6px}
+  .verdict.pass{background:var(--ok-bg);border:1px solid #CFE3C2} .verdict.pass .vh{color:var(--ok)}
+  .verdict.retry{background:var(--retry-bg);border:1px solid #E7D3A6} .verdict.retry .vh{color:var(--retry)}
+  .startnote{align-self:center;background:#eef1f7;color:#5b6675;font-size:12.5px;padding:8px 12px;border-radius:10px;text-align:center;max-width:92%;margin-bottom:12px}
+  .typing{font-size:12.5px;color:var(--text-hint);margin:2px 4px 8px}
+  .composer{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(247,245,240,0),var(--bg) 22%);padding-top:8px}
+  .composer .row{display:flex;gap:8px;align-items:flex-end}
+  textarea#input{flex:1;resize:none;border:1px solid var(--border);border-radius:12px;padding:11px 13px;font-family:inherit;font-size:14.5px;line-height:1.5;background:#fff;color:var(--text);max-height:120px}
+  .send{flex-shrink:0;border:0;border-radius:12px;padding:11px 16px;font-family:inherit;font-size:14px;font-weight:700;background:var(--accent);color:#fff;cursor:pointer}
+  .send:disabled{opacity:.5;cursor:default}
+  .tools{display:flex;gap:8px;margin:8px 0 2px;flex-wrap:wrap}
+  .tbtn{font-family:inherit;font-size:12.5px;font-weight:700;border:1px solid var(--border);background:#fff;color:var(--text-muted);border-radius:20px;padding:7px 13px;cursor:pointer}
+  .tbtn.judge{border-color:#B9884A;color:#8a5a10;background:#FBF3E2}
+  .tbtn.fbk{border-color:#CFE3C2;color:var(--ok);background:#F3F8EF}
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1rem}
+  .err{color:#9A3D1C;font-size:12.5px;margin:6px 2px}
+  .gate label{font-size:12.5px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:6px}
+  .gate input{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:14px;background:#FCFBF9}
+</style>
+</head>
+<body>
+<div class="container">
+  <button class="back" id="backBtn">‹ 敬語にもどる</button>
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">AIと敬語ロールプレイ</div>
+    <div class="app-sub">設定を選んで、AIと敬語で会話する ・ Role-play</div>
+  </div>
+
+  <!-- 合言葉ゲート（PASSCODE 設定時のみ） -->
+  <div class="card gate hidden" id="gateCard">
+    <label for="gateInput">合言葉</label>
+    <input type="password" id="gateInput" placeholder="先生から聞いた合言葉を入力" autocomplete="off">
+    <button class="primary" id="gateBtn" style="margin-top:10px">入る</button>
+    <div class="err hidden" id="gateErr">合言葉がちがいます。</div>
+  </div>
+
+  <div id="main">
+    <!-- キー設定 -->
+    <div class="card" id="keyCard">
+      <div class="card-h">Gemini キー（無料）</div>
+      <input type="password" class="k" id="key" placeholder="ここにキーを貼り付け（例: AIza...）" autocomplete="off">
+      <div class="kh">キーは<b>この端末の中だけ</b>に保存され、外部には送られません（Google以外）。取り方：<a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> →「Create API key」→ 貼り付け（<b>無料</b>）。会話練習ページと同じキーが使えます。</div>
+      <div class="keystate" id="keyState"></div>
+    </div>
+
+    <!-- 設定（プルダウン） -->
+    <div id="home">
+      <div class="card">
+        <div class="card-h">ロールプレイの設定</div>
+
+        <div class="two">
+          <div><label class="f" for="scat">カテゴリー</label><select id="scat"></select></div>
+          <div><label class="f" for="scene">場面</label><select id="scene"></select></div>
+        </div>
+        <div class="scdesc" id="sceneDesc"></div>
+
+        <div class="two">
+          <div>
+            <label class="f" for="position">あなたの立場</label>
+            <select id="position"></select>
+          </div>
+          <div>
+            <label class="f" for="attitude">相手の態度</label>
+            <select id="attitude"></select>
+          </div>
+        </div>
+
+        <div class="two">
+          <div>
+            <label class="f" for="level">ことばの難しさ</label>
+            <select id="level"></select>
+          </div>
+          <div>
+            <label class="f" for="clen">会話の長さ</label>
+            <select id="clen"></select>
+          </div>
+        </div>
+
+        <div class="two">
+          <div>
+            <label class="f" for="hints">ヒント（訂正）</label>
+            <select id="hints"></select>
+          </div>
+          <div>
+            <label class="f" for="fbstrict">フィードバック</label>
+            <select id="fbstrict"></select>
+          </div>
+        </div>
+
+        <label class="f" for="startby">はじめ方</label>
+        <select id="startby"></select>
+
+        <label class="f">場面の詳しい状況（任意）</label>
+        <div class="seg" id="dseg">
+          <button type="button" data-m="simple">かんたん（選ぶ）</button>
+          <button type="button" data-m="free">くわしく（書く）</button>
+        </div>
+        <div id="simpleBox">
+          <label class="f" for="gyoshu">業種</label>
+          <select id="gyoshu"></select>
+          <div class="two">
+            <div><label class="f" for="aitesex">相手の性別</label><select id="aitesex"></select></div>
+            <div><label class="f" for="aiteage">相手の年代</label><select id="aiteage"></select></div>
+          </div>
+          <div class="two">
+            <div><label class="f" for="kankei">相手との関係</label><select id="kankei"></select></div>
+            <div><label class="f" for="isogi">急ぎ度</label><select id="isogi"></select></div>
+          </div>
+          <label class="f" for="keii">これまでの経緯</label>
+          <select id="keii"></select>
+        </div>
+        <div id="freeBox" class="hidden">
+          <textarea id="detail" class="dtl" rows="3" maxlength="400"></textarea>
+        </div>
+        <div class="dh"><b>かんたん</b>＝選ぶだけ（簡易練習）。<b>くわしく</b>＝会社名・経緯などを自由に書く（詳細練習）。空欄でもOK。</div>
+      </div>
+
+      <button class="primary" id="startBtn">この設定で会話をはじめる</button>
+      <div class="note" style="margin-top:12px">選んだ設定はこの端末に保存され、次回もそのまま使えます。会話のあと「課題を審査」で<b>クリア判定</b>、「フィードバック」で敬語の講評が受けられます。</div>
+    </div>
+
+    <!-- 会話 -->
+    <div id="play" class="hidden">
+      <div class="taskbar">
+        <div class="tb-h">あなたの課題</div>
+        <div class="tb-t" id="taskTitle"></div>
+        <div class="tb-d" id="taskDesc"></div>
+        <div class="tb-goal" id="taskGoal"></div>
+        <div class="tb-set" id="taskSet"></div>
+      </div>
+      <div class="chat" id="chat"></div>
+      <div class="typing hidden" id="typing">AIが入力中…</div>
+      <div id="fbHost"></div>
+      <div class="err hidden" id="err"></div>
+      <div class="tools">
+        <button class="tbtn judge" id="judgeBtn">課題を審査してもらう</button>
+        <button class="tbtn fbk" id="fbBtn">敬語のフィードバック</button>
+        <button class="tbtn" id="resetBtn">設定にもどる</button>
+      </div>
+      <div class="composer">
+        <div class="row">
+          <textarea id="input" rows="1" maxlength="300" placeholder="敬語で入力して送信…"></textarea>
+          <button class="send" id="sendBtn">送信</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">© 2025 日本語の部屋 ・ 敬語ロールプレイ（AI・Gemini）</div>
+</div>
+
+<script>
+(function(){
+/* ===== 設定 ===== */
+var MODEL = "gemini-3.5-flash";  // 会話練習ページ(kaiwa)と同じモデル。変える場合は両方合わせる
+var ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/" + MODEL + ":generateContent";
+var PASSCODE = window.PASSCODE || "";
+
+/* 場面（g=グループ, goal=クリア条件） */
+var SCENES = [
+  // --- 基本のビジネス ---
+  {id:"shanai", g:"基本のビジネス", t:"社内（上司・先輩と）", you:"社員", partner:"上司・先輩",
+   d:"社内での報告・連絡・相談・依頼など。",
+   role:"あなたは学習者の上司または先輩（社内の相手）。用件を1つ持ちかけるか、学習者の相談を受ける。",
+   task:"社内で上司・先輩とやりとりする場面（報連相・依頼など）。",
+   goal:"社内向けの敬語（丁寧語＋適切な尊敬/謙譲）で、用件を過不足なく伝え合えたか。"},
+  {id:"shagai", g:"基本のビジネス", t:"社外（取引先・顧客と）", you:"担当者", partner:"取引先・顧客",
+   d:"社外の相手とのあいさつ・依頼・調整など。改まった敬語が必要。",
+   role:"あなたは取引先または顧客（社外の相手）。",
+   task:"社外の相手と、あいさつや用件（依頼・調整など）を進める場面。",
+   goal:"社外向けの改まった敬語で、失礼なく用件を進められたか。"},
+  {id:"yukyu", g:"基本のビジネス", t:"有給休暇をお願いする", you:"部下", partner:"上司（課長）",
+   d:"来週の金曜に休みたい。理由を伝えて許可をもらう。",
+   role:"あなたは学習者の上司（課長）。",
+   task:"学習者は来週の金曜日に有給休暇を取りたい。上司に申し出て理由を伝え、許可をもらう場面。",
+   goal:"敬語で丁寧に申し出て、理由を伝え、休みの許可を得られたか。"},
+  {id:"nouki", g:"基本のビジネス", t:"納期の延長をお願いする", you:"担当者", partner:"取引先",
+   d:"自社都合で納品が3日遅れる。事情を説明して延長をお願いする。",
+   role:"あなたは取引先の担当者。少し慎重だが理解はある。",
+   task:"納品が3日遅れる。学習者は事情を説明し、納期の延長をお願いして了承を得る場面。",
+   goal:"お詫びとお願いの敬語で事情を説明し、納期延長の了承を得られたか。"},
+  {id:"denwa", g:"基本のビジネス", t:"電話で取り次ぎを頼む", you:"かける側", partner:"取引先の社員",
+   d:"担当の佐藤さんに取り次いでほしい。不在なら伝言・折り返しを頼む。",
+   role:"あなたは取引先の社員（電話に出た人）。担当の佐藤はあいにく席を外している。",
+   task:"学習者は取引先に電話し、担当の佐藤さんへの取り次ぎを頼む。不在なら伝言や折り返しを依頼する場面。",
+   goal:"電話の敬語で名乗り・用件を伝え、取り次ぎ（または伝言/折り返し）を頼めたか。"},
+  {id:"nittei", g:"基本のビジネス", t:"会議の日程変更を相談する", you:"部下", partner:"上司（部長）",
+   d:"急用で明日の会議に出られない。日程変更か欠席を相談する。",
+   role:"あなたは学習者の上司（部長）。",
+   task:"学習者は急用で明日の会議に出られない。日程変更のお願いか、欠席のお詫びと相談をする場面。",
+   goal:"お詫びの敬語で事情を伝え、日程変更または欠席の了解を得られたか。"},
+  {id:"houkoku", g:"基本のビジネス", t:"ミスを報告・相談する（報連相）", you:"部下", partner:"上司（課長）",
+   d:"小さなミスがあった。上司に報告し、今後を相談する。",
+   role:"あなたは学習者の上司（課長）。",
+   task:"学習者は担当業務で小さなミスをした。上司に敬語で報告し、今後の対応を相談する場面。",
+   goal:"言い訳せず敬語で事実を報告し、対応の相談・指示を得られたか。"},
+  {id:"apo", g:"基本のビジネス", t:"アポイントを取る", you:"担当者", partner:"取引先",
+   d:"取引先に連絡し、打ち合わせの日時を決める。",
+   role:"あなたは取引先の担当者。来週なら都合がつく。",
+   task:"学習者は取引先に連絡し、打ち合わせのアポイントを取る。候補日を出し合い日時を決める場面。",
+   goal:"敬語で用件を伝え、候補日を調整して訪問の日時を決められたか。"},
+  // --- 面接 ---
+  {id:"mensetsu_shinsotsu", g:"面接", t:"面接（新卒採用）", you:"就活生", partner:"面接官",
+   d:"自己紹介・志望動機などの質問に敬語で答える。",
+   role:"あなたは新卒採用の面接官。落ち着いて丁寧に質問し、深掘りもする。",
+   task:"学習者は新卒の就活生。面接官の質問（自己紹介・志望動機・学生時代に力を入れたこと等）に敬語・マナーで答える場面。",
+   goal:"面接にふさわしい敬語（です・ます、謙譲、クッション言葉）で、質問に的確に答えられたか。"},
+  {id:"mensetsu_chuto", g:"面接", t:"面接（中途採用）", you:"転職者", partner:"面接官",
+   d:"職務経歴・転職理由・強みなどの質問に敬語で答える。",
+   role:"あなたは中途採用の面接官。経歴や意欲を確認する。",
+   task:"学習者は転職者。面接官の質問（職務経歴・転職理由・強み・志望動機等）に敬語で答える場面。",
+   goal:"中途面接にふさわしい敬語で、経歴・転職理由・意欲を分かりやすく伝えられたか。"},
+  // --- 接客業 ---
+  {id:"shukuhaku", g:"接客業", t:"宿泊業（ホテル・旅館）", you:"スタッフ", partner:"宿泊客",
+   d:"チェックインや要望に接客敬語で対応する。",
+   role:"あなたはホテル・旅館の宿泊客（お客様）。チェックインや要望（部屋・食事・観光の相談など）がある。",
+   task:"学習者は宿泊施設のスタッフ。お客様の受付や要望に接客敬語で対応する場面。",
+   goal:"接客敬語（いらっしゃいませ／かしこまりました／〜でございます等）で、お客様の用件に丁寧に対応できたか。"},
+  {id:"inshoku", g:"接客業", t:"飲食業（レストラン・カフェ）", you:"スタッフ", partner:"お客様",
+   d:"案内・注文・おすすめ・会計に接客敬語で対応する。",
+   role:"あなたは飲食店のお客様。席の案内や注文、質問がある。",
+   task:"学習者は飲食店のスタッフ。案内・注文・おすすめ・会計などに接客敬語で対応する場面。",
+   goal:"接客敬語で、案内や注文のやりとりを正しく・丁寧に進められたか。"},
+  {id:"kanko", g:"接客業", t:"観光業（案内・ツアー）", you:"案内スタッフ", partner:"観光客",
+   d:"行き方・見どころ・予約などの質問に接客敬語で答える。",
+   role:"あなたは観光に来たお客様（旅行者）。行き方や見どころ、予約について質問する。",
+   task:"学習者は観光案内所・ツアーのスタッフ。観光客の質問に接客敬語で分かりやすく対応する場面。",
+   goal:"接客敬語で、観光客の質問に分かりやすく丁寧に答えられたか。"},
+  {id:"claim", g:"接客業", t:"苦情・クレーム対応", you:"店の担当", partner:"お客様",
+   d:"商品・サービスの不具合の苦情に丁寧に対応し、対応策を伝える。",
+   role:"あなたは商品やサービスに不満があり、少し困っているお客様。最初はやや不満げ。",
+   task:"学習者は店（会社）の担当者。お客様の苦情に敬語で丁寧に対応し、謝罪と対応策を伝えて落ち着いてもらう場面。",
+   goal:"クッション言葉と謝罪の敬語で受け止め、対応策を伝えてお客様に納得してもらえたか。"},
+  // --- 学校・日常 ---
+  {id:"sensei", g:"学校・日常", t:"先生（目上の人）に相談する", you:"学生", partner:"学校の先生",
+   d:"先生に質問・相談・お願い（提出延長・進路相談など）を敬語でする。",
+   role:"あなたは学習者の学校の先生（目上の人）。親しみやすいが、敬うべき相手。",
+   task:"学習者は学生。先生に質問・相談・お願い（レポートの提出延長、進路相談など）を敬語でする場面。",
+   goal:"目上の先生にふさわしい敬語（尊敬語・謙譲語・丁寧語）で、質問や相談を伝えられたか。"},
+  {id:"mishiranu", g:"学校・日常", t:"見知らぬ人に話しかける", you:"話しかける人", partner:"通りすがりの人",
+   d:"道を尋ねる・落とし物を知らせる・お願いをするなど、初対面の人に丁寧に。",
+   role:"あなたは道を歩いている見知らぬ人（一般の人）。ふつうに親切。",
+   task:"学習者が見知らぬ人に丁寧に話しかける場面（道を尋ねる／落とし物を知らせる／お願いをする等）。ていねいな『です・ます』と軽い敬語で。",
+   goal:"初対面の人に失礼なく、丁寧語（です・ます）＋クッション言葉で用件を伝えられたか。"},
+  {id:"kinjo", g:"学校・日常", t:"近所の人とのあいさつ・お願い", you:"住民", partner:"近所の人",
+   d:"あいさつ、回覧板、ちょっとしたお願い・お礼などを丁寧に。",
+   role:"あなたは学習者の近所に住む人（年上のこともある）。親しみやすい。",
+   task:"学習者は近所の人と、あいさつや簡単な用件（回覧板・ゴミ出し・お願い・お礼など）をやりとりする場面。",
+   goal:"近所の人に感じよく、丁寧語であいさつ・用件を伝えられたか。"},
+  // --- 窓口・公共 ---
+  {id:"byoin", g:"窓口・公共", t:"病院（受付・診察）", you:"患者", partner:"病院の受付・看護師",
+   d:"受付、症状の説明、予約の変更などを丁寧に。",
+   role:"あなたは病院の受付または看護師。ていねいに対応する。",
+   task:"学習者は患者。受付で受診の申し出、症状の説明、予約の変更などを丁寧語で伝える場面。",
+   goal:"受付で丁寧に用件（受診・予約・質問）を伝えられたか。"},
+  {id:"yubin", g:"窓口・公共", t:"郵便局の窓口", you:"利用者", partner:"郵便局の窓口",
+   d:"荷物を送る、切手を買う、再配達を頼むなど。",
+   role:"あなたは郵便局の窓口職員。",
+   task:"学習者は利用者。荷物の発送・切手購入・再配達依頼などの用件を窓口で丁寧に伝える場面。",
+   goal:"窓口で丁寧に用件を伝え、手続きを進められたか。"},
+  {id:"ginko", g:"窓口・公共", t:"銀行の窓口", you:"利用者", partner:"銀行の窓口",
+   d:"口座・振込・記帳・両替などの手続き。",
+   role:"あなたは銀行の窓口職員。",
+   task:"学習者は利用者。振込・口座開設・記帳・両替などの用件を窓口で丁寧に伝える場面。",
+   goal:"窓口で丁寧に用件を伝え、手続きを進められたか。"},
+  {id:"yakusho", g:"窓口・公共", t:"役所の窓口", you:"住民", partner:"役所の窓口",
+   d:"住民票・転入届・各種手続きの相談。",
+   role:"あなたは市役所の窓口職員。",
+   task:"学習者は住民。住民票の発行、転入届、各種手続きの質問などを窓口で丁寧に伝える場面。",
+   goal:"窓口で丁寧に手続きの相談・依頼ができたか。"},
+  {id:"ekimado", g:"窓口・公共", t:"駅の窓口", you:"利用者", partner:"駅員",
+   d:"きっぷの購入・払い戻し、行き方、忘れ物など。",
+   role:"あなたは駅の窓口の駅員。",
+   task:"学習者は利用者。きっぷの購入・払い戻し・行き方の相談・忘れ物などを窓口で丁寧に伝える場面。",
+   goal:"駅の窓口で丁寧に用件を伝えられたか。"},
+  // --- 買い物・アルバイト ---
+  {id:"super", g:"買い物・サービス", t:"スーパーで店員に尋ねる", you:"客", partner:"スーパーの店員",
+   d:"商品の場所・在庫・値段・返品などを尋ねる。",
+   role:"あなたはスーパーの店員。",
+   task:"学習者は客。商品の場所・在庫・値段・返品などを店員に丁寧に尋ねる場面。",
+   goal:"店員に丁寧に質問・依頼できたか。"},
+  {id:"depart", g:"買い物・サービス", t:"デパートで買い物・相談", you:"客", partner:"デパートの店員",
+   d:"商品の相談・試着・贈答・問い合わせなど。",
+   role:"あなたはデパートの店員。ていねいな接客をする。",
+   task:"学習者は客。商品の相談・試着・贈り物・問い合わせなどを店員とやりとりする場面。",
+   goal:"丁寧語で希望を伝え、やりとりできたか。"},
+  {id:"baito", g:"学校・日常", t:"アルバイト先（店長と）", you:"アルバイト", partner:"店長",
+   d:"シフトの相談、遅刻・欠勤の連絡、報告・質問など。",
+   role:"あなたは学習者のアルバイト先の店長（目上）。",
+   task:"学習者はアルバイトスタッフ。店長にシフトの相談、遅刻・欠勤の連絡、報告・質問などを敬語でする場面。",
+   goal:"店長に敬語で報告・相談・連絡ができたか。"},
+  {id:"tosho", g:"窓口・公共", t:"図書館", you:"利用者", partner:"図書館の司書",
+   d:"本を借りる・探す・予約・貸出延長など。",
+   role:"あなたは図書館の司書。", task:"学習者は利用者。本を借りる・探す・予約・貸出延長などを丁寧に頼む場面。",
+   goal:"司書に丁寧に用件を伝え、手続きできたか。"},
+  {id:"biyoin", g:"買い物・サービス", t:"美容院・理容室", you:"客", partner:"美容師",
+   d:"希望の髪型を伝える・相談する。",
+   role:"あなたは美容師（理容師）。", task:"学習者は客。希望の髪型や長さ、悩みの相談を美容師に丁寧に伝える場面。",
+   goal:"希望を丁寧語で分かりやすく伝えられたか。"},
+  {id:"cleaning", g:"買い物・サービス", t:"クリーニング店", you:"客", partner:"クリーニング店の店員",
+   d:"衣類を出す・受け取る・シミ抜きの相談など。",
+   role:"あなたはクリーニング店の店員。", task:"学習者は客。衣類の預け・受け取り・シミ抜きや仕上がり日の相談を丁寧に行う場面。",
+   goal:"店員に丁寧に用件（依頼・確認）を伝えられたか。"},
+  {id:"fudosan", g:"住まい・暮らし", t:"不動産屋（部屋探し）", you:"客", partner:"不動産の担当",
+   d:"希望の条件を伝えて部屋を探す・内見を頼む。",
+   role:"あなたは不動産会社の担当者。", task:"学習者は客。家賃・間取り・場所などの希望を伝え、物件の紹介や内見をお願いする場面。",
+   goal:"希望条件を丁寧に伝え、紹介・内見の相談ができたか。"},
+  {id:"hikkoshi", g:"住まい・暮らし", t:"引っ越し業者", you:"客", partner:"引っ越し業者の担当",
+   d:"見積もり・日程・荷物量の相談をする。",
+   role:"あなたは引っ越し業者の担当者。", task:"学習者は客。引っ越しの見積もり・日程・荷物量・料金などを相談する場面。",
+   goal:"丁寧に希望を伝え、見積もり・日程の相談ができたか。"},
+  {id:"ooya", g:"住まい・暮らし", t:"大家・管理会社に連絡", you:"入居者", partner:"大家・管理会社",
+   d:"設備の不具合・契約更新・退去などの連絡・相談。",
+   role:"あなたは大家または管理会社の担当。", task:"学習者は入居者。設備の不具合（水漏れ等）、契約更新、退去などの連絡・相談を敬語でする場面。",
+   goal:"敬語で状況を伝え、対応をお願いできたか。"},
+  {id:"kanyu", g:"電話", t:"電話勧誘を断る", you:"受け手", partner:"勧誘の営業",
+   d:"かかってきた勧誘を、失礼なくきっぱり断る。",
+   role:"あなたは商品やサービスを電話で勧誘してくる営業。押しは強すぎない。", task:"学習者は電話を受けた人。勧誘に対して、失礼なく、しかしはっきり断る場面。",
+   goal:"丁寧な言い方（クッション言葉）で、きっぱり断れたか。"},
+  {id:"support", g:"電話", t:"カスタマーサポートに電話", you:"客", partner:"サポート担当",
+   d:"商品・サービスの問い合わせやトラブル相談。",
+   role:"あなたはカスタマーサポートの担当者。ていねいに対応する。", task:"学習者は客。商品の使い方の質問やトラブルの相談を電話で丁寧に伝える場面。",
+   goal:"電話で状況を分かりやすく、丁寧に伝えられたか。"},
+  {id:"hogosha", g:"学校・日常", t:"保護者として学校に連絡", you:"保護者", partner:"学校の先生",
+   d:"子どもの欠席連絡・相談などを敬語で。",
+   role:"あなたは子どもの学校の先生。", task:"学習者は保護者。子どもの欠席・遅刻の連絡や相談を、先生に敬語で伝える場面。",
+   goal:"保護者として先生に敬語で連絡・相談ができたか。"},
+  // --- その他 ---
+  {id:"free", g:"その他", t:"おまかせ（自由な場面）", you:"社員", partner:"上司・取引先など",
+   d:"AIが適当なビジネス場面を1つ設定して始めます。",
+   role:"あなたは適切なビジネス上の相手役（上司・取引先・お客様など）を1つ選んで演じる。",
+   task:"よくあるビジネス場面を1つ選び、学習者が敬語を練習できるよう会話を始める。最初にどんな場面かを一言だけ示してから役に入る。",
+   goal:"設定された場面にふさわしい敬語で、自然に会話を進められたか。"}
+];
+var SCENE_GROUPS = ["基本のビジネス","面接","接客業","学校・日常","窓口・公共","買い物・サービス","住まい・暮らし","電話","その他"];
+
+/* 選択肢（value, label, プロンプト断片） */
+var OPT = {
+  position:[
+    ["shinnyu","新入社員","学習者は新入社員（入社1年目）。ていねいさを特に意識させる。"],
+    ["wakate","若手社員","学習者は若手社員（数年目）。"],
+    ["chuken","中堅社員","学習者は中堅社員。"],
+    ["shukatsu","就活生（新卒）","学習者は就職活動中の学生（新卒）。面接にふさわしい改まった敬語・マナーを意識させる。"],
+    ["chuto_kibou","中途採用希望","学習者は転職活動中（中途採用希望）。職務経歴を語る改まった敬語を意識させる。"],
+    ["gakusei","学生","学習者は学生。先生など目上の人への敬語を意識させる。"]
+  ],
+  attitude:[
+    ["yasashii","おだやか","相手はおだやかで親切な態度。"],
+    ["futsu","ふつう","相手はふつうのビジネス的な態度。"],
+    ["kibishii","少し厳しめ","相手は少し厳しめで、敬語の乱れに敏感。ただし理不尽にはしない。"]
+  ],
+  level:[
+    ["easy","やさしい","会話の難易度はやさしい（N4〜N3程度）。あなたも短くゆっくり、簡単な語彙で話す。"],
+    ["normal","ふつう","会話の難易度はふつう（N3〜N2程度）。"],
+    ["hard","むずかしい","会話の難易度は高め（N2〜N1程度）。自然でやや速く、ビジネス語彙も使う。"]
+  ],
+  clen:[
+    ["short","みじかめ","会話は3往復ほどで、頃合いを見て自然にまとめる。"],
+    ["normal","ふつう","会話は5〜6往復ほどを目安に進める。"],
+    ["long","じっくり","会話は8往復以上、じっくり進める。"]
+  ],
+  hints:[
+    ["always","毎回","学習者の敬語に誤り（尊敬/謙譲の取り違え・二重敬語・失礼な言い方・「了解しました」等）があれば、まず役として自然に応答したうえで、最後の行に「💡ヒント：」から1文でやさしく直し方を添える。誤りがなければヒントは不要。"],
+    ["big","大きな誤りだけ","学習者の敬語に大きな誤りがあるときだけ、最後の行に「💡ヒント：」から1文で直し方を添える。小さな誤りは流す。"],
+    ["none","出さない","会話に集中し、途中のヒント（💡）は出さない。"]
+  ],
+  fbstrict:[
+    ["gentle","やさしめ","よい点を中心に、直す点は1〜2個だけやさしく。"],
+    ["normal","ふつう","よい点と直す点をバランスよく。"],
+    ["strict","きびしめ","細かい点まで具体的に指摘し、より自然な言い方を多めに示す。"]
+  ],
+  startby:[
+    ["ai","相手（AI）から","AIが最初の一言から始める。"],
+    ["me","自分から","学習者が最初に話しかける。"]
+  ],
+  kankei:[
+    ["","（指定なし）",""],
+    ["hajimete","初めて会う","相手とは初めて会う。"],
+    ["nankai","何度か会っている","相手とは何度か会っている。"],
+    ["yoku","よく知っている","相手とはよく知っている間柄。"]
+  ],
+  isogi:[
+    ["","（指定なし）",""],
+    ["isogi","急ぎ","用件は急ぎ。"],
+    ["futsu","ふつう",""],
+    ["yoyuu","余裕あり","時間には余裕がある。"]
+  ],
+  keii:[
+    ["","（指定なし）",""],
+    ["trouble","前回トラブルがあった","前回、少しトラブルがあった。"],
+    ["good","前回はうまくいった","前回はうまくいった。"],
+    ["fukigen","相手は少し不機嫌","相手は少し不機嫌そう。"],
+    ["busy","相手は忙しそう","相手は忙しそうにしている。"]
+  ],
+  gyoshu:[
+    ["","（指定なし）",""],
+    ["it","IT・情報通信","業種はIT・情報通信。"],
+    ["seizo","製造業","業種は製造業。"],
+    ["shosha","商社・卸売","業種は商社・卸売。"],
+    ["kouri","小売・販売","業種は小売・販売。"],
+    ["inshoku","飲食","業種は飲食。"],
+    ["kanko","宿泊・観光","業種は宿泊・観光。"],
+    ["kinyu","金融・保険","業種は金融・保険。"],
+    ["iryo","医療・介護","業種は医療・介護。"],
+    ["kyoiku","教育","業種は教育。"],
+    ["kensetsu","建設・不動産","業種は建設・不動産。"],
+    ["butsuryu","物流・運輸","業種は物流・運輸。"],
+    ["masukomi","マスコミ・広告","業種はマスコミ・広告。"],
+    ["koumu","公務・行政","業種は公務・行政。"],
+    ["other","その他","業種はその他。"]
+  ],
+  aitesex:[
+    ["","（指定なし）",""],
+    ["m","男性","相手は男性。"],
+    ["f","女性","相手は女性。"]
+  ],
+  aiteage:[
+    ["","（指定なし）",""],
+    ["20","20代","相手は20代。"],
+    ["30","30代","相手は30代。"],
+    ["40","40代","相手は40代。"],
+    ["50","50代","相手は50代。"],
+    ["60","60代以上","相手は60代以上（年配）。"]
+  ]
+};
+
+var COMMON =
+  "あなたは日本語学習者のための「敬語ロールプレイAI」です。相手はビジネス敬語を練習中の日本語学習者です。\n\n" +
+  "守ること：\n" +
+  "- あなたは【役】を演じ、日本のビジネス場面として自然に、ふさわしい敬語で応答します。\n" +
+  "- 1回の返答は日本語で2〜4文程度と簡潔に。会話を自然に前へ進め、学習者が敬語を使う場面をつくる。\n" +
+  "- 学習者を励まし、否定的になりすぎない。ローマ字や英語の長文は使わない。役を離れたメタな質問には簡潔に日本語教師として答えてよい。\n";
+
+var FB_BASE = "（ここまでの会話を振り返り、役を離れて日本語の先生として、学習者の敬語について「よかった点」「直すとよい点（具体例つき）」「模範的な言い方の例」を、やさしい日本語で箇条書き5行以内にまとめてください。方針：{fb}）";
+var JUDGE_BASE = "（ここで役を離れ、この課題の『審査員』として判定してください。1行目に必ず「判定：クリア」または「判定：もう一歩」とだけ書き、次の行から、達成できた点・できなかった点を2〜3点、最後に敬語・マナーの一言を、やさしい日本語で簡潔に。あまき採点にせず、目標に照らして公平に。目標：{goal}）";
+var START_TRIGGER = "（ロールプレイを始めます。あなたは【役】として、自然な最初の一言から会話を始めてください。）";
+
+var $=function(id){return document.getElementById(id);};
+var mem={}, store={
+  get:function(k){try{return localStorage.getItem(k);}catch(e){return (k in mem)?mem[k]:null;}},
+  set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}}
+};
+var convo=[], systemText="", busy=false, curScene=null, startMode="ai";
+
+/* ---- 合言葉ゲート ---- */
+(function(){
+  if(!PASSCODE) return;
+  if(store.get("keigo_gate_ok")===PASSCODE) return;
+  $("main").classList.add("hidden"); $("gateCard").classList.remove("hidden");
+  function tryEnter(){ if($("gateInput").value===PASSCODE){ store.set("keigo_gate_ok",PASSCODE); $("gateCard").classList.add("hidden"); $("main").classList.remove("hidden"); } else { $("gateErr").classList.remove("hidden"); } }
+  $("gateBtn").addEventListener("click",tryEnter);
+  $("gateInput").addEventListener("keydown",function(e){ if(e.key==="Enter") tryEnter(); });
+})();
+
+/* ---- キー（kaiwaと同じ gemini_key を共用）---- */
+var keyEl=$("key");
+var sk=store.get("gemini_key"); if(sk) keyEl.value=sk;
+function refreshKeyState(){
+  var has=keyEl.value.trim().length>0, el=$("keyState");
+  el.textContent=has?"✓ キーを保存しました（この端末のみ）":"キーを入力すると練習を始められます";
+  el.className="keystate "+(has?"ok":"no");
+}
+keyEl.addEventListener("input",function(){ store.set("gemini_key",keyEl.value.trim()); refreshKeyState(); });
+refreshKeyState();
+
+/* ---- プルダウン組み立て＋保存復元 ---- */
+function fillSelect(id, opts, storeKey){
+  var sel=$(id), html="";
+  opts.forEach(function(o){ html+='<option value="'+o[0]+'">'+o[1]+'</option>'; });
+  sel.innerHTML=html;
+  var saved=store.get(storeKey); if(saved) sel.value=saved;
+  sel.addEventListener("change",function(){ store.set(storeKey, sel.value); });
+}
+function groupOfScene(id){ var s=SCENES.filter(function(x){return x.id===id;})[0]; return s?s.g:SCENE_GROUPS[0]; }
+function fillCats(){
+  var sel=$("scat"), h="";
+  SCENE_GROUPS.forEach(function(g){ h+='<option value="'+g+'">'+g+'</option>'; });
+  sel.innerHTML=h;
+  var savedScene=store.get("keigo_rp_scene");
+  var cat=store.get("keigo_rp_scat") || (savedScene?groupOfScene(savedScene):SCENE_GROUPS[0]);
+  if(SCENE_GROUPS.indexOf(cat)<0) cat=SCENE_GROUPS[0];
+  sel.value=cat;
+  sel.addEventListener("change",function(){ store.set("keigo_rp_scat", sel.value); fillScenesForCat(true); store.set("keigo_rp_scene",$("scene").value); paintScene(); });
+}
+function fillScenesForCat(pickFirst){
+  var cat=$("scat").value, sel=$("scene"), h="";
+  SCENES.filter(function(s){return s.g===cat;}).forEach(function(s){ h+='<option value="'+s.id+'">'+s.t+'</option>'; });
+  sel.innerHTML=h;
+  if(!pickFirst){ var savedScene=store.get("keigo_rp_scene"); if(savedScene && SCENES.filter(function(s){return s.id===savedScene && s.g===cat;}).length){ sel.value=savedScene; } }
+}
+function paintScene(){
+  var s=SCENES.filter(function(x){return x.id===$("scene").value;})[0]||SCENES[0];
+  $("sceneDesc").innerHTML="あなた＝"+s.you+" ／ 相手＝"+s.partner+"。"+esc(s.d)+"<br><b>目標：</b>"+esc(s.goal);
+  var de=$("detail"); if(de){ de.placeholder=DETAIL_PH[s.g]||DETAIL_PH["その他"]; }
+}
+var DETAIL_PH={
+  "面接":"例）IT企業の二次面接。志望はエンジニア職。前職は営業を3年。",
+  "接客業":"例）ホテルの朝食会場。海外からのお客様。朝7時で少し混雑。",
+  "基本のビジネス":"例）取引先はA商事の田中様。前回の納品で少し遅れがあった。",
+  "学校・日常":"例）大学のゼミの先生に発表の相談。／駅で見知らぬ人に道を尋ねる。",
+  "窓口・公共":"例）市役所で転入届。先週引っ越した。／銀行で振込の相談。",
+  "買い物・サービス":"例）デパートで贈り物の相談。予算5千円。／美容院で髪型の相談。",
+  "住まい・暮らし":"例）不動産屋で1LDK・家賃8万円で探す。／水漏れを管理会社へ連絡。",
+  "電話":"例）通信サービスの勧誘を断る。／購入した家電の不具合をサポートへ。",
+  "その他":"例）相手や場所、これまでの経緯、条件など。"
+};
+var detailEl=$("detail");
+var sd=store.get("keigo_rp_detail"); if(sd) detailEl.value=sd;
+detailEl.addEventListener("input",function(){ store.set("keigo_rp_detail", detailEl.value); });
+
+fillCats(); fillScenesForCat(false);
+$("scene").addEventListener("change",function(){ store.set("keigo_rp_scene",$("scene").value); paintScene(); });
+paintScene();
+fillSelect("gyoshu",OPT.gyoshu,"keigo_rp_gyoshu");
+fillSelect("aitesex",OPT.aitesex,"keigo_rp_aitesex");
+fillSelect("aiteage",OPT.aiteage,"keigo_rp_aiteage");
+fillSelect("kankei",OPT.kankei,"keigo_rp_kankei");
+fillSelect("isogi",OPT.isogi,"keigo_rp_isogi");
+fillSelect("keii",OPT.keii,"keigo_rp_keii");
+var detailMode = store.get("keigo_rp_dmode")||"simple";
+function applyDMode(){
+  var btns=$("dseg").querySelectorAll("button");
+  for(var i=0;i<btns.length;i++){ btns[i].classList.toggle("on", btns[i].getAttribute("data-m")===detailMode); }
+  $("simpleBox").classList.toggle("hidden", detailMode!=="simple");
+  $("freeBox").classList.toggle("hidden", detailMode!=="free");
+}
+(function(){ var btns=$("dseg").querySelectorAll("button");
+  for(var i=0;i<btns.length;i++){ btns[i].addEventListener("click",function(){ detailMode=this.getAttribute("data-m"); store.set("keigo_rp_dmode",detailMode); applyDMode(); }); } })();
+applyDMode();
+function compileSimple(){ return frag("gyoshu","gyoshu")+frag("aitesex","aitesex")+frag("aiteage","aiteage")+frag("kankei","kankei")+frag("isogi","isogi")+frag("keii","keii"); }
+function getDetail(){ return detailMode==="free" ? detailEl.value.trim() : compileSimple(); }
+fillSelect("position",OPT.position,"keigo_rp_position");
+fillSelect("attitude",OPT.attitude,"keigo_rp_attitude");
+fillSelect("level",OPT.level,"keigo_rp_level");
+fillSelect("clen",OPT.clen,"keigo_rp_length");
+fillSelect("hints",OPT.hints,"keigo_rp_hints");
+fillSelect("fbstrict",OPT.fbstrict,"keigo_rp_fbstrict");
+fillSelect("startby",OPT.startby,"keigo_rp_startby");
+
+function frag(group, id){ var a=OPT[group]; for(var i=0;i<a.length;i++){ if(a[i][0]===$(id).value) return a[i][2]; } return a[0][2]; }
+function labelOf(group, id){ var a=OPT[group]; for(var i=0;i<a.length;i++){ if(a[i][0]===$(id).value) return a[i][1]; } return a[0][1]; }
+
+function buildSystem(s){
+  var extra=getDetail();
+  return COMMON
+    + "- ヒント方針："+frag("hints","hints")+"\n\n"
+    + "【場面】"+s.task+"\n"
+    + "【役】"+s.role+"\n"
+    + "【学習者の立場】"+frag("position","position")+"\n"
+    + "【相手の態度】"+frag("attitude","attitude")+"\n"
+    + "【ことばの難しさ】"+frag("level","level")+"\n"
+    + "【会話の長さ】"+frag("clen","clen")
+    + (extra ? "\n【詳しい状況（学習者の指定）】"+extra+"。この内容を必ず反映して場面を具体化する。" : "");
+}
+function settingsSummary(){
+  return "立場:"+labelOf("position","position")+" ／ 相手:"+labelOf("attitude","attitude")
+    +" ／ 難しさ:"+labelOf("level","level")+" ／ 長さ:"+labelOf("clen","clen")
+    +" ／ ヒント:"+labelOf("hints","hints");
+}
+
+/* ---- 開始 ---- */
+$("startBtn").addEventListener("click",function(){
+  if(!keyEl.value.trim()){ refreshKeyState(); $("keyState").textContent="先に無料の Gemini キーを入力してください（上の欄）"; keyEl.focus(); window.scrollTo({top:0,behavior:"smooth"}); return; }
+  curScene=SCENES.filter(function(x){return x.id===$("scene").value;})[0]||SCENES[0];
+  systemText=buildSystem(curScene); startMode=$("startby").value;
+  convo=[]; $("chat").innerHTML=""; $("fbHost").innerHTML=""; hideErr();
+  var extra0=getDetail();
+  $("taskTitle").textContent=curScene.t;
+  $("taskDesc").textContent="あなた＝"+curScene.you+" ／ 相手＝"+curScene.partner+"。"+curScene.d+(extra0 ? "／状況："+extra0 : "");
+  $("taskGoal").textContent="🎯 目標："+curScene.goal;
+  $("taskSet").textContent=settingsSummary();
+  $("home").classList.add("hidden"); $("keyCard").classList.add("hidden"); $("play").classList.remove("hidden");
+  window.scrollTo({top:0});
+  if(startMode==="ai"){
+    convo=[{role:"user",parts:[{text:START_TRIGGER}]}];
+    callGemini(function(reply,err){ if(err){ showErr(err); return; } convo.push({role:"model",parts:[{text:reply}]}); addBubble("model",reply); });
+  }else{
+    var d=document.createElement("div"); d.className="startnote"; d.textContent="あなたから話しかけてください。"; $("chat").appendChild(d); $("input").focus();
+  }
+});
+
+function addBubble(who,text){
+  var wrap=document.createElement("div"); wrap.className="msg "+(who==="model"?"ai":"me");
+  var av=who==="model"?"相":"私", main=text, hint="", idx=text.indexOf("💡");
+  if(idx>=0){ main=text.slice(0,idx).trim(); hint=text.slice(idx).trim(); }
+  var bub='<div class="bub">'+esc(main); if(hint) bub+='<span class="hintline">'+esc(hint)+'</span>'; bub+='</div>';
+  wrap.innerHTML='<div class="av">'+av+'</div>'+bub;
+  $("chat").appendChild(wrap); window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function setBusy(b){ busy=b; $("sendBtn").disabled=b; $("input").disabled=b; $("typing").classList.toggle("hidden",!b); }
+function showErr(m){ setBusy(false); var e=$("err"); e.textContent="⚠ "+m; e.classList.remove("hidden"); }
+function hideErr(){ $("err").classList.add("hidden"); }
+
+function callGemini(cb){
+  setBusy(true);
+  var key=keyEl.value.trim();
+  var body={ systemInstruction:{parts:[{text:systemText}]}, contents:convo, generationConfig:{ temperature:0.9, maxOutputTokens:512 } };
+  fetch(ENDPOINT+"?key="+encodeURIComponent(key),{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body) })
+    .then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+    .then(function(r){ setBusy(false);
+      if(!r.ok){ cb(null,(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"エラーが発生しました（キーや通信をご確認ください）"); return; }
+      var text=""; try{ text=r.data.candidates[0].content.parts[0].text.trim(); }catch(e){ text=""; }
+      if(!text){ cb(null,"返事を受け取れませんでした。もう一度お試しください。"); return; }
+      cb(text,null);
+    }).catch(function(){ setBusy(false); cb(null,"通信に失敗しました。ネット接続やキーをご確認ください。"); });
+}
+
+function hasUserTurn(){ return convo.some(function(m){ return m.role==="user" && m.parts[0].text.indexOf("ロールプレイを始めます")<0 && m.parts[0].text.indexOf("審査員")<0 && m.parts[0].text.indexOf("日本語の先生として")<0; }); }
+
+function send(){
+  if(busy) return; hideErr();
+  var v=$("input").value.trim(); if(!v) return;
+  convo.push({role:"user",parts:[{text:v}]}); addBubble("user",v);
+  $("input").value=""; autoresize();
+  callGemini(function(reply,err){ if(err){ showErr(err); return; } convo.push({role:"model",parts:[{text:reply}]}); addBubble("model",reply); });
+}
+function getFeedback(){
+  if(busy) return;
+  if(!hasUserTurn()){ showErr("もう少し会話してから試してください。"); return; }
+  hideErr();
+  convo.push({role:"user",parts:[{text:FB_BASE.replace("{fb}",frag("fbstrict","fbstrict"))}]});
+  callGemini(function(reply,err){ if(err){ showErr(err); return; }
+    convo.push({role:"model",parts:[{text:reply}]});
+    var d=document.createElement("div"); d.className="fb"; d.innerHTML='<div class="fb-h">💬 敬語のフィードバック</div>'+esc(reply);
+    $("fbHost").appendChild(d); window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+  });
+}
+function judge(){
+  if(busy) return;
+  if(!hasUserTurn()){ showErr("会話をしてから審査してください。"); return; }
+  hideErr();
+  convo.push({role:"user",parts:[{text:JUDGE_BASE.replace("{goal}",curScene.goal)}]});
+  callGemini(function(reply,err){ if(err){ showErr(err); return; }
+    convo.push({role:"model",parts:[{text:reply}]});
+    var pass=/判定：\s*クリア|判定:\s*クリア/.test(reply) && !/もう一歩/.test(reply.split("\n")[0]||"");
+    var d=document.createElement("div"); d.className="verdict "+(pass?"pass":"retry");
+    d.innerHTML='<div class="vh">'+(pass?"✅ クリア！":"🔁 もう一歩")+'</div>'+esc(reply);
+    $("fbHost").appendChild(d); window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+  });
+}
+function autoresize(){ var t=$("input"); t.style.height="auto"; t.style.height=Math.min(t.scrollHeight,120)+"px"; }
+$("input").addEventListener("input",autoresize);
+$("input").addEventListener("keydown",function(e){ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); send(); } });
+$("sendBtn").addEventListener("click",send);
+$("fbBtn").addEventListener("click",getFeedback);
+$("judgeBtn").addEventListener("click",judge);
+function toHome(){ $("play").classList.add("hidden"); $("home").classList.remove("hidden"); $("keyCard").classList.remove("hidden"); window.scrollTo({top:0}); }
+$("resetBtn").addEventListener("click",toHome);
+$("backBtn").addEventListener("click",function(){ if(!$("play").classList.contains("hidden")){ toHome(); } else { location.href="keigo.html"; } });
+})();
+</script>
+</body>
+</html>

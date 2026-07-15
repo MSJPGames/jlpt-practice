@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>敬語で会話練習 ・ Keigo Quiz ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#9A3D1C; --accent-bg:#FAECE7;
+    --ok:#3B6D11; --ok-bg:#EAF3DE; --ng:#9A3D1C; --ng-bg:#FAECE7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.7;-webkit-text-size-adjust:100%}
+  .container{max-width:480px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.25rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none;background:none;border:0;cursor:pointer;font-family:inherit}
+  .back:hover{color:var(--text)}
+  .app-header{text-align:center;padding:1.1rem 0 .5rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:22px;font-weight:700}
+  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12.5px;color:#6b5d40;line-height:1.65;margin:.6rem 0 1.1rem}
+  .hidden{display:none}
+  .start-btn,.btn{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:14px 16px;cursor:pointer;width:100%;transition:transform .1s}
+  .primary{background:var(--accent);color:#fff}
+  .primary:active{transform:scale(.99)}
+  .ghost{background:#F0EEE8;color:var(--text)}
+  .qtop{display:flex;align-items:center;gap:10px;margin:.4rem 0 1rem}
+  .pill{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;background:var(--accent-bg);color:var(--accent)}
+  .prog{font-size:13px;font-weight:700;color:var(--text-muted)}
+  .progbar{flex:1;height:7px;background:#ECE8E1;border-radius:5px;overflow:hidden}
+  .progbar>span{display:block;height:100%;background:var(--accent);border-radius:5px;transition:width .25s}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 16px;margin-bottom:14px}
+  .situation{font-size:12.5px;color:var(--text-muted);margin-bottom:7px}
+  .q-text{font-size:16px;font-weight:700;line-height:1.6}
+  .choices{display:flex;flex-direction:column;gap:8px}
+  .choice{display:flex;align-items:flex-start;gap:10px;padding:12px 13px;border:1px solid var(--border);border-radius:11px;cursor:pointer;
+    font-size:15px;background:#fff;text-align:left;font-family:inherit;width:100%;transition:background .1s,border-color .1s}
+  .choice:hover{background:#FAF9F6}
+  .choice .cn{font-weight:700;color:var(--text-muted);flex-shrink:0}
+  .choice.correct{border-color:var(--ok);background:var(--ok-bg)}
+  .choice.wrong{border-color:var(--ng);background:var(--ng-bg)}
+  .choice:disabled{cursor:default}
+  .exp{margin-top:12px;font-size:13px;color:var(--text-muted);background:#F3F0EA;border-radius:10px;padding:12px 14px;line-height:1.7;display:none}
+  .exp.show{display:block}
+  .exp .mk{font-weight:700;margin-right:6px}
+  .mk.ok{color:var(--ok)} .mk.ng{color:var(--ng)}
+  .rcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 18px;text-align:center;margin-bottom:14px}
+  .rbig{font-size:34px;font-weight:700;color:var(--accent)}
+  .rsub{font-size:13px;color:var(--text-muted);margin-top:6px}
+  .rmsg{font-size:14px;font-weight:700;margin-top:10px}
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.5rem}
+</style>
+</head>
+<body>
+<div class="container">
+  <button class="back" id="backBtn">‹ 敬語にもどる</button>
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">敬語で会話練習</div>
+    <div class="app-sub">場面に合う敬語をえらぶ ・ Keigo Quiz</div>
+  </div>
+
+  <!-- ホーム -->
+  <div id="home">
+    <div class="note">仕事の場面で、正しい敬語をえらぶ練習です。1回<b>10問</b>。答えると解説が出ます。尊敬語（相手を高める）と謙譲語（自分がへりくだる）の使い分けがポイントです。</div>
+    <button class="btn primary" id="startBtn">練習を はじめる（10問）</button>
+  </div>
+
+  <!-- クイズ -->
+  <div id="quiz" class="hidden">
+    <div class="qtop">
+      <span class="pill">敬語クイズ</span>
+      <span class="prog" id="prog"></span>
+      <span class="progbar"><span id="progFill" style="width:0%"></span></span>
+    </div>
+    <div class="card">
+      <div class="situation" id="situation"></div>
+      <div class="q-text" id="qText"></div>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="exp" id="exp"></div>
+    <button class="btn primary hidden" id="nextBtn" style="margin-top:14px"></button>
+  </div>
+
+  <!-- 結果 -->
+  <div id="result" class="hidden">
+    <div class="rcard">
+      <div class="rbig" id="rScore"></div>
+      <div class="rsub" id="rRate"></div>
+      <div class="rmsg" id="rMsg"></div>
+    </div>
+    <button class="btn primary" id="againBtn" style="margin-bottom:10px">もう一度（10問）</button>
+    <button class="btn ghost" id="homeBtn">敬語のトップへ</button>
+  </div>
+
+  <div class="foot">© 2025 日本語の部屋 ・ 敬語 会話練習</div>
+</div>
+
+<script>
+/* 各問：situation（場面）/ q（設問）/ cs[正解, 誤り×3] / ex（解説）。正解は index0、表示時シャッフル。 */
+var DATA = [
+  {s:"上司に資料を見てほしいとき。",q:"「見てください」を正しい敬語にすると？",cs:["ご覧ください","拝見してください","お見えください","見られてください"],ex:"相手の動作なので尊敬語「ご覧ください」。「拝見する」は自分が見るときの謙譲語です。"},
+  {s:"取引先へ、自分が行くと伝える。",q:"「行きます」を敬語にすると？",cs:["伺います","いらっしゃいます","参られます","おいでになります"],ex:"自分の動作は謙譲語「伺う／参る」。「いらっしゃる・おいでになる」は相手に使う尊敬語です。"},
+  {s:"お客様に少し待ってほしい。",q:"「待ってください」を丁寧にすると？",cs:["少々お待ちください","お待たれてください","待ってあげてください","お待ちしてください"],ex:"「お＋ます形＋ください」で「お待ちください」。「お待ちする」は自分がへりくだる謙譲語です。"},
+  {s:"部長が話した内容を指す。",q:"部長の「言った」を尊敬語にすると？",cs:["おっしゃった","申した","申された","言えた"],ex:"「言う」の尊敬語は「おっしゃる」。「申す」は自分側に使う謙譲語です。"},
+  {s:"お客様が知っているか尋ねる。",q:"「知っていますか」を尊敬語にすると？",cs:["ご存じですか","存じていますか","お知りですか","知られてますか"],ex:"「知っている」の尊敬語は「ご存じだ」。「存じる」は謙譲語です。"},
+  {s:"取引先の前で、自分が食べる。",q:"「食べます」を謙譲語にすると？",cs:["いただきます","召し上がります","お食べします","食べられます"],ex:"自分の「食べる」は「いただく」。「召し上がる」は相手に使う尊敬語です。"},
+  {s:"お客様が来たことを言う。",q:"「来ました」を尊敬語にすると？",cs:["いらっしゃいました","参りました","伺いました","来られてきました"],ex:"相手の「来る」は「いらっしゃる／おいでになる」。「参る」は謙譲語です。"},
+  {s:"電話で、相手にもう一度言ってほしい。",q:"「もう一度言って」を丁寧に頼むと？",cs:["もう一度おっしゃっていただけますか","もう一度申していただけますか","もう一度言われますか","もう一度お聞きしますか"],ex:"相手の動作なので尊敬語「おっしゃる」＋依頼。「申す」は謙譲語で誤りです。"},
+  {s:"上司の指示を引き受ける返事。",q:"「わかりました」を最も適切に言うと？",cs:["承知いたしました","了解しました","わかりましたです","了解であります"],ex:"目上には「承知いたしました／かしこまりました」。「了解」はくだけた言い方で不向きです。"},
+  {s:"社外の人に、在席の上司（田中）について答える。",q:"「田中はいますか」への返答は？",cs:["田中はおります","田中さんはいらっしゃいます","部長はおられます","田中はいます"],ex:"身内は謙譲語「おる」を使い、呼び捨てに。社外に対して自分の上司を高めません。"},
+  {s:"お客様の意向を尋ねる。",q:"「どうしますか」を敬語にすると？",cs:["いかがなさいますか","どういたしますか","どうしますでしょうか","いかがいたしますか"],ex:"相手の動作は尊敬語「なさる」。「いたす」は自分の動作に使う謙譲語です。"},
+  {s:"資料を相手に送ってほしい。",q:"「送ってもらえますか」を丁寧にすると？",cs:["お送りいただけますか","送らせていただけますか","お送りしてくれますか","送ってもらっていいですか"],ex:"相手に送ってもらう＝「お送りいただく」。「送らせていただく」は自分が送るときの表現です。"},
+  {s:"日程を断る。",q:"「その日は無理です」を丁寧にすると？",cs:["あいにく、その日は都合がつきかねます","その日は無理でございます","その日はダメです","行けないです、すみません"],ex:"クッション言葉「あいにく」＋「つきかねます」でやわらかく断ります。"},
+  {s:"来てくれた相手へお礼を言う。",q:"訪問のお礼として適切なのは？",cs:["本日はご足労いただきありがとうございます","本日は参られてありがとうございます","本日はおいでしてどうも","本日は来てくれてありがとう"],ex:"「ご足労いただく」＝わざわざ来てもらう、の敬語表現です。"},
+  {s:"自分が相手に会うことを言う。",q:"「会います」を謙譲語にすると？",cs:["お目にかかります","お会いになります","会われます","お目にかけます"],ex:"自分が会う＝「お目にかかる」。「お目にかける」は「見せる」の意味で別物です。"},
+  {s:"二重敬語を避ける。",q:"「お客様が来られる」を適切な尊敬語1つにすると？",cs:["いらっしゃる","お越しになられる","おいでになられる","来られになる"],ex:"「いらっしゃる」で十分。「〜になられる」は尊敬を重ねすぎた二重敬語です。"},
+  {s:"上司にお茶を出すか尋ねる。",q:"「飲みますか」を尊敬語にすると？",cs:["召し上がりますか","いただきますか","お飲みしますか","飲まれてますか"],ex:"相手の「飲む」は尊敬語「召し上がる」。「いただく」は自分の謙譲語です。"},
+  {s:"上司に確認をお願いする。",q:"最も丁寧な依頼は？",cs:["お手数ですが、ご確認いただけますでしょうか","確認しといてください","確認をお願いします、はい","確認してくれますか"],ex:"クッション言葉＋「ご確認いただけますでしょうか」が最も丁寧です。"}
+];
+
+var PER=10;
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+var $=function(id){return document.getElementById(id);};
+var home=$("home"),quiz=$("quiz"),result=$("result");
+var pool=[],cur=0,correct=0,answered=false;
+
+function start(){
+  pool=shuffle(DATA).slice(0,Math.min(PER,DATA.length));
+  cur=0;correct=0;
+  home.classList.add("hidden");result.classList.add("hidden");quiz.classList.remove("hidden");
+  render();window.scrollTo({top:0});
+}
+function render(){
+  answered=false;
+  var it=pool[cur];
+  $("prog").textContent=(cur+1)+" / "+pool.length;
+  $("progFill").style.width=Math.round(cur/pool.length*100)+"%";
+  $("situation").textContent=it.s;
+  $("qText").textContent=it.q;
+  var opts=it.cs.map(function(c,ci){return {t:c,ok:ci===0};});
+  opts=shuffle(opts);
+  var ch=$("choices");ch.innerHTML="";
+  opts.forEach(function(op,ci){
+    var b=document.createElement("button");b.className="choice";
+    b.innerHTML='<span class="cn">'+(ci+1)+'</span><span>'+op.t+'</span>';
+    b.addEventListener("click",function(){pick(b,op.ok,ch,it);});
+    ch.appendChild(b);
+  });
+  var e=$("exp");e.className="exp";e.innerHTML="";
+  $("nextBtn").className="btn primary hidden";
+}
+function pick(btn,ok,ch,it){
+  if(answered)return;answered=true;
+  ch.querySelectorAll(".choice").forEach(function(b){b.disabled=true;});
+  if(ok){correct++;btn.classList.add("correct");}else{btn.classList.add("wrong");}
+  var correctText=it.cs[0];
+  ch.querySelectorAll(".choice").forEach(function(b){
+    if(b.querySelector("span:last-child").textContent===correctText)b.classList.add("correct");
+  });
+  var mk=ok?'<span class="mk ok">○ 正解</span>':'<span class="mk ng">✗ 不正解</span>';
+  var e=$("exp");e.innerHTML=mk+it.ex;e.classList.add("show");
+  var nb=$("nextBtn");nb.classList.remove("hidden");
+  nb.textContent=(cur+1>=pool.length)?"結果を みる":"つぎへ";
+  $("progFill").style.width=Math.round((cur+1)/pool.length*100)+"%";
+}
+$("nextBtn").addEventListener("click",function(){
+  if(cur+1>=pool.length){finish();}
+  else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}
+});
+function finish(){
+  quiz.classList.add("hidden");result.classList.remove("hidden");
+  var n=pool.length,pct=Math.round(correct/n*100);
+  $("rScore").textContent=correct+" / "+n;
+  $("rRate").textContent="正答率 "+pct+"％";
+  $("rMsg").textContent=pct>=80?"すばらしい！ 敬語の使い分けができています。":pct>=50?"いい調子です。もう少し！":"だいじょうぶ。尊敬語と謙譲語の向きを意識しましょう。";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$("startBtn").addEventListener("click",start);
+$("againBtn").addEventListener("click",start);
+$("homeBtn").addEventListener("click",function(){location.href="keigo.html";});
+$("backBtn").addEventListener("click",function(){
+  if(!quiz.classList.contains("hidden")||!result.classList.contains("hidden")){
+    quiz.classList.add("hidden");result.classList.add("hidden");home.classList.remove("hidden");window.scrollTo({top:0});
+  }else{location.href="keigo.html";}
+});
+</script>
+</body>
+</html>

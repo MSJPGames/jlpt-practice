@@ -202,17 +202,30 @@
     }
     next();
   }
-  function play(it){
+  function play(it, isAuto){
     stopAudio();               // ここで playGen++（この再生の世代を確定させる）
     var myGen=playGen;
     usingTTS=false;
     var url=AUDIO_DIR+AUDIO_PREFIX+it.id+".mp3";
     var a=new Audio();
     var fellBack=false;
-    var fallback=function(){ if(fellBack||myGen!==playGen) return; fellBack=true; curAudio=null; ttsPlay(it, myGen); };
+    var fallback=function(){
+      if(fellBack||myGen!==playGen) return; fellBack=true;
+      try{a.pause();}catch(e){} curAudio=null;
+      // ★モバイル対策：自動再生が失敗しただけのときは読み上げに落とさない。
+      //   （操作なしで読み上げを走らせると、あとで mp3 と二重に鳴るため。再生ボタンのタップを待つ）
+      if(isAuto){ setPlayUI(false); return; }
+      ttsPlay(it, myGen);
+    };
     a.src=url;
     a.addEventListener("error", fallback);
-    a.addEventListener("playing", function(){ if(myGen!==playGen) return; $("acSrc").textContent="（生成音声 mp3 を再生中）"; setPlayUI(true); });
+    a.addEventListener("playing", function(){
+      if(myGen!==playGen) return;
+      // ★mp3が実際に鳴り始めたら、保留中の読み上げを必ず止める（相互排他・二重再生の防止）
+      if(window.speechSynthesis){ try{window.speechSynthesis.cancel();}catch(e){} }
+      usingTTS=false;
+      $("acSrc").textContent="（生成音声 mp3 を再生中）"; setPlayUI(true);
+    });
     a.addEventListener("ended", function(){ if(myGen!==playGen) return; setPlayUI(false); });
     curAudio=a;
     var p=a.play();
@@ -273,7 +286,7 @@
     var nb=$("nextBtn"); nb.className="btn primary hidden";
     // 自動再生を試みる（ユーザー操作直後なので多くの環境で許可される。ダメでも▶ボタンで再生可）
     // ※ stopAudio() で既存の予約は消えているが、二重予約を確実に防ぐため autoTimer で一元管理する
-    autoTimer=setTimeout(function(){ autoTimer=null; play(it); }, 200);
+    autoTimer=setTimeout(function(){ autoTimer=null; play(it, true); }, 200);
   }
 
   function buildScriptHTML(it){

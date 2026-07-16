@@ -7,7 +7,7 @@
    ========================================================================= */
 window.LANGS = [
   {
-    code:'zh', jp:'中国語（普通話）', autonym:'中文 / 普通話', en:'Chinese (Mandarin)', chip:'中', group:'漢語',
+    code:'zh', extras:[{href:'zh_tones.html',title:'🎵 声調（四声）',desc:'音の高さで意味が変わる。四声＋軽声・変調'}], jp:'中国語（普通話）', autonym:'中文 / 普通話', en:'Chinese (Mandarin)', chip:'中', group:'漢語',
     region:'中国・台湾・シンガポール ほか', script:'漢字（簡体字／繁体字）', family:'シナ・チベット語族', order:'SVO',
     tts:'zh-CN', resRank:'1位', learnRank:'1位', core:true, resident:true, learner:true, sov:false,
     accent:'#9A3D1C', bg:'#FAECE7', grammar:'grammar.html?code=zh', grammarTitle:'📖 HSKレベル別の文法を見る', grammarDesc:'新HSK1〜9級の文法を、例文つきでレベル別に',
@@ -22,7 +22,7 @@ window.LANGS = [
     tips:['漢字の知識は大きな武器。ただし簡体字と日本の字体の違いに注意。','声調（4声）と、日中で意味がずれる漢語（例：手紙＝トイレットペーパー）に注意。']
   },
   {
-    code:'ko', grammar:'grammar.html?code=ko', grammarTitle:'📖 TOPIKレベル別の文法を見る', grammarDesc:'TOPIK1〜6級の文法を、例文つきでレベル別に', jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
+    code:'ko', grammar:'grammar.html?code=ko', grammarTitle:'📖 TOPIKレベル別の文法を見る', grammarDesc:'TOPIK1〜6級の文法を、例文つきでレベル別に', extras:[{href:'korean_consonants.html',title:'🔊 平音・激音・濃音',desc:'3つの子音系列を聞き分け・出し分け'},{href:'korean_keigo.html',title:'🙇 待遇表現（丁寧さ・敬語）',desc:'반말/해요体/합니다体と尊敬・謙譲'}], jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
     region:'韓国・北朝鮮', script:'ハングル', family:'朝鮮語族（系統は諸説）', order:'SOV（日本語型）',
     tts:'ko-KR', resRank:'3位', learnRank:'3位', core:true, resident:true, learner:true, sov:true,
     accent:'#185FA5', bg:'#E6F1FB',
@@ -37,7 +37,7 @@ window.LANGS = [
     tips:['語順・助詞・敬語が日本語とよく対応し、相互に学びやすい。','漢字語の多くが日本語と共通。発音（パッチム）に慣れるのが鍵。']
   },
   {
-    code:'vi', grammar:'grammar.html?code=vi', grammarTitle:'📖 レベル別の文法を見る', grammarDesc:'ベトナム語能力6段階（Khung NLTV・CEFR対応）の文法を例文つきで', jp:'ベトナム語', autonym:'Tiếng Việt', en:'Vietnamese', chip:'Vi',
+    code:'vi', extras:[{href:'vi_tones.html',title:'🎵 声調（6声）',desc:'6つの声調と声調記号の見分け方'}], grammar:'grammar.html?code=vi', grammarTitle:'📖 レベル別の文法を見る', grammarDesc:'ベトナム語能力6段階（Khung NLTV・CEFR対応）の文法を例文つきで', jp:'ベトナム語', autonym:'Tiếng Việt', en:'Vietnamese', chip:'Vi',
     region:'ベトナム', script:'ラテン文字（声調符号つき）', family:'オーストロアジア語族', order:'SVO',
     tts:'vi-VN', resRank:'2位', learnRank:'6位', core:true, resident:true, learner:true, sov:false,
     accent:'#3B6D11', bg:'#EAF3DE',
@@ -82,7 +82,7 @@ window.LANGS = [
     tips:['語順が日本語型（SOV）で文の組み立ては親しみやすい。','独特の文字と声調が難所。まずは文字と音から。']
   },
   {
-    code:'en', grammar:'grammar.html?code=en', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（英検・TOEIC）の文法を、例文つきでレベル別に', jp:'英語', autonym:'English', en:'English', chip:'En',
+    code:'en', extras:[{href:'en_pronunciation.html',title:'🔊 発音のポイント',desc:'L/R・th・母音・強勢リズム'}], grammar:'grammar.html?code=en', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（英検・TOEIC）の文法を、例文つきでレベル別に', jp:'英語', autonym:'English', en:'English', chip:'En',
     region:'豪・米・比 ほか世界各地', script:'ラテン文字', family:'インド・ヨーロッパ語族', order:'SVO',
     tts:'en-US', resRank:null, learnRank:'豪4・米7位', core:false, resident:false, learner:true, sov:false,
     accent:'#3C3489', bg:'#EEEDFE',
@@ -248,7 +248,7 @@ window.LANGS = [
     tips:['声調が6つ（普通話は4つ）。漢字は繁体字。','語彙・文法も普通話と異なる。-p/-t/-k で終わる入声がある。読みは粵拼（ジュッピン）。']
   },
   {
-    code:'es', grammar:'grammar.html?code=es', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELE/SIELE）の文法を、例文つきでレベル別に', jp:'スペイン語', autonym:'Español', en:'Spanish', chip:'Es',
+    code:'es', extras:[{href:'es_pronunciation.html',title:'🔊 発音とアクセント',desc:'母音・rr・j・ñ・強勢の規則'}], grammar:'grammar.html?code=es', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELE/SIELE）の文法を、例文つきでレベル別に', jp:'スペイン語', autonym:'Español', en:'Spanish', chip:'Es',
     region:'スペイン・中南米', script:'ラテン文字', family:'インド・ヨーロッパ語族（ロマンス）', order:'SVO',
     tts:'es-ES', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#C25E00', bg:'#FBEBDD',

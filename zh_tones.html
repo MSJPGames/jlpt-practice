@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中国語 声調（四声）・ 日本語の部屋</title>
+<style>
+  :root{ --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6; --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --accent:#9A3D1C; --accent-bg:#FAECE7; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.75;-webkit-text-size-adjust:100%}
+  .container{max-width:540px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.25rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none}
+  .back:hover{color:var(--text)}
+  .app-header{text-align:center;padding:1.1rem 0 .6rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:23px;font-weight:700}
+  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+  .lead{font-size:13.5px;color:var(--text-muted);line-height:1.8;margin:.4rem 2px 1rem}
+  .ipa{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif}
+  .sec-head{display:flex;align-items:center;gap:9px;margin:1.9rem 2px .8rem}
+  .sec-bar{width:4px;height:18px;border-radius:2px;background:var(--accent)}
+  .sec-title{font-size:15px;font-weight:700}
+  .sec-en{font-size:11px;font-weight:600;color:var(--text-hint)}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 15px;margin-bottom:12px}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:12px 14px;font-size:12.5px;color:#6b5d40;line-height:1.7;margin-bottom:12px}
+  table.t{width:100%;border-collapse:collapse;font-size:13px}
+  table.t th,table.t td{border:1px solid var(--border);padding:8px 6px;text-align:center;vertical-align:middle}
+  table.t th{background:#FAF8F4;font-weight:700;color:var(--text-muted);font-size:12px}
+  table.t td.l{text-align:left}
+  .tone{font-size:26px;font-weight:800;color:var(--accent);line-height:1}
+  .contour{font-size:20px;color:var(--accent)}
+  .play{border:0;border-radius:20px;padding:6px 12px;font-family:inherit;font-size:12px;font-weight:700;background:var(--accent-bg);color:var(--accent);cursor:pointer}
+  .triple{display:flex;gap:8px;margin:6px 0;flex-wrap:wrap}
+  .triple .tc{flex:1;min-width:80px;text-align:center;border-radius:10px;padding:9px 4px;background:var(--accent-bg)}
+  .triple .tc .w{font-size:22px;font-weight:800}
+  .triple .tc .m{font-size:11px;color:var(--text-muted);margin-top:1px}
+  .triple .tc .b{display:block;margin:6px auto 0;border:0;border-radius:16px;padding:4px 10px;font-family:inherit;font-size:11px;font-weight:700;background:#fff;cursor:pointer;color:var(--accent)}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2rem;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="lang.html?code=zh" class="back">‹ 中国語にもどる</a>
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">声調（四声）</div>
+    <div class="app-sub">中国語の音の高さ ・ Mandarin tones</div>
+  </div>
+
+  <div class="lead">
+    中国語は<b>音の高さ（声調）で意味が変わる</b>言語です。同じ「ma」でも、高さのつけ方で「母・麻・馬・叱る」と別の語に。基本は<b>4つの声調（四声）</b>＋軽く添える<b>軽声</b>。ピンインの上の記号（ˉ ´ ˇ `）が声調です。
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">四声＋軽声</span><span class="sec-en">Four tones</span></div>
+  <div class="card" style="padding:12px 8px">
+    <table class="t">
+      <tr><th>声調</th><th>記号</th><th>高さ</th><th>例</th><th>音</th></tr>
+      <tr><td class="l">第一声</td><td class="tone">ā</td><td><span class="contour">˥ →</span><br>高く平ら</td><td><b style="font-size:18px">妈</b> mā 母</td><td><button class="play" data-say="妈">▶</button></td></tr>
+      <tr><td class="l">第二声</td><td class="tone">á</td><td><span class="contour">˧˥ ↗</span><br>ぐっと上げる</td><td><b style="font-size:18px">麻</b> má 麻</td><td><button class="play" data-say="麻">▶</button></td></tr>
+      <tr><td class="l">第三声</td><td class="tone">ǎ</td><td><span class="contour">˨˩˦ ↓↗</span><br>低く下げて上げる</td><td><b style="font-size:18px">马</b> mǎ 馬</td><td><button class="play" data-say="马">▶</button></td></tr>
+      <tr><td class="l">第四声</td><td class="tone">à</td><td><span class="contour">˥˩ ↘</span><br>高から一気に下げる</td><td><b style="font-size:18px">骂</b> mà 叱る</td><td><button class="play" data-say="骂">▶</button></td></tr>
+      <tr><td class="l">軽声</td><td class="tone" style="opacity:.6">a</td><td>短く軽く<br>そえる</td><td><b style="font-size:18px">吗</b> ma 〜か</td><td><button class="play" data-say="吗">▶</button></td></tr>
+    </table>
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">聞き分け（同じ ma）</span><span class="sec-en">Minimal set</span></div>
+  <div class="note">高さだけがちがう4語。<b>▶</b>で聞き比べましょう（端末の中国語音声を使用）。</div>
+  <div class="card">
+    <div class="triple">
+      <div class="tc"><div class="w">妈</div><div class="m">mā 母</div><button class="b" data-say="妈">▶</button></div>
+      <div class="tc"><div class="w">麻</div><div class="m">má 麻</div><button class="b" data-say="麻">▶</button></div>
+      <div class="tc"><div class="w">马</div><div class="m">mǎ 馬</div><button class="b" data-say="马">▶</button></div>
+      <div class="tc"><div class="w">骂</div><div class="m">mà 叱る</div><button class="b" data-say="骂">▶</button></div>
+    </div>
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">声調の変化（変調）</span><span class="sec-en">Tone sandhi</span></div>
+  <div class="card" style="padding:12px 8px">
+    <table class="t">
+      <tr><th>規則</th><th>例</th><th>読み</th><th>意味</th></tr>
+      <tr><td class="l">三声＋三声<br>→ 二声＋三声</td><td>你好</td><td>nǐ hǎo → <b>ní</b> hǎo</td><td>こんにちは</td></tr>
+      <tr><td class="l">不 bù ＋四声<br>→ bú</td><td>不是</td><td>bù shì → <b>bú</b> shì</td><td>ちがう</td></tr>
+      <tr><td class="l">一 yī ＋四声<br>→ yí</td><td>一个</td><td>yī ge → <b>yí</b> ge</td><td>1つ</td></tr>
+      <tr><td class="l">一 yī ＋一〜三声<br>→ yì</td><td>一天</td><td>yī tiān → <b>yì</b> tiān</td><td>1日</td></tr>
+    </table>
+    <div style="font-size:11.5px;color:var(--text-muted);margin-top:8px">※変調は<b>書かず・音だけ</b>変わります（表記は元の声調のまま）。</div>
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">日本語話者へのヒント</span><span class="sec-en">Tips</span></div>
+  <div class="card" style="font-size:13px;color:var(--text-muted);line-height:1.85">
+    ・日本語の高低アクセントは「高い／低い」の2段だけですが、中国語は<b>上げ下げの形</b>まで決まっています。<br>
+    ・<b>第三声</b>は、単独では「低く下げてから少し上げる」ですが、文中では<b>低く下げるだけ</b>（半三声）になることが多いです。<br>
+    ・<b>第二声</b>と<b>第三声</b>が特に混同しやすいので、上の ma で反復練習を。<br>
+    ・声調はピンインとセットで覚えると定着します。
+  </div>
+
+  <div class="app-footer">発音は端末の音声エンジン（中国語）を使用。<br>© 2025 日本語の部屋</div>
+</div>
+<script>
+(function(){ function speak(t){ if(!window.speechSynthesis)return; try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="zh-CN";u.rate=0.85;speechSynthesis.speak(u);}catch(e){} }
+document.addEventListener("click",function(e){var b=e.target.closest("[data-say]");if(b)speak(b.getAttribute("data-say"));});})();
+</script>
+</body>
+</html>

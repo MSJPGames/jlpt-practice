@@ -52,7 +52,7 @@ window.LANGS = [
     tips:['6声調が最大の難関。まず音を正確に。','孤立語で語形変化が少なく、文法はシンプル。漢越語は日本語と対応することも。']
   },
   {
-    code:'id', grammar:'grammar.html?code=id', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（BIPA/UKBI対応）の文法を例文つきで', jp:'インドネシア語', autonym:'Bahasa Indonesia', en:'Indonesian', chip:'Id',
+    code:'id', extras:[{href:'id_grammar.html',title:'🧩 語形成（接辞と畳語）',desc:'me-/ber-…語根から語を作るしくみ'}], grammar:'grammar.html?code=id', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（BIPA/UKBI対応）の文法を例文つきで', jp:'インドネシア語', autonym:'Bahasa Indonesia', en:'Indonesian', chip:'Id',
     region:'インドネシア（共通語）', script:'ラテン文字', family:'オーストロネシア語族', order:'SVO',
     tts:'id-ID', resRank:'6位', learnRank:'2位', core:true, resident:true, learner:true, sov:false,
     accent:'#1F6F6B', bg:'#DFF0EE',
@@ -97,7 +97,7 @@ window.LANGS = [
     tips:['共通語・媒介語として、多国籍の家庭との最初の橋渡しに有用。','冠詞・時制・単複が日本語話者のつまずきどころ。']
   },
   {
-    code:'th', grammar:'grammar.html?code=th', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、タイ語の文法を例文つきで', jp:'タイ語', autonym:'ภาษาไทย', en:'Thai', chip:'ไ',
+    code:'th', extras:[{href:'th_tones.html',title:'🎵 声調（5声）',desc:'タイ文字のつづりで決まる5つの声調'}], grammar:'grammar.html?code=th', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、タイ語の文法を例文つきで', jp:'タイ語', autonym:'ภาษาไทย', en:'Thai', chip:'ไ',
     region:'タイ', script:'タイ文字', family:'タイ・カダイ語族', order:'SVO',
     tts:'th-TH', resRank:null, learnRank:'5位', core:false, resident:false, learner:true, sov:false,
     accent:'#97406A', bg:'#F7E8F0',
@@ -112,7 +112,7 @@ window.LANGS = [
     tips:['5声調と独自の文字が特徴。声調で意味が変わる。','語順はSVO。分かち書きをしない点に注意。']
   },
   {
-    code:'hi', grammar:'grammar.html?code=hi', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、ヒンディー語の文法を例文つきで', jp:'ヒンディー語', autonym:'हिन्दी', en:'Hindi', chip:'हि',
+    code:'hi', extras:[{href:'hi_writing.html',title:'🔤 文字と音',desc:'デーヴァナーガリー・有気音・そり舌音'}], grammar:'grammar.html?code=hi', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、ヒンディー語の文法を例文つきで', jp:'ヒンディー語', autonym:'हिन्दी', en:'Hindi', chip:'हि',
     region:'インド北部', script:'デーヴァナーガリー文字', family:'インド・ヨーロッパ語族', order:'SOV（日本語型）',
     tts:'hi-IN', resRank:null, learnRank:'10位（インド）', core:false, resident:false, learner:true, sov:true,
     accent:'#6E5B10', bg:'#F2EFD9',
@@ -158,7 +158,7 @@ window.LANGS = [
     tips:['SOV・後置詞（〜मा＝〜に、〜लाई＝〜を）で、日本語と語順がとても近い。','コピュラが2つ：हो（ho）＝「〜だ」（同定・性質）、छ（cha）＝「ある／いる・状態」（存在・状態・位置）。スペイン語の ser／estar に近い使い分け。','動詞は主語の人称・数・性・敬語レベルで変化する（主語と一致）。','敬語は3段階：तपाईं（尊敬）／तिमी（対等）／तँ（目下）。相手によって代名詞と動詞が変わる。','過去の他動詞では主語に 〜ले（le）が付く（能格的）。文字はヒンディー語と同じデーヴァナーガリーだが、語彙・発音は異なる。']
   },
   {
-    code:'pt', grammar:'grammar.html?code=pt', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（Celpe-Bras）の文法を、例文つきでレベル別に', jp:'ポルトガル語', autonym:'Português', en:'Portuguese', chip:'Pt',
+    code:'pt', extras:[{href:'pt_pronunciation.html',title:'👃 鼻母音と発音',desc:'ão・sim…鼻に抜ける母音のコツ'}], grammar:'grammar.html?code=pt', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（Celpe-Bras）の文法を、例文つきでレベル別に', jp:'ポルトガル語', autonym:'Português', en:'Portuguese', chip:'Pt',
     region:'ブラジル・ポルトガル ほか', script:'ラテン文字', family:'インド・ヨーロッパ語族', order:'SVO',
     tts:'pt-BR', resRank:'7位（ブラジル）', learnRank:null, core:false, resident:true, learner:false, sov:false,
     accent:'#185FA5', bg:'#E6F1FB',
@@ -233,7 +233,7 @@ window.LANGS = [
     tips:['SOV・後置詞で日本語と語順が近い（ヒンディー語とほぼ同じ文法）。','文字はアラビア文字系で右から左へ。短母音は記号で表す。']
   },
   {
-    code:'yue', grammar:'grammar.html?code=yue', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、広東語の文法を例文つきで', jp:'広東語', autonym:'廣東話 / 粵語', en:'Cantonese', chip:'粵',
+    code:'yue', extras:[{href:'yue_tones.html',title:'🎵 声調（6声）',desc:'6つの声調。Jyutpingの数字で表す'}], grammar:'grammar.html?code=yue', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、広東語の文法を例文つきで', jp:'広東語', autonym:'廣東話 / 粵語', en:'Cantonese', chip:'粵',
     region:'香港・マカオ・広東省', script:'漢字（繁体字）', family:'シナ・チベット語族', order:'SVO',
     tts:'zh-HK', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false, group:'漢語',
     accent:'#B03A2E', bg:'#F7E4E0',
@@ -263,7 +263,7 @@ window.LANGS = [
     tips:['SVO。動詞は主語で活用し、名詞・形容詞に性・数がある。','つづりはほぼ表音的で読みやすい。疑問文・感嘆文は ¿ ? ・ ¡ ! で囲む。']
   },
   {
-    code:'fr', grammar:'grammar.html?code=fr', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELF/DALF）の文法を、例文つきでレベル別に', jp:'フランス語', autonym:'Français', en:'French', chip:'Fr',
+    code:'fr', extras:[{href:'fr_nasal.html',title:'👃 鼻母音とリエゾン',desc:'an/on/in の鼻母音と、単語がつながる連音'}], grammar:'grammar.html?code=fr', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELF/DALF）の文法を、例文つきでレベル別に', jp:'フランス語', autonym:'Français', en:'French', chip:'Fr',
     region:'フランス・カナダ・アフリカ他', script:'ラテン文字', family:'インド・ヨーロッパ語族（ロマンス）', order:'SVO',
     tts:'fr-FR', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#2E5AAC', bg:'#E5ECF7',
@@ -321,5 +321,35 @@ window.LANGS = [
     numbers:[['一 (chi̍t)','チッ'],['二 (nn̄g)','ヌン'],['三 (sann)','サアン'],['四 (sì)','シー'],['五 (gōo)','ゴオ'],['六 (la̍k)','ラッ'],['七 (tshit)','チッ'],['八 (peh)','ペエ'],['九 (káu)','カウ'],['十 (tsa̍p)','ツァッ']],
     selfintro:[['はじめまして','真歡喜熟似你 (Tsin huann-hí sik-sāi lí)','チン ホアンヒー シッサイ リー'],['私は〇〇です','我叫做〇〇 (Guá kiò-tsò 〇〇)','グア キョーツォ 〇〇']],
     tips:['閩南語（ホーロー語）系で、北京語（華語）とは相互に通じない別の言語。','漢字と台羅（教育部・台湾閩南語羅馬字）で書く。','7〜8つの声調と連続変調（tone sandhi）があり、実際の発音は語順で変わる。','数字の1・2は文語音 it・jī と口語音 chi̍t・nn̄g があり用途で使い分ける。']
+  },
+  {
+    code:'ar', extras:[{href:'ar_script.html',title:'🔤 文字と右書き',desc:'アラビア文字の形・続け書き・右→左'}], jp:'アラビア語', autonym:'العربية', en:'Arabic', chip:'ع',
+    region:'中東・北アフリカ（アラブ諸国）', script:'アラビア文字（右→左）', family:'アフロ・アジア語族（セム語派）', order:'VSO／SVO',
+    tts:'ar-SA', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
+    accent:'#2E7D64', bg:'#E1F0EB',
+    note:'右から左へ書くアラビア文字が特徴。語根（多くは子音3つ）から多くの語を作る。書き言葉の正則アラビア語（フスハー）と、各地の口語方言がある。',
+    phrases:[
+      ['こんにちは','السلام عليكم','アッサラーム アライクム'],['ありがとう','شكرا','シュクラン'],
+      ['はい','نعم','ナアム'],['いいえ','لا','ラー'],
+      ['すみません','عفوا','アフワン'],['さようなら','مع السلامة','マア ッサラーマ']
+    ],
+    numbers:[['واحد','ワーヒド'],['اثنان','イスナーン'],['ثلاثة','サラーサ'],['أربعة','アルバア'],['خمسة','ハムサ'],['ستة','シッタ'],['سبعة','サブア'],['ثمانية','サマーニヤ'],['تسعة','ティスア'],['عشرة','アシャラ']],
+    selfintro:[['はじめまして','تشرفنا','タシャッラフナー'],['私は〇〇です','أنا 〇〇','アナ 〇〇']],
+    tips:['右から左へ書き、文字は単語中の位置で形が変わり、続けて書く。','短母音は通常書かず、子音を中心に読む。','語根（多くは子音3つ）から派生して語彙が広がる。','書き言葉のフスハーと、地域ごとの口語方言に差がある。']
+  },
+  {
+    code:'ru', extras:[{href:'ru_cyrillic.html',title:'🔤 キリル文字と硬音・軟音',desc:'ロシア文字の読み方と、硬い/柔らかい子音'}], jp:'ロシア語', autonym:'Русский', en:'Russian', chip:'Ру',
+    region:'ロシア・旧ソ連圏', script:'キリル文字', family:'インド・ヨーロッパ語族（スラブ語派）', order:'SVO（語順は比較的自由）',
+    tts:'ru-RU', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
+    accent:'#B0303A', bg:'#F7E4E5',
+    note:'キリル文字を使い、名詞・形容詞が6つの格に変化する。子音に「硬い/柔らかい」の区別があり、アクセントで母音の音も変わる。',
+    phrases:[
+      ['こんにちは','Здравствуйте','ズドラーストヴイチェ'],['ありがとう','Спасибо','スパシーバ'],
+      ['はい','Да','ダ'],['いいえ','Нет','ニェット'],
+      ['すみません','Извините','イズヴィニーチェ'],['さようなら','До свидания','ダスヴィダーニヤ']
+    ],
+    numbers:[['один','アジーン'],['два','ドヴァ'],['три','トリー'],['четыре','チティーリェ'],['пять','ピャーチ'],['шесть','シェスチ'],['семь','シェーミ'],['восемь','ヴォーシェミ'],['девять','ヂェーヴィチ'],['десять','ヂェーシチ']],
+    selfintro:[['はじめまして','Очень приятно','オーチニ プリヤートナ'],['私は〇〇です','Я 〇〇','ヤー 〇〇']],
+    tips:['キリル文字は33字。ラテン文字と形が似て読みが違う字に注意（В=v, Н=n, Р=r, С=s）。','名詞・形容詞・代名詞が6つの格に変化する。','子音の硬い/柔らかいの区別があり、アクセントの位置で母音の音（о→ア等）が変わる。']
   }
 ];

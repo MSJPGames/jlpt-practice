@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>外国語 ことばクイズ ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#3C5A78; --accent-bg:#E4EAF1;
+    --ok:#3B6D11; --ok-bg:#EAF3DE; --ng:#9A3D1C; --ng-bg:#FAECE7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 2rem;line-height:1.7;-webkit-text-size-adjust:100%}
+  .container{max-width:480px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.2rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none;background:none;border:0;cursor:pointer;font-family:inherit}
+  .back:hover{color:var(--text)}
+  .app-header{text-align:center;padding:1rem 0 .5rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:22px;font-weight:700}
+  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12.5px;color:#6b5d40;line-height:1.65;margin:.6rem 0 1rem}
+  .hidden{display:none}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 15px;margin-bottom:14px}
+  .card-h{font-size:11px;font-weight:700;letter-spacing:.07em;color:var(--text-hint);text-transform:uppercase;margin-bottom:10px}
+  label.f{display:block;font-size:12.5px;font-weight:700;color:var(--text-muted);margin:11px 0 5px}
+  label.f:first-of-type{margin-top:0}
+  select{width:100%;border:1px solid var(--border);border-radius:10px;padding:11px 12px;font-family:inherit;font-size:15px;background:#FCFBF9;color:var(--text);-webkit-appearance:none;appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%236B6560' stroke-width='1.5'/></svg>");background-repeat:no-repeat;background-position:right 12px center}
+  .seg{display:flex;gap:6px;background:#ECE8E1;padding:4px;border-radius:11px}
+  .seg button{flex:1;border:0;background:none;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--text-muted);padding:9px 6px;border-radius:8px;cursor:pointer}
+  .seg button.on{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.07)}
+  .primary{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:14px 16px;cursor:pointer;background:var(--accent);color:#fff;width:100%}
+  .primary:active{transform:scale(.99)}
+  .qtop{display:flex;align-items:center;gap:10px;margin:.4rem 0 1rem}
+  .pill{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;background:var(--accent-bg);color:var(--accent)}
+  .prog{font-size:13px;font-weight:700;color:var(--text-muted)}
+  .progbar{flex:1;height:7px;background:#ECE8E1;border-radius:5px;overflow:hidden}
+  .progbar>span{display:block;height:100%;background:var(--accent);border-radius:5px;transition:width .25s}
+  .qcard{background:linear-gradient(135deg,var(--accent),#000000aa);background:var(--accent);border-radius:var(--radius);padding:22px 16px;margin-bottom:14px;text-align:center;color:#fff}
+  .q-kind{font-size:11px;font-weight:700;opacity:.85;letter-spacing:.05em;margin-bottom:8px}
+  .q-main{font-size:26px;font-weight:800;line-height:1.35;word-break:break-word}
+  .q-sub{font-size:13px;opacity:.9;margin-top:6px}
+  .playbtn{margin-top:12px;font-family:inherit;font-size:13px;font-weight:700;border:0;border-radius:30px;padding:9px 18px;cursor:pointer;background:rgba(255,255,255,.9);color:var(--accent);display:inline-flex;align-items:center;gap:7px}
+  .choices{display:flex;flex-direction:column;gap:9px}
+  .choice{display:flex;align-items:center;gap:11px;padding:13px 14px;border:1px solid var(--border);border-radius:12px;cursor:pointer;background:#fff;text-align:left;font-family:inherit;width:100%;transition:background .1s,border-color .1s}
+  .choice:hover{background:#FAF9F6}
+  .choice .cn{font-weight:700;color:var(--text-muted);flex-shrink:0}
+  .choice .ct{flex:1;min-width:0}
+  .choice .cw{font-size:17px;font-weight:700;line-height:1.3;word-break:break-word}
+  .choice .ck{font-size:11.5px;color:var(--text-hint);margin-top:1px}
+  .choice.correct{border-color:var(--ok);background:var(--ok-bg)}
+  .choice.wrong{border-color:var(--ng);background:var(--ng-bg)}
+  .choice:disabled{cursor:default}
+  .exp{margin-top:12px;font-size:13px;color:var(--text-muted);background:#F3F0EA;border-radius:10px;padding:12px 14px;line-height:1.7;display:none}
+  .exp.show{display:block}
+  .exp .mk{font-weight:700;margin-right:6px}
+  .mk.ok{color:var(--ok)} .mk.ng{color:var(--ng)}
+  .exp .big{font-size:17px;font-weight:800;color:var(--text)}
+  .btn{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:14px 16px;cursor:pointer;width:100%}
+  .ghost{background:#F0EEE8;color:var(--text)}
+  .rcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 18px;text-align:center;margin-bottom:14px}
+  .rbig{font-size:34px;font-weight:800;color:var(--accent)}
+  .rsub{font-size:13px;color:var(--text-muted);margin-top:6px}
+  .rmsg{font-size:14px;font-weight:700;margin-top:10px}
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.5rem}
+  .err{color:#9A3D1C;font-size:13px;margin:10px 2px}
+</style>
+</head>
+<body>
+<div class="container">
+  <button class="back" id="backBtn">‹ もどる</button>
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">外国語 ことばクイズ</div>
+    <div class="app-sub">言語を切り替えて、基礎のことばを覚える ・ Word Quiz</div>
+  </div>
+
+  <!-- 設定 -->
+  <div id="home">
+    <div class="note">学びたい<b>言語</b>と<b>ジャンル</b>を選んでスタート。意味とことばを4択で結びつけ、<b>▶</b>で発音も聞けます。1回<b>10問</b>。</div>
+    <div class="card">
+      <div class="card-h">設定</div>
+      <label class="f" for="lang">言語</label>
+      <select id="lang"></select>
+      <label class="f" for="cat">ジャンル</label>
+      <select id="cat">
+        <option value="greet">あいさつ・会話</option>
+        <option value="number">数字</option>
+        <option value="all">ぜんぶ</option>
+      </select>
+      <label class="f">出題の向き</label>
+      <div class="seg" id="dirseg">
+        <button type="button" data-d="jp2fw">意味 → ことば</button>
+        <button type="button" data-d="fw2jp">ことば → 意味</button>
+      </div>
+    </div>
+    <button class="primary" id="startBtn">スタート（10問）</button>
+    <div class="err hidden" id="homeErr"></div>
+  </div>
+
+  <!-- クイズ -->
+  <div id="quiz" class="hidden">
+    <div class="qtop">
+      <span class="pill" id="pill"></span>
+      <span class="prog" id="prog"></span>
+      <span class="progbar"><span id="progFill" style="width:0%"></span></span>
+    </div>
+    <div class="qcard">
+      <div class="q-kind" id="qKind"></div>
+      <div class="q-main" id="qMain"></div>
+      <div class="q-sub" id="qSub"></div>
+      <button class="playbtn hidden" id="playBtn">▶ 発音を聞く</button>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="exp" id="exp"></div>
+    <button class="btn primary hidden" id="nextBtn" style="margin-top:14px"></button>
+  </div>
+
+  <!-- 結果 -->
+  <div id="result" class="hidden">
+    <div class="rcard">
+      <div class="rbig" id="rScore"></div>
+      <div class="rsub" id="rRate"></div>
+      <div class="rmsg" id="rMsg"></div>
+    </div>
+    <button class="btn primary" id="againBtn" style="margin-bottom:10px">もう一度（10問）</button>
+    <button class="btn ghost" id="homeBtn">言語・ジャンルを変える</button>
+  </div>
+
+  <div class="foot">© 2025 日本語の部屋 ・ 外国語 ことばクイズ（発音は端末の音声を使用）</div>
+</div>
+
+<script src="langdata.js"></script>
+<script>
+(function(){
+  "use strict";
+  var PER=10;
+  var LANGS=(window.LANGS||[]).filter(function(l){ return l && (l.phrases||l.numbers); });
+  var $=function(id){return document.getElementById(id);};
+  var mem={}, store={ get:function(k){try{return localStorage.getItem(k);}catch(e){return (k in mem)?mem[k]:null;}},
+    set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}} };
+
+  var home=$("home"), quiz=$("quiz"), result=$("result");
+  var pool=[], cur=0, correct=0, answered=false, curLang=null, curDir="jp2fw";
+
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+  if(!LANGS.length){ $("home").innerHTML='<div class="note">言語データ（langdata.js）が読み込めませんでした。</div>'; return; }
+
+  /* 言語プルダウン */
+  (function(){
+    var sel=$("lang"), h="";
+    LANGS.forEach(function(l){ h+='<option value="'+l.code+'">'+esc(l.jp)+(l.autonym?'（'+esc(l.autonym)+'）':'')+'</option>'; });
+    sel.innerHTML=h;
+    var sv=store.get("gg_lang"); if(sv && LANGS.some(function(l){return l.code===sv;})) sel.value=sv;
+    sel.addEventListener("change",function(){ store.set("gg_lang",sel.value); });
+    var sc=store.get("gg_cat"); if(sc) $("cat").value=sc;
+    $("cat").addEventListener("change",function(){ store.set("gg_cat",$("cat").value); });
+  })();
+
+  /* 向きトグル */
+  curDir=store.get("gg_dir")||"jp2fw";
+  (function(){
+    var btns=$("dirseg").querySelectorAll("button");
+    function paint(){ for(var i=0;i<btns.length;i++){ btns[i].classList.toggle("on", btns[i].getAttribute("data-d")===curDir); } }
+    for(var i=0;i<btns.length;i++){ btns[i].addEventListener("click",function(){ curDir=this.getAttribute("data-d"); store.set("gg_dir",curDir); paint(); }); }
+    paint();
+  })();
+
+  /* 言語×ジャンル → 出題アイテム [{jp, fw, kana, kind}] */
+  function itemsFor(lang, cat){
+    var out=[];
+    function pushPhr(arr, kind){ (arr||[]).forEach(function(it){
+      if(!it) return;
+      if(it.length>=3) out.push({jp:it[0], fw:it[1], kana:it[2], kind:kind});
+      else if(it.length===2) out.push({jp:it[0], fw:it[0], kana:it[1], kind:kind});
+    }); }
+    function pushNum(arr){ (arr||[]).forEach(function(it,i){
+      if(!it) return;
+      out.push({jp:String(i+1), fw:it[0], kana:it[1], kind:"数字"});
+    }); }
+    if(cat==="greet"||cat==="all"){ pushPhr(lang.phrases,"あいさつ・会話"); pushPhr(lang.selfintro,"自己紹介"); }
+    if(cat==="number"||cat==="all"){ pushNum(lang.numbers); }
+    // 重複（同じ fw）を除去
+    var seen={}, uniq=[];
+    out.forEach(function(o){ var k=o.fw+"|"+o.jp; if(!seen[k]){ seen[k]=1; uniq.push(o); } });
+    return uniq;
+  }
+
+  /* 音声 */
+  function speak(text, ttsCode){
+    if(!window.speechSynthesis) return;
+    try{ speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(text); if(ttsCode) u.lang=ttsCode; u.rate=0.9;
+      speechSynthesis.speak(u);
+    }catch(e){}
+  }
+
+  /* テーマ色をその言語に合わせる */
+  function theme(lang){
+    var root=document.documentElement.style;
+    root.setProperty("--accent", lang.accent||"#3C5A78");
+    root.setProperty("--accent-bg", lang.bg||"#E4EAF1");
+  }
+
+  function start(){
+    var code=$("lang").value, cat=$("cat").value;
+    curLang=LANGS.filter(function(l){return l.code===code;})[0]; if(!curLang) return;
+    var items=itemsFor(curLang, cat);
+    if(items.length<4){ showHomeErr("このジャンルは問題が少ないため、「ぜんぶ」を選んでください。"); return; }
+    hideHomeErr();
+    theme(curLang);
+    pool=shuffle(items).slice(0, Math.min(PER, items.length));
+    // 誤答用の全アイテム（同言語・同ジャンル）
+    pool.__all=items;
+    cur=0; correct=0;
+    home.classList.add("hidden"); result.classList.add("hidden"); quiz.classList.remove("hidden");
+    render(); window.scrollTo({top:0});
+  }
+  function showHomeErr(m){ var e=$("homeErr"); e.textContent=m; e.classList.remove("hidden"); }
+  function hideHomeErr(){ $("homeErr").classList.add("hidden"); }
+
+  function render(){
+    answered=false;
+    var it=pool[cur], all=pool.__all;
+    $("pill").textContent=curLang.jp;
+    $("prog").textContent=(cur+1)+" / "+pool.length;
+    $("progFill").style.width=Math.round(cur/pool.length*100)+"%";
+
+    // 誤答を集める（正解と別の fw / jp）
+    var others=shuffle(all.filter(function(o){ return o.fw!==it.fw && o.jp!==it.jp; })).slice(0,3);
+    var opts=shuffle([it].concat(others));
+
+    var playBtn=$("playBtn");
+    if(curDir==="jp2fw"){
+      // 意味（日本語）を見せて、ことば（fw）を選ぶ
+      $("qKind").textContent=it.kind+" ・ 意味から選ぶ";
+      $("qMain").textContent=it.jp;
+      $("qSub").textContent="この意味の「"+curLang.jp+"」は？";
+      playBtn.classList.add("hidden");
+      buildChoices(opts, function(o){return {main:o.fw, sub:o.kana};}, it.fw, "fw");
+    }else{
+      // ことば（fw）＋発音を見せて、意味（日本語）を選ぶ
+      $("qKind").textContent=it.kind+" ・ ことばの意味は？";
+      $("qMain").textContent=it.fw;
+      $("qSub").textContent=it.kana||"";
+      playBtn.classList.remove("hidden");
+      playBtn.onclick=function(){ speak(it.fw, curLang.tts); };
+      buildChoices(opts, function(o){return {main:o.jp, sub:""};}, it.jp, "jp");
+      // 自動で一度読み上げ
+      speak(it.fw, curLang.tts);
+    }
+    var e=$("exp"); e.className="exp"; e.innerHTML="";
+    $("nextBtn").className="btn primary hidden";
+  }
+
+  function buildChoices(opts, disp, correctVal, key){
+    var ch=$("choices"); ch.innerHTML="";
+    opts.forEach(function(op,ci){
+      var d=disp(op);
+      var b=document.createElement("button"); b.className="choice";
+      b.innerHTML='<span class="cn">'+(ci+1)+'</span><span class="ct"><span class="cw">'+esc(d.main)+'</span>'+(d.sub?'<span class="ck">'+esc(d.sub)+'</span>':'')+'</span>';
+      b.addEventListener("click",function(){ pick(b, op, correctVal, key, ch); });
+      ch.appendChild(b);
+    });
+  }
+
+  function pick(btn, op, correctVal, key, ch){
+    if(answered) return; answered=true;
+    var it=pool[cur];
+    var ok = op[key]===correctVal;
+    ch.querySelectorAll(".choice").forEach(function(b){ b.disabled=true; });
+    if(ok){ correct++; btn.classList.add("correct"); } else { btn.classList.add("wrong"); }
+    // 正解を緑に
+    var idx=0;
+    ch.querySelectorAll(".choice").forEach(function(b){
+      var w=b.querySelector(".cw").textContent;
+      if(w===(key==="fw"?it.fw:it.jp)) b.classList.add("correct");
+    });
+    // 発音（正解のことば）
+    speak(it.fw, curLang.tts);
+    var mk = ok ? '<span class="mk ok">○ 正解</span>' : '<span class="mk ng">✗ 不正解</span>';
+    var e=$("exp");
+    e.innerHTML=mk+'<div style="margin-top:6px"><span class="big">'+esc(it.fw)+'</span> <span style="color:var(--text-hint)">'+esc(it.kana||"")+'</span></div><div style="margin-top:2px">意味：'+esc(it.jp)+'</div>';
+    e.classList.add("show");
+    var nb=$("nextBtn"); nb.classList.remove("hidden");
+    nb.textContent=(cur+1>=pool.length)?"結果をみる":"つぎへ";
+    $("progFill").style.width=Math.round((cur+1)/pool.length*100)+"%";
+  }
+
+  $("nextBtn").addEventListener("click",function(){
+    if(cur+1>=pool.length){ finish(); } else { cur++; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+  });
+  function finish(){
+    try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+    quiz.classList.add("hidden"); result.classList.remove("hidden");
+    var n=pool.length, pct=Math.round(correct/n*100);
+    $("rScore").textContent=correct+" / "+n;
+    $("rRate").textContent=curLang.jp+" ・ 正答率 "+pct+"％";
+    $("rMsg").textContent=pct>=80?"すばらしい！ よく覚えています。":pct>=50?"いい調子です。もう一度！":"くりかえして覚えましょう。";
+    window.scrollTo({top:0});
+  }
+
+  $("startBtn").addEventListener("click",start);
+  $("againBtn").addEventListener("click",start);
+  $("homeBtn").addEventListener("click",function(){ result.classList.add("hidden"); home.classList.remove("hidden"); window.scrollTo({top:0}); });
+  $("backBtn").addEventListener("click",function(){
+    if(!quiz.classList.contains("hidden")||!result.classList.contains("hidden")){ try{speechSynthesis.cancel();}catch(e){} quiz.classList.add("hidden"); result.classList.add("hidden"); home.classList.remove("hidden"); window.scrollTo({top:0}); }
+    else{ location.href="games.html"; }
+  });
+})();
+</script>
+</body>
+</html>

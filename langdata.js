@@ -323,7 +323,7 @@ window.LANGS = [
     tips:['閩南語（ホーロー語）系で、北京語（華語）とは相互に通じない別の言語。','漢字と台羅（教育部・台湾閩南語羅馬字）で書く。','7〜8つの声調と連続変調（tone sandhi）があり、実際の発音は語順で変わる。','数字の1・2は文語音 it・jī と口語音 chi̍t・nn̄g があり用途で使い分ける。']
   },
   {
-    code:'ar', extras:[{href:'ar_script.html',title:'🔤 文字と右書き',desc:'アラビア文字の形・続け書き・右→左'}], jp:'アラビア語', autonym:'العربية', en:'Arabic', chip:'ع',
+    code:'ar', grammar:'grammar.html?code=ar', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、アラビア語（フスハー）の文法を例文つきで', extras:[{href:'ar_script.html',title:'🔤 文字と右書き',desc:'アラビア文字の形・続け書き・右→左'}], jp:'アラビア語', autonym:'العربية', en:'Arabic', chip:'ع',
     region:'中東・北アフリカ（アラブ諸国）', script:'アラビア文字（右→左）', family:'アフロ・アジア語族（セム語派）', order:'VSO／SVO',
     tts:'ar-SA', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#2E7D64', bg:'#E1F0EB',
@@ -338,7 +338,7 @@ window.LANGS = [
     tips:['右から左へ書き、文字は単語中の位置で形が変わり、続けて書く。','短母音は通常書かず、子音を中心に読む。','語根（多くは子音3つ）から派生して語彙が広がる。','書き言葉のフスハーと、地域ごとの口語方言に差がある。']
   },
   {
-    code:'ru', extras:[{href:'ru_cyrillic.html',title:'🔤 キリル文字と硬音・軟音',desc:'ロシア文字の読み方と、硬い/柔らかい子音'}], jp:'ロシア語', autonym:'Русский', en:'Russian', chip:'Ру',
+    code:'ru', grammar:'grammar.html?code=ru', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、ロシア語の文法を例文つきで', extras:[{href:'ru_cyrillic.html',title:'🔤 キリル文字と硬音・軟音',desc:'ロシア文字の読み方と、硬い/柔らかい子音'}], jp:'ロシア語', autonym:'Русский', en:'Russian', chip:'Ру',
     region:'ロシア・旧ソ連圏', script:'キリル文字', family:'インド・ヨーロッパ語族（スラブ語派）', order:'SVO（語順は比較的自由）',
     tts:'ru-RU', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#B0303A', bg:'#F7E4E5',

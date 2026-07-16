@@ -1,6 +1,8 @@
 # JLPTクイズサイト 引き継ぎ文書
 
 > **⚠ BJTの問題を作成・増量するときは、必ず `BJT_問題作成ルール.md`（このフォルダ内）に従うこと。**
+>
+> **⚠ 納品ルール：GitHubにアップロードすべきファイルが2つ以上あるときは、必ず1つのZIPにまとめて渡すこと（1ファイルだけのときはそのまま）。詳細は下記「納品ルール（ZIP）」。**
 > 要点：レベルはJ5〜J1まで幅広く／各セクション +20問ずつ追記（既存は消さない）／4択・正解はデータ上 index 0（表示でシャッフル）／やさしい日本語・分かち書きを維持／BJTの出題形式（聴解＝場面把握・表現・総合／読解＝語彙文法・表現・総合）に沿って場面全般をカバー。データは bjt_dokkai.html の `/*<DATA>*/…/*</DATA>*/` と、bjt_choukai_data.js の `window.BJT_CHOUKAI`（聴解は make_bjt_audio.py と単一ソース）。
 
 > ## 【現行版の判断ルール】（2026-07-11 追記）
@@ -208,3 +210,64 @@ jlpt-practice/
 - **第1部 聴解 `bjt_choukai_data.js`**：**84問**（場面をつかむ28／発言を聞き取る28／会話・説明を聞く28）。音声は `make_bjt_audio.py`（`audio/bjt_<id>.mp3`）。
 - **第2部 聴読解 `bjt_choudokkai.html` ＋ `bjt_choudokkai_data.js`（新規）**：**25問**（状況をつかむ5／資料を見て聞く10／総合的に聞く10）。各問に視覚資料（メール・表・時刻表・地図・棒グラフ・座席図などをHTML/SVGで描画）。選択肢は文字。音声は **`make_choudokkai_audio.py`（`audio/cd_<id>.mp3`）**。`bjt.html` ハブに第2部リンクを追加済み。
 - **聴解・聴読解を増やしたら**、PCで該当の `make_*_audio.bat` を回して mp3 を生成し、`audio` フォルダごとGitHubへ上げる。第3部読解は音声不要。
+
+### 納品ルール（ZIP）2026-07-16 追記（Henrique指示）
+- **GitHubにアップロードすべきファイルが2つ以上あるときは、必ず1つのZIPにまとめて渡す。** 1ファイルだけのときはZIP不要。
+- ZIP名は内容が分かる名前にする（例：`korean_update.zip`、`bjt_update.zip`）。中身はGitHubのフォルダ構成そのままの相対パスにする（フォルダ階層があるときはそれも保つ）。
+- OneDriveへの反映（device_commit_files）はこれまで通り各ファイルを個別に行い、**ユーザーに渡すのはZIP**、という運用でよい（ユーザーはZIPを解凍してGitHubに上げる）。
+- 個別ファイルも見たい場合に備え、ZIPと一緒に主要ファイルを個別に渡してもよいが、基本は「複数＝ZIP」。
+
+---
+
+## 追記：外国語（多言語）学習セクション（2026-07-16）
+
+### 概要
+- 日本語以外の言語を学ぶ「外国語」セクション。一覧 `gaikokugo.html` → 個別ページ `lang.html?code=XX`。
+- スマホ前提・自己完結HTML・共通デザイントークン（`--bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6; --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890; --radius:14px`、`--accent` は言語ごと）。
+- 音声はすべて端末のTTS（`SpeechSynthesis`）。各言語の `tts` コード（例 zh-CN, ko-KR, ar-SA, ru-RU）で読み上げる。`[data-say]` 属性＋IIFEの単一クリックリスナー方式。
+
+### データは3ファイル（それぞれ担当ページが読む）
+1. **`langdata.js`** … `window.LANGS`（配列）。1言語＝1オブジェクト。`lang.html`（個別）と `gaikokugo.html`（一覧）が読む。**ここに1件足すだけで両方に自動反映**。
+   - 主なフィールド：`code, jp, autonym, en, chip, region, script, family, order, tts, accent, bg, note, phrases[[日本語,表記,カナ]], numbers[[表記,カナ]], selfintro[[日本語,表記,カナ]], tips[]`。
+   - 任意：`grammar / grammarTitle / grammarDesc`（文法ページへのリンク）、`extras:[{href,title,desc}]`（解説ページへのリンク）、`group`（例「漢語」）、`core / resident / learner / sov`（一覧フィルタ用）、`resRank / learnRank`。
+2. **`chardata.js`** … `window.CHARS[code] = {type, intro, chars:[[文字,読み], ...]}`。`moji.html?code=XX`（なぞり書き）が読む。ラテン文字言語は共通の `LATIN` を使い、必要なら特殊文字を `concat` する。
+3. **`grammardata.js`** … `window.GRAMMAR[code] = {code, test, testFull, note, src, levels:[...]}`。`grammar.html?code=XX` が読む。CEFR言語は6レベル（A1〜C2）×各12項目。各項目は `{p, py, ja, ex, epy, ej, note}`（**ex＝対象言語の例文＝TTSで読み上げる**、epy＝読み、ej＝和訳、note＝一言補足）。
+
+### `extras` 機構（解説ページの接続）
+- langdata の各言語に `extras:[{href,title,desc}]` を足すと、`lang.html` が文法リンクの後に **CTAリンク（.moji-cta）** として描画する。
+- 声調・発音・文字・語形成などの「読み物」ページはこれで接続。解説ページ側は自己完結HTML＋`lang.html?code=XX` への戻りリンク＋`[data-say]` 音声ボタン（IIFEの `speak()`）＋言語ごとの accent 色。
+- これまで作った解説ページ：
+  - 声調：`zh_tones`(四声)／`yue_tones`(6声)／`vi_tones`(6声)／`th_tones`(5声)
+  - 発音：`en_pronunciation`／`es_pronunciation`／`pt_pronunciation`(鼻母音)／`fr_nasal`(鼻母音・リエゾン)
+  - 文字：`hi_writing`(デーヴァナーガリー)／`ar_script`(アラビア文字・右書き)／`ru_cyrillic`(キリル文字・硬音/軟音)
+  - 語形成：`id_grammar`(接辞・畳語)
+  - 韓国語：`korean_consonants`(平音/激音/濃音)／`korean_keigo`(待遇表現)
+
+### 新しい言語を「丸ごと」追加する手順
+1. `langdata.js` に LANGS エントリを追加（あいさつ・数字・自己紹介・tips まで）。→ 個別ページと一覧が自動生成。`gaikokugo.html` は「すべて」フィルタで全件表示するので自動的に出る。
+2. `chardata.js` に CHARS エントリを追加（なぞり書き用）。**`lang.html` は文字ページ(moji)リンクを常に出す**ので、CHARSが無いと moji が「言語がありません」になる。必ず足す。
+3. 文法ページも要るなら `grammardata.js` に GRAMMAR エントリを追加し、langdata に `grammar:'grammar.html?code=XX'` を足す。**文法データが無いうちは langdata の `grammar` フィールドを付けない**（文法リンクは条件付き表示なので、付けなければ出ない＝リンク切れ防止。moji リンクは常に出るので CHARS だけは必須）。
+4. 3ファイルとも「複数＝ZIP」ルールでまとめて渡す。OneDrive へは個別コミット。
+
+### 実績（2026-07-16 追加）
+- **アラビア語(ar)**：accent `#2E7D64`、tts `ar-SA`。文字解説 `ar_script.html`、なぞり書き（アラビア文字28字）、文法 A1〜C2×12。
+- **ロシア語(ru)**：accent `#B0303A`、tts `ru-RU`。文字解説 `ru_cyrillic.html`、なぞり書き（キリル文字33字）、文法 A1〜C2×12。
+- フランス語(fr) に `fr_nasal.html`（鼻母音・リエゾン）を接続。
+- 外国語一覧はこの時点で計23カード（`gaikokugo.html` の「すべて」）。文法データ（`grammardata.js`）を持つのは22言語。
+- 単語ゲーム `gaikokugo_game.html`（langdata から出題・多言語・`games.html` から入口）も稼働。
+
+### `grammardata.js` の安全な編集法
+- 中身は1つの巨大な `window.GRAMMAR = {..JSON..};`。手で文字列編集すると壊しやすい。
+- **推奨**：Node で `global.window={}; require('./grammardata.js')` して読み込み → `window.GRAMMAR.<code> = {...}` でキー追加 → `'window.GRAMMAR = ' + JSON.stringify(G) + ';'` で書き戻す。全既存データを保ったまま追加できる（整形は消えてファイルは縮むが、機能は同じ）。書き戻し後にレベル数・各12項目を検証する。
+
+### Playwright 検証（外国語ページ）
+- Chromium：`/opt/pw-browsers/chromium-1194/chrome-linux/chrome`。ESM は `/home/claude/node_modules/playwright/index.mjs`。
+- `file://` で各ページを開き、**`pageerror` だけ**を見る（単体で開くと共有アセットの `ERR_FILE_NOT_FOUND` が出るが無害なので除外）。確認項目：`lang.html?code=XX` に extras/grammar のCTAが出るか、`moji.html?code=XX` の字数、`grammar.html?code=XX` の項目数(72)とタブ絞り込み、`gaikokugo.html` に新言語カードが出るか、`langdata.js`/`chardata.js`/`grammardata.js` がパースできるか。
+
+### 敬語AIロールプレイ・会話練習（既存・参考）
+- `keigo.html`（敬語ハブ）→ `keigo_business.html`（ビジネス敬語）／`keigo_kaiwa.html`（4択クイズ）／`keigo_roleplay.html`（AIロールプレイ）。文法ハブ `bunpou.html` は〈活用〉(`katsuyo.html`/`renshu.html`)と〈文型・表現〉(`bunkei.html`/`keigo.html`/`hinshi.html`)に整理済み。
+- `keigo_roleplay.html` と `kaiwa.html` は **Gemini の無料APIキー（BYO）方式**。キーは学習者が入力し `localStorage('gemini_key')` に保存、Google 以外へは送らない（HTMLソースに鍵は入れない）。カテゴリ→場面の2段選択、細かい設定プルダウン、課題の合否審査つき。キーの取り方は `無料Geminiキーの取り方ガイド.md/.pdf`。
+
+### プロジェクト運用（2026-07-16〜）
+- 本サイトの保守は Claude の「プロジェクト」で継続する方針。共有前提（本 handover の要点・標準ルール）はプロジェクトのカスタム指示／ナレッジに置き、作業はテーマごとに別チャットで進める。
+- **真実の元（source of truth）は OneDrive のまま**。プロジェクトにアップした資料はスナップショットなので、実ファイルは毎回 OneDrive から最新をステージングして作業する。

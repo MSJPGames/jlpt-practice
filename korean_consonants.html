@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>韓国語 平音・激音・濃音 ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#185FA5; --accent-bg:#E6F1FB;
+    --plain:#3B6D11; --plain-bg:#EAF3DE; --asp:#9A3D1C; --asp-bg:#FAECE7; --tense:#3C3489; --tense-bg:#EEEDFE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.75;-webkit-text-size-adjust:100%}
+  .container{max-width:540px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.25rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none}
+  .back:hover{color:var(--text)}
+  .app-header{text-align:center;padding:1.1rem 0 .6rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:23px;font-weight:700}
+  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+  .lead{font-size:13.5px;color:var(--text-muted);line-height:1.8;margin:.4rem 2px 1rem}
+  .ipa{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif}
+  .sec-head{display:flex;align-items:center;gap:9px;margin:1.9rem 2px .8rem}
+  .sec-bar{width:4px;height:18px;border-radius:2px;background:var(--accent)}
+  .sec-title{font-size:15px;font-weight:700}
+  .sec-en{font-size:11px;font-weight:600;color:var(--text-hint)}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 15px;margin-bottom:12px}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:12px 14px;font-size:12.5px;color:#6b5d40;line-height:1.7;margin-bottom:12px}
+  table.t{width:100%;border-collapse:collapse;font-size:13px}
+  table.t th,table.t td{border:1px solid var(--border);padding:8px 6px;text-align:center;vertical-align:middle}
+  table.t th{background:#FAF8F4;font-weight:700;color:var(--text-muted);font-size:12px}
+  .kchar{font-size:24px;font-weight:800;line-height:1.1}
+  .krom{font-size:11px;color:var(--text-hint);margin-top:2px}
+  .th-plain{background:var(--plain-bg)!important;color:var(--plain)}
+  .th-asp{background:var(--asp-bg)!important;color:var(--asp)}
+  .th-tense{background:var(--tense-bg)!important;color:var(--tense)}
+  .series{border-radius:12px;padding:12px 14px;margin-bottom:10px}
+  .series.plain{background:var(--plain-bg)} .series.asp{background:var(--asp-bg)} .series.tense{background:var(--tense-bg)}
+  .series .sh{font-size:14px;font-weight:800;margin-bottom:3px}
+  .series.plain .sh{color:var(--plain)} .series.asp .sh{color:var(--asp)} .series.tense .sh{color:var(--tense)}
+  .series .sd{font-size:12.5px;color:var(--text-muted);line-height:1.65}
+  .series .row{margin-top:8px;font-size:14px;font-weight:700}
+  .ex{display:flex;align-items:center;gap:10px;padding:9px 4px;border-top:1px solid #F1EEE9}
+  .ex:first-child{border-top:none}
+  .ex .kw{font-size:20px;font-weight:800;flex-shrink:0;min-width:52px}
+  .ex .info{flex:1;min-width:0}
+  .ex .rr{font-size:12px;color:var(--text-muted)}
+  .ex .mm{font-size:13px}
+  .play{flex-shrink:0;border:0;border-radius:20px;padding:6px 12px;font-family:inherit;font-size:12px;font-weight:700;background:var(--accent-bg);color:var(--accent);cursor:pointer}
+  .triple{display:flex;gap:8px;margin:6px 0}
+  .triple .tc{flex:1;text-align:center;border-radius:10px;padding:9px 4px}
+  .triple .tc.p{background:var(--plain-bg)} .triple .tc.a{background:var(--asp-bg)} .triple .tc.t{background:var(--tense-bg)}
+  .triple .tc .w{font-size:20px;font-weight:800}
+  .triple .tc .m{font-size:11px;color:var(--text-muted);margin-top:1px}
+  .triple .tc .b{display:block;margin:6px auto 0;border:0;border-radius:16px;padding:4px 10px;font-family:inherit;font-size:11px;font-weight:700;background:#fff;cursor:pointer;color:var(--accent)}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2rem;line-height:1.8}
+  b.pl{color:var(--plain)} b.as{color:var(--asp)} b.te{color:var(--tense)}
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="lang.html?code=ko" class="back">‹ 韓国語にもどる</a>
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">平音・激音・濃音</div>
+    <div class="app-sub">韓国語の子音「3つの系列」 ・ Korean consonants</div>
+  </div>
+
+  <div class="lead">
+    韓国語の破裂音・破擦音・摩擦音（か・た・ぱ・ちゃ・さ行にあたる音）は、<b class="pl">平音（へいおん）</b>・<b class="as">激音（げきおん）</b>・<b class="te">濃音（のうおん）</b>の<b>3つの系列</b>に分かれます。同じ口の形でも、<b>息の量</b>と<b>のどの緊張</b>で意味が変わります。日本語にはこの区別がないので、聞き分け・出し分けが最初の関門です。
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">3系列の一覧</span><span class="sec-en">Three series</span></div>
+  <div class="card" style="padding:12px 10px">
+    <table class="t">
+      <tr>
+        <th>もとの音</th>
+        <th class="th-plain">平音</th>
+        <th class="th-asp">激音</th>
+        <th class="th-tense">濃音</th>
+      </tr>
+      <tr><td>k / か行</td>
+        <td><div class="kchar">ㄱ</div><div class="krom">g/k ・ <span class="ipa">[k]</span></div></td>
+        <td><div class="kchar">ㅋ</div><div class="krom">k ・ <span class="ipa">[kʰ]</span></div></td>
+        <td><div class="kchar">ㄲ</div><div class="krom">kk ・ <span class="ipa">[k͈]</span></div></td></tr>
+      <tr><td>t / た行</td>
+        <td><div class="kchar">ㄷ</div><div class="krom">d/t ・ <span class="ipa">[t]</span></div></td>
+        <td><div class="kchar">ㅌ</div><div class="krom">t ・ <span class="ipa">[tʰ]</span></div></td>
+        <td><div class="kchar">ㄸ</div><div class="krom">tt ・ <span class="ipa">[t͈]</span></div></td></tr>
+      <tr><td>p / ぱ行</td>
+        <td><div class="kchar">ㅂ</div><div class="krom">b/p ・ <span class="ipa">[p]</span></div></td>
+        <td><div class="kchar">ㅍ</div><div class="krom">p ・ <span class="ipa">[pʰ]</span></div></td>
+        <td><div class="kchar">ㅃ</div><div class="krom">pp ・ <span class="ipa">[p͈]</span></div></td></tr>
+      <tr><td>ch / ちゃ行</td>
+        <td><div class="kchar">ㅈ</div><div class="krom">j ・ <span class="ipa">[tɕ]</span></div></td>
+        <td><div class="kchar">ㅊ</div><div class="krom">ch ・ <span class="ipa">[tɕʰ]</span></div></td>
+        <td><div class="kchar">ㅉ</div><div class="krom">jj ・ <span class="ipa">[tɕ͈]</span></div></td></tr>
+      <tr><td>s / さ行</td>
+        <td><div class="kchar">ㅅ</div><div class="krom">s ・ <span class="ipa">[s]</span></div></td>
+        <td style="color:var(--text-hint)">—<div class="krom">（なし）</div></td>
+        <td><div class="kchar">ㅆ</div><div class="krom">ss ・ <span class="ipa">[s͈]</span></div></td></tr>
+    </table>
+  </div>
+  <div class="note">
+    <b>ポイント：</b>平音は普通の息。<b class="as">激音</b>は<b>息を強く</b>出す（パッと空気が出る）。<b class="te">濃音</b>は<b>のどをつめて</b>息を出さず、力を入れて出す。<br>
+    ※平音は語頭では清音っぽく、母音にはさまれると<b>濁って</b>聞こえます（例：부산 プサン → 母音の間で <span class="ipa">[b]</span> 化）。
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">激音（げきおん）</span><span class="sec-en">Aspirated ㅋ ㅌ ㅍ ㅊ</span></div>
+  <div class="series asp">
+    <div class="sh">息を強く出す音</div>
+    <div class="sd">口の前に手やティッシュを当てて言うと、<b>フッと空気が出て揺れる</b>のが激音です。英語の語頭の k・t・p（"paper" の p）に近い、はっきりした息づかい。日本語の「か・た・ぱ」より息を強く。</div>
+    <div class="row">ㅋ(k) ・ ㅌ(t) ・ ㅍ(p) ・ ㅊ(ch)</div>
+  </div>
+  <div class="card">
+    <div class="ex"><div class="kw">코</div><div class="info"><div class="rr">ko ・ <span class="ipa">[kʰo]</span></div><div class="mm">鼻</div></div><button class="play" data-say="코">▶ 音</button></div>
+    <div class="ex"><div class="kw">타다</div><div class="info"><div class="rr">tada ・ <span class="ipa">[tʰɐda]</span></div><div class="mm">乗る</div></div><button class="play" data-say="타다">▶ 音</button></div>
+    <div class="ex"><div class="kw">피자</div><div class="info"><div class="rr">pija ・ <span class="ipa">[pʰidʑɐ]</span></div><div class="mm">ピザ</div></div><button class="play" data-say="피자">▶ 音</button></div>
+    <div class="ex"><div class="kw">차</div><div class="info"><div class="rr">cha ・ <span class="ipa">[tɕʰa]</span></div><div class="mm">車・お茶</div></div><button class="play" data-say="차">▶ 音</button></div>
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">濃音（のうおん）</span><span class="sec-en">Tense ㄲ ㄸ ㅃ ㅆ ㅉ</span></div>
+  <div class="series tense">
+    <div class="sh">のどをつめて出す音</div>
+    <div class="sd">息はほとんど出さず、<b>のどに力を入れて</b>ギュッと出します。日本語の<b>小さい「っ」</b>のあとの音が近い感覚。「あ<b>っか</b>」の「っか」＝ㄲ、「あ<b>っぱ</b>」＝ㅃ、のように、詰まって力の入った音をイメージしてください。</div>
+    <div class="row">ㄲ(kk) ・ ㄸ(tt) ・ ㅃ(pp) ・ ㅆ(ss) ・ ㅉ(jj)</div>
+  </div>
+  <div class="card">
+    <div class="ex"><div class="kw">꿈</div><div class="info"><div class="rr">kkum ・ <span class="ipa">[k͈um]</span></div><div class="mm">夢</div></div><button class="play" data-say="꿈">▶ 音</button></div>
+    <div class="ex"><div class="kw">땅</div><div class="info"><div class="rr">ttang ・ <span class="ipa">[t͈aŋ]</span></div><div class="mm">土地・地面</div></div><button class="play" data-say="땅">▶ 音</button></div>
+    <div class="ex"><div class="kw">빵</div><div class="info"><div class="rr">ppang ・ <span class="ipa">[p͈aŋ]</span></div><div class="mm">パン</div></div><button class="play" data-say="빵">▶ 音</button></div>
+    <div class="ex"><div class="kw">싸다</div><div class="info"><div class="rr">ssada ・ <span class="ipa">[s͈ada]</span></div><div class="mm">安い</div></div><button class="play" data-say="싸다">▶ 音</button></div>
+    <div class="ex"><div class="kw">짜다</div><div class="info"><div class="rr">jjada ・ <span class="ipa">[t͈ɕada]</span></div><div class="mm">塩辛い</div></div><button class="play" data-say="짜다">▶ 音</button></div>
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">聞き分け・最小対</span><span class="sec-en">Minimal triples</span></div>
+  <div class="note">同じ形で、平音・激音・濃音だけがちがう語。<b>▶</b>で聞き比べましょう（端末の韓国語音声を使用）。</div>
+  <div class="card">
+    <div class="triple">
+      <div class="tc p"><div class="w">불</div><div class="m">火 bul</div><button class="b" data-say="불">▶</button></div>
+      <div class="tc a"><div class="w">풀</div><div class="m">草 pul</div><button class="b" data-say="풀">▶</button></div>
+      <div class="tc t"><div class="w">뿔</div><div class="m">角 ppul</div><button class="b" data-say="뿔">▶</button></div>
+    </div>
+    <div class="triple">
+      <div class="tc p"><div class="w">달</div><div class="m">月 dal</div><button class="b" data-say="달">▶</button></div>
+      <div class="tc a"><div class="w">탈</div><div class="m">仮面 tal</div><button class="b" data-say="탈">▶</button></div>
+      <div class="tc t"><div class="w">딸</div><div class="m">娘 ttal</div><button class="b" data-say="딸">▶</button></div>
+    </div>
+    <div class="triple">
+      <div class="tc p"><div class="w">자다</div><div class="m">寝る ja</div><button class="b" data-say="자다">▶</button></div>
+      <div class="tc a"><div class="w">차다</div><div class="m">冷たい cha</div><button class="b" data-say="차다">▶</button></div>
+      <div class="tc t"><div class="w">짜다</div><div class="m">塩辛い jja</div><button class="b" data-say="짜다">▶</button></div>
+    </div>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:8px">ㅅ系は2つだけ：<b>사다</b>（買う sada）／<b>싸다</b>（安い ssada）。<button class="play" data-say="사다" style="padding:3px 9px">▶ 사다</button> <button class="play" data-say="싸다" style="padding:3px 9px">▶ 싸다</button></div>
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">日本語話者へのヒント</span><span class="sec-en">Tips</span></div>
+  <div class="card" style="font-size:13px;color:var(--text-muted);line-height:1.85">
+    ・日本語の「か・た・ぱ」は、韓国語では<b class="pl">平音</b>と<b class="as">激音</b>の<b>中間</b >くらい。まずは激音＝「息を多め」、濃音＝「息なし＋力」と、両極を作ると区別しやすいです。<br>
+    ・<b>激音</b>の練習：口の前のティッシュが<b>揺れたらOK</b>。平音・濃音では揺れません。<br>
+    ・<b>濃音</b>の練習：「まって！」の「っ」で息を止める感覚から、力を抜かずに「っか／った／っぱ」。<br>
+    ・平音は語中で濁ります（가방 kabang → <span class="ipa">[kabaŋ]</span> の b）。濁点の有無ではなく<b>位置</b>で変わるのがポイント。
+  </div>
+
+  <div class="app-footer">
+    発音は端末の音声エンジン（韓国語）を使用。入っていない場合は再生されないことがあります。<br>
+    © 2025 日本語の部屋
+  </div>
+</div>
+<script>
+(function(){
+  function speak(t){ if(!window.speechSynthesis) return; try{ speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(t); u.lang="ko-KR"; u.rate=0.85; speechSynthesis.speak(u);}catch(e){} }
+  document.addEventListener("click",function(e){ var b=e.target.closest("[data-say]"); if(b){ speak(b.getAttribute("data-say")); } });
+})();
+</script>
+</body>
+</html>

@@ -226,6 +226,7 @@
 <script src="conjug.js"></script>
 <script src="postp.js"></script>
 <script src="loandata.js"></script>
+<script src="onomatopedata.js"></script>
 <script>
 /* ---- 音声読み上げ（Web Speech API） ---- */
 function speak(text, lang, btn){
@@ -443,6 +444,30 @@ if(!L){
         + '<div><div class="mc-t">📚 借用語辞書で全部見る</div><div class="mc-d">全' + loanTotal + '語を語源の層ごとに・検索できます</div></div>'
         + '<span class="mc-a">›</span></a>';
   }
+  var ON = (window.ONOMATOPE_LANGS||{})[code];
+  var onoHtml = '';
+  if(ON){
+    var onoTotal = ON.groups.reduce(function(a,g){return a+g.items.length;},0);
+    onoHtml = '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">オノマトペ（擬声語・擬態語）</span><span class="sec-en">Onomatopoeia</span></div>'
+      + '<div class="hint">' + esc(ON.intro) + '</div>'
+      + ON.groups.slice(0,2).map(function(g){
+          return '<div class="loan-sub">' + esc(g.label) + ' <span style="color:var(--text-hint);font-weight:400;">（'+g.items.length+'語）</span></div>'
+            + g.items.slice(0,3).map(function(it){
+                var badge = it.type ? '<span class="loan-o">' + esc(it.type) + '</span>' : '';
+                return '<div class="loan-item"><div class="loan-top">'
+                    + '<span class="loan-w">' + esc(it.w) + '</span>'
+                    + '<span class="loan-r">' + esc(it.r||'') + '</span>'
+                    + '<span class="loan-right">' + badge
+                      + '<button type="button" class="loan-say" aria-label="読み上げ" onclick="__speak(\'' + esc(it.ex).replace(/'/g,'\\\'') + '\',\'' + L.tts + '\',this)">🔊</button>'
+                    + '</span></div>'
+                  + '<div class="loan-ja">' + esc(it.ja) + '</div>'
+                + '</div>';
+              }).join('');
+        }).join('')
+      + '<a class="moji-cta" href="onomatope_lang.html?code=' + L.code + '">'
+        + '<div><div class="mc-t">🔊 オノマトペ一覧で全部見る</div><div class="mc-d">全' + onoTotal + '語を意味のカテゴリ別に・検索できます</div></div>'
+        + '<span class="mc-a">›</span></a>';
+  }
   content.innerHTML =
       '<div class="lang-header"><div class="lh-chip">' + esc(L.chip) + '</div>'
       + '<div class="lh-name"><div class="lh-jp">' + esc(L.jp) + '</div>'
@@ -462,7 +487,7 @@ if(!L){
 
     + (L.grammar ? ('<a class="moji-cta" href="' + L.grammar + '"><div><div class="mc-t">' + (L.grammarTitle || '📖 詳しい文法解説を読む') + '</div><div class="mc-d">' + (L.grammarDesc || '分詞・時制・相・格などをまとめて') + '</div></div><span class="mc-a">›</span></a>') : '')
 
-    + '<a class="moji-cta" href="kaiwa_lang.html?code=' + L.code + '"><div><div class="mc-t">🗣️ この言語で会話練習する</div><div class="mc-d">相手役が ' + esc(L.jp) + ' で話します（無料・要 Gemini キー）</div></div><span class="mc-a">›</span></a>'
+    + ((L.extras || []).map(function(x){ return '<a class="moji-cta" href="' + x.href + '"><div><div class="mc-t">' + esc(x.title) + '</div><div class="mc-d">' + esc(x.desc) + '</div></div><span class="mc-a">›</span></a>'; }).join(''))
 
     + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">あいさつ</span><span class="sec-en">Greetings</span></div>'
     + '<div class="card">' + phrasesHtml + '</div>'
@@ -484,6 +509,8 @@ if(!L){
     + postpHtml
 
     + loanHtml
+
+    + onoHtml
 
     + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">学習のワンポイント</span><span class="sec-en">Notes</span></div>'
     + '<div class="card"><ul class="tips">' + tipsHtml + '</ul></div>'

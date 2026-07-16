@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ビジネス日本語 場面別 語彙・表現集 ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#2F5D8A; --accent-bg:#E6EDF5;
+    --ok:#3B6D11; --ok-bg:#EAF3DE; --ng:#9A3D1C; --ng-bg:#FAECE7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.75;-webkit-text-size-adjust:100%}
+  .container{max-width:560px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.25rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none}
+  .back:hover{color:var(--text)}
+  .app-header{text-align:center;padding:1.1rem 0 .6rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:23px;font-weight:700}
+  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+  .lead{font-size:13px;color:var(--text-muted);line-height:1.75;margin:.4rem 2px 1rem}
+  .tip{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12.5px;color:#6b5d40;line-height:1.7;margin-bottom:14px}
+  /* 目次 */
+  .toc{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 4px}
+  .toc a{border:1px solid var(--border);background:var(--surface);color:var(--text-muted);border-radius:20px;padding:6px 12px;font-size:12px;font-weight:600;text-decoration:none}
+  .toc a:hover{border-color:var(--accent);color:var(--accent)}
+  .section-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--text-hint);margin:2rem 2px .7rem;text-transform:uppercase;scroll-margin-top:12px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px}
+  .card-h{padding:11px 15px;font-size:14px;font-weight:700;background:#FAF8F4;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+  .card-h .ic{width:26px;height:26px;border-radius:8px;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+  .row{padding:10px 15px;border-top:1px solid #F1EEE9;display:flex;gap:10px;align-items:flex-start}
+  .row:first-of-type{border-top:none}
+  .say{flex-shrink:0;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--accent);
+    font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background .1s,transform .1s}
+  .say:hover{background:var(--accent-bg)} .say:active{transform:scale(.92)} .say.on{background:var(--accent);color:#fff}
+  .rc{flex:1;min-width:0}
+  .ex{font-size:15px;font-weight:600;line-height:1.55}
+  .ex .q{color:var(--accent)}
+  .en{font-size:11.5px;color:var(--text-hint);margin-top:2px;line-height:1.45}
+  .rn{font-size:11.5px;color:var(--text-muted);margin-top:3px;line-height:1.5}
+  /* 語彙チップ */
+  .chips{display:flex;flex-wrap:wrap;gap:7px;padding:12px 15px}
+  .chip{border:1px solid var(--accent-bg);background:var(--accent-bg);color:var(--accent);border-radius:10px;padding:6px 11px;font-size:14px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .1s}
+  .chip:active{transform:scale(.95)}
+  .chip .cs{font-size:10.5px;font-weight:500;opacity:.75;margin-left:6px}
+  /* 言い換え表 */
+  table.t{width:100%;border-collapse:collapse;font-size:13px}
+  table.t th,table.t td{border:1px solid var(--border);padding:7px 9px;vertical-align:top}
+  table.t th{background:#FAF8F4;font-weight:700;color:var(--text-muted);font-size:12px}
+  table.t td.x{color:var(--ng);white-space:nowrap}
+  table.t td.o{color:var(--ok);font-weight:700}
+  .bad{color:var(--ng);font-weight:700}
+  .good{color:var(--ok);font-weight:700}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2rem;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="bunpou.html" class="back">‹ 文法と表現を学ぶにもどる</a>
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">ビジネス日本語 場面別 語彙・表現集</div>
+    <div class="app-sub">仕事で使う 言い回し・メール表現・用語 ・ Business Japanese</div>
+  </div>
+
+  <div class="lead">
+    仕事の場面でよく使う 言葉・言い回し・メール表現・用語 を 場面別／機能別 にまとめました。<b>🔊 ボタン</b>で読み上げが聞けます（お使いの端末の音声を使います）。BJT（ビジネス日本語能力テスト）や実務の準備にどうぞ。
+  </div>
+  <div class="tip">
+    使い方のヒント：まず<b>クッション言葉</b>を覚え、場面ごとの<b>言い回し</b>と、ふだんの言葉からの<b>言い換え</b>を身につけましょう。語彙は<b>チップをタップ</b>すると読み上げます。
+  </div>
+
+  <div class="toc">
+    <a href="#s-phrase">会話・応対</a>
+    <a href="#s-cushion">クッション言葉</a>
+    <a href="#s-iikae">言い換え</a>
+    <a href="#s-mail">メール表現</a>
+    <a href="#s-mailbamen">メール場面別</a>
+    <a href="#s-goi">基本語彙</a>
+    <a href="#s-yougo">用語（部署・PC・IT）</a>
+    <a href="#s-kanyou">慣用表現</a>
+  </div>
+
+  <!-- ============ 1. 会話・応対 ============ -->
+  <div class="section-label" id="s-phrase">1 ・ 会話・応対の場面別フレーズ</div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">電</span>電話・アポイント</div>
+    <div class="row"><button class="say" data-say="お電話ありがとうございます。〇〇でございます。">🔊</button><div class="rc"><div class="ex">お電話ありがとうございます。〇〇でございます。</div><div class="rn">電話を受けたときの第一声。</div></div></div>
+    <div class="row"><button class="say" data-say="いつもお世話になっております。">🔊</button><div class="rc"><div class="ex">いつもお世話になっております。</div><div class="rn">取引先への決まり文句。</div></div></div>
+    <div class="row"><button class="say" data-say="少々お待ちいただけますでしょうか。">🔊</button><div class="rc"><div class="ex">少々お待ち<span class="q">いただけますでしょうか</span>。</div><div class="rn">保留にするとき。「お待ちください」より丁寧。</div></div></div>
+    <div class="row"><button class="say" data-say="あいにく、〇〇はただ今席を外しております。">🔊</button><div class="rc"><div class="ex">あいにく、〇〇はただ今<span class="q">席を外しております</span>。</div><div class="rn">担当者が不在のとき。社外では身内を呼び捨て。</div></div></div>
+    <div class="row"><button class="say" data-say="戻りましたら、折り返しお電話いたします。">🔊</button><div class="rc"><div class="ex">戻りましたら、<span class="q">折り返しお電話いたします</span>。</div><div class="rn">かけ直す約束。</div></div></div>
+    <div class="row"><button class="say" data-say="恐れ入りますが、お名前を伺ってもよろしいでしょうか。">🔊</button><div class="rc"><div class="ex">恐れ入りますが、お名前を<span class="q">伺ってもよろしいでしょうか</span>。</div><div class="rn">相手を確認するとき。</div></div></div>
+    <div class="row"><button class="say" data-say="来週、一度お伺いしたいのですが、ご都合はいかがでしょうか。">🔊</button><div class="rc"><div class="ex">来週、一度<span class="q">お伺いしたい</span>のですが、ご都合はいかがでしょうか。</div><div class="rn">アポイントを取るとき。</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">客</span>来客・受付・訪問</div>
+    <div class="row"><button class="say" data-say="お待たせいたしました。">🔊</button><div class="rc"><div class="ex">お待たせ<span class="q">いたしました</span>。</div><div class="rn">お客様を待たせたとき。</div></div></div>
+    <div class="row"><button class="say" data-say="応接室へご案内いたします。どうぞこちらへ。">🔊</button><div class="rc"><div class="ex">応接室へ<span class="q">ご案内いたします</span>。どうぞこちらへ。</div><div class="rn">案内するとき。</div></div></div>
+    <div class="row"><button class="say" data-say="本日はご足労いただき、ありがとうございます。">🔊</button><div class="rc"><div class="ex">本日はご足労<span class="q">いただき</span>、ありがとうございます。</div><div class="rn">来てもらったお礼。「ご足労」＝わざわざ来ること。</div></div></div>
+    <div class="row"><button class="say" data-say="失礼いたします。お邪魔いたします。">🔊</button><div class="rc"><div class="ex">失礼いたします。／お邪魔いたします。</div><div class="rn">入退室・訪問のとき。</div></div></div>
+    <div class="row"><button class="say" data-say="本日はお時間をいただき、ありがとうございました。">🔊</button><div class="rc"><div class="ex">本日はお時間をいただき、ありがとうございました。</div><div class="rn">面談・訪問を終えるとき。</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">会</span>会議・打ち合わせ</div>
+    <div class="row"><button class="say" data-say="それでは、始めさせていただきます。">🔊</button><div class="rc"><div class="ex">それでは、<span class="q">始めさせていただきます</span>。</div><div class="rn">会議を始めるとき。</div></div></div>
+    <div class="row"><button class="say" data-say="本日の議題は、三点ございます。">🔊</button><div class="rc"><div class="ex">本日の<span class="q">議題</span>は、三点ございます。</div><div class="rn">議題を示すとき。</div></div></div>
+    <div class="row"><button class="say" data-say="一点、確認させていただきたいのですが。">🔊</button><div class="rc"><div class="ex">一点、<span class="q">確認させていただきたい</span>のですが。</div><div class="rn">質問・確認を切り出すとき。</div></div></div>
+    <div class="row"><button class="say" data-say="おっしゃる通りだと思います。">🔊</button><div class="rc"><div class="ex">おっしゃる通りだと思います。</div><div class="rn">相手に同意するとき。</div></div></div>
+    <div class="row"><button class="say" data-say="申し訳ありませんが、その点は少し違う見方もあるかと存じます。">🔊</button><div class="rc"><div class="ex">申し訳ありませんが、その点は少し違う見方もあるかと存じます。</div><div class="rn">やわらかく反対するとき。</div></div></div>
+    <div class="row"><button class="say" data-say="では、この件は次回までに持ち帰らせていただきます。">🔊</button><div class="rc"><div class="ex">では、この件は次回までに<span class="q">持ち帰らせていただきます</span>。</div><div class="rn">その場で決めず保留にするとき。</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">プ</span>プレゼンテーション</div>
+    <div class="row"><button class="say" data-say="本日は、新製品についてご説明します。">🔊</button><div class="rc"><div class="ex">本日は、〜について<span class="q">ご説明します</span>。</div><div class="rn">始めの前置き。</div></div></div>
+    <div class="row"><button class="say" data-say="まず、こちらの表をご覧ください。">🔊</button><div class="rc"><div class="ex">まず、こちらの表を<span class="q">ご覧ください</span>。</div><div class="rn">資料に注目させる。</div></div></div>
+    <div class="row"><button class="say" data-say="次に、弊社のサービスについてお話しします。">🔊</button><div class="rc"><div class="ex">次に、弊社の〜についてお話しします。</div><div class="rn">話題を移すとき。</div></div></div>
+    <div class="row"><button class="say" data-say="以上で、ご説明を終わります。">🔊</button><div class="rc"><div class="ex">以上で、ご説明を終わります。</div><div class="rn">締めくくり。</div></div></div>
+    <div class="row"><button class="say" data-say="何かご質問はありますか。">🔊</button><div class="rc"><div class="ex">何かご質問はありますか。</div><div class="rn">質疑応答へ。</div></div></div>
+    <div class="row"><button class="say" data-say="ご清聴ありがとうございました。">🔊</button><div class="rc"><div class="ex">ご清聴ありがとうございました。</div><div class="rn">最後のお礼。</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">報</span>報告・連絡・相談（ホウレンソウ）</div>
+    <div class="row"><button class="say" data-say="ご報告があります。今、よろしいでしょうか。">🔊</button><div class="rc"><div class="ex">ご報告があります。今、よろしいでしょうか。</div><div class="rn">切り出すとき。まず都合を確認。</div></div></div>
+    <div class="row"><button class="say" data-say="承知いたしました。すぐに対応いたします。">🔊</button><div class="rc"><div class="ex"><span class="q">承知いたしました</span>。すぐに対応いたします。</div><div class="rn">引き受ける返事。「了解」は目上に使わない。</div></div></div>
+    <div class="row"><button class="say" data-say="〇〇の件、いかがいたしましょうか。">🔊</button><div class="rc"><div class="ex">〇〇の件、<span class="q">いかがいたしましょうか</span>。</div><div class="rn">指示を仰ぐとき。</div></div></div>
+    <div class="row"><button class="say" data-say="ご相談したいことがございます。">🔊</button><div class="rc"><div class="ex">ご相談したいことがございます。</div><div class="rn">相談を持ちかけるとき。</div></div></div>
+    <div class="row"><button class="say" data-say="取り急ぎ、ご報告まで。">🔊</button><div class="rc"><div class="ex">取り急ぎ、ご報告まで。</div><div class="rn">速報として簡潔に伝えるとき。</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">依</span>依頼・お願い</div>
+    <div class="row"><button class="say" data-say="お手数ですが、ご確認いただけますでしょうか。">🔊</button><div class="rc"><div class="ex">お手数ですが、ご確認<span class="q">いただけますでしょうか</span>。</div><div class="rn">確認をお願いする定番。</div></div></div>
+    <div class="row"><button class="say" data-say="ご検討いただけますと幸いです。">🔊</button><div class="rc"><div class="ex">ご検討<span class="q">いただけますと幸いです</span>。</div><div class="rn">検討をやわらかくお願いする。</div></div></div>
+    <div class="row"><button class="say" data-say="恐れ入りますが、資料をお送りいただけますか。">🔊</button><div class="rc"><div class="ex">恐れ入りますが、資料を<span class="q">お送りいただけますか</span>。</div><div class="rn">送付の依頼。</div></div></div>
+    <div class="row"><button class="say" data-say="ご多忙のところ恐縮ですが、よろしくお願いいたします。">🔊</button><div class="rc"><div class="ex">ご多忙のところ恐縮ですが、よろしくお願いいたします。</div><div class="rn">締めの依頼。</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">断</span>お断り</div>
+    <div class="row"><button class="say" data-say="あいにく、その日は都合がつきかねます。">🔊</button><div class="rc"><div class="ex">あいにく、その日は都合が<span class="q">つきかねます</span>。</div><div class="rn">日程を断る。「〜かねます」＝できない、の丁寧語。</div></div></div>
+    <div class="row"><button class="say" data-say="残念ですが、今回は見送らせていただきます。">🔊</button><div class="rc"><div class="ex">残念ですが、今回は<span class="q">見送らせていただきます</span>。</div><div class="rn">提案などを断る。</div></div></div>
+    <div class="row"><button class="say" data-say="ご期待に添えず、申し訳ございません。">🔊</button><div class="rc"><div class="ex">ご期待に添えず、申し訳ございません。</div><div class="rn">断りに添えるお詫び。</div></div></div>
+    <div class="row"><button class="say" data-say="せっかくのお話ですが、今回は難しいかと存じます。">🔊</button><div class="rc"><div class="ex">せっかくのお話ですが、今回は難しいかと存じます。</div><div class="rn">申し出をやわらかく断る。</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">礼</span>お礼・おわび</div>
+    <div class="row"><button class="say" data-say="誠にありがとうございます。">🔊</button><div class="rc"><div class="ex">誠にありがとうございます。</div><div class="rn">「どうも」より改まった感謝。</div></div></div>
+    <div class="row"><button class="say" data-say="このたびは、ご迷惑をおかけし、申し訳ございませんでした。">🔊</button><div class="rc"><div class="ex">このたびは、ご迷惑を<span class="q">おかけし</span>、申し訳ございませんでした。</div><div class="rn">お詫び。</div></div></div>
+    <div class="row"><button class="say" data-say="私の不手際でご迷惑をおかけしました。深くお詫び申し上げます。">🔊</button><div class="rc"><div class="ex">私の不手際で〜。深く<span class="q">お詫び申し上げます</span>。</div><div class="rn">改まったお詫び。</div></div></div>
+    <div class="row"><button class="say" data-say="以後、十分に気をつけます。">🔊</button><div class="rc"><div class="ex">以後、十分に気をつけます。</div><div class="rn">再発防止を約束する一言。</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">接</span>接待・会食</div>
+    <div class="row"><button class="say" data-say="本日はお招きいただき、ありがとうございます。">🔊</button><div class="rc"><div class="ex">本日はお招きいただき、ありがとうございます。</div><div class="rn">招かれたお礼。</div></div></div>
+    <div class="row"><button class="say" data-say="お疲れさまです。とりあえずビールでよろしいでしょうか。">🔊</button><div class="rc"><div class="ex">お疲れさまです。とりあえずビールでよろしいでしょうか。</div><div class="rn">乾杯の前に。</div></div></div>
+    <div class="row"><button class="say" data-say="ご馳走さまでした。本日はありがとうございました。">🔊</button><div class="rc"><div class="ex">ご馳走さまでした。本日はありがとうございました。</div><div class="rn">ごちそうになったお礼。</div></div></div>
+    <div class="row"><button class="say" data-say="今日は割り勘にしましょう。">🔊</button><div class="rc"><div class="ex">今日は<span class="q">割り勘</span>にしましょう。</div><div class="rn">同僚どうしの支払い。「私が払います」＝おごる。</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">対</span>トラブル対応・クレーム対応</div>
+    <div class="row"><button class="say" data-say="このたびはご迷惑をおかけし、大変申し訳ございません。">🔊</button><div class="rc"><div class="ex">このたびはご迷惑をおかけし、大変申し訳ございません。</div><div class="rn">まず謝る。相手を落ち着かせる。</div></div></div>
+    <div class="row"><button class="say" data-say="お怒りはごもっともだと思います。">🔊</button><div class="rc"><div class="ex">お怒りはごもっともだと思います。</div><div class="rn">相手の気持ちを受け止める。</div></div></div>
+    <div class="row"><button class="say" data-say="さっそく、原因を確認いたします。">🔊</button><div class="rc"><div class="ex">さっそく、原因を確認いたします。</div><div class="rn">対応の姿勢を示す。</div></div></div>
+    <div class="row"><button class="say" data-say="早急に対応いたします。">🔊</button><div class="rc"><div class="ex">早急に対応いたします。</div><div class="rn">すぐ動くことを約束する。</div></div></div>
+    <div class="row"><button class="say" data-say="担当者に確認のうえ、折り返しご連絡いたします。">🔊</button><div class="rc"><div class="ex">担当者に確認のうえ、折り返しご連絡いたします。</div><div class="rn">その場で答えられないとき。</div></div></div>
+  </div>
+
+  <!-- ============ 2. クッション言葉 ============ -->
+  <div class="section-label" id="s-cushion">2 ・ クッション言葉</div>
+  <div class="tip">お願い・お断り・確認の前に置くと、印象がやわらかくなります。「クッション言葉＋依頼形（〜いただけますでしょうか）」が基本の形です。チップをタップで読み上げ。</div>
+  <div class="card">
+    <div class="chips">
+      <span class="chip" data-say="恐れ入りますが">恐れ入りますが<span class="cs">依頼・確認</span></span>
+      <span class="chip" data-say="申し訳ございませんが">申し訳ございませんが<span class="cs">お詫び・断り</span></span>
+      <span class="chip" data-say="お手数をおかけしますが">お手数をおかけしますが<span class="cs">手間を頼む</span></span>
+      <span class="chip" data-say="差し支えなければ">差し支えなければ<span class="cs">都合を尋ねる</span></span>
+      <span class="chip" data-say="あいにく">あいにく<span class="cs">断り</span></span>
+      <span class="chip" data-say="せっかくですが">せっかくですが<span class="cs">申し出を断る</span></span>
+      <span class="chip" data-say="お忙しいところ恐縮ですが">お忙しいところ恐縮ですが<span class="cs">声かけ</span></span>
+      <span class="chip" data-say="申し上げにくいのですが">申し上げにくいのですが<span class="cs">言いにくい話</span></span>
+      <span class="chip" data-say="よろしければ">よろしければ<span class="cs">提案</span></span>
+      <span class="chip" data-say="勝手を申しますが">勝手を申しますが<span class="cs">こちらの都合</span></span>
+    </div>
+  </div>
+
+  <!-- ============ 3. 言い換え ============ -->
+  <div class="section-label" id="s-iikae">3 ・ 言い換え（ふだんの言葉 → ビジネス敬語）</div>
+  <div class="card">
+    <table class="t">
+      <tr><th>ふだんの言葉</th><th>ビジネス敬語</th></tr>
+      <tr><td class="x">了解しました</td><td class="o">承知しました／かしこまりました</td></tr>
+      <tr><td class="x">ご苦労さまです</td><td class="o">お疲れさまです</td></tr>
+      <tr><td class="x">すみません</td><td class="o">申し訳ございません／恐れ入ります</td></tr>
+      <tr><td class="x">どうしますか</td><td class="o">いかがなさいますか</td></tr>
+      <tr><td class="x">いいですか</td><td class="o">よろしいでしょうか</td></tr>
+      <tr><td class="x">できません</td><td class="o">いたしかねます</td></tr>
+      <tr><td class="x">わかりません</td><td class="o">わかりかねます</td></tr>
+      <tr><td class="x">知っています</td><td class="o">存じております</td></tr>
+      <tr><td class="x">見ました</td><td class="o">拝見しました</td></tr>
+      <tr><td class="x">行きます／来ます</td><td class="o">伺います／参ります</td></tr>
+      <tr><td class="x">言いました</td><td class="o">申し上げました／申しました</td></tr>
+      <tr><td class="x">もらいます</td><td class="o">いただきます／頂戴します</td></tr>
+      <tr><td class="x">会います</td><td class="o">お目にかかります</td></tr>
+      <tr><td class="x">聞きます</td><td class="o">伺います／お尋ねします</td></tr>
+      <tr><td class="x">この間</td><td class="o">先日</td></tr>
+      <tr><td class="x">あとで</td><td class="o">のちほど</td></tr>
+      <tr><td class="x">今</td><td class="o">ただ今</td></tr>
+      <tr><td class="x">さっき</td><td class="o">先ほど</td></tr>
+    </table>
+  </div>
+
+  <!-- ============ 4. メール表現 ============ -->
+  <div class="section-label" id="s-mail">4 ・ メール表現（機能別）</div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">頭</span>はじめの挨拶・自己紹介</div>
+    <div class="row"><button class="say" data-say="いつもお世話になっております。">🔊</button><div class="rc"><div class="ex">いつもお世話になっております。</div><div class="en">We always appreciate your business.</div></div></div>
+    <div class="row"><button class="say" data-say="お世話になっております。">🔊</button><div class="rc"><div class="ex">お世話になっております。</div><div class="en">Thank you for your business with us.</div></div></div>
+    <div class="row"><button class="say" data-say="株式会社さくら商事の田中と申します。">🔊</button><div class="rc"><div class="ex">株式会社〇〇の〜と<span class="q">申します</span>。</div><div class="en">My name is ~ from ~ .（自己紹介）</div></div></div>
+    <div class="row"><button class="say" data-say="先日はどうもありがとうございました。">🔊</button><div class="rc"><div class="ex">先日はどうもありがとうございました。</div><div class="en">Thank you for your work the other day.</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">用</span>用件・報告</div>
+    <div class="row"><button class="say" data-say="〇〇の件につき、ご報告いたします。">🔊</button><div class="rc"><div class="ex">〇〇の件につき、ご報告いたします。</div><div class="en">I'm reporting to you regarding ~ .</div></div></div>
+    <div class="row"><button class="say" data-say="報告書を添付ファイルにて送信いたします。">🔊</button><div class="rc"><div class="ex">報告書を<span class="q">添付ファイルにて</span>送信いたします。</div><div class="en">I've attached a report file.</div></div></div>
+    <div class="row"><button class="say" data-say="見積書をお送りいたします。">🔊</button><div class="rc"><div class="ex">見積書をお送りいたします。</div><div class="en">I send you a bill of estimation.</div></div></div>
+    <div class="row"><button class="say" data-say="メールの確認をお願いいたします。">🔊</button><div class="rc"><div class="ex">メールの確認をお願いいたします。</div><div class="en">Please check my e-mail.</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">礼</span>お礼・返答</div>
+    <div class="row"><button class="say" data-say="メールありがとうございます。">🔊</button><div class="rc"><div class="ex">メールありがとうございます。</div><div class="en">Thank you for your e-mail.</div></div></div>
+    <div class="row"><button class="say" data-say="ご注文誠にありがとうございました。">🔊</button><div class="rc"><div class="ex">ご注文<span class="q">誠に</span>ありがとうございました。</div><div class="en">Thank you very much for your order.</div></div></div>
+    <div class="row"><button class="say" data-say="メールを拝見いたしました。">🔊</button><div class="rc"><div class="ex">メールを<span class="q">拝見いたしました</span>。</div><div class="en">I have read your e-mail.</div></div></div>
+    <div class="row"><button class="say" data-say="至急検討いたします。">🔊</button><div class="rc"><div class="ex">至急検討いたします。</div><div class="en">I will check that ASAP.</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">頼</span>お願い・依頼</div>
+    <div class="row"><button class="say" data-say="添付ファイルにて送信してください。">🔊</button><div class="rc"><div class="ex">添付ファイルにて送信してください。</div><div class="en">Please send me the file as an attachment.</div></div></div>
+    <div class="row"><button class="say" data-say="ご検討いただければ幸いです。">🔊</button><div class="rc"><div class="ex">ご検討いただければ<span class="q">幸いです</span>。</div><div class="en">We'll be happy if you consider that.</div></div></div>
+    <div class="row"><button class="say" data-say="あらかじめご了承ください。">🔊</button><div class="rc"><div class="ex">あらかじめ<span class="q">ご了承ください</span>。</div><div class="en">Please be forewarned.</div></div></div>
+    <div class="row"><button class="say" data-say="できるだけ早くご返信ください。">🔊</button><div class="rc"><div class="ex">できるだけ早くご返信ください。</div><div class="en">Please reply ASAP.</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">詫</span>謝罪</div>
+    <div class="row"><button class="say" data-say="返信が遅くなり申し訳ありません。">🔊</button><div class="rc"><div class="ex">返信が遅くなり申し訳ありません。</div><div class="en">Sorry for the belated reply.</div></div></div>
+    <div class="row"><button class="say" data-say="ご迷惑をおかけいたしました。">🔊</button><div class="rc"><div class="ex">ご迷惑をおかけいたしました。</div><div class="en">We apologize for any inconvenience.</div></div></div>
+    <div class="row"><button class="say" data-say="改めてお詫び申し上げます。">🔊</button><div class="rc"><div class="ex">改めてお詫び申し上げます。</div><div class="en">Again, please accept our sincere apology.</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">結</span>結びの決まり文句</div>
+    <div class="row"><button class="say" data-say="今後ともよろしくお願いいたします。">🔊</button><div class="rc"><div class="ex">今後ともよろしくお願いいたします。</div><div class="en">We look forward to your continued business.</div></div></div>
+    <div class="row"><button class="say" data-say="お手数ですが、ご意見をお聞かせください。">🔊</button><div class="rc"><div class="ex">お手数ですが、ご意見をお聞かせください。</div><div class="en">Would you kindly let us know your opinion?</div></div></div>
+    <div class="row"><button class="say" data-say="お忙しいところ恐縮ですが、早急なご対応をよろしくお願いいたします。">🔊</button><div class="rc"><div class="ex">お忙しいところ恐縮ですが、早急なご対応をよろしくお願いいたします。</div><div class="en">We hope you will handle it ASAP.</div></div></div>
+  </div>
+
+  <!-- ============ 5. メール場面別 ============ -->
+  <div class="section-label" id="s-mailbamen">5 ・ メールの場面別（何を書くか）</div>
+  <div class="tip">ビジネスメールでよくある用件を、機能ごとに整理しました。<b>社内</b>か<b>社外</b>かで言葉づかいの丁寧さを変えます。</div>
+  <div class="card">
+    <table class="t">
+      <tr><th>機能</th><th>よくある用件</th></tr>
+      <tr><td class="o">依頼</td><td>打ち合わせ日程の調整／会議時間の変更／資料の確認・送付・追加／請求書の送付／メールの再送</td></tr>
+      <tr><td class="o">お礼</td><td>打ち合わせのお礼／資料を送ってもらったお礼／協力してもらったお礼</td></tr>
+      <tr><td class="o">お詫び</td><td>添付ファイルを間違えた／ファイルの添付を忘れた／名前を間違えた／書類提出の遅れ</td></tr>
+      <tr><td class="o">回答</td><td>打ち合わせ日程について回答／会議参加について回答／確認依頼について回答</td></tr>
+      <tr><td class="o">回答保留</td><td>日程について回答を保留／質問への回答を保留</td></tr>
+      <tr><td class="o">指摘・催促</td><td>添付ファイルがないことを指摘／書類提出の催促／情報入力の催促</td></tr>
+      <tr><td class="o">承諾</td><td>依頼された件を承諾／サンプル送付を承諾／資料の追加を承諾</td></tr>
+      <tr><td class="o">添付送信</td><td>議事録を添付／資料を添付／請求書・領収書を添付</td></tr>
+      <tr><td class="o">報告・相談</td><td>業務の報告／進捗状況の報告／研修について相談</td></tr>
+      <tr><td class="o">連絡・お知らせ</td><td>打ち合わせ場所の変更／会議時間の変更／歓迎会・忘年会のお知らせ</td></tr>
+    </table>
+  </div>
+
+  <!-- ============ 6. 基本語彙 ============ -->
+  <div class="section-label" id="s-goi">6 ・ ビジネス基本語彙</div>
+  <div class="tip">BJTでよく出る基本語彙です。チップをタップで読み上げ。読み方は、経営・取引・数字まわりを中心に選びました。</div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">経</span>会社・経営</div>
+    <div class="chips">
+      <span class="chip" data-say="企業">企業<span class="cs">company</span></span>
+      <span class="chip" data-say="親会社">親会社<span class="cs">parent co.</span></span>
+      <span class="chip" data-say="子会社">子会社<span class="cs">subsidiary</span></span>
+      <span class="chip" data-say="本社">本社<span class="cs">HQ</span></span>
+      <span class="chip" data-say="支社">支社<span class="cs">branch</span></span>
+      <span class="chip" data-say="経営">経営<span class="cs">management</span></span>
+      <span class="chip" data-say="合併">合併<span class="cs">merger</span></span>
+      <span class="chip" data-say="提携">提携<span class="cs">tie-up</span></span>
+      <span class="chip" data-say="倒産">倒産<span class="cs">bankruptcy</span></span>
+      <span class="chip" data-say="中小企業">中小企業<span class="cs">SME</span></span>
+      <span class="chip" data-say="大企業">大企業<span class="cs">major co.</span></span>
+      <span class="chip" data-say="事業">事業<span class="cs">business</span></span>
+      <span class="chip" data-say="業界">業界<span class="cs">industry</span></span>
+      <span class="chip" data-say="業種">業種<span class="cs">type of biz</span></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">取</span>取引・営業</div>
+    <div class="chips">
+      <span class="chip" data-say="取引先">取引先<span class="cs">client</span></span>
+      <span class="chip" data-say="得意先">得意先<span class="cs">customer</span></span>
+      <span class="chip" data-say="顧客">顧客<span class="cs">customer</span></span>
+      <span class="chip" data-say="競合他社">競合他社<span class="cs">competitor</span></span>
+      <span class="chip" data-say="営業">営業<span class="cs">sales</span></span>
+      <span class="chip" data-say="交渉">交渉<span class="cs">negotiation</span></span>
+      <span class="chip" data-say="契約">契約<span class="cs">contract</span></span>
+      <span class="chip" data-say="打ち合わせ">打ち合わせ<span class="cs">meeting</span></span>
+      <span class="chip" data-say="接待">接待<span class="cs">entertaining</span></span>
+      <span class="chip" data-say="相見積り">相見積り<span class="cs">competitive bid</span></span>
+      <span class="chip" data-say="見積書">見積書<span class="cs">estimate</span></span>
+      <span class="chip" data-say="納期">納期<span class="cs">delivery date</span></span>
+      <span class="chip" data-say="受注">受注<span class="cs">receive order</span></span>
+      <span class="chip" data-say="発注">発注<span class="cs">place order</span></span>
+      <span class="chip" data-say="注文">注文<span class="cs">order</span></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">数</span>お金・数字</div>
+    <div class="chips">
+      <span class="chip" data-say="売上">売上<span class="cs">sales</span></span>
+      <span class="chip" data-say="利益">利益<span class="cs">profit</span></span>
+      <span class="chip" data-say="黒字">黒字<span class="cs">in the black</span></span>
+      <span class="chip" data-say="赤字">赤字<span class="cs">deficit</span></span>
+      <span class="chip" data-say="予算">予算<span class="cs">budget</span></span>
+      <span class="chip" data-say="経費">経費<span class="cs">expenses</span></span>
+      <span class="chip" data-say="決算">決算<span class="cs">settlement</span></span>
+      <span class="chip" data-say="融資">融資<span class="cs">financing</span></span>
+      <span class="chip" data-say="株価">株価<span class="cs">share price</span></span>
+      <span class="chip" data-say="為替相場">為替相場<span class="cs">exchange rate</span></span>
+      <span class="chip" data-say="円高">円高<span class="cs">strong yen</span></span>
+      <span class="chip" data-say="円安">円安<span class="cs">weak yen</span></span>
+      <span class="chip" data-say="値上げ">値上げ<span class="cs">price increase</span></span>
+      <span class="chip" data-say="値下げ">値下げ<span class="cs">price cut</span></span>
+      <span class="chip" data-say="景気">景気<span class="cs">economy</span></span>
+      <span class="chip" data-say="不況">不況<span class="cs">recession</span></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">物</span>生産・物流</div>
+    <div class="chips">
+      <span class="chip" data-say="生産">生産<span class="cs">manufacturing</span></span>
+      <span class="chip" data-say="製品">製品<span class="cs">product</span></span>
+      <span class="chip" data-say="商品">商品<span class="cs">goods</span></span>
+      <span class="chip" data-say="在庫">在庫<span class="cs">stock</span></span>
+      <span class="chip" data-say="仕入れ">仕入れ<span class="cs">purchasing</span></span>
+      <span class="chip" data-say="出荷">出荷<span class="cs">shipping</span></span>
+      <span class="chip" data-say="納品">納品<span class="cs">delivery</span></span>
+      <span class="chip" data-say="発送">発送<span class="cs">dispatch</span></span>
+      <span class="chip" data-say="卸">卸<span class="cs">wholesale</span></span>
+      <span class="chip" data-say="小売り">小売り<span class="cs">retail</span></span>
+      <span class="chip" data-say="不良品">不良品<span class="cs">defective</span></span>
+      <span class="chip" data-say="返品">返品<span class="cs">return</span></span>
+      <span class="chip" data-say="需要">需要<span class="cs">demand</span></span>
+      <span class="chip" data-say="供給">供給<span class="cs">supply</span></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">書</span>書類・手続き</div>
+    <div class="chips">
+      <span class="chip" data-say="請求書">請求書<span class="cs">invoice</span></span>
+      <span class="chip" data-say="領収書">領収書<span class="cs">receipt</span></span>
+      <span class="chip" data-say="報告書">報告書<span class="cs">report</span></span>
+      <span class="chip" data-say="企画書">企画書<span class="cs">plan</span></span>
+      <span class="chip" data-say="稟議書">稟議書<span class="cs">draft proposal</span></span>
+      <span class="chip" data-say="明細書">明細書<span class="cs">statement</span></span>
+      <span class="chip" data-say="伝票">伝票<span class="cs">slip</span></span>
+      <span class="chip" data-say="手形">手形<span class="cs">bill</span></span>
+      <span class="chip" data-say="小切手">小切手<span class="cs">cheque</span></span>
+      <span class="chip" data-say="決裁">決裁<span class="cs">approval</span></span>
+      <span class="chip" data-say="照会">照会<span class="cs">inquiry</span></span>
+      <span class="chip" data-say="引き継ぎ">引き継ぎ<span class="cs">handover</span></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">人</span>人事・働き方</div>
+    <div class="chips">
+      <span class="chip" data-say="人事">人事<span class="cs">personnel</span></span>
+      <span class="chip" data-say="異動">異動<span class="cs">reassignment</span></span>
+      <span class="chip" data-say="転勤">転勤<span class="cs">transfer</span></span>
+      <span class="chip" data-say="転職">転職<span class="cs">career change</span></span>
+      <span class="chip" data-say="配属">配属<span class="cs">assignment</span></span>
+      <span class="chip" data-say="赴任">赴任<span class="cs">take up post</span></span>
+      <span class="chip" data-say="新入社員">新入社員<span class="cs">new employee</span></span>
+      <span class="chip" data-say="従業員">従業員<span class="cs">employee</span></span>
+      <span class="chip" data-say="人材">人材<span class="cs">human resources</span></span>
+      <span class="chip" data-say="管理職">管理職<span class="cs">management</span></span>
+      <span class="chip" data-say="退職">退職<span class="cs">retirement</span></span>
+      <span class="chip" data-say="残業">残業<span class="cs">overtime</span></span>
+      <span class="chip" data-say="派遣社員">派遣社員<span class="cs">temp staff</span></span>
+      <span class="chip" data-say="外回り">外回り<span class="cs">work outside</span></span>
+    </div>
+  </div>
+
+  <!-- ============ 7. 用語 ============ -->
+  <div class="section-label" id="s-yougo">7 ・ 用語（部署・役職・PC・IT）</div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">職</span>部署・役職</div>
+    <div class="chips">
+      <span class="chip" data-say="会長">会長<span class="cs">chairperson</span></span>
+      <span class="chip" data-say="社長">社長<span class="cs">president</span></span>
+      <span class="chip" data-say="副社長">副社長<span class="cs">vice president</span></span>
+      <span class="chip" data-say="専務">専務<span class="cs">senior managing dir.</span></span>
+      <span class="chip" data-say="常務">常務<span class="cs">managing director</span></span>
+      <span class="chip" data-say="取締役">取締役<span class="cs">board member</span></span>
+      <span class="chip" data-say="代表取締役">代表取締役<span class="cs">representative dir.</span></span>
+      <span class="chip" data-say="監査役">監査役<span class="cs">auditor</span></span>
+      <span class="chip" data-say="部長">部長<span class="cs">dept. director</span></span>
+      <span class="chip" data-say="課長">課長<span class="cs">section chief</span></span>
+      <span class="chip" data-say="係長">係長<span class="cs">assistant manager</span></span>
+      <span class="chip" data-say="部">部<span class="cs">department</span></span>
+      <span class="chip" data-say="課">課<span class="cs">section</span></span>
+      <span class="chip" data-say="人事部">人事部<span class="cs">personnel</span></span>
+      <span class="chip" data-say="総務">総務<span class="cs">administration</span></span>
+      <span class="chip" data-say="経理">経理<span class="cs">accounting</span></span>
+      <span class="chip" data-say="広報">広報<span class="cs">public relations</span></span>
+      <span class="chip" data-say="法務">法務<span class="cs">legal</span></span>
+      <span class="chip" data-say="営業部">営業部<span class="cs">sales</span></span>
+      <span class="chip" data-say="マーケティング">マーケティング<span class="cs">marketing</span></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">PC</span>パソコン・操作</div>
+    <div class="chips">
+      <span class="chip" data-say="電源を入れる">電源を入れる<span class="cs">turn on</span></span>
+      <span class="chip" data-say="電源を切る">電源を切る<span class="cs">turn off</span></span>
+      <span class="chip" data-say="起動する">起動する<span class="cs">start</span></span>
+      <span class="chip" data-say="再起動する">再起動する<span class="cs">restart</span></span>
+      <span class="chip" data-say="ログインする">ログインする<span class="cs">login</span></span>
+      <span class="chip" data-say="クリックする">クリックする<span class="cs">click</span></span>
+      <span class="chip" data-say="入力する">入力する<span class="cs">input</span></span>
+      <span class="chip" data-say="保存する">保存する<span class="cs">save</span></span>
+      <span class="chip" data-say="上書き保存">上書き保存<span class="cs">overwrite save</span></span>
+      <span class="chip" data-say="印刷する">印刷する<span class="cs">print</span></span>
+      <span class="chip" data-say="検索する">検索する<span class="cs">search</span></span>
+      <span class="chip" data-say="削除する">削除する<span class="cs">delete</span></span>
+      <span class="chip" data-say="更新する">更新する<span class="cs">update</span></span>
+      <span class="chip" data-say="添付する">添付する<span class="cs">attach</span></span>
+      <span class="chip" data-say="転送する">転送する<span class="cs">forward</span></span>
+      <span class="chip" data-say="文字化け">文字化け<span class="cs">garbled text</span></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="ic">IT</span>IT・開発（SE用語）</div>
+    <div class="chips">
+      <span class="chip" data-say="システム開発">システム開発<span class="cs">system dev.</span></span>
+      <span class="chip" data-say="システムエンジニア">システムエンジニア<span class="cs">SE</span></span>
+      <span class="chip" data-say="プログラマー">プログラマー<span class="cs">programmer</span></span>
+      <span class="chip" data-say="ソフトウェア">ソフトウェア<span class="cs">software</span></span>
+      <span class="chip" data-say="サーバー">サーバー<span class="cs">server</span></span>
+      <span class="chip" data-say="仕様書">仕様書<span class="cs">specification</span></span>
+      <span class="chip" data-say="バグ">バグ<span class="cs">bug</span></span>
+      <span class="chip" data-say="不具合">不具合<span class="cs">defect</span></span>
+      <span class="chip" data-say="納品する">納品する<span class="cs">deliver</span></span>
+      <span class="chip" data-say="テストする">テストする<span class="cs">test</span></span>
+      <span class="chip" data-say="コストパフォーマンス">コストパフォーマンス<span class="cs">cost performance</span></span>
+      <span class="chip" data-say="マーケットシェア">マーケットシェア<span class="cs">market share</span></span>
+    </div>
+  </div>
+
+  <!-- ============ 8. 慣用表現 ============ -->
+  <div class="section-label" id="s-kanyou">8 ・ ビジネス慣用表現・言い回し</div>
+  <div class="tip">会話や聴解でよく出る、少し上級のビジネス慣用表現です。意味を押さえておくと、表現読解・総合問題で役立ちます。</div>
+  <div class="card">
+    <div class="row"><button class="say" data-say="二の足を踏む">🔊</button><div class="rc"><div class="ex">二の足を踏む</div><div class="rn">ためらう。決心がつかず、なかなか進めない。</div></div></div>
+    <div class="row"><button class="say" data-say="顔を立てる">🔊</button><div class="rc"><div class="ex">顔を立てる</div><div class="rn">相手の面目・立場を保つ。メンツを尊重する。</div></div></div>
+    <div class="row"><button class="say" data-say="手を打つ">🔊</button><div class="rc"><div class="ex">手を打つ</div><div class="rn">必要な対策をとる。また、話をまとめる。</div></div></div>
+    <div class="row"><button class="say" data-say="めどが付く">🔊</button><div class="rc"><div class="ex">めどが付く</div><div class="rn">見通し・目標がだいたい立つ。</div></div></div>
+    <div class="row"><button class="say" data-say="足で稼ぐ">🔊</button><div class="rc"><div class="ex">足で稼ぐ</div><div class="rn">実際に歩き回って（訪問して）成果を得る。</div></div></div>
+    <div class="row"><button class="say" data-say="事なかれ主義">🔊</button><div class="rc"><div class="ex">事なかれ主義</div><div class="rn">問題を起こさず、無難に済ませようとする考え方。</div></div></div>
+    <div class="row"><button class="say" data-say="寄らば大樹の陰">🔊</button><div class="rc"><div class="ex">寄らば大樹の陰</div><div class="rn">頼るなら力のある大きなものがよい、という考え。</div></div></div>
+    <div class="row"><button class="say" data-say="年功序列">🔊</button><div class="rc"><div class="ex">年功序列</div><div class="rn">勤続年数・年齢に応じて地位や給料が上がる仕組み。</div></div></div>
+    <div class="row"><button class="say" data-say="立役者">🔊</button><div class="rc"><div class="ex">立役者</div><div class="rn">物事を成功させた中心人物。</div></div></div>
+    <div class="row"><button class="say" data-say="粉骨砕身">🔊</button><div class="rc"><div class="ex">粉骨砕身</div><div class="rn">力の限り、全力で努力すること。</div></div></div>
+    <div class="row"><button class="say" data-say="差し出がましいようですが">🔊</button><div class="rc"><div class="ex">差し出がましいようですが</div><div class="rn">出過ぎたことを言う前置き（謙遜のクッション）。</div></div></div>
+    <div class="row"><button class="say" data-say="申し上げるまでもなく">🔊</button><div class="rc"><div class="ex">申し上げるまでもなく</div><div class="rn">言うまでもなく。相手が承知の前提で話すとき。</div></div></div>
+  </div>
+
+  <div class="app-footer">
+    出典をもとにした学習用のまとめです。実際の使い方は、業界・相手・地域により幅があります。<br>
+    © 2025 日本語の部屋 ・ ビジネス日本語
+  </div>
+</div>
+
+<script>
+/* ===== 端末TTS（[data-say] を単一リスナーで読み上げ）===== */
+(function(){
+  "use strict";
+  var synth = window.speechSynthesis;
+  var jaVoice = null, lastBtn = null;
+  function pickJa(){
+    if(!synth) return null;
+    var vs = synth.getVoices() || [];
+    jaVoice = vs.filter(function(v){ return /ja[-_]?JP|Japanese|日本/i.test((v.lang||"")+" "+(v.name||"")); })[0] || null;
+    return jaVoice;
+  }
+  if(synth){ pickJa(); synth.onvoiceschanged = pickJa; }
+  function clearOn(){ if(lastBtn){ lastBtn.classList.remove("on"); lastBtn=null; } }
+  function speak(text, btn){
+    if(!synth || !text){ return; }
+    try{ synth.cancel(); }catch(e){}
+    clearOn();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = "ja-JP"; u.rate = 0.95;
+    var v = jaVoice || pickJa(); if(v) u.voice = v;
+    if(btn){ btn.classList.add("on"); lastBtn = btn; }
+    u.onend = clearOn; u.onerror = clearOn;
+    synth.speak(u);
+  }
+  document.addEventListener("click", function(e){
+    var t = e.target.closest("[data-say]");
+    if(!t) return;
+    var txt = t.getAttribute("data-say") || t.textContent || "";
+    // 再生中の同じボタンをもう一度押したら止める
+    if(t === lastBtn && synth && synth.speaking){ try{ synth.cancel(); }catch(err){} clearOn(); return; }
+    speak(txt.trim(), t.classList && t.classList.contains("say") ? t : (t.classList && t.classList.contains("chip") ? t : null));
+  });
+})();
+</script>
+</body>
+</html>

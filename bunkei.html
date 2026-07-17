@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>文型と表現 ・ Patterns & Keigo ・ 日本語の部屋</title>
+<title>文型解説 ・ Grammar Patterns ・ 日本語の部屋</title>
 <style>
   :root {
     --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
@@ -14,10 +14,6 @@
     --n3: #3C3489; --n3-bg: #EEEDFE;
     --n2: #854F0B; --n2-bg: #FAEEDA;
     --n1: #993C1D; --n1-bg: #FAECE7;
-    --son: #9A3D1C; --son-bg: #FAECE7;   /* 尊敬語 */
-    --ken1: #185FA5; --ken1-bg: #E6F1FB; /* 謙譲語Ⅰ */
-    --ken2: #1F6F6B; --ken2-bg: #DFF0EE; /* 謙譲語Ⅱ(丁重語) */
-    --bika: #854F0B; --bika-bg: #FAEEDA; /* 美化語 */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -89,6 +85,8 @@
     text-decoration: none; -webkit-tap-highlight-color: transparent; transition: background .15s, transform .1s; }
   .bk-kaiwa:hover { background: #E1E4F6; }
   .bk-kaiwa:active { transform: scale(.98); }
+  .bk-renshu { color: #6B4B12; background: #FAEEDA; border-color: #EAD6AE; margin-left: 6px; }
+  .bk-renshu:hover { background: #F3E4C6; }
 
   .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
 
@@ -168,84 +166,6 @@
   .ka-link { font-size: 12px; font-weight: 700; color: var(--n5); background: var(--n5-bg); padding: 3px 10px; border-radius: 999px; text-decoration: none; cursor: pointer; border: none; font-family: inherit; }
   .ka-link:hover { filter: brightness(0.97); }
   mark { background: #FBE7C2; color: inherit; border-radius: 3px; padding: 0 1px; }
-
-  /* ===== 敬語（keigo）移植 ===== */
-  .section-label {
-    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
-    color: var(--text-hint); margin: 1.4rem 0 0.6rem; text-transform: uppercase;
-  }
-
-  /* 敬語 */
-  .kg-list { display: flex; flex-direction: column; gap: 10px; }
-  .kg-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-  .kg-base { padding: 10px 15px; background: #FAF8F4; border-bottom: 1px solid var(--border); }
-  .kg-base-w { font-size: 16px; font-weight: 700; }
-  .kg-base-r { font-size: 11.5px; color: var(--text-muted); margin-left: 8px; }
-  .kg-base-en { font-size: 11px; color: var(--text-hint); margin-left: 8px; }
-  .kg-row { display: flex; align-items: flex-start; gap: 11px; padding: 10px 15px; border-top: 1px solid #F1EEE9; }
-  .kg-row:first-of-type { border-top: none; }
-  .kg-tag { flex: 0 0 auto; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; margin-top: 2px; }
-  .kg-tag.son { background: var(--son-bg); color: var(--son); }
-  .kg-tag.ken1 { background: var(--ken1-bg); color: var(--ken1); }
-  .kg-tag.ken2 { background: var(--ken2-bg); color: var(--ken2); }
-  .kg-vals { flex: 1; min-width: 0; }
-  .kg-w { font-size: 16px; font-weight: 600; line-height: 1.4; word-break: break-word; }
-  .kg-w .kw-note { font-size: 11px; font-weight: 600; color: var(--text-hint); margin-left: 5px; }
-  .kg-w.empty { color: var(--text-hint); font-weight: 500; font-size: 14px; }
-  .kg-r { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-  .kg-roma { font-size: 10.5px; color: var(--text-hint); font-style: italic; margin-top: 1px; display: none; }
-  body.show-roma .kg-roma { display: block; }
-  .kg-hint { font-size: 10.5px; color: var(--text-hint); margin-top: 2px; }
-
-  /* 敬語の5分類 一覧 */
-  .kg5-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem;
-  }
-  .kg5-title {
-    padding: 12px 15px; font-size: 13px; font-weight: 700;
-    border-bottom: 1px solid var(--border); background: #FAF8F4;
-  }
-  .kg5-title small { font-weight: 600; color: var(--text-hint); font-size: 11px; margin-left: 6px; }
-  .kg5-row { display: flex; align-items: flex-start; gap: 11px; padding: 11px 15px; border-top: 1px solid #F1EEE9; }
-  .kg5-row:first-of-type { border-top: none; }
-  .kg5-num {
-    flex: 0 0 auto; width: 24px; height: 24px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 800; margin-top: 1px;
-  }
-  .kg5-body { flex: 1; min-width: 0; }
-  .kg5-name { font-size: 13.5px; font-weight: 700; }
-  .kg5-name .sub { font-size: 11px; font-weight: 600; color: var(--text-hint); margin-left: 5px; }
-  .kg5-def { font-size: 11.5px; color: var(--text-muted); line-height: 1.55; margin-top: 2px; }
-  .kg5-def .eg { color: var(--text); font-weight: 600; }
-  .n-son { background: var(--son-bg); color: var(--son); }
-  .n-ken1 { background: var(--ken1-bg); color: var(--ken1); }
-  .n-ken2 { background: var(--ken2-bg); color: var(--ken2); }
-  .n-tei { background: #ECE8E1; color: var(--text-muted); }
-  .n-bika { background: var(--bika-bg); color: var(--bika); }
-
-  .bika-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
-  .bika-chip {
-    border: 1px solid var(--bika-bg); background: var(--bika-bg); color: var(--bika);
-    border-radius: 10px; padding: 6px 11px; font-size: 14px; font-weight: 600;
-  }
-  .bika-chip .bc-r { font-size: 10px; font-weight: 500; opacity: 0.7; margin-left: 5px; }
-
-  .kg-pat {
-    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 13px 15px 13px 17px; margin-bottom: 10px; position: relative; overflow: hidden;
-  }
-  .kg-pat::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
-  .kg-pat.son::before { background: var(--son); }
-  .kg-pat.ken1::before { background: var(--ken1); }
-  .kg-pat-h { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-  .kg-pat.son .kg-pat-h { color: var(--son); }
-  .kg-pat.ken1 .kg-pat-h { color: var(--ken1); }
-  .kg-pat-row { font-size: 12.5px; line-height: 1.55; color: var(--text-muted); margin-top: 6px; }
-  .kg-pat-row .formula { font-weight: 700; color: var(--text); }
-  .kg-pat-row .eg { color: var(--text); }
-  .kg-pat-row b { color: var(--text); }
 </style>
 </head>
 <body>
@@ -255,80 +175,9 @@
 
   <div class="app-header">
     <div class="app-logo">NIHONGO NO HEYA</div>
-    <div class="app-title">文型と表現</div>
-    <div class="app-sub">文型と敬語などの表現 ・ Patterns &amp; Keigo</div>
+    <div class="app-title">文型解説</div>
+    <div class="app-sub">活用を使う文型 ・ Grammar Patterns</div>
   </div>
-
-  <div class="section-label" style="margin-top:1.3rem">敬語 ・ Keigo</div>
-    <div class="note" style="padding:0;border:none;background:none;margin-bottom:0.5rem;">
-      日本語の<b>敬語</b>は、文化審議会「敬語の指針」で<b>5種類</b>に分けられます。
-    </div>
-    <div class="kg5-card">
-      <div class="kg5-title">敬語の5分類<small>Five categories</small></div>
-      <div class="kg5-row">
-        <div class="kg5-num n-son">1</div>
-        <div class="kg5-body"><div class="kg5-name">尊敬語<span class="sub">respectful</span></div>
-          <div class="kg5-def"><b>相手（目上の人）の動作・ものごと</b>を高める。例：先生が<span class="eg">召し上がる</span></div></div>
-      </div>
-      <div class="kg5-row">
-        <div class="kg5-num n-ken1">2</div>
-        <div class="kg5-body"><div class="kg5-name">謙譲語Ⅰ<span class="sub">humble Ⅰ</span></div>
-          <div class="kg5-def"><b>自分の動作を、向かう先の相手を立てて</b>へりくだる。例：先生に<span class="eg">申し上げる</span>・<span class="eg">伺う</span></div></div>
-      </div>
-      <div class="kg5-row">
-        <div class="kg5-num n-ken2">3</div>
-        <div class="kg5-body"><div class="kg5-name">謙譲語Ⅱ<span class="sub">丁重語 ・ courteous</span></div>
-          <div class="kg5-def">自分の動作を<b>聞き手にあらたまって</b>言う（特定の相手は立てない）。例：明日<span class="eg">参ります</span>・<span class="eg">申します</span></div></div>
-      </div>
-      <div class="kg5-row">
-        <div class="kg5-num n-tei">4</div>
-        <div class="kg5-body"><div class="kg5-name">丁寧語<span class="sub">polite</span></div>
-          <div class="kg5-def"><b>です・ます</b>で聞き手にていねいに言う（＝このページの「丁寧形」）。例：明日東京へ<span class="eg">行きます</span></div></div>
-      </div>
-      <div class="kg5-row">
-        <div class="kg5-num n-bika">5</div>
-        <div class="kg5-body"><div class="kg5-name">美化語<span class="sub">beautification</span></div>
-          <div class="kg5-def"><b>お・ご</b>を付けて上品に言う（相手を高めるためではない）。例：<span class="eg">お酒</span>・<span class="eg">ご飯</span></div></div>
-      </div>
-    </div>
-
-    <div class="note" style="margin-bottom:0.85rem;">
-      <b>謙譲語Ⅰ と Ⅱ の違い：</b>Ⅰは<b>立てたい相手（向かう先）がいる</b>とき（先生に伺う）。Ⅱは相手を立てるのではなく、<b>聞き手にあらたまって</b>自分のことを言うとき（〔誰にともなく〕明日参ります）。
-    </div>
-
-    <div class="section-label">特定形の敬語動詞 ・ Special verbs</div>
-    <div class="note" style="margin-bottom:0.85rem;">
-      よく使う動詞は、専用の形（特定形）に変わります。これは規則ではなく<b>暗記</b>します。特定形がない動詞は、下の「規則的な作り方」を使います。
-    </div>
-    <div id="keigoList" class="kg-list"></div>
-
-    <div class="section-label">規則的な作り方 ・ Regular patterns</div>
-    <div class="kg-pat son">
-      <div class="kg-pat-h">尊敬語の作り方</div>
-      <div class="kg-pat-row"><span class="formula">お＋ます形＋になる</span><br><span class="eg">書く→お書きになる ／ 読む→お読みになる ／ 使う→お使いになる</span></div>
-      <div class="kg-pat-row"><span class="formula">〜（ら）れる</span>（受身と同じ形・軽い尊敬）<br><span class="eg">書く→書かれる ／ 来る→来られる</span></div>
-      <div class="kg-pat-row"><span class="formula">お＋ます形＋ください</span>（依頼）<br><span class="eg">待つ→お待ちください ／ 書く→お書きください</span></div>
-    </div>
-    <div class="kg-pat ken1">
-      <div class="kg-pat-h">謙譲語Ⅰの作り方</div>
-      <div class="kg-pat-row"><span class="formula">お＋ます形＋する</span><br><span class="eg">持つ→お持ちする ／ 届ける→お届けする ／ 知らせる→お知らせする</span></div>
-      <div class="kg-pat-row"><span class="formula">ご＋漢語＋する</span><br><span class="eg">案内する→ご案内する ／ 連絡する→ご連絡する ／ 説明する→ご説明する</span></div>
-      <div class="kg-pat-row" style="color:var(--text-hint)">※謙譲語Ⅱ（参る・申す・おる・いたす・存じる）は規則ではなく、語ごとに決まった<b>特定形</b>です。</div>
-    </div>
-
-    <div class="note" style="margin-top:0.4rem;">
-      <b>注意：ます形が不規則な敬語動詞</b><br>
-      <b>いらっしゃる・おっしゃる・なさる・くださる・ござる</b> は、ます形が <b>〜います</b> になります。<br>
-      例：いらっしゃ<b>います</b>（×いらっしゃります） ／ くださ<b>います</b> ／ おっしゃ<b>います</b>
-    </div>
-
-    <div class="section-label">美化語 ・ Word beautification</div>
-    <div class="note">
-      ものごとを上品に言うために <b>お・ご</b> を付けます（相手を高める尊敬の「お」とは別）。
-      <div class="bika-chips" id="bikaChips"></div>
-    </div>
-
-  <div class="section-label">文型 ・ Patterns</div>
 
   <div class="mode-toggle" id="mode">
     <button data-mode="kaisetsu" class="on">解説で見る</button>
@@ -1503,6 +1352,8 @@ function hi(text,q){
   return esc(text.slice(0,i))+'<mark>'+esc(text.slice(i,i+q.length))+'</mark>'+esc(text.slice(i+q.length));
 }
 
+/* 練習ページ(bunkei_renshu.html)がある文型。練習を増やしたらここに追加。 */
+const PRACTICE_PATTERNS = {'〜たいです':1,'〜てください':1,'〜ています':1};
 /* ---- 解説モード（既存の解説カード＋課タグ） ---- */
 function renderKaisetsu(){
   const list=document.getElementById('list');
@@ -1526,7 +1377,7 @@ function renderKaisetsu(){
       <div class="bk-ex">${ex}</div>
       ${d.note?`<div class="bk-note">${d.note}</div>`:''}
       ${tag}
-      <div><a class="bk-kaiwa" href="kaiwa.html?g=${encodeURIComponent(d.p)}&lv=${encodeURIComponent(d.lvl)}&ex=${encodeURIComponent(d.ex&&d.ex[0]?d.ex[0][0]:'')}">🗣️ この文法で会話練習</a></div>
+      <div><a class="bk-kaiwa" href="kaiwa.html?g=${encodeURIComponent(d.p)}&lv=${encodeURIComponent(d.lvl)}&ex=${encodeURIComponent(d.ex&&d.ex[0]?d.ex[0][0]:'')}">🗣️ この文法で会話練習</a>${PRACTICE_PATTERNS[d.p]?`<a class="bk-kaiwa bk-renshu" href="bunkei_renshu.html?p=${encodeURIComponent(d.p)}">✍️ パターン練習</a>`:''}</div>
     </div>`;
   });
   list.innerHTML=html;
@@ -1669,48 +1520,6 @@ sClear.addEventListener('click',()=>{ sIn.value=''; curQuery=''; sClear.classLis
 
 // ハッシュがあれば解説モードでその文型へスクロール
 if(location.hash){ const el=document.getElementById(location.hash.slice(1)); if(el){ el.scrollIntoView(); } }
-</script>
-<script>
-/* ===== 敬語（keigo）移植：データと描画 ===== */
-(function(){
-const KEIGO=[
-  {base:'する',kana:'する',en:'to do',son:[['なさる','なさる']],ken1:[],ken2:[['いたす','いたす']]},
-  {base:'いる',kana:'いる',en:'to be (exist)',son:[['いらっしゃる','いらっしゃる'],['おいでになる','おいでになる']],ken1:[],ken2:[['おる','おる']]},
-  {base:'行く・来る',kana:'いく・くる',en:'to go / come',son:[['いらっしゃる','いらっしゃる'],['おいでになる','おいでになる']],ken1:[['伺う','うかがう']],ken2:[['参る','まいる']]},
-  {base:'言う',kana:'いう',en:'to say',son:[['おっしゃる','おっしゃる']],ken1:[['申し上げる','もうしあげる']],ken2:[['申す','もうす']]},
-  {base:'見る',kana:'みる',en:'to see',son:[['ご覧になる','ごらんになる']],ken1:[['拝見する','はいけんする']],ken2:[]},
-  {base:'食べる・飲む',kana:'たべる・のむ',en:'to eat / drink',son:[['召し上がる','めしあがる']],ken1:[['いただく','いただく']],ken2:[]},
-  {base:'もらう',kana:'もらう',en:'to receive',son:[],ken1:[['いただく','いただく'],['頂戴する','ちょうだいする']],ken2:[]},
-  {base:'あげる',kana:'あげる',en:'to give',son:[],ken1:[['差し上げる','さしあげる']],ken2:[]},
-  {base:'くれる',kana:'くれる',en:'to give (to me)',son:[['くださる','くださる']],ken1:[],ken2:[]},
-  {base:'知っている',kana:'しっている',en:'to know',son:[['ご存じだ','ごぞんじだ']],ken1:[['存じ上げる','ぞんじあげる','人を']],ken2:[['存じる','ぞんじる','物事を']]},
-  {base:'聞く',kana:'きく',en:'to ask / hear',son:[],ken1:[['伺う','うかがう'],['拝聴する','はいちょうする']],ken2:[]},
-  {base:'会う',kana:'あう',en:'to meet',son:[],ken1:[['お目にかかる','おめにかかる']],ken2:[]},
-  {base:'寝る',kana:'ねる',en:'to sleep',son:[['お休みになる','おやすみになる']],ken1:[],ken2:[]},
-];
-const BIKA=[['お酒','おさけ'],['お茶','おちゃ'],['お料理','おりょうり'],['お菓子','おかし'],['ご飯','ごはん'],['お金','おかね'],['お店','おみせ'],['お話','おはなし']];
-const KG_LABEL={son:'尊敬語',ken1:'謙譲語Ⅰ',ken2:'謙譲語Ⅱ'};
-function kgRow(arr, kind){
-  if(!arr.length) return '';
-  const words = arr.map(a=>a[0]+(a[2]?`<span class="kw-note">（${a[2]}）</span>`:'')).join('／');
-  const reads = arr.map(a=>a[1]).join('／');
-  return `<div class="kg-row"><span class="kg-tag ${kind}">${KG_LABEL[kind]}</span><div class="kg-vals">
-    <div class="kg-w">${words}</div>
-    <div class="kg-r">${reads}</div>
-  </div></div>`;
-}
-function renderKeigo(){
-  var el=document.getElementById('keigoList');
-  if(el) el.innerHTML = KEIGO.map(v=>`
-    <div class="kg-card">
-      <div class="kg-base"><span class="kg-base-w">${v.base}</span><span class="kg-base-r">${v.kana}</span><span class="kg-base-en">${v.en}</span></div>
-      ${kgRow(v.son,'son')}${kgRow(v.ken1,'ken1')}${kgRow(v.ken2,'ken2')}
-    </div>`).join('');
-  var bc=document.getElementById('bikaChips');
-  if(bc) bc.innerHTML = BIKA.map(b=>`<span class="bika-chip">${b[0]}<span class="bc-r">${b[1]}</span></span>`).join('');
-}
-renderKeigo();
-})();
 </script>
 </body>
 </html>

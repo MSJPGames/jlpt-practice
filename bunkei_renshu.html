@@ -46,6 +46,12 @@
   .pat-chip.sel { background: var(--accent); border-color: var(--accent); color: #fff; }
   .pat-chip.sel .lv { background: rgba(255,255,255,.22); color:#fff; }
 
+  /* レベル選択 */
+  .lvl-bar { display: flex; align-items: center; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
+  .lvl-cap { font-size: 12px; font-weight: 800; color: var(--text-hint); letter-spacing: .06em; }
+  .lvl-sel { font-family: inherit; font-size: 13px; font-weight: 700; color: var(--text); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 999px; padding: 7px 12px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
   /* 文型の説明カード */
   .pat-info { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-top: 6px; }
   .pat-info .pi-p { font-size: 19px; font-weight: 800; }
@@ -144,6 +150,17 @@
     <div class="app-sub">模倣・代入・完成のパターン練習 ・ Pattern Practice</div>
   </div>
 
+  <div class="lvl-bar">
+    <span class="lvl-cap">レベル</span>
+    <select class="lvl-sel" id="lvScheme">
+      <option value="all">すべて</option>
+      <option value="jlpt">JLPT</option>
+      <option value="cefr">CEFR</option>
+      <option value="minna">みんなの日本語（課）</option>
+    </select>
+    <select class="lvl-sel" id="lvValue" style="display:none"></select>
+  </div>
+
   <div class="pat-select" id="patSelect"></div>
   <div id="patInfo"></div>
 
@@ -174,6 +191,7 @@ const $ = (id) => document.getElementById(id);
 const PATTERNS = [
   {
     id:'tai', p:'〜たいです', lvl:'N5', en:'want to (do)',
+    lv:{jlpt:'N5', cefr:'A1', minna:13},
     setu:'動詞ます形の語幹 ＋ たいです', note:'自分の希望を表す。「〜が/〜を 〜たい」。',
     imitate:[
       {ja:'わたしは すしが 食べたいです。', k:'わたしは すしが たべたいです。', en:'I want to eat sushi.'},
@@ -197,6 +215,7 @@ const PATTERNS = [
   },
   {
     id:'tekudasai', p:'〜てください', lvl:'N5', en:'please (do)',
+    lv:{jlpt:'N5', cefr:'A1', minna:14},
     setu:'動詞て形 ＋ ください', note:'ていねいな依頼・指示。',
     imitate:[
       {ja:'ここに 名前を 書いてください。', k:'ここに なまえを かいてください。', en:'Please write your name here.'},
@@ -221,6 +240,7 @@ const PATTERNS = [
   },
   {
     id:'teimasu', p:'〜ています', lvl:'N5', en:'be ~ing (ongoing)',
+    lv:{jlpt:'N5', cefr:'A2', minna:14},
     setu:'動詞て形 ＋ います', note:'今している動作・進行中の様子を表す。',
     imitate:[
       {ja:'今 ご飯を 食べています。', k:'いま ごはんを たべています。', en:'I am eating now.'},
@@ -246,36 +266,70 @@ const PATTERNS = [
 ];
 
 /* ===================== 正規化・採点 ===================== */
-const norm = s => (s||'').replace(/[\s　。、，．・！？!?,.「」『』〜～ー]/g,'');
-function acceptSet(ja, k, extra){
-  const s = new Set();
-  const base = [ja, k].concat(extra||[]);
-  base.forEach(x=>{
-    if(!x) return;
-    s.add(norm(x));
-    s.add(norm(x.replace(/わたし/g,'私')));
-    s.add(norm(x.replace(/私/g,'わたし')));
+/* 正規化：カタカナ→ひらがな変換、空白・句読点・長音記号を除去 */
+const norm = s => (s||'')
+  .replace(/[ァ-ヶ]/g, c => String.fromCharCode(c.charCodeAt(0)-0x60))
+  .replace(/[\s　。、，．・！？!?,.「」『』（）()〜～ー－]/g,'');
+
+/* 先頭の一人称主語（わたし/私/ぼく/僕/おれ/俺 ＋ は/が/も）は任意扱い。
+   モデルに主語が無くても学習者が「わたしは」を足してよい／その逆もOK。 */
+const SUBJ_RE = /^(わたくし|わたし|あたし|私|ぼく|僕|おれ|俺)(は|が|も)/;
+function canon(s){ return norm(s).replace(SUBJ_RE,''); }
+
+/* 表記ゆれグループ（同じ語の別表記）。同グループ内は相互に許容。必要に応じて追加。 */
+const VARIANTS = [
+  ['すし','寿司','鮨'], ['みず','水'], ['くつ','靴'], ['たまご','卵','玉子'],
+  ['ごはん','ご飯','御飯'], ['りんご','林檎'], ['たべる','食べる'], ['のむ','飲む'],
+  ['おちゃ','お茶'], ['ぎゅうにゅう','牛乳'], ['きょうと','京都'], ['まど','窓'],
+  ['なまえ','名前'], ['はは','母'], ['りょうり','料理'], ['あめ','雨'],
+  ['あかちゃん','赤ちゃん'], ['しんぶん','新聞'], ['こうえん','公園'], ['ごはん','ご飯']
+];
+function expandVariants(str){
+  let results = [str];
+  VARIANTS.forEach(group => {
+    const hit = group.find(f => results.some(s => s.indexOf(f) >= 0));
+    if(hit){
+      const more = [];
+      results.forEach(s => { group.forEach(o => { if(o !== hit && s.indexOf(hit) >= 0) more.push(s.split(hit).join(o)); }); });
+      results = results.concat(more);
+    }
   });
-  return s;
+  return results;
 }
 function judge(val, ja, k, extra){
-  const set = acceptSet(ja, k, extra);
-  return set.has(norm(val));
+  const set = new Set();
+  const add = x => { if(!x) return; expandVariants(x).forEach(v => { set.add(canon(v)); }); };
+  [ja, k].concat(extra||[]).forEach(add);
+  return set.has(canon(val));
 }
 
 /* ===================== TTS（モデル文の読み上げ） ===================== */
 const TTS_OK = ('speechSynthesis' in window);
-function say(text){
+let jaVoice = null;
+function pickVoice(){
+  if(!TTS_OK) return;
+  const vs = speechSynthesis.getVoices().filter(v => /ja(-|_)?JP|Japanese|日本/i.test((v.lang||'')+' '+(v.name||'')));
+  if(!vs.length) return;
+  /* 自然な音声を優先（端末に入っていれば） */
+  const pref = [/Google.*日本語/i, /Google.*Japanese/i, /Kyoko/i, /O-?ren/i, /Otoya/i, /Hattori/i,
+                /Nanami/i, /Ayumi/i, /Haruka/i, /Ichiro/i, /Sayaka/i, /Natural/i, /Neural/i];
+  for(const re of pref){ const m = vs.find(v => re.test(v.name||'')); if(m){ jaVoice = m; return; } }
+  jaVoice = vs.find(v => /local/i.test(v.localService? 'local':'') ) || vs[0];
+}
+if(TTS_OK){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function say(text, rate){
   if(!TTS_OK || !text) return;
   try{
+    if(!jaVoice) pickVoice();
     const u = new SpeechSynthesisUtterance(text.replace(/[　\s]/g,''));
-    u.lang = 'ja-JP'; u.rate = 0.92;
+    u.lang = 'ja-JP'; u.rate = rate || 0.95; u.pitch = 1.0;
+    if(jaVoice) u.voice = jaVoice;
     speechSynthesis.cancel(); speechSynthesis.speak(u);
   }catch(e){}
 }
 document.addEventListener('click', e=>{
   const el = e.target.closest('[data-say]');
-  if(el){ say(el.getAttribute('data-say')); }
+  if(el){ say(el.getAttribute('data-say'), parseFloat(el.getAttribute('data-rate'))||0); }
 });
 
 /* ===================== 効果音 ===================== */
@@ -335,14 +389,45 @@ const HOWTO = {
 };
 
 /* ===================== 描画 ===================== */
+/* --- レベル選択 --- */
+const LV = {
+  jlpt:{ order:['N5','N4','N3','N2','N1'] },
+  cefr:{ order:['A1','A2','B1','B2','C1','C2'] },
+  minna:{ order:[10,15,20,25,30,50] }
+};
+let lvScheme = 'all', lvThresh = null;
+function patVisible(p){
+  if(lvScheme==='all' || !p.lv) return true;
+  if(lvScheme==='minna') return (p.lv.minna||99) <= lvThresh;
+  const o = LV[lvScheme].order;
+  const need = o.indexOf(p.lv[lvScheme]), th = o.indexOf(lvThresh);
+  return (need>=0 && th>=0) ? need<=th : true;
+}
+function visibleIndexes(){ return PATTERNS.map((p,i)=>i).filter(i=>patVisible(PATTERNS[i])); }
+
 function renderPatSelect(){
-  $('patSelect').innerHTML = PATTERNS.map((p,i)=>
-    `<button class="pat-chip ${i===pIndex?'sel':''}" data-i="${i}">
+  const vis = visibleIndexes();
+  $('patSelect').innerHTML = vis.map(i=>{ const p=PATTERNS[i];
+    return `<button class="pat-chip ${i===pIndex?'sel':''}" data-i="${i}">
       <span class="lv" style="background:var(--${p.lvl.toLowerCase()}-bg);color:var(--${p.lvl.toLowerCase()})">${p.lvl}</span>${p.p}
-    </button>`).join('');
+    </button>`; }).join('');
   $('patSelect').querySelectorAll('.pat-chip').forEach(b=>{
     b.onclick=()=>{ pIndex=+b.dataset.i; idx=0; answered=false; renderPatSelect(); renderInfo(); renderStage(); };
   });
+}
+function applyLevel(){
+  const vis = visibleIndexes();
+  if(vis.length===0){
+    renderPatSelect();
+    $('patInfo').innerHTML='<div class="pat-info"><div class="pi-note">このレベルに合う文型がまだありません。レベルを上げてください。</div></div>';
+    $('stage').innerHTML='<div class="empty-msg">このレベルの文型は準備中です。<br>上の「レベル」を変えてください。</div>';
+    $('howBox').style.display='none';
+    return;
+  }
+  $('howBox').style.display='';
+  if(vis.indexOf(pIndex)<0){ pIndex=vis[0]; }
+  idx=0; answered=false;
+  renderPatSelect(); renderInfo(); renderStage();
 }
 function renderInfo(){
   const p = PATTERNS[pIndex];
@@ -390,7 +475,8 @@ function renderStage(){
         <div class="m-en">${cur.en}</div>
       </div>
       <div class="row-btns">
-        <button class="btn btn-say btn-sm" data-say="${cur.k}">🔊 聞く</button>
+        <button class="btn btn-say btn-sm" data-say="${cur.ja}">🔊 聞く</button>
+        <button class="btn btn-ghost btn-sm" data-say="${cur.ja}" data-rate="0.7">🐢 ゆっくり</button>
       </div>
       <div id="answerArea">${answerInputHtml()}</div>
     </div>`;
@@ -462,9 +548,32 @@ function updateScore(){ $('scAsked').textContent=score.asked; $('scOk').textCont
 
 /* ===================== 初期化 ===================== */
 $('modes').querySelectorAll('.mode-tab').forEach(t=>{ t.onclick=()=>setMode(t.dataset.mode); });
+$('lvScheme').onchange=function(){
+  lvScheme=this.value; const vsel=$('lvValue');
+  if(lvScheme==='all'){ vsel.style.display='none'; lvThresh=null; }
+  else {
+    vsel.style.display=''; const o=LV[lvScheme].order;
+    vsel.innerHTML=o.map(v=>`<option value="${v}">${lvScheme==='minna'? v+'課まで' : v+'まで'}</option>`).join('');
+    lvThresh=o[o.length-1]; vsel.value=String(lvThresh);  // 既定は最大＝全部表示
+  }
+  applyLevel();
+};
+$('lvValue').onchange=function(){ lvThresh=(lvScheme==='minna')?+this.value:this.value; applyLevel(); };
 $('scReset').onclick=()=>{ score.asked=0; score.ok=0; score.streak=0; updateScore(); };
 function refreshSoundBtn(){ $('soundBtn').textContent = soundOn ? '🔊 音 オン' : '🔈 音 オフ'; }
 $('soundBtn').onclick=()=>{ soundOn=!soundOn; try{ localStorage.setItem('nnh_bkrenshu_sound', soundOn?'1':'0'); }catch(e){} refreshSoundBtn(); if(soundOn) beep('ok'); };
+
+/* 文型紹介ページ等から ?p=文型 または ?id=文型ID でプリ選択 */
+(function preselect(){
+  try{
+    const q = new URLSearchParams(location.search);
+    const pp = q.get('p'), id = q.get('id');
+    let i = -1;
+    if(id) i = PATTERNS.findIndex(x => x.id === id);
+    if(i < 0 && pp){ const t = pp.replace(/[\s　]/g,''); i = PATTERNS.findIndex(x => x.p.replace(/[\s　]/g,'') === t); }
+    if(i >= 0) pIndex = i;
+  }catch(e){}
+})();
 
 renderPatSelect();
 renderInfo();

@@ -199,7 +199,7 @@ const PATTERNS = [
       {ja:'冷たい 水が 飲みたいです。', k:'つめたい みずが のみたいです。', en:'I want to drink cold water.'}
     ],
     substitute:{
-      template:['わたしは ', ' が 飲みたいです。'],
+      template:['わたしは ', 'が 飲みたいです。'],
       items:[
         {emoji:'🍵', word:'お茶', en:'green tea', ja:'わたしは お茶が 飲みたいです。', k:'わたしは おちゃが のみたいです。'},
         {emoji:'☕', word:'コーヒー', en:'coffee', ja:'わたしは コーヒーが 飲みたいです。', k:'わたしは こーひーが のみたいです。'},
@@ -262,8 +262,232 @@ const PATTERNS = [
       {words:['雨','降る'], particles:'が', ja:'雨が 降っています。', k:'あめが ふっています。', en:'It is raining.'},
       {words:['赤ちゃん','寝る'], particles:'が', ja:'赤ちゃんが 寝ています。', k:'あかちゃんが ねています。', en:'The baby is sleeping.'}
     ]
+  },
+  {
+    id:'temoii', p:'〜てもいいです', lvl:'N5', en:'may (do); it is OK to',
+    lv:{jlpt:'N5', cefr:'A1', minna:15},
+    setu:'動詞て形 ＋ もいいです', note:'許可を表す。',
+    imitate:[
+      {ja:'ここで 写真を 撮ってもいいですか。', k:'ここで しゃしんを とってもいいですか。', en:'May I take a photo here?'},
+      {ja:'トイレに 行ってもいいですか。', k:'トイレに いってもいいですか。', en:'May I go to the toilet?'},
+      {ja:'ここに 座ってもいいですよ。', k:'ここに すわってもいいですよ。', en:'You may sit here.'}
+    ],
+    substitute:{
+      template:['', 'もいいです。'], cueType:'verb',
+      items:[
+        {word:'食べる', en:'to eat', ja:'食べてもいいです。', k:'たべてもいいです。', vlv:{jlpt:'N5',cefr:'A1',minna:13}},
+        {word:'帰る', en:'to go home', ja:'帰ってもいいです。', k:'かえってもいいです。', vlv:{jlpt:'N5',cefr:'A1',minna:5}},
+        {word:'使う', en:'to use', ja:'使ってもいいです。', k:'つかってもいいです。', vlv:{jlpt:'N5',cefr:'A2',minna:14}},
+        {word:'手伝う', en:'to help', ja:'手伝ってもいいです。', k:'てつだってもいいです。', vlv:{jlpt:'N4',cefr:'A2',minna:14}}
+      ]
+    },
+    complete:[
+      {words:['ここ','写真','撮る'], particles:'で ・ を', ja:'ここで 写真を 撮ってもいいですか。', k:'ここで しゃしんを とってもいいですか。', en:'May I take a photo here?', vlv:{jlpt:'N5',cefr:'A2',minna:15}},
+      {words:['この','ペン','使う'], particles:'を', ja:'この ペンを 使ってもいいですか。', k:'この ペンを つかってもいいですか。', en:'May I use this pen?', vlv:{jlpt:'N5',cefr:'A2',minna:14}},
+      {words:['もう','帰る'], particles:'（なし）', ja:'もう 帰ってもいいですか。', k:'もう かえってもいいですか。', en:'May I go home now?', vlv:{jlpt:'N5',cefr:'A1',minna:5}}
+    ]
+  },
+  {
+    id:'tewaikenai', p:'〜てはいけません', lvl:'N5', en:'must not (do)',
+    lv:{jlpt:'N5', cefr:'A1', minna:15},
+    setu:'動詞て形 ＋ はいけません', note:'禁止を表す。',
+    imitate:[
+      {ja:'ここで タバコを 吸ってはいけません。', k:'ここで タバコを すってはいけません。', en:'You must not smoke here.'},
+      {ja:'写真を 撮ってはいけません。', k:'しゃしんを とってはいけません。', en:'You must not take photos.'},
+      {ja:'ここに 車を 止めてはいけません。', k:'ここに くるまを とめてはいけません。', en:'You must not park here.'}
+    ],
+    substitute:{
+      template:['', 'はいけません。'], cueType:'verb',
+      items:[
+        {word:'入る', en:'to enter', ja:'入ってはいけません。', k:'はいってはいけません。', vlv:{jlpt:'N5',cefr:'A1',minna:14}},
+        {word:'使う', en:'to use', ja:'使ってはいけません。', k:'つかってはいけません。', vlv:{jlpt:'N5',cefr:'A2',minna:14}},
+        {word:'走る', en:'to run', ja:'走ってはいけません。', k:'はしってはいけません。', vlv:{jlpt:'N5',cefr:'A2',minna:15}},
+        {word:'触る', en:'to touch', ja:'触ってはいけません。', k:'さわってはいけません。', vlv:{jlpt:'N4',cefr:'A2',minna:16}}
+      ]
+    },
+    complete:[
+      {words:['ここ','入る'], particles:'に', ja:'ここに 入ってはいけません。', k:'ここに はいってはいけません。', en:'You must not enter here.', vlv:{jlpt:'N5',cefr:'A1',minna:14}},
+      {words:['写真','撮る'], particles:'を', ja:'写真を 撮ってはいけません。', k:'しゃしんを とってはいけません。', en:'You must not take photos.', vlv:{jlpt:'N5',cefr:'A2',minna:15}},
+      {words:['ここ','タバコ','吸う'], particles:'で ・ を', ja:'ここで タバコを 吸ってはいけません。', k:'ここで タバコを すってはいけません。', en:'You must not smoke here.', vlv:{jlpt:'N5',cefr:'A2',minna:15}}
+    ]
+  },
+  {
+    id:'naide', p:'〜ないでください', lvl:'N5', en:'please do not (do)',
+    lv:{jlpt:'N5', cefr:'A1', minna:17},
+    setu:'動詞ない形 ＋ でください', note:'否定のていねいな依頼。',
+    imitate:[
+      {ja:'ここで 写真を 撮らないでください。', k:'ここで しゃしんを とらないでください。', en:"Please don't take photos here."},
+      {ja:'心配しないでください。', k:'しんぱいしないでください。', en:"Please don't worry."},
+      {ja:'ここに 入らないでください。', k:'ここに はいらないでください。', en:"Please don't enter here."}
+    ],
+    substitute:{
+      template:['', 'でください。'], cueType:'verb',
+      items:[
+        {word:'食べる', en:'to eat', ja:'食べないでください。', k:'たべないでください。', vlv:{jlpt:'N5',cefr:'A1',minna:13}},
+        {word:'使う', en:'to use', ja:'使わないでください。', k:'つかわないでください。', vlv:{jlpt:'N5',cefr:'A2',minna:14}},
+        {word:'忘れる', en:'to forget', ja:'忘れないでください。', k:'わすれないでください。', vlv:{jlpt:'N5',cefr:'A2',minna:15}},
+        {word:'心配する', en:'to worry', ja:'心配しないでください。', k:'しんぱいしないでください。', vlv:{jlpt:'N4',cefr:'A2',minna:17}}
+      ]
+    },
+    complete:[
+      {words:['写真','撮る'], particles:'を', ja:'写真を 撮らないでください。', k:'しゃしんを とらないでください。', en:"Please don't take photos.", vlv:{jlpt:'N5',cefr:'A2',minna:15}},
+      {words:['ここ','入る'], particles:'に', ja:'ここに 入らないでください。', k:'ここに はいらないでください。', en:"Please don't enter here.", vlv:{jlpt:'N5',cefr:'A1',minna:14}},
+      {words:['ドア','閉める'], particles:'を', ja:'ドアを 閉めないでください。', k:'ドアを しめないでください。', en:"Please don't close the door.", vlv:{jlpt:'N5',cefr:'A2',minna:14}}
+    ]
+  },
+  {
+    id:'mashou', p:'〜ましょう', lvl:'N5', en:"let's; shall we",
+    lv:{jlpt:'N5', cefr:'A1', minna:6},
+    setu:'ます形（語幹）＋ ましょう', note:'勧誘・提案を表す。',
+    imitate:[
+      {ja:'一緒に 帰りましょう。', k:'いっしょに かえりましょう。', en:"Let's go home together."},
+      {ja:'ちょっと 休みましょう。', k:'ちょっと やすみましょう。', en:"Let's take a break."},
+      {ja:'一緒に 昼ご飯を 食べましょう。', k:'いっしょに ひるごはんを たべましょう。', en:"Let's eat lunch together."}
+    ],
+    substitute:{
+      template:['', 'ましょう。'], cueType:'verb',
+      items:[
+        {word:'食べる', en:'to eat', ja:'食べましょう。', k:'たべましょう。', vlv:{jlpt:'N5',cefr:'A1',minna:13}},
+        {word:'行く', en:'to go', ja:'行きましょう。', k:'いきましょう。', vlv:{jlpt:'N5',cefr:'A1',minna:5}},
+        {word:'飲む', en:'to drink', ja:'飲みましょう。', k:'のみましょう。', vlv:{jlpt:'N5',cefr:'A1',minna:6}},
+        {word:'始める', en:'to begin', ja:'始めましょう。', k:'はじめましょう。', vlv:{jlpt:'N4',cefr:'A2',minna:16}}
+      ]
+    },
+    complete:[
+      {words:['一緒','帰る'], particles:'に', ja:'一緒に 帰りましょう。', k:'いっしょに かえりましょう。', en:"Let's go home together.", vlv:{jlpt:'N5',cefr:'A1',minna:5}},
+      {words:['公園','行く'], particles:'へ', ja:'公園へ 行きましょう。', k:'こうえんへ いきましょう。', en:"Let's go to the park.", vlv:{jlpt:'N5',cefr:'A1',minna:5}},
+      {words:['お茶','飲む'], particles:'を', ja:'お茶を 飲みましょう。', k:'おちゃを のみましょう。', en:"Let's drink some tea.", vlv:{jlpt:'N5',cefr:'A1',minna:6}}
+    ]
+  },
+  {
+    id:'nagara', p:'〜ながら', lvl:'N4', en:'while doing (same subject)',
+    lv:{jlpt:'N4', cefr:'A2', minna:28},
+    setu:'ます形（語幹）＋ ながら', note:'同時動作（同じ主語）。',
+    imitate:[
+      {ja:'音楽を 聞きながら 勉強します。', k:'おんがくを ききながら べんきょうします。', en:'I study while listening to music.'},
+      {ja:'テレビを 見ながら ご飯を 食べます。', k:'テレビを みながら ごはんを たべます。', en:'I eat while watching TV.'},
+      {ja:'コーヒーを 飲みながら 話しましょう。', k:'コーヒーを のみながら はなしましょう。', en:"Let's talk while drinking coffee."}
+    ],
+    substitute:{
+      template:['', 'ながら 話します。'], cueType:'verb',
+      items:[
+        {word:'食べる', en:'to eat', ja:'食べながら 話します。', k:'たべながら はなします。', vlv:{jlpt:'N5',cefr:'A2',minna:13}},
+        {word:'歩く', en:'to walk', ja:'歩きながら 話します。', k:'あるきながら はなします。', vlv:{jlpt:'N5',cefr:'A2',minna:23}},
+        {word:'飲む', en:'to drink', ja:'飲みながら 話します。', k:'のみながら はなします。', vlv:{jlpt:'N5',cefr:'A2',minna:6}},
+        {word:'笑う', en:'to laugh', ja:'笑いながら 話します。', k:'わらいながら はなします。', vlv:{jlpt:'N4',cefr:'B1',minna:25}}
+      ]
+    },
+    complete:[
+      {words:['音楽','聞く','勉強する'], particles:'を', ja:'音楽を 聞きながら 勉強します。', k:'おんがくを ききながら べんきょうします。', en:'I study while listening to music.', vlv:{jlpt:'N5',cefr:'A2',minna:21}},
+      {words:['テレビ','見る','食べる'], particles:'を', ja:'テレビを 見ながら 食べます。', k:'テレビを みながら たべます。', en:'I eat while watching TV.', vlv:{jlpt:'N5',cefr:'A2',minna:13}},
+      {words:['コーヒー','飲む','話す'], particles:'を', ja:'コーヒーを 飲みながら 話します。', k:'コーヒーを のみながら はなします。', en:'We talk while drinking coffee.', vlv:{jlpt:'N5',cefr:'A2',minna:14}}
+    ]
+  },
+  {
+    id:'tekara', p:'〜てから', lvl:'N4', en:'after doing',
+    lv:{jlpt:'N4', cefr:'A2', minna:16},
+    setu:'動詞て形 ＋ から', note:'動作の順序を表す。',
+    imitate:[
+      {ja:'手を 洗ってから ご飯を 食べます。', k:'てを あらってから ごはんを たべます。', en:'I eat after washing my hands.'},
+      {ja:'宿題を してから 遊びます。', k:'しゅくだいを してから あそびます。', en:'I play after doing my homework.'},
+      {ja:'お風呂に 入ってから 寝ます。', k:'おふろに はいってから ねます。', en:'I go to bed after taking a bath.'}
+    ],
+    substitute:{
+      template:['', 'から 出かけます。'], cueType:'verb',
+      items:[
+        {word:'起きる', en:'to get up', ja:'起きてから 出かけます。', k:'おきてから でかけます。', vlv:{jlpt:'N5',cefr:'A1',minna:4}},
+        {word:'食べる', en:'to eat', ja:'食べてから 出かけます。', k:'たべてから でかけます。', vlv:{jlpt:'N5',cefr:'A2',minna:13}},
+        {word:'掃除する', en:'to clean', ja:'掃除してから 出かけます。', k:'そうじしてから でかけます。', vlv:{jlpt:'N4',cefr:'A2',minna:26}},
+        {word:'準備する', en:'to prepare', ja:'準備してから 出かけます。', k:'じゅんびしてから でかけます。', vlv:{jlpt:'N4',cefr:'A2',minna:26}}
+      ]
+    },
+    complete:[
+      {words:['手','洗う','食べる'], particles:'を', ja:'手を 洗ってから 食べます。', k:'てを あらってから たべます。', en:'I eat after washing my hands.', vlv:{jlpt:'N5',cefr:'A2',minna:18}},
+      {words:['宿題','する','遊ぶ'], particles:'を', ja:'宿題を してから 遊びます。', k:'しゅくだいを してから あそびます。', en:'I play after doing my homework.', vlv:{jlpt:'N4',cefr:'A2',minna:6}},
+      {words:['お風呂','入る','寝る'], particles:'に', ja:'お風呂に 入ってから 寝ます。', k:'おふろに はいってから ねます。', en:'I go to bed after taking a bath.', vlv:{jlpt:'N5',cefr:'A2',minna:16}}
+    ]
+  },
+  {
+    id:'takoto', p:'〜たことがあります', lvl:'N4', en:'have (done) before',
+    lv:{jlpt:'N4', cefr:'A2', minna:19},
+    setu:'動詞た形 ＋ ことがあります', note:'経験を表す。',
+    imitate:[
+      {ja:'日本へ 行ったことが あります。', k:'にほんへ いったことが あります。', en:'I have been to Japan.'},
+      {ja:'富士山に 登ったことが あります。', k:'ふじさんに のぼったことが あります。', en:'I have climbed Mt. Fuji.'},
+      {ja:'すしを 食べたことが あります。', k:'すしを たべたことが あります。', en:'I have eaten sushi.'}
+    ],
+    substitute:{
+      template:['', 'ことが あります。'], cueType:'verb',
+      items:[
+        {word:'食べる', en:'to eat', ja:'食べたことが あります。', k:'たべたことが あります。', vlv:{jlpt:'N5',cefr:'A2',minna:13}},
+        {word:'行く', en:'to go', ja:'行ったことが あります。', k:'いったことが あります。', vlv:{jlpt:'N5',cefr:'A2',minna:5}},
+        {word:'見る', en:'to see', ja:'見たことが あります。', k:'みたことが あります。', vlv:{jlpt:'N5',cefr:'A2',minna:6}},
+        {word:'留学する', en:'to study abroad', ja:'留学したことが あります。', k:'りゅうがくしたことが あります。', vlv:{jlpt:'N3',cefr:'B1',minna:26}}
+      ]
+    },
+    complete:[
+      {words:['日本','行く'], particles:'へ', ja:'日本へ 行ったことが あります。', k:'にほんへ いったことが あります。', en:'I have been to Japan.', vlv:{jlpt:'N5',cefr:'A2',minna:5}},
+      {words:['馬','乗る'], particles:'に', ja:'馬に 乗ったことが あります。', k:'うまに のったことが あります。', en:'I have ridden a horse.', vlv:{jlpt:'N4',cefr:'A2',minna:16}},
+      {words:['この','本','読む'], particles:'を', ja:'この 本を 読んだことが あります。', k:'この ほんを よんだことが あります。', en:'I have read this book.', vlv:{jlpt:'N5',cefr:'A2',minna:6}}
+    ]
+  },
+  {
+    id:'nakereba', p:'〜なければなりません', lvl:'N4', en:'must; have to',
+    lv:{jlpt:'N4', cefr:'A2', minna:17},
+    setu:'ない形（語幹）＋ なければなりません', note:'義務・必要を表す。',
+    imitate:[
+      {ja:'明日 早く 起きなければなりません。', k:'あした はやく おきなければなりません。', en:'I have to get up early tomorrow.'},
+      {ja:'薬を 飲まなければなりません。', k:'くすりを のまなければなりません。', en:'I have to take medicine.'},
+      {ja:'宿題を しなければなりません。', k:'しゅくだいを しなければなりません。', en:'I have to do my homework.'}
+    ],
+    substitute:{
+      template:['', 'なければなりません。'], cueType:'verb',
+      items:[
+        {word:'行く', en:'to go', ja:'行かなければなりません。', k:'いかなければなりません。', vlv:{jlpt:'N5',cefr:'A2',minna:5}},
+        {word:'待つ', en:'to wait', ja:'待たなければなりません。', k:'またなければなりません。', vlv:{jlpt:'N5',cefr:'A2',minna:14}},
+        {word:'勉強する', en:'to study', ja:'勉強しなければなりません。', k:'べんきょうしなければなりません。', vlv:{jlpt:'N5',cefr:'A2',minna:6}},
+        {word:'予約する', en:'to reserve', ja:'予約しなければなりません。', k:'よやくしなければなりません。', vlv:{jlpt:'N4',cefr:'B1',minna:26}}
+      ]
+    },
+    complete:[
+      {words:['薬','飲む'], particles:'を', ja:'薬を 飲まなければなりません。', k:'くすりを のまなければなりません。', en:'I have to take medicine.', vlv:{jlpt:'N4',cefr:'A2',minna:17}},
+      {words:['明日','会社','行く'], particles:'へ', ja:'明日 会社へ 行かなければなりません。', k:'あした かいしゃへ いかなければなりません。', en:'I have to go to work tomorrow.', vlv:{jlpt:'N5',cefr:'A2',minna:5}},
+      {words:['宿題','する'], particles:'を', ja:'宿題を しなければなりません。', k:'しゅくだいを しなければなりません。', en:'I have to do my homework.', vlv:{jlpt:'N4',cefr:'A2',minna:6}}
+    ]
+  },
+  {
+    id:'taritari', p:'〜たり〜たりします', lvl:'N4', en:'do things like ~ and ~',
+    lv:{jlpt:'N4', cefr:'A2', minna:19},
+    setu:'動詞た形 ＋ り、〜た形 ＋ り します', note:'動作を例示的に並べる。',
+    imitate:[
+      {ja:'休みの 日は 本を 読んだり 音楽を 聞いたりします。', k:'やすみの ひは ほんを よんだり おんがくを きいたりします。', en:'On my days off I read books, listen to music, and so on.'},
+      {ja:'パーティーで 歌ったり 踊ったりしました。', k:'パーティーで うたったり おどったりしました。', en:'At the party we sang and danced.'},
+      {ja:'日曜日は 掃除したり 洗濯したりします。', k:'にちようびは そうじしたり せんたくしたりします。', en:'On Sundays I do things like cleaning and laundry.'}
+    ],
+    substitute:{
+      template:['日曜日は 家で 本を 読んだり ', 'します。'], cueType:'verb',
+      items:[
+        {word:'寝る', en:'to sleep', ja:'日曜日は 家で 本を 読んだり 寝たりします。', k:'にちようびは いえで ほんを よんだり ねたりします。', vlv:{jlpt:'N5',cefr:'A2',minna:4}},
+        {word:'休む', en:'to rest', ja:'日曜日は 家で 本を 読んだり 休んだりします。', k:'にちようびは いえで ほんを よんだり やすんだりします。', vlv:{jlpt:'N5',cefr:'A2',minna:4}},
+        {word:'掃除する', en:'to clean', ja:'日曜日は 家で 本を 読んだり 掃除したりします。', k:'にちようびは いえで ほんを よんだり そうじしたりします。', vlv:{jlpt:'N4',cefr:'A2',minna:26}},
+        {word:'料理する', en:'to cook', ja:'日曜日は 家で 本を 読んだり 料理したりします。', k:'にちようびは いえで ほんを よんだり りょうりしたりします。', vlv:{jlpt:'N4',cefr:'B1',minna:26}}
+      ]
+    },
+    complete:[
+      {words:['休み','日','本','読む','音楽','聞く'], particles:'の ・ は ・ を ・ を', ja:'休みの 日は 本を 読んだり 音楽を 聞いたりします。', k:'やすみの ひは ほんを よんだり おんがくを きいたりします。', en:'On my days off I read books, listen to music, and so on.', vlv:{jlpt:'N4',cefr:'A2',minna:19}},
+      {words:['パーティー','歌う','踊る'], particles:'で', ja:'パーティーで 歌ったり 踊ったりしました。', k:'パーティーで うたったり おどったりしました。', en:'At the party we sang and danced.', vlv:{jlpt:'N4',cefr:'A2',minna:19}},
+      {words:['日曜日','掃除する','洗濯する'], particles:'は', ja:'日曜日は 掃除したり 洗濯したりします。', k:'にちようびは そうじしたり せんたくしたりします。', en:'On Sundays I do things like cleaning and laundry.', vlv:{jlpt:'N4',cefr:'A2',minna:26}}
+    ]
   }
 ];
+
+/* 既存アイテムに音声ID(au)と語彙レベル(vlv)を自動補完 */
+PATTERNS.forEach(p=>{
+  (p.imitate||[]).forEach((it,i)=>{ if(!it.au) it.au = p.id+'_'+i; });
+  const dv = it => { if(it && !it.vlv) it.vlv = p.lv; };
+  if(p.substitute && p.substitute.items) p.substitute.items.forEach(dv);
+  (p.complete||[]).forEach(dv);
+});
 
 /* ===================== 正規化・採点 ===================== */
 /* 正規化：カタカナ→ひらがな変換、空白・句読点・長音記号を除去 */
@@ -327,9 +551,27 @@ function say(text, rate){
     speechSynthesis.cancel(); speechSynthesis.speak(u);
   }catch(e){}
 }
+/* モデル音声：まず audio/bk_<id>.mp3（Voicevox/edge-tts等で事前生成）を再生し、
+   無ければ端末TTSにフォールバック。 */
+function playModel(au, text, rate){
+  const slow = rate && rate < 0.9;
+  try{
+    const a = new Audio('audio/bk_'+au+'.mp3');
+    a.playbackRate = slow ? 0.7 : 1.0;
+    let fell = false;
+    const fb = ()=>{ if(fell) return; fell=true; say(text, slow?0.7:0.95); };
+    a.addEventListener('error', fb);
+    const pr = a.play();
+    if(pr && pr.catch) pr.catch(fb);
+  }catch(e){ say(text, slow?0.7:0.95); }
+}
 document.addEventListener('click', e=>{
   const el = e.target.closest('[data-say]');
-  if(el){ say(el.getAttribute('data-say'), parseFloat(el.getAttribute('data-rate'))||0); }
+  if(!el) return;
+  const rate = parseFloat(el.getAttribute('data-rate'))||0;
+  const au = el.getAttribute('data-au');
+  if(au) playModel(au, el.getAttribute('data-say'), rate);
+  else say(el.getAttribute('data-say'), rate);
 });
 
 /* ===================== 効果音 ===================== */
@@ -444,11 +686,19 @@ function setMode(m){
   $('howBox').innerHTML = HOWTO[m];
   renderStage();
 }
-function list(){ // 現在モードの問題配列
+/* 語彙レベルでアイテムを絞る（代入・完成に適用。模倣はパターンレベルで見せる） */
+function itemVisible(it){
+  if(lvScheme==='all' || !it || !it.vlv) return true;
+  if(lvScheme==='minna') return (it.vlv.minna||99) <= lvThresh;
+  const o = LV[lvScheme].order;
+  const need = o.indexOf(it.vlv[lvScheme]), th = o.indexOf(lvThresh);
+  return (need>=0 && th>=0) ? need<=th : true;
+}
+function list(){ // 現在モードの問題配列（レベルで絞り込み）
   const p = PATTERNS[pIndex];
-  if(mode==='imitate') return p.imitate;
-  if(mode==='substitute') return p.substitute.items;
-  return p.complete;
+  let arr = (mode==='imitate') ? p.imitate : (mode==='substitute') ? p.substitute.items : p.complete;
+  if(mode!=='imitate') arr = arr.filter(itemVisible);
+  return arr;
 }
 function micHtml(){ return VOICE_OK ? `<button class="btn btn-mic btn-sm" id="micBtn" type="button">🎤 はなす</button>` : ''; }
 function answerInputHtml(){
@@ -462,6 +712,7 @@ function renderStage(){
   answered=false; revealParticles=false;
   const p = PATTERNS[pIndex];
   const arr = list();
+  if(!arr.length){ $('stage').innerHTML='<div class="empty-msg">このレベルに合う語彙がまだありません。<br>上の「レベル」を上げてください。</div>'; return; }
   const cur = arr[idx % arr.length];
   let html='';
 
@@ -475,8 +726,8 @@ function renderStage(){
         <div class="m-en">${cur.en}</div>
       </div>
       <div class="row-btns">
-        <button class="btn btn-say btn-sm" data-say="${cur.ja}">🔊 聞く</button>
-        <button class="btn btn-ghost btn-sm" data-say="${cur.ja}" data-rate="0.7">🐢 ゆっくり</button>
+        <button class="btn btn-say btn-sm" data-au="${cur.au}" data-say="${cur.ja}">🔊 聞く</button>
+        <button class="btn btn-ghost btn-sm" data-au="${cur.au}" data-say="${cur.ja}" data-rate="0.7">🐢 ゆっくり</button>
       </div>
       <div id="answerArea">${answerInputHtml()}</div>
     </div>`;

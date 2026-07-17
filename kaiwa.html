@@ -114,6 +114,10 @@
     <div id="generalBox" style="margin-top:12px">
       <label for="scenario" data-i18n="scenario.label">場面</label>
       <select id="scenario"></select>
+      <div id="detailWrap" style="margin-top:8px;display:none">
+        <label for="scenarioDetail" data-i18n="detail.label">くわしい設定（任意）</label>
+        <select id="scenarioDetail"></select>
+      </div>
     </div>
 
     <div id="textbookBox" style="margin-top:12px;display:none">
@@ -285,7 +289,7 @@
 
   var $=function(id){ return document.getElementById(id); };
   var keyEl=$("key"), scenarioEl=$("scenario"), levelEl=$("level"), roleEl=$("role"), foreignEl=$("foreignMode");
-  var practiceModeEl=$("practiceMode"), generalBox=$("generalBox"), textbookBox=$("textbookBox"), roleBox=$("roleBox"), freeBox=$("freeBox"), freeTopicEl=$("freeTopic");
+  var practiceModeEl=$("practiceMode"), generalBox=$("generalBox"), textbookBox=$("textbookBox"), roleBox=$("roleBox"), freeBox=$("freeBox"), freeTopicEl=$("freeTopic"), scenarioDetailEl=$("scenarioDetail"), detailWrap=$("detailWrap");
   var lessonEl=$("lesson"), renshuCEl=$("renshuC");
   var vocabLevelEl=$("vocabLevel"), vocabListEl=$("vocabList");
   var engineSelect=$("engineSelect"), gVoice=$("gVoice"), gTest=$("gTest");
@@ -495,10 +499,34 @@
   // 各役: v=値, label=学生の役, sit=状況説明（私=学生, あなた=相手役AI）,
   //       starts="student"なら学生から, ""ならAIから, hint=学生が先のときの案内
   var SCENARIOS=[
-    { id:"restaurant", name:"レストランで応対", roles:[
-      { v:"staff", label:"店員（接客する）", sit:"私はレストランの店員、あなたはお店に来たお客さんです。あなた（お客さん）がお店に入ってくるところから会話を始めてください。", starts:"" },
-      { v:"guest", label:"お客さん（注文する）", sit:"私はお客さん、あなたはレストランの店員です。あなた（店員）が「いらっしゃいませ」と言って会話を始めてください。", starts:"" }
-    ]},
+    { id:"ginkou", cat:"nichijou", name:"銀行で", variants:[["kouza","口座を作る"],["furikomi","お金を振り込む"],["ryougae","両替する"],["kichou","記帳・引き出し"],["loan","ローンの相談"]], roles:[
+      { v:"kyaku", label:"お客（用件を伝える）", sit:"私は銀行に来たお客、あなたは銀行の窓口の人です。あなた（銀行員）が「いらっしゃいませ。本日はどのようなご用件でしょうか」と声をかけて会話を始めてください。", starts:"" } ]},
+    { id:"yuubin", cat:"nichijou", name:"郵便局で", variants:[["nimotsu","荷物を送る"],["tegami","手紙・はがきを出す"],["kitte","切手を買う"],["saihaitatsu","再配達を頼む"]], roles:[
+      { v:"kyaku", label:"お客（用件を伝える）", sit:"私は郵便局に来たお客、あなたは郵便局の窓口の局員です。あなた（局員）が「いらっしゃいませ。どのようなご用件でしょうか」と声をかけて会話を始めてください。", starts:"" } ]},
+    { id:"yakusho", cat:"nichijou", name:"役所で", variants:[["tennyuu","転入・転出届"],["juuminhyou","住民票をもらう"],["mynumber","マイナンバーの手続き"],["kokuho","国民健康保険"]], roles:[
+      { v:"juumin", label:"住民（手続きに来た人）", sit:"私は役所に来た住民、あなたは市役所の窓口の職員です。あなた（職員）が「こんにちは。本日はどうされましたか」と声をかけて会話を始めてください。", starts:"" } ]},
+    { id:"suupaa", cat:"nichijou", name:"スーパー・コンビニで", variants:[["supermarket","スーパー"],["konbini","コンビニ"],["drugstore","ドラッグストア"],["depachika","デパ地下（惣菜）"]], roles:[
+      { v:"kyaku", label:"お客（レジで会計する）", sit:"私は買い物に来たお客、あなたはお店の店員です。私がレジに商品を持って行きますので、あなた（店員）が「いらっしゃいませ」とレジで会計を始めてください。", starts:"" } ]},
+    { id:"toshokan", cat:"nichijou", name:"図書館で", variants:[["kariru","本を借りる"],["card","貸出カードを作る"],["sagasu","本を探す"],["encho","延長・返却"]], roles:[
+      { v:"riyousha", label:"利用者（用件を伝える）", sit:"私は図書館に来た利用者、あなたは図書館のカウンターの職員（司書）です。あなた（職員）が「こんにちは。どうされましたか」と声をかけて会話を始めてください。", starts:"" } ]},
+    { id:"haisha", cat:"nichijou", name:"歯医者で", variants:[["yoyaku","予約する"],["itami","痛み・症状を伝える"],["setsumei","治療の説明を聞く"],["kenshin","定期健診"]], roles:[
+      { v:"kanja", label:"患者（症状・用件を伝える）", sit:"私は歯医者に来た患者、あなたは歯科医院の受付（または歯科医）です。あなた（受付）が「こんにちは。どうされましたか」と声をかけて会話を始めてください。", starts:"" } ]},
+    { id:"eki", cat:"nichijou", name:"駅で", variants:[["kippu","切符を買う"],["norikae","乗り換えをたずねる"],["wasuremono","忘れ物をさがす"],["chien","遅延・払い戻し"]], roles:[
+      { v:"kyaku", label:"乗客（駅員にたずねる）", sit:"私は駅に来た乗客、あなたは駅員です。私が声をかけますので、駅員として応対してください。", starts:"student", hint:"すみません、ちょっとお聞きしたいのですが。" } ]},
+    { id:"gakkou", cat:"nichijou", name:"学校で", variants:[["shitsumon","先生に質問する"],["kesseki","欠席・遅刻の連絡"],["jimushitsu","事務室で手続き"],["tomodachi","友達と話す"]], roles:[
+      { v:"seito", label:"学生（先生や職員に話しかける）", sit:"私は学生、あなたは学校の先生・職員、または友達です。私が話しかけますので、その場面に合った相手として応対してください。", starts:"student", hint:"先生、ちょっとよろしいですか。" } ]},
+    { id:"shukuhaku", cat:"nichijou", name:"宿泊施設で", variants:[["checkin","チェックイン"],["yoyaku","予約の確認・変更"],["setsubi","設備・サービスを聞く"],["checkout","チェックアウト・会計"]], roles:[
+      { v:"kyaku", label:"宿泊客（用件を伝える）", sit:"私はホテルや旅館に来た宿泊客、あなたはフロントの係員です。あなた（フロント）が「いらっしゃいませ。どうされましたか」と声をかけて会話を始めてください。", starts:"" } ]},
+    { id:"norimono", cat:"nichijou", name:"乗り物のなかで", variants:[["densha","電車"],["bus","バス"],["taxi","タクシー"],["hikouki","飛行機"]], roles:[
+      { v:"kyaku", label:"乗客（運転手・乗務員にたずねる）", sit:"私は乗り物に乗っている乗客、あなたは運転手・乗務員（バスやタクシーの運転手、客室乗務員など）です。私が声をかけますので、乗務員として応対してください。", starts:"student", hint:"すみません、ちょっとお聞きしたいのですが。" } ]},
+    { id:"goraku", cat:"nichijou", name:"公共娯楽施設で", variants:[["cinema","映画館"],["museum","美術館・博物館"],["yuuenchi","遊園地"],["onsen","温泉・銭湯"],["sports","スポーツ観戦"]], roles:[
+      { v:"kyaku", label:"お客（受付でたずねる・入場する）", sit:"私は娯楽施設に来たお客、あなたは受付やチケット売り場の係員です。あなた（係員）が「いらっしゃいませ。どうされましたか」と声をかけて会話を始めてください。", starts:"" } ]},
+    { id:"omiyage", cat:"nichijou", name:"お土産屋さんで", variants:[["osusume","おすすめを聞く"],["shishoku","試食する"],["kaikei","会計・免税"],["haisou","配送を頼む"]], roles:[
+      { v:"kyaku", label:"お客（店員に話す）", sit:"私はお土産屋に来たお客、あなたはお土産屋の店員です。あなた（店員）が「いらっしゃいませ」と声をかけて会話を始めてください。", starts:"" } ]},
+    { id:"shoten", cat:"nichijou", name:"書店で", variants:[["sagasu","本を探す"],["toriyose","取り寄せを頼む"],["osusume","おすすめを聞く"],["kaikei","会計"]], roles:[
+      { v:"kyaku", label:"お客（店員に話す）", sit:"私は書店に来たお客、あなたは書店の店員です。あなた（店員）が「いらっしゃいませ。何かお探しですか」と声をかけて会話を始めてください。", starts:"" } ]},
+    { id:"inshokuten", cat:"nichijou", name:"飲食店で", variants:[["famiresu","ファミレス"],["fastfood","ファストフード店"],["ramen","ラーメン屋"],["sushi","すし屋"],["yakiniku","焼き肉屋"],["cafe","カフェ"],["izakaya","居酒屋"]], roles:[
+      { v:"kyaku", label:"お客（注文する）", sit:"私は飲食店に来たお客、あなたはお店の店員です。あなた（店員）が「いらっしゃいませ」と声をかけ、席へ案内して注文を取ってください。", starts:"" } ]},
     { id:"interview", name:"アルバイト・就職の面接", roles:[
       { v:"applicant", label:"応募者（面接を受ける）", sit:"私はアルバイトや就職の面接を受ける応募者、あなたは面接官です。あなた（面接官）が面接を始め、自己紹介や志望動機などを一つずつ質問してください。", starts:"" },
       { v:"interviewer", label:"面接官（面接をする）", sit:"私が面接官、あなたは面接を受ける応募者です。私（面接官）が先に始めるので、あなた（応募者）は質問に自然に答えてください。", starts:"student", hint:"面接官として始めましょう（例:「それでは面接を始めます。まず自己紹介をお願いします」）" }
@@ -518,10 +546,6 @@
     { id:"phone", name:"電話で予約する", roles:[
       { v:"caller", label:"予約する（電話をかける）", sit:"電話での会話です。私はお店に予約の電話をかける客、あなたはお店の人です。私が電話をかけるので、あなたはお店の人として応対してください。", starts:"student", hint:"電話をかけて予約しましょう（例:「もしもし、予約をお願いしたいのですが」）" },
       { v:"shop", label:"お店の人（予約を受ける）", sit:"電話での会話です。私はお店の人、あなたは予約の電話をかけてきたお客さんです。あなた（客）が「もしもし」と電話をかけてきて、予約をお願いしてください。", starts:"" }
-    ]},
-    { id:"shopping", name:"買い物・コンビニ", roles:[
-      { v:"customer", label:"お客さん（買い物する）", sit:"私はお店（コンビニやスーパーなど）のお客さん、あなたは店員です。あなた（店員）が「いらっしゃいませ」と言って会話を始めてください。", starts:"" },
-      { v:"clerk", label:"店員（レジで応対する）", sit:"私はお店の店員、あなたはお店に来たお客さんです。あなた（お客さん）が買いたい物を持ってレジに来るところから会話を始めてください。", starts:"" }
     ]},
     { id:"jikoshoukai", cat:"kouryuu", name:"自己紹介する", roles:[
       { v:"self", label:"自分を紹介する人", sit:"私はあなたと初めて会った人、あなたも私と初対面の相手です。私が自己紹介をするので、あなたは相手として自然に応対してください。", starts:"student", hint:"（例:「はじめまして。私は〜と申します」）と話しかけましょう" }
@@ -628,7 +652,21 @@
     henkou:{ en:"Asking to Change a Date", zh:"请求更改日期", roles:{ requester:{ en:"Request a date change", zh:"请求更改日期" } } },
     tanomi:{ en:"Asking a Favor", zh:"拜托别人", roles:{ requester:{ en:"Ask a favor", zh:"拜托别人" } } },
     chuumon_machigai:{ en:"Reporting a Wrong Order", zh:"告知点单错误", roles:{ customer:{ en:"Report the mistake", zh:"告知错误的顾客" } } },
-    jiko:{ en:"Explaining a Bad Situation", zh:"说明糟糕的状况", roles:{ explainer:{ en:"Explain the situation", zh:"说明状况的人" } } }
+    jiko:{ en:"Explaining a Bad Situation", zh:"说明糟糕的状况", roles:{ explainer:{ en:"Explain the situation", zh:"说明状况的人" } } },
+    ginkou:{ en:"At the bank", zh:"在银行", roles:{ kyaku:{ en:"Customer (state your business)", zh:"顾客（说明来意）" } } },
+    yuubin:{ en:"At the post office", zh:"在邮局", roles:{ kyaku:{ en:"Customer (state your business)", zh:"顾客（说明来意）" } } },
+    yakusho:{ en:"At the city office", zh:"在政府办事处", roles:{ juumin:{ en:"Resident (here for a procedure)", zh:"居民（前来办理手续）" } } },
+    suupaa:{ en:"At the supermarket / convenience store", zh:"在超市・便利店", roles:{ kyaku:{ en:"Customer (checking out)", zh:"顾客（在收银台结账）" } } },
+    toshokan:{ en:"At the library", zh:"在图书馆", roles:{ riyousha:{ en:"Patron (state your business)", zh:"读者（说明来意）" } } },
+    haisha:{ en:"At the dentist", zh:"在牙科诊所", roles:{ kanja:{ en:"Patient (describe symptoms/business)", zh:"患者（说明症状・来意）" } } },
+    eki:{ en:"At the station", zh:"在车站", roles:{ kyaku:{ en:"Passenger (ask the station staff)", zh:"乘客（向站务员询问）" } } },
+    gakkou:{ en:"At school", zh:"在学校", roles:{ seito:{ en:"Student (talk to a teacher or staff)", zh:"学生（与老师或职员交谈）" } } },
+    shukuhaku:{ en:"At the accommodation", zh:"在住宿设施", roles:{ kyaku:{ en:"Guest (state your business)", zh:"住客（说明来意）" } } },
+    norimono:{ en:"On board (transport)", zh:"在交通工具上", roles:{ kyaku:{ en:"Passenger (ask the driver/crew)", zh:"乘客（向司机・乘务员询问）" } } },
+    goraku:{ en:"At a leisure facility", zh:"在公共娱乐设施", roles:{ kyaku:{ en:"Visitor (ask at reception / enter)", zh:"顾客（在前台询问・入场）" } } },
+    omiyage:{ en:"At the souvenir shop", zh:"在特产店", roles:{ kyaku:{ en:"Customer (talk to the clerk)", zh:"顾客（与店员交谈）" } } },
+    shoten:{ en:"At the bookstore", zh:"在书店", roles:{ kyaku:{ en:"Customer (talk to the clerk)", zh:"顾客（与店员交谈）" } } },
+    inshokuten:{ en:"At a restaurant", zh:"在餐饮店", roles:{ kyaku:{ en:"Customer (place an order)", zh:"顾客（点餐）" } } }
   };
   function scnName(s){ var t=SCN_I18N[s.id]; return (UI_LANG!=="ja"&&t&&t[UI_LANG])?t[UI_LANG]:s.name; }
   function roleLabel(sid,r){ var t=SCN_I18N[sid]; return (UI_LANG!=="ja"&&t&&t.roles&&t.roles[r.v]&&t.roles[r.v][UI_LANG])?t.roles[r.v][UI_LANG]:r.label; }
@@ -665,10 +703,28 @@
       var o=document.createElement("option"); o.value=r.v; o.textContent=roleLabel(sc.id,r); roleEl.appendChild(o);
     });
     if(saved){ roleEl.value=saved; }
+    populateDetails();
+  }
+  function detailNone(){ return UI_LANG==="en"?"No preference (AI decides)":(UI_LANG==="zh"?"不指定（交给AI）":"指定なし（おまかせ）"); }
+  function populateDetails(){
+    var sc=getScenario(); var vs=sc.variants||[];
+    scenarioDetailEl.innerHTML="";
+    if(!vs.length){ detailWrap.style.display="none"; return; }
+    detailWrap.style.display="block";
+    var o0=document.createElement("option"); o0.value=""; o0.textContent=detailNone(); scenarioDetailEl.appendChild(o0);
+    vs.forEach(function(pair){ var o=document.createElement("option"); o.value=pair[0]; o.textContent=pair[1]; scenarioDetailEl.appendChild(o); });
+    var saved=store.get("detail_"+sc.id); if(saved){ scenarioDetailEl.value=saved; }
+  }
+  function currentDetailLabel(){
+    if(detailWrap.style.display==="none") return "";
+    var v=scenarioDetailEl.value; if(!v) return "";
+    var o=scenarioDetailEl.options[scenarioDetailEl.selectedIndex];
+    return o?o.textContent:"";
   }
   populateScenarios(); populateRoles();
   scenarioEl.addEventListener("change", function(){ store.set("scenario_"+currentCat(),scenarioEl.value); populateRoles(); });
   roleEl.addEventListener("change", function(){ store.set("role_"+getScenario().id, roleEl.value); });
+  scenarioDetailEl.addEventListener("change", function(){ store.set("detail_"+getScenario().id, scenarioDetailEl.value); });
 
   // ---- みんなの日本語（教科書）データ: 各課の練習C(c) と 新出語彙・文型(v) ----
   // MINNA は別スクリプトで定義（window.MINNA）。無ければ教科書モードは無効（完全公開版）。
@@ -768,6 +824,8 @@
       var sc=getScenario(), r=getRole();
       lines.push("あなたは日本語会話の練習相手です。日本の「"+sc.name+"」の場面でロールプレイをします。");
       lines.push(r.sit);
+      var dl=currentDetailLabel();
+      if(dl){ lines.push("今回の具体的な設定：「"+dl+"」。この設定に合わせて、店や場面・用件を具体的にして応対してください。"); }
     }
 
     if(foreign){
@@ -1042,7 +1100,7 @@
     store.set("practice_mode",practiceModeEl.value);
     if(isTextbook()){ store.set("lesson",lessonEl.value); store.set("renshuC_"+currentLesson(),renshuCEl.value); }
     else if(isFree()){ store.set("free_topic", freeTopicEl.value); }
-    else { store.set("scenario_"+currentCat(),scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value); }
+    else { store.set("scenario_"+currentCat(),scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value); store.set("detail_"+getScenario().id, scenarioDetailEl.value); }
     store.set("vocab_level",vocabLevelEl.value); store.set("vocab_list",vocabListEl.value);
     systemText=buildSystem(); history=[]; log.innerHTML=""; creditLine.textContent="";
     setupCard.classList.add("hidden"); talkCard.classList.remove("hidden");
@@ -1095,6 +1153,7 @@
       "mode.free":"Free conversation (your topic)",
       "mode.textbook":"Minna no Nihongo (Textbook Practice C)",
       "free.label":"Topic (optional — can be blank)",
+      "detail.label":"Detail (optional)",
       "free.ph":"e.g. weekend plans, favorite movies, travel in Japan, work…",
       "free.hint":"Chat freely with the AI about this topic. Leave blank and the AI starts from an everyday topic. No scene/role is used; the level and vocabulary settings below still apply.",
       "scenario.label":"Situation",
@@ -1163,6 +1222,7 @@
       "mode.free":"自由会话（自定主题）",
       "mode.textbook":"大家的日本语（课本练习C）",
       "free.label":"主题（可选・可留空）",
+      "detail.label":"详细设定（可选）",
       "free.ph":"例）周末计划、喜欢的电影、日本旅行、工作…",
       "free.hint":"和AI围绕这个主题自由聊天。留空时AI会从身边话题开始。不使用场景和角色设定；下面的等级和词汇设置仍然有效。",
       "scenario.label":"场景",

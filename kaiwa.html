@@ -117,6 +117,7 @@
       <div id="detailWrap" style="margin-top:8px;display:none">
         <label for="scenarioDetail" data-i18n="detail.label">くわしい設定（任意）</label>
         <select id="scenarioDetail"></select>
+        <input type="text" id="detailOther" placeholder="自由に入力（例：混んでいる店、常連の店、外国人観光客が多い店 など）" data-i18n-ph="detail.other.ph" autocomplete="off" style="display:none;margin-top:6px">
       </div>
     </div>
 
@@ -289,7 +290,7 @@
 
   var $=function(id){ return document.getElementById(id); };
   var keyEl=$("key"), scenarioEl=$("scenario"), levelEl=$("level"), roleEl=$("role"), foreignEl=$("foreignMode");
-  var practiceModeEl=$("practiceMode"), generalBox=$("generalBox"), textbookBox=$("textbookBox"), roleBox=$("roleBox"), freeBox=$("freeBox"), freeTopicEl=$("freeTopic"), scenarioDetailEl=$("scenarioDetail"), detailWrap=$("detailWrap");
+  var practiceModeEl=$("practiceMode"), generalBox=$("generalBox"), textbookBox=$("textbookBox"), roleBox=$("roleBox"), freeBox=$("freeBox"), freeTopicEl=$("freeTopic"), scenarioDetailEl=$("scenarioDetail"), detailWrap=$("detailWrap"), detailOtherEl=$("detailOther");
   var lessonEl=$("lesson"), renshuCEl=$("renshuC");
   var vocabLevelEl=$("vocabLevel"), vocabListEl=$("vocabList");
   var engineSelect=$("engineSelect"), gVoice=$("gVoice"), gTest=$("gTest");
@@ -501,7 +502,7 @@
   var SCENARIOS=[
     { id:"ginkou", cat:"nichijou", name:"銀行で", variants:[["kouza","口座を作る"],["furikomi","お金を振り込む"],["ryougae","両替する"],["kichou","記帳・引き出し"],["loan","ローンの相談"]], roles:[
       { v:"kyaku", label:"お客（用件を伝える）", sit:"私は銀行に来たお客、あなたは銀行の窓口の人です。あなた（銀行員）が「いらっしゃいませ。本日はどのようなご用件でしょうか」と声をかけて会話を始めてください。", starts:"" } ]},
-    { id:"yuubin", cat:"nichijou", name:"郵便局で", variants:[["nimotsu","荷物を送る"],["tegami","手紙・はがきを出す"],["kitte","切手を買う"],["saihaitatsu","再配達を頼む"]], roles:[
+    { id:"yuubin", cat:"nichijou", name:"郵便局で", variants:[["nimotsu","荷物を送る"],["tegami","手紙・はがきを出す"],["kitte","切手を買う"],["saihaitatsu","再配達を頼む"],["ginkoukouza","銀行口座の開設（ゆうちょ）"],["juushohenkou","住所変更手続き（転居届）"]], roles:[
       { v:"kyaku", label:"お客（用件を伝える）", sit:"私は郵便局に来たお客、あなたは郵便局の窓口の局員です。あなた（局員）が「いらっしゃいませ。どのようなご用件でしょうか」と声をかけて会話を始めてください。", starts:"" } ]},
     { id:"yakusho", cat:"nichijou", name:"役所で", variants:[["tennyuu","転入・転出届"],["juuminhyou","住民票をもらう"],["mynumber","マイナンバーの手続き"],["kokuho","国民健康保険"]], roles:[
       { v:"juumin", label:"住民（手続きに来た人）", sit:"私は役所に来た住民、あなたは市役所の窓口の職員です。あなた（職員）が「こんにちは。本日はどうされましたか」と声をかけて会話を始めてください。", starts:"" } ]},
@@ -706,25 +707,32 @@
     populateDetails();
   }
   function detailNone(){ return UI_LANG==="en"?"No preference (AI decides)":(UI_LANG==="zh"?"不指定（交给AI）":"指定なし（おまかせ）"); }
+  function otherLabel(){ return UI_LANG==="en"?"Other (type your own)":(UI_LANG==="zh"?"其他（自行输入）":"その他（自由に入力）"); }
+  function updateDetailOther(){ detailOtherEl.style.display = (scenarioDetailEl.value==="__other__")?"block":"none"; }
   function populateDetails(){
     var sc=getScenario(); var vs=sc.variants||[];
     scenarioDetailEl.innerHTML="";
-    if(!vs.length){ detailWrap.style.display="none"; return; }
+    if(!vs.length){ detailWrap.style.display="none"; detailOtherEl.style.display="none"; return; }
     detailWrap.style.display="block";
     var o0=document.createElement("option"); o0.value=""; o0.textContent=detailNone(); scenarioDetailEl.appendChild(o0);
     vs.forEach(function(pair){ var o=document.createElement("option"); o.value=pair[0]; o.textContent=pair[1]; scenarioDetailEl.appendChild(o); });
+    var oO=document.createElement("option"); oO.value="__other__"; oO.textContent=otherLabel(); scenarioDetailEl.appendChild(oO);
     var saved=store.get("detail_"+sc.id); if(saved){ scenarioDetailEl.value=saved; }
+    detailOtherEl.value=store.get("detailother_"+sc.id)||"";
+    updateDetailOther();
   }
   function currentDetailLabel(){
     if(detailWrap.style.display==="none") return "";
     var v=scenarioDetailEl.value; if(!v) return "";
+    if(v==="__other__"){ return (detailOtherEl.value||"").trim(); }
     var o=scenarioDetailEl.options[scenarioDetailEl.selectedIndex];
     return o?o.textContent:"";
   }
   populateScenarios(); populateRoles();
   scenarioEl.addEventListener("change", function(){ store.set("scenario_"+currentCat(),scenarioEl.value); populateRoles(); });
   roleEl.addEventListener("change", function(){ store.set("role_"+getScenario().id, roleEl.value); });
-  scenarioDetailEl.addEventListener("change", function(){ store.set("detail_"+getScenario().id, scenarioDetailEl.value); });
+  scenarioDetailEl.addEventListener("change", function(){ store.set("detail_"+getScenario().id, scenarioDetailEl.value); updateDetailOther(); if(scenarioDetailEl.value==="__other__"){ detailOtherEl.focus(); } });
+  detailOtherEl.addEventListener("input", function(){ store.set("detailother_"+getScenario().id, detailOtherEl.value); });
 
   // ---- みんなの日本語（教科書）データ: 各課の練習C(c) と 新出語彙・文型(v) ----
   // MINNA は別スクリプトで定義（window.MINNA）。無ければ教科書モードは無効（完全公開版）。
@@ -1154,6 +1162,7 @@
       "mode.textbook":"Minna no Nihongo (Textbook Practice C)",
       "free.label":"Topic (optional — can be blank)",
       "detail.label":"Detail (optional)",
+      "detail.other.ph":"Type your own (e.g. a crowded shop, a regulars' place, many foreign tourists)",
       "free.ph":"e.g. weekend plans, favorite movies, travel in Japan, work…",
       "free.hint":"Chat freely with the AI about this topic. Leave blank and the AI starts from an everyday topic. No scene/role is used; the level and vocabulary settings below still apply.",
       "scenario.label":"Situation",
@@ -1223,6 +1232,7 @@
       "mode.textbook":"大家的日本语（课本练习C）",
       "free.label":"主题（可选・可留空）",
       "detail.label":"详细设定（可选）",
+      "detail.other.ph":"自行输入（例：拥挤的店、常客光顾的店、外国游客很多的店）",
       "free.ph":"例）周末计划、喜欢的电影、日本旅行、工作…",
       "free.hint":"和AI围绕这个主题自由聊天。留空时AI会从身边话题开始。不使用场景和角色设定；下面的等级和词汇设置仍然有效。",
       "scenario.label":"场景",

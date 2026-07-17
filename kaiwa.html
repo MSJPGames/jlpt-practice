@@ -506,7 +506,7 @@
       { v:"kyaku", label:"お客（用件を伝える）", sit:"私は郵便局に来たお客、あなたは郵便局の窓口の局員です。あなた（局員）が「いらっしゃいませ。どのようなご用件でしょうか」と声をかけて会話を始めてください。", starts:"" } ]},
     { id:"yakusho", cat:"nichijou", name:"役所で", variants:[["tennyuu","転入・転出届"],["juuminhyou","住民票をもらう"],["mynumber","マイナンバーの手続き"],["kokuho","国民健康保険"]], roles:[
       { v:"juumin", label:"住民（手続きに来た人）", sit:"私は役所に来た住民、あなたは市役所の窓口の職員です。あなた（職員）が「こんにちは。本日はどうされましたか」と声をかけて会話を始めてください。", starts:"" } ]},
-    { id:"suupaa", cat:"nichijou", name:"お店で", variants:[["supermarket","スーパー"],["konbini","コンビニ"],["drugstore","ドラッグストア"],["depachika","デパ地下（惣菜）"],["omiyage","お土産屋"],["iryou","衣料品店"],["kutsu","靴屋"],["shoten","書店"],["bunbougu","文房具店"],["sports","スポーツ用品店"],["hanko","判子屋"]], roles:[
+    { id:"suupaa", cat:"nichijou", name:"お店で", variants:[["supermarket","スーパー"],["konbini","コンビニ"],["drugstore","ドラッグストア"],["depachika","デパ地下（惣菜）"],["omiyage","お土産屋"],["iryou","衣料品店"],["kutsu","靴屋"],["shoten","書店"],["bunbougu","文房具店"],["sports","スポーツ用品店"],["hanko","判子屋"],["pan","パン屋"],["cake","ケーキ屋"]], roles:[
       { v:"kyaku", label:"お客（店員に話す）", sit:"私は買い物に来たお客、あなたはお店の店員です。あなた（店員）が「いらっしゃいませ」と声をかけて接客を始めてください。", starts:"" } ]},
     { id:"toshokan", cat:"nichijou", name:"図書館で", variants:[["kariru","本を借りる"],["card","貸出カードを作る"],["sagasu","本を探す"],["encho","延長・返却"]], roles:[
       { v:"riyousha", label:"利用者（用件を伝える）", sit:"私は図書館に来た利用者、あなたは図書館のカウンターの職員（司書）です。あなた（職員）が「こんにちは。どうされましたか」と声をかけて会話を始めてください。", starts:"" } ]},
@@ -532,9 +532,9 @@
       { v:"guest", label:"インタビューを受ける（ゲスト）", sit:"私は雑誌やテレビの記者（インタビュアー）、あなたはインタビューを受けるゲストです。私（記者）がていねいにあいさつして始めるので、あなた（ゲスト）は質問に自由に答えてください。名前・出身・今していること（仕事や勉強）・趣味・日本語を勉強している理由・これからの夢など、身近な話題を一つずつやさしく質問し、答えに軽く相づちや感想を返してから次の質問へ進んでください。", starts:"" },
       { v:"reporter", label:"インタビューする（記者）", sit:"私はインタビューを受けるゲストです。まず自分でひとつの人物像（例：日本で働く外国出身の人、パン職人、留学経験者など）を決めて、その人になりきり、最後まで同じ設定で一貫して答えます。あなたは取材する記者です。あなた（記者）が先にあいさつして、質問を一つずつしてください。私はその質問に自然に答えます。", starts:"student", hint:"記者として始めましょう（例:「本日はお時間をいただきありがとうございます。まず、お名前とお仕事を教えていただけますか？」）" }
     ]},
-    { id:"hospital", name:"病院の受付", roles:[
-      { v:"patient", label:"患者（症状を伝える）", sit:"私は病院に来た患者、あなたは病院の受付の人です。あなた（受付）が「どうされましたか」と声をかけて会話を始めてください。", starts:"" },
-      { v:"reception", label:"受付の人（患者に応対する）", sit:"私は病院の受付の人、あなたは病院に来た患者です。私（受付）が先に声をかけるので、あなた（患者）は症状などを伝えてください。", starts:"student", hint:"受付として声をかけましょう（例:「こんにちは。今日はどうされましたか？」）" }
+    { id:"hospital", name:"病院・薬局で", variants:[["uketsuke","受付で"],["shinsatsu","診察で（医者と話す）"],["kensa","検査で"],["kaikei","会計で"],["yakkyoku","薬局で"]], roles:[
+      { v:"patient", label:"患者（症状・用件を伝える）", sit:"私は病院・薬局に来た患者、あなたはスタッフ（受付・医者・看護師・薬剤師など、場面に合う人）です。あなたから場面に合わせて「どうされましたか」などと声をかけて会話を始めてください。", starts:"" },
+      { v:"reception", label:"スタッフ（患者に応対する）", sit:"私は病院・薬局のスタッフ、あなたは来た患者です。私（スタッフ）が先に声をかけるので、あなた（患者）は症状や用件を伝えてください。", starts:"student", hint:"スタッフとして声をかけましょう（例:「こんにちは。今日はどうされましたか？」）" }
     ]},
     { id:"directions", name:"道案内", roles:[
       { v:"asker", label:"道を聞く（たずねる）", sit:"私は道に迷って道をたずねる人、あなたは通りすがりの親切な人です。私が話しかけるので、あなたは道を教えてあげてください。", starts:"student", hint:"「すみません」と話しかけて道をたずねましょう（例:「すみません、駅はどこですか？」）" },
@@ -618,9 +618,9 @@
     media_interview:{ en:"Interview (press / talk)", zh:"采访（访谈・对谈）", roles:{
       guest:{en:"Interviewee (guest)", zh:"接受采访（嘉宾）"},
       reporter:{en:"Interviewer (reporter)", zh:"进行采访（记者）"} } },
-    hospital:{ en:"Hospital reception", zh:"医院挂号台", roles:{
-      patient:{en:"Patient (describe symptoms)", zh:"患者（说明症状）"},
-      reception:{en:"Receptionist (help the patient)", zh:"挂号人员（接待患者）"} } },
+    hospital:{ en:"At the hospital / pharmacy", zh:"在医院・药局", roles:{
+      patient:{en:"Patient (describe symptoms/business)", zh:"患者（说明症状・来意）"},
+      reception:{en:"Staff (help the patient)", zh:"工作人员（接待患者）"} } },
     directions:{ en:"Asking for directions", zh:"问路", roles:{
       asker:{en:"Ask the way", zh:"问路的人"},
       helper:{en:"Give directions", zh:"指路的人"} } },

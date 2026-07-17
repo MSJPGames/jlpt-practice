@@ -544,6 +544,10 @@
       { v:"caller", label:"予約する（電話をかける）", sit:"電話での会話です。私はお店に予約の電話をかける客、あなたはお店の人です。私が電話をかけるので、あなたはお店の人として応対してください。", starts:"student", hint:"電話をかけて予約しましょう（例:「もしもし、予約をお願いしたいのですが」）" },
       { v:"shop", label:"お店の人（予約を受ける）", sit:"電話での会話です。私はお店の人、あなたは予約の電話をかけてきたお客さんです。あなた（客）が「もしもし」と電話をかけてきて、予約をお願いしてください。", starts:"" }
     ]},
+    { id:"koban", cat:"nichijou", name:"交番・警察署で", variants:[["michi","道をたずねる"],["otoshimono_todoke","落とし物・忘れ物を届ける"],["otoshimono_uketori","落とし物を受け取りに来た"],["tounan","盗難・被害を届ける"],["jiko","事故を届ける"],["boumei","防犯・迷子などの相談"]], roles:[
+      { v:"soudan", label:"相談・届け出をする人", sit:"私は交番・警察署に来た人、あなたは警察官です。あなた（警察官）が「どうしましたか」と声をかけて会話を始めてください。", starts:"" } ]},
+    { id:"ie", cat:"nichijou", name:"家で", variants:[["takuhai","宅配便を受け取る"],["houmon_hanbai","訪問販売の対応"],["kanyuu","勧誘を断る（新聞・NHK・宗教など）"],["kinjo","近所の人とあいさつ"],["denwa_kanyuu","電話の勧誘を断る"],["tenken","水道・ガスなどの点検"]], roles:[
+      { v:"juumin", label:"住人（応対する）", sit:"私は家にいる住人、あなたは家に来た人（宅配便の配達員・訪問販売員・勧誘の人・近所の人・点検の人など、設定に合う人）です。あなたがチャイムを鳴らして訪ねてくる（または電話をかけてくる）ところから会話を始めてください。", starts:"" } ]},
     { id:"jikoshoukai", cat:"kouryuu", name:"自己紹介する", roles:[
       { v:"self", label:"自分を紹介する人", sit:"私はあなたと初めて会った人、あなたも私と初対面の相手です。私が自己紹介をするので、あなたは相手として自然に応対してください。", starts:"student", hint:"（例:「はじめまして。私は〜と申します」）と話しかけましょう" }
     ]},
@@ -663,7 +667,9 @@
     goraku:{ en:"At a leisure facility", zh:"在公共娱乐设施", roles:{ kyaku:{ en:"Visitor (ask at reception / enter)", zh:"顾客（在前台询问・入场）" } } },
     omiyage:{ en:"At the souvenir shop", zh:"在特产店", roles:{ kyaku:{ en:"Customer (talk to the clerk)", zh:"顾客（与店员交谈）" } } },
     shoten:{ en:"At the bookstore", zh:"在书店", roles:{ kyaku:{ en:"Customer (talk to the clerk)", zh:"顾客（与店员交谈）" } } },
-    inshokuten:{ en:"At a restaurant", zh:"在餐饮店", roles:{ kyaku:{ en:"Customer (place an order)", zh:"顾客（点餐）" } } }
+    inshokuten:{ en:"At a restaurant", zh:"在餐饮店", roles:{ kyaku:{ en:"Customer (place an order)", zh:"顾客（点餐）" } } },
+    koban:{ en:"At the police box / station", zh:"在派出所・警察局", roles:{ soudan:{ en:"Person reporting / asking", zh:"报案・咨询的人" } } },
+    ie:{ en:"At home (a visitor comes)", zh:"在家（有人来访）", roles:{ juumin:{ en:"Resident (respond to the visitor)", zh:"居民（应对来访者）" } } }
   };
   function scnName(s){ var t=SCN_I18N[s.id]; return (UI_LANG!=="ja"&&t&&t[UI_LANG])?t[UI_LANG]:s.name; }
   function roleLabel(sid,r){ var t=SCN_I18N[sid]; return (UI_LANG!=="ja"&&t&&t.roles&&t.roles[r.v]&&t.roles[r.v][UI_LANG])?t.roles[r.v][UI_LANG]:r.label; }

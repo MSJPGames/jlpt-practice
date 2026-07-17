@@ -106,6 +106,7 @@
       <select id="practiceMode">
         <option value="nichijou" selected data-i18n="mode.nichijou">日常生活</option>
         <option value="kouryuu" data-i18n="mode.kouryuu">交流</option>
+        <option value="business" data-i18n="mode.business">ビジネス</option>
         <option value="free" data-i18n="mode.free">自由会話（テーマ自由）</option>
         <option value="textbook" data-i18n="mode.textbook">みんなの日本語（教科書の練習C）</option>
       </select>
@@ -579,9 +580,6 @@
     { id:"iken", cat:"kouryuu", name:"意見を出し合う", roles:[
       { v:"opinion", label:"意見を出し合う人", sit:"私はあなたと意見を交換する相手、あなたは私の知り合いです。あなたがあるテーマを出して「〜についてどう思う？」と私の意見を聞いて会話を始めてください。", starts:"" }
     ]},
-    { id:"dengon", cat:"kouryuu", name:"電話で伝言を頼む", roles:[
-      { v:"caller", label:"伝言を頼む人", sit:"これは電話での会話です。私は電話をかけた人、あなたは電話に出て取り次ぐ相手です。私が不在の人への伝言をお願いするので、あなたは相手として応対してください。", starts:"student", hint:"（例:「もしもし、〜さんはいらっしゃいますか？」）と話しかけましょう" }
-    ]},
     { id:"shoujou", cat:"kouryuu", name:"医者に症状を説明する", roles:[
       { v:"patient", label:"症状を説明する患者", sit:"私は診察を受ける患者、あなたは医者です。あなた（医者）が「今日はどうされましたか」と声をかけて会話を始めてください。", starts:"" }
     ]},
@@ -591,12 +589,6 @@
     { id:"jouken", cat:"kouryuu", name:"希望の条件を説明する", roles:[
       { v:"customer", label:"条件を説明する客", sit:"私は部屋や品物を探している客、あなたは不動産屋や店のスタッフです。あなた（スタッフ）が「どのようなものをお探しですか」と希望の条件を尋ねて会話を始めてください。", starts:"" }
     ]},
-    { id:"baito", cat:"kouryuu", name:"電話でアルバイトに応募する", roles:[
-      { v:"applicant", label:"電話で応募する人", sit:"これは電話での会話です。私は求人に応募する人、あなたは店や会社の採用担当者です。私が電話でアルバイトに応募するので、あなたは担当者として応対してください。", starts:"student", hint:"（例:「求人を見てお電話しました。アルバイトに応募したいのですが…」）と話しかけましょう" }
-    ]},
-    { id:"henkou", cat:"kouryuu", name:"日にち変更の許可を求める", roles:[
-      { v:"requester", label:"日にち変更を頼む人", sit:"私は予約や約束をした人、あなたはその相手（店や知り合い）です。私が日にちの変更をお願いするので、あなたは相手として応対してください。", starts:"student", hint:"（例:「すみません、予約の日にちを変更したいのですが…」）と話しかけましょう" }
-    ]},
     { id:"tanomi", cat:"kouryuu", name:"頼み事をする", roles:[
       { v:"requester", label:"頼み事をする人", sit:"私は頼み事をする人、あなたは私の知り合いや近くの人です。私がちょっとした頼み事をお願いするので、あなたは相手として応対してください。", starts:"student", hint:"（例:「すみません、ちょっとお願いがあるのですが…」）と話しかけましょう" }
     ]},
@@ -605,7 +597,23 @@
     ]},
     { id:"jiko", cat:"kouryuu", name:"悪い状況を説明する", roles:[
       { v:"explainer", label:"状況を説明する人", sit:"私はトラブルにあった人、あなたは話を聞く相手（警察や知り合いなど）です。私が交通事故などにあった状況を説明するので、あなたは相手として応対してください。", starts:"student", hint:"（例:「実はさっき、事故にあってしまって…」）と話しかけましょう" }
-    ]}
+    ]},
+    { id:"biz_tel_in", cat:"business", name:"会社の電話を受ける", variants:[["torisugi","取り次ぐ"],["dengon","伝言を受ける"],["fuzai","不在を伝える"],["youken","用件を聞く"]], roles:[
+      { v:"shain", label:"社員（電話を受ける）", sit:"これは会社にかかってきた電話です。私は電話を受ける会社の社員、あなたは電話をかけてきた社外の人（取引先など）です。あなたが「もしもし、〜社の〜と申します」と名乗って電話をかけてくるところから、ビジネスにふさわしい敬語で会話を始めてください。", starts:"" } ]},
+    { id:"biz_tel_out", cat:"business", name:"取引先に電話をかける", variants:[["apo","アポイントを取る"],["toiawase","問い合わせる"],["owabi","お詫びの電話"],["nittei","日程を調整する"]], roles:[
+      { v:"shain", label:"社員（電話をかける）", sit:"これはビジネスの電話です。私は電話をかける会社の社員、あなたは電話を受ける取引先の担当者です。私が「もしもし、〜社の〜と申します」と電話をかけますので、担当者として敬語で応対してください。", starts:"student", hint:"「お世話になっております。〜社の〜と申します」と名乗って電話をかけましょう。" } ]},
+    { id:"raikyaku", cat:"business", name:"来客応対", variants:[["mukaeru","受付で迎える"],["annai","応接室へ案内する"],["ocha","お茶を出す"],["torisugi","担当者へ取り次ぐ"]], roles:[
+      { v:"shain", label:"社員（来客を迎える）", sit:"私は会社の社員（受付など）、あなたは会社を訪れた来客（取引先の人）です。あなたが「〜社の〜と申します。〜様と約束しております」と受付で名乗るところから、敬語で応対してください。", starts:"" } ]},
+    { id:"houren", cat:"business", name:"上司に報告・相談する", variants:[["shinchoku","進捗を報告する"],["trouble","トラブルを報告する"],["soudan","相談する"],["kinkyu","急な欠勤・遅刻を伝える"]], roles:[
+      { v:"buka", label:"部下（上司に話す）", sit:"私は会社の社員、あなたは私の上司です。私が上司に報告・連絡・相談をしますので、上司として応対してください。私から声をかけます。", starts:"student", hint:"「〜さん、今お時間よろしいでしょうか」と声をかけましょう。" } ]},
+    { id:"kaigi", cat:"business", name:"会議で発言する", variants:[["iken","意見を言う"],["sanhi","賛成・反対する"],["shitsumon","質問する"],["teian","提案する"]], roles:[
+      { v:"sanka", label:"参加者（発言する）", sit:"これは社内の会議です。私は会議の参加者、あなたは司会（または上司）です。あなたが会議を進め、あるテーマについて私に意見を求めてください。私はビジネスにふさわしい言い方で発言します。", starts:"" } ]},
+    { id:"biz_irai", cat:"business", name:"依頼・お願いをする（ビジネス）", variants:[["douryou","同僚に頼む"],["torihiki","取引先にお願いする"],["isogi","急ぎの依頼"],["encho","締め切りの延長をお願いする"]], roles:[
+      { v:"shain", label:"社員（お願いする）", sit:"私は会社の社員、あなたは相手（同僚・上司・取引先など、設定に合う人）です。私が仕事の依頼やお願いをしますので、相手として応対してください。私から声をかけます。", starts:"student", hint:"「恐れ入りますが、〜をお願いできますでしょうか」とお願いしましょう。" } ]},
+    { id:"owabi", cat:"business", name:"お詫び・クレーム対応", variants:[["miss","ミスを謝る"],["okure","遅れ・遅延を詫びる"],["claim","お客様のクレームに対応する"],["denwa_claim","苦情の電話を受ける"]], roles:[
+      { v:"shain", label:"社員（謝る・対応する）", sit:"私は会社の社員、あなたはお客様や取引先など、こちらのミスや問題に不満を持っている相手です。あなたが不満や苦情を伝えるところから会話を始めてください。私は誠実に、ビジネスにふさわしい敬語でお詫び・対応します。", starts:"" } ]},
+    { id:"meishi", cat:"business", name:"名刺交換・あいさつ", variants:[["aisatsu","初対面のあいさつ"],["meishi","名刺交換"],["jikosha","自社を紹介する"]], roles:[
+      { v:"shain", label:"社員（あいさつする）", sit:"これはビジネスの初対面の場面です。私は会社の社員、あなたは取引先の担当者です。あなたが「はじめまして、〜社の〜と申します」とあいさつして名刺交換を始めてください。私も敬語であいさつします。", starts:"" } ]}
   ];
 
   // ==== 設定ページの多言語（日本語/English/中文）====
@@ -668,15 +676,23 @@
     inshokuten:{ en:"At a restaurant", zh:"在餐饮店", roles:{ kyaku:{ en:"Customer (place an order)", zh:"顾客（点餐）" } } },
     koban:{ en:"At the police box / station", zh:"在派出所・警察局", roles:{ soudan:{ en:"Person reporting / asking", zh:"报案・咨询的人" } } },
     ie:{ en:"At home (a visitor comes)", zh:"在家（有人来访）", roles:{ juumin:{ en:"Resident (respond to the visitor)", zh:"居民（应对来访者）" } } },
-    denwa:{ en:"Talking on the phone", zh:"打电话沟通", roles:{ caller:{ en:"Caller (make the call)", zh:"打电话的人" } } }
+    denwa:{ en:"Talking on the phone", zh:"打电话沟通", roles:{ caller:{ en:"Caller (make the call)", zh:"打电话的人" } } },
+    biz_tel_in:{ en:"Answering a business call", zh:"接听公司电话", roles:{ shain:{ en:"Employee (answer the call)", zh:"职员（接电话）" } } },
+    biz_tel_out:{ en:"Making a business call", zh:"给客户打电话", roles:{ shain:{ en:"Employee (make the call)", zh:"职员（打电话）" } } },
+    raikyaku:{ en:"Receiving a visitor", zh:"接待来客", roles:{ shain:{ en:"Employee (greet the visitor)", zh:"职员（接待来客）" } } },
+    houren:{ en:"Reporting to your boss", zh:"向上司汇报・商量", roles:{ buka:{ en:"Subordinate (talk to the boss)", zh:"下属（与上司交谈）" } } },
+    kaigi:{ en:"Speaking in a meeting", zh:"在会议上发言", roles:{ sanka:{ en:"Participant (speak up)", zh:"与会者（发言）" } } },
+    biz_irai:{ en:"Making a request (business)", zh:"提出请求（商务）", roles:{ shain:{ en:"Employee (make a request)", zh:"职员（提出请求）" } } },
+    owabi:{ en:"Apology / handling complaints", zh:"道歉・应对投诉", roles:{ shain:{ en:"Employee (apologize / respond)", zh:"职员（道歉・应对）" } } },
+    meishi:{ en:"Greetings & business cards", zh:"问候与交换名片", roles:{ shain:{ en:"Employee (greet)", zh:"职员（问候）" } } }
   };
   function scnName(s){ var t=SCN_I18N[s.id]; return (UI_LANG!=="ja"&&t&&t[UI_LANG])?t[UI_LANG]:s.name; }
   function roleLabel(sid,r){ var t=SCN_I18N[sid]; return (UI_LANG!=="ja"&&t&&t.roles&&t.roles[r.v]&&t.roles[r.v][UI_LANG])?t.roles[r.v][UI_LANG]:r.label; }
 
   var SCEN_CAT={ restaurant:"nichijou", shopping:"nichijou", hospital:"nichijou", directions:"nichijou", phone:"nichijou", interview:"kouryuu", media_interview:"kouryuu" };
   function catOf(s){ return s.cat || SCEN_CAT[s.id] || "nichijou"; }
-  function isScenario(){ return practiceModeEl.value==="nichijou" || practiceModeEl.value==="kouryuu"; }
-  function currentCat(){ return practiceModeEl.value==="kouryuu"?"kouryuu":"nichijou"; }
+  function isScenario(){ var v=practiceModeEl.value; return v==="nichijou"||v==="kouryuu"||v==="business"; }
+  function currentCat(){ var v=practiceModeEl.value; return (v==="kouryuu"||v==="business")?v:"nichijou"; }
 
   function getScenario(){
     for(var i=0;i<SCENARIOS.length;i++){ if(SCENARIOS[i].id===scenarioEl.value) return SCENARIOS[i]; }
@@ -1159,6 +1175,7 @@
       "mode.general":"General situations",
       "mode.nichijou":"Daily life",
       "mode.kouryuu":"Interaction",
+      "mode.business":"Business",
       "mode.free":"Free conversation (your topic)",
       "mode.textbook":"Minna no Nihongo (Textbook Practice C)",
       "free.label":"Topic (optional — can be blank)",
@@ -1229,6 +1246,7 @@
       "mode.general":"常见场景",
       "mode.nichijou":"日常生活",
       "mode.kouryuu":"交流",
+      "mode.business":"商务",
       "mode.free":"自由会话（自定主题）",
       "mode.textbook":"大家的日本语（课本练习C）",
       "free.label":"主题（可选・可留空）",

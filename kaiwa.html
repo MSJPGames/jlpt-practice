@@ -506,8 +506,8 @@
       { v:"kyaku", label:"お客（用件を伝える）", sit:"私は郵便局に来たお客、あなたは郵便局の窓口の局員です。あなた（局員）が「いらっしゃいませ。どのようなご用件でしょうか」と声をかけて会話を始めてください。", starts:"" } ]},
     { id:"yakusho", cat:"nichijou", name:"役所で", variants:[["tennyuu","転入・転出届"],["juuminhyou","住民票をもらう"],["mynumber","マイナンバーの手続き"],["kokuho","国民健康保険"]], roles:[
       { v:"juumin", label:"住民（手続きに来た人）", sit:"私は役所に来た住民、あなたは市役所の窓口の職員です。あなた（職員）が「こんにちは。本日はどうされましたか」と声をかけて会話を始めてください。", starts:"" } ]},
-    { id:"suupaa", cat:"nichijou", name:"スーパー・コンビニで", variants:[["supermarket","スーパー"],["konbini","コンビニ"],["drugstore","ドラッグストア"],["depachika","デパ地下（惣菜）"]], roles:[
-      { v:"kyaku", label:"お客（レジで会計する）", sit:"私は買い物に来たお客、あなたはお店の店員です。私がレジに商品を持って行きますので、あなた（店員）が「いらっしゃいませ」とレジで会計を始めてください。", starts:"" } ]},
+    { id:"suupaa", cat:"nichijou", name:"お店で", variants:[["supermarket","スーパー"],["konbini","コンビニ"],["drugstore","ドラッグストア"],["depachika","デパ地下（惣菜）"],["omiyage","お土産屋"],["iryou","衣料品店"],["kutsu","靴屋"],["shoten","書店"],["bunbougu","文房具店"],["sports","スポーツ用品店"],["hanko","判子屋"]], roles:[
+      { v:"kyaku", label:"お客（店員に話す）", sit:"私は買い物に来たお客、あなたはお店の店員です。あなた（店員）が「いらっしゃいませ」と声をかけて接客を始めてください。", starts:"" } ]},
     { id:"toshokan", cat:"nichijou", name:"図書館で", variants:[["kariru","本を借りる"],["card","貸出カードを作る"],["sagasu","本を探す"],["encho","延長・返却"]], roles:[
       { v:"riyousha", label:"利用者（用件を伝える）", sit:"私は図書館に来た利用者、あなたは図書館のカウンターの職員（司書）です。あなた（職員）が「こんにちは。どうされましたか」と声をかけて会話を始めてください。", starts:"" } ]},
     { id:"haisha", cat:"nichijou", name:"歯医者で", variants:[["yoyaku","予約する"],["itami","痛み・症状を伝える"],["setsumei","治療の説明を聞く"],["kenshin","定期健診"]], roles:[
@@ -522,10 +522,6 @@
       { v:"kyaku", label:"乗客（運転手・乗務員にたずねる）", sit:"私は乗り物に乗っている乗客、あなたは運転手・乗務員（バスやタクシーの運転手、客室乗務員など）です。私が声をかけますので、乗務員として応対してください。", starts:"student", hint:"すみません、ちょっとお聞きしたいのですが。" } ]},
     { id:"goraku", cat:"nichijou", name:"公共娯楽施設で", variants:[["cinema","映画館"],["museum","美術館・博物館"],["yuuenchi","遊園地"],["onsen","温泉・銭湯"],["sports","スポーツ観戦"]], roles:[
       { v:"kyaku", label:"お客（受付でたずねる・入場する）", sit:"私は娯楽施設に来たお客、あなたは受付やチケット売り場の係員です。あなた（係員）が「いらっしゃいませ。どうされましたか」と声をかけて会話を始めてください。", starts:"" } ]},
-    { id:"omiyage", cat:"nichijou", name:"お土産屋さんで", variants:[["osusume","おすすめを聞く"],["shishoku","試食する"],["kaikei","会計・免税"],["haisou","配送を頼む"]], roles:[
-      { v:"kyaku", label:"お客（店員に話す）", sit:"私はお土産屋に来たお客、あなたはお土産屋の店員です。あなた（店員）が「いらっしゃいませ」と声をかけて会話を始めてください。", starts:"" } ]},
-    { id:"shoten", cat:"nichijou", name:"書店で", variants:[["sagasu","本を探す"],["toriyose","取り寄せを頼む"],["osusume","おすすめを聞く"],["kaikei","会計"]], roles:[
-      { v:"kyaku", label:"お客（店員に話す）", sit:"私は書店に来たお客、あなたは書店の店員です。あなた（店員）が「いらっしゃいませ。何かお探しですか」と声をかけて会話を始めてください。", starts:"" } ]},
     { id:"inshokuten", cat:"nichijou", name:"飲食店で", variants:[["famiresu","ファミレス"],["fastfood","ファストフード店"],["ramen","ラーメン屋"],["sushi","すし屋"],["yakiniku","焼き肉屋"],["cafe","カフェ"],["izakaya","居酒屋"]], roles:[
       { v:"kyaku", label:"お客（注文する）", sit:"私は飲食店に来たお客、あなたはお店の店員です。あなた（店員）が「いらっしゃいませ」と声をかけ、席へ案内して注文を取ってください。", starts:"" } ]},
     { id:"interview", name:"アルバイト・就職の面接", roles:[
@@ -657,7 +653,7 @@
     ginkou:{ en:"At the bank", zh:"在银行", roles:{ kyaku:{ en:"Customer (state your business)", zh:"顾客（说明来意）" } } },
     yuubin:{ en:"At the post office", zh:"在邮局", roles:{ kyaku:{ en:"Customer (state your business)", zh:"顾客（说明来意）" } } },
     yakusho:{ en:"At the city office", zh:"在政府办事处", roles:{ juumin:{ en:"Resident (here for a procedure)", zh:"居民（前来办理手续）" } } },
-    suupaa:{ en:"At the supermarket / convenience store", zh:"在超市・便利店", roles:{ kyaku:{ en:"Customer (checking out)", zh:"顾客（在收银台结账）" } } },
+    suupaa:{ en:"At a shop", zh:"在商店", roles:{ kyaku:{ en:"Customer (talk to the clerk)", zh:"顾客（与店员交谈）" } } },
     toshokan:{ en:"At the library", zh:"在图书馆", roles:{ riyousha:{ en:"Patron (state your business)", zh:"读者（说明来意）" } } },
     haisha:{ en:"At the dentist", zh:"在牙科诊所", roles:{ kanja:{ en:"Patient (describe symptoms/business)", zh:"患者（说明症状・来意）" } } },
     eki:{ en:"At the station", zh:"在车站", roles:{ kyaku:{ en:"Passenger (ask the station staff)", zh:"乘客（向站务员询问）" } } },

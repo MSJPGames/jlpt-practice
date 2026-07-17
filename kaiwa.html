@@ -159,9 +159,17 @@
 
     <div class="chk">
       <input type="checkbox" id="foreignMode">
-      <label for="foreignMode" data-i18n="foreign.label">外国人モード（相手が英語を少しまじえる・上級者向け）</label>
+      <label for="foreignMode" data-i18n="foreign.label">外国人モード（相手が外国語を少しまじえる・上級者向け）</label>
     </div>
-    <div class="hint" style="margin-top:4px" data-i18n-html="foreign.hint">オフのときは、相手は<strong>必ず日本語だけ</strong>で話します。オンにすると、英語まじりの相手への対応を練習できます（接客などの場面向け）。</div>
+    <div class="hint" style="margin-top:4px" data-i18n-html="foreign.hint">オフのときは、相手は<strong>必ず日本語だけ</strong>で話します。オンにすると、外国語まじりの相手（訪日客など）への対応を練習できます（接客などの場面向け）。</div>
+    <div id="foreignLangWrap" style="margin-top:8px;display:none">
+      <label for="foreignLang" data-i18n="foreignlang.label">相手の母語（まじえる外国語）</label>
+      <select id="foreignLang">
+        <option value="en" selected>英語（English）</option>
+        <option value="zh">中国語（中文）</option>
+        <option value="ko">韓国語（한국어）</option>
+      </select>
+    </div>
 
     <div style="margin-top:12px">
       <label for="vocabLevel" data-i18n="vocab.label">語彙・文法のレベル（教科書に合わせる）</label>
@@ -290,7 +298,7 @@
   };
 
   var $=function(id){ return document.getElementById(id); };
-  var keyEl=$("key"), scenarioEl=$("scenario"), levelEl=$("level"), roleEl=$("role"), foreignEl=$("foreignMode");
+  var keyEl=$("key"), scenarioEl=$("scenario"), levelEl=$("level"), roleEl=$("role"), foreignEl=$("foreignMode"), foreignLangEl=$("foreignLang"), foreignLangWrap=$("foreignLangWrap");
   var practiceModeEl=$("practiceMode"), generalBox=$("generalBox"), textbookBox=$("textbookBox"), roleBox=$("roleBox"), freeBox=$("freeBox"), freeTopicEl=$("freeTopic"), scenarioDetailEl=$("scenarioDetail"), detailWrap=$("detailWrap"), detailOtherEl=$("detailOther");
   var lessonEl=$("lesson"), renshuCEl=$("renshuC");
   var vocabLevelEl=$("vocabLevel"), vocabListEl=$("vocabList");
@@ -750,6 +758,12 @@
   roleEl.addEventListener("change", function(){ store.set("role_"+getScenario().id, roleEl.value); });
   scenarioDetailEl.addEventListener("change", function(){ store.set("detail_"+getScenario().id, scenarioDetailEl.value); updateDetailOther(); if(scenarioDetailEl.value==="__other__"){ detailOtherEl.focus(); } });
   detailOtherEl.addEventListener("input", function(){ store.set("detailother_"+getScenario().id, detailOtherEl.value); });
+  function updateForeignUI(){ foreignLangWrap.style.display = foreignEl.checked ? "block" : "none"; }
+  if(store.get("foreign_on")==="1"){ foreignEl.checked=true; }
+  var sfl=store.get("foreign_lang"); if(sfl){ foreignLangEl.value=sfl; }
+  foreignEl.addEventListener("change", function(){ store.set("foreign_on", foreignEl.checked?"1":"0"); updateForeignUI(); });
+  foreignLangEl.addEventListener("change", function(){ store.set("foreign_lang", foreignLangEl.value); });
+  updateForeignUI();
 
   // ---- みんなの日本語（教科書）データ: 各課の練習C(c) と 新出語彙・文型(v) ----
   // MINNA は別スクリプトで定義（window.MINNA）。無ければ教科書モードは無効（完全公開版）。
@@ -854,7 +868,11 @@
     }
 
     if(foreign){
-      lines.push("設定: あなた（相手役）は日本語が母語ではない人です。基本は簡単な日本語で話しますが、時々みじかい英語（Hello / Thank you / Excuse me など）を自然にまじえてかまいません。");
+      var fl=foreignLangEl?foreignLangEl.value:"en", langName, ex;
+      if(fl==="zh"){ langName="中国語（中国・台湾・香港などからの訪日客）"; ex="你好 / 谢谢 / 对不起 / 这个多少钱？ など"; }
+      else if(fl==="ko"){ langName="韓国語（韓国からの訪日客）"; ex="안녕하세요 / 감사합니다 / 죄송합니다 / 이거 얼마예요? など"; }
+      else { langName="英語"; ex="Hello / Thank you / Excuse me など"; }
+      lines.push("設定: あなた（相手役）は日本語が母語ではない外国人で、母語は"+langName+"です。日本語を勉強中で、基本はやさしい日本語で話しますが、うまく言えないときや感情が出たときは、時々みじかい"+langName.replace(/（.*/,"")+"（"+ex+"）を自然にまじえてかまいません。ただし会話の中心はあくまで日本語にし、学習者（私）が日本語で対応できるようにしてください。");
     }else{
       lines.push("重要: あなたは必ず日本語だけで話します。英語やローマ字は、単語1つでも使ってはいけません。たとえ設定上どうであっても、日本語だけで話してください。");
     }
@@ -1192,8 +1210,9 @@
       "level.intermediate":"Intermediate (normal speed)",
       "level.advanced":"Advanced (incl. tricky situations)",
       "role.label":"Your role",
-      "foreign.label":"Foreigner mode (partner mixes in a little English; for advanced)",
-      "foreign.hint":"When off, your partner speaks <strong>only Japanese</strong>. When on, you can practice handling a partner who mixes in some English (good for customer-service situations).",
+      "foreign.label":"Foreigner mode (partner mixes in a little of their language; for advanced)",
+      "foreign.hint":"When off, your partner speaks <strong>only Japanese</strong>. When on, you can practice serving a foreign visitor who mixes in some of their own language (good for customer-service situations).",
+      "foreignlang.label":"Partner's native language (mixed in)",
       "vocab.label":"Vocabulary & grammar level (match your textbook)",
       "vocab.none":"No limit (natural Japanese)",
       "vocab.textbook":"Minna no Nihongo, up to the chosen lesson (in textbook mode)",
@@ -1263,8 +1282,9 @@
       "level.intermediate":"中级（正常语速）",
       "level.advanced":"高级（含较难场景）",
       "role.label":"你的角色",
-      "foreign.label":"外国人模式（对话方夹杂少量英语・适合高级）",
-      "foreign.hint":"关闭时，对话方<strong>只说日语</strong>。开启后，可练习应对夹杂英语的对话方（适合服务接待等场景）。",
+      "foreign.label":"外国人模式（对话方夹杂少量母语・适合高级）",
+      "foreign.hint":"关闭时，对话方<strong>只说日语</strong>。开启后，可练习接待夹杂母语的外国游客（适合服务接待等场景）。",
+      "foreignlang.label":"对话方的母语（夹杂的外语）",
       "vocab.label":"词汇・语法级别（配合课本）",
       "vocab.none":"不限制（自然日语）",
       "vocab.textbook":"大家的日本语・到所选课为止（课本模式时）",

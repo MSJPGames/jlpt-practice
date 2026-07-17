@@ -536,18 +536,16 @@
       { v:"patient", label:"患者（症状・用件を伝える）", sit:"私は病院・薬局に来た患者、あなたはスタッフ（受付・医者・看護師・薬剤師など、場面に合う人）です。あなたから場面に合わせて「どうされましたか」などと声をかけて会話を始めてください。", starts:"" },
       { v:"reception", label:"スタッフ（患者に応対する）", sit:"私は病院・薬局のスタッフ、あなたは来た患者です。私（スタッフ）が先に声をかけるので、あなた（患者）は症状や用件を伝えてください。", starts:"student", hint:"スタッフとして声をかけましょう（例:「こんにちは。今日はどうされましたか？」）" }
     ]},
-    { id:"directions", name:"道案内", roles:[
+    { id:"directions", name:"路上で", roles:[
       { v:"asker", label:"道を聞く（たずねる）", sit:"私は道に迷って道をたずねる人、あなたは通りすがりの親切な人です。私が話しかけるので、あなたは道を教えてあげてください。", starts:"student", hint:"「すみません」と話しかけて道をたずねましょう（例:「すみません、駅はどこですか？」）" },
       { v:"helper", label:"道を教える", sit:"私は道を教える人、あなたは道に迷ってたずねてくる人です。あなた（迷った人）が「すみません」と声をかけて、行きたい場所をたずねてください。", starts:"" }
-    ]},
-    { id:"phone", name:"電話で予約する", roles:[
-      { v:"caller", label:"予約する（電話をかける）", sit:"電話での会話です。私はお店に予約の電話をかける客、あなたはお店の人です。私が電話をかけるので、あなたはお店の人として応対してください。", starts:"student", hint:"電話をかけて予約しましょう（例:「もしもし、予約をお願いしたいのですが」）" },
-      { v:"shop", label:"お店の人（予約を受ける）", sit:"電話での会話です。私はお店の人、あなたは予約の電話をかけてきたお客さんです。あなた（客）が「もしもし」と電話をかけてきて、予約をお願いしてください。", starts:"" }
     ]},
     { id:"koban", cat:"nichijou", name:"交番・警察署で", variants:[["michi","道をたずねる"],["otoshimono_todoke","落とし物・忘れ物を届ける"],["otoshimono_uketori","落とし物を受け取りに来た"],["tounan","盗難・被害を届ける"],["jiko","事故を届ける"],["boumei","防犯・迷子などの相談"]], roles:[
       { v:"soudan", label:"相談・届け出をする人", sit:"私は交番・警察署に来た人、あなたは警察官です。あなた（警察官）が「どうしましたか」と声をかけて会話を始めてください。", starts:"" } ]},
     { id:"ie", cat:"nichijou", name:"家で", variants:[["takuhai","宅配便を受け取る"],["houmon_hanbai","訪問販売の対応"],["kanyuu","勧誘を断る（新聞・NHK・宗教など）"],["kinjo","近所の人とあいさつ"],["denwa_kanyuu","電話の勧誘を断る"],["tenken","水道・ガスなどの点検"]], roles:[
       { v:"juumin", label:"住人（応対する）", sit:"私は家にいる住人、あなたは家に来た人（宅配便の配達員・訪問販売員・勧誘の人・近所の人・点検の人など、設定に合う人）です。あなたがチャイムを鳴らして訪ねてくる（または電話をかけてくる）ところから会話を始めてください。", starts:"" } ]},
+    { id:"denwa", cat:"kouryuu", name:"電話でのやりとり", variants:[["yoyaku","予約する"],["henkou","予約の変更・キャンセル"],["toiawase","問い合わせをする"],["dengon","伝言を頼む"],["oubo","アルバイトに応募する"],["renraku","遅刻・欠席の連絡"],["kakunin","場所や時間を確認する"]], roles:[
+      { v:"caller", label:"電話をかける人", sit:"これは電話での会話です。私は電話をかける人、あなたは電話を受ける相手（店・会社・施設・知り合いなど、設定に合う人）です。私が「もしもし」と電話をかけますので、あなた（相手）は電話を受けて応対してください。", starts:"student", hint:"「もしもし」と電話をかけましょう（例:「もしもし、〜ですが…」）" } ]},
     { id:"jikoshoukai", cat:"kouryuu", name:"自己紹介する", roles:[
       { v:"self", label:"自分を紹介する人", sit:"私はあなたと初めて会った人、あなたも私と初対面の相手です。私が自己紹介をするので、あなたは相手として自然に応対してください。", starts:"student", hint:"（例:「はじめまして。私は〜と申します」）と話しかけましょう" }
     ]},
@@ -625,7 +623,7 @@
     hospital:{ en:"At the hospital / pharmacy", zh:"在医院・药局", roles:{
       patient:{en:"Patient (describe symptoms/business)", zh:"患者（说明症状・来意）"},
       reception:{en:"Staff (help the patient)", zh:"工作人员（接待患者）"} } },
-    directions:{ en:"Asking for directions", zh:"问路", roles:{
+    directions:{ en:"On the street", zh:"在路上", roles:{
       asker:{en:"Ask the way", zh:"问路的人"},
       helper:{en:"Give directions", zh:"指路的人"} } },
     phone:{ en:"Booking by phone", zh:"电话预约", roles:{
@@ -669,7 +667,8 @@
     shoten:{ en:"At the bookstore", zh:"在书店", roles:{ kyaku:{ en:"Customer (talk to the clerk)", zh:"顾客（与店员交谈）" } } },
     inshokuten:{ en:"At a restaurant", zh:"在餐饮店", roles:{ kyaku:{ en:"Customer (place an order)", zh:"顾客（点餐）" } } },
     koban:{ en:"At the police box / station", zh:"在派出所・警察局", roles:{ soudan:{ en:"Person reporting / asking", zh:"报案・咨询的人" } } },
-    ie:{ en:"At home (a visitor comes)", zh:"在家（有人来访）", roles:{ juumin:{ en:"Resident (respond to the visitor)", zh:"居民（应对来访者）" } } }
+    ie:{ en:"At home (a visitor comes)", zh:"在家（有人来访）", roles:{ juumin:{ en:"Resident (respond to the visitor)", zh:"居民（应对来访者）" } } },
+    denwa:{ en:"Talking on the phone", zh:"打电话沟通", roles:{ caller:{ en:"Caller (make the call)", zh:"打电话的人" } } }
   };
   function scnName(s){ var t=SCN_I18N[s.id]; return (UI_LANG!=="ja"&&t&&t[UI_LANG])?t[UI_LANG]:s.name; }
   function roleLabel(sid,r){ var t=SCN_I18N[sid]; return (UI_LANG!=="ja"&&t&&t.roles&&t.roles[r.v]&&t.roles[r.v][UI_LANG])?t.roles[r.v][UI_LANG]:r.label; }

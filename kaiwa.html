@@ -105,6 +105,7 @@
       <label for="practiceMode" data-i18n="mode.label">練習モード</label>
       <select id="practiceMode">
         <option value="general" selected data-i18n="mode.general">一般の場面</option>
+        <option value="free" data-i18n="mode.free">自由会話（テーマ自由）</option>
         <option value="textbook" data-i18n="mode.textbook">みんなの日本語（教科書の練習C）</option>
       </select>
     </div>
@@ -126,6 +127,12 @@
         </div>
       </div>
       <div class="hint" style="margin-top:4px" data-i18n="textbook.hint">『みんなの日本語 初級Ⅰ・Ⅱ』全50課の練習C（やりとり）から選べます。相手役が、その練習の目標に合わせて会話をリードします。</div>
+    </div>
+
+    <div id="freeBox" style="margin-top:12px;display:none">
+      <label for="freeTopic" data-i18n="free.label">テーマ（自由・空欄でもOK）</label>
+      <input type="text" id="freeTopic" placeholder="例）週末の予定、好きな映画、日本旅行、仕事のこと…" data-i18n-ph="free.ph" autocomplete="off">
+      <div class="hint" style="margin-top:4px" data-i18n="free.hint">相手（AI）と、このテーマで自由におしゃべりします。空欄なら、身近な話題からAIが始めます。場面や役の設定は使いません。レベルや語彙の制限は下の設定が効きます。</div>
     </div>
 
     <div class="row" style="margin-top:12px">
@@ -277,7 +284,7 @@
 
   var $=function(id){ return document.getElementById(id); };
   var keyEl=$("key"), scenarioEl=$("scenario"), levelEl=$("level"), roleEl=$("role"), foreignEl=$("foreignMode");
-  var practiceModeEl=$("practiceMode"), generalBox=$("generalBox"), textbookBox=$("textbookBox"), roleBox=$("roleBox");
+  var practiceModeEl=$("practiceMode"), generalBox=$("generalBox"), textbookBox=$("textbookBox"), roleBox=$("roleBox"), freeBox=$("freeBox"), freeTopicEl=$("freeTopic");
   var lessonEl=$("lesson"), renshuCEl=$("renshuC");
   var vocabLevelEl=$("vocabLevel"), vocabListEl=$("vocabList");
   var engineSelect=$("engineSelect"), gVoice=$("gVoice"), gTest=$("gTest");
@@ -578,15 +585,17 @@
   var MINNA = window.MINNA || {};
   var TEXTBOOK_ENABLED = Object.keys(MINNA).length > 0;
   if(!TEXTBOOK_ENABLED){
-    // 完全公開版: 練習モードの切り替えと「教科書モード」語彙オプションを隠す
-    if(practiceModeRow) practiceModeRow.style.display="none";
-    practiceModeEl.value="general";
+    // 完全公開版: 「教科書モード」だけ隠す（一般の場面・自由会話は残す）
+    var tbModeOpt=practiceModeEl.querySelector('option[value="textbook"]');
+    if(tbModeOpt) tbModeOpt.parentNode.removeChild(tbModeOpt);
+    if(practiceModeEl.value==="textbook") practiceModeEl.value="general";
     var tbOpt=vocabLevelEl.querySelector('option[value="textbook"]');
     if(tbOpt) tbOpt.parentNode.removeChild(tbOpt);
   }
 
   function currentLesson(){ return parseInt(lessonEl.value,10)||1; }
   function isTextbook(){ return practiceModeEl.value==="textbook"; }
+  function isFree(){ return practiceModeEl.value==="free"; }
 
   function populateLessons(){
     lessonEl.innerHTML="";
@@ -621,12 +630,13 @@
   renshuCEl.addEventListener("change", function(){ store.set("renshuC_"+currentLesson(), renshuCEl.value); });
 
   function updateModeUI(){
-    var tb=isTextbook();
-    generalBox.style.display = tb?"none":"block";
+    var tb=isTextbook(), fr=isFree();
+    generalBox.style.display = (tb||fr)?"none":"block";
     textbookBox.style.display = tb?"block":"none";
-    roleBox.style.display = tb?"none":"block";
+    freeBox.style.display = fr?"block":"none";
+    roleBox.style.display = (tb||fr)?"none":"block";
   }
-  var spm=store.get("practice_mode"); if(spm && TEXTBOOK_ENABLED) practiceModeEl.value=spm;
+  var spm=store.get("practice_mode"); if(spm){ practiceModeEl.value=spm; if(practiceModeEl.selectedIndex<0) practiceModeEl.value="general"; }
   practiceModeEl.addEventListener("change", function(){
     store.set("practice_mode",practiceModeEl.value);
     // 教科書モードにしたら語彙も「選んだ課まで」を既定に
@@ -643,12 +653,22 @@
   vocabListEl.addEventListener("change", function(){ store.set("vocab_list",vocabListEl.value); });
   updateModeUI(); updateVocabUI();
 
+  // 自由会話のテーマを保存・復元
+  var sft=store.get("free_topic"); if(sft) freeTopicEl.value=sft;
+  freeTopicEl.addEventListener("change", function(){ store.set("free_topic", freeTopicEl.value); });
+
   // ---- システム指示 ----
   function buildSystem(){
     var level=levelEl.value, foreign=foreignEl.checked;
     var lines=[];
 
-    if(isTextbook()){
+    if(isFree()){
+      var topic=(freeTopicEl.value||"").trim();
+      lines.push("あなたは日本語会話の練習相手（親しみやすい会話パートナー）です。学習者（私）と自由に雑談・おしゃべりをします。場面や役は決まっていません。");
+      if(topic){ lines.push("会話のテーマ: 「"+topic+"」。このテーマを中心に、興味を持って自然に話を広げ、学習者にも質問してください。"); }
+      else { lines.push("テーマは特に決まっていません。学習者が話しやすい身近な話題（趣味・週末・食べ物・天気・出身など）から、自然に会話を始めてください。"); }
+      lines.push("まず、あなたから短いあいさつや一つの質問で会話を始めてください。学習者が話しやすいよう、一度に一つずつ話し、相手の返事を受けて会話をつなげてください。");
+    }else if(isTextbook()){
       var L=currentLesson(); var rc=getRenshuC();
       lines.push("あなたは日本語会話の練習相手です。教科書『みんなの日本語 初級』第"+L+"課の練習C（やりとり）の会話練習をします。");
       lines.push("この練習の目標: 「"+rc.desc+"」（"+rc.code+"）");
@@ -828,7 +848,7 @@
     var dstr=now.getFullYear()+"/"+p2(now.getMonth()+1)+"/"+p2(now.getDate())+" "+p2(now.getHours())+":"+p2(now.getMinutes());
     var stamp=""+now.getFullYear()+p2(now.getMonth()+1)+p2(now.getDate())+"_"+p2(now.getHours())+p2(now.getMinutes());
     var titleInfo="";
-    try{ if(isTextbook()){ var rc=getRenshuC(); titleInfo="みんなの日本語 第"+currentLesson()+"課・練習C "+rc.code+"／「"+rc.desc+"」"; } else { titleInfo=getScenario().name+"（相手："+getRole()+"）"; } }catch(e){}
+    try{ if(isFree()){ var tpi=(freeTopicEl.value||"").trim(); titleInfo="自由会話"+(tpi?"・「"+tpi+"」":"（テーマ自由）"); } else if(isTextbook()){ var rc=getRenshuC(); titleInfo="みんなの日本語 第"+currentLesson()+"課・練習C "+rc.code+"／「"+rc.desc+"」"; } else { titleInfo=getScenario().name+"（相手："+getRole()+"）"; } }catch(e){}
     var rows="", nRec=0;
     for(var i=0;i<log.children.length;i++){
       var el=log.children[i];
@@ -930,6 +950,7 @@
     store.set("vv_url",vvUrl.value); store.set("vv_speaker",vvSpeaker.value);
     store.set("practice_mode",practiceModeEl.value);
     if(isTextbook()){ store.set("lesson",lessonEl.value); store.set("renshuC_"+currentLesson(),renshuCEl.value); }
+    else if(isFree()){ store.set("free_topic", freeTopicEl.value); }
     else { store.set("scenario",scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value); }
     store.set("vocab_level",vocabLevelEl.value); store.set("vocab_list",vocabListEl.value);
     systemText=buildSystem(); history=[]; log.innerHTML=""; creditLine.textContent="";
@@ -939,6 +960,9 @@
     if(isTextbook()){
       var rc=getRenshuC();
       addNote("みんなの日本語 第"+currentLesson()+"課・練習C "+rc.code+"\n目標:「"+rc.desc+"」");
+    }else if(isFree()){
+      var tpn=(freeTopicEl.value||"").trim();
+      addNote("自由会話"+(tpn?"・テーマ:「"+tpn+"」":"（テーマ自由）")+"\n相手（AI）から話しかけます。");
     }else{
       var r=getRole();
       if(r.starts==="student"){
@@ -975,7 +999,11 @@
       "key.hint":"Your key is saved <strong>only on this device</strong> and is never sent anywhere else (except Google). <span style=\"display:block;margin-top:4px\">How to get one: sign in at <a href=\"https://aistudio.google.com/apikey\" target=\"_blank\" rel=\"noopener\">aistudio.google.com/apikey</a> &rarr; “Create API key” &rarr; copy and paste it here (free).</span>",
       "mode.label":"Practice mode",
       "mode.general":"General situations",
+      "mode.free":"Free conversation (your topic)",
       "mode.textbook":"Minna no Nihongo (Textbook Practice C)",
+      "free.label":"Topic (optional — can be blank)",
+      "free.ph":"e.g. weekend plans, favorite movies, travel in Japan, work…",
+      "free.hint":"Chat freely with the AI about this topic. Leave blank and the AI starts from an everyday topic. No scene/role is used; the level and vocabulary settings below still apply.",
       "scenario.label":"Situation",
       "lesson.label":"Lesson",
       "renshuC.label":"Practice C (dialogue)",
@@ -1037,7 +1065,11 @@
       "key.hint":"密钥<strong>仅保存在本设备中</strong>，不会发送到外部（Google 除外）。<span style=\"display:block;margin-top:4px\">获取方法：登录 <a href=\"https://aistudio.google.com/apikey\" target=\"_blank\" rel=\"noopener\">aistudio.google.com/apikey</a> &rarr;「Create API key」&rarr; 复制并粘贴到此处（免费）。</span>",
       "mode.label":"练习模式",
       "mode.general":"常见场景",
+      "mode.free":"自由会话（自定主题）",
       "mode.textbook":"大家的日本语（课本练习C）",
+      "free.label":"主题（可选・可留空）",
+      "free.ph":"例）周末计划、喜欢的电影、日本旅行、工作…",
+      "free.hint":"和AI围绕这个主题自由聊天。留空时AI会从身边话题开始。不使用场景和角色设定；下面的等级和词汇设置仍然有效。",
       "scenario.label":"场景",
       "lesson.label":"课",
       "renshuC.label":"练习C（对话）",

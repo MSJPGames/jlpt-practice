@@ -179,7 +179,7 @@ function say(text){ if(!text)return;
 var SR=window.SpeechRecognition||window.webkitSpeechRecognition, VOICE_OK=!!SR, sharedRec=null, activeRec=null;
 
 /* ===== 地図・方向 ===== */
-var N=5; // 交差点 0..4
+var N=6; // 交差点 0..5（井の字＝格子の道路。広めのマップ）
 var DIRS={N:[-1,0],E:[0,1],S:[1,0],W:[0,-1]};
 var RIGHT={N:'E',E:'S',S:'W',W:'N'};
 var LEFT={N:'W',W:'S',S:'E',E:'N'};
@@ -187,6 +187,8 @@ var DIRNAME={N:'北',E:'東',S:'南',W:'西'};
 var ANGLE={N:0,E:90,S:180,W:270};
 var FACILITIES=[{e:'🏥',n:'病院'},{e:'🏫',n:'学校'},{e:'🏦',n:'銀行'},{e:'🏪',n:'コンビニ'},{e:'🚉',n:'駅'},{e:'🏬',n:'デパート'},{e:'🏤',n:'郵便局'},{e:'🌳',n:'公園'},{e:'🍴',n:'レストラン'},{e:'⛽',n:'ガソリンスタンド'},{e:'🥐',n:'パン屋'},{e:'📚',n:'本屋'}];
 var DESTS=FACILITIES;
+/* 装飾用の建物・景観（名前は出さない。FACILITIES と絵文字が重ならないよう選定） */
+var DECO=['🏠','🏡','🏢','🏨','🏩','🏭','🏯','🏰','⛪','🕌','🏛️','⛩️','🏟️','🌲','⛲','🎡','🅿️','🏙️','☕','🏚️','🌸','🗼','🎭','🏝️'];
 
 var G={}; // ゲーム状態
 
@@ -223,7 +225,8 @@ function buildActions(p){
   return {actions:acts, turnCells:cells, firstDir:firstDir, turns:turns};
 }
 function genScenario(level){
-  var minLen=(level==='easy')?4:6, maxLen=(level==='easy')?6:9, minTurns=(level==='easy')?1:2;
+  cancelAnim();
+  var minLen=(level==='easy')?4:6, maxLen=(level==='easy')?7:11, minTurns=(level==='easy')?1:2;
   var path=null, start, dest, ba=null, tries=0;
   while(tries++<400){
     start=[Math.floor(Math.random()*N),Math.floor(Math.random()*N)];
@@ -240,65 +243,142 @@ function genScenario(level){
   var signals={};
   if(level==='easy'){ var ns=2+Math.floor(Math.random()*2); for(var s=0;s<ns;s++){ var cc=pick(path); signals[keyOf(cc[0],cc[1])]=1; } }
   else { for(var i=0;i<ba.actions.length;i++){ if(ba.actions[i]==='right'||ba.actions[i]==='left') signals[keyOf(ba.turnCells[i][0],ba.turnCells[i][1])]=1; } }
-  // 目的地の種類（おとり施設とは別の種類にして、運転手モードで見つからないようにする）
+  // 目的地（音声「○○で 止まってください」で指定。地図に目印ピンは付けない＝指示を聞いて止まる）
   var destType=pick(FACILITIES);
-  // 施設（おとり）を配置。目的地・出発地セルには置かない
-  var facilities={}, used={}; used[destType.n]=1;
-  var occ={}; occ[keyOf(dest[0],dest[1])]=1; occ[keyOf(start[0],start[1])]=1;
-  function placeFac(cell){ var k=keyOf(cell[0],cell[1]); if(occ[k]) return;
-    var pool=FACILITIES.filter(function(f){return !used[f.n];}); if(!pool.length) return;
-    var f=pick(pool); facilities[k]={e:f.e,n:f.n}; used[f.n]=1; occ[k]=1; }
-  for(var ti=0;ti<ba.actions.length;ti++){ if((ba.actions[ti]==='right'||ba.actions[ti]==='left')&&Math.random()<0.75) placeFac(ba.turnCells[ti]); }
-  var extra=3+Math.floor(Math.random()*3);
-  for(var esi=0;esi<extra;esi++){ placeFac([Math.floor(Math.random()*N),Math.floor(Math.random()*N)]); }
+  var usedName={}; usedName[destType.n]=1;   // 名前つき施設は重複させない（音声案内の混同を防ぐ→地図に同じ絵は1つだけ）
+  var buildings=[];                          // {gr,gc,e,kind,n}  kind:'deco'|'landmark'|'dest'
+  var landmarks={};                          // "r,c"(曲がる交差点) -> {e,n}  ← 指示文の目印に使う
+  var usedSeg={};
+  function segKey(a,b){ return (a[0]<b[0]||(a[0]===b[0]&&a[1]<b[1])) ? (a[0]+','+a[1]+'|'+b[0]+','+b[1]) : (b[0]+','+b[1]+'|'+a[0]+','+a[1]); }
+  // 道沿い配置：区間 a-b の t 地点を、道路から垂直に少しずらして置く（道の上には置かない）
+  function roadside(a,b,t,d){ d=d||0.30;
+    if(a[0]===b[0]){ var c=a[1]+t*(b[1]-a[1]); var o=[]; if(a[0]-1>=0)o.push(-1); if(a[0]<=N-2)o.push(1); return {gr:a[0]+pick(o)*d, gc:c}; }
+    var r=a[0]+t*(b[0]-a[0]); var o2=[]; if(a[1]-1>=0)o2.push(-1); if(a[1]<=N-2)o2.push(1); return {gr:r, gc:a[1]+pick(o2)*d}; }
+
+  // 目的地の施設：最後の区間の、目的地寄りの道沿いに置く
+  (function(){ var a=path[path.length-2], b=path[path.length-1]; usedSeg[segKey(a,b)]=1;
+    var p=roadside(a,b,0.62); buildings.push({gr:p.gr,gc:p.gc,e:destType.e,kind:'dest',n:destType.n}); })();
+
+  // 曲がる目印（名前つき施設）：曲がる交差点の手前の区間の道沿いに置き、指示で名前を言う
+  for(var ti=1; ti<ba.actions.length; ti++){
+    var a2=ba.actions[ti]; if(a2!=='right'&&a2!=='left') continue;
+    if(Math.random()>=0.72) continue;
+    var pool=FACILITIES.filter(function(f){return !usedName[f.n];}); if(!pool.length) continue;
+    var prev=path[ti-1], cur=path[ti]; var sk=segKey(prev,cur); if(usedSeg[sk]) continue;
+    var f=pick(pool); usedName[f.n]=1; usedSeg[sk]=1;
+    var p=roadside(prev,cur,0.68); buildings.push({gr:p.gr,gc:p.gc,e:f.e,kind:'landmark',n:f.n});
+    landmarks[keyOf(cur[0],cur[1])]={e:f.e,n:f.n};
+  }
+
+  // 装飾（名前なし・景観用）：他の区間の道沿いに散らして、通りに店が並ぶ見た目にする
+  var allSegs=[]; for(var rr=0;rr<N;rr++){ for(var cc2=0;cc2<N;cc2++){
+    if(cc2<N-1) allSegs.push([[rr,cc2],[rr,cc2+1]]);
+    if(rr<N-1) allSegs.push([[rr,cc2],[rr+1,cc2]]); } }
+  for(var i2=allSegs.length-1;i2>0;i2--){ var j2=Math.floor(Math.random()*(i2+1)); var tmp=allSegs[i2]; allSegs[i2]=allSegs[j2]; allSegs[j2]=tmp; }
+  var decoMax=16+Math.floor(Math.random()*6), decoN=0;
+  for(var si=0; si<allSegs.length && decoN<decoMax; si++){ var sg=allSegs[si]; var sk2=segKey(sg[0],sg[1]); if(usedSeg[sk2]) continue;
+    if(Math.random()<0.55){ usedSeg[sk2]=1; var pp=roadside(sg[0],sg[1],0.35+Math.random()*0.3);
+      buildings.push({gr:pp.gr,gc:pp.gc,kind:'deco',horiz:(sg[0][0]===sg[1][0]),col:Math.floor(Math.random()*BLD_COLORS.length),park:(Math.random()<0.16),sz:0.82+Math.random()*0.45}); decoN++; } }
+
   // 橋：ルートの直進区間のひとつに置く
   var straights=[]; for(var sti=0;sti<ba.actions.length;sti++){ if(ba.actions[sti]==='straight') straights.push(sti); }
   var bridge=null, bridgeStep=-1;
   if(straights.length && Math.random()<0.55){ bridgeStep=pick(straights); bridge={a:path[bridgeStep], b:path[bridgeStep+1]}; }
+
   G={ level:level, mode:G.mode, path:path, actions:ba.actions, turnCells:ba.turnCells, start:start.slice(), dest:dest,
-      firstDir:ba.firstDir, signals:signals, facilities:facilities, bridge:bridge, bridgeStep:bridgeStep,
-      destType:destType, car:{r:start[0],c:start[1],dir:ba.firstDir}, step:0, done:false, waiting:false };
+      firstDir:ba.firstDir, signals:signals, buildings:buildings, landmarks:landmarks, bridge:bridge, bridgeStep:bridgeStep,
+      destType:destType, car:{r:start[0],c:start[1],dir:ba.firstDir}, carViz:{r:start[0],c:start[1],ang:ANGLE[ba.firstDir]},
+      step:0, done:false, waiting:false };
 }
 
 function absDir(a,b){ var dr=b[0]-a[0], dc=b[1]-a[1];
   if(dr===-1)return 'N'; if(dr===1)return 'S'; if(dc===1)return 'E'; if(dc===-1)return 'W'; return 'N'; }
 
-/* ===== 描画 ===== */
-function drawMap(){
-  var S=300, m=34, step=(S-2*m)/(N-1);
-  function px(c){return m+c*step;} function py(r){return m+r*step;}
-  var el=[]; el.push('<svg viewBox="0 0 '+S+' '+S+'" role="img" aria-label="地図">');
-  el.push('<rect x="0" y="0" width="'+S+'" height="'+S+'" fill="#EFEDE7"/>');
-  // 道路（格子）
-  for(var r=0;r<N;r++){ el.push('<line x1="'+px(0)+'" y1="'+py(r)+'" x2="'+px(N-1)+'" y2="'+py(r)+'" stroke="#D8D2C6" stroke-width="12" stroke-linecap="round"/>'); }
-  for(var c=0;c<N;c++){ el.push('<line x1="'+px(c)+'" y1="'+py(0)+'" x2="'+px(c)+'" y2="'+py(N-1)+'" stroke="#D8D2C6" stroke-width="12" stroke-linecap="round"/>'); }
-  // 橋（ルートの直進区間の辺の中点に🌉）
-  if(G.bridge){ var bmx=(px(G.bridge.a[1])+px(G.bridge.b[1]))/2, bmy=(py(G.bridge.a[0])+py(G.bridge.b[0]))/2;
-    el.push('<text x="'+bmx+'" y="'+(bmy+7)+'" font-size="20" text-anchor="middle">🌉</text>'); }
-  // 施設（おとり）：絵文字＋名前ラベル
-  for(var fk in G.facilities){ var fp=fk.split(',').map(Number), f=G.facilities[fk];
-    el.push('<text x="'+px(fp[1])+'" y="'+(py(fp[0])-9)+'" font-size="19" text-anchor="middle">'+f.e+'</text>');
-    el.push('<text x="'+px(fp[1])+'" y="'+(py(fp[0])+16)+'" font-size="9" text-anchor="middle" fill="#4A4A4A">'+f.n+'</text>'); }
-  // 信号
-  for(var k in G.signals){ var pr=k.split(',').map(Number); el.push('<circle cx="'+px(pr[1])+'" cy="'+py(pr[0])+'" r="5.5" fill="#D64545" stroke="#fff" stroke-width="1.5"/>'); }
-  // 目的地：客モード or ゲーム終了時のみ表示（運転手モードは指示を聞かないと分からない）
-  if(G.mode==='passenger' || G.done){
-    el.push('<text x="'+px(G.dest[1])+'" y="'+(py(G.dest[0])-10)+'" font-size="22" text-anchor="middle">'+G.destType.e+'</text>');
-    el.push('<text x="'+px(G.dest[1])+'" y="'+(py(G.dest[0])+17)+'" font-size="9" text-anchor="middle" fill="#2F6F4F" font-weight="bold">'+G.destType.n+'</text>');
-    el.push('<circle cx="'+px(G.dest[1])+'" cy="'+py(G.dest[0])+'" r="12" fill="none" stroke="#2F6F4F" stroke-width="2.5"/>');
+/* ===== 描画（自然な地図＋なめらかなタクシー） ===== */
+var MAP_S=340, MAP_M=30, MAP_STEP=(MAP_S-2*MAP_M)/(N-1);
+function PX(c){return MAP_M+c*MAP_STEP;}
+function PY(r){return MAP_M+r*MAP_STEP;}
+var ROAD_W=Math.max(9, MAP_STEP*0.26);
+var BLD_COLORS=['#C9BBA6','#BFC7B4','#D2C6B1','#C3C9D2','#CDBBB0','#B7C1C3','#D4C9B2','#C7BCA8'];
+
+/* --- タクシー本体（上向き＝北）。#carG を transform で動かす --- */
+function carTransform(){ var v=G.carViz||{r:0,c:0,ang:0}; return 'translate('+PX(v.c).toFixed(2)+','+PY(v.r).toFixed(2)+') rotate('+(v.ang||0).toFixed(1)+')'; }
+function carSVG(){
+  return '<g id="carG" transform="'+carTransform()+'">'
+    +'<ellipse cx="0" cy="1.5" rx="8" ry="12" fill="#000" opacity="0.10"/>'
+    +'<rect x="-7" y="-11.5" width="14" height="23" rx="4.5" fill="#F4C21B" stroke="#2A2A2A" stroke-width="1.3"/>'
+    +'<rect x="-5" y="-8.4" width="10" height="5.6" rx="1.6" fill="#2A3E50"/>'
+    +'<rect x="-5" y="3.2" width="10" height="4.9" rx="1.6" fill="#2A3E50"/>'
+    +'<rect x="-3" y="-1.7" width="6" height="3.3" rx="1" fill="#FBF7EA" stroke="#2A2A2A" stroke-width="0.6"/>'
+    +'</g>';
+}
+function positionCar(){ var g=document.getElementById('carG'); if(g) g.setAttribute('transform', carTransform()); }
+function easeSS(k){ return k*k*(3-2*k); }
+function shortAng(a,b){ return ((b-a)%360+540)%360-180; }
+var animRAF=null;
+function cancelAnim(){ if(animRAF){ try{cancelAnimationFrame(animRAF);}catch(e){} animRAF=null; } }
+function animateMove(fr,fc,fa, tr,tc,ta){
+  cancelAnim();
+  var dA=shortAng(fa,ta), rotMs=(Math.abs(dA)<1)?0:170, movMs=380, T=rotMs+movMs, t0=null;
+  G.carViz={r:fr,c:fc,ang:fa};
+  if(typeof requestAnimationFrame==='undefined'){ G.carViz={r:tr,c:tc,ang:ta}; positionCar(); return; }
+  function frame(ts){ if(t0==null)t0=ts; var e=ts-t0;
+    if(e<rotMs){ G.carViz.ang=fa+dA*easeSS(e/rotMs); }
+    else { var k=easeSS(Math.min(1,(e-rotMs)/movMs)); G.carViz.ang=ta; G.carViz.r=fr+(tr-fr)*k; G.carViz.c=fc+(tc-fc)*k; }
+    positionCar();
+    if(e<T){ animRAF=requestAnimationFrame(frame); } else { animRAF=null; G.carViz={r:tr,c:tc,ang:ta}; positionCar(); }
   }
-  // 車
-  var cx=px(G.car.c), cy=py(G.car.r), ang=ANGLE[G.car.dir];
-  el.push('<g transform="translate('+cx+','+cy+') rotate('+ang+')">');
-  el.push('<polygon points="0,-11 8,9 0,4 -8,9" fill="#1D6FB8" stroke="#fff" stroke-width="1.5"/></g>');
+  animRAF=requestAnimationFrame(frame);
+}
+
+function drawMap(){
+  var step=MAP_STEP, px=PX, py=PY, rw=ROAD_W, el=[];
+  el.push('<svg viewBox="0 0 '+MAP_S+' '+MAP_S+'" role="img" aria-label="地図">');
+  el.push('<rect x="0" y="0" width="'+MAP_S+'" height="'+MAP_S+'" fill="#E7E2D5"/>');
+  // 区画（ブロック）の土地
+  for(var br=0;br<N-1;br++){ for(var bc=0;bc<N-1;bc++){
+    el.push('<rect x="'+(px(bc)+rw/2).toFixed(1)+'" y="'+(py(br)+rw/2).toFixed(1)+'" width="'+(step-rw).toFixed(1)+'" height="'+(step-rw).toFixed(1)+'" rx="3" fill="#EDE8DB"/>'); } }
+  // 川（橋のある区間の下を横切る）
+  if(G.bridge){ var a=G.bridge.a,b=G.bridge.b, mx=(px(a[1])+px(b[1]))/2, my=(py(a[0])+py(b[0]))/2, hz=(a[0]===b[0]);
+    if(hz) el.push('<rect x="'+(mx-rw*0.75)+'" y="'+(my-step*0.62)+'" width="'+(rw*1.5)+'" height="'+(step*1.24)+'" rx="3" fill="#AEC8DA"/>');
+    else   el.push('<rect x="'+(mx-step*0.62)+'" y="'+(my-rw*0.75)+'" width="'+(step*1.24)+'" height="'+(rw*1.5)+'" rx="3" fill="#AEC8DA"/>'); }
+  // 道路：濃い縁（ケーシング）→ 明るい塗り
+  function road(x1,y1,x2,y2,w,col){ el.push('<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+col+'" stroke-width="'+w+'" stroke-linecap="round"/>'); }
+  for(var r=0;r<N;r++) road(px(0),py(r),px(N-1),py(r), rw+4, '#CFC7B6');
+  for(var c=0;c<N;c++) road(px(c),py(0),px(c),py(N-1), rw+4, '#CFC7B6');
+  for(var r2=0;r2<N;r2++) road(px(0),py(r2),px(N-1),py(r2), rw, '#F6F2E9');
+  for(var c2=0;c2<N;c2++) road(px(c2),py(0),px(c2),py(N-1), rw, '#F6F2E9');
+  // 橋の欄干
+  if(G.bridge){ var a2=G.bridge.a,b2=G.bridge.b, mx2=(px(a2[1])+px(b2[1]))/2, my2=(py(a2[0])+py(b2[0]))/2, hz2=(a2[0]===b2[0]), rl=step*0.5, of=rw*0.62;
+    if(hz2){ el.push('<line x1="'+(mx2-rl/2)+'" y1="'+(my2-of)+'" x2="'+(mx2+rl/2)+'" y2="'+(my2-of)+'" stroke="#9A8C74" stroke-width="2"/>');
+             el.push('<line x1="'+(mx2-rl/2)+'" y1="'+(my2+of)+'" x2="'+(mx2+rl/2)+'" y2="'+(my2+of)+'" stroke="#9A8C74" stroke-width="2"/>'); }
+    else   { el.push('<line x1="'+(mx2-of)+'" y1="'+(my2-rl/2)+'" x2="'+(mx2-of)+'" y2="'+(my2+rl/2)+'" stroke="#9A8C74" stroke-width="2"/>');
+             el.push('<line x1="'+(mx2+of)+'" y1="'+(my2-rl/2)+'" x2="'+(mx2+of)+'" y2="'+(my2+rl/2)+'" stroke="#9A8C74" stroke-width="2"/>'); } }
+  // 建物
+  (G.buildings||[]).forEach(function(bd){
+    var x=px(bd.gc), y=py(bd.gr);
+    if(bd.kind==='deco'){
+      if(bd.park){ var ps=step*0.30*(bd.sz||1);
+        el.push('<rect x="'+(x-ps/2)+'" y="'+(y-ps/2)+'" width="'+ps+'" height="'+ps+'" rx="4" fill="#BBD6A6"/>');
+        el.push('<circle cx="'+x+'" cy="'+y+'" r="'+(ps*0.24)+'" fill="#8DB877"/>');
+      } else { var lng=step*0.34*(bd.sz||1), dep=step*0.22*(bd.sz||1), w=bd.horiz?lng:dep, h=bd.horiz?dep:lng;
+        el.push('<rect x="'+(x-w/2)+'" y="'+(y-h/2)+'" width="'+w+'" height="'+h+'" rx="2" fill="'+BLD_COLORS[(bd.col||0)%BLD_COLORS.length]+'" stroke="rgba(0,0,0,0.10)" stroke-width="1"/>'); }
+    } else { var s2=step*0.44;
+      el.push('<rect x="'+(x-s2/2)+'" y="'+(y-s2/2)+'" width="'+s2+'" height="'+s2+'" rx="5" fill="#FBF7EE" stroke="#B7AB92" stroke-width="1.4"/>');
+      el.push('<text x="'+x+'" y="'+(y+s2*0.30)+'" font-size="'+(s2*0.7).toFixed(1)+'" text-anchor="middle">'+bd.e+'</text>'); }
+  });
+  // 信号（交差点）
+  for(var k in G.signals){ var pr=k.split(',').map(Number); el.push('<circle cx="'+px(pr[1])+'" cy="'+py(pr[0])+'" r="4.5" fill="#D64545" stroke="#fff" stroke-width="1.4"/>'); }
+  // タクシー
+  el.push(carSVG());
   el.push('</svg>');
   $('mapBox').innerHTML=el.join('');
 }
 
 /* ===== 指示文（運転手モード） ===== */
-/* 曲がる目印：施設があれば施設名、なければ信号、どちらもなければ「かど」 */
+/* 曲がる目印：目印施設があれば施設名、なければ信号、どちらもなければ「かど」 */
 function landmarkWord(cell){ var k=keyOf(cell[0],cell[1]);
-  if(G.facilities[k]) return G.facilities[k].n+'の かど';
+  if(G.landmarks[k]) return G.landmarks[k].n+'の かど';
   if(G.signals[k]) return '信号';
   return 'かど'; }
 function instructionText(i){
@@ -306,7 +386,7 @@ function instructionText(i){
   if(act==='straight') return (i===G.bridgeStep) ? '橋を 渡ってください。' : 'まっすぐ 行ってください。';
   if(act==='right') return 'つぎの '+landmarkWord(cell)+'を 右に 曲がってください。';
   if(act==='left') return 'つぎの '+landmarkWord(cell)+'を 左に 曲がってください。';
-  return G.destType.n+'の 前で 止まってください。';
+  return G.destType.n+'で 止まってください。'; // 指示者が「○○で止まって」と言う場所で止まればクリア
 }
 /* 上級：ルート全体を1つの指示にまとめる（連続まっすぐは1つに、橋は明示） */
 function fullInstruction(){
@@ -315,13 +395,13 @@ function fullInstruction(){
     var a=G.actions[i], cell=G.turnCells[i];
     if(a==='straight'){ if(i===G.bridgeStep){ if(pend){ parts.push('まっすぐ 行って'); pend=false; } parts.push('橋を 渡って'); } else { pend=true; } }
     else if(a==='right'||a==='left'){ if(pend){ parts.push('まっすぐ 行って'); pend=false; } parts.push('つぎの '+landmarkWord(cell)+'を '+(a==='right'?'右':'左')+'に 曲がって'); }
-    else { if(pend){ parts.push('まっすぐ 行って'); pend=false; } parts.push(G.destType.n+'の 前で 止まってください'); }
+    else { if(pend){ parts.push('まっすぐ 行って'); pend=false; } parts.push(G.destType.n+'で 止まってください'); }
   }
   return parts.join('、');
 }
 
 /* 超上級：自動走行エンジン。まっすぐは自動、曲がり角（赤信号）で止まって判断 */
-var cruiseTimer=null, CRUISE_MS=1900;
+var cruiseTimer=null, CRUISE_MS=620;
 function stopCruise(){ if(cruiseTimer){ clearTimeout(cruiseTimer); cruiseTimer=null; } }
 function scheduleCruise(){ stopCruise(); G.waiting=false; cruiseTimer=setTimeout(cruiseTick, CRUISE_MS); }
 function cruiseTick(){
@@ -329,11 +409,11 @@ function cruiseTick(){
   if(G.done) return;
   var a=G.actions[G.step];
   if(a==='straight'){
-    doMove('straight'); drawMap(); G.step++;
-    if(atDest()){ winRound(); return; }
+    doMove('straight'); G.step++;
+    if(atDest()){ arriveAtDest(); return; }
     if(G.actions[G.step]==='straight') scheduleCruise();
     else arriveAtDecision();
-  } else if(a==='stop'){ if(atDest()) winRound(); else arriveAtDecision(); }
+  } else if(a==='stop'){ if(atDest()) arriveAtDest(); else arriveAtDecision(); }
   else { arriveAtDecision(); }
 }
 function arriveAtDecision(){
@@ -346,21 +426,31 @@ function arriveAtDecision(){
     setStatus('🔴 赤信号で 止まりました。', 'どちらへ 行きますか？ 話してください。','ng'); say('つぎは どちらへ 行きますか？');
   }
 }
+/* 超上級：目的地に着いたら、指示どおり「止まる」操作でクリア（自動では終わらせない） */
+function arriveAtDest(){
+  G.waiting=true; stopCruise();
+  if(G.mode==='driver'){ setStatus('🔴 「'+G.destType.n+'」に 着きました。', 'ここで 「✋ 止まる」を おしてください。','ng'); say(G.destType.n+'で 止まってください。'); }
+  else { setStatus('🔴 目的地に 着きました。', '「止まって」と 言ってください。','ng'); say(G.destType.n+'で 止まってください。'); }
+}
 function resumeAfter(){
-  if(atDest()){ winRound(); return; }
+  if(atDest()){ arriveAtDest(); return; }
   if(G.actions[G.step]==='straight'){ setStatus('🟢 まっすぐ 進みます…',''); scheduleCruise(); }
   else arriveAtDecision();
 }
 
 /* ===== 移動 ===== */
 function doMove(act){
-  // act: straight/left/right → 向きを変えて1マス前進。戻り値 true=移動できた
+  // act: straight/left/right → 向きを変えて1マス前進。論理状態は即更新し、見た目はなめらかにアニメ
   var dir=G.car.dir;
   if(act==='right') dir=RIGHT[dir];
   else if(act==='left') dir=LEFT[dir];
   var nr=G.car.r+DIRS[dir][0], nc=G.car.c+DIRS[dir][1];
   if(!inGrid(nr,nc)) return false;
-  G.car.dir=dir; G.car.r=nr; G.car.c=nc; return true;
+  var v=G.carViz||{r:G.car.r,c:G.car.c,ang:ANGLE[G.car.dir]};
+  var fr=v.r, fc=v.c, fa=v.ang;               // いま見えている位置から
+  G.car.dir=dir; G.car.r=nr; G.car.c=nc;      // 論理位置を更新
+  animateMove(fr,fc,fa, nr,nc, ANGLE[dir]);   // なめらかに移動
+  return true;
 }
 function atDest(){ return G.car.r===G.dest[0] && G.car.c===G.dest[1]; }
 
@@ -384,10 +474,8 @@ function startDriver(){
   }
 }
 function nextDriverStep(first){
-  if(G.actions[G.step]==='stop'){
-    setStatus(instructionText(G.step), 'この まま 「✋ 止まる」を おしてください。'); say(instructionText(G.step)); return;
-  }
   var t=instructionText(G.step);
+  if(G.actions[G.step]==='stop'){ setStatus(t, 'ここで 「✋ 止まる」を おしてください。'); say(t); return; }
   setStatus(t, '指示を 聞いて、ボタンを おしてください。'); say(t);
 }
 function driverAction(act){
@@ -397,7 +485,7 @@ function driverAction(act){
     var need=G.actions[G.step];
     if(need==='stop'){ if(act==='stop'&&atDest()){winRound();return;} setStatus('まだ 目的地では ありません。','','ng'); return; }
     if(act==='stop'){ setStatus('赤信号です。曲がるか まっすぐか えらんでください。','','ng'); return; }
-    if(act===need){ G.waiting=false; doMove(need); drawMap(); G.step++;
+    if(act===need){ G.waiting=false; doMove(need); G.step++;
       say(need==='right'?'右に 曲がります。':need==='left'?'左に 曲がります。':'まっすぐ 行きます。'); resumeAfter(); }
     else { setStatus('ちがう みたい。もう一度 聞いてね。','','ng'); say('あれ？ ちがう みたいです。'); }
     return;
@@ -405,13 +493,13 @@ function driverAction(act){
   var expected=G.actions[G.step];
   if(act==='stop'){
     if(expected==='stop' && atDest()){ winRound(); return; }
-    setStatus('まだ 目的地では ありません。', '進みましょう。','ng'); say('まだ 目的地では ありませんよ。'); return;
+    setStatus('まだ 目的地では ありません。', '案内の とおりに 進みましょう。','ng'); say('まだ 目的地では ありませんよ。'); return;
   }
-  if(expected==='stop'){ setStatus('目的地の 前です。', '「✋ 止まる」を おしてください。'); return; }
+  if(expected==='stop'){ setStatus('「'+G.destType.n+'」の 前です。', '「✋ 止まる」を おしてください。'); return; }
   if(act===expected){
-    doMove(act); drawMap(); G.step++;
+    doMove(act); G.step++;
     var prompt=(G.level==='easy');
-    if(G.actions[G.step]==='stop'){ setStatus(prompt?instructionText(G.step):'目的地の 前です。', '「✋ 止まる」を おしてください。'); if(prompt) say(instructionText(G.step)); }
+    if(G.actions[G.step]==='stop'){ setStatus(prompt?instructionText(G.step):('「'+G.destType.n+'」の 前です。'), 'ここで 「✋ 止まる」を おしてください。'); if(prompt) say(instructionText(G.step)); }
     else { if(prompt) nextDriverStep(false); else setStatus('🟢 つづけて どうぞ。','覚えた 指示の とおりに 操作。'); }
   } else {
     setStatus('ちがう みたい。もう一度。', G.level==='easy'?'🔊で もう一度 聞けます。':'🔊で 全部 聞き直せます。','ng'); say('あれ？ ちがう みたいです。');
@@ -452,7 +540,7 @@ function passengerHeard(raw){
     if(!G.waiting){ setStatus('🚗 走行中です。','赤信号で 止まってから 話してください。','ng'); return; }
     var need=G.actions[G.step];
     if(act==='stop'){ if(need==='stop'&&atDest()) winRound(); else { setStatus('まだ 赤信号です。','曲がる方向を 話してください。','ng'); say('まだ ちがいます。'); } return; }
-    if(act===need){ G.waiting=false; doMove(need); drawMap();
+    if(act===need){ G.waiting=false; doMove(need);
       say(need==='right'?'右に 曲がります。':need==='left'?'左に 曲がります。':'まっすぐ 行きます。'); G.step++; resumeAfter(); }
     else { setStatus('そちらでは 目的地に つきません。','地図を 見て、もう一度 どうぞ。','ng'); say('そちらでは ありません。'); }
     return;
@@ -463,10 +551,9 @@ function passengerHeard(raw){
     return;
   }
   var moved=doMove(act);
-  drawMap();
   if(!moved){ setStatus('その方向には 道が ありません。', 'べつの 指示を 話してください。','ng'); say('そちらには 行けません。'); return; }
   var conf = act==='right'?'右に 曲がります。' : act==='left'?'左に 曲がります。' : 'まっすぐ 行きます。';
-  if(atDest()) setStatus(conf, G.destType.n+'に 着きました。「止まって」と 言ってください。');
+  if(atDest()) setStatus(conf, '「'+G.destType.n+'」に 着きました。「止まって」と 言ってください。');
   else setStatus(conf, '今 '+DIRNAME[G.car.dir]+'むき。つぎの 指示を どうぞ。');
   say(conf);
 }
@@ -486,7 +573,7 @@ function startVoice(){
 /* ===== 共通 ===== */
 function setStatus(main, sub, cls){ var s=$('status'); s.textContent=main; s.className='status'+(cls?' '+cls:''); $('subStatus').textContent=sub||''; }
 function winRound(){
-  G.done=true; stopCruise();
+  G.done=true; stopCruise(); cancelAnim();
   try{ if(activeRec) activeRec.stop(); }catch(e){}
   $('winMsg').textContent='🎉 '+G.destType.n+'に つきました！';
   $('aiComment').classList.add('hidden');
@@ -529,12 +616,12 @@ $('modeSeg').querySelectorAll('button').forEach(function(b){ b.onclick=function(
 $('levelSeg').querySelectorAll('button').forEach(function(b){ b.onclick=function(){ setLevel(b.dataset.level); }; });
 
 function startGame(){ if(G.mode==='driver') startDriver(); else startPassenger(); }
-function leavePlay(){ stopCruise(); try{if(activeRec)activeRec.stop();}catch(e){} try{speechSynthesis.cancel();}catch(e){} }
+function leavePlay(){ stopCruise(); cancelAnim(); try{if(activeRec)activeRec.stop();}catch(e){} try{speechSynthesis.cancel();}catch(e){} }
 $('startBtn').onclick=startGame;
 $('driverCtrl').querySelectorAll('button[data-act]').forEach(function(b){ b.onclick=function(){ driverAction(b.dataset.act); }; });
 $('repeatBtn').onclick=function(){
   if(G.level==='advanced') say(G.destType.n+'まで。'+fullInstruction());
-  else if(G.level==='super'){ var a=G.actions[G.step]; say(a==='right'?'右に 曲がってください。':a==='left'?'左に 曲がってください。':a==='straight'?'まっすぐ 行ってください。':(G.destType.n+'の 前で 止まってください。')); }
+  else if(G.level==='super'){ var a=G.actions[G.step]; say(a==='right'?'右に 曲がってください。':a==='left'?'左に 曲がってください。':a==='stop'?(G.destType.n+'で 止まってください。'):'まっすぐ 行ってください。'); }
   else say(instructionText(G.step));
 };
 $('micBtn').onclick=startVoice;

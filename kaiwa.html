@@ -104,7 +104,8 @@
     <div style="margin-top:12px" id="practiceModeRow">
       <label for="practiceMode" data-i18n="mode.label">練習モード</label>
       <select id="practiceMode">
-        <option value="general" selected data-i18n="mode.general">一般の場面</option>
+        <option value="nichijou" selected data-i18n="mode.nichijou">日常生活</option>
+        <option value="kouryuu" data-i18n="mode.kouryuu">交流</option>
         <option value="free" data-i18n="mode.free">自由会話（テーマ自由）</option>
         <option value="textbook" data-i18n="mode.textbook">みんなの日本語（教科書の練習C）</option>
       </select>
@@ -521,6 +522,66 @@
     { id:"shopping", name:"買い物・コンビニ", roles:[
       { v:"customer", label:"お客さん（買い物する）", sit:"私はお店（コンビニやスーパーなど）のお客さん、あなたは店員です。あなた（店員）が「いらっしゃいませ」と言って会話を始めてください。", starts:"" },
       { v:"clerk", label:"店員（レジで応対する）", sit:"私はお店の店員、あなたはお店に来たお客さんです。あなた（お客さん）が買いたい物を持ってレジに来るところから会話を始めてください。", starts:"" }
+    ]},
+    { id:"jikoshoukai", cat:"kouryuu", name:"自己紹介する", roles:[
+      { v:"self", label:"自分を紹介する人", sit:"私はあなたと初めて会った人、あなたも私と初対面の相手です。私が自己紹介をするので、あなたは相手として自然に応対してください。", starts:"student", hint:"（例:「はじめまして。私は〜と申します」）と話しかけましょう" }
+    ]},
+    { id:"bunka", cat:"kouryuu", name:"自分の文化・背景を教える", roles:[
+      { v:"explainer", label:"自分の文化を教える人", sit:"私は自分の国の文化を紹介する人、あなたは私の国に興味がある日本人の友達です。あなた（友達）が私の国や習慣について「〜ってどんな感じ？」と質問して会話を始めてください。", starts:"" }
+    ]},
+    { id:"sasou", cat:"kouryuu", name:"イベントなどに誘う", roles:[
+      { v:"inviter", label:"相手を誘う人", sit:"私は友達を誘いたい人、あなたは私の友達です。私が食事や映画、イベントなどに誘うので、あなたは友達として応対してください。", starts:"student", hint:"（例:「今度の週末、一緒に映画を見に行かない？」）と話しかけましょう" }
+    ]},
+    { id:"kotowaru", cat:"kouryuu", name:"誘いを断る", roles:[
+      { v:"decliner", label:"誘いを断る人", sit:"私はあなたの誘いを断る友達、あなたは私を誘う友達です。あなた（友達）が「今度一緒に〜しない？」と私を誘って会話を始めてください。", starts:"" }
+    ]},
+    { id:"hagemasu", cat:"kouryuu", name:"慰める・励ます", roles:[
+      { v:"comforter", label:"相手を慰める人", sit:"私はあなたを慰め励ます友達、あなたは落ち込んでいる友達です。あなた（友達）が最近あった悩みや悪い出来事を打ち明けて会話を始めてください。", starts:"" }
+    ]},
+    { id:"zatsudan", cat:"kouryuu", name:"初対面の人と雑談する", roles:[
+      { v:"chatter", label:"雑談する人", sit:"私はあなたと初めて会った人、あなたも私と初対面の相手です。あなたが天気やその場のことなど軽い話題で私に話しかけて会話を始めてください。", starts:"" }
+    ]},
+    { id:"teisei", cat:"kouryuu", name:"丁寧に訂正を求める", roles:[
+      { v:"corrector", label:"訂正をお願いする人", sit:"私は相手の間違いを直してほしい人、あなたは私に予定や情報を伝えた相手です。私が失礼のないように訂正をお願いするので、あなたは相手として応対してください。", starts:"student", hint:"（例:「すみません、一点確認したいのですが…」）と話しかけましょう" }
+    ]},
+    { id:"tetsudai", cat:"kouryuu", name:"手伝いを申し出る", roles:[
+      { v:"helper", label:"手伝いを申し出る人", sit:"私は困っている人に手伝いを申し出る人、あなたは重い荷物を持って困っている人です。私が声をかけるので、あなたは相手として応対してください。", starts:"student", hint:"（例:「大丈夫ですか？お手伝いしましょうか？」）と話しかけましょう" }
+    ]},
+    { id:"ayamaru", cat:"kouryuu", name:"注意されて謝る", roles:[
+      { v:"apologizer", label:"注意されて謝る人", sit:"私は注意されて謝る人、あなたは私に問題を指摘する相手です。あなたが私のミスや問題について注意して会話を始めてください。", starts:"" }
+    ]},
+    { id:"oshiete", cat:"kouryuu", name:"知識・情報を教えてもらう", roles:[
+      { v:"asker", label:"教えてもらう人", sit:"私は知りたいことを教えてもらう人、あなたはその分野に詳しい人です。私が質問するので、あなたは相手として教えてください。", starts:"student", hint:"（例:「すみません、〜について教えていただけますか？」）と話しかけましょう" }
+    ]},
+    { id:"iken", cat:"kouryuu", name:"意見を出し合う", roles:[
+      { v:"opinion", label:"意見を出し合う人", sit:"私はあなたと意見を交換する相手、あなたは私の知り合いです。あなたがあるテーマを出して「〜についてどう思う？」と私の意見を聞いて会話を始めてください。", starts:"" }
+    ]},
+    { id:"dengon", cat:"kouryuu", name:"電話で伝言を頼む", roles:[
+      { v:"caller", label:"伝言を頼む人", sit:"これは電話での会話です。私は電話をかけた人、あなたは電話に出て取り次ぐ相手です。私が不在の人への伝言をお願いするので、あなたは相手として応対してください。", starts:"student", hint:"（例:「もしもし、〜さんはいらっしゃいますか？」）と話しかけましょう" }
+    ]},
+    { id:"shoujou", cat:"kouryuu", name:"医者に症状を説明する", roles:[
+      { v:"patient", label:"症状を説明する患者", sit:"私は診察を受ける患者、あなたは医者です。あなた（医者）が「今日はどうされましたか」と声をかけて会話を始めてください。", starts:"" }
+    ]},
+    { id:"komatta", cat:"kouryuu", name:"困った状況を説明する", roles:[
+      { v:"customer", label:"困った状況を説明する人", sit:"私は困っている客、あなたは駅員や店員です。私が財布などをなくして困っている状況を説明して助けを求めるので、あなたは相手として応対してください。", starts:"student", hint:"（例:「すみません、財布をなくしてしまって…」）と話しかけましょう" }
+    ]},
+    { id:"jouken", cat:"kouryuu", name:"希望の条件を説明する", roles:[
+      { v:"customer", label:"条件を説明する客", sit:"私は部屋や品物を探している客、あなたは不動産屋や店のスタッフです。あなた（スタッフ）が「どのようなものをお探しですか」と希望の条件を尋ねて会話を始めてください。", starts:"" }
+    ]},
+    { id:"baito", cat:"kouryuu", name:"電話でアルバイトに応募する", roles:[
+      { v:"applicant", label:"電話で応募する人", sit:"これは電話での会話です。私は求人に応募する人、あなたは店や会社の採用担当者です。私が電話でアルバイトに応募するので、あなたは担当者として応対してください。", starts:"student", hint:"（例:「求人を見てお電話しました。アルバイトに応募したいのですが…」）と話しかけましょう" }
+    ]},
+    { id:"henkou", cat:"kouryuu", name:"日にち変更の許可を求める", roles:[
+      { v:"requester", label:"日にち変更を頼む人", sit:"私は予約や約束をした人、あなたはその相手（店や知り合い）です。私が日にちの変更をお願いするので、あなたは相手として応対してください。", starts:"student", hint:"（例:「すみません、予約の日にちを変更したいのですが…」）と話しかけましょう" }
+    ]},
+    { id:"tanomi", cat:"kouryuu", name:"頼み事をする", roles:[
+      { v:"requester", label:"頼み事をする人", sit:"私は頼み事をする人、あなたは私の知り合いや近くの人です。私がちょっとした頼み事をお願いするので、あなたは相手として応対してください。", starts:"student", hint:"（例:「すみません、ちょっとお願いがあるのですが…」）と話しかけましょう" }
+    ]},
+    { id:"chuumon_machigai", cat:"kouryuu", name:"注文の間違いを伝える", roles:[
+      { v:"customer", label:"間違いを伝える客", sit:"私は店の客、あなたは店員です。私が出てきた料理や届いた品が注文と違うことを伝えるので、あなたは店員として応対してください。", starts:"student", hint:"（例:「すみません、これ注文したものと違うみたいなんですが…」）と話しかけましょう" }
+    ]},
+    { id:"jiko", cat:"kouryuu", name:"悪い状況を説明する", roles:[
+      { v:"explainer", label:"状況を説明する人", sit:"私はトラブルにあった人、あなたは話を聞く相手（警察や知り合いなど）です。私が交通事故などにあった状況を説明するので、あなたは相手として応対してください。", starts:"student", hint:"（例:「実はさっき、事故にあってしまって…」）と話しかけましょう" }
     ]}
   ];
 
@@ -547,13 +608,39 @@
       shop:{en:"Shop staff (take the booking)", zh:"店家（接受预约）"} } },
     shopping:{ en:"Shopping / convenience store", zh:"购物・便利店", roles:{
       customer:{en:"Customer (shopping)", zh:"顾客（购物）"},
-      clerk:{en:"Clerk (work the register)", zh:"店员（收银）"} } }
+      clerk:{en:"Clerk (work the register)", zh:"店员（收银）"} } },
+    jikoshoukai:{ en:"Introducing Yourself", zh:"自我介绍", roles:{ self:{ en:"Introduce yourself", zh:"介绍自己" } } },
+    bunka:{ en:"Sharing Your Culture", zh:"介绍自己的文化", roles:{ explainer:{ en:"Explain your culture", zh:"介绍自己的文化" } } },
+    sasou:{ en:"Inviting Someone Out", zh:"邀请对方", roles:{ inviter:{ en:"Invite someone", zh:"邀请对方" } } },
+    kotowaru:{ en:"Declining an Invitation", zh:"婉拒邀请", roles:{ decliner:{ en:"Decline an invitation", zh:"婉拒邀请" } } },
+    hagemasu:{ en:"Comforting and Encouraging", zh:"安慰与鼓励", roles:{ comforter:{ en:"Comfort someone", zh:"安慰对方" } } },
+    zatsudan:{ en:"Small Talk with a Stranger", zh:"与初次见面的人闲聊", roles:{ chatter:{ en:"Make small talk", zh:"闲聊" } } },
+    teisei:{ en:"Politely Asking for a Correction", zh:"礼貌地请求更正", roles:{ corrector:{ en:"Ask for a correction", zh:"请求更正" } } },
+    tetsudai:{ en:"Offering Help", zh:"主动提供帮助", roles:{ helper:{ en:"Offer help", zh:"提供帮助" } } },
+    ayamaru:{ en:"Apologizing After Being Corrected", zh:"被提醒后道歉", roles:{ apologizer:{ en:"Apologize", zh:"道歉" } } },
+    oshiete:{ en:"Asking Someone to Teach You", zh:"向对方请教", roles:{ asker:{ en:"Ask to be taught", zh:"请教对方" } } },
+    iken:{ en:"Exchanging Opinions", zh:"交换意见", roles:{ opinion:{ en:"Exchange opinions", zh:"交换意见" } } },
+    dengon:{ en:"Leaving a Message by Phone", zh:"电话留言", roles:{ caller:{ en:"Leave a message", zh:"请求留言" } } },
+    shoujou:{ en:"Describing Symptoms to a Doctor", zh:"向医生说明症状", roles:{ patient:{ en:"Patient describing symptoms", zh:"说明症状的患者" } } },
+    komatta:{ en:"Explaining a Problem", zh:"说明困境", roles:{ customer:{ en:"Explain your problem", zh:"说明困境" } } },
+    jouken:{ en:"Explaining Your Requirements", zh:"说明希望的条件", roles:{ customer:{ en:"Explain your requirements", zh:"说明条件的顾客" } } },
+    baito:{ en:"Applying for a Job by Phone", zh:"电话应聘兼职", roles:{ applicant:{ en:"Apply by phone", zh:"电话应聘的人" } } },
+    henkou:{ en:"Asking to Change a Date", zh:"请求更改日期", roles:{ requester:{ en:"Request a date change", zh:"请求更改日期" } } },
+    tanomi:{ en:"Asking a Favor", zh:"拜托别人", roles:{ requester:{ en:"Ask a favor", zh:"拜托别人" } } },
+    chuumon_machigai:{ en:"Reporting a Wrong Order", zh:"告知点单错误", roles:{ customer:{ en:"Report the mistake", zh:"告知错误的顾客" } } },
+    jiko:{ en:"Explaining a Bad Situation", zh:"说明糟糕的状况", roles:{ explainer:{ en:"Explain the situation", zh:"说明状况的人" } } }
   };
   function scnName(s){ var t=SCN_I18N[s.id]; return (UI_LANG!=="ja"&&t&&t[UI_LANG])?t[UI_LANG]:s.name; }
   function roleLabel(sid,r){ var t=SCN_I18N[sid]; return (UI_LANG!=="ja"&&t&&t.roles&&t.roles[r.v]&&t.roles[r.v][UI_LANG])?t.roles[r.v][UI_LANG]:r.label; }
 
+  var SCEN_CAT={ restaurant:"nichijou", shopping:"nichijou", hospital:"nichijou", directions:"nichijou", phone:"nichijou", interview:"kouryuu", media_interview:"kouryuu" };
+  function catOf(s){ return s.cat || SCEN_CAT[s.id] || "nichijou"; }
+  function isScenario(){ return practiceModeEl.value==="nichijou" || practiceModeEl.value==="kouryuu"; }
+  function currentCat(){ return practiceModeEl.value==="kouryuu"?"kouryuu":"nichijou"; }
+
   function getScenario(){
     for(var i=0;i<SCENARIOS.length;i++){ if(SCENARIOS[i].id===scenarioEl.value) return SCENARIOS[i]; }
+    for(var j=0;j<SCENARIOS.length;j++){ if(catOf(SCENARIOS[j])===currentCat()) return SCENARIOS[j]; }
     return SCENARIOS[0];
   }
   function getRole(){
@@ -563,10 +650,13 @@
   }
   function populateScenarios(){
     scenarioEl.innerHTML="";
+    var cat=currentCat();
     SCENARIOS.forEach(function(s){
+      if(catOf(s)!==cat) return;
       var o=document.createElement("option"); o.value=s.id; o.textContent=scnName(s); scenarioEl.appendChild(o);
     });
-    var saved=store.get("scenario"); if(saved) scenarioEl.value=saved;
+    var saved=store.get("scenario_"+cat); if(saved) scenarioEl.value=saved;
+    if(!scenarioEl.value && scenarioEl.options.length) scenarioEl.value=scenarioEl.options[0].value;
   }
   function populateRoles(){
     var sc=getScenario(); var saved=store.get("role_"+sc.id);
@@ -577,7 +667,7 @@
     if(saved){ roleEl.value=saved; }
   }
   populateScenarios(); populateRoles();
-  scenarioEl.addEventListener("change", function(){ store.set("scenario",scenarioEl.value); populateRoles(); });
+  scenarioEl.addEventListener("change", function(){ store.set("scenario_"+currentCat(),scenarioEl.value); populateRoles(); });
   roleEl.addEventListener("change", function(){ store.set("role_"+getScenario().id, roleEl.value); });
 
   // ---- みんなの日本語（教科書）データ: 各課の練習C(c) と 新出語彙・文型(v) ----
@@ -588,7 +678,7 @@
     // 完全公開版: 「教科書モード」だけ隠す（一般の場面・自由会話は残す）
     var tbModeOpt=practiceModeEl.querySelector('option[value="textbook"]');
     if(tbModeOpt) tbModeOpt.parentNode.removeChild(tbModeOpt);
-    if(practiceModeEl.value==="textbook") practiceModeEl.value="general";
+    if(practiceModeEl.value==="textbook") practiceModeEl.value="nichijou";
     var tbOpt=vocabLevelEl.querySelector('option[value="textbook"]');
     if(tbOpt) tbOpt.parentNode.removeChild(tbOpt);
   }
@@ -636,11 +726,12 @@
     freeBox.style.display = fr?"block":"none";
     roleBox.style.display = (tb||fr)?"none":"block";
   }
-  var spm=store.get("practice_mode"); if(spm){ practiceModeEl.value=spm; if(practiceModeEl.selectedIndex<0) practiceModeEl.value="general"; }
+  var spm=store.get("practice_mode"); if(spm==="general") spm="nichijou"; if(spm){ practiceModeEl.value=spm; if(practiceModeEl.selectedIndex<0) practiceModeEl.value="nichijou"; }
   practiceModeEl.addEventListener("change", function(){
     store.set("practice_mode",practiceModeEl.value);
     // 教科書モードにしたら語彙も「選んだ課まで」を既定に
     if(isTextbook() && vocabLevelEl.value==="none"){ vocabLevelEl.value="textbook"; store.set("vocab_level","textbook"); }
+    if(isScenario()){ populateScenarios(); populateRoles(); }
     updateModeUI(); updateVocabUI();
   });
 
@@ -951,7 +1042,7 @@
     store.set("practice_mode",practiceModeEl.value);
     if(isTextbook()){ store.set("lesson",lessonEl.value); store.set("renshuC_"+currentLesson(),renshuCEl.value); }
     else if(isFree()){ store.set("free_topic", freeTopicEl.value); }
-    else { store.set("scenario",scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value); }
+    else { store.set("scenario_"+currentCat(),scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value); }
     store.set("vocab_level",vocabLevelEl.value); store.set("vocab_list",vocabListEl.value);
     systemText=buildSystem(); history=[]; log.innerHTML=""; creditLine.textContent="";
     setupCard.classList.add("hidden"); talkCard.classList.remove("hidden");
@@ -999,6 +1090,8 @@
       "key.hint":"Your key is saved <strong>only on this device</strong> and is never sent anywhere else (except Google). <span style=\"display:block;margin-top:4px\">How to get one: sign in at <a href=\"https://aistudio.google.com/apikey\" target=\"_blank\" rel=\"noopener\">aistudio.google.com/apikey</a> &rarr; “Create API key” &rarr; copy and paste it here (free).</span>",
       "mode.label":"Practice mode",
       "mode.general":"General situations",
+      "mode.nichijou":"Daily life",
+      "mode.kouryuu":"Interaction",
       "mode.free":"Free conversation (your topic)",
       "mode.textbook":"Minna no Nihongo (Textbook Practice C)",
       "free.label":"Topic (optional — can be blank)",
@@ -1065,6 +1158,8 @@
       "key.hint":"密钥<strong>仅保存在本设备中</strong>，不会发送到外部（Google 除外）。<span style=\"display:block;margin-top:4px\">获取方法：登录 <a href=\"https://aistudio.google.com/apikey\" target=\"_blank\" rel=\"noopener\">aistudio.google.com/apikey</a> &rarr;「Create API key」&rarr; 复制并粘贴到此处（免费）。</span>",
       "mode.label":"练习模式",
       "mode.general":"常见场景",
+      "mode.nichijou":"日常生活",
+      "mode.kouryuu":"交流",
       "mode.free":"自由会话（自定主题）",
       "mode.textbook":"大家的日本语（课本练习C）",
       "free.label":"主题（可选・可留空）",

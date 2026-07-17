@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文型・表現の練習 ・ Pattern Practice ・ 日本語の部屋</title>
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --n5: #3B6D11; --n5-bg: #EAF3DE;  --n4: #185FA5; --n4-bg: #E6F1FB;
+    --n3: #3C3489; --n3-bg: #EEEDFE;  --n2: #854F0B; --n2-bg: #FAEEDA;
+    --n1: #993C1D; --n1-bg: #FAECE7;
+    --ok: #3B6D11; --ok-bg: #EAF3DE;
+    --ng: #993C1D; --ng-bg: #FAECE7;
+    --accent: #3C3489; --accent-bg: #EEEDFE;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+  .app-header { text-align: center; padding: 1rem 0 0.5rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .app-title { font-size: 24px; font-weight: 700; letter-spacing: 0.02em; }
+  .app-sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+
+  /* 文型セレクタ */
+  .pat-select { margin-top: 1rem; display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 8px; -webkit-overflow-scrolling: touch; }
+  .pat-chip {
+    flex: 0 0 auto; border: 1px solid var(--border); background: var(--surface);
+    border-radius: 999px; padding: 8px 14px; font-size: 14px; font-weight: 700; cursor: pointer;
+    color: var(--text); white-space: nowrap; -webkit-tap-highlight-color: transparent; transition: all .12s;
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .pat-chip .lv { font-size: 10.5px; font-weight: 800; padding: 1px 6px; border-radius: 6px; }
+  .pat-chip.sel { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .pat-chip.sel .lv { background: rgba(255,255,255,.22); color:#fff; }
+
+  /* 文型の説明カード */
+  .pat-info { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-top: 6px; }
+  .pat-info .pi-p { font-size: 19px; font-weight: 800; }
+  .pat-info .pi-en { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+  .pat-info .pi-setu { font-size: 12.5px; color: var(--text); margin-top: 8px; background: var(--accent-bg); border-radius: 8px; padding: 6px 9px; display: inline-block; }
+  .pat-info .pi-note { font-size: 12px; color: var(--text-muted); margin-top: 8px; line-height: 1.6; }
+
+  /* モードタブ */
+  .modes { display: flex; gap: 6px; margin-top: 14px; background: #EFEBE3; padding: 4px; border-radius: 12px; }
+  .mode-tab {
+    flex: 1; text-align: center; padding: 9px 4px; font-size: 13.5px; font-weight: 700; border-radius: 9px;
+    cursor: pointer; color: var(--text-muted); -webkit-tap-highlight-color: transparent; transition: all .12s; border: none; background: transparent; font-family: inherit;
+  }
+  .mode-tab .mt-en { display: block; font-size: 10px; font-weight: 600; color: var(--text-hint); margin-top: 2px; }
+  .mode-tab.sel { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .mode-tab.sel .mt-en { color: var(--text-muted); }
+
+  /* 説明バナー */
+  .how { font-size: 12px; color: var(--text-muted); background: var(--accent-bg); border-radius: 9px; padding: 9px 12px; margin-top: 12px; line-height: 1.6; }
+
+  /* 練習カード */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 16px; margin-top: 12px; }
+  .card-label { font-size: 11.5px; font-weight: 800; letter-spacing: .08em; color: var(--text-hint); text-align: center; }
+
+  .model { text-align: center; margin-top: 12px; }
+  .model .m-ja { font-size: 21px; font-weight: 700; line-height: 1.6; }
+  .model .m-ja .blank { display: inline-block; min-width: 68px; border-bottom: 2.5px dashed var(--accent); color: var(--accent); font-weight: 800; padding: 0 6px; }
+  .model .m-kana { font-size: 13px; color: var(--text-muted); margin-top: 6px; display: none; }
+  .model.reveal .m-kana { display: block; }
+  .model .m-en { font-size: 12.5px; color: var(--text-hint); margin-top: 6px; }
+  .m-cover { font-size: 14px; color: var(--text-muted); padding: 12px 0 4px; }
+  .model.imit .m-ja, .model.imit .m-kana, .model.imit .m-en { display: none; }
+  .model.imit.reveal .m-cover { display: none; }
+  .model.imit.reveal .m-ja, .model.imit.reveal .m-kana, .model.imit.reveal .m-en { display: block; }
+
+  .cue { text-align: center; margin: 14px 0 4px; }
+  .cue .cue-emoji { font-size: 54px; line-height: 1.1; }
+  .cue .cue-word { font-size: 22px; font-weight: 800; color: var(--accent); }
+  .cue .cue-en { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .cue .cue-hint { font-size: 11.5px; color: var(--text-hint); margin-top: 4px; }
+
+  .words { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 14px 0 4px; }
+  .word-chip { background: var(--accent-bg); color: var(--accent); border-radius: 9px; padding: 8px 13px; font-size: 16px; font-weight: 700; }
+  .particles { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 8px; min-height: 16px; }
+  .particles b { color: var(--accent); font-size: 15px; }
+
+  .btn {
+    width: 100%; margin-top: 12px; padding: 13px; font-size: 15px; font-weight: 700;
+    border: none; border-radius: var(--radius-sm); cursor: pointer; font-family: inherit;
+    -webkit-tap-highlight-color: transparent; transition: transform 0.1s, filter 0.12s;
+  }
+  .btn:active { transform: scale(0.99); }
+  .btn-primary { background: var(--text); color: #fff; }
+  .btn-primary:hover { filter: brightness(1.15); }
+  .btn-ghost { background: #FAF8F4; color: var(--text); border: 1px solid var(--border); }
+  .btn-sm { width: auto; margin: 0; padding: 8px 14px; font-size: 13px; }
+  .btn:focus-visible { outline: 2px solid var(--n4); outline-offset: 2px; }
+  .row-btns { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+
+  .btn-say { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent); }
+  .btn-mic { background: #FAF8F4; color: var(--text); border: 1px solid var(--border); }
+  .btn-mic.listening { background: var(--ng-bg); border-color: var(--ng); color: var(--ng); animation: micpulse 1.1s ease-in-out infinite; }
+  @keyframes micpulse { 0%,100% { box-shadow: 0 0 0 0 rgba(153,60,29,0); } 50% { box-shadow: 0 0 0 4px var(--ng-bg); } }
+
+  .ans-input { width: 100%; margin-top: 14px; padding: 12px 13px; font-size: 16px; font-family: inherit; border: 1px solid var(--border); border-radius: var(--radius-sm); background: #FAF8F4; text-align: center; }
+  .ans-input.correct { border-color: var(--ok); background: var(--ok-bg); }
+  .ans-input.wrong { border-color: var(--ng); background: var(--ng-bg); }
+  .mic-status { font-size: 11.5px; color: var(--text-muted); margin-top: 8px; text-align: center; min-height: 14px; line-height: 1.5; }
+
+  .feedback { margin-top: 14px; text-align: center; }
+  .fb-label { font-size: 16px; font-weight: 800; }
+  .fb-label.ok { color: var(--ok); }
+  .fb-label.ng { color: var(--ng); }
+  .fb-correct-label { font-size: 11.5px; color: var(--text-hint); margin-top: 8px; }
+  .fb-answer { font-size: 18px; font-weight: 700; margin-top: 3px; line-height: 1.5; }
+  .fb-answer .k { display: block; font-size: 12.5px; color: var(--text-muted); font-weight: 500; margin-top: 3px; }
+
+  /* スコアバー */
+  .scorebar { display: flex; align-items: center; gap: 4px; margin-top: 16px; font-size: 12px; color: var(--text-muted); justify-content: center; flex-wrap: wrap; }
+  .sc-item { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; font-weight: 700; }
+  .sc-item b { color: var(--text); }
+  .sc-btn { background: none; border: 1px solid var(--border); border-radius: 999px; padding: 5px 11px; font-size: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent; }
+
+  .empty-msg { text-align: center; color: var(--text-muted); font-size: 13px; padding: 24px 8px; line-height: 1.7; }
+  @media (prefers-reduced-motion: reduce) { .btn-mic.listening { animation: none; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="bunkei.html" class="back">‹ 文型解説にもどる</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">文型・表現の練習</div>
+    <div class="app-sub">模倣・代入・完成のパターン練習 ・ Pattern Practice</div>
+  </div>
+
+  <div class="pat-select" id="patSelect"></div>
+  <div id="patInfo"></div>
+
+  <div class="modes" id="modes">
+    <button class="mode-tab sel" data-mode="imitate">模倣<span class="mt-en">Imitation</span></button>
+    <button class="mode-tab" data-mode="substitute">代入<span class="mt-en">Substitution</span></button>
+    <button class="mode-tab" data-mode="complete">完成<span class="mt-en">Completion</span></button>
+  </div>
+
+  <div class="how" id="howBox"></div>
+  <div id="stage"></div>
+
+  <div class="scorebar">
+    <span class="sc-item">とい <b id="scAsked">0</b></span>
+    <span class="sc-item">せいかい <b id="scOk">0</b></span>
+    <span class="sc-item">れんぞく <b id="scStreak">0</b></span>
+    <button class="sc-btn" id="scReset">リセット</button>
+    <button class="sc-btn" id="soundBtn">🔊 音 オン</button>
+  </div>
+
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+/* ===================== データ ===================== */
+/* 各文型: imitate=模倣(モデル文), substitute=代入(空欄+cue), complete=完成(語→文) */
+const PATTERNS = [
+  {
+    id:'tai', p:'〜たいです', lvl:'N5', en:'want to (do)',
+    setu:'動詞ます形の語幹 ＋ たいです', note:'自分の希望を表す。「〜が/〜を 〜たい」。',
+    imitate:[
+      {ja:'わたしは すしが 食べたいです。', k:'わたしは すしが たべたいです。', en:'I want to eat sushi.'},
+      {ja:'日本へ 行きたいです。', k:'にほんへ いきたいです。', en:'I want to go to Japan.'},
+      {ja:'冷たい 水が 飲みたいです。', k:'つめたい みずが のみたいです。', en:'I want to drink cold water.'}
+    ],
+    substitute:{
+      template:['わたしは ', ' が 飲みたいです。'],
+      items:[
+        {emoji:'🍵', word:'お茶', en:'green tea', ja:'わたしは お茶が 飲みたいです。', k:'わたしは おちゃが のみたいです。'},
+        {emoji:'☕', word:'コーヒー', en:'coffee', ja:'わたしは コーヒーが 飲みたいです。', k:'わたしは こーひーが のみたいです。'},
+        {emoji:'🧃', word:'ジュース', en:'juice', ja:'わたしは ジュースが 飲みたいです。', k:'わたしは じゅーすが のみたいです。'},
+        {emoji:'🥛', word:'牛乳', en:'milk', ja:'わたしは 牛乳が 飲みたいです。', k:'わたしは ぎゅうにゅうが のみたいです。'}
+      ]
+    },
+    complete:[
+      {words:['わたし','ケーキ','食べる'], particles:'は ・ が', ja:'わたしは ケーキが 食べたいです。', k:'わたしは けーきが たべたいです。', en:'I want to eat cake.'},
+      {words:['京都','行く'], particles:'へ', ja:'京都へ 行きたいです。', k:'きょうとへ いきたいです。', en:'I want to go to Kyoto.'},
+      {words:['新しい','くつ','買う'], particles:'が', ja:'新しい くつが 買いたいです。', k:'あたらしい くつが かいたいです。', en:'I want to buy new shoes.'}
+    ]
+  },
+  {
+    id:'tekudasai', p:'〜てください', lvl:'N5', en:'please (do)',
+    setu:'動詞て形 ＋ ください', note:'ていねいな依頼・指示。',
+    imitate:[
+      {ja:'ここに 名前を 書いてください。', k:'ここに なまえを かいてください。', en:'Please write your name here.'},
+      {ja:'ちょっと 待ってください。', k:'ちょっと まってください。', en:'Please wait a moment.'},
+      {ja:'ゆっくり 話してください。', k:'ゆっくり はなしてください。', en:'Please speak slowly.'}
+    ],
+    substitute:{
+      template:['', 'ください。'],
+      cueType:'verb',
+      items:[
+        {word:'待つ', en:'to wait', ja:'待ってください。', k:'まってください。'},
+        {word:'見る', en:'to look', ja:'見てください。', k:'みてください。'},
+        {word:'聞く', en:'to listen', ja:'聞いてください。', k:'きいてください。'},
+        {word:'立つ', en:'to stand', ja:'立ってください。', k:'たってください。'}
+      ]
+    },
+    complete:[
+      {words:['窓','開ける'], particles:'を', ja:'窓を 開けてください。', k:'まどを あけてください。', en:'Please open the window.'},
+      {words:['名前','書く'], particles:'を', ja:'名前を 書いてください。', k:'なまえを かいてください。', en:'Please write your name.'},
+      {words:['ちょっと','待つ'], particles:'（なし）', ja:'ちょっと 待ってください。', k:'ちょっと まってください。', en:'Please wait a moment.'}
+    ]
+  },
+  {
+    id:'teimasu', p:'〜ています', lvl:'N5', en:'be ~ing (ongoing)',
+    setu:'動詞て形 ＋ います', note:'今している動作・進行中の様子を表す。',
+    imitate:[
+      {ja:'今 ご飯を 食べています。', k:'いま ごはんを たべています。', en:'I am eating now.'},
+      {ja:'父は 新聞を 読んでいます。', k:'ちちは しんぶんを よんでいます。', en:'My father is reading the newspaper.'},
+      {ja:'子どもたちが 公園で 遊んでいます。', k:'こどもたちが こうえんで あそんでいます。', en:'The children are playing in the park.'}
+    ],
+    substitute:{
+      template:['今 ', 'います。'],
+      cueType:'verb',
+      items:[
+        {word:'食べる', en:'to eat', ja:'今 食べています。', k:'いま たべています。'},
+        {word:'飲む', en:'to drink', ja:'今 飲んでいます。', k:'いま のんでいます。'},
+        {word:'書く', en:'to write', ja:'今 書いています。', k:'いま かいています。'},
+        {word:'泳ぐ', en:'to swim', ja:'今 泳いでいます。', k:'いま およいでいます。'}
+      ]
+    },
+    complete:[
+      {words:['母','料理','作る'], particles:'は ・ を', ja:'母は 料理を 作っています。', k:'ははは りょうりを つくっています。', en:'My mother is cooking.'},
+      {words:['雨','降る'], particles:'が', ja:'雨が 降っています。', k:'あめが ふっています。', en:'It is raining.'},
+      {words:['赤ちゃん','寝る'], particles:'が', ja:'赤ちゃんが 寝ています。', k:'あかちゃんが ねています。', en:'The baby is sleeping.'}
+    ]
+  }
+];
+
+/* ===================== 正規化・採点 ===================== */
+const norm = s => (s||'').replace(/[\s　。、，．・！？!?,.「」『』〜～ー]/g,'');
+function acceptSet(ja, k, extra){
+  const s = new Set();
+  const base = [ja, k].concat(extra||[]);
+  base.forEach(x=>{
+    if(!x) return;
+    s.add(norm(x));
+    s.add(norm(x.replace(/わたし/g,'私')));
+    s.add(norm(x.replace(/私/g,'わたし')));
+  });
+  return s;
+}
+function judge(val, ja, k, extra){
+  const set = acceptSet(ja, k, extra);
+  return set.has(norm(val));
+}
+
+/* ===================== TTS（モデル文の読み上げ） ===================== */
+const TTS_OK = ('speechSynthesis' in window);
+function say(text){
+  if(!TTS_OK || !text) return;
+  try{
+    const u = new SpeechSynthesisUtterance(text.replace(/[　\s]/g,''));
+    u.lang = 'ja-JP'; u.rate = 0.92;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(e){}
+}
+document.addEventListener('click', e=>{
+  const el = e.target.closest('[data-say]');
+  if(el){ say(el.getAttribute('data-say')); }
+});
+
+/* ===================== 効果音 ===================== */
+let soundOn = true; try{ soundOn = localStorage.getItem('nnh_bkrenshu_sound')!=='0'; }catch(e){}
+let audioCtx = null;
+function beep(kind){
+  if(!soundOn) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended') audioCtx.resume();
+    const now = audioCtx.currentTime;
+    const tone=(f,st,dur,type,vol)=>{ const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+      o.type=type||'sine'; o.frequency.value=f; o.connect(g); g.connect(audioCtx.destination);
+      g.gain.setValueAtTime(0.0001, now+st); g.gain.exponentialRampToValueAtTime(vol||0.22, now+st+0.015);
+      g.gain.exponentialRampToValueAtTime(0.0001, now+st+dur); o.start(now+st); o.stop(now+st+dur+0.02); };
+    if(kind==='ok'){ tone(880,0,0.16,'sine',0.22); tone(1320,0.11,0.22,'sine',0.22); }
+    else { tone(233,0,0.16,'square',0.16); tone(175,0.13,0.22,'square',0.16); }
+  }catch(e){}
+}
+
+/* ===================== 音声認識 ===================== */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const VOICE_OK = !!SR;
+let sharedRec = null, activeRec = null;
+function startVoice(){
+  if(!VOICE_OK) return;
+  const inp=$('ansInput'), mic=$('micBtn'), st=$('micStatus');
+  if(!inp||!mic) return;
+  if(activeRec){ try{ activeRec.stop(); }catch(e){} return; }
+  let rec = sharedRec;
+  if(!rec){ try{ rec=new SR(); }catch(e){ return; } rec.lang='ja-JP'; rec.interimResults=false; rec.maxAlternatives=1; sharedRec=rec; }
+  let got=false;
+  const reset=()=>{ mic.classList.remove('listening'); mic.textContent='🎤 はなす'; };
+  rec.onresult=(e)=>{ got=true; const raw=(e.results[0][0].transcript||'').trim(); inp.value=raw;
+    if(st) st.textContent='「'+raw+'」と聞きました。直したら「確認」を押してください。'; };
+  rec.onerror=(e)=>{ const map={'not-allowed':'マイクの使用が許可されていません。','service-not-allowed':'マイクの使用が許可されていません。','no-speech':'声が聞き取れませんでした。もう一度どうぞ。','audio-capture':'マイクが見つかりません。','network':'ネットワークエラーです。','aborted':''};
+    if(st) st.textContent=(e.error in map)?map[e.error]:('認識に失敗しました（'+e.error+'）。'); };
+  rec.onend=()=>{ activeRec=null; reset(); if(got) inp.focus({preventScroll:true}); };
+  activeRec=rec;
+  mic.classList.add('listening'); mic.textContent='● きいています…'; if(st) st.textContent='いま、文を話してください。';
+  try{ rec.start(); }catch(e){ activeRec=null; reset(); if(st) st.textContent='音声入力を開始できませんでした。'; }
+}
+
+/* ===================== 状態 ===================== */
+let pIndex = 0;
+let mode = 'imitate';
+let idx = 0;            // 現在の問題番号（モード内）
+let answered = false;
+let revealParticles = false;
+const score = { asked:0, ok:0, streak:0 };
+const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints>0);
+
+const HOWTO = {
+  imitate:'🔊を押してモデル文を聞き、同じように話しましょう。合っていればOK。ちがうときは文が出るので、見ながらもう一度。',
+  substitute:'空欄に入る語（絵/原形）を見て、正しい形にして<b>文ぜんぶ</b>を話しましょう。',
+  complete:'出てきた語を使って、テーマの文を作って話しましょう。助詞は自分で考えます。むずかしいときは「助詞を見る」を押してください。'
+};
+
+/* ===================== 描画 ===================== */
+function renderPatSelect(){
+  $('patSelect').innerHTML = PATTERNS.map((p,i)=>
+    `<button class="pat-chip ${i===pIndex?'sel':''}" data-i="${i}">
+      <span class="lv" style="background:var(--${p.lvl.toLowerCase()}-bg);color:var(--${p.lvl.toLowerCase()})">${p.lvl}</span>${p.p}
+    </button>`).join('');
+  $('patSelect').querySelectorAll('.pat-chip').forEach(b=>{
+    b.onclick=()=>{ pIndex=+b.dataset.i; idx=0; answered=false; renderPatSelect(); renderInfo(); renderStage(); };
+  });
+}
+function renderInfo(){
+  const p = PATTERNS[pIndex];
+  $('patInfo').innerHTML = `<div class="pat-info">
+    <div class="pi-p">${p.p}</div>
+    <div class="pi-en">${p.en}</div>
+    <div class="pi-setu">接続： ${p.setu}</div>
+    <div class="pi-note">${p.note}</div>
+  </div>`;
+}
+function setMode(m){
+  mode=m; idx=0; answered=false; revealParticles=false;
+  $('modes').querySelectorAll('.mode-tab').forEach(t=>t.classList.toggle('sel', t.dataset.mode===m));
+  $('howBox').innerHTML = HOWTO[m];
+  renderStage();
+}
+function list(){ // 現在モードの問題配列
+  const p = PATTERNS[pIndex];
+  if(mode==='imitate') return p.imitate;
+  if(mode==='substitute') return p.substitute.items;
+  return p.complete;
+}
+function micHtml(){ return VOICE_OK ? `<button class="btn btn-mic btn-sm" id="micBtn" type="button">🎤 はなす</button>` : ''; }
+function answerInputHtml(){
+  return `<input class="ans-input" id="ansInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${VOICE_OK?'話すか、ここに入力':'ここに入力'}">
+    <div class="row-btns">${micHtml()}<button class="btn btn-primary btn-sm" id="checkBtn">確認</button></div>
+    ${VOICE_OK?'<div class="mic-status" id="micStatus"></div>':''}`;
+}
+function fbAnswer(ja,k){ return `<div class="fb-answer">${ja}<span class="k">${k}</span></div>`; }
+
+function renderStage(){
+  answered=false; revealParticles=false;
+  const p = PATTERNS[pIndex];
+  const arr = list();
+  const cur = arr[idx % arr.length];
+  let html='';
+
+  if(mode==='imitate'){
+    html = `<div class="card">
+      <div class="card-label">模倣練習 ・ ${idx+1} / ${arr.length}</div>
+      <div class="model imit" id="modelBox">
+        <div class="m-cover">🔊 を押して聞き、同じように話しましょう</div>
+        <div class="m-ja">${cur.ja}</div>
+        <div class="m-kana">${cur.k}</div>
+        <div class="m-en">${cur.en}</div>
+      </div>
+      <div class="row-btns">
+        <button class="btn btn-say btn-sm" data-say="${cur.k}">🔊 聞く</button>
+      </div>
+      <div id="answerArea">${answerInputHtml()}</div>
+    </div>`;
+  } else if(mode==='substitute'){
+    const t = p.substitute.template;
+    const cueHtml = cur.emoji
+      ? `<div class="cue-emoji">${cur.emoji}</div><div class="cue-word">${cur.word}</div><div class="cue-en">${cur.en}</div>`
+      : `<div class="cue-word">${cur.word}</div><div class="cue-en">${cur.en}</div><div class="cue-hint">↑ 正しい形にして入れる</div>`;
+    html = `<div class="card">
+      <div class="card-label">代入練習 ・ ${idx+1} / ${arr.length}</div>
+      <div class="model"><div class="m-ja">${t[0]}<span class="blank">？</span>${t[1]}</div></div>
+      <div class="cue">${cueHtml}</div>
+      <div id="answerArea">${answerInputHtml()}</div>
+    </div>`;
+  } else {
+    const chips = cur.words.map(w=>`<span class="word-chip">${w}</span>`).join('');
+    html = `<div class="card">
+      <div class="card-label">完成練習 ・ ${idx+1} / ${arr.length}</div>
+      <div class="m-en" style="text-align:center;color:var(--text-hint);font-size:12.5px">${cur.en}</div>
+      <div class="words">${chips}</div>
+      <div class="particles" id="particleHint"></div>
+      <div class="row-btns"><button class="btn btn-ghost btn-sm" id="showP">助詞を見る</button></div>
+      <div id="answerArea">${answerInputHtml()}</div>
+    </div>`;
+  }
+  $('stage').innerHTML = html;
+  wireAnswer();
+  if(mode==='complete'){ $('showP').onclick=()=>{ revealParticles=true; $('particleHint').innerHTML='助詞： <b>'+cur.particles+'</b>'; $('showP').style.display='none'; }; }
+}
+
+function wireAnswer(){
+  const chk=$('checkBtn'); if(chk) chk.onclick=doCheck;
+  if(VOICE_OK){ const m=$('micBtn'); if(m) m.onclick=startVoice; }
+  const inp=$('ansInput');
+  if(inp){
+    inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); if(answered){ nextProblem(); } else { doCheck(); } }});
+    if(!isTouch) inp.focus({preventScroll:true});
+  }
+}
+
+function doCheck(){
+  if(answered) return;
+  const arr=list(); const cur=arr[idx % arr.length];
+  if(activeRec){ try{ activeRec.stop(); }catch(e){} }
+  const inp=$('ansInput'); if(!inp) return;
+  const val=inp.value;
+  if(!norm(val)){ if($('micStatus')) $('micStatus').textContent='まだ答えがありません。話すか入力してください。'; return; }
+  const correct = judge(val, cur.ja, cur.k);
+  answered=true;
+  score.asked++; if(correct){ score.ok++; score.streak++; } else { score.streak=0; }
+  updateScore(); beep(correct?'ok':'ng');
+  if(mode==='imitate'){ const mb=$('modelBox'); if(mb) mb.classList.add('reveal'); }
+  const a=$('answerArea');
+  a.innerHTML = `<input class="ans-input ${correct?'correct':'wrong'}" value="${val.replace(/"/g,'&quot;')}" disabled>
+    <div class="feedback">
+      <div class="fb-label ${correct?'ok':'ng'}">${correct?'◎ 正解！':'✕ おしい…'}</div>
+      ${correct?'':'<div class="fb-correct-label">こたえ</div>'+fbAnswer(cur.ja,cur.k)}
+    </div>
+    <button class="btn btn-ghost" id="nextBtn">次へ ›</button>`;
+  const nb=$('nextBtn'); if(nb){ nb.onclick=nextProblem; nb.focus({preventScroll:true}); }
+}
+
+function nextProblem(){
+  const arr=list();
+  idx = (idx+1) % arr.length;
+  renderStage();
+}
+function updateScore(){ $('scAsked').textContent=score.asked; $('scOk').textContent=score.ok; $('scStreak').textContent=score.streak; }
+
+/* ===================== 初期化 ===================== */
+$('modes').querySelectorAll('.mode-tab').forEach(t=>{ t.onclick=()=>setMode(t.dataset.mode); });
+$('scReset').onclick=()=>{ score.asked=0; score.ok=0; score.streak=0; updateScore(); };
+function refreshSoundBtn(){ $('soundBtn').textContent = soundOn ? '🔊 音 オン' : '🔈 音 オフ'; }
+$('soundBtn').onclick=()=>{ soundOn=!soundOn; try{ localStorage.setItem('nnh_bkrenshu_sound', soundOn?'1':'0'); }catch(e){} refreshSoundBtn(); if(soundOn) beep('ok'); };
+
+renderPatSelect();
+renderInfo();
+$('howBox').innerHTML = HOWTO[mode];
+renderStage();
+refreshSoundBtn();
+</script>
+</body>
+</html>

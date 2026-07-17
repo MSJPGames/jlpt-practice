@@ -163,7 +163,19 @@ function pickVoice(){ if(!TTS_OK)return; var vs=speechSynthesis.getVoices().filt
   if(!vs.length)return; var pref=[/Google.*日本語/i,/Google.*Japanese/i,/Kyoko/i,/O-?ren/i,/Nanami/i,/Ayumi/i,/Natural/i,/Neural/i];
   for(var i=0;i<pref.length;i++){ var m=vs.find(function(v){return pref[i].test(v.name||'');}); if(m){jaVoice=m;return;} } jaVoice=vs[0]; }
 if(TTS_OK){ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }
-function say(text){ if(!TTS_OK||!text)return; try{ var u=new SpeechSynthesisUtterance(text); u.lang='ja-JP'; u.rate=0.95; if(jaVoice)u.voice=jaVoice; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){} }
+function sayTTS(text){ if(!TTS_OK||!text)return; try{ var u=new SpeechSynthesisUtterance(text); u.lang='ja-JP'; u.rate=0.95; if(jaVoice)u.voice=jaVoice; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){} }
+/* 音声ID（テキスト→ファイル名）。事前生成した audio/mi_<id>.mp3（edge-tts等の自然音声）を優先し、無ければ端末TTSにフォールバック */
+function djb2(s){ var h=5381; for(var i=0;i<s.length;i++){ h=(((h<<5)+h) ^ s.charCodeAt(i))>>>0; } return h.toString(36); }
+var curAudio=null;
+function say(text){ if(!text)return;
+  try{ if(curAudio){ curAudio.pause(); curAudio=null; } }catch(e){}
+  try{ if(TTS_OK) speechSynthesis.cancel(); }catch(e){}
+  var id=djb2(norm(text));
+  var a=new Audio('audio/mi_'+id+'.mp3'); curAudio=a;
+  var fell=false, fb=function(){ if(fell)return; fell=true; sayTTS(text); };
+  a.addEventListener('error', fb);
+  var pr=a.play(); if(pr&&pr['catch']) pr['catch'](fb);
+}
 var SR=window.SpeechRecognition||window.webkitSpeechRecognition, VOICE_OK=!!SR, sharedRec=null, activeRec=null;
 
 /* ===== 地図・方向 ===== */
@@ -173,7 +185,8 @@ var RIGHT={N:'E',E:'S',S:'W',W:'N'};
 var LEFT={N:'W',W:'S',S:'E',E:'N'};
 var DIRNAME={N:'北',E:'東',S:'南',W:'西'};
 var ANGLE={N:0,E:90,S:180,W:270};
-var DESTS=[{e:'🏥',n:'病院'},{e:'🏫',n:'学校'},{e:'🏦',n:'銀行'},{e:'🏪',n:'コンビニ'},{e:'🚉',n:'駅'},{e:'🏬',n:'デパート'},{e:'🏤',n:'郵便局'},{e:'🌳',n:'公園'}];
+var FACILITIES=[{e:'🏥',n:'病院'},{e:'🏫',n:'学校'},{e:'🏦',n:'銀行'},{e:'🏪',n:'コンビニ'},{e:'🚉',n:'駅'},{e:'🏬',n:'デパート'},{e:'🏤',n:'郵便局'},{e:'🌳',n:'公園'},{e:'🍴',n:'レストラン'},{e:'⛽',n:'ガソリンスタンド'},{e:'🥐',n:'パン屋'},{e:'📚',n:'本屋'}];
+var DESTS=FACILITIES;
 
 var G={}; // ゲーム状態
 
@@ -227,9 +240,24 @@ function genScenario(level){
   var signals={};
   if(level==='easy'){ var ns=2+Math.floor(Math.random()*2); for(var s=0;s<ns;s++){ var cc=pick(path); signals[keyOf(cc[0],cc[1])]=1; } }
   else { for(var i=0;i<ba.actions.length;i++){ if(ba.actions[i]==='right'||ba.actions[i]==='left') signals[keyOf(ba.turnCells[i][0],ba.turnCells[i][1])]=1; } }
+  // 目的地の種類（おとり施設とは別の種類にして、運転手モードで見つからないようにする）
+  var destType=pick(FACILITIES);
+  // 施設（おとり）を配置。目的地・出発地セルには置かない
+  var facilities={}, used={}; used[destType.n]=1;
+  var occ={}; occ[keyOf(dest[0],dest[1])]=1; occ[keyOf(start[0],start[1])]=1;
+  function placeFac(cell){ var k=keyOf(cell[0],cell[1]); if(occ[k]) return;
+    var pool=FACILITIES.filter(function(f){return !used[f.n];}); if(!pool.length) return;
+    var f=pick(pool); facilities[k]={e:f.e,n:f.n}; used[f.n]=1; occ[k]=1; }
+  for(var ti=0;ti<ba.actions.length;ti++){ if((ba.actions[ti]==='right'||ba.actions[ti]==='left')&&Math.random()<0.75) placeFac(ba.turnCells[ti]); }
+  var extra=3+Math.floor(Math.random()*3);
+  for(var esi=0;esi<extra;esi++){ placeFac([Math.floor(Math.random()*N),Math.floor(Math.random()*N)]); }
+  // 橋：ルートの直進区間のひとつに置く
+  var straights=[]; for(var sti=0;sti<ba.actions.length;sti++){ if(ba.actions[sti]==='straight') straights.push(sti); }
+  var bridge=null, bridgeStep=-1;
+  if(straights.length && Math.random()<0.55){ bridgeStep=pick(straights); bridge={a:path[bridgeStep], b:path[bridgeStep+1]}; }
   G={ level:level, mode:G.mode, path:path, actions:ba.actions, turnCells:ba.turnCells, start:start.slice(), dest:dest,
-      firstDir:ba.firstDir, signals:signals, destType:pick(DESTS), car:{r:start[0],c:start[1],dir:ba.firstDir},
-      step:0, done:false, waiting:false };
+      firstDir:ba.firstDir, signals:signals, facilities:facilities, bridge:bridge, bridgeStep:bridgeStep,
+      destType:destType, car:{r:start[0],c:start[1],dir:ba.firstDir}, step:0, done:false, waiting:false };
 }
 
 function absDir(a,b){ var dr=b[0]-a[0], dc=b[1]-a[1];
@@ -244,11 +272,21 @@ function drawMap(){
   // 道路（格子）
   for(var r=0;r<N;r++){ el.push('<line x1="'+px(0)+'" y1="'+py(r)+'" x2="'+px(N-1)+'" y2="'+py(r)+'" stroke="#D8D2C6" stroke-width="12" stroke-linecap="round"/>'); }
   for(var c=0;c<N;c++){ el.push('<line x1="'+px(c)+'" y1="'+py(0)+'" x2="'+px(c)+'" y2="'+py(N-1)+'" stroke="#D8D2C6" stroke-width="12" stroke-linecap="round"/>'); }
+  // 橋（ルートの直進区間の辺の中点に🌉）
+  if(G.bridge){ var bmx=(px(G.bridge.a[1])+px(G.bridge.b[1]))/2, bmy=(py(G.bridge.a[0])+py(G.bridge.b[0]))/2;
+    el.push('<text x="'+bmx+'" y="'+(bmy+7)+'" font-size="20" text-anchor="middle">🌉</text>'); }
+  // 施設（おとり）：絵文字＋名前ラベル
+  for(var fk in G.facilities){ var fp=fk.split(',').map(Number), f=G.facilities[fk];
+    el.push('<text x="'+px(fp[1])+'" y="'+(py(fp[0])-9)+'" font-size="19" text-anchor="middle">'+f.e+'</text>');
+    el.push('<text x="'+px(fp[1])+'" y="'+(py(fp[0])+16)+'" font-size="9" text-anchor="middle" fill="#4A4A4A">'+f.n+'</text>'); }
   // 信号
   for(var k in G.signals){ var pr=k.split(',').map(Number); el.push('<circle cx="'+px(pr[1])+'" cy="'+py(pr[0])+'" r="5.5" fill="#D64545" stroke="#fff" stroke-width="1.5"/>'); }
-  // 目的地
-  el.push('<text x="'+px(G.dest[1])+'" y="'+(py(G.dest[0])-10)+'" font-size="22" text-anchor="middle">'+G.destType.e+'</text>');
-  el.push('<circle cx="'+px(G.dest[1])+'" cy="'+py(G.dest[0])+'" r="9" fill="none" stroke="#2F6F4F" stroke-width="2.5"/>');
+  // 目的地：客モード or ゲーム終了時のみ表示（運転手モードは指示を聞かないと分からない）
+  if(G.mode==='passenger' || G.done){
+    el.push('<text x="'+px(G.dest[1])+'" y="'+(py(G.dest[0])-10)+'" font-size="22" text-anchor="middle">'+G.destType.e+'</text>');
+    el.push('<text x="'+px(G.dest[1])+'" y="'+(py(G.dest[0])+17)+'" font-size="9" text-anchor="middle" fill="#2F6F4F" font-weight="bold">'+G.destType.n+'</text>');
+    el.push('<circle cx="'+px(G.dest[1])+'" cy="'+py(G.dest[0])+'" r="12" fill="none" stroke="#2F6F4F" stroke-width="2.5"/>');
+  }
   // 車
   var cx=px(G.car.c), cy=py(G.car.r), ang=ANGLE[G.car.dir];
   el.push('<g transform="translate('+cx+','+cy+') rotate('+ang+')">');
@@ -258,21 +296,25 @@ function drawMap(){
 }
 
 /* ===== 指示文（運転手モード） ===== */
-function turnWord(cell){ return G.signals[keyOf(cell[0],cell[1])] ? '信号' : 'かど'; }
+/* 曲がる目印：施設があれば施設名、なければ信号、どちらもなければ「かど」 */
+function landmarkWord(cell){ var k=keyOf(cell[0],cell[1]);
+  if(G.facilities[k]) return G.facilities[k].n+'の かど';
+  if(G.signals[k]) return '信号';
+  return 'かど'; }
 function instructionText(i){
   var act=G.actions[i], cell=G.turnCells[i];
-  if(act==='straight') return 'まっすぐ 行ってください。';
-  if(act==='right') return 'つぎの '+turnWord(cell)+'を 右に 曲がってください。';
-  if(act==='left') return 'つぎの '+turnWord(cell)+'を 左に 曲がってください。';
+  if(act==='straight') return (i===G.bridgeStep) ? '橋を 渡ってください。' : 'まっすぐ 行ってください。';
+  if(act==='right') return 'つぎの '+landmarkWord(cell)+'を 右に 曲がってください。';
+  if(act==='left') return 'つぎの '+landmarkWord(cell)+'を 左に 曲がってください。';
   return G.destType.n+'の 前で 止まってください。';
 }
-/* 上級：ルート全体を1つの指示にまとめる（連続まっすぐは1つに） */
+/* 上級：ルート全体を1つの指示にまとめる（連続まっすぐは1つに、橋は明示） */
 function fullInstruction(){
   var parts=[], pend=false;
   for(var i=0;i<G.actions.length;i++){
     var a=G.actions[i], cell=G.turnCells[i];
-    if(a==='straight'){ pend=true; }
-    else if(a==='right'||a==='left'){ if(pend){ parts.push('まっすぐ 行って'); pend=false; } parts.push('つぎの '+turnWord(cell)+'を '+(a==='right'?'右':'左')+'に 曲がって'); }
+    if(a==='straight'){ if(i===G.bridgeStep){ if(pend){ parts.push('まっすぐ 行って'); pend=false; } parts.push('橋を 渡って'); } else { pend=true; } }
+    else if(a==='right'||a==='left'){ if(pend){ parts.push('まっすぐ 行って'); pend=false; } parts.push('つぎの '+landmarkWord(cell)+'を '+(a==='right'?'右':'左')+'に 曲がって'); }
     else { if(pend){ parts.push('まっすぐ 行って'); pend=false; } parts.push(G.destType.n+'の 前で 止まってください'); }
   }
   return parts.join('、');

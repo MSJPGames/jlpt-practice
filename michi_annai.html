@@ -86,6 +86,13 @@
         <button data-mode="passenger">客<span class="s-en">Passenger ・ 話して案内</span></button>
       </div>
       <div class="note" id="modeNote"></div>
+      <div class="card-h" style="margin-top:2px">レベル ・ LEVEL</div>
+      <div class="seg" id="levelSeg">
+        <button data-level="easy" class="on">やさしい<span class="s-en">Easy</span></button>
+        <button data-level="advanced">上級<span class="s-en">Advanced</span></button>
+        <button data-level="super">超上級<span class="s-en">Real-time</span></button>
+      </div>
+      <div class="note" id="levelNote"></div>
       <button class="btn btn-primary" id="startBtn">▶ はじめる</button>
     </div>
 
@@ -191,32 +198,38 @@ function bfs(start,dest){
 
 function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-function genScenario(){
-  var path=null, start, dest, tries=0;
-  while(tries++<200){
+function buildActions(p){
+  var firstDir=absDir(p[0],p[1]); var heading=firstDir, acts=[], cells=[], turns=0;
+  for(var i=0;i<p.length-1;i++){
+    var ad=absDir(p[i],p[i+1]);
+    var act=(ad===heading)?'straight':(ad===RIGHT[heading])?'right':(ad===LEFT[heading])?'left':'straight';
+    if(act!=='straight') turns++;
+    acts.push(act); cells.push(p[i]); heading=ad;
+  }
+  acts.push('stop'); cells.push(p[p.length-1]);
+  return {actions:acts, turnCells:cells, firstDir:firstDir, turns:turns};
+}
+function genScenario(level){
+  var minLen=(level==='easy')?4:6, maxLen=(level==='easy')?6:9, minTurns=(level==='easy')?1:2;
+  var path=null, start, dest, ba=null, tries=0;
+  while(tries++<400){
     start=[Math.floor(Math.random()*N),Math.floor(Math.random()*N)];
     dest=[Math.floor(Math.random()*N),Math.floor(Math.random()*N)];
     if(start[0]===dest[0]&&start[1]===dest[1]) continue;
     var p=bfs(start,dest);
-    if(p&&p.length>=4&&p.length<=6){ path=p; break; }
+    if(!p||p.length<minLen||p.length>maxLen) continue;
+    var b=buildActions(p);
+    if(b.turns<minTurns) continue;
+    path=p; ba=b; break;
   }
-  if(!path){ start=[4,0]; dest=[0,3]; path=bfs(start,dest); }
-  // 初期の向き＝最初の一歩の方向
-  var firstDir=absDir(path[0],path[1]);
-  // 各ステップを 現在向き基準の action に変換
-  var heading=firstDir, actions=[], turnCells=[];
-  for(var i=0;i<path.length-1;i++){
-    var ad=absDir(path[i],path[i+1]);
-    var act = (ad===heading)?'straight' : (ad===RIGHT[heading])?'right' : (ad===LEFT[heading])?'left' : 'straight';
-    actions.push(act); turnCells.push(path[i]); heading=ad;
-  }
-  actions.push('stop'); turnCells.push(path[path.length-1]);
-  // 信号を2〜3か所（曲がる交差点に置くと自然）
-  var signals={}; var turnPts=path.slice(0,-1);
-  var nsig=2+Math.floor(Math.random()*2);
-  for(var s=0;s<nsig;s++){ var cell=pick(path); signals[keyOf(cell[0],cell[1])]=1; }
-  G={ path:path, actions:actions, turnCells:turnCells, start:start.slice(), dest:dest, firstDir:firstDir,
-      signals:signals, destType:pick(DESTS), car:{r:start[0],c:start[1],dir:firstDir}, step:0, done:false };
+  if(!path){ start=[4,0]; dest=[0,3]; path=bfs(start,dest); ba=buildActions(path); }
+  // 信号：やさしい＝ランダム2〜3、上級/超上級＝曲がる交差点すべて（赤信号＝判断ポイント）
+  var signals={};
+  if(level==='easy'){ var ns=2+Math.floor(Math.random()*2); for(var s=0;s<ns;s++){ var cc=pick(path); signals[keyOf(cc[0],cc[1])]=1; } }
+  else { for(var i=0;i<ba.actions.length;i++){ if(ba.actions[i]==='right'||ba.actions[i]==='left') signals[keyOf(ba.turnCells[i][0],ba.turnCells[i][1])]=1; } }
+  G={ level:level, mode:G.mode, path:path, actions:ba.actions, turnCells:ba.turnCells, start:start.slice(), dest:dest,
+      firstDir:ba.firstDir, signals:signals, destType:pick(DESTS), car:{r:start[0],c:start[1],dir:ba.firstDir},
+      step:0, done:false, waiting:false };
 }
 
 function absDir(a,b){ var dr=b[0]-a[0], dc=b[1]-a[1];
@@ -253,6 +266,49 @@ function instructionText(i){
   if(act==='left') return 'つぎの '+turnWord(cell)+'を 左に 曲がってください。';
   return G.destType.n+'の 前で 止まってください。';
 }
+/* 上級：ルート全体を1つの指示にまとめる（連続まっすぐは1つに） */
+function fullInstruction(){
+  var parts=[], pend=false;
+  for(var i=0;i<G.actions.length;i++){
+    var a=G.actions[i], cell=G.turnCells[i];
+    if(a==='straight'){ pend=true; }
+    else if(a==='right'||a==='left'){ if(pend){ parts.push('まっすぐ 行って'); pend=false; } parts.push('つぎの '+turnWord(cell)+'を '+(a==='right'?'右':'左')+'に 曲がって'); }
+    else { if(pend){ parts.push('まっすぐ 行って'); pend=false; } parts.push(G.destType.n+'の 前で 止まってください'); }
+  }
+  return parts.join('、');
+}
+
+/* 超上級：自動走行エンジン。まっすぐは自動、曲がり角（赤信号）で止まって判断 */
+var cruiseTimer=null, CRUISE_MS=1900;
+function stopCruise(){ if(cruiseTimer){ clearTimeout(cruiseTimer); cruiseTimer=null; } }
+function scheduleCruise(){ stopCruise(); G.waiting=false; cruiseTimer=setTimeout(cruiseTick, CRUISE_MS); }
+function cruiseTick(){
+  cruiseTimer=null;
+  if(G.done) return;
+  var a=G.actions[G.step];
+  if(a==='straight'){
+    doMove('straight'); drawMap(); G.step++;
+    if(atDest()){ winRound(); return; }
+    if(G.actions[G.step]==='straight') scheduleCruise();
+    else arriveAtDecision();
+  } else if(a==='stop'){ if(atDest()) winRound(); else arriveAtDecision(); }
+  else { arriveAtDecision(); }
+}
+function arriveAtDecision(){
+  G.waiting=true; stopCruise();
+  var a=G.actions[G.step];
+  if(G.mode==='driver'){
+    var t=(a==='right')?'右に 曲がってください。':(a==='left')?'左に 曲がってください。':'まっすぐ 行ってください。';
+    setStatus('🔴 赤信号。'+t, '信号で 止まりました。ボタンで 操作。','ng'); say(t);
+  } else {
+    setStatus('🔴 赤信号で 止まりました。', 'どちらへ 行きますか？ 話してください。','ng'); say('つぎは どちらへ 行きますか？');
+  }
+}
+function resumeAfter(){
+  if(atDest()){ winRound(); return; }
+  if(G.actions[G.step]==='straight'){ setStatus('🟢 まっすぐ 進みます…',''); scheduleCruise(); }
+  else arriveAtDecision();
+}
 
 /* ===== 移動 ===== */
 function doMove(act){
@@ -271,11 +327,19 @@ function show(id){ ['home','play','win'].forEach(function(s){ $(s).classList.tog
 
 /* ===== 運転手モード ===== */
 function startDriver(){
-  genScenario();
+  stopCruise(); genScenario(LV_SEL);
   $('driverCtrl').classList.remove('hidden'); $('passCtrl').classList.add('hidden');
   drawMap(); show('play');
-  setStatus('「'+G.destType.n+'まで お願いします。」', '');
-  setTimeout(function(){ nextDriverStep(true); }, 700);
+  if(LV_SEL==='easy'){
+    setStatus('「'+G.destType.n+'まで お願いします。」', '');
+    setTimeout(function(){ nextDriverStep(true); }, 700);
+  } else if(LV_SEL==='advanced'){
+    setStatus('🔊 指示を 全部 聞いて、覚えて 動かしましょう。', 'もう一度 聞くときは 🔊 を おしてください。');
+    setTimeout(function(){ say(G.destType.n+'まで。'+fullInstruction()); }, 600);
+  } else {
+    setStatus('🚗 出発！ 車は まっすぐ 進み続けます。', '赤信号（曲がり角）で 止まったら 操作します。');
+    say(G.destType.n+'まで お願いします。'); scheduleCruise();
+  }
 }
 function nextDriverStep(first){
   if(G.actions[G.step]==='stop'){
@@ -286,30 +350,45 @@ function nextDriverStep(first){
 }
 function driverAction(act){
   if(G.done) return;
+  if(G.level==='super'){
+    if(!G.waiting){ setStatus('🚗 走行中… 赤信号で 止まってから 操作してください。',''); return; }
+    var need=G.actions[G.step];
+    if(need==='stop'){ if(act==='stop'&&atDest()){winRound();return;} setStatus('まだ 目的地では ありません。','','ng'); return; }
+    if(act==='stop'){ setStatus('赤信号です。曲がるか まっすぐか えらんでください。','','ng'); return; }
+    if(act===need){ G.waiting=false; doMove(need); drawMap(); G.step++;
+      say(need==='right'?'右に 曲がります。':need==='left'?'左に 曲がります。':'まっすぐ 行きます。'); resumeAfter(); }
+    else { setStatus('ちがう みたい。もう一度 聞いてね。','','ng'); say('あれ？ ちがう みたいです。'); }
+    return;
+  }
   var expected=G.actions[G.step];
   if(act==='stop'){
     if(expected==='stop' && atDest()){ winRound(); return; }
-    setStatus('まだ 目的地では ありません。', 'よく 聞いて、進みましょう。','ng'); say('まだ 目的地では ありませんよ。'); return;
+    setStatus('まだ 目的地では ありません。', '進みましょう。','ng'); say('まだ 目的地では ありませんよ。'); return;
   }
-  if(expected==='stop'){ setStatus('ここは 目的地の 前です。', '「✋ 止まる」を おしてください。'); return; }
+  if(expected==='stop'){ setStatus('目的地の 前です。', '「✋ 止まる」を おしてください。'); return; }
   if(act===expected){
     doMove(act); drawMap(); G.step++;
-    if(G.actions[G.step]==='stop'){ setStatus(instructionText(G.step), '「✋ 止まる」を おしてください。'); say(instructionText(G.step)); }
-    else nextDriverStep(false);
+    var prompt=(G.level==='easy');
+    if(G.actions[G.step]==='stop'){ setStatus(prompt?instructionText(G.step):'目的地の 前です。', '「✋ 止まる」を おしてください。'); if(prompt) say(instructionText(G.step)); }
+    else { if(prompt) nextDriverStep(false); else setStatus('🟢 つづけて どうぞ。','覚えた 指示の とおりに 操作。'); }
   } else {
-    setStatus('ちがう みたい。もう一度 聞いてね。', '🔊で もう一度 聞けます。','ng'); say('あれ？ ちがう みたいです。');
+    setStatus('ちがう みたい。もう一度。', G.level==='easy'?'🔊で もう一度 聞けます。':'🔊で 全部 聞き直せます。','ng'); say('あれ？ ちがう みたいです。');
   }
 }
 
 /* ===== 客モード ===== */
 function startPassenger(){
-  genScenario();
+  stopCruise(); genScenario(LV_SEL);
   $('passCtrl').classList.remove('hidden'); $('driverCtrl').classList.add('hidden');
   $('log').innerHTML='';
   drawMap(); show('play');
-  var dirJa=DIRNAME[G.car.dir];
-  setStatus(G.destType.e+' '+G.destType.n+'まで 案内してください。', '運転手に 指示を 話しましょう（今 '+dirJa+'むき）。');
-  say(G.destType.n+'まで、道を 教えてください。');
+  if(LV_SEL==='super'){
+    setStatus('🚗 車は 走り続けます。赤信号で 止まります。', '赤信号で 曲がる方向を 話してください（目的地：'+G.destType.n+'）。');
+    say(G.destType.n+'まで、赤信号で 教えてください。'); scheduleCruise();
+  } else {
+    setStatus(G.destType.e+' '+G.destType.n+'まで 案内してください。', '運転手に 指示を 話しましょう（今 '+DIRNAME[G.car.dir]+'むき）。');
+    say(G.destType.n+'まで、道を 教えてください。');
+  }
 }
 function parseInstruction(text){
   var t=norm(text);
@@ -327,6 +406,15 @@ function passengerHeard(raw){
   var act=parseInstruction(raw);
   if(!act){ setStatus('うまく 聞き取れませんでした。', 'もう一度 話してください。','ng'); say('もう一度 お願いします。'); return; }
   if(act==='turn?'){ setStatus('右ですか、左ですか？', '「右に 曲がって」のように 言ってください。','ng'); say('右ですか、左ですか？'); return; }
+  if(G.level==='super'){
+    if(!G.waiting){ setStatus('🚗 走行中です。','赤信号で 止まってから 話してください。','ng'); return; }
+    var need=G.actions[G.step];
+    if(act==='stop'){ if(need==='stop'&&atDest()) winRound(); else { setStatus('まだ 赤信号です。','曲がる方向を 話してください。','ng'); say('まだ ちがいます。'); } return; }
+    if(act===need){ G.waiting=false; doMove(need); drawMap();
+      say(need==='right'?'右に 曲がります。':need==='left'?'左に 曲がります。':'まっすぐ 行きます。'); G.step++; resumeAfter(); }
+    else { setStatus('そちらでは 目的地に つきません。','地図を 見て、もう一度 どうぞ。','ng'); say('そちらでは ありません。'); }
+    return;
+  }
   if(act==='stop'){
     if(atDest()){ winRound(); }
     else { setStatus('ここは 目的地では ありません。', 'まだ 案内を つづけてください。','ng'); say('ここは まだ ちがいます。'); }
@@ -356,7 +444,7 @@ function startVoice(){
 /* ===== 共通 ===== */
 function setStatus(main, sub, cls){ var s=$('status'); s.textContent=main; s.className='status'+(cls?' '+cls:''); $('subStatus').textContent=sub||''; }
 function winRound(){
-  G.done=true;
+  G.done=true; stopCruise();
   try{ if(activeRec) activeRec.stop(); }catch(e){}
   $('winMsg').textContent='🎉 '+G.destType.n+'に つきました！';
   $('aiComment').classList.add('hidden');
@@ -386,27 +474,41 @@ var MODE_NOTE={
   driver:'客（AI）の 指示を 聞いて、ボタンで 車を 目的地まで 動かします。聞き取りの 練習。',
   passenger:'あなたが 運転手（AI）に 音声で 指示を 出して、目的地まで 案内します。話す 練習。'
 };
+var LEVEL_NOTE={
+  easy:'やさしい：1つずつ 指示。ゆっくり ターン制。',
+  advanced:'上級：ルート全体を まとめて 聞き、覚えて 動かす。道は 長め。',
+  super:'超上級：車は まっすぐ 走り続け、赤信号（曲がり角）で 止まって 判断。'
+};
+var LV_SEL='easy';
 G.mode='driver';
 function setMode(m){ G.mode=m; $('modeSeg').querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.mode===m); }); $('modeNote').textContent=MODE_NOTE[m]; store.set('michi_mode',m); }
+function setLevel(l){ LV_SEL=l; $('levelSeg').querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.level===l); }); $('levelNote').textContent=LEVEL_NOTE[l]; store.set('michi_level',l); }
 $('modeSeg').querySelectorAll('button').forEach(function(b){ b.onclick=function(){ setMode(b.dataset.mode); }; });
+$('levelSeg').querySelectorAll('button').forEach(function(b){ b.onclick=function(){ setLevel(b.dataset.level); }; });
 
-$('startBtn').onclick=function(){ if(G.mode==='driver') startDriver(); else startPassenger(); };
+function startGame(){ if(G.mode==='driver') startDriver(); else startPassenger(); }
+function leavePlay(){ stopCruise(); try{if(activeRec)activeRec.stop();}catch(e){} try{speechSynthesis.cancel();}catch(e){} }
+$('startBtn').onclick=startGame;
 $('driverCtrl').querySelectorAll('button[data-act]').forEach(function(b){ b.onclick=function(){ driverAction(b.dataset.act); }; });
-$('repeatBtn').onclick=function(){ say(instructionText(G.step)); };
+$('repeatBtn').onclick=function(){
+  if(G.level==='advanced') say(G.destType.n+'まで。'+fullInstruction());
+  else if(G.level==='super'){ var a=G.actions[G.step]; say(a==='right'?'右に 曲がってください。':a==='left'?'左に 曲がってください。':a==='straight'?'まっすぐ 行ってください。':(G.destType.n+'の 前で 止まってください。')); }
+  else say(instructionText(G.step));
+};
 $('micBtn').onclick=startVoice;
-$('newBtn').onclick=function(){ if(G.mode==='driver') startDriver(); else startPassenger(); };
-$('homeBtn').onclick=function(){ try{if(activeRec)activeRec.stop();}catch(e){} try{speechSynthesis.cancel();}catch(e){} show('home'); };
-$('againBtn').onclick=function(){ if(G.mode==='driver') startDriver(); else startPassenger(); };
-$('win2home').onclick=function(){ show('home'); };
-$('backBtn').onclick=function(){ if(!$('play').classList.contains('hidden')||!$('win').classList.contains('hidden')){ try{speechSynthesis.cancel();}catch(e){} try{if(activeRec)activeRec.stop();}catch(e){} show('home'); } else { location.href='games.html'; } };
+$('newBtn').onclick=function(){ leavePlay(); startGame(); };
+$('homeBtn').onclick=function(){ leavePlay(); show('home'); };
+$('againBtn').onclick=function(){ leavePlay(); startGame(); };
+$('win2home').onclick=function(){ leavePlay(); show('home'); };
+$('backBtn').onclick=function(){ if(!$('play').classList.contains('hidden')||!$('win').classList.contains('hidden')){ leavePlay(); show('home'); } else { location.href='games.html'; } };
 
-// Gemキー
 var sk=store.get('gemini_key'); if(sk) $('key').value=sk;
 function refreshKey(){ var has=($('key').value||'').trim().length>0; var el=$('keyState'); el.textContent=has?'✓ キーを保存しました（この端末のみ）':'任意です。無くても遊べます。'; el.className='keystate '+(has?'ok':'no'); }
 $('key').addEventListener('input',function(){ store.set('gemini_key',($('key').value||'').trim()); refreshKey(); });
 refreshKey();
 
 var savedMode=store.get('michi_mode'); setMode(savedMode==='passenger'?'passenger':'driver');
+var savedLevel=store.get('michi_level'); setLevel((savedLevel==='advanced'||savedLevel==='super')?savedLevel:'easy');
 </script>
 </body>
 </html>

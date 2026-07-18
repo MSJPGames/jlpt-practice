@@ -453,8 +453,11 @@ function edgeRest(node, dir){
 /* 経路（acts）を連続走行。onFinish は停止したときに1回だけ呼ぶ */
 function drivePath(acts, onFinish){
   var p=actsToPath(G.car.r,G.car.c,G.car.dir, acts);
+  var hadMove=p.length>0;
+  // いま「交差点の手前」で止まっているので、まず今いる交差点まで直進してから曲がる（区画の上を斜めに横切らない）
+  p.unshift({r:G.car.r, c:G.car.c, dir:G.car.dir});
   carPath=p; carFinish=onFinish||null;
-  if(!carPath.length){ carFinish=null; if(onFinish) onFinish(); return p; }
+  if(!hadMove){ carPath=[]; carFinish=null; if(onFinish) onFinish(); return p; }
   driving=true; clearHints(); startCarLoop();
   return p;
 }
@@ -649,8 +652,9 @@ function driveDrag(){
   }
   var acts=routeTo(G.car.r,G.car.c,G.car.dir, tc[0],tc[1]);
   if(!acts || !acts.length) return;
-  carPath=actsToPath(G.car.r,G.car.c,G.car.dir, acts);  // 経路を差し替え（走行は継続）
-  carFinish=null; driving=true; startCarLoop();
+  var p=actsToPath(G.car.r,G.car.c,G.car.dir, acts);  // 経路を差し替え（走行は継続）
+  if(carRAF==null) p.unshift({r:G.car.r,c:G.car.c,dir:G.car.dir});  // 止まった状態から動き出すときは、交差点まで来てから曲がる
+  carPath=p; carFinish=null; driving=true; startCarLoop();
 }
 /* タクシーが止まったとき。※目的地に着いても自動ではゴールしない（運転手モードは「✋止まる」を押す） */
 function onRest(){

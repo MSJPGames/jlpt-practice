@@ -46,7 +46,11 @@
   details.opt .body{padding:0 15px 14px}
 
   /* マップ */
-  .mapwrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px;margin-bottom:12px}
+  .mapwrap{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px;margin-bottom:12px}
+  .zoomctrl{position:absolute;top:16px;right:16px;display:flex;flex-direction:column;gap:6px;z-index:3}
+  .zbtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.92);font-size:20px;font-weight:700;color:var(--text);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.14);line-height:1;display:flex;align-items:center;justify-content:center;padding:0;-webkit-tap-highlight-color:transparent}
+  .zbtn:active{background:#EAE6DE}
+  .zbtn:disabled{opacity:.4;cursor:default}
   svg{width:100%;height:auto;display:block;border-radius:8px}
 
   .status{background:var(--accent-bg);border-radius:var(--radius-sm);padding:12px 14px;font-size:15px;font-weight:700;color:#20422F;min-height:48px;line-height:1.5;text-align:center;margin-bottom:10px}
@@ -109,7 +113,12 @@
 
   <!-- ===== プレイ ===== -->
   <div id="play" class="hidden">
-    <div class="mapwrap"><div id="mapBox"></div></div>
+    <div class="mapwrap"><div id="mapBox"></div>
+      <div class="zoomctrl">
+        <button id="zoomIn" class="zbtn" type="button" aria-label="拡大">＋</button>
+        <button id="zoomOut" class="zbtn" type="button" aria-label="縮小">－</button>
+      </div>
+    </div>
     <div class="status" id="status"></div>
     <div class="sub-status" id="subStatus"></div>
 
@@ -318,15 +327,23 @@ function absDir(a,b){ var dr=b[0]-a[0], dc=b[1]-a[1];
 
 /* ===== 描画（自然な地図＋なめらかなタクシー） ===== */
 var MAP_STEP=58, MAP_M=36, MAP_S=MAP_M*2+(N-1)*MAP_STEP;  // マップ全体の大きさ
-var VIEW=MAP_STEP*6;   // 画面に見える範囲（二つ目の信号くらいまで見える俯瞰。マップはこれより広い＝スクロール）
+var VIEW=MAP_STEP*6;   // 標準の見える範囲（二つ目の信号くらいまで見える俯瞰。マップはこれより広い＝スクロール）
+/* ズーム：viewSize が小さいほど拡大、大きいほど縮小（全体表示）。＋/−ボタンと二本指ピンチで変える */
+var VIEW_MIN=MAP_STEP*3, VIEW_MAX=MAP_S, viewSize=VIEW;
+function clampView(v){ return Math.max(VIEW_MIN, Math.min(VIEW_MAX, v)); }
+function applyCamera(){ var svg=document.getElementById('mapSvg'); if(svg) svg.setAttribute('viewBox', camViewBox()); }
+function updateZoomBtns(){ var zi=document.getElementById('zoomIn'), zo=document.getElementById('zoomOut');
+  if(zi) zi.disabled=(viewSize<=VIEW_MIN+0.5); if(zo) zo.disabled=(viewSize>=VIEW_MAX-0.5); }
+function setViewSize(v){ viewSize=clampView(v); applyCamera(); updateZoomBtns(); }
+function zoomBy(f){ setViewSize(viewSize*f); }
 function PX(c){return MAP_M+c*MAP_STEP;}
 function PY(r){return MAP_M+r*MAP_STEP;}
 var ROAD_W=Math.max(9, MAP_STEP*0.26);
-/* カメラ：タクシーを中心に、マップの一部だけを見せる */
+/* カメラ：タクシーを中心に、マップの一部（viewSize）だけを見せる */
 function camViewBox(){ var v=G.carViz||{r:(N-1)/2,c:(N-1)/2}; var cx=PX(v.c), cy=PY(v.r);
-  var mx=Math.max(0, MAP_S-VIEW);
-  var x=Math.max(0, Math.min(cx-VIEW/2, mx)), y=Math.max(0, Math.min(cy-VIEW/2, mx));
-  return x.toFixed(1)+' '+y.toFixed(1)+' '+VIEW.toFixed(1)+' '+VIEW.toFixed(1); }
+  var vw=viewSize, mx=Math.max(0, MAP_S-vw);
+  var x=Math.max(0, Math.min(cx-vw/2, mx)), y=Math.max(0, Math.min(cy-vw/2, mx));
+  return x.toFixed(1)+' '+y.toFixed(1)+' '+vw.toFixed(1)+' '+vw.toFixed(1); }
 var BLD_COLORS=['#C9BBA6','#BFC7B4','#D2C6B1','#C3C9D2','#CDBBB0','#B7C1C3','#D4C9B2','#C7BCA8'];
 
 /* --- タクシー本体（上向き＝北）。#carG を transform で動かす --- */
@@ -380,6 +397,7 @@ function tickSignals(){ sigTick=(sigTick+1)%8; var g=document.getElementById('si
 try{ setInterval(tickSignals, 1000); }catch(e){}
 
 function drawMap(){
+  viewSize=VIEW;  // 新しいマップは標準ズームから
   var step=MAP_STEP, px=PX, py=PY, rw=ROAD_W, el=[];
   el.push('<svg id="mapSvg" viewBox="'+camViewBox()+'" role="img" aria-label="地図">');
   el.push('<rect x="0" y="0" width="'+MAP_S+'" height="'+MAP_S+'" fill="#E7E2D5"/>');
@@ -411,10 +429,22 @@ function drawMap(){
         el.push('<circle cx="'+x+'" cy="'+y+'" r="'+(ps*0.24)+'" fill="#8DB877"/>');
       } else { var lng=step*0.34*(bd.sz||1), dep=step*0.22*(bd.sz||1), w=bd.horiz?lng:dep, h=bd.horiz?dep:lng;
         el.push('<rect x="'+(x-w/2)+'" y="'+(y-h/2)+'" width="'+w+'" height="'+h+'" rx="2" fill="'+BLD_COLORS[(bd.col||0)%BLD_COLORS.length]+'" stroke="rgba(0,0,0,0.10)" stroke-width="1"/>'); }
-    } else if(bd.kind==='landmark' || (bd.kind==='dest' && G.mode==='passenger')){ var s2=step*0.44;
-      // 運転手モードでは目的地(kind:'dest')を表示しない（音声だけで進む）。客モードは行き先が見えるよう表示。目印ピンは付けない
-      el.push('<rect x="'+(x-s2/2)+'" y="'+(y-s2/2)+'" width="'+s2+'" height="'+s2+'" rx="5" fill="#FBF7EE" stroke="#B7AB92" stroke-width="1.4"/>');
-      el.push('<text x="'+x+'" y="'+(y+s2*0.30)+'" font-size="'+(s2*0.7).toFixed(1)+'" text-anchor="middle">'+bd.e+'</text>'); }
+    } else if(bd.kind==='landmark' || (bd.kind==='dest' && G.mode==='passenger')){
+      // 運転手モードでは目的地(kind:'dest')を表示しない（音声だけで進む）。客モードは行き先が見えるよう表示。
+      var isDest=(bd.kind==='dest'), s2=step*(isDest?0.6:0.44);
+      el.push('<rect x="'+(x-s2/2)+'" y="'+(y-s2/2)+'" width="'+s2+'" height="'+s2+'" rx="5" fill="#FBF7EE" stroke="'+(isDest?'#E23B3B':'#B7AB92')+'" stroke-width="'+(isDest?2.4:1.4)+'"/>');
+      el.push('<text x="'+x+'" y="'+(y+s2*0.30)+'" font-size="'+(s2*0.7).toFixed(1)+'" text-anchor="middle">'+bd.e+'</text>');
+      if(isDest){
+        // 目的地マーカー：大きなピン＋パルス＋「ゴール」。客モードで行き先がひと目で分かる（縮小すると全体の中でも見つけやすい）
+        var top=y-s2*0.5, headR=step*0.26, headCy=top-step*0.44;
+        el.push('<path d="M '+(x-headR*0.6)+' '+(headCy+headR*0.55)+' L '+(x+headR*0.6)+' '+(headCy+headR*0.55)+' L '+x+' '+top+' Z" fill="#E23B3B"/>');
+        el.push('<circle cx="'+x+'" cy="'+headCy+'" r="'+headR+'" fill="none" stroke="#E23B3B" stroke-width="2" opacity="0.55">'
+          +'<animate attributeName="r" values="'+headR+';'+(headR*2.3)+'" dur="1.5s" repeatCount="indefinite"/>'
+          +'<animate attributeName="opacity" values="0.55;0" dur="1.5s" repeatCount="indefinite"/></circle>');
+        el.push('<circle cx="'+x+'" cy="'+headCy+'" r="'+headR+'" fill="#E23B3B" stroke="#fff" stroke-width="1.6"/>');
+        el.push('<circle cx="'+x+'" cy="'+headCy+'" r="'+(headR*0.4)+'" fill="#fff"/>');
+        el.push('<text x="'+x+'" y="'+(headCy-headR-step*0.05)+'" font-size="'+(step*0.24).toFixed(1)+'" font-weight="700" fill="#C0392B" text-anchor="middle" stroke="#fff" stroke-width="0.5" paint-order="stroke">ゴール</text>');
+      } }
   });
   // 信号（交差点。色は定期的に変わる）
   el.push('<g id="sigG">'+signalsHTML()+'</g>');
@@ -424,6 +454,7 @@ function drawMap(){
   el.push(carSVG());
   el.push('</svg>');
   $('mapBox').innerHTML=el.join('');
+  updateZoomBtns();
   showHints();
 }
 /* 行ける方向（直進・左折・右折。Uターン以外）を薄い丸で表示。タップで運転できる */
@@ -560,16 +591,35 @@ function pointerToCell(ev){
   var c=Math.max(0,Math.min(N-1,Math.round((x-MAP_M)/MAP_STEP))), r=Math.max(0,Math.min(N-1,Math.round((y-MAP_M)/MAP_STEP)));
   return [r,c];
 }
-function onPointerDown(ev){ if(G.mode!=='driver'||G.done) return;
+/* 二本指ピンチでのズーム（ポインタ／タッチ両対応） */
+var ptrs={}, pinching=false, pinchDist0=0, pinchView0=0;
+function ptDist(a,b){ var dx=a.x-b.x, dy=a.y-b.y; return Math.sqrt(dx*dx+dy*dy); }
+function activeTwo(ev){
+  if(ev && ev.touches && ev.touches.length>=2){ return [{x:ev.touches[0].clientX,y:ev.touches[0].clientY},{x:ev.touches[1].clientX,y:ev.touches[1].clientY}]; }
+  var ks=Object.keys(ptrs); if(ks.length>=2){ return [ptrs[ks[0]], ptrs[ks[1]]]; }
+  return null;
+}
+function startPinch(two){ pinching=true; G.dragging=false; driving=false; clearHints(); pinchDist0=ptDist(two[0],two[1]); pinchView0=viewSize; }
+function onPointerDown(ev){
+  if(ev.pointerId!=null) ptrs[ev.pointerId]={x:ev.clientX,y:ev.clientY};
+  var two=activeTwo(ev);
+  if(two){ startPinch(two); if(ev.cancelable) ev.preventDefault(); return; }   // 二本指＝ズーム
+  if(G.mode!=='driver'||G.done) return;
   var cell=pointerToCell(ev); if(!cell) return;
   G.dragging=true; G.dragTargetCell=cell; clearHints(); startDrive();
   if(ev.cancelable) ev.preventDefault();
 }
-function onPointerMove(ev){ if(!G.dragging) return;
+function onPointerMove(ev){
+  if(ev.pointerId!=null && ptrs[ev.pointerId]) ptrs[ev.pointerId]={x:ev.clientX,y:ev.clientY};
+  if(pinching){ var two=activeTwo(ev); if(two && pinchDist0>0){ var d=ptDist(two[0],two[1]); if(d>0) setViewSize(pinchView0*(pinchDist0/d)); } if(ev.cancelable) ev.preventDefault(); return; }
+  if(!G.dragging) return;
   var cell=pointerToCell(ev); if(cell){ G.dragTargetCell=cell; startDrive(); }
   if(ev.cancelable) ev.preventDefault();
 }
-function onPointerUp(ev){ if(!G.dragging) return; G.dragging=false; startDrive();
+function onPointerUp(ev){
+  if(ev.pointerId!=null) delete ptrs[ev.pointerId];
+  if(pinching){ if(!activeTwo(ev)){ pinching=false; } if(ev&&ev.cancelable) ev.preventDefault(); return; }
+  if(!G.dragging) return; G.dragging=false; startDrive();
   if(ev&&ev.cancelable) ev.preventDefault(); }
 
 /* ===== 客モード（音声で案内する側） ===== */
@@ -741,6 +791,10 @@ $('repeatBtn').onclick=function(){
     mb.addEventListener('touchmove', onPointerMove, {passive:false});
     window.addEventListener('touchend', onPointerUp);
   }
+})();
+(function(){ var zi=$('zoomIn'), zo=$('zoomOut');
+  if(zi) zi.onclick=function(){ zoomBy(0.8); };   // 拡大（見える範囲を狭く）
+  if(zo) zo.onclick=function(){ zoomBy(1.25); };  // 縮小（見える範囲を広く＝全体が見える）
 })();
 $('micBtn').onclick=startVoice;
 $('newBtn').onclick=function(){ leavePlay(); startGame(); };

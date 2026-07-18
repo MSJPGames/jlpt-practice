@@ -425,8 +425,7 @@ function shortAng(a,b){ return ((b-a)%360+540)%360-180; }
    ・角だけ少し減速して曲がる（止まらない）
    ・発進はスッと加速、最後の目的マスだけ緩やかに停止 */
 var carRAF=null, carLastTs=null, carElapsed=0, carPath=[], carFinish=null, driving=false;
-var CAR_SPEED=2.8, CAR_TURN=560;   // マス/秒, 度/秒
-var CORNER_R=0.34;                 // 曲がり角を丸く回りはじめる手前の距離（マス）
+var CAR_SPEED=2.8, CAR_TURN=1100;  // マス/秒, 度/秒（交差点では素早く向きを変えて直角に曲がる）
 function cancelAnim(){ if(carRAF){ try{cancelAnimationFrame(carRAF);}catch(e){} carRAF=null; } carLastTs=null; carPath=[]; carFinish=null; driving=false; }
 /* acts（straight/left/right の列）→ 通過するマス {r,c,dir} の列。盤外に出たら invalid=true で打ち切り */
 function actsToPath(r,c,dir, acts){
@@ -470,18 +469,12 @@ function carFrame(ts){
   var dt=Math.min(0.05,(ts-carLastTs)/1000); carLastTs=ts; carElapsed+=dt;
   var v=G.carViz||(G.carViz={r:G.car.r,c:G.car.c,ang:ANGLE[G.car.dir]});
   if(!carPath.length){ carRAF=null; carLastTs=null; driving=false; onCarRest(); return; }
-  var tgt=carPath[0];
-  // 道なりに曲がる：曲がり角（次の道が別方向）は、交差点の手前まで来たら早めに次の道へ舵を切って角を丸く回る
-  if(carPath.length>1){ var nx=carPath[1];
-    if(nx.dir!==tgt.dir){ var dTgt=Math.abs(tgt.r-v.r)+Math.abs(tgt.c-v.c);
-      if(dTgt<=CORNER_R){ carPath.shift(); G.car.r=tgt.r; G.car.c=tgt.c; G.car.dir=tgt.dir; tgt=carPath[0]; } } }
-  var isFinal=(carPath.length===1);
-  // 通過する交差点は中心を通る／最後の停止だけは区画の辺（交差点の手前）で止める
+  var tgt=carPath[0], isFinal=(carPath.length===1);
+  // タクシーは道路の上だけを走る：交差点（ノード）まで直進 → 交差点で直角に曲がって次の道へ。区画の上は通らない
   var aim = isFinal ? edgeRest([tgt.r,tgt.c], tgt.dir) : {r:tgt.r,c:tgt.c};
   var dr=aim.r-v.r, dc=aim.c-v.c, dist=Math.sqrt(dr*dr+dc*dc);
-  // 車の向きは、実際の（湾曲した）道の進行方向に合わせる＝画面上での進む向き
-  var pv=PXY(v.r,v.c), pa=PXY(aim.r,aim.c), pdx=pa.x-pv.x, pdy=pa.y-pv.y;
-  var desired=(Math.abs(pdx)+Math.abs(pdy)>0.01)?((Math.atan2(pdx,-pdy)*180/Math.PI)+360)%360:v.ang;
+  // 車の向きは道の方向（東西南北）。交差点で素早く向きを変えて直角に曲がる
+  var desired=ANGLE[tgt.dir];
   var da=shortAng(v.ang,desired), maxT=CAR_TURN*dt;
   if(Math.abs(da)<=maxT) v.ang=desired; else v.ang+=(da>0?maxT:-maxT);
   var headErr=Math.abs(shortAng(v.ang,desired));

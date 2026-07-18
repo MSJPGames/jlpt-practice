@@ -186,6 +186,18 @@ function say(text){ if(!text)return;
   var pr=a.play(); if(pr&&pr['catch']) pr['catch'](fb);
 }
 var SR=window.SpeechRecognition||window.webkitSpeechRecognition, VOICE_OK=!!SR, sharedRec=null, activeRec=null;
+var micGranted=false, micAsking=false;
+/* マイク許可を最初の一度だけ取る（getUserMediaで恒久的に許可 → 以後SpeechRecognitionは再確認しない） */
+function ensureMic(cb){
+  if(micGranted || micAsking){ cb&&cb(); return; }
+  if(!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)){ cb&&cb(); return; }
+  micAsking=true;
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){
+    micGranted=true; micAsking=false;
+    try{ s.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}   // 許可だけ取ってマイクは解放（許可は残る）
+    cb&&cb();
+  }).catch(function(){ micAsking=false; cb&&cb(); });
+}
 
 /* ===== 地図・方向 ===== */
 var N=9; // 交差点（大きめの街。画面に収まらず、タクシーを追ってスクロールする）
@@ -313,7 +325,7 @@ function genScenario(level){
   if(free.length && Math.random()<0.6){ var bs=pick(free); bridge={a:bs[0],b:bs[1]}; usedSeg[segKey(bs[0],bs[1])]=1; }
   G={ level:level, mode:(G&&G.mode)||'driver', start:start.slice(), dest:dest, signals:signals, landmarks:landmarks,
       buildings:buildings, bridge:bridge, destType:destType,
-      car:{r:start[0],c:start[1],dir:firstDir}, carViz:{r:start[0],c:start[1],ang:ANGLE[firstDir]},
+      car:{r:start[0],c:start[1],dir:firstDir}, carViz:(function(){ var e=edgeRest(start,firstDir); return {r:e.r,c:e.c,ang:ANGLE[firstDir]}; })(),
       done:false, waiting:false, animating:false };
   // 装飾（名前なし・景観用）：空いている区間の道沿いに散らす
   shuffleArr(segs); var decoMax=60+rnd(24), decoN=0;
@@ -367,21 +379,72 @@ function positionCar(){ var g=document.getElementById('carG'); if(g) g.setAttrib
   var svg=document.getElementById('mapSvg'); if(svg) svg.setAttribute('viewBox', camViewBox()); }
 function easeSS(k){ return k*k*(3-2*k); }
 function shortAng(a,b){ return ((b-a)%360+540)%360-180; }
-var animRAF=null;
-function cancelAnim(){ if(animRAF){ try{cancelAnimationFrame(animRAF);}catch(e){} animRAF=null; } }
-function animateMove(fr,fc,fa, tr,tc,ta, done){
-  cancelAnim();
-  var dA=shortAng(fa,ta), rotMs=(Math.abs(dA)<1)?0:150, movMs=330, T=rotMs+movMs, t0=null;
-  G.carViz={r:fr,c:fc,ang:fa};
-  if(typeof requestAnimationFrame==='undefined'){ G.carViz={r:tr,c:tc,ang:ta}; positionCar(); if(done)done(); return; }
-  function frame(ts){ if(t0==null)t0=ts; var e=ts-t0;
-    if(e<rotMs){ G.carViz.ang=fa+dA*easeSS(e/rotMs); }
-    else { var k=easeSS(Math.min(1,(e-rotMs)/movMs)); G.carViz.ang=ta; G.carViz.r=fr+(tr-fr)*k; G.carViz.c=fc+(tc-fc)*k; }
-    positionCar();
-    if(e<T){ animRAF=requestAnimationFrame(frame); } else { animRAF=null; G.carViz={r:tr,c:tc,ang:ta}; positionCar(); if(done)done(); }
+/* ===== 連続走行エンジン（マスごとに止まらず、経路全体をなめらかに一定速度で走る） =====
+   ・直線は一定速度でクルーズ（交差点で止まらない）
+   ・角だけ少し減速して曲がる（止まらない）
+   ・発進はスッと加速、最後の目的マスだけ緩やかに停止 */
+var carRAF=null, carLastTs=null, carElapsed=0, carPath=[], carFinish=null, driving=false;
+var CAR_SPEED=2.8, CAR_TURN=560;   // マス/秒, 度/秒
+function cancelAnim(){ if(carRAF){ try{cancelAnimationFrame(carRAF);}catch(e){} carRAF=null; } carLastTs=null; carPath=[]; carFinish=null; driving=false; }
+/* acts（straight/left/right の列）→ 通過するマス {r,c,dir} の列。盤外に出たら invalid=true で打ち切り */
+function actsToPath(r,c,dir, acts){
+  var out=[], cr=r, cc=c, cd=dir, ok=true;
+  for(var i=0;i<acts.length;i++){ var a=acts[i]; var nd=(a==='left')?LEFT[cd]:(a==='right')?RIGHT[cd]:cd;
+    var nr=cr+DIRS[nd][0], nc=cc+DIRS[nd][1];
+    if(!inGrid(nr,nc)){ ok=false; break; }
+    cr=nr; cc=nc; cd=nd; out.push({r:cr,c:cc,dir:cd});
   }
-  animRAF=requestAnimationFrame(frame);
+  out.invalid=!ok; return out;
 }
+function simEnd(acts){ var cr=G.car.r, cc=G.car.c, cd=G.car.dir;
+  for(var i=0;i<acts.length;i++){ var a=acts[i]; var nd=(a==='left')?LEFT[cd]:(a==='right')?RIGHT[cd]:cd; var nr=cr+DIRS[nd][0], nc=cc+DIRS[nd][1]; if(!inGrid(nr,nc)) break; cr=nr; cc=nc; cd=nd; }
+  return {r:cr,c:cc,dir:cd};
+}
+/* 停止位置＝交差点の真ん中ではなく、区画の「辺」＝道路の途中（ノードの半マス手前）にする。
+   dir 方向に node へ来て止まるとき、来た道の途中（node の手前）で停める。 */
+function edgeRest(node, dir){
+  var br=node[0]-DIRS[dir][0], bc=node[1]-DIRS[dir][1];   // 手前のノード（来た方向）
+  if(inGrid(br,bc)) return {r:node[0]-0.5*DIRS[dir][0], c:node[1]-0.5*DIRS[dir][1]};
+  var fr=node[0]+DIRS[dir][0], fc=node[1]+DIRS[dir][1];   // 手前が盤外なら前方の辺で
+  if(inGrid(fr,fc)) return {r:node[0]+0.5*DIRS[dir][0], c:node[1]+0.5*DIRS[dir][1]};
+  return {r:node[0], c:node[1]};
+}
+/* 経路（acts）を連続走行。onFinish は停止したときに1回だけ呼ぶ */
+function drivePath(acts, onFinish){
+  var p=actsToPath(G.car.r,G.car.c,G.car.dir, acts);
+  carPath=p; carFinish=onFinish||null;
+  if(!carPath.length){ carFinish=null; if(onFinish) onFinish(); return p; }
+  driving=true; clearHints(); startCarLoop();
+  return p;
+}
+function startCarLoop(){
+  if(carRAF!=null) return;               // すでに走行中：経路の差し替えだけで継続
+  carLastTs=null; carElapsed=0;
+  if(typeof requestAnimationFrame==='undefined'){ while(carPath.length){ var t=carPath.shift(); G.car.r=t.r; G.car.c=t.c; G.car.dir=t.dir; } G.carViz={r:G.car.r,c:G.car.c,ang:ANGLE[G.car.dir]}; positionCar(); driving=false; onCarRest(); return; }
+  carRAF=requestAnimationFrame(carFrame);
+}
+function carFrame(ts){
+  if(carLastTs==null) carLastTs=ts;
+  var dt=Math.min(0.05,(ts-carLastTs)/1000); carLastTs=ts; carElapsed+=dt;
+  var v=G.carViz||(G.carViz={r:G.car.r,c:G.car.c,ang:ANGLE[G.car.dir]});
+  if(!carPath.length){ carRAF=null; carLastTs=null; driving=false; onCarRest(); return; }
+  var tgt=carPath[0], isFinal=(carPath.length===1);
+  // 通過する交差点は中心を通る／最後の停止だけは区画の辺（交差点の手前）で止める
+  var aim = isFinal ? edgeRest([tgt.r,tgt.c], tgt.dir) : {r:tgt.r,c:tgt.c};
+  var dr=aim.r-v.r, dc=aim.c-v.c, dist=Math.sqrt(dr*dr+dc*dc);
+  var desired=ANGLE[tgt.dir], da=shortAng(v.ang,desired), maxT=CAR_TURN*dt;
+  if(Math.abs(da)<=maxT) v.ang=desired; else v.ang+=(da>0?maxT:-maxT);
+  var headErr=Math.abs(shortAng(v.ang,desired));
+  var speed=CAR_SPEED*(headErr>12?0.45:1);                 // 角では減速（止まらない）
+  speed*=Math.min(1, 0.35+carElapsed*3);                   // 発進はスッと加速
+  if(isFinal) speed*=Math.max(0.30, Math.min(1, dist*1.6));  // 最後だけ緩やかに停止
+  var move=speed*dt;
+  if(dist<=move || dist<0.0001){ v.r=aim.r; v.c=aim.c; carPath.shift(); G.car.r=tgt.r; G.car.c=tgt.c; G.car.dir=tgt.dir; }
+  else { v.r+=dr/dist*move; v.c+=dc/dist*move; }
+  positionCar();
+  carRAF=requestAnimationFrame(carFrame);
+}
+function onCarRest(){ driving=false; if(carFinish){ var f=carFinish; carFinish=null; f(); return; } onRest(); }
 
 /* 信号：交差点ごとに色が定期的に変わる。市松模様で2グループに分け、交互に 青→黄→赤 */
 var sigTick=0;
@@ -511,22 +574,18 @@ function fullGuideText(){
 
 function stopCruise(){}  /* 旧・自動走行は廃止（互換のため空関数） */
 
-/* ===== 連続走行エンジン（ドラッグで運転／交差点では止まらない） ===== */
-var driving=false;
-function startDrive(){ if(driving || G.done) return; driving=true; driveStep(); }
-function driveStep(){
-  if(G.done){ driving=false; return; }
-  var tc=G.dragTargetCell;
-  if(tc && G.car.r===tc[0] && G.car.c===tc[1]){        // 目標マスに到着
-    if(!G.dragging){ driving=false; onRest(); } else { driving=false; }  // 離した→停止／押したまま→待機
+/* ===== ドラッグ運転：指の先（G.dragTargetCell）へ向かって連続走行。指を動かすたび経路を更新 ===== */
+function driveDrag(){
+  if(G.done) return;
+  var tc=G.dragTargetCell; if(!tc) return;
+  if(G.car.r===tc[0] && G.car.c===tc[1]){          // すでに目標マス
+    if(carPath.length===0 && !G.dragging) onRest();
     return;
   }
-  if(!tc){ driving=false; if(!G.dragging) onRest(); return; }
   var acts=routeTo(G.car.r,G.car.c,G.car.dir, tc[0],tc[1]);
-  if(!acts || !acts.length){ driving=false; onRest(); return; }
-  // 直進は複数マス連続で（交差点で止まらない）。曲がりが来たら1マスずつ
-  var act=acts[0];
-  doMove(act, function(){ driveStep(); });
+  if(!acts || !acts.length) return;
+  carPath=actsToPath(G.car.r,G.car.c,G.car.dir, acts);  // 経路を差し替え（走行は継続）
+  carFinish=null; driving=true; startCarLoop();
 }
 /* タクシーが止まったとき：目的地なら到着、そうでなければ運転手モードで次の案内 */
 function onRest(){
@@ -538,20 +597,6 @@ function onRest(){
   }
 }
 
-/* ===== 移動 ===== */
-function doMove(act, done){
-  // act: straight/left/right → 向きを変えて1マス前進。done=アニメ終了時のコールバック（連続走行に使う）
-  var dir=G.car.dir;
-  if(act==='right') dir=RIGHT[dir];
-  else if(act==='left') dir=LEFT[dir];
-  var nr=G.car.r+DIRS[dir][0], nc=G.car.c+DIRS[dir][1];
-  if(!inGrid(nr,nc)) return false;
-  var v=G.carViz||{r:G.car.r,c:G.car.c,ang:ANGLE[G.car.dir]};
-  var fr=v.r, fc=v.c, fa=v.ang;               // いま見えている位置から
-  G.car.dir=dir; G.car.r=nr; G.car.c=nc;      // 論理位置を更新
-  animateMove(fr,fc,fa, nr,nc, ANGLE[dir], done);   // なめらかに移動
-  return true;
-}
 function atDest(){ return G.car.r===G.dest[0] && G.car.c===G.dest[1]; }
 
 /* ===== 画面遷移 ===== */
@@ -577,8 +622,9 @@ function driverAction(act){
   if(G.done || driving) return;
   if(act==='stop'){ if(atDest()) winRound(); else { setStatus('ここは 目的地では ありません。','案内を 聞いて 進みましょう。','ng'); say('まだ 目的地では ありませんよ。'); } return; }
   clearHints();
-  var moved=doMove(act, function(){ onRest(); });
-  if(!moved){ setStatus('そちらには 道が ありません。','ちがう 方向へ どうぞ。','ng'); say('そちらには 行けません。'); showHints(); }
+  var p=actsToPath(G.car.r,G.car.c,G.car.dir,[act]);
+  if(!p.length){ setStatus('そちらには 道が ありません。','ちがう 方向へ どうぞ。','ng'); say('そちらには 行けません。'); showHints(); return; }
+  drivePath([act], function(){ onRest(); });   // ボタンは1マスだけ、なめらかに動いて止まる
 }
 /* ドラッグ運転：ポインタの位置（＝目標マス）へタクシーが交差点で止まらず走る */
 function pointerToCell(ev){
@@ -599,27 +645,27 @@ function activeTwo(ev){
   var ks=Object.keys(ptrs); if(ks.length>=2){ return [ptrs[ks[0]], ptrs[ks[1]]]; }
   return null;
 }
-function startPinch(two){ pinching=true; G.dragging=false; driving=false; clearHints(); pinchDist0=ptDist(two[0],two[1]); pinchView0=viewSize; }
+function startPinch(two){ pinching=true; G.dragging=false; clearHints(); pinchDist0=ptDist(two[0],two[1]); pinchView0=viewSize; }  /* ズーム中も走行は継続 */
 function onPointerDown(ev){
   if(ev.pointerId!=null) ptrs[ev.pointerId]={x:ev.clientX,y:ev.clientY};
   var two=activeTwo(ev);
   if(two){ startPinch(two); if(ev.cancelable) ev.preventDefault(); return; }   // 二本指＝ズーム
   if(G.mode!=='driver'||G.done) return;
   var cell=pointerToCell(ev); if(!cell) return;
-  G.dragging=true; G.dragTargetCell=cell; clearHints(); startDrive();
+  G.dragging=true; G.dragTargetCell=cell; clearHints(); driveDrag();
   if(ev.cancelable) ev.preventDefault();
 }
 function onPointerMove(ev){
   if(ev.pointerId!=null && ptrs[ev.pointerId]) ptrs[ev.pointerId]={x:ev.clientX,y:ev.clientY};
   if(pinching){ var two=activeTwo(ev); if(two && pinchDist0>0){ var d=ptDist(two[0],two[1]); if(d>0) setViewSize(pinchView0*(pinchDist0/d)); } if(ev.cancelable) ev.preventDefault(); return; }
   if(!G.dragging) return;
-  var cell=pointerToCell(ev); if(cell){ G.dragTargetCell=cell; startDrive(); }
+  var cell=pointerToCell(ev); if(cell){ G.dragTargetCell=cell; driveDrag(); }
   if(ev.cancelable) ev.preventDefault();
 }
 function onPointerUp(ev){
   if(ev.pointerId!=null) delete ptrs[ev.pointerId];
   if(pinching){ if(!activeTwo(ev)){ pinching=false; } if(ev&&ev.cancelable) ev.preventDefault(); return; }
-  if(!G.dragging) return; G.dragging=false; startDrive();
+  if(!G.dragging) return; G.dragging=false; driveDrag();
   if(ev&&ev.cancelable) ev.preventDefault(); }
 
 /* ===== 客モード（音声で案内する側） ===== */
@@ -667,7 +713,12 @@ function parseCommands(raw){
     if(e.type==='turn'){ var cnt=extractCount(seg);
       if(cnt==null) cnt = /しんごう|信号|こうさてん|交差点|かど|角/.test(seg)?1:0;
       for(var k=0;k<cnt;k++) moves.push('straight'); moves.push(e.dir); sawStraight=false;
-    } else if(e.type==='straight'){ sawStraight=true; }
+    } else if(e.type==='straight'){
+      // 「三つ目の交差点まで まっすぐ」「二つ先の信号まで まっすぐ」など、距離の指定があればその数だけ進む
+      var scnt=extractCount(seg);
+      if(scnt!=null && scnt>=1){ for(var s2=0;s2<scnt;s2++) moves.push('straight'); sawStraight=false; }
+      else { sawStraight=true; }
+    }
     else { var toDest = sawStraight || /まで|前で|前に/.test(seg) || (G.destType && seg.indexOf(G.destType.n)>=0);
       moves.push(toDest?'stopDest':'stopHere'); sawStraight=false; }
     prev=e.end;
@@ -675,30 +726,31 @@ function parseCommands(raw){
   if(sawStraight) moves.push('straight');
   return moves;
 }
-/* 指示の並びを、交差点で止まらず なめらかに連続実行する（seqGen＝キャンセル用トークン） */
-var seqGen=0;
-function stopSeq(){ seqGen++; }
-function runMoves(moves){ var g=++seqGen; runStep(moves,0,g); }
-function runStep(moves,i,g){
-  if(G.done || g!==seqGen) return;
-  if(i>=moves.length){ setStatus('つづけて 指示を どうぞ。','今 '+DIRNAME[G.car.dir]+'むき。'); return; }
-  var m=moves[i];
-  if(m==='stopHere'){ if(atDest()) winRound(); else { setStatus('ここは 目的地では ありません。','案内を つづけてください。','ng'); say('ここは まだ ちがいます。'); } return; }
-  if(m==='stopDest'){ driveToDest(0,g); return; }
-  var moved=doMove(m, function(){
-    if(g!==seqGen || G.done) return;
-    if(m!=='straight') say(m==='right'?'右に 曲がります。':'左に 曲がります。');
-    if(atDest() && i>=moves.length-1){ setStatus('「'+G.destType.n+'」の 前です。','「止まって」と 言ってください。'); return; }
-    runStep(moves,i+1,g);   // 前の動きが終わり次第すぐ次へ＝交差点で止まらない
+function stopSeq(){ cancelAnim(); }
+/* 複文の指示を、交差点で止まらず一気に連続実行する */
+function runMoves(moves){
+  cancelAnim();
+  var acts=[], terminal=null;
+  for(var i=0;i<moves.length;i++){ var m=moves[i];
+    if(m==='straight'||m==='left'||m==='right') acts.push(m);
+    else { terminal=m; break; }   // stopHere / stopDest
+  }
+  if(terminal==='stopDest'){   // 「○○の前で止まって」＝目的地まで直進を足す
+    var s=simEnd(acts), guard=0;
+    while(!(s.r===G.dest[0]&&s.c===G.dest[1]) && guard<N+2){
+      var nr=s.r+DIRS[s.dir][0], nc=s.c+DIRS[s.dir][1];
+      if(!inGrid(nr,nc)) break;
+      acts.push('straight'); s={r:nr,c:nc,dir:s.dir}; guard++;
+    }
+  }
+  if(acts.length){ var chk=actsToPath(G.car.r,G.car.c,G.car.dir, acts);
+    if(!chk.length){ setStatus('その方向には 行けません。','べつの 言い方で どうぞ。','ng'); say('そちらには 行けません。'); return; } }
+  setStatus('🚕 指示の とおりに 動きます…','');
+  drivePath(acts, function(){
+    if(atDest()){ winRound(); return; }
+    if(terminal){ setStatus('ここは 目的地では ありません。','案内を つづけてください。','ng'); say('ここは まだ ちがいます。'); return; }
+    setStatus('つづけて 指示を どうぞ。','今 '+DIRNAME[G.car.dir]+'むき。');
   });
-  if(!moved){ setStatus('その方向には 行けません。','べつの 言い方で どうぞ。','ng'); say('そちらには 行けません。'); return; }
-}
-function driveToDest(cnt,g){
-  if(G.done || g!==seqGen) return;
-  if(atDest()){ winRound(); return; }
-  if(cnt>N+2){ setStatus('ここは 目的地では ありません。','道が ちがうかもしれません。','ng'); say('うまく つきませんでした。'); return; }
-  var moved=doMove('straight', function(){ driveToDest(cnt+1,g); });
-  if(!moved){ setStatus('ここは 目的地では ありません。','道が ちがうかもしれません。','ng'); say('うまく つきませんでした。'); }
 }
 function logLine(s){ var l=$('log'); l.innerHTML += '<div>'+esc(s)+'</div>'; l.scrollTop=l.scrollHeight; }
 function passengerHeard(raw){
@@ -713,13 +765,14 @@ function startVoice(){
   if(!VOICE_OK){ setStatus('この端末は 音声入力に 対応していません。', '','ng'); return; }
   var mic=$('micBtn');
   if(activeRec){ try{activeRec.stop();}catch(e){} return; }
-  var rec=sharedRec; if(!rec){ try{rec=new SR();}catch(e){return;} rec.lang='ja-JP'; rec.interimResults=false; rec.maxAlternatives=1; sharedRec=rec; }
-  var got=false;
-  rec.onresult=function(e){ got=true; var raw=(e.results[0][0].transcript||'').trim(); passengerHeard(raw); };
-  rec.onerror=function(e){ if(e.error==='no-speech') $('subStatus').textContent='声が 聞き取れませんでした。もう一度どうぞ。'; };
-  rec.onend=function(){ activeRec=null; mic.classList.remove('listening'); mic.textContent='🎤 指示を話す'; };
-  activeRec=rec; mic.classList.add('listening'); mic.textContent='● きいています…';
-  try{ rec.start(); }catch(e){ activeRec=null; mic.classList.remove('listening'); mic.textContent='🎤 指示を話す'; }
+  ensureMic(function(){   // 許可は最初の1回だけ。2回目以降は確認が出ない
+    var rec=sharedRec; if(!rec){ try{rec=new SR();}catch(e){return;} rec.lang='ja-JP'; rec.interimResults=false; rec.maxAlternatives=1; sharedRec=rec; }
+    rec.onresult=function(e){ var raw=(e.results[0][0].transcript||'').trim(); passengerHeard(raw); };
+    rec.onerror=function(e){ if(e.error==='no-speech') $('subStatus').textContent='声が 聞き取れませんでした。もう一度どうぞ。'; };
+    rec.onend=function(){ activeRec=null; mic.classList.remove('listening'); mic.textContent='🎤 指示を話す'; };
+    activeRec=rec; mic.classList.add('listening'); mic.textContent='● きいています…';
+    try{ rec.start(); }catch(e){ activeRec=null; mic.classList.remove('listening'); mic.textContent='🎤 指示を話す'; }
+  });
 }
 
 /* ===== 共通 ===== */

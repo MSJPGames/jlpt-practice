@@ -179,7 +179,7 @@ function say(text){ if(!text)return;
 var SR=window.SpeechRecognition||window.webkitSpeechRecognition, VOICE_OK=!!SR, sharedRec=null, activeRec=null;
 
 /* ===== 地図・方向 ===== */
-var N=6; // 交差点 0..5（井の字＝格子の道路。広めのマップ）
+var N=9; // 交差点（大きめの街。画面に収まらず、タクシーを追ってスクロールする）
 var DIRS={N:[-1,0],E:[0,1],S:[1,0],W:[0,-1]};
 var RIGHT={N:'E',E:'S',S:'W',W:'N'};
 var LEFT={N:'W',W:'S',S:'E',E:'N'};
@@ -263,16 +263,15 @@ function genScenario(level){
   while(((start[0]===dest[0]&&start[1]===dest[1]) || (Math.abs(start[0]-dest[0])+Math.abs(start[1]-dest[1]))<minD) && tries<400);
   var firstDir=chooseHeading(start,dest);
   var allCells=[]; for(var r=0;r<N;r++)for(var c=0;c<N;c++) allCells.push([r,c]);
-  // 信号（見た目＋目印語「信号」に使用）
-  var signals={}; var sc=shuffleArr(allCells.slice()); var nsig=Math.round(N*N*0.26);
-  for(var i=0;i<nsig;i++){ signals[keyOf(sc[i][0],sc[i][1])]=1; }
+  // 信号：すべての交差点に置く（色は定期的に変わる／目印語「信号」にも使う）
+  var signals={}; for(var i=0;i<allCells.length;i++){ signals[keyOf(allCells[i][0],allCells[i][1])]=1; }
   // 目的地の種類（音声「○○で 止まってください」で指定）
   var destType=pick(FACILITIES);
   var usedName={}; usedName[destType.n]=1;
   var landmarks={}, buildings=[], usedSeg={};
   // 目印（名前つき施設）を、交差点に配置。曲がるときの目印にする（各交差点に対応）
   var landCells=shuffleArr(allCells.filter(function(c){ return !(c[0]===start[0]&&c[1]===start[1]) && !(c[0]===dest[0]&&c[1]===dest[1]); }));
-  var K=4+rnd(3), placed=0;
+  var K=8+rnd(4), placed=0;
   for(var li=0; li<landCells.length && placed<K; li++){
     var cell=landCells[li]; var pool=FACILITIES.filter(function(f){return !usedName[f.n];}); if(!pool.length) break;
     var nb=neighbors(cell); if(!nb.length) continue;
@@ -293,7 +292,7 @@ function genScenario(level){
       car:{r:start[0],c:start[1],dir:firstDir}, carViz:{r:start[0],c:start[1],ang:ANGLE[firstDir]},
       done:false, waiting:false, animating:false };
   // 装飾（名前なし・景観用）：空いている区間の道沿いに散らす
-  shuffleArr(segs); var decoMax=16+rnd(6), decoN=0;
+  shuffleArr(segs); var decoMax=34+rnd(14), decoN=0;
   for(var si=0; si<segs.length && decoN<decoMax; si++){ var sg=segs[si]; var k2=segKey(sg[0],sg[1]); if(usedSeg[k2]) continue;
     if(Math.random()<0.55){ usedSeg[k2]=1; var pp=roadside(sg[0],sg[1],0.35+Math.random()*0.3);
       buildings.push({gr:pp.gr,gc:pp.gc,kind:'deco',horiz:(sg[0][0]===sg[1][0]),col:rnd(BLD_COLORS.length),park:(Math.random()<0.16),sz:0.82+Math.random()*0.45}); decoN++; } }
@@ -303,24 +302,37 @@ function absDir(a,b){ var dr=b[0]-a[0], dc=b[1]-a[1];
   if(dr===-1)return 'N'; if(dr===1)return 'S'; if(dc===1)return 'E'; if(dc===-1)return 'W'; return 'N'; }
 
 /* ===== 描画（自然な地図＋なめらかなタクシー） ===== */
-var MAP_S=340, MAP_M=30, MAP_STEP=(MAP_S-2*MAP_M)/(N-1);
+var MAP_STEP=58, MAP_M=36, MAP_S=MAP_M*2+(N-1)*MAP_STEP;  // マップ全体の大きさ
+var VIEW=MAP_STEP*4.4;   // 画面に見える範囲（マップはこれより広い＝スクロールする）
 function PX(c){return MAP_M+c*MAP_STEP;}
 function PY(r){return MAP_M+r*MAP_STEP;}
 var ROAD_W=Math.max(9, MAP_STEP*0.26);
+/* カメラ：タクシーを中心に、マップの一部だけを見せる */
+function camViewBox(){ var v=G.carViz||{r:(N-1)/2,c:(N-1)/2}; var cx=PX(v.c), cy=PY(v.r);
+  var mx=Math.max(0, MAP_S-VIEW);
+  var x=Math.max(0, Math.min(cx-VIEW/2, mx)), y=Math.max(0, Math.min(cy-VIEW/2, mx));
+  return x.toFixed(1)+' '+y.toFixed(1)+' '+VIEW.toFixed(1)+' '+VIEW.toFixed(1); }
 var BLD_COLORS=['#C9BBA6','#BFC7B4','#D2C6B1','#C3C9D2','#CDBBB0','#B7C1C3','#D4C9B2','#C7BCA8'];
 
 /* --- タクシー本体（上向き＝北）。#carG を transform で動かす --- */
 function carTransform(){ var v=G.carViz||{r:0,c:0,ang:0}; return 'translate('+PX(v.c).toFixed(2)+','+PY(v.r).toFixed(2)+') rotate('+(v.ang||0).toFixed(1)+')'; }
+/* 上向き＝北＝前。前（上）にヘッドライト＋ボンネット、後ろ（下）に赤いテールライト。前後がひと目で分かる */
 function carSVG(){
   return '<g id="carG" transform="'+carTransform()+'">'
-    +'<ellipse cx="0" cy="1.5" rx="8" ry="12" fill="#000" opacity="0.10"/>'
-    +'<rect x="-7" y="-11.5" width="14" height="23" rx="4.5" fill="#F4C21B" stroke="#2A2A2A" stroke-width="1.3"/>'
-    +'<rect x="-5" y="-8.4" width="10" height="5.6" rx="1.6" fill="#2A3E50"/>'
-    +'<rect x="-5" y="3.2" width="10" height="4.9" rx="1.6" fill="#2A3E50"/>'
-    +'<rect x="-3" y="-1.7" width="6" height="3.3" rx="1" fill="#FBF7EA" stroke="#2A2A2A" stroke-width="0.6"/>'
+    +'<ellipse cx="0" cy="2" rx="9.5" ry="15" fill="#000" opacity="0.12"/>'
+    +'<rect x="-8.5" y="-15" width="17" height="30" rx="5.5" fill="#F4C21B" stroke="#2A2A2A" stroke-width="1.5"/>'
+    +'<path d="M-8.5,-9 Q-8.5,-15 -3,-15 L3,-15 Q8.5,-15 8.5,-9 Z" fill="#F8D24A"/>'  // 前のボンネット（明るい）
+    +'<rect x="-7" y="-15.4" width="4.2" height="3.1" rx="1.2" fill="#FFF7D0" stroke="#2A2A2A" stroke-width="0.6"/>'  // 左ヘッドライト
+    +'<rect x="2.8" y="-15.4" width="4.2" height="3.1" rx="1.2" fill="#FFF7D0" stroke="#2A2A2A" stroke-width="0.6"/>'  // 右ヘッドライト
+    +'<rect x="-6" y="-10" width="12" height="6.2" rx="2" fill="#2A3E50"/>'   // フロントガラス
+    +'<rect x="-3.6" y="-1.8" width="7.2" height="3.6" rx="1" fill="#FBF7EA" stroke="#2A2A2A" stroke-width="0.7"/>'  // 屋根のタクシー灯
+    +'<rect x="-6" y="4.3" width="12" height="5.4" rx="2" fill="#2A3E50"/>'   // リアガラス
+    +'<rect x="-7" y="12.4" width="4.2" height="3" rx="1.1" fill="#E23B3B" stroke="#2A2A2A" stroke-width="0.6"/>'  // 左テールライト（赤）
+    +'<rect x="2.8" y="12.4" width="4.2" height="3" rx="1.1" fill="#E23B3B" stroke="#2A2A2A" stroke-width="0.6"/>'  // 右テールライト（赤）
     +'</g>';
 }
-function positionCar(){ var g=document.getElementById('carG'); if(g) g.setAttribute('transform', carTransform()); }
+function positionCar(){ var g=document.getElementById('carG'); if(g) g.setAttribute('transform', carTransform());
+  var svg=document.getElementById('mapSvg'); if(svg) svg.setAttribute('viewBox', camViewBox()); }
 function easeSS(k){ return k*k*(3-2*k); }
 function shortAng(a,b){ return ((b-a)%360+540)%360-180; }
 var animRAF=null;
@@ -339,9 +351,22 @@ function animateMove(fr,fc,fa, tr,tc,ta){
   animRAF=requestAnimationFrame(frame);
 }
 
+/* 信号：交差点ごとに色が定期的に変わる。市松模様で2グループに分け、交互に 青→黄→赤 */
+var sigTick=0;
+function sigColor(group, t){ var p=((group?4:0)+t)%8; if(p<3) return '#39B26A'; if(p===3) return '#E7B93A'; return '#D64545'; }
+function signalsHTML(){ if(!G.signals) return ''; var h='', off=ROAD_W*0.95;
+  for(var k in G.signals){ var pr=k.split(',').map(Number); var x=PX(pr[1])+off, y=PY(pr[0])-off;
+    var col=sigColor((pr[0]+pr[1])%2, sigTick);
+    h+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.6" fill="#2A2622"/>'
+      +'<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="2.7" fill="'+col+'"/>'; }
+  return h; }
+function tickSignals(){ sigTick=(sigTick+1)%8; var g=document.getElementById('sigG');
+  if(g && !$('play').classList.contains('hidden')) g.innerHTML=signalsHTML(); }
+try{ setInterval(tickSignals, 1000); }catch(e){}
+
 function drawMap(){
   var step=MAP_STEP, px=PX, py=PY, rw=ROAD_W, el=[];
-  el.push('<svg viewBox="0 0 '+MAP_S+' '+MAP_S+'" role="img" aria-label="地図">');
+  el.push('<svg id="mapSvg" viewBox="'+camViewBox()+'" role="img" aria-label="地図">');
   el.push('<rect x="0" y="0" width="'+MAP_S+'" height="'+MAP_S+'" fill="#E7E2D5"/>');
   // 区画（ブロック）の土地
   for(var br=0;br<N-1;br++){ for(var bc=0;bc<N-1;bc++){
@@ -371,12 +396,12 @@ function drawMap(){
         el.push('<circle cx="'+x+'" cy="'+y+'" r="'+(ps*0.24)+'" fill="#8DB877"/>');
       } else { var lng=step*0.34*(bd.sz||1), dep=step*0.22*(bd.sz||1), w=bd.horiz?lng:dep, h=bd.horiz?dep:lng;
         el.push('<rect x="'+(x-w/2)+'" y="'+(y-h/2)+'" width="'+w+'" height="'+h+'" rx="2" fill="'+BLD_COLORS[(bd.col||0)%BLD_COLORS.length]+'" stroke="rgba(0,0,0,0.10)" stroke-width="1"/>'); }
-    } else { var s2=step*0.44;
+    } else if(bd.kind==='landmark'){ var s2=step*0.44;   // 目的地(kind:'dest')は表示しない
       el.push('<rect x="'+(x-s2/2)+'" y="'+(y-s2/2)+'" width="'+s2+'" height="'+s2+'" rx="5" fill="#FBF7EE" stroke="#B7AB92" stroke-width="1.4"/>');
       el.push('<text x="'+x+'" y="'+(y+s2*0.30)+'" font-size="'+(s2*0.7).toFixed(1)+'" text-anchor="middle">'+bd.e+'</text>'); }
   });
-  // 信号（交差点）
-  for(var k in G.signals){ var pr=k.split(',').map(Number); el.push('<circle cx="'+px(pr[1])+'" cy="'+py(pr[0])+'" r="4.5" fill="#D64545" stroke="#fff" stroke-width="1.4"/>'); }
+  // 信号（交差点。色は定期的に変わる）
+  el.push('<g id="sigG">'+signalsHTML()+'</g>');
   // タップ候補（行ける方向）の目印
   el.push('<g id="hintG"></g>');
   // タクシー
@@ -531,7 +556,9 @@ function onMapTap(ev){
   var rect=svg.getBoundingClientRect(); if(!rect.width) return;
   var cx=(ev.clientX!=null)?ev.clientX:(ev.changedTouches&&ev.changedTouches[0]?ev.changedTouches[0].clientX:0);
   var cy=(ev.clientY!=null)?ev.clientY:(ev.changedTouches&&ev.changedTouches[0]?ev.changedTouches[0].clientY:0);
-  var x=(cx-rect.left)/rect.width*MAP_S, y=(cy-rect.top)/rect.height*MAP_S;
+  // カメラ（viewBox）を考慮してタップ位置をマップ座標へ変換
+  var vb=(svg.getAttribute('viewBox')||('0 0 '+MAP_S+' '+MAP_S)).split(' ').map(Number);
+  var x=vb[0]+(cx-rect.left)/rect.width*vb[2], y=vb[1]+(cy-rect.top)/rect.height*vb[3];
   var c=Math.round((x-MAP_M)/MAP_STEP), r=Math.round((y-MAP_M)/MAP_STEP);
   if(!inGrid(r,c)) return;
   if(Math.abs(x-PX(c))>MAP_STEP*0.55 || Math.abs(y-PY(r))>MAP_STEP*0.55) return;

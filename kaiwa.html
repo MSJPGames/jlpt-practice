@@ -166,7 +166,8 @@
       <label for="foreignLang" data-i18n="foreignlang.label">相手の母語（まじえる外国語）</label>
       <select id="foreignLang">
         <option value="en" selected>英語（English）</option>
-        <option value="zh">中国語（中文）</option>
+        <option value="zh">中国語・簡体字（中国本土）</option>
+        <option value="zh-Hant">中国語・繁体字（台湾・香港）</option>
         <option value="ko">韓国語（한국어）</option>
       </select>
     </div>
@@ -192,11 +193,11 @@
       <div style="margin-top:10px">
         <label for="engineSelect" data-i18n="engine.label">声の種類</label>
         <select id="engineSelect">
-          <option value="gemini" selected data-i18n="engine.gemini">Gemini 自然音声（おすすめ・なめらか）</option>
-          <option value="browser" data-i18n="engine.browser">ブラウザの声（すぐ使える・機械的）</option>
+          <option value="browser" selected data-i18n="engine.browser">ブラウザの自然音声（Edge推奨・無料・API消費なし）</option>
+          <option value="gemini" data-i18n="engine.gemini">Gemini 自然音声（APIを使用・上限あり）</option>
           <option value="voicevox" data-i18n="engine.voicevox">VOICEVOX（自分でエンジンを用意する上級者向け）</option>
         </select>
-        <div class="hint" style="margin-top:4px" data-i18n="engine.hint">「Gemini 自然音声」は、今のキーのまま、より人間らしい声で読み上げます（試験的機能。使えないときは自動でブラウザの声に切り替わります）。1回の返事で消費が少し増えます。</div>
+        <div class="hint" style="margin-top:4px" data-i18n="engine.hint">「ブラウザの自然音声」は、Microsoft Edge で開くと Nanami / Keita の自然な声になり、Gemini を使いません（無料・上限なし）。おすすめです。「Gemini 自然音声」はよりなめらかですが、APIの利用回数を消費します。</div>
       </div>
 
       <div id="geminiVoiceBox" style="margin-top:10px">
@@ -333,7 +334,10 @@
   if(sr) rateEl.value=sr; if(sp) pitchEl.value=sp;
   var svv=store.get("vv_url"); if(svv) vvUrl.value=svv;
   var svs=store.get("vv_speaker"); if(svs) vvSpeaker.value=svs;
-  var seng=store.get("voice_engine"); if(seng) engineSelect.value=seng;
+  // 読み上げの既定は「ブラウザの自然音声（Edge推奨・無料）」。以前 Gemini音声を保存していた人も一度だけ無料の声へ移行する（API消費を抑えるため）。
+  var seng=store.get("voice_engine");
+  if(!store.get("voice_engine_migrated_v2")){ if(!seng||seng==="gemini"){ seng="browser"; } store.set("voice_engine_migrated_v2","1"); store.set("voice_engine",seng); }
+  if(seng) engineSelect.value=seng;
   var sgv=store.get("gemini_voice"); if(sgv) gVoice.value=sgv;
 
   function updateEngineUI(){
@@ -374,7 +378,7 @@
     }
     // 自動: 自然そうな日本語の声を優先
     var ja=voices.filter(function(v){ return v.lang && v.lang.toLowerCase().indexOf("ja")===0; });
-    var prefer=["Google 日本語","Microsoft","Natural","Kyoko","O-ren","Otoya","Hattori","Nanami","Keita"];
+    var prefer=["Nanami","Keita","Online (Natural)","Natural","Microsoft","Kyoko","Otoya","O-ren","Hattori","Google 日本語"];
     for(var p=0;p<prefer.length;p++){
       for(var j=0;j<ja.length;j++){ if(ja[j].name.indexOf(prefer[p])>=0) return ja[j]; }
     }
@@ -869,7 +873,8 @@
 
     if(foreign){
       var fl=foreignLangEl?foreignLangEl.value:"en", langName, ex;
-      if(fl==="zh"){ langName="中国語（中国・台湾・香港などからの訪日客）"; ex="你好 / 谢谢 / 对不起 / 这个多少钱？ など"; }
+      if(fl==="zh"){ langName="中国語（簡体字。中国本土からの訪日客）"; ex="你好 / 谢谢 / 对不起 / 这个多少钱？ など（必ず簡体字を使う）"; }
+      else if(fl==="zh-Hant"){ langName="中国語（繁体字。台湾・香港からの訪日客）"; ex="你好 / 謝謝 / 對不起 / 這個多少錢？ など（必ず繁体字を使う）"; }
       else if(fl==="ko"){ langName="韓国語（韓国からの訪日客）"; ex="안녕하세요 / 감사합니다 / 죄송합니다 / 이거 얼마예요? など"; }
       else { langName="英語"; ex="Hello / Thank you / Excuse me など"; }
       lines.push("設定: あなた（相手役）は日本語が母語ではない外国人で、母語は"+langName+"です。日本語を勉強中で、基本はやさしい日本語で話しますが、うまく言えないときや感情が出たときは、時々みじかい"+langName.replace(/（.*/,"")+"（"+ex+"）を自然にまじえてかまいません。ただし会話の中心はあくまで日本語にし、学習者（私）が日本語で対応できるようにしてください。");
@@ -934,15 +939,24 @@
 
   var history=[], systemText="", busy=false;
 
-  function callGemini(cb){
+  // ---- 上限（クォータ）エラーの判定と、少し待って自動で1回だけ再試行する仕組み ----
+  function isQuotaError(status,msg){ return status===429 || /quota|exceed|RESOURCE_EXHAUSTED|rate limit|too many/i.test(msg||""); }
+  function retrySeconds(msg){ var m=/retry(?:Delay)?[^0-9]*([0-9]+(?:\.[0-9]+)?)\s*s/i.exec(msg||""); var s=m?parseFloat(m[1]):30; if(!(s>0))s=30; return Math.min(35,Math.max(5,Math.ceil(s)+1)); }
+  function quotaMessage(){ return "いま無料の利用上限に達しています。少し時間をおいてからお試しください（キーの残量は https://ai.dev/rate-limit で確認できます）。"; }
+
+  function callGemini(cb,_retried){
     var key=keyEl.value.trim();
     var body={ systemInstruction:{parts:[{text:systemText}]}, contents:history,
       generationConfig:{ temperature:0.9, maxOutputTokens:512 } };
     fetch(ENDPOINT+"?key="+encodeURIComponent(key),{
       method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)
-    }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+    }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,status:res.status,data:d}; }); })
       .then(function(r){
-        if(!r.ok){ cb(null,(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"エラーが発生しました"); return; }
+        if(!r.ok){ var em=(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"エラーが発生しました";
+          if(!_retried && isQuotaError(r.status,em)){ var w=retrySeconds(em);
+            statusEl.textContent="混み合っています。"+w+"秒ほど待って、自動でもう一度試します…";
+            setTimeout(function(){ callGemini(cb,true); }, w*1000); return; }
+          cb(null, isQuotaError(r.status,em)?quotaMessage():em); return; }
         var text=""; try{ text=r.data.candidates[0].content.parts[0].text.trim(); }catch(e){ text=""; }
         if(!text){ cb(null,"返事を受け取れませんでした。もう一度お試しください。"); return; }
         cb(text,null);
@@ -1085,11 +1099,29 @@
   //   （Android等で音声入力できない原因）が起きません。iPhoneでも動作します。
   //   録音は今までどおりフィードバック用に各発話へ残ります。
   var listening=false, transcribing=false;
+  // 端末内蔵の音声認識（あればGeminiを使わず文字化＝無料・上限を消費しない）。録音(MediaRecorder)は従来どおり別に残す。
+  // モバイルはマイクの取り合いで不安定なため使わず、従来の「録音→Gemini文字起こし」にフォールバックする。
+  var SR_CTOR = window.SpeechRecognition||window.webkitSpeechRecognition;
+  var IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile|webOS/i.test(navigator.userAgent||"");
+  var STT_LIVE_OK = !!SR_CTOR && !IS_MOBILE;
+  var srRec=null, srText="", srActive=false;
+  function srStart(){ if(!STT_LIVE_OK) return; srText=""; srActive=false;
+    try{ srRec=new SR_CTOR(); }catch(e){ srRec=null; return; }
+    srRec.lang="ja-JP"; srRec.continuous=true; srRec.interimResults=false; srRec.maxAlternatives=1;
+    srRec.onresult=function(e){ for(var i=e.resultIndex;i<e.results.length;i++){ if(e.results[i].isFinal){ srText+=e.results[i][0].transcript; } } };
+    srRec.onerror=function(){};
+    try{ srRec.start(); srActive=true; }catch(e){ srActive=false; srRec=null; }
+  }
+  function srStop(cb){ if(!srActive||!srRec){ cb((srText||"").trim()); return; }
+    var done=false, fin=function(){ if(done)return; done=true; srActive=false; cb((srText||"").trim()); };
+    srRec.onend=fin; try{ srRec.stop(); }catch(e){ fin(); return; }
+    setTimeout(fin, 1500); // onend が来ない端末の保険
+  }
   var VOICE_INPUT_OK = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && typeof MediaRecorder!=="undefined");
   if(!VOICE_INPUT_OK){
     micBtn.textContent="🎤 このブラウザは録音非対応（文字入力をどうぞ）"; micBtn.disabled=true;
   }
-  function transcribeAudio(dataUrl, cb){
+  function transcribeAudio(dataUrl, cb, _retried){
     var m=/^data:([^;]+);base64,([\s\S]*)$/.exec(dataUrl||"");
     if(!m){ cb(null,"録音が取得できませんでした"); return; }
     var key=keyEl.value.trim();
@@ -1100,9 +1132,13 @@
     ] }], generationConfig:{ temperature:0 } };
     fetch(ENDPOINT+"?key="+encodeURIComponent(key),{
       method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)
-    }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+    }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,status:res.status,data:d}; }); })
       .then(function(r){
-        if(!r.ok){ cb(null,(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"認識に失敗しました"); return; }
+        if(!r.ok){ var em=(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"認識に失敗しました";
+          if(!_retried && isQuotaError(r.status,em)){ var w=retrySeconds(em);
+            statusEl.textContent="混み合っています。"+w+"秒ほど待って、自動でもう一度試します…";
+            setTimeout(function(){ transcribeAudio(dataUrl,cb,true); }, w*1000); return; }
+          cb(null, isQuotaError(r.status,em)?quotaMessage():em); return; }
         var t=""; try{ t=r.data.candidates[0].content.parts.map(function(p){return p.text||"";}).join("").trim(); }catch(e){ t=""; }
         cb(t,null);
       }).catch(function(){ cb(null,"通信に失敗しました"); });
@@ -1111,19 +1147,27 @@
     transcribing=true; micBtn.disabled=true;
     micBtn.classList.remove("rec"); micBtn.textContent="🎤 文字にしています…";
     statusEl.textContent="音声を文字にしています…";
-    stopRec(function(u){
-      if(!u){ transcribing=false; micBtn.disabled=false; micBtn.textContent="🎤 押して話す"; statusEl.textContent="⚠ 録音できませんでした。マイクの許可をご確認のうえ、もう一度どうぞ。"; return; }
-      transcribeAudio(u, function(text, err){
-        transcribing=false; micBtn.disabled=false; micBtn.textContent="🎤 押して話す";
-        if(err || !text){ statusEl.textContent="⚠ 音声を認識できませんでした（"+(err||"聞き取れません")+"）。文字入力もお使いいただけます。"; return; }
-        statusEl.textContent=""; sendUser(text, u);
+    srStop(function(srWords){
+      stopRec(function(u){
+        var done=function(text, err){
+          transcribing=false; micBtn.disabled=false; micBtn.textContent="🎤 押して話す";
+          if(err || !text){ statusEl.textContent="⚠ 音声を認識できませんでした（"+(err||"聞き取れません")+"）。文字入力もお使いいただけます。"; return; }
+          statusEl.textContent=""; sendUser(text, u);   // 録音(u)はフィードバック用に必ず残す
+        };
+        if(!u){
+          if(srWords){ done(srWords,null); }   // 録音が取れなくても端末の認識で文字が取れていれば送る
+          else { transcribing=false; micBtn.disabled=false; micBtn.textContent="🎤 押して話す"; statusEl.textContent="⚠ 録音できませんでした。マイクの許可をご確認のうえ、もう一度どうぞ。"; }
+          return;
+        }
+        if(srWords){ done(srWords,null); return; }   // 端末内蔵の認識が成功＝Geminiを使わない
+        transcribeAudio(u, done);                     // だめなら従来どおりGeminiで文字起こし
       });
     });
   }
   micBtn.addEventListener("click", function(){
     if(!VOICE_INPUT_OK || busy || transcribing) return;
     if(listening){ listening=false; finishVoiceInput(); return; }
-    stopAudio(); listening=true; startRec();
+    stopAudio(); listening=true; startRec(); srStart();
     micBtn.classList.add("rec"); micBtn.textContent="■ 話し終わったら押す";
     statusEl.textContent="どうぞ話してください…";
   });
@@ -1224,10 +1268,10 @@
       "vocab.hint":"Your partner uses simpler language to match your textbook progress. The most accurate way is to paste the actual vocab & grammar list into “up to this lesson”.",
       "voice.summary":"Voice settings (make the voice more natural)",
       "engine.label":"Voice type",
-      "engine.gemini":"Gemini natural voice (recommended, smooth)",
-      "engine.browser":"Browser voice (ready to use, robotic)",
+      "engine.gemini":"Gemini natural voice (uses the API, has limits)",
+      "engine.browser":"Browser natural voice (recommended with Edge, free, no API use)",
       "engine.voicevox":"VOICEVOX (for advanced users who run their own engine)",
-      "engine.hint":"“Gemini natural voice” reads replies aloud in a more human-like voice using your current key (experimental; falls back to the browser voice automatically if unavailable). Each reply uses a little more quota.",
+      "engine.hint":"“Browser natural voice” sounds natural (Nanami / Keita) when opened in Microsoft Edge and does not use Gemini (free, no limit) — recommended. “Gemini natural voice” is smoother but consumes API quota.",
       "gvoice.label":"Gemini voice",
       "gvoice.test":"Preview this voice",
       "bvoice.label":"Reading voice (available on this device)",
@@ -1296,10 +1340,10 @@
       "vocab.hint":"对话伙伴会配合课本进度使用更简单的语言。最准确的方法是把实际的词汇・语法列表粘贴到「到本课为止」。",
       "voice.summary":"语音设置（让声音更自然）",
       "engine.label":"语音类型",
-      "engine.gemini":"Gemini 自然语音（推荐・流畅）",
-      "engine.browser":"浏览器语音（即可使用・机械感）",
+      "engine.gemini":"Gemini 自然语音（使用API・有上限）",
+      "engine.browser":"浏览器自然语音（推荐用Edge・免费・不消耗API）",
       "engine.voicevox":"VOICEVOX（适合自备引擎的高级用户）",
-      "engine.hint":"「Gemini 自然语音」用当前密钥以更接近真人的声音朗读回复（实验功能；无法使用时会自动切换为浏览器语音）。每次回复的消耗会略微增加。",
+      "engine.hint":"「浏览器自然语音」在 Microsoft Edge 中打开时为 Nanami / Keita 的自然声音，且不使用 Gemini（免费・无上限），推荐。「Gemini 自然语音」更流畅，但会消耗 API 用量。",
       "gvoice.label":"Gemini 的声音",
       "gvoice.test":"试听此语音",
       "bvoice.label":"朗读语音（本设备可用）",

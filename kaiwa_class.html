@@ -162,11 +162,11 @@
       <div style="margin-top:10px">
         <label for="engineSelect">声の種類</label>
         <select id="engineSelect">
-          <option value="gemini" selected>Gemini 自然音声（おすすめ・なめらか）</option>
-          <option value="browser">ブラウザの声（すぐ使える・機械的）</option>
+          <option value="browser" selected>ブラウザの自然音声（Edge推奨・無料・API消費なし）</option>
+          <option value="gemini">Gemini 自然音声（APIを使用・上限あり）</option>
           <option value="voicevox">VOICEVOX（自分でエンジンを用意する上級者向け）</option>
         </select>
-        <div class="hint" style="margin-top:4px">「Gemini 自然音声」は、今のキーのまま、より人間らしい声で読み上げます（試験的機能。使えないときは自動でブラウザの声に切り替わります）。1回の返事で消費が少し増えます。</div>
+        <div class="hint" style="margin-top:4px">「ブラウザの自然音声」は、Microsoft Edge で開くと Nanami / Keita の自然な声になり、Gemini を使いません（無料・上限なし）。おすすめです。「Gemini 自然音声」はよりなめらかですが、APIの利用回数を消費します。</div>
       </div>
 
       <div id="geminiVoiceBox" style="margin-top:10px">
@@ -305,7 +305,10 @@
   if(sr) rateEl.value=sr; if(sp) pitchEl.value=sp;
   var svv=store.get("vv_url"); if(svv) vvUrl.value=svv;
   var svs=store.get("vv_speaker"); if(svs) vvSpeaker.value=svs;
-  var seng=store.get("voice_engine"); if(seng) engineSelect.value=seng;
+  // 読み上げの既定は「ブラウザの自然音声（Edge推奨・無料）」。以前 Gemini音声を保存していた人も一度だけ無料の声へ移行する（API消費を抑えるため）。
+  var seng=store.get("voice_engine");
+  if(!store.get("voice_engine_migrated_v2")){ if(!seng||seng==="gemini"){ seng="browser"; } store.set("voice_engine_migrated_v2","1"); store.set("voice_engine",seng); }
+  if(seng) engineSelect.value=seng;
   var sgv=store.get("gemini_voice"); if(sgv) gVoice.value=sgv;
 
   function updateEngineUI(){
@@ -346,7 +349,7 @@
     }
     // 自動: 自然そうな日本語の声を優先
     var ja=voices.filter(function(v){ return v.lang && v.lang.toLowerCase().indexOf("ja")===0; });
-    var prefer=["Google 日本語","Microsoft","Natural","Kyoko","O-ren","Otoya","Hattori","Nanami","Keita"];
+    var prefer=["Nanami","Keita","Online (Natural)","Natural","Microsoft","Kyoko","Otoya","O-ren","Hattori","Google 日本語"];
     for(var p=0;p<prefer.length;p++){
       for(var j=0;j<ja.length;j++){ if(ja[j].name.indexOf(prefer[p])>=0) return ja[j]; }
     }
@@ -791,15 +794,24 @@
 
   var history=[], systemText="", busy=false;
 
-  function callGemini(cb){
+  // ---- 上限（クォータ）エラーの判定と、少し待って自動で1回だけ再試行する仕組み ----
+  function isQuotaError(status,msg){ return status===429 || /quota|exceed|RESOURCE_EXHAUSTED|rate limit|too many/i.test(msg||""); }
+  function retrySeconds(msg){ var m=/retry(?:Delay)?[^0-9]*([0-9]+(?:\.[0-9]+)?)\s*s/i.exec(msg||""); var s=m?parseFloat(m[1]):30; if(!(s>0))s=30; return Math.min(35,Math.max(5,Math.ceil(s)+1)); }
+  function quotaMessage(){ return "いま無料の利用上限に達しています。少し時間をおいてからお試しください（キーの残量は https://ai.dev/rate-limit で確認できます）。"; }
+
+  function callGemini(cb,_retried){
     var key=keyEl.value.trim();
     var body={ systemInstruction:{parts:[{text:systemText}]}, contents:history,
       generationConfig:{ temperature:0.9, maxOutputTokens:512 } };
     fetch(ENDPOINT+"?key="+encodeURIComponent(key),{
       method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)
-    }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+    }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,status:res.status,data:d}; }); })
       .then(function(r){
-        if(!r.ok){ cb(null,(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"エラーが発生しました"); return; }
+        if(!r.ok){ var em=(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"エラーが発生しました";
+          if(!_retried && isQuotaError(r.status,em)){ var w=retrySeconds(em);
+            statusEl.textContent="混み合っています。"+w+"秒ほど待って、自動でもう一度試します…";
+            setTimeout(function(){ callGemini(cb,true); }, w*1000); return; }
+          cb(null, isQuotaError(r.status,em)?quotaMessage():em); return; }
         var text=""; try{ text=r.data.candidates[0].content.parts[0].text.trim(); }catch(e){ text=""; }
         if(!text){ cb(null,"返事を受け取れませんでした。もう一度お試しください。"); return; }
         cb(text,null);
@@ -834,11 +846,29 @@
   //   （Android等で音声入力できない原因）が起きません。iPhoneでも動作します。
   //   録音は今までどおりフィードバック用に各発話へ残ります。
   var listening=false, transcribing=false;
+  // 端末内蔵の音声認識（あればGeminiを使わず文字化＝無料・上限を消費しない）。録音(MediaRecorder)は従来どおり別に残す。
+  // モバイルはマイクの取り合いで不安定なため使わず、従来の「録音→Gemini文字起こし」にフォールバックする。
+  var SR_CTOR = window.SpeechRecognition||window.webkitSpeechRecognition;
+  var IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile|webOS/i.test(navigator.userAgent||"");
+  var STT_LIVE_OK = !!SR_CTOR && !IS_MOBILE;
+  var srRec=null, srText="", srActive=false;
+  function srStart(){ if(!STT_LIVE_OK) return; srText=""; srActive=false;
+    try{ srRec=new SR_CTOR(); }catch(e){ srRec=null; return; }
+    srRec.lang="ja-JP"; srRec.continuous=true; srRec.interimResults=false; srRec.maxAlternatives=1;
+    srRec.onresult=function(e){ for(var i=e.resultIndex;i<e.results.length;i++){ if(e.results[i].isFinal){ srText+=e.results[i][0].transcript; } } };
+    srRec.onerror=function(){};
+    try{ srRec.start(); srActive=true; }catch(e){ srActive=false; srRec=null; }
+  }
+  function srStop(cb){ if(!srActive||!srRec){ cb((srText||"").trim()); return; }
+    var done=false, fin=function(){ if(done)return; done=true; srActive=false; cb((srText||"").trim()); };
+    srRec.onend=fin; try{ srRec.stop(); }catch(e){ fin(); return; }
+    setTimeout(fin, 1500); // onend が来ない端末の保険
+  }
   var VOICE_INPUT_OK = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && typeof MediaRecorder!=="undefined");
   if(!VOICE_INPUT_OK){
     micBtn.textContent="🎤 このブラウザは録音非対応（文字入力をどうぞ）"; micBtn.disabled=true;
   }
-  function transcribeAudio(dataUrl, cb){
+  function transcribeAudio(dataUrl, cb, _retried){
     var m=/^data:([^;]+);base64,([\s\S]*)$/.exec(dataUrl||"");
     if(!m){ cb(null,"録音が取得できませんでした"); return; }
     var key=keyEl.value.trim();
@@ -849,9 +879,13 @@
     ] }], generationConfig:{ temperature:0 } };
     fetch(ENDPOINT+"?key="+encodeURIComponent(key),{
       method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)
-    }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+    }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,status:res.status,data:d}; }); })
       .then(function(r){
-        if(!r.ok){ cb(null,(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"認識に失敗しました"); return; }
+        if(!r.ok){ var em=(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"認識に失敗しました";
+          if(!_retried && isQuotaError(r.status,em)){ var w=retrySeconds(em);
+            statusEl.textContent="混み合っています。"+w+"秒ほど待って、自動でもう一度試します…";
+            setTimeout(function(){ transcribeAudio(dataUrl,cb,true); }, w*1000); return; }
+          cb(null, isQuotaError(r.status,em)?quotaMessage():em); return; }
         var t=""; try{ t=r.data.candidates[0].content.parts.map(function(p){return p.text||"";}).join("").trim(); }catch(e){ t=""; }
         cb(t,null);
       }).catch(function(){ cb(null,"通信に失敗しました"); });
@@ -860,19 +894,27 @@
     transcribing=true; micBtn.disabled=true;
     micBtn.classList.remove("rec"); micBtn.textContent="🎤 文字にしています…";
     statusEl.textContent="音声を文字にしています…";
-    stopRec(function(u){
-      if(!u){ transcribing=false; micBtn.disabled=false; micBtn.textContent="🎤 押して話す"; statusEl.textContent="⚠ 録音できませんでした。マイクの許可をご確認のうえ、もう一度どうぞ。"; return; }
-      transcribeAudio(u, function(text, err){
-        transcribing=false; micBtn.disabled=false; micBtn.textContent="🎤 押して話す";
-        if(err || !text){ statusEl.textContent="⚠ 音声を認識できませんでした（"+(err||"聞き取れません")+"）。文字入力もお使いいただけます。"; return; }
-        statusEl.textContent=""; sendUser(text, u);
+    srStop(function(srWords){
+      stopRec(function(u){
+        var done=function(text, err){
+          transcribing=false; micBtn.disabled=false; micBtn.textContent="🎤 押して話す";
+          if(err || !text){ statusEl.textContent="⚠ 音声を認識できませんでした（"+(err||"聞き取れません")+"）。文字入力もお使いいただけます。"; return; }
+          statusEl.textContent=""; sendUser(text, u);   // 録音(u)はフィードバック用に必ず残す
+        };
+        if(!u){
+          if(srWords){ done(srWords,null); }   // 録音が取れなくても端末の認識で文字が取れていれば送る
+          else { transcribing=false; micBtn.disabled=false; micBtn.textContent="🎤 押して話す"; statusEl.textContent="⚠ 録音できませんでした。マイクの許可をご確認のうえ、もう一度どうぞ。"; }
+          return;
+        }
+        if(srWords){ done(srWords,null); return; }   // 端末内蔵の認識が成功＝Geminiを使わない
+        transcribeAudio(u, done);                     // だめなら従来どおりGeminiで文字起こし
       });
     });
   }
   micBtn.addEventListener("click", function(){
     if(!VOICE_INPUT_OK || busy || transcribing) return;
     if(listening){ listening=false; finishVoiceInput(); return; }
-    stopAudio(); listening=true; startRec();
+    stopAudio(); listening=true; startRec(); srStart();
     micBtn.classList.add("rec"); micBtn.textContent="■ 話し終わったら押す";
     statusEl.textContent="どうぞ話してください…";
   });

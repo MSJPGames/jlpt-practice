@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>接続詞について ・ Conjunctions — 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --accent:#6E5B10; --accent-bg:#F2EFD9;
+    --edu:#185FA5; --edu-bg:#E6F1FB;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.75;-webkit-text-size-adjust:100%}
+  .container{max-width:560px;margin:0 auto}
+  .topbar{display:flex;align-items:center;padding:14px 0 2px}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--text-muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);-webkit-tap-highlight-color:transparent;transition:transform .12s}
+  .back-link:active{transform:scale(.97)}
+  .back-arrow{font-size:16px;line-height:1}
+  .page-header{text-align:center;padding:1.3rem 0 .3rem}
+  .ph-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--accent);margin-bottom:8px}
+  .ph-title{font-size:26px;font-weight:700;letter-spacing:.02em}
+  .ph-sub{font-size:13px;color:var(--text-muted);margin-top:6px;line-height:1.6}
+  .note{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 15px;
+    font-size:12.5px;color:var(--text-muted);line-height:1.75;margin-top:1.1rem}
+  .note b{color:var(--text);font-weight:700}
+  .note .en{display:block;color:var(--text-hint);margin-top:4px}
+  .edu-key{display:inline-block;font-size:11px;font-weight:700;color:var(--edu);background:var(--edu-bg);border-radius:6px;padding:1px 7px}
+  .toc{display:flex;flex-wrap:wrap;gap:7px;margin:1rem 0 .2rem}
+  .toc a{border:1px solid var(--border);background:var(--surface);color:var(--text-muted);border-radius:20px;padding:6px 11px;font-size:12px;font-weight:600;text-decoration:none}
+  .toc a:active{transform:scale(.97)}
+  .dcard{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:var(--radius);padding:15px 16px;margin-top:12px;scroll-margin-top:14px;overflow:hidden}
+  .dhead{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  .dnum{font-size:11px;font-weight:800;color:var(--accent);background:var(--accent-bg);border-radius:7px;padding:2px 8px}
+  .dtitle{font-size:16px;font-weight:700}
+  .dtitle .en{font-size:11px;font-weight:600;color:var(--text-hint)}
+  .ddef{font-size:12.5px;color:var(--text-muted);line-height:1.7;margin-top:8px}
+  .ddef .en{display:block;color:var(--text-hint);margin-top:2px}
+  .vrow{list-style:none;margin-top:11px;display:flex;flex-direction:column;gap:10px}
+  .vrow>li{display:flex;gap:10px;align-items:flex-start}
+  .say{flex-shrink:0;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--accent);
+    font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background .1s,transform .1s}
+  .say:hover{background:var(--accent-bg)} .say:active{transform:scale(.92)} .say.on{background:var(--accent);color:#fff}
+  .vc{flex:1;min-width:0}
+  .vk{font-size:14px;font-weight:700;color:var(--accent);display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+  .vk .r{font-size:11px;font-weight:600;color:var(--text-hint)}
+  .vk .edu{font-size:10.5px;font-weight:700;color:var(--edu);background:var(--edu-bg);border-radius:6px;padding:1px 7px}
+  .vex{font-size:13.5px;color:var(--text);margin-top:3px;line-height:1.6}
+  .vex .q{color:var(--accent);font-weight:700}
+  .vhint{font-size:11.5px;color:var(--text-muted);margin-top:2px;line-height:1.55}
+  .vhint .en{color:var(--text-hint)}
+  .vpat{font-size:11.5px;color:var(--text-muted);margin-top:4px;line-height:1.5}
+  .vpat b{color:var(--accent);font-weight:700}
+  .vpat a{color:var(--accent);font-weight:700;text-decoration:underline}
+  .dlink{display:inline-flex;align-items:center;gap:5px;margin-top:13px;font-size:12.5px;font-weight:700;color:var(--accent);
+    background:var(--accent-bg);border-radius:999px;padding:7px 14px;text-decoration:none;-webkit-tap-highlight-color:transparent}
+  .dlink:active{transform:scale(.98)}
+  .tip{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12px;color:#6b5d40;line-height:1.7;margin-top:12px}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2.4rem;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="hinshi.html" class="back-link"><span class="back-arrow">‹</span>品詞分類にもどる</a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">HINSHI ・ SETSUZOKUSHI</div>
+    <div class="ph-title">接続詞について</div>
+    <div class="ph-sub">せつぞくし ・ Conjunction — 種類を全部見る<br><span class="en">All kinds of conjunctions</span></div>
+  </div>
+
+  <div class="note">接続詞は、<b>前後の語や文をつなぐ</b>独立語で、<b>活用しません</b>。付属語の接続助詞（〜て・〜ので）と違い、<b>単独で文頭に立ちます</b>。日本語教育では「接続詞・接続表現」と呼びます。🔊 で例が聞けます。</div>
+
+  <div class="toc">
+    <a href="#v1">1 はたらきによる分類</a>
+  </div>
+
+  <div class="dcard" id="v1">
+    <div class="dhead"><span class="dnum">観点 1</span><span class="dtitle">はたらきによる分類 <span class="en">By function</span></span></div>
+    <div class="ddef">つなぎ方の意味で分けます。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="雨だ。だから、休む。">🔊</button><div class="vc"><span class="vk">順接</span><div class="vex">だから・それで・すると・したがって</div><div class="vhint">前が原因・理由で、あとに自然な結果が来る。</div></div></li>
+      <li><button class="say" data-say="雨だ。しかし、出かける。">🔊</button><div class="vc"><span class="vk">逆接</span><div class="vex">しかし・でも・けれども・ところが・だが</div><div class="vhint">前から予想されないことが来る。</div></div></li>
+      <li><button class="say" data-say="本を読む。そして、メモをする。">🔊</button><div class="vc"><span class="vk">並立・添加</span><div class="vex">そして・また・および・しかも・それに・さらに</div><div class="vhint">並べる・付け加える。</div></div></li>
+      <li><button class="say" data-say="コーヒー、または紅茶。">🔊</button><div class="vc"><span class="vk">対比・選択</span><div class="vex">または・あるいは・それとも・一方・むしろ</div><div class="vhint">どちらかを選ぶ・比べる。</div></div></li>
+      <li><button class="say" data-say="安い。つまり、お得だ。">🔊</button><div class="vc"><span class="vk">説明・補足</span><div class="vex">つまり・すなわち・なぜなら・ただし・例えば</div><div class="vhint">いいかえ・理由・条件を添える。</div></div></li>
+      <li><button class="say" data-say="さて、本題に入ります。">🔊</button><div class="vc"><span class="vk">転換</span><div class="vex">さて・ところで・では・それでは</div><div class="vhint">話題を切り替える。</div></div></li>
+    </ul>
+    <div class="vpat">関連：接続助詞（〜から・〜ので・〜のに）は文の<b>中</b>で節をつなぐ点が接続詞と違います。<a href="joshi.html">助詞の解説へ</a></div>
+  </div>
+
+  <div class="tip">接続詞は単独で文頭に立ちます（「しかし、〜」）。付属語の接続助詞（「〜て」「〜ので」）とは別の品詞です。</div>
+
+  <div class="app-footer">© 2025 日本語の部屋 ・ 品詞</div>
+
+</div>
+<script>
+(function(){
+  "use strict";
+  var synth=window.speechSynthesis, jaVoice=null, lastBtn=null;
+  function pickJa(){ if(!synth) return null; var vs=synth.getVoices()||[];
+    jaVoice=vs.filter(function(v){return /ja[-_]?JP|Japanese|日本/i.test((v.lang||"")+" "+(v.name||""));})[0]||null; return jaVoice; }
+  if(synth){ pickJa(); synth.onvoiceschanged=pickJa; }
+  function clearOn(){ if(lastBtn){ lastBtn.classList.remove("on"); lastBtn=null; } }
+  function speak(text,btn){ if(!synth||!text) return; try{synth.cancel();}catch(e){} clearOn();
+    var u=new SpeechSynthesisUtterance(text); u.lang="ja-JP"; u.rate=0.95;
+    var v=jaVoice||pickJa(); if(v) u.voice=v;
+    if(btn){ btn.classList.add("on"); lastBtn=btn; } u.onend=clearOn; u.onerror=clearOn; synth.speak(u); }
+  document.addEventListener("click",function(e){
+    var t=e.target.closest("[data-say]"); if(!t) return;
+    var txt=t.getAttribute("data-say")||t.textContent||"";
+    if(t===lastBtn && synth && synth.speaking){ try{synth.cancel();}catch(err){} clearOn(); return; }
+    speak(txt.trim(), t);
+  });
+})();
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent="body.hide-en .en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;font-weight:700;"
+   +"letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;background:rgba(255,255,255,.92);"
+   +"color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#6E5B10;margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>'; }
+  b.addEventListener('click',function(){ var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY,h?'1':'0'); }catch(e){} paint(); });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

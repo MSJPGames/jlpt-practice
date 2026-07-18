@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>名詞について ・ Nouns — 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --accent:#1F6F6B; --accent-bg:#DFF0EE;
+    --edu:#185FA5; --edu-bg:#E6F1FB;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.75;-webkit-text-size-adjust:100%}
+  .container{max-width:560px;margin:0 auto}
+  .topbar{display:flex;align-items:center;padding:14px 0 2px}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--text-muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);-webkit-tap-highlight-color:transparent;transition:transform .12s}
+  .back-link:active{transform:scale(.97)}
+  .back-arrow{font-size:16px;line-height:1}
+  .page-header{text-align:center;padding:1.3rem 0 .3rem}
+  .ph-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--accent);margin-bottom:8px}
+  .ph-title{font-size:26px;font-weight:700;letter-spacing:.02em}
+  .ph-sub{font-size:13px;color:var(--text-muted);margin-top:6px;line-height:1.6}
+  .note{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 15px;
+    font-size:12.5px;color:var(--text-muted);line-height:1.75;margin-top:1.1rem}
+  .note b{color:var(--text);font-weight:700}
+  .note .en{display:block;color:var(--text-hint);margin-top:4px}
+  .edu-key{display:inline-block;font-size:11px;font-weight:700;color:var(--edu);background:var(--edu-bg);border-radius:6px;padding:1px 7px}
+  .toc{display:flex;flex-wrap:wrap;gap:7px;margin:1rem 0 .2rem}
+  .toc a{border:1px solid var(--border);background:var(--surface);color:var(--text-muted);border-radius:20px;padding:6px 11px;font-size:12px;font-weight:600;text-decoration:none}
+  .toc a:active{transform:scale(.97)}
+  .dcard{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:var(--radius);padding:15px 16px;margin-top:12px;scroll-margin-top:14px;overflow:hidden}
+  .dhead{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  .dnum{font-size:11px;font-weight:800;color:var(--accent);background:var(--accent-bg);border-radius:7px;padding:2px 8px}
+  .dtitle{font-size:16px;font-weight:700}
+  .dtitle .en{font-size:11px;font-weight:600;color:var(--text-hint)}
+  .ddef{font-size:12.5px;color:var(--text-muted);line-height:1.7;margin-top:8px}
+  .ddef .en{display:block;color:var(--text-hint);margin-top:2px}
+  .vrow{list-style:none;margin-top:11px;display:flex;flex-direction:column;gap:10px}
+  .vrow>li{display:flex;gap:10px;align-items:flex-start}
+  .say{flex-shrink:0;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--accent);
+    font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background .1s,transform .1s}
+  .say:hover{background:var(--accent-bg)} .say:active{transform:scale(.92)} .say.on{background:var(--accent);color:#fff}
+  .vc{flex:1;min-width:0}
+  .vk{font-size:14px;font-weight:700;color:var(--accent);display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+  .vk .r{font-size:11px;font-weight:600;color:var(--text-hint)}
+  .vk .edu{font-size:10.5px;font-weight:700;color:var(--edu);background:var(--edu-bg);border-radius:6px;padding:1px 7px}
+  .vex{font-size:13.5px;color:var(--text);margin-top:3px;line-height:1.6}
+  .vex .q{color:var(--accent);font-weight:700}
+  .vhint{font-size:11.5px;color:var(--text-muted);margin-top:2px;line-height:1.55}
+  .vhint .en{color:var(--text-hint)}
+  .vpat{font-size:11.5px;color:var(--text-muted);margin-top:4px;line-height:1.5}
+  .vpat b{color:var(--accent);font-weight:700}
+  .vpat a{color:var(--accent);font-weight:700;text-decoration:underline}
+  .dlink{display:inline-flex;align-items:center;gap:5px;margin-top:13px;font-size:12.5px;font-weight:700;color:var(--accent);
+    background:var(--accent-bg);border-radius:999px;padding:7px 14px;text-decoration:none;-webkit-tap-highlight-color:transparent}
+  .dlink:active{transform:scale(.98)}
+  .tip{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12px;color:#6b5d40;line-height:1.7;margin-top:12px}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2.4rem;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="hinshi.html" class="back-link"><span class="back-arrow">‹</span>品詞分類にもどる</a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">HINSHI ・ MEISHI</div>
+    <div class="ph-title">名詞について</div>
+    <div class="ph-sub">めいし ・ Noun — 種類を全部見る<br><span class="en">All kinds of nouns</span></div>
+  </div>
+
+  <div class="note">名詞は、人・物・事柄などの名前を表し、<b>活用せず</b>主語になれる（＝<b>体言</b>）語です。日本語教育でも「名詞」と呼びます。🔊 で例が聞けます。</div>
+
+  <div class="toc">
+    <a href="#v1">1 普通・固有</a>
+    <a href="#v2">2 代名詞</a>
+    <a href="#v3">3 数詞</a>
+    <a href="#v4">4 形式名詞</a>
+    <a href="#v5">5 転成名詞</a>
+    <a href="#v6">6 複合名詞</a>
+  </div>
+
+  <div class="dcard" id="v1">
+    <div class="dhead"><span class="dnum">観点 1</span><span class="dtitle">普通名詞・固有名詞 <span class="en">Common / Proper</span></span></div>
+    <div class="ddef">一般的な名前か、特定のものの名前か。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="本。机。水。">🔊</button><div class="vc"><span class="vk">普通名詞</span><div class="vex">本・机・水・愛</div><div class="vhint">一般的なものの名前。</div></div></li>
+      <li><button class="say" data-say="富士山。日本。">🔊</button><div class="vc"><span class="vk">固有名詞</span><div class="vex">佐藤・富士山・日本・源氏物語</div><div class="vhint">特定の人・地名・作品など。</div></div></li>
+    </ul>
+  </div>
+
+  <div class="dcard" id="v2">
+    <div class="dhead"><span class="dnum">観点 2</span><span class="dtitle">代名詞 <span class="en">Pronouns</span></span></div>
+    <div class="ddef">人や物を、名前のかわりに指し示す名詞です。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="わたし。あなた。かれ。だれ。">🔊</button><div class="vc"><span class="vk">人称代名詞</span><div class="vex">自称：わたし・ぼく／対称：あなた・きみ／他称：かれ・かのじょ／不定称：だれ</div><div class="vhint">人を指す。</div></div></li>
+      <li><button class="say" data-say="これ。そこ。こちら。">🔊</button><div class="vc"><span class="vk">指示代名詞<span class="edu">日本語教育：指示詞（こそあど）</span></span><div class="vex">事物：これ・それ／場所：ここ・そこ／方向：こちら・そちら</div><div class="vhint">物・場所・方向を指す。</div></div></li>
+    </ul>
+  </div>
+
+  <div class="dcard" id="v3">
+    <div class="dhead"><span class="dnum">観点 3</span><span class="dtitle">数詞 <span class="en">Numerals</span></span></div>
+    <div class="ddef">数や順序、数量を表す名詞です。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="一。二。三。">🔊</button><div class="vc"><span class="vk">基数詞</span><div class="vex">一・二・三・百・千</div><div class="vhint">数そのもの。</div></div></li>
+      <li><button class="say" data-say="第一。一番目。">🔊</button><div class="vc"><span class="vk">序数詞</span><div class="vex">第一・一番目・二人目</div><div class="vhint">順序を表す。</div></div></li>
+      <li><button class="say" data-say="三冊。五人。二時。">🔊</button><div class="vc"><span class="vk">助数詞つき</span><div class="vex">三冊・五人・二時・三万円</div><div class="vhint">数え方（助数詞）と組になる。</div></div></li>
+    </ul>
+  </div>
+
+  <div class="dcard" id="v4">
+    <div class="dhead"><span class="dnum">観点 4</span><span class="dtitle">形式名詞 <span class="en">Formal nouns</span></span></div>
+    <div class="ddef">実質的な意味が薄く、前の連体修飾を受けて使う名詞です。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="会うことが大切だ。行ったことがある。">🔊</button><div class="vc"><span class="vk">主なもの</span><div class="vex">こと・もの・ため・とき・はず・わけ・つもり・ところ・うち・まま</div><div class="vhint">単独では使いにくく、連体修飾語と一緒に使う。</div></div></li>
+    </ul>
+    <div class="vpat">関連する文型：「<b>〜ことができる</b>」「<b>〜ものだ</b>」「<b>〜ために</b>」「<b>〜はずだ</b>」「<b>〜わけだ</b>」「<b>〜つもりだ</b>」「<b>〜ところだ</b>」。</div>
+    <a class="dlink" href="bunkei.html">形式名詞を使う文型へ ›</a>
+  </div>
+
+  <div class="dcard" id="v5">
+    <div class="dhead"><span class="dnum">観点 5</span><span class="dtitle">転成名詞 <span class="en">Deverbal / deadjectival</span></span></div>
+    <div class="ddef">動詞・形容詞から作られた名詞です。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="動き。遠く。寒さ。喜び。">🔊</button><div class="vc"><span class="vk">例</span><div class="vex">動き（←動く）・遠く（←遠い）・寒さ（←寒い）・喜び（←喜ぶ）</div><div class="vhint">連用形・「〜さ」などで名詞化。</div></div></li>
+    </ul>
+  </div>
+
+  <div class="dcard" id="v6">
+    <div class="dhead"><span class="dnum">観点 6</span><span class="dtitle">複合名詞 <span class="en">Compound nouns</span></span></div>
+    <div class="ddef">複数の語が結びついてできた名詞です。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="山道。話し合い。消しゴム。">🔊</button><div class="vc"><span class="vk">例</span><div class="vex">山道・話し合い・消しゴム・日本語</div><div class="vhint">名＋名、動＋名など。</div></div></li>
+    </ul>
+  </div>
+
+  <div class="tip">代名詞・数詞を名詞の下位とするのが学校文法ですが、独立の品詞とする立場もあります。名詞は「〜だ／です」「〜の＋名詞」「〜になる」などで使います。</div>
+
+  <div class="app-footer">© 2025 日本語の部屋 ・ 品詞</div>
+
+</div>
+<script>
+(function(){
+  "use strict";
+  var synth=window.speechSynthesis, jaVoice=null, lastBtn=null;
+  function pickJa(){ if(!synth) return null; var vs=synth.getVoices()||[];
+    jaVoice=vs.filter(function(v){return /ja[-_]?JP|Japanese|日本/i.test((v.lang||"")+" "+(v.name||""));})[0]||null; return jaVoice; }
+  if(synth){ pickJa(); synth.onvoiceschanged=pickJa; }
+  function clearOn(){ if(lastBtn){ lastBtn.classList.remove("on"); lastBtn=null; } }
+  function speak(text,btn){ if(!synth||!text) return; try{synth.cancel();}catch(e){} clearOn();
+    var u=new SpeechSynthesisUtterance(text); u.lang="ja-JP"; u.rate=0.95;
+    var v=jaVoice||pickJa(); if(v) u.voice=v;
+    if(btn){ btn.classList.add("on"); lastBtn=btn; } u.onend=clearOn; u.onerror=clearOn; synth.speak(u); }
+  document.addEventListener("click",function(e){
+    var t=e.target.closest("[data-say]"); if(!t) return;
+    var txt=t.getAttribute("data-say")||t.textContent||"";
+    if(t===lastBtn && synth && synth.speaking){ try{synth.cancel();}catch(err){} clearOn(); return; }
+    speak(txt.trim(), t);
+  });
+})();
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent="body.hide-en .en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;font-weight:700;"
+   +"letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;background:rgba(255,255,255,.92);"
+   +"color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#1F6F6B;margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>'; }
+  b.addEventListener('click',function(){ var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY,h?'1':'0'); }catch(e){} paint(); });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

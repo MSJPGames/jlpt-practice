@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>動詞について ・ Verbs — 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --accent:#3B6D11; --accent-bg:#EAF3DE;
+    --edu:#185FA5; --edu-bg:#E6F1FB;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.75;-webkit-text-size-adjust:100%}
+  .container{max-width:560px;margin:0 auto}
+  .topbar{display:flex;align-items:center;padding:14px 0 2px}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--text-muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);-webkit-tap-highlight-color:transparent;transition:transform .12s}
+  .back-link:active{transform:scale(.97)}
+  .back-arrow{font-size:16px;line-height:1}
+  .page-header{text-align:center;padding:1.3rem 0 .3rem}
+  .ph-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--accent);margin-bottom:8px}
+  .ph-title{font-size:26px;font-weight:700;letter-spacing:.02em}
+  .ph-sub{font-size:13px;color:var(--text-muted);margin-top:6px;line-height:1.6}
+  .note{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 15px;
+    font-size:12.5px;color:var(--text-muted);line-height:1.75;margin-top:1.1rem}
+  .note b{color:var(--text);font-weight:700}
+  .note .en{display:block;color:var(--text-hint);margin-top:4px}
+  .edu-key{display:inline-block;font-size:10.5px;font-weight:700;color:var(--edu);background:var(--edu-bg);border-radius:6px;padding:1px 7px}
+  .toc{display:flex;flex-wrap:wrap;gap:7px;margin:1rem 0 .2rem}
+  .toc a{border:1px solid var(--border);background:var(--surface);color:var(--text-muted);border-radius:20px;padding:6px 11px;font-size:12px;font-weight:600;text-decoration:none}
+  .toc a:active{transform:scale(.97)}
+  .dcard{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:var(--radius);padding:15px 16px;margin-top:12px;scroll-margin-top:14px;overflow:hidden}
+  .dhead{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  .dnum{font-size:11px;font-weight:800;color:var(--accent);background:var(--accent-bg);border-radius:7px;padding:2px 8px}
+  .dtitle{font-size:16px;font-weight:700}
+  .dtitle .en{font-size:11px;font-weight:600;color:var(--text-hint)}
+  .ddef{font-size:12.5px;color:var(--text-muted);line-height:1.7;margin-top:8px}
+  .ddef .en{display:block;color:var(--text-hint);margin-top:2px}
+  .vrow{list-style:none;margin-top:11px;display:flex;flex-direction:column;gap:10px}
+  .vrow>li{display:flex;gap:10px;align-items:flex-start}
+  .say{flex-shrink:0;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--accent);
+    font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background .1s,transform .1s}
+  .say:hover{background:var(--accent-bg)} .say:active{transform:scale(.92)} .say.on{background:var(--accent);color:#fff}
+  .vc{flex:1;min-width:0}
+  .vk{font-size:14px;font-weight:700;color:var(--accent);display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+  .vk .r{font-size:11px;font-weight:600;color:var(--text-hint)}
+  .vk .edu{font-size:10.5px;font-weight:700;color:var(--edu);background:var(--edu-bg);border-radius:6px;padding:1px 7px}
+  .vex{font-size:13.5px;color:var(--text);margin-top:3px;line-height:1.6}
+  .vex .q{color:var(--accent);font-weight:700}
+  .vhint{font-size:11.5px;color:var(--text-muted);margin-top:2px;line-height:1.55}
+  .vhint .en{color:var(--text-hint)}
+  .vpat{font-size:11.5px;color:var(--text-muted);margin-top:4px;line-height:1.5}
+  .vpat b{color:var(--accent);font-weight:700}
+  .vpat a{color:var(--accent);font-weight:700;text-decoration:underline}
+  .dlink{display:inline-flex;align-items:center;gap:5px;margin-top:13px;font-size:12.5px;font-weight:700;color:var(--accent);
+    background:var(--accent-bg);border-radius:999px;padding:7px 14px;text-decoration:none;-webkit-tap-highlight-color:transparent}
+  .dlink:active{transform:scale(.98)}
+  .tip{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12px;color:#6b5d40;line-height:1.7;margin-top:12px}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2.4rem;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="hinshi.html" class="back-link"><span class="back-arrow">‹</span>品詞分類にもどる</a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">HINSHI ・ DOUSHI</div>
+    <div class="ph-title">動詞について</div>
+    <div class="ph-sub">どうし ・ Verbs — 種類を観点ごとに全部見る<br><span class="en">All ways verbs are classified</span></div>
+  </div>
+
+  <div class="note">
+    動詞は、動作・変化・存在を表す<b>自立語</b>で、言い切りが<b>ウ段</b>の音で終わり、<b>活用</b>します（走る・食べる・来る・する）。動詞の「種類」は<b>ひとつの観点だけでは決まりません</b>。活用のしかた・自他・意志の有無・アスペクト・ヴォイスなど、複数の観点でそれぞれ分類されます。青いふきだし <span class="edu-key">日本語教育</span> は、学校で習う名前と、日本語教育（外国人向け）でよく使う名前の対応です。🔊 で例が聞けます。
+    <span class="en">Verbs are classified from several independent angles. Blue tags show the term used in Japanese-language teaching. Tap 🔊 to listen; “EN” (top-right) hides English.</span>
+  </div>
+
+  <div class="toc">
+    <a href="#v1">1 活用の種類</a>
+    <a href="#v2">2 自動詞・他動詞</a>
+    <a href="#v3">3 意志・無意志</a>
+    <a href="#v4">4 アスペクト</a>
+    <a href="#v5">5 本動詞・補助動詞</a>
+    <a href="#v6">6 語構成</a>
+    <a href="#v7">7 意味の下位類</a>
+    <a href="#v8">8 ヴォイス（態）の下位類</a>
+  </div>
+
+  <!-- 1 -->
+  <div class="dcard" id="v1">
+    <div class="dhead"><span class="dnum">観点 1</span><span class="dtitle">活用の種類 <span class="en">Conjugation type</span></span></div>
+    <div class="ddef">語尾の変わり方で、口語の動詞は<b>5種類</b>に分かれます。「ない」を付けて、直前の音で見分けます（ア段＝五段／イ段＝上一段／エ段＝下一段）。日本語教育では、五段＝<b>1グループ</b>、上一段・下一段＝<b>2グループ</b>、カ変・サ変＝<b>3グループ</b>と呼びます。<span class="en">Five groups by ending change. In teaching: Group 1 / 2 / 3.</span></div>
+    <ul class="vrow">
+      <li><button class="say" data-say="書く。話す。読む。待つ。">🔊</button><div class="vc"><div class="vk">五段活用<span class="r">ごだん</span><span class="edu">日本語教育：1グループ（1G・u-verb）</span></div><div class="vex">書く・話す・読む・待つ・買う</div><div class="vhint">「ない」で直前が<b>ア段</b>：書か-ない。</div></div></li>
+      <li><button class="say" data-say="見る。起きる。着る。">🔊</button><div class="vc"><div class="vk">上一段活用<span class="r">かみいちだん</span><span class="edu">日本語教育：2グループ（2G・ru-verb）</span></div><div class="vex">見る・起きる・着る・できる</div><div class="vhint">イ段＋る。「ない」で<b>イ段</b>：見-ない。</div></div></li>
+      <li><button class="say" data-say="食べる。寝る。開ける。">🔊</button><div class="vc"><div class="vk">下一段活用<span class="r">しもいちだん</span><span class="edu">日本語教育：2グループ（2G・ru-verb）</span></div><div class="vex">食べる・寝る・開ける・教える</div><div class="vhint">エ段＋る。「ない」で<b>エ段</b>：食べ-ない。</div></div></li>
+      <li><button class="say" data-say="来る。">🔊</button><div class="vc"><div class="vk">カ行変格活用<span class="r">カ変</span><span class="edu">日本語教育：3グループ（3G・irregular）</span></div><div class="vex">来る（くる）だけ</div><div class="vhint">来（こ）ない・来（き）ます・来（く）る、と語幹の音も変わる特殊型。</div></div></li>
+      <li><button class="say" data-say="する。勉強する。">🔊</button><div class="vc"><div class="vk">サ行変格活用<span class="r">サ変</span><span class="edu">日本語教育：3グループ（3G・irregular）</span></div><div class="vex">する・勉強する・電話する（漢語＋する）</div><div class="vhint">し-ない・し-ます・す-る。「漢語＋する」もこの型。</div></div></li>
+    </ul>
+    <div class="vpat">関連する文型・使い方：ます形・て形・ない形・可能形・意向形などは、この活用の型によって作り方が決まります。</div>
+    <a class="dlink" href="katsuyo.html">活用表で形を確認する ›</a>
+  </div>
+
+  <!-- 2 -->
+  <div class="dcard" id="v2">
+    <div class="dhead"><span class="dnum">観点 2</span><span class="dtitle">自動詞・他動詞 <span class="en">Intransitive / Transitive</span></span></div>
+    <div class="ddef">動作が及ぶ相手（目的語「〜を」）を取るかどうかで分かれます。日本語教育でも同じ「自動詞・他動詞」を使います。<span class="en">Whether the verb takes a を-object.</span></div>
+    <ul class="vrow">
+      <li><button class="say" data-say="ドアが開く。電気がつく。">🔊</button><div class="vc"><div class="vk">自動詞<span class="r">じどうし</span></div><div class="vex"><span class="q">ドアが</span>開く／<span class="q">電気が</span>つく</div><div class="vhint">「〜が」に係り、目的語をとらない。</div></div></li>
+      <li><button class="say" data-say="ドアを開ける。電気をつける。">🔊</button><div class="vc"><div class="vk">他動詞<span class="r">たどうし</span></div><div class="vex"><span class="q">ドアを</span>開ける／<span class="q">電気を</span>つける</div><div class="vhint">「〜を」をとる。</div></div></li>
+      <li><button class="say" data-say="開く 開ける。集まる 集める。出る 出す。">🔊</button><div class="vc"><div class="vk">対のある動詞</div><div class="vex">開く／開ける・集まる／集める・出る／出す・決まる／決める</div><div class="vhint">対を持たない<b>無対自動詞</b>（ある・行く）、<b>無対他動詞</b>（食べる・読む）もある。</div></div></li>
+    </ul>
+    <div class="vpat">関連する文型：結果の状態は「<b>〜ている</b>（自動詞：ドアが開いている）」「<b>〜てある</b>（他動詞：ドアが開けてある）」で言い分けます。</div>
+  </div>
+
+  <!-- 3 -->
+  <div class="dcard" id="v3">
+    <div class="dhead"><span class="dnum">観点 3</span><span class="dtitle">意志動詞・無意志動詞 <span class="en">Volitional / Non-volitional</span></span></div>
+    <div class="ddef">人の意志でコントロールできる動作かどうか。命令形・意向形（〜よう）が作れるかが目安です。<span class="en">Whether the action is under the doer’s control.</span></div>
+    <ul class="vrow">
+      <li><button class="say" data-say="食べる。行く。書く。">🔊</button><div class="vc"><div class="vk">意志動詞</div><div class="vex">食べる・行く・書く・話す</div><div class="vhint">命令・意向が作れる：食べよう・書け。</div></div></li>
+      <li><button class="say" data-say="雨が降る。お金がある。山が見える。">🔊</button><div class="vc"><div class="vk">無意志動詞</div><div class="vex">降る・ある・見える・要る・疲れる</div><div class="vhint">意志で制御できない。命令・意向がふつう作れない。</div></div></li>
+    </ul>
+    <div class="vpat">関連する文型：意志動詞は「<b>〜（よ）うと思う</b>／<b>〜つもりだ</b>／<b>〜てください</b>」などと結びつきます。</div>
+  </div>
+
+  <!-- 4 -->
+  <div class="dcard" id="v4">
+    <div class="dhead"><span class="dnum">観点 4</span><span class="dtitle">アスペクトによる分類 <span class="en">Aspect (Kindaichi)</span></span></div>
+    <div class="ddef">「〜ている」にしたときの意味で4つに分ける、金田一春彦の分類です。<span class="en">A four-way split by what 〜ている means.</span></div>
+    <ul class="vrow">
+      <li><button class="say" data-say="ある。いる。できる。">🔊</button><div class="vc"><div class="vk">状態動詞</div><div class="vex">ある・いる・できる・要る</div><div class="vhint">もともと状態を表し、ふつう「〜ている」にしない。</div></div></li>
+      <li><button class="say" data-say="本を読んでいる。雨が降っている。">🔊</button><div class="vc"><div class="vk">継続動詞</div><div class="vex">読む・書く・降る・歩く</div><div class="vhint">「〜ている」で<b>進行中</b>：読んでいる＝いま読んでいる。</div></div></li>
+      <li><button class="say" data-say="駅に着いている。もう結婚している。">🔊</button><div class="vc"><div class="vk">瞬間動詞</div><div class="vex">着く・死ぬ・結婚する・始まる</div><div class="vhint">「〜ている」で<b>結果の状態</b>：着いている＝着いた後の状態。</div></div></li>
+      <li><button class="say" data-say="山がそびえている。彼は優れている。">🔊</button><div class="vc"><div class="vk">第四種の動詞</div><div class="vex">そびえる・すぐれる・ばかげる</div><div class="vhint">つねに「〜ている」の形で使う（そびえている）。</div></div></li>
+    </ul>
+    <div class="vpat">関連する文型：「<b>〜ている</b>」「<b>〜てある</b>」「<b>〜ておく</b>」「<b>〜てしまう</b>」などのアスペクト表現の理解に直結します。</div>
+  </div>
+
+  <!-- 5 -->
+  <div class="dcard" id="v5">
+    <div class="dhead"><span class="dnum">観点 5</span><span class="dtitle">本動詞・補助動詞 <span class="en">Main / Auxiliary</span></span></div>
+    <div class="ddef">同じ動詞でも、本来の意味で使うか、前の動詞（て形）について文法的な意味を添えるかで働きが変わります。<span class="en">A verb can be a full verb or a grammatical helper.</span></div>
+    <ul class="vrow">
+      <li><button class="say" data-say="ご飯を食べる。公園にいる。">🔊</button><div class="vc"><div class="vk">本動詞</div><div class="vex">食べる・いる・みる・おく（本来の意味）</div><div class="vhint">それ自体の意味で使う。</div></div></li>
+      <li><button class="say" data-say="食べている。書いてある。予約しておく。忘れてしまう。">🔊</button><div class="vc"><div class="vk">補助動詞</div><div class="vex">〜ている・〜てある・〜ておく・〜てしまう・〜てみる・〜ていく／くる・〜てあげる／くれる／もらう</div><div class="vhint">進行・結果・準備・完了・試行・方向・授受などの意味を添える。ふつうかなで書く。</div></div></li>
+    </ul>
+    <div class="vpat">関連する文型：補助動詞はそのまま「<b>〜てみる・〜てしまう・〜ておく・〜ていく／くる</b>」などの文型になります。<a href="bunkei.html">文型解説へ</a></div>
+  </div>
+
+  <!-- 6 -->
+  <div class="dcard" id="v6">
+    <div class="dhead"><span class="dnum">観点 6</span><span class="dtitle">語構成による分類 <span class="en">Word formation</span></span></div>
+    <div class="ddef">語のできかたで分けます。<span class="en">By how the word is built.</span></div>
+    <ul class="vrow">
+      <li><button class="say" data-say="取る。見る。書く。">🔊</button><div class="vc"><div class="vk">単純動詞</div><div class="vex">取る・見る・書く</div><div class="vhint">一つの語根からなる。</div></div></li>
+      <li><button class="say" data-say="取り出す。話し合う。降り始める。">🔊</button><div class="vc"><div class="vk">複合動詞</div><div class="vex">取り出す・話し合う・降り始める・見上げる</div><div class="vhint">動詞＋動詞など、語を組み合わせたもの。</div></div></li>
+      <li><button class="say" data-say="汗ばむ。春めく。強がる。高まる。">🔊</button><div class="vc"><div class="vk">派生動詞</div><div class="vex">汗ばむ・春めく・強がる・高まる</div><div class="vhint">名詞・形容詞などに接尾語がついて動詞化したもの。</div></div></li>
+    </ul>
+    <div class="vpat">関連する文型：複合動詞の後ろの部分は「<b>〜始める・〜続ける・〜終わる・〜出す・〜合う・〜すぎる</b>」などの文型として学びます。</div>
+  </div>
+
+  <!-- 7 -->
+  <div class="dcard" id="v7">
+    <div class="dhead"><span class="dnum">観点 7</span><span class="dtitle">意味による下位類 <span class="en">Semantic subclasses</span></span></div>
+    <div class="ddef">意味・使い方で、よく取り上げられる下位のグループです。<span class="en">Common meaning-based groups.</span></div>
+    <ul class="vrow">
+      <li><button class="say" data-say="本をあげる。お土産をもらう。教えてくれる。">🔊</button><div class="vc"><div class="vk">授受動詞</div><div class="vex">あげる・くれる・もらう</div><div class="vhint">物・行為のやりもらい。視点と上下関係で使い分ける。</div><div class="vpat">関連する文型：「<b>〜てあげる／くれる／もらう</b>」。</div></div></li>
+      <li><button class="say" data-say="学校へ行く。日本に来る。家に帰る。">🔊</button><div class="vc"><div class="vk">移動動詞</div><div class="vex">行く・来る・帰る・出かける・通う</div><div class="vhint">場所の移動。「〜へ／に」をとる。</div><div class="vpat">関連する文型：「<b>〜ていく／くる</b>」「<b>〜に行く（目的）</b>」。</div></div></li>
+      <li><button class="say" data-say="星が見える。音が聞こえる。そう思う。">🔊</button><div class="vc"><div class="vk">知覚・思考動詞</div><div class="vex">見える・聞こえる・思う・考える・分かる</div><div class="vhint">感覚や心の働き。多くが無意志的。</div><div class="vpat">関連する文型：「<b>〜と思う</b>」「<b>〜ように見える／聞こえる</b>」。</div></div></li>
+      <li><button class="say" data-say="友だちと結婚する。会う約束をする。">🔊</button><div class="vc"><div class="vk">相互動詞</div><div class="vex">結婚する・約束する・けんかする・相談する</div><div class="vhint">相手が必要で「<b>〜と</b>」をとる。</div></div></li>
+      <li><button class="say" data-say="毎日勉強する。母に電話する。">🔊</button><div class="vc"><div class="vk">サ変動詞（漢語動詞）</div><div class="vex">勉強する・電話する・成功する・利用する</div><div class="vhint">「漢語・外来語＋する」。名詞部分を「を」で分けられるものも（勉強をする）。</div></div></li>
+    </ul>
+  </div>
+
+  <!-- 8 ヴォイス -->
+  <div class="dcard" id="v8">
+    <div class="dhead"><span class="dnum">観点 8</span><span class="dtitle">ヴォイス（態）に関わる下位類 <span class="en">Voice-related</span></span></div>
+    <div class="ddef">「する側／される側」の関係（＝ヴォイス）にかかわる動詞のグループです。文型と結びつきが強い部分です。<span class="en">Groups tied to voice—who does and who receives the action.</span></div>
+    <ul class="vrow">
+      <li><button class="say" data-say="漢字が書ける。刺身が食べられる。">🔊</button><div class="vc"><div class="vk">可能動詞<span class="r">かのう</span></div><div class="vex">書ける・読める・話せる・泳げる</div><div class="vhint">五段動詞から一段化した「〜できる」の形（書く→書ける）。</div><div class="vpat">関連する文型：「<b>〜（ら）れる（可能）</b>」「<b>〜ことができる</b>」。</div></div></li>
+      <li><button class="say" data-say="故郷が思い出される。先が案じられる。">🔊</button><div class="vc"><div class="vk">自発動詞・自発の言い方<span class="r">じはつ</span></div><div class="vex">思い出される・案じられる／泣ける・思える</div><div class="vhint">意志と関係なく、自然にそうなる。<span class="en">Happens spontaneously.</span></div><div class="vpat">関連する文型：「<b>〜（ら）れる（自発）</b>」。</div></div></li>
+      <li><button class="say" data-say="服を着る。帽子をかぶる。シャワーを浴びる。">🔊</button><div class="vc"><div class="vk">再帰動詞<span class="r">さいき</span></div><div class="vex">着る・かぶる・はく・浴びる・脱ぐ</div><div class="vhint">動作が<b>自分自身（の身体・身につける物）</b>に向かう。</div></div></li>
+      <li><button class="say" data-say="写真を見せる。子どもに服を着せる。赤ちゃんを寝かす。">🔊</button><div class="vc"><div class="vk">使役性動詞（語彙的使役）<span class="r">しえきせい</span></div><div class="vex">見せる（←見る）・着せる（←着る）・寝かす（←寝る）・乗せる（←乗る）・起こす（←起きる）</div><div class="vhint">「（さ）せる」を使わなくても、語そのものが<b>「〜させる」の意味</b>を持つ動詞。</div><div class="vpat">関連する文型：「<b>〜（さ）せる（使役）</b>」との違いに注意（見せる ⇔ 見させる）。</div></div></li>
+    </ul>
+  </div>
+
+  <div class="tip">
+    分類は観点ごとに重なります。たとえば「開ける」は〈下一段（2グループ）・他動詞・意志・継続〉のように、いくつもの種類に同時に当てはまります。学校文法（口語）を土台に、日本語教育でよく使う名前と、関係する文型も添えています。
+  </div>
+
+  <div class="app-footer">© 2025 日本語の部屋 ・ 品詞</div>
+
+</div>
+
+<script>
+/* === 端末TTS（[data-say] を単一リスナーで読み上げ） === */
+(function(){
+  "use strict";
+  var synth=window.speechSynthesis, jaVoice=null, lastBtn=null;
+  function pickJa(){ if(!synth) return null; var vs=synth.getVoices()||[];
+    jaVoice=vs.filter(function(v){return /ja[-_]?JP|Japanese|日本/i.test((v.lang||"")+" "+(v.name||""));})[0]||null; return jaVoice; }
+  if(synth){ pickJa(); synth.onvoiceschanged=pickJa; }
+  function clearOn(){ if(lastBtn){ lastBtn.classList.remove("on"); lastBtn=null; } }
+  function speak(text,btn){ if(!synth||!text) return; try{synth.cancel();}catch(e){} clearOn();
+    var u=new SpeechSynthesisUtterance(text); u.lang="ja-JP"; u.rate=0.95;
+    var v=jaVoice||pickJa(); if(v) u.voice=v;
+    if(btn){ btn.classList.add("on"); lastBtn=btn; } u.onend=clearOn; u.onerror=clearOn; synth.speak(u); }
+  document.addEventListener("click",function(e){
+    var t=e.target.closest("[data-say]"); if(!t) return;
+    var txt=t.getAttribute("data-say")||t.textContent||"";
+    if(t===lastBtn && synth && synth.speaking){ try{synth.cancel();}catch(err){} clearOn(); return; }
+    speak(txt.trim(), t);
+  });
+})();
+/* === EN表示トグル === */
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent="body.hide-en .en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;font-weight:700;"
+   +"letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;background:rgba(255,255,255,.92);"
+   +"color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3B6D11;margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>'; }
+  b.addEventListener('click',function(){ var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY,h?'1':'0'); }catch(e){} paint(); });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

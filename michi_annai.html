@@ -352,7 +352,7 @@ function absDir(a,b){ var dr=b[0]-a[0], dc=b[1]-a[1];
 var MAP_STEP=58, MAP_M=36, MAP_S=MAP_M*2+(N-1)*MAP_STEP;  // 基準の大きさ（歪みなしのときの目安）
 var VIEW=MAP_STEP*6;   // 標準の見える範囲（二つ目の信号くらいまで見える俯瞰）
 var VIEW_MIN=MAP_STEP*3, viewSize=VIEW;
-var ROAD_W=Math.max(9, MAP_STEP*0.26);
+var ROAD_W=Math.max(11, MAP_STEP*0.30);   // 道幅（タクシーが余裕をもって走れる広さ）
 /* ===== 実際の街のような格子：道はまっすぐ・区画の大きさはバラバラ・大通りと細い道 ===== */
 var GRID=null;
 function rangeArr(n){ var a=[]; for(var i=0;i<n;i++) a.push(i); return a; }
@@ -399,7 +399,8 @@ function camViewBox(){ var v=G.carViz||{r:(N-1)/2,c:(N-1)/2}; var p=PXY(v.r,v.c)
 var BLD_COLORS=['#C9BBA6','#BFC7B4','#D2C6B1','#C3C9D2','#CDBBB0','#B7C1C3','#D4C9B2','#C7BCA8'];
 
 /* --- タクシー本体（上向き＝北）。#carG を transform で動かす --- */
-function carTransform(){ var v=G.carViz||{r:0,c:0,ang:0}; var p=PXY(v.r,v.c); return 'translate('+p.x.toFixed(2)+','+p.y.toFixed(2)+') rotate('+(v.ang||0).toFixed(1)+')'; }
+var CAR_SCALE=0.68;   // タクシーを道幅に合わせて少し小さく
+function carTransform(){ var v=G.carViz||{r:0,c:0,ang:0}; var p=PXY(v.r,v.c); return 'translate('+p.x.toFixed(2)+','+p.y.toFixed(2)+') rotate('+(v.ang||0).toFixed(1)+') scale('+CAR_SCALE+')'; }
 /* 上向き＝北＝前。前（上）にヘッドライト＋ボンネット、後ろ（下）に赤いテールライト。前後がひと目で分かる */
 function carSVG(){
   return '<g id="carG" transform="'+carTransform()+'">'
@@ -425,6 +426,7 @@ function shortAng(a,b){ return ((b-a)%360+540)%360-180; }
    ・発進はスッと加速、最後の目的マスだけ緩やかに停止 */
 var carRAF=null, carLastTs=null, carElapsed=0, carPath=[], carFinish=null, driving=false;
 var CAR_SPEED=2.8, CAR_TURN=560;   // マス/秒, 度/秒
+var CORNER_R=0.34;                 // 曲がり角を丸く回りはじめる手前の距離（マス）
 function cancelAnim(){ if(carRAF){ try{cancelAnimationFrame(carRAF);}catch(e){} carRAF=null; } carLastTs=null; carPath=[]; carFinish=null; driving=false; }
 /* acts（straight/left/right の列）→ 通過するマス {r,c,dir} の列。盤外に出たら invalid=true で打ち切り */
 function actsToPath(r,c,dir, acts){
@@ -468,7 +470,12 @@ function carFrame(ts){
   var dt=Math.min(0.05,(ts-carLastTs)/1000); carLastTs=ts; carElapsed+=dt;
   var v=G.carViz||(G.carViz={r:G.car.r,c:G.car.c,ang:ANGLE[G.car.dir]});
   if(!carPath.length){ carRAF=null; carLastTs=null; driving=false; onCarRest(); return; }
-  var tgt=carPath[0], isFinal=(carPath.length===1);
+  var tgt=carPath[0];
+  // 道なりに曲がる：曲がり角（次の道が別方向）は、交差点の手前まで来たら早めに次の道へ舵を切って角を丸く回る
+  if(carPath.length>1){ var nx=carPath[1];
+    if(nx.dir!==tgt.dir){ var dTgt=Math.abs(tgt.r-v.r)+Math.abs(tgt.c-v.c);
+      if(dTgt<=CORNER_R){ carPath.shift(); G.car.r=tgt.r; G.car.c=tgt.c; G.car.dir=tgt.dir; tgt=carPath[0]; } } }
+  var isFinal=(carPath.length===1);
   // 通過する交差点は中心を通る／最後の停止だけは区画の辺（交差点の手前）で止める
   var aim = isFinal ? edgeRest([tgt.r,tgt.c], tgt.dir) : {r:tgt.r,c:tgt.c};
   var dr=aim.r-v.r, dc=aim.c-v.c, dist=Math.sqrt(dr*dr+dc*dc);

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>助動詞について ・ Auxiliaries — 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --accent:#8A4A24; --accent-bg:#F4E9E1;
+    --edu:#185FA5; --edu-bg:#E6F1FB;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.75;-webkit-text-size-adjust:100%}
+  .container{max-width:560px;margin:0 auto}
+  .topbar{display:flex;align-items:center;padding:14px 0 2px}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--text-muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);-webkit-tap-highlight-color:transparent;transition:transform .12s}
+  .back-link:active{transform:scale(.97)}
+  .back-arrow{font-size:16px;line-height:1}
+  .page-header{text-align:center;padding:1.3rem 0 .3rem}
+  .ph-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--accent);margin-bottom:8px}
+  .ph-title{font-size:26px;font-weight:700;letter-spacing:.02em}
+  .ph-sub{font-size:13px;color:var(--text-muted);margin-top:6px;line-height:1.6}
+  .note{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 15px;
+    font-size:12.5px;color:var(--text-muted);line-height:1.75;margin-top:1.1rem}
+  .note b{color:var(--text);font-weight:700}
+  .note .en{display:block;color:var(--text-hint);margin-top:4px}
+  .edu-key{display:inline-block;font-size:11px;font-weight:700;color:var(--edu);background:var(--edu-bg);border-radius:6px;padding:1px 7px}
+  .toc{display:flex;flex-wrap:wrap;gap:7px;margin:1rem 0 .2rem}
+  .toc a{border:1px solid var(--border);background:var(--surface);color:var(--text-muted);border-radius:20px;padding:6px 11px;font-size:12px;font-weight:600;text-decoration:none}
+  .toc a:active{transform:scale(.97)}
+  .dcard{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:var(--radius);padding:15px 16px;margin-top:12px;scroll-margin-top:14px;overflow:hidden}
+  .dhead{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  .dnum{font-size:11px;font-weight:800;color:var(--accent);background:var(--accent-bg);border-radius:7px;padding:2px 8px}
+  .dtitle{font-size:16px;font-weight:700}
+  .dtitle .en{font-size:11px;font-weight:600;color:var(--text-hint)}
+  .ddef{font-size:12.5px;color:var(--text-muted);line-height:1.7;margin-top:8px}
+  .ddef .en{display:block;color:var(--text-hint);margin-top:2px}
+  .vrow{list-style:none;margin-top:11px;display:flex;flex-direction:column;gap:10px}
+  .vrow>li{display:flex;gap:10px;align-items:flex-start}
+  .say{flex-shrink:0;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--accent);
+    font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background .1s,transform .1s}
+  .say:hover{background:var(--accent-bg)} .say:active{transform:scale(.92)} .say.on{background:var(--accent);color:#fff}
+  .vc{flex:1;min-width:0}
+  .vk{font-size:14px;font-weight:700;color:var(--accent);display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+  .vk .r{font-size:11px;font-weight:600;color:var(--text-hint)}
+  .vk .edu{font-size:10.5px;font-weight:700;color:var(--edu);background:var(--edu-bg);border-radius:6px;padding:1px 7px}
+  .vex{font-size:13.5px;color:var(--text);margin-top:3px;line-height:1.6}
+  .vex .q{color:var(--accent);font-weight:700}
+  .vhint{font-size:11.5px;color:var(--text-muted);margin-top:2px;line-height:1.55}
+  .vhint .en{color:var(--text-hint)}
+  .vpat{font-size:11.5px;color:var(--text-muted);margin-top:4px;line-height:1.5}
+  .vpat b{color:var(--accent);font-weight:700}
+  .vpat a{color:var(--accent);font-weight:700;text-decoration:underline}
+  .dlink{display:inline-flex;align-items:center;gap:5px;margin-top:13px;font-size:12.5px;font-weight:700;color:var(--accent);
+    background:var(--accent-bg);border-radius:999px;padding:7px 14px;text-decoration:none;-webkit-tap-highlight-color:transparent}
+  .dlink:active{transform:scale(.98)}
+  .tip{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12px;color:#6b5d40;line-height:1.7;margin-top:12px}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2.4rem;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="hinshi.html" class="back-link"><span class="back-arrow">‹</span>品詞分類にもどる</a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">HINSHI ・ JODOUSHI</div>
+    <div class="ph-title">助動詞について</div>
+    <div class="ph-sub">じょどうし ・ Auxiliary verb — 種類を全部見る<br><span class="en">All kinds of auxiliaries</span></div>
+  </div>
+
+  <div class="note">助動詞は、<b>付属語</b>で<b>活用します</b>。用言などについて、いろいろな意味（受身・使役・打消・過去・推量など）を付け加えます。<span class="edu-key">日本語教育</span>では「助動詞」という品詞を立てず、これらを「〜（ら）れる（受身・可能…）」のように<b>文型（ヴォイス・テンス・ムード）</b>として学びます。だからこそ文型と直結します。🔊 で例が聞けます。</div>
+
+  <div class="toc">
+    <a href="#v1">1 ヴォイス（態）</a>
+    <a href="#v2">2 打消・打消推量</a>
+    <a href="#v3">3 テンス・アスペクト</a>
+    <a href="#v4">4 推量・意志など</a>
+    <a href="#v5">5 希望・丁寧</a>
+    <a href="#v6">6 断定</a>
+  </div>
+
+  <div class="dcard" id="v1">
+    <div class="dhead"><span class="dnum">観点 1</span><span class="dtitle">ヴォイス（態） <span class="en">Voice</span></span></div>
+    <div class="ddef">「する側／される側」の関係を変えます。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="先生にほめられる。日本語が話せられる。">🔊</button><div class="vc"><span class="vk">れる・られる</span><div class="vex">受身・可能・自発・尊敬</div><div class="vhint">一つの形で四つの意味。文脈で判断する。</div></div></li>
+      <li><button class="say" data-say="子どもに野菜を食べさせる。">🔊</button><div class="vc"><span class="vk">せる・させる</span><div class="vex">使役</div><div class="vhint">「〜させる」。</div></div></li>
+    </ul>
+    <div class="vpat">関連する文型：「<b>〜（ら）れる</b>」「<b>〜（さ）せる</b>」「<b>〜（さ）せられる（使役受身）</b>」。<a href="bunkei.html">文型解説へ</a></div>
+  </div>
+
+  <div class="dcard" id="v2">
+    <div class="dhead"><span class="dnum">観点 2</span><span class="dtitle">打消・打消推量 <span class="en">Negation</span></span></div>
+    <div class="ddef">打ち消しを表します。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="行かない。知らぬ。">🔊</button><div class="vc"><span class="vk">ない・ぬ（ん）</span><div class="vex">打消（否定）</div><div class="vhint">「〜ない／〜ぬ（ん）」。</div></div></li>
+      <li><button class="say" data-say="二度と行くまい。">🔊</button><div class="vc"><span class="vk">まい</span><div class="vex">打消の意志・打消の推量</div><div class="vhint">「もう〜まい」。</div></div></li>
+    </ul>
+  </div>
+
+  <div class="dcard" id="v3">
+    <div class="dhead"><span class="dnum">観点 3</span><span class="dtitle">テンス・アスペクト <span class="en">Tense / Aspect</span></span></div>
+    <div class="ddef">時や、動作の完了・状態を表します。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="昨日、映画を見た。もう着いた。">🔊</button><div class="vc"><span class="vk">た（だ）</span><div class="vex">過去・完了・存続・想起（確認）</div><div class="vhint">「〜た」。用法が広い。</div></div></li>
+    </ul>
+  </div>
+
+  <div class="dcard" id="v4">
+    <div class="dhead"><span class="dnum">観点 4</span><span class="dtitle">推量・意志・伝聞など <span class="en">Mood</span></span></div>
+    <div class="ddef">話し手の判断・態度を表します。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="明日は晴れよう。行こう。">🔊</button><div class="vc"><span class="vk">う・よう</span><div class="vex">推量・意志・勧誘</div></div></li>
+      <li><button class="say" data-say="雨が降りそうだ。降るそうだ。">🔊</button><div class="vc"><span class="vk">そうだ</span><div class="vex">様態（〜しそう）・伝聞（〜だそう）</div></div></li>
+      <li><button class="say" data-say="病気のようだ。氷のようだ。">🔊</button><div class="vc"><span class="vk">ようだ</span><div class="vex">推定・比況（たとえ）・例示</div></div></li>
+      <li><button class="say" data-say="彼は来るらしい。">🔊</button><div class="vc"><span class="vk">らしい</span><div class="vex">推定</div></div></li>
+    </ul>
+  </div>
+
+  <div class="dcard" id="v5">
+    <div class="dhead"><span class="dnum">観点 5</span><span class="dtitle">希望・丁寧 <span class="en">Desire / Politeness</span></span></div>
+    <div class="ddef">望みや、丁寧さを表します。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="水が飲みたい。子どもが行きたがる。">🔊</button><div class="vc"><span class="vk">たい・たがる</span><div class="vex">希望</div><div class="vhint">一人称は「〜たい」、三人称は「〜たがる」。</div></div></li>
+      <li><button class="say" data-say="学校へ行きます。">🔊</button><div class="vc"><span class="vk">ます</span><div class="vex">丁寧</div><div class="vhint">動詞について丁寧体をつくる。</div></div></li>
+    </ul>
+  </div>
+
+  <div class="dcard" id="v6">
+    <div class="dhead"><span class="dnum">観点 6</span><span class="dtitle">断定 <span class="en">Assertion</span></span></div>
+    <div class="ddef">「〜である」と言い切ります。</div>
+    <ul class="vrow">
+      <li><button class="say" data-say="これは本だ。学生である。">🔊</button><div class="vc"><span class="vk">だ・である</span><div class="vex">断定</div></div></li>
+      <li><button class="say" data-say="これは本です。">🔊</button><div class="vc"><span class="vk">です</span><div class="vex">丁寧な断定</div><div class="vhint">「だ」の丁寧な形。</div></div></li>
+    </ul>
+  </div>
+
+  <div style="margin-top:12px"><a class="dlink" href="joshi.html#jodo">用例つきの詳しい解説へ ›</a></div>
+
+  <div class="tip">助動詞は付属語ですが、形容詞・動詞などのように活用します（接続や活用型でも分類できます）。日本語教育では文型として学ぶため、文型解説とあわせて確認すると理解が深まります。</div>
+
+  <div class="app-footer">© 2025 日本語の部屋 ・ 品詞</div>
+
+</div>
+<script>
+(function(){
+  "use strict";
+  var synth=window.speechSynthesis, jaVoice=null, lastBtn=null;
+  function pickJa(){ if(!synth) return null; var vs=synth.getVoices()||[];
+    jaVoice=vs.filter(function(v){return /ja[-_]?JP|Japanese|日本/i.test((v.lang||"")+" "+(v.name||""));})[0]||null; return jaVoice; }
+  if(synth){ pickJa(); synth.onvoiceschanged=pickJa; }
+  function clearOn(){ if(lastBtn){ lastBtn.classList.remove("on"); lastBtn=null; } }
+  function speak(text,btn){ if(!synth||!text) return; try{synth.cancel();}catch(e){} clearOn();
+    var u=new SpeechSynthesisUtterance(text); u.lang="ja-JP"; u.rate=0.95;
+    var v=jaVoice||pickJa(); if(v) u.voice=v;
+    if(btn){ btn.classList.add("on"); lastBtn=btn; } u.onend=clearOn; u.onerror=clearOn; synth.speak(u); }
+  document.addEventListener("click",function(e){
+    var t=e.target.closest("[data-say]"); if(!t) return;
+    var txt=t.getAttribute("data-say")||t.textContent||"";
+    if(t===lastBtn && synth && synth.speaking){ try{synth.cancel();}catch(err){} clearOn(); return; }
+    speak(txt.trim(), t);
+  });
+})();
+(function(){
+  var KEY='nnh_en_off';
+  var st=document.createElement('style');
+  st.textContent="body.hide-en .en{display:none!important;}"
+   +".en-toggle{position:fixed;top:10px;right:10px;z-index:9999;font-family:inherit;font-size:11px;font-weight:700;"
+   +"letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;background:rgba(255,255,255,.92);"
+   +"color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);-webkit-tap-highlight-color:transparent;}"
+   +".en-toggle .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:#8A4A24;margin-left:6px;vertical-align:middle;}"
+   +".en-toggle.off{color:#9E9890;}.en-toggle.off .d{background:#C9C2B8;}";
+  document.head.appendChild(st);
+  var off=false; try{ off=localStorage.getItem(KEY)==='1'; }catch(e){}
+  if(off) document.body.classList.add('hide-en');
+  var b=document.createElement('button'); b.type='button';
+  function paint(){ var h=document.body.classList.contains('hide-en');
+    b.className='en-toggle'+(h?' off':''); b.innerHTML='EN<span class="d"></span>'; }
+  b.addEventListener('click',function(){ var h=document.body.classList.toggle('hide-en');
+    try{ localStorage.setItem(KEY,h?'1':'0'); }catch(e){} paint(); });
+  paint(); document.body.appendChild(b);
+})();
+</script>
+</body>
+</html>

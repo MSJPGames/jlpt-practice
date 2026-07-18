@@ -295,6 +295,7 @@ function routeTo(r,c,dir, tr,tc){
 
 function genScenario(level){
   cancelAnim();
+  setupGrid();  // 区画の大きさ・道の湾曲を毎回ランダムに作り直す
   var minD=(level==='easy')?3:(level==='super')?5:4, maxD=(level==='easy')?4:(level==='super')?7:6;  // 信号の数が多すぎないよう距離を制限
   var start, dest, tries=0, md;
   do{ start=[rnd(N),rnd(N)]; dest=[rnd(N),rnd(N)]; md=Math.abs(start[0]-dest[0])+Math.abs(start[1]-dest[1]); tries++; }
@@ -319,18 +320,28 @@ function genScenario(level){
   // 目的地の施設：目的地のわきの道沿いに置く（客モードのみ表示・目印ピンなし）
   (function(){ var nb=neighbors(dest); var a=nb.length?pick(nb):dest; usedSeg[segKey(a,dest)]=1;
     var p=roadside(a,dest,0.62); buildings.push({gr:p.gr,gc:p.gc,e:destType.e,kind:'dest'}); })();
-  // 橋（ランダムな区間に）
-  var bridge=null; var segs=allSegments();
-  var free=segs.filter(function(s){ return !usedSeg[segKey(s[0],s[1])]; });
-  if(free.length && Math.random()<0.6){ var bs=pick(free); bridge={a:bs[0],b:bs[1]}; usedSeg[segKey(bs[0],bs[1])]=1; }
+  var segs=allSegments();
   G={ level:level, mode:(G&&G.mode)||'driver', start:start.slice(), dest:dest, signals:signals, landmarks:landmarks,
-      buildings:buildings, bridge:bridge, destType:destType,
+      buildings:buildings, destType:destType,
       car:{r:start[0],c:start[1],dir:firstDir}, carViz:(function(){ var e=edgeRest(start,firstDir); return {r:e.r,c:e.c,ang:ANGLE[firstDir]}; })(),
       done:false, waiting:false, animating:false };
-  // 装飾（名前なし・景観用）：空いている区間の道沿いに散らす
-  shuffleArr(segs); var decoMax=60+rnd(24), decoN=0;
+  // 区画の中身：公園／大きな建物／建物が並ぶ（区画の大きさに応じて建物の数を決める）
+  var blocks=[];
+  for(var br=0;br<N-1;br++) for(var bc=0;bc<N-1;bc++){
+    var bw=GRID.colX[bc+1]-GRID.colX[bc], bh=GRID.rowY[br+1]-GRID.rowY[br];
+    var t=Math.random(), blk={br:br,bc:bc,type:'lots',lots:[]};
+    if(t<0.12) blk.type='park';
+    else if(t<0.20){ blk.type='big'; blk.col=rnd(BLD_COLORS.length); }
+    else { var nx=Math.max(1,Math.round(bw/26)), ny=Math.max(1,Math.round(bh/26)); blk.nx=nx; blk.ny=ny;
+      for(var q=0;q<nx*ny;q++) blk.lots.push({ skip:Math.random()<0.10, col:rnd(BLD_COLORS.length), ins:0.08+Math.random()*0.14, tall:Math.random()<0.22 }); }
+    blocks.push(blk);
+  }
+  G.blocks=blocks;
+  G.river=makeRiver();
+  // 道沿いの装飾は控えめに（区画が建物で埋まるので少しだけ）
+  shuffleArr(segs); var decoMax=5+rnd(6), decoN=0;
   for(var si=0; si<segs.length && decoN<decoMax; si++){ var sg=segs[si]; var k2=segKey(sg[0],sg[1]); if(usedSeg[k2]) continue;
-    if(Math.random()<0.62){ usedSeg[k2]=1; var pp=roadside(sg[0],sg[1],0.35+Math.random()*0.3);
+    if(Math.random()<0.5){ usedSeg[k2]=1; var pp=roadside(sg[0],sg[1],0.35+Math.random()*0.3);
       buildings.push({gr:pp.gr,gc:pp.gc,kind:'deco',horiz:(sg[0][0]===sg[1][0]),col:rnd(BLD_COLORS.length),park:(Math.random()<0.16),sz:0.82+Math.random()*0.45}); decoN++; } }
 }
 
@@ -338,28 +349,57 @@ function absDir(a,b){ var dr=b[0]-a[0], dc=b[1]-a[1];
   if(dr===-1)return 'N'; if(dr===1)return 'S'; if(dc===1)return 'E'; if(dc===-1)return 'W'; return 'N'; }
 
 /* ===== 描画（自然な地図＋なめらかなタクシー） ===== */
-var MAP_STEP=58, MAP_M=36, MAP_S=MAP_M*2+(N-1)*MAP_STEP;  // マップ全体の大きさ
-var VIEW=MAP_STEP*6;   // 標準の見える範囲（二つ目の信号くらいまで見える俯瞰。マップはこれより広い＝スクロール）
-/* ズーム：viewSize が小さいほど拡大、大きいほど縮小（全体表示）。＋/−ボタンと二本指ピンチで変える */
-var VIEW_MIN=MAP_STEP*3, VIEW_MAX=MAP_S, viewSize=VIEW;
-function clampView(v){ return Math.max(VIEW_MIN, Math.min(VIEW_MAX, v)); }
+var MAP_STEP=58, MAP_M=36, MAP_S=MAP_M*2+(N-1)*MAP_STEP;  // 基準の大きさ（歪みなしのときの目安）
+var VIEW=MAP_STEP*6;   // 標準の見える範囲（二つ目の信号くらいまで見える俯瞰）
+var VIEW_MIN=MAP_STEP*3, viewSize=VIEW;
+var ROAD_W=Math.max(9, MAP_STEP*0.26);
+/* ===== 実際の街のような格子：道はまっすぐ・区画の大きさはバラバラ・大通りと細い道 ===== */
+var GRID=null;
+function rangeArr(n){ var a=[]; for(var i=0;i<n;i++) a.push(i); return a; }
+function setupGrid(){
+  var colX=[MAP_M], rowY=[MAP_M], i;
+  for(i=1;i<N;i++) colX[i]=colX[i-1]+MAP_STEP*(0.58+Math.random()*1.05);  // 列の幅がバラバラ＝大小の区画
+  for(i=1;i<N;i++) rowY[i]=rowY[i-1]+MAP_STEP*(0.58+Math.random()*1.05);  // 行の高さもバラバラ
+  var mr=shuffleArr(rangeArr(N).slice(1,N-1)), mc=shuffleArr(rangeArr(N).slice(1,N-1));  // 端以外から大通りを選ぶ
+  var majorR={}, majorC={}; majorR[mr[0]]=1; if(mr[1]!=null)majorR[mr[1]]=1; majorC[mc[0]]=1; if(mc[1]!=null)majorC[mc[1]]=1;
+  GRID={ colX:colX, rowY:rowY, majorR:majorR, majorC:majorC,
+    mapW:colX[N-1]+MAP_M, mapH:rowY[N-1]+MAP_M };
+}
+function interpArr(arr,t){ if(t<=0) return arr[0]+t*(arr[1]-arr[0]); if(t>=N-1) return arr[N-1]+(t-(N-1))*(arr[N-1]-arr[N-2]); var i=Math.floor(t); return arr[i]+(t-i)*(arr[i+1]-arr[i]); }
+/* 論理座標(r,c) → 画面座標{x,y}。道はまっすぐ（区画の大きさだけが場所ごとに変わる） */
+function PXY(r,c){
+  if(!GRID) return {x:MAP_M+c*MAP_STEP, y:MAP_M+r*MAP_STEP};
+  return {x:interpArr(GRID.colX,c), y:interpArr(GRID.rowY,r)};
+}
+/* 川の中心線（(r,c)空間の折れ線）を作る。描画のみ、道路は橋で渡れる */
+function makeRiver(){
+  if(Math.random()>=0.82) return null;
+  var vert=Math.random()<0.5, m=N-1, out={vert:vert, pts:[]};
+  if(vert){ var c0=0.6+Math.random()*(m-1.2), drift=(-1.4+Math.random()*2.8)/m;
+    for(var r=-0.4;r<=m+0.4;r+=0.5){ out.pts.push([r, c0+drift*r + 0.5*Math.sin(r*0.7+1)]); } }
+  else { var r0=0.6+Math.random()*(m-1.2), drift2=(-1.4+Math.random()*2.8)/m;
+    for(var c=-0.4;c<=m+0.4;c+=0.5){ out.pts.push([r0+drift2*c + 0.5*Math.sin(c*0.7+1), c]); } }
+  return out;
+}
+function mapW(){ return GRID?GRID.mapW:MAP_S; }
+function mapH(){ return GRID?GRID.mapH:MAP_S; }
+function viewMax(){ return Math.max(mapW(),mapH()); }
+function clampView(v){ return Math.max(VIEW_MIN, Math.min(viewMax(), v)); }
 function applyCamera(){ var svg=document.getElementById('mapSvg'); if(svg) svg.setAttribute('viewBox', camViewBox()); }
 function updateZoomBtns(){ var zi=document.getElementById('zoomIn'), zo=document.getElementById('zoomOut');
-  if(zi) zi.disabled=(viewSize<=VIEW_MIN+0.5); if(zo) zo.disabled=(viewSize>=VIEW_MAX-0.5); }
+  if(zi) zi.disabled=(viewSize<=VIEW_MIN+0.5); if(zo) zo.disabled=(viewSize>=viewMax()-0.5); }
 function setViewSize(v){ viewSize=clampView(v); applyCamera(); updateZoomBtns(); }
 function zoomBy(f){ setViewSize(viewSize*f); }
-function PX(c){return MAP_M+c*MAP_STEP;}
-function PY(r){return MAP_M+r*MAP_STEP;}
-var ROAD_W=Math.max(9, MAP_STEP*0.26);
 /* カメラ：タクシーを中心に、マップの一部（viewSize）だけを見せる */
-function camViewBox(){ var v=G.carViz||{r:(N-1)/2,c:(N-1)/2}; var cx=PX(v.c), cy=PY(v.r);
-  var vw=viewSize, mx=Math.max(0, MAP_S-vw);
-  var x=Math.max(0, Math.min(cx-vw/2, mx)), y=Math.max(0, Math.min(cy-vw/2, mx));
+function camViewBox(){ var v=G.carViz||{r:(N-1)/2,c:(N-1)/2}; var p=PXY(v.r,v.c);
+  var vw=viewSize;
+  var x=Math.max(0, Math.min(p.x-vw/2, Math.max(0,mapW()-vw)));
+  var y=Math.max(0, Math.min(p.y-vw/2, Math.max(0,mapH()-vw)));
   return x.toFixed(1)+' '+y.toFixed(1)+' '+vw.toFixed(1)+' '+vw.toFixed(1); }
 var BLD_COLORS=['#C9BBA6','#BFC7B4','#D2C6B1','#C3C9D2','#CDBBB0','#B7C1C3','#D4C9B2','#C7BCA8'];
 
 /* --- タクシー本体（上向き＝北）。#carG を transform で動かす --- */
-function carTransform(){ var v=G.carViz||{r:0,c:0,ang:0}; return 'translate('+PX(v.c).toFixed(2)+','+PY(v.r).toFixed(2)+') rotate('+(v.ang||0).toFixed(1)+')'; }
+function carTransform(){ var v=G.carViz||{r:0,c:0,ang:0}; var p=PXY(v.r,v.c); return 'translate('+p.x.toFixed(2)+','+p.y.toFixed(2)+') rotate('+(v.ang||0).toFixed(1)+')'; }
 /* 上向き＝北＝前。前（上）にヘッドライト＋ボンネット、後ろ（下）に赤いテールライト。前後がひと目で分かる */
 function carSVG(){
   return '<g id="carG" transform="'+carTransform()+'">'
@@ -432,7 +472,10 @@ function carFrame(ts){
   // 通過する交差点は中心を通る／最後の停止だけは区画の辺（交差点の手前）で止める
   var aim = isFinal ? edgeRest([tgt.r,tgt.c], tgt.dir) : {r:tgt.r,c:tgt.c};
   var dr=aim.r-v.r, dc=aim.c-v.c, dist=Math.sqrt(dr*dr+dc*dc);
-  var desired=ANGLE[tgt.dir], da=shortAng(v.ang,desired), maxT=CAR_TURN*dt;
+  // 車の向きは、実際の（湾曲した）道の進行方向に合わせる＝画面上での進む向き
+  var pv=PXY(v.r,v.c), pa=PXY(aim.r,aim.c), pdx=pa.x-pv.x, pdy=pa.y-pv.y;
+  var desired=(Math.abs(pdx)+Math.abs(pdy)>0.01)?((Math.atan2(pdx,-pdy)*180/Math.PI)+360)%360:v.ang;
+  var da=shortAng(v.ang,desired), maxT=CAR_TURN*dt;
   if(Math.abs(da)<=maxT) v.ang=desired; else v.ang+=(da>0?maxT:-maxT);
   var headErr=Math.abs(shortAng(v.ang,desired));
   var speed=CAR_SPEED*(headErr>12?0.45:1);                 // 角では減速（止まらない）
@@ -449,11 +492,17 @@ function onCarRest(){ driving=false; if(carFinish){ var f=carFinish; carFinish=n
 /* 信号：交差点ごとに色が定期的に変わる。市松模様で2グループに分け、交互に 青→黄→赤 */
 var sigTick=0;
 function sigColor(group, t){ var p=((group?4:0)+t)%8; if(p<3) return '#39B26A'; if(p===3) return '#E7B93A'; return '#D64545'; }
-function signalsHTML(){ if(!G.signals) return ''; var h='', off=ROAD_W*0.95;
-  for(var k in G.signals){ var pr=k.split(',').map(Number); var x=PX(pr[1])+off, y=PY(pr[0])-off;
-    var col=sigColor((pr[0]+pr[1])%2, sigTick);
-    h+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.6" fill="#2A2622"/>'
-      +'<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="2.7" fill="'+col+'"/>'; }
+function sigStateOf(group, t){ var p=((group?4:0)+t)%8; return p<3?0:(p===3?1:2); }  // 0=青 1=黄 2=赤
+/* 交差点の「車用」信号機（日本式・横型：左=青 中=黄 右=赤）。歩行者用は付けない */
+function signalsHTML(){ if(!G.signals) return ''; var h='', off=ROAD_W*0.72, lr=1.9, gap=4.4;
+  var LC=['#2FBF4A','#F0C22B','#E5433B'];
+  for(var k in G.signals){ var pr=k.split(',').map(Number); var sp=PXY(pr[0],pr[1]);
+    var st=sigStateOf((pr[0]+pr[1])%2, sigTick), cx=sp.x+off, cy=sp.y-off;
+    var fw=gap*2+lr*2+3, fh=lr*2+3, xs=[cx-gap,cx,cx+gap];
+    h+='<rect x="'+(cx-fw/2).toFixed(1)+'" y="'+(cy-fh/2).toFixed(1)+'" width="'+fw.toFixed(1)+'" height="'+fh.toFixed(1)+'" rx="2" fill="#26231F" stroke="#000" stroke-opacity="0.2" stroke-width="0.5"/>';
+    for(var j=0;j<3;j++){ var on=(j===st);
+      h+='<circle cx="'+xs[j].toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="'+lr+'" fill="'+LC[j]+'" opacity="'+(on?1:0.2)+'"'+(on?' stroke="#fff" stroke-opacity="0.55" stroke-width="0.4"':'')+'/>'; }
+  }
   return h; }
 function tickSignals(){ sigTick=(sigTick+1)%8; var g=document.getElementById('sigG');
   if(g && !$('play').classList.contains('hidden')) g.innerHTML=signalsHTML(); }
@@ -461,31 +510,47 @@ try{ setInterval(tickSignals, 1000); }catch(e){}
 
 function drawMap(){
   viewSize=VIEW;  // 新しいマップは標準ズームから
-  var step=MAP_STEP, px=PX, py=PY, rw=ROAD_W, el=[];
+  var step=MAP_STEP, rw=ROAD_W, el=[];
   el.push('<svg id="mapSvg" viewBox="'+camViewBox()+'" role="img" aria-label="地図">');
-  el.push('<rect x="0" y="0" width="'+MAP_S+'" height="'+MAP_S+'" fill="#E7E2D5"/>');
-  // 区画（ブロック）の土地
-  for(var br=0;br<N-1;br++){ for(var bc=0;bc<N-1;bc++){
-    el.push('<rect x="'+(px(bc)+rw/2).toFixed(1)+'" y="'+(py(br)+rw/2).toFixed(1)+'" width="'+(step-rw).toFixed(1)+'" height="'+(step-rw).toFixed(1)+'" rx="3" fill="#EDE8DB"/>'); } }
-  // 川（橋のある区間の下を横切る）
-  if(G.bridge){ var a=G.bridge.a,b=G.bridge.b, mx=(px(a[1])+px(b[1]))/2, my=(py(a[0])+py(b[0]))/2, hz=(a[0]===b[0]);
-    if(hz) el.push('<rect x="'+(mx-rw*0.75)+'" y="'+(my-step*0.62)+'" width="'+(rw*1.5)+'" height="'+(step*1.24)+'" rx="3" fill="#AEC8DA"/>');
-    else   el.push('<rect x="'+(mx-step*0.62)+'" y="'+(my-rw*0.75)+'" width="'+(step*1.24)+'" height="'+(rw*1.5)+'" rx="3" fill="#AEC8DA"/>'); }
-  // 道路：濃い縁（ケーシング）→ 明るい塗り
-  function road(x1,y1,x2,y2,w,col){ el.push('<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+col+'" stroke-width="'+w+'" stroke-linecap="round"/>'); }
-  for(var r=0;r<N;r++) road(px(0),py(r),px(N-1),py(r), rw+4, '#CFC7B6');
-  for(var c=0;c<N;c++) road(px(c),py(0),px(c),py(N-1), rw+4, '#CFC7B6');
-  for(var r2=0;r2<N;r2++) road(px(0),py(r2),px(N-1),py(r2), rw, '#F6F2E9');
-  for(var c2=0;c2<N;c2++) road(px(c2),py(0),px(c2),py(N-1), rw, '#F6F2E9');
-  // 橋の欄干
-  if(G.bridge){ var a2=G.bridge.a,b2=G.bridge.b, mx2=(px(a2[1])+px(b2[1]))/2, my2=(py(a2[0])+py(b2[0]))/2, hz2=(a2[0]===b2[0]), rl=step*0.5, of=rw*0.62;
-    if(hz2){ el.push('<line x1="'+(mx2-rl/2)+'" y1="'+(my2-of)+'" x2="'+(mx2+rl/2)+'" y2="'+(my2-of)+'" stroke="#9A8C74" stroke-width="2"/>');
-             el.push('<line x1="'+(mx2-rl/2)+'" y1="'+(my2+of)+'" x2="'+(mx2+rl/2)+'" y2="'+(my2+of)+'" stroke="#9A8C74" stroke-width="2"/>'); }
-    else   { el.push('<line x1="'+(mx2-of)+'" y1="'+(my2-rl/2)+'" x2="'+(mx2-of)+'" y2="'+(my2+rl/2)+'" stroke="#9A8C74" stroke-width="2"/>');
-             el.push('<line x1="'+(mx2+of)+'" y1="'+(my2-rl/2)+'" x2="'+(mx2+of)+'" y2="'+(my2+rl/2)+'" stroke="#9A8C74" stroke-width="2"/>'); } }
+  el.push('<rect x="0" y="0" width="'+mapW().toFixed(0)+'" height="'+mapH().toFixed(0)+'" fill="#E7E2D5"/>');
+  // ---- 区画（ブロック）の中身：公園／大きな建物／建物が並ぶ（大きさは区画ごとに違う） ----
+  var din=rw*0.72;   // 道路のぶんだけ内側に引っ込める
+  (G.blocks||[]).forEach(function(blk){
+    var x0=GRID.colX[blk.bc]+din, x1=GRID.colX[blk.bc+1]-din, y0=GRID.rowY[blk.br]+din, y1=GRID.rowY[blk.br+1]-din;
+    var bw=x1-x0, bh=y1-y0; if(bw<5||bh<5) return;
+    el.push('<rect x="'+x0.toFixed(1)+'" y="'+y0.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+bh.toFixed(1)+'" rx="2.5" fill="#E7E0D2"/>');  // 区画の下地
+    if(blk.type==='park'){
+      el.push('<rect x="'+x0.toFixed(1)+'" y="'+y0.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+bh.toFixed(1)+'" rx="6" fill="#C4DCA6"/>');
+      var tn=Math.max(2,Math.min(9,Math.round(bw*bh/1000)));
+      for(var ti=0;ti<tn;ti++){ var tx=x0+(0.16+0.68*((ti*0.37+0.11)%1))*bw, ty=y0+(0.18+0.64*((ti*0.61+0.23)%1))*bh;
+        el.push('<circle cx="'+tx.toFixed(1)+'" cy="'+ty.toFixed(1)+'" r="'+(Math.min(bw,bh)*0.13).toFixed(1)+'" fill="#8FBE72"/>'); }
+    } else if(blk.type==='big'){
+      var gi=Math.min(bw,bh)*0.10;
+      el.push('<rect x="'+(x0+gi).toFixed(1)+'" y="'+(y0+gi).toFixed(1)+'" width="'+(bw-2*gi).toFixed(1)+'" height="'+(bh-2*gi).toFixed(1)+'" rx="3" fill="'+BLD_COLORS[blk.col%BLD_COLORS.length]+'" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>');
+      el.push('<rect x="'+(x0+bw*0.33).toFixed(1)+'" y="'+(y0+bh*0.33).toFixed(1)+'" width="'+(bw*0.34).toFixed(1)+'" height="'+(bh*0.34).toFixed(1)+'" rx="2" fill="rgba(255,255,255,0.20)"/>');
+    } else {
+      var nx=blk.nx, ny=blk.ny, gw=bw/nx, gh=bh/ny, li=0;
+      for(var yy=0;yy<ny;yy++) for(var xx=0;xx<nx;xx++){ var lot=blk.lots[li++]; if(!lot||lot.skip) continue;
+        var ins=lot.ins, lx=x0+xx*gw+gw*ins, ly=y0+yy*gh+gh*ins, lw=gw*(1-2*ins), lh=gh*(1-2*ins);
+        if(lw<2.5||lh<2.5) continue;
+        el.push('<rect x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" width="'+lw.toFixed(1)+'" height="'+lh.toFixed(1)+'" rx="1.4" fill="'+BLD_COLORS[lot.col%BLD_COLORS.length]+'" stroke="rgba(0,0,0,0.12)" stroke-width="0.8"/>');
+        if(lot.tall) el.push('<rect x="'+(lx+lw*0.22).toFixed(1)+'" y="'+(ly+lh*0.22).toFixed(1)+'" width="'+(lw*0.56).toFixed(1)+'" height="'+(lh*0.56).toFixed(1)+'" rx="1" fill="rgba(0,0,0,0.10)"/>');
+      }
+    }
+  });
+  // ---- 川：斜めに横切る（道路は橋で渡る＝川の上に道路を重ねて描く） ----
+  if(G.river){ var rpts=G.river.pts.map(function(pt){ var p=PXY(pt[0],pt[1]); return p.x.toFixed(1)+','+p.y.toFixed(1); }).join(' ');
+    el.push('<polyline points="'+rpts+'" fill="none" stroke="#A8C6DA" stroke-width="'+(step*0.5).toFixed(1)+'" stroke-linecap="round" stroke-linejoin="round"/>');
+    el.push('<polyline points="'+rpts+'" fill="none" stroke="#C2D8E6" stroke-width="'+(step*0.34).toFixed(1)+'" stroke-linecap="round" stroke-linejoin="round"/>'); }
+  // ---- 道路：まっすぐ。大通りは太め・細い道は細め。濃い縁→明るい塗り ----
+  var rr, p0, p1, wr;
+  for(rr=0;rr<N;rr++){ p0=PXY(rr,0); p1=PXY(rr,N-1); wr=GRID.majorR[rr]?rw+4:rw; el.push('<line x1="'+p0.x.toFixed(1)+'" y1="'+p0.y.toFixed(1)+'" x2="'+p1.x.toFixed(1)+'" y2="'+p1.y.toFixed(1)+'" stroke="#CFC7B6" stroke-width="'+(wr+4)+'" stroke-linecap="round"/>'); }
+  for(rr=0;rr<N;rr++){ p0=PXY(0,rr); p1=PXY(N-1,rr); wr=GRID.majorC[rr]?rw+4:rw; el.push('<line x1="'+p0.x.toFixed(1)+'" y1="'+p0.y.toFixed(1)+'" x2="'+p1.x.toFixed(1)+'" y2="'+p1.y.toFixed(1)+'" stroke="#CFC7B6" stroke-width="'+(wr+4)+'" stroke-linecap="round"/>'); }
+  for(rr=0;rr<N;rr++){ p0=PXY(rr,0); p1=PXY(rr,N-1); wr=GRID.majorR[rr]?rw+4:rw; el.push('<line x1="'+p0.x.toFixed(1)+'" y1="'+p0.y.toFixed(1)+'" x2="'+p1.x.toFixed(1)+'" y2="'+p1.y.toFixed(1)+'" stroke="#F6F2E9" stroke-width="'+wr+'" stroke-linecap="round"/>'); }
+  for(rr=0;rr<N;rr++){ p0=PXY(0,rr); p1=PXY(N-1,rr); wr=GRID.majorC[rr]?rw+4:rw; el.push('<line x1="'+p0.x.toFixed(1)+'" y1="'+p0.y.toFixed(1)+'" x2="'+p1.x.toFixed(1)+'" y2="'+p1.y.toFixed(1)+'" stroke="#F6F2E9" stroke-width="'+wr+'" stroke-linecap="round"/>'); }
   // 建物
   (G.buildings||[]).forEach(function(bd){
-    var x=px(bd.gc), y=py(bd.gr);
+    var bp=PXY(bd.gr,bd.gc), x=bp.x, y=bp.y;
     if(bd.kind==='deco'){
       if(bd.park){ var ps=step*0.30*(bd.sz||1);
         el.push('<rect x="'+(x-ps/2)+'" y="'+(y-ps/2)+'" width="'+ps+'" height="'+ps+'" rx="4" fill="#BBD6A6"/>');
@@ -526,7 +591,7 @@ function showHints(){ var g=document.getElementById('hintG'); if(!g) return;
   var canTap=(G.mode==='driver' && !G.done && !driving);
   if(!canTap){ g.innerHTML=''; return; }
   var rr=MAP_STEP*0.17, h='';
-  reachableMoves().forEach(function(m){ var x=PX(m.cell[1]), y=PY(m.cell[0]);
+  reachableMoves().forEach(function(m){ var hp=PXY(m.cell[0],m.cell[1]), x=hp.x, y=hp.y;
     h+='<circle cx="'+x+'" cy="'+y+'" r="'+rr+'" fill="#2F6F4F" opacity="0.16"/>'
      + '<circle cx="'+x+'" cy="'+y+'" r="'+rr+'" fill="none" stroke="#2F6F4F" stroke-opacity="0.55" stroke-width="1.6"/>'; });
   g.innerHTML=h;
@@ -587,11 +652,11 @@ function driveDrag(){
   carPath=actsToPath(G.car.r,G.car.c,G.car.dir, acts);  // 経路を差し替え（走行は継続）
   carFinish=null; driving=true; startCarLoop();
 }
-/* タクシーが止まったとき：目的地なら到着、そうでなければ運転手モードで次の案内 */
+/* タクシーが止まったとき。※目的地に着いても自動ではゴールしない（運転手モードは「✋止まる」を押す） */
 function onRest(){
   if(G.done) return;
-  if(atDest()){ winRound(); return; }
   if(G.mode==='driver'){
+    if(atDest()){ setStatus('🚩 '+G.destType.n+'に 着きました。','「✋ 止まる」を 押しましょう。'); say(G.destType.n+'に つきました。'); showHints(); return; }
     if(G.level==='easy') guideNow();
     else { setStatus('🚕 いま '+DIRNAME[G.car.dir]+'むき。','🔊で 道順を もう一度 聞けます。'); showHints(); }
   }
@@ -632,10 +697,12 @@ function pointerToCell(ev){
   var rect=svg.getBoundingClientRect(); if(!rect.width) return null;
   var cx=(ev.clientX!=null)?ev.clientX:(ev.touches&&ev.touches[0]?ev.touches[0].clientX:(ev.changedTouches&&ev.changedTouches[0]?ev.changedTouches[0].clientX:0));
   var cy=(ev.clientY!=null)?ev.clientY:(ev.touches&&ev.touches[0]?ev.touches[0].clientY:(ev.changedTouches&&ev.changedTouches[0]?ev.changedTouches[0].clientY:0));
-  var vb=(svg.getAttribute('viewBox')||('0 0 '+MAP_S+' '+MAP_S)).split(' ').map(Number);
+  var vb=(svg.getAttribute('viewBox')||('0 0 '+mapW()+' '+mapH())).split(' ').map(Number);
   var x=vb[0]+(cx-rect.left)/rect.width*vb[2], y=vb[1]+(cy-rect.top)/rect.height*vb[3];
-  var c=Math.max(0,Math.min(N-1,Math.round((x-MAP_M)/MAP_STEP))), r=Math.max(0,Math.min(N-1,Math.round((y-MAP_M)/MAP_STEP)));
-  return [r,c];
+  // 歪んだ格子なので、いちばん近いノード（交差点）を探して返す
+  var best=null, bd=1e18;
+  for(var r=0;r<N;r++) for(var c=0;c<N;c++){ var p=PXY(r,c); var d=(p.x-x)*(p.x-x)+(p.y-y)*(p.y-y); if(d<bd){ bd=d; best=[r,c]; } }
+  return best;
 }
 /* 二本指ピンチでのズーム（ポインタ／タッチ両対応） */
 var ptrs={}, pinching=false, pinchDist0=0, pinchView0=0;
@@ -747,8 +814,13 @@ function runMoves(moves){
     if(!chk.length){ setStatus('その方向には 行けません。','べつの 言い方で どうぞ。','ng'); say('そちらには 行けません。'); return; } }
   setStatus('🚕 指示の とおりに 動きます…','');
   drivePath(acts, function(){
-    if(atDest()){ winRound(); return; }
-    if(terminal){ setStatus('ここは 目的地では ありません。','案内を つづけてください。','ng'); say('ここは まだ ちがいます。'); return; }
+    // 「止めて／止まって」の指示があったときだけゴール判定する
+    if(terminal){
+      if(atDest()){ winRound(); return; }
+      setStatus('ここは 目的地では ありません。','案内を つづけてください。','ng'); say('ここは まだ ちがいます。'); return;
+    }
+    // 止まる指示がなければ、目的地に着いても勝手にゴールしない
+    if(atDest()){ setStatus('🚩 '+G.destType.n+'に 着きました。','「止めてください」と 言いましょう。'); say(G.destType.n+'に つきました。'); return; }
     setStatus('つづけて 指示を どうぞ。','今 '+DIRNAME[G.car.dir]+'むき。');
   });
 }

@@ -257,10 +257,10 @@ function routeFromState(r,c,dir){
 
 function genScenario(level){
   cancelAnim();
-  var minD=(level==='easy')?3:4;
-  var start, dest, tries=0;
-  do{ start=[rnd(N),rnd(N)]; dest=[rnd(N),rnd(N)]; tries++; }
-  while(((start[0]===dest[0]&&start[1]===dest[1]) || (Math.abs(start[0]-dest[0])+Math.abs(start[1]-dest[1]))<minD) && tries<400);
+  var minD=(level==='easy')?3:4, maxD=(level==='easy')?4:6;  // 信号の数が多すぎないよう距離を制限
+  var start, dest, tries=0, md;
+  do{ start=[rnd(N),rnd(N)]; dest=[rnd(N),rnd(N)]; md=Math.abs(start[0]-dest[0])+Math.abs(start[1]-dest[1]); tries++; }
+  while(((start[0]===dest[0]&&start[1]===dest[1]) || md<minD || md>maxD) && tries<400);
   var firstDir=chooseHeading(start,dest);
   var allCells=[]; for(var r=0;r<N;r++)for(var c=0;c<N;c++) allCells.push([r,c]);
   // 信号：すべての交差点に置く（色は定期的に変わる／目印語「信号」にも使う）
@@ -303,7 +303,7 @@ function absDir(a,b){ var dr=b[0]-a[0], dc=b[1]-a[1];
 
 /* ===== 描画（自然な地図＋なめらかなタクシー） ===== */
 var MAP_STEP=58, MAP_M=36, MAP_S=MAP_M*2+(N-1)*MAP_STEP;  // マップ全体の大きさ
-var VIEW=MAP_STEP*4.4;   // 画面に見える範囲（マップはこれより広い＝スクロールする）
+var VIEW=MAP_STEP*6;   // 画面に見える範囲（二つ目の信号くらいまで見える俯瞰。マップはこれより広い＝スクロール）
 function PX(c){return MAP_M+c*MAP_STEP;}
 function PY(r){return MAP_M+r*MAP_STEP;}
 var ROAD_W=Math.max(9, MAP_STEP*0.26);
@@ -396,7 +396,8 @@ function drawMap(){
         el.push('<circle cx="'+x+'" cy="'+y+'" r="'+(ps*0.24)+'" fill="#8DB877"/>');
       } else { var lng=step*0.34*(bd.sz||1), dep=step*0.22*(bd.sz||1), w=bd.horiz?lng:dep, h=bd.horiz?dep:lng;
         el.push('<rect x="'+(x-w/2)+'" y="'+(y-h/2)+'" width="'+w+'" height="'+h+'" rx="2" fill="'+BLD_COLORS[(bd.col||0)%BLD_COLORS.length]+'" stroke="rgba(0,0,0,0.10)" stroke-width="1"/>'); }
-    } else if(bd.kind==='landmark'){ var s2=step*0.44;   // 目的地(kind:'dest')は表示しない
+    } else if(bd.kind==='landmark' || (bd.kind==='dest' && G.mode==='passenger')){ var s2=step*0.44;
+      // 運転手モードでは目的地(kind:'dest')を表示しない（音声だけで進む）。客モードは行き先が見えるよう表示。目印ピンは付けない
       el.push('<rect x="'+(x-s2/2)+'" y="'+(y-s2/2)+'" width="'+s2+'" height="'+s2+'" rx="5" fill="#FBF7EE" stroke="#B7AB92" stroke-width="1.4"/>');
       el.push('<text x="'+x+'" y="'+(y+s2*0.30)+'" font-size="'+(s2*0.7).toFixed(1)+'" text-anchor="middle">'+bd.e+'</text>'); }
   });
@@ -430,31 +431,36 @@ function cornerWord(r,c){ var k=keyOf(r,c);
   if(G.landmarks[k]) return G.landmarks[k].n+'を ';
   if(G.signals[k]) return '信号を ';
   return 'ここを '; }
-/* いまいる場所からの「次の一手」を、その場に合わせて指示（要件：一時停止した場所からの行き方） */
 function guideInfo(){ if(atDest()) return {act:'stop'}; var acts=routeFromState(G.car.r,G.car.c,G.car.dir); if(!acts) return {act:'stop'}; if(!acts.length) return {act:'stop'}; return {act:acts[0]}; }
-function guideText(){
-  if(atDest()) return G.destType.n+'で 止まってください。';
-  var g=guideInfo(), act=g.act;
-  if(act==='stop') return G.destType.n+'で 止まってください。';
-  if(act==='straight'){ var nb=[G.car.r+DIRS[G.car.dir][0], G.car.c+DIRS[G.car.dir][1]];
-    return isBridgeSeg(G.car.r,G.car.c,nb[0],nb[1]) ? '橋を 渡ってください。' : 'まっすぐ 行ってください。'; }
-  return cornerWord(G.car.r,G.car.c)+(act==='right'?'右に':'左に')+' 曲がってください。';
+
+/* 信号を数えて言う：「この信号」「次の信号」「二つ目の信号」… n=曲がるまでに通る信号の数 */
+function numJa(n){ var k=['〇','一','二','三','四','五','六','七','八','九','十']; return (n>=0&&n<k.length)?k[n]:(''+n); }
+function sigLabel(n){ if(n<=0) return 'この 信号を '; if(n===1) return '次の 信号を '; return numJa(n)+'つ目の 信号を '; }
+/* いまいる場所から目的地までの経路を「曲がる（信号数つき）／止まる」のまとまりに変換 */
+function routeManeuvers(){
+  var acts=routeFromState(G.car.r,G.car.c,G.car.dir); if(!acts) return [];
+  var mans=[], sc=0;
+  for(var i=0;i<acts.length;i++){ if(acts[i]==='straight'){ sc++; } else { mans.push({type:'turn', dir:acts[i], n:sc}); sc=0; } }
+  mans.push({type:'stop', straight:sc});
+  return mans;
 }
-/* 上級：いまいる場所から目的地までの道順をまとめて（連続まっすぐは1つに、橋は明示） */
+/* やさしい：いまの場所からの「次の一手」を1つ（信号を数えて言う） */
+function guideText(){
+  if(atDest()) return G.destType.n+'の 前で 止まってください。';
+  var mans=routeManeuvers(); if(!mans.length) return G.destType.n+'の 前で 止まってください。';
+  var m=mans[0];
+  if(m.type==='turn') return sigLabel(m.n)+(m.dir==='right'?'右に':'左に')+' 曲がってください。';
+  return (m.straight>0?'まっすぐ 進んで、':'')+G.destType.n+'の 前で 止まってください。';
+}
+/* 上級・超上級：目的地までの道順を複文でまとめて（「二つ目の信号を右に曲がって、まっすぐ進んで、○○の前で止まってください」） */
 function fullGuideText(){
-  var acts=routeFromState(G.car.r,G.car.c,G.car.dir); if(!acts||!acts.length) return G.destType.n+'で 止まってください。';
-  var r=G.car.r,c=G.car.c,d=G.car.dir, parts=[], pend=false;
-  for(var i=0;i<acts.length;i++){ var act=acts[i];
-    if(act==='straight'){ var nb=[r+DIRS[d][0],c+DIRS[d][1]];
-      if(isBridgeSeg(r,c,nb[0],nb[1])){ if(pend){parts.push('まっすぐ 行って');pend=false;} parts.push('橋を 渡って'); }
-      else pend=true; r=nb[0]; c=nb[1];
-    } else { if(pend){ parts.push('まっすぐ 行って'); pend=false; }
-      parts.push(cornerWord(r,c)+(act==='right'?'右に':'左に')+' 曲がって');
-      d=(act==='right')?RIGHT[d]:LEFT[d]; r=r+DIRS[d][0]; c=c+DIRS[d][1]; }
-  }
-  if(pend) parts.push('まっすぐ 行って');
-  parts.push(G.destType.n+'で 止まってください');
-  return parts.join('、');
+  var mans=routeManeuvers(); if(!mans.length) return G.destType.n+'の 前で 止まってください。';
+  var cl=[];
+  mans.forEach(function(m){
+    if(m.type==='turn') cl.push(sigLabel(m.n)+(m.dir==='right'?'右に':'左に')+' 曲がって');
+    else { if(m.straight>0) cl.push('まっすぐ 進んで'); cl.push(G.destType.n+'の 前で 止まって'); }
+  });
+  return cl.join('、')+'ください。';
 }
 
 /* 超上級：自動走行。直進は自動、曲がる／目的地では止まって判断（＝赤信号） */
@@ -518,8 +524,9 @@ function startDriver(){
     setStatus('🔊 道順を 覚えて 動かしましょう。', 'もう一度は 🔊。タクシーを タップ か ボタンで。');
     setTimeout(function(){ say(G.destType.n+'まで。'+fullGuideText()); }, 600);
   } else {
-    setStatus('🚕 出発！ まっすぐは 自動。曲がり角で 止まります。', '止まったら タップ か ボタンで。');
-    say(G.destType.n+'まで お願いします。'); setTimeout(function(){ resumeCruise(); }, 800);
+    setStatus('🚕 道順を 覚えましょう。まっすぐは 自動、曲がり角で 操作します。', '止まったら タップ か ボタンで。');
+    setTimeout(function(){ say(G.destType.n+'まで。'+fullGuideText()); }, 500);
+    setTimeout(function(){ resumeCruise(); }, 1400);
   }
 }
 /* いまいる場所から次の一手を案内（やさしいモードの各停車時） */
@@ -589,30 +596,80 @@ function parseInstruction(text){
   if(/まがっ|曲がっ|まがる|曲がる/.test(t)) return 'turn?';
   return null;
 }
+/* 複文の指示を、動きの並びに変換する（「二つ目の信号を右に曲がって、まっすぐ進んで、○○の前で止まって」等） */
+function kanjiNum(s){ var mp={'〇':0,'一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10,'ひとつ':1,'ふたつ':2,'みっつ':3,'よっつ':4};
+  if(mp[s]!=null) return mp[s];
+  var z=s.replace(/[０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0xFEE0);}); var v=parseInt(z,10); return isNaN(v)?null:v; }
+function extractCount(seg){
+  if(/この/.test(seg)) return 0;
+  if(/つぎ|次/.test(seg)) return 1;
+  var m=seg.match(/([0-9０-９一二三四五六七八九十]+)\s*(?:つ|個|こ|番)?\s*目/); if(m) return kanjiNum(m[1]);
+  var m2=seg.match(/(ひとつ|ふたつ|みっつ|よっつ)/); if(m2) return kanjiNum(m2[1]);
+  var m3=seg.match(/([0-9０-９一二三四五六七八九十]+)\s*(?:つ|個)/); if(m3) return kanjiNum(m3[1]);
+  return null;
+}
+function parseCommands(raw){
+  var s=(raw||'').replace(/[\s　]/g,''); var ev=[], m, re;
+  re=/(みぎ|右|ひだり|左)(?:に|へ)?(?:まがっ|曲がっ|まがる|曲がる|曲げ)/g;
+  while((m=re.exec(s))) ev.push({pos:m.index,end:re.lastIndex,type:'turn',dir:/みぎ|右/.test(m[1])?'right':'left'});
+  re=/(?:とまっ|止まっ|とまる|止まる|とめて|止めて|ていし|停止|すとっぷ|ストップ)/g;
+  while((m=re.exec(s))) ev.push({pos:m.index,end:re.lastIndex,type:'stop'});
+  re=/(?:まっすぐ|真っ直ぐ|直進|ちょくしん)/g;
+  while((m=re.exec(s))) ev.push({pos:m.index,end:re.lastIndex,type:'straight'});
+  ev.sort(function(a,b){return a.pos-b.pos;});
+  var moves=[], prev=0, sawStraight=false;
+  for(var i=0;i<ev.length;i++){ var e=ev[i], seg=s.substring(prev, e.pos);
+    if(e.type==='turn'){ var cnt=extractCount(seg);
+      if(cnt==null) cnt = /しんごう|信号|こうさてん|交差点|かど|角/.test(seg)?1:0;
+      for(var k=0;k<cnt;k++) moves.push('straight'); moves.push(e.dir); sawStraight=false;
+    } else if(e.type==='straight'){ sawStraight=true; }
+    else { var toDest = sawStraight || /まで|前で|前に/.test(seg) || (G.destType && seg.indexOf(G.destType.n)>=0);
+      moves.push(toDest?'stopDest':'stopHere'); sawStraight=false; }
+    prev=e.end;
+  }
+  if(sawStraight) moves.push('straight');
+  return moves;
+}
+var seqTimer=null;
+function stopSeq(){ if(seqTimer){ clearTimeout(seqTimer); seqTimer=null; } }
+function runMoves(moves){ stopSeq(); runStep(moves,0); }
+function runStep(moves,i){
+  if(G.done) return;
+  if(i>=moves.length){ setStatus('つづけて 指示を どうぞ。','今 '+DIRNAME[G.car.dir]+'むき。'); return; }
+  var m=moves[i];
+  if(m==='stopHere'){ if(atDest()) winRound(); else { setStatus('ここは 目的地では ありません。','案内を つづけてください。','ng'); say('ここは まだ ちがいます。'); } return; }
+  if(m==='stopDest'){ driveToDest(0); return; }
+  var moved=doMove(m);
+  if(!moved){ setStatus('その方向には 行けません。','べつの 言い方で どうぞ。','ng'); say('そちらには 行けません。'); return; }
+  say(m==='right'?'右に 曲がります。':m==='left'?'左に 曲がります。':'まっすぐ 行きます。');
+  if(atDest() && i>=moves.length-1){ setStatus('「'+G.destType.n+'」の 前です。','「止まって」と 言ってください。'); return; }
+  seqTimer=setTimeout(function(){ runStep(moves,i+1); }, 680);
+}
+function driveToDest(cnt){
+  if(G.done) return;
+  if(atDest()){ winRound(); return; }
+  if(cnt>N+2 || !doMove('straight')){ setStatus('ここは 目的地では ありません。','道が ちがうかもしれません。','ng'); say('うまく つきませんでした。'); return; }
+  seqTimer=setTimeout(function(){ driveToDest(cnt+1); }, 680);
+}
 function logLine(s){ var l=$('log'); l.innerHTML += '<div>'+esc(s)+'</div>'; l.scrollTop=l.scrollHeight; }
 function passengerHeard(raw){
   logLine('🗣️ '+raw);
-  var act=parseInstruction(raw);
-  if(!act){ setStatus('うまく 聞き取れませんでした。', 'もう一度 話してください。','ng'); say('もう一度 お願いします。'); return; }
-  if(act==='turn?'){ setStatus('右ですか、左ですか？', '「右に 曲がって」のように 言ってください。','ng'); say('右ですか、左ですか？'); return; }
+  // 超上級：赤信号で一手ずつ（自動走行に合わせる）
   if(G.level==='super'){
+    var act=parseInstruction(raw);
+    if(!act){ setStatus('うまく 聞き取れませんでした。','もう一度 話してください。','ng'); say('もう一度 お願いします。'); return; }
+    if(act==='turn?'){ setStatus('右ですか、左ですか？','「右に 曲がって」のように。','ng'); say('右ですか、左ですか？'); return; }
     if(!G.waiting){ setStatus('🚗 走行中です。','止まってから 話してください。','ng'); return; }
     if(act==='stop'){ if(atDest()) winRound(); else { setStatus('まだ 目的地では ありません。','曲がる方向を 話してください。','ng'); say('まだ ちがいます。'); } return; }
-    var moved0=doMove(act);
-    if(!moved0){ setStatus('そちらには 道が ありません。','べつの 方向を どうぞ。','ng'); say('そちらには 行けません。'); return; }
+    var mv=doMove(act);
+    if(!mv){ setStatus('そちらには 道が ありません。','べつの 方向を どうぞ。','ng'); say('そちらには 行けません。'); return; }
     G.waiting=false; say(act==='right'?'右に 曲がります。':act==='left'?'左に 曲がります。':'まっすぐ 行きます。'); resumeCruise(); return;
   }
-  if(act==='stop'){
-    if(atDest()){ winRound(); }
-    else { setStatus('ここは 目的地では ありません。', 'まだ 案内を つづけてください。','ng'); say('ここは まだ ちがいます。'); }
-    return;
-  }
-  var moved=doMove(act);
-  if(!moved){ setStatus('その方向には 道が ありません。', 'べつの 指示を 話してください。','ng'); say('そちらには 行けません。'); return; }
-  var conf = act==='right'?'右に 曲がります。' : act==='left'?'左に 曲がります。' : 'まっすぐ 行きます。';
-  if(atDest()) setStatus(conf, '「'+G.destType.n+'」に 着きました。「止まって」と 言ってください。');
-  else setStatus(conf, '今 '+DIRNAME[G.car.dir]+'むき。つぎの 指示を どうぞ。');
-  say(conf);
+  // やさしい／上級：複文（「二つ目の信号を右に曲がって、まっすぐ進んで、○○の前で止まって」）に対応
+  var moves=parseCommands(raw);
+  if(!moves.length){ setStatus('うまく 聞き取れませんでした。', '「二つ目の信号を 右に 曲がって」の ように 言ってください。','ng'); say('もう一度 お願いします。'); return; }
+  setStatus('🚕 指示の とおりに 動きます…', '');
+  runMoves(moves);
 }
 function startVoice(){
   if(!VOICE_OK){ setStatus('この端末は 音声入力に 対応していません。', '','ng'); return; }
@@ -630,7 +687,7 @@ function startVoice(){
 /* ===== 共通 ===== */
 function setStatus(main, sub, cls){ var s=$('status'); s.textContent=main; s.className='status'+(cls?' '+cls:''); $('subStatus').textContent=sub||''; }
 function winRound(){
-  G.done=true; stopCruise(); cancelAnim();
+  G.done=true; stopCruise(); cancelAnim(); stopSeq();
   try{ if(activeRec) activeRec.stop(); }catch(e){}
   $('winMsg').textContent='🎉 '+G.destType.n+'に つきました！';
   $('aiComment').classList.add('hidden');
@@ -673,12 +730,12 @@ $('modeSeg').querySelectorAll('button').forEach(function(b){ b.onclick=function(
 $('levelSeg').querySelectorAll('button').forEach(function(b){ b.onclick=function(){ setLevel(b.dataset.level); }; });
 
 function startGame(){ if(G.mode==='driver') startDriver(); else startPassenger(); }
-function leavePlay(){ stopCruise(); cancelAnim(); try{if(activeRec)activeRec.stop();}catch(e){} try{speechSynthesis.cancel();}catch(e){} }
+function leavePlay(){ stopCruise(); cancelAnim(); stopSeq(); try{if(activeRec)activeRec.stop();}catch(e){} try{speechSynthesis.cancel();}catch(e){} }
 $('startBtn').onclick=startGame;
 $('driverCtrl').querySelectorAll('button[data-act]').forEach(function(b){ b.onclick=function(){ driverAction(b.dataset.act); }; });
 $('repeatBtn').onclick=function(){
-  // いまの場所からの案内をもう一度（要件：停車地点からの行き方）
-  if(G.level==='advanced') say(G.destType.n+'まで。'+fullGuideText());
+  // いまの場所からの案内をもう一度（上級・超上級は複文、やさしいは次の一手）
+  if(G.level!=='easy') say(G.destType.n+'まで。'+fullGuideText());
   else say(guideText());
 };
 $('mapBox').addEventListener('click', onMapTap);

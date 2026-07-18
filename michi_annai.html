@@ -185,10 +185,10 @@ var RIGHT={N:'E',E:'S',S:'W',W:'N'};
 var LEFT={N:'W',W:'S',S:'E',E:'N'};
 var DIRNAME={N:'北',E:'東',S:'南',W:'西'};
 var ANGLE={N:0,E:90,S:180,W:270};
-var FACILITIES=[{e:'🏥',n:'病院'},{e:'🏫',n:'学校'},{e:'🏦',n:'銀行'},{e:'🏪',n:'コンビニ'},{e:'🚉',n:'駅'},{e:'🏬',n:'デパート'},{e:'🏤',n:'郵便局'},{e:'🌳',n:'公園'},{e:'🍴',n:'レストラン'},{e:'⛽',n:'ガソリンスタンド'},{e:'🥐',n:'パン屋'},{e:'📚',n:'本屋'}];
+var FACILITIES=[{e:'🏥',n:'病院'},{e:'🏫',n:'学校'},{e:'🏦',n:'銀行'},{e:'🏪',n:'コンビニ'},{e:'🚉',n:'駅'},{e:'🏬',n:'デパート'},{e:'🏤',n:'郵便局'},{e:'🌳',n:'公園'},{e:'🍴',n:'レストラン'},{e:'⛽',n:'ガソリンスタンド'},{e:'🥐',n:'パン屋'},{e:'📚',n:'本屋'},{e:'📖',n:'図書館'},{e:'💐',n:'花屋'},{e:'💊',n:'薬局'},{e:'☕',n:'カフェ'},{e:'🛒',n:'スーパー'},{e:'🍜',n:'ラーメン屋'},{e:'🍰',n:'ケーキ屋'},{e:'🏨',n:'ホテル'},{e:'🎬',n:'映画館'},{e:'🐟',n:'魚屋'}];
 var DESTS=FACILITIES;
 /* 装飾用の建物・景観（名前は出さない。FACILITIES と絵文字が重ならないよう選定） */
-var DECO=['🏠','🏡','🏢','🏨','🏩','🏭','🏯','🏰','⛪','🕌','🏛️','⛩️','🏟️','🌲','⛲','🎡','🅿️','🏙️','☕','🏚️','🌸','🗼','🎭','🏝️'];
+var DECO=['🏠','🏡','🏢','🏩','🏭','🏯','🏰','⛪','🕌','🏛️','⛩️','🏟️','🌲','⛲','🎡','🅿️','🏙️','🏚️','🌸','🗼','🎭','🏝️','🎠','🎢','🏬','🏢','🌷','🌻'];
 
 var G={}; // ゲーム状態
 
@@ -254,10 +254,27 @@ function routeFromState(r,c,dir){
   while(prev[k]){ acts.unshift(prev[k][1]); k=prev[k][0]; }
   return acts;
 }
+/* 任意の目標マスへの経路（Uターン禁止）。ドラッグ運転で使う */
+function routeTo(r,c,dir, tr,tc){
+  if(r===tr&&c===tc) return [];
+  var prev={}; prev[r+','+c+','+dir]=null; var q=[[r,c,dir]], goal=null;
+  while(q.length){ var s=q.shift();
+    if(s[0]===tr&&s[1]===tc){ goal=s; break; }
+    ['straight','left','right'].forEach(function(act){
+      var nd=(act==='left')?LEFT[s[2]]:(act==='right')?RIGHT[s[2]]:s[2];
+      var nr=s[0]+DIRS[nd][0], nc=s[1]+DIRS[nd][1]; if(!inGrid(nr,nc)) return;
+      var k=nr+','+nc+','+nd; if(!(k in prev)){ prev[k]=[s[0]+','+s[1]+','+s[2],act]; q.push([nr,nc,nd]); }
+    });
+  }
+  if(!goal) return null;
+  var acts=[], k=goal[0]+','+goal[1]+','+goal[2];
+  while(prev[k]){ acts.unshift(prev[k][1]); k=prev[k][0]; }
+  return acts;
+}
 
 function genScenario(level){
   cancelAnim();
-  var minD=(level==='easy')?3:4, maxD=(level==='easy')?4:6;  // 信号の数が多すぎないよう距離を制限
+  var minD=(level==='easy')?3:(level==='super')?5:4, maxD=(level==='easy')?4:(level==='super')?7:6;  // 信号の数が多すぎないよう距離を制限
   var start, dest, tries=0, md;
   do{ start=[rnd(N),rnd(N)]; dest=[rnd(N),rnd(N)]; md=Math.abs(start[0]-dest[0])+Math.abs(start[1]-dest[1]); tries++; }
   while(((start[0]===dest[0]&&start[1]===dest[1]) || md<minD || md>maxD) && tries<400);
@@ -269,18 +286,16 @@ function genScenario(level){
   var destType=pick(FACILITIES);
   var usedName={}; usedName[destType.n]=1;
   var landmarks={}, buildings=[], usedSeg={};
-  // 目印（名前つき施設）を、交差点に配置。曲がるときの目印にする（各交差点に対応）
+  // 目印の建物・施設を、たくさん道沿いに置く（見た目・目印用。案内は信号を数えるので名前の重複はOK）
   var landCells=shuffleArr(allCells.filter(function(c){ return !(c[0]===start[0]&&c[1]===start[1]) && !(c[0]===dest[0]&&c[1]===dest[1]); }));
-  var K=8+rnd(4), placed=0;
+  var K=20+rnd(10), placed=0;
   for(var li=0; li<landCells.length && placed<K; li++){
-    var cell=landCells[li]; var pool=FACILITIES.filter(function(f){return !usedName[f.n];}); if(!pool.length) break;
-    var nb=neighbors(cell); if(!nb.length) continue;
-    var f=pick(pool); usedName[f.n]=1; placed++;
-    landmarks[keyOf(cell[0],cell[1])]={e:f.e,n:f.n};
-    var a=pick(nb); usedSeg[segKey(a,cell)]=1; var p=roadside(a,cell,0.70);
-    buildings.push({gr:p.gr,gc:p.gc,e:f.e,kind:'landmark'});
+    var cell=landCells[li]; var nb=neighbors(cell); if(!nb.length) continue;
+    var a=pick(nb); var sk=segKey(a,cell); if(usedSeg[sk]) continue;
+    usedSeg[sk]=1; var f=pick(FACILITIES); var p=roadside(a,cell,0.70);
+    buildings.push({gr:p.gr,gc:p.gc,e:f.e,kind:'landmark'}); placed++;
   }
-  // 目的地の施設：目的地のわきの道沿いに置く（ピンなし）
+  // 目的地の施設：目的地のわきの道沿いに置く（客モードのみ表示・目印ピンなし）
   (function(){ var nb=neighbors(dest); var a=nb.length?pick(nb):dest; usedSeg[segKey(a,dest)]=1;
     var p=roadside(a,dest,0.62); buildings.push({gr:p.gr,gc:p.gc,e:destType.e,kind:'dest'}); })();
   // 橋（ランダムな区間に）
@@ -292,9 +307,9 @@ function genScenario(level){
       car:{r:start[0],c:start[1],dir:firstDir}, carViz:{r:start[0],c:start[1],ang:ANGLE[firstDir]},
       done:false, waiting:false, animating:false };
   // 装飾（名前なし・景観用）：空いている区間の道沿いに散らす
-  shuffleArr(segs); var decoMax=34+rnd(14), decoN=0;
+  shuffleArr(segs); var decoMax=60+rnd(24), decoN=0;
   for(var si=0; si<segs.length && decoN<decoMax; si++){ var sg=segs[si]; var k2=segKey(sg[0],sg[1]); if(usedSeg[k2]) continue;
-    if(Math.random()<0.55){ usedSeg[k2]=1; var pp=roadside(sg[0],sg[1],0.35+Math.random()*0.3);
+    if(Math.random()<0.62){ usedSeg[k2]=1; var pp=roadside(sg[0],sg[1],0.35+Math.random()*0.3);
       buildings.push({gr:pp.gr,gc:pp.gc,kind:'deco',horiz:(sg[0][0]===sg[1][0]),col:rnd(BLD_COLORS.length),park:(Math.random()<0.16),sz:0.82+Math.random()*0.45}); decoN++; } }
 }
 
@@ -337,16 +352,16 @@ function easeSS(k){ return k*k*(3-2*k); }
 function shortAng(a,b){ return ((b-a)%360+540)%360-180; }
 var animRAF=null;
 function cancelAnim(){ if(animRAF){ try{cancelAnimationFrame(animRAF);}catch(e){} animRAF=null; } }
-function animateMove(fr,fc,fa, tr,tc,ta){
+function animateMove(fr,fc,fa, tr,tc,ta, done){
   cancelAnim();
-  var dA=shortAng(fa,ta), rotMs=(Math.abs(dA)<1)?0:170, movMs=380, T=rotMs+movMs, t0=null;
+  var dA=shortAng(fa,ta), rotMs=(Math.abs(dA)<1)?0:150, movMs=330, T=rotMs+movMs, t0=null;
   G.carViz={r:fr,c:fc,ang:fa};
-  if(typeof requestAnimationFrame==='undefined'){ G.carViz={r:tr,c:tc,ang:ta}; positionCar(); return; }
+  if(typeof requestAnimationFrame==='undefined'){ G.carViz={r:tr,c:tc,ang:ta}; positionCar(); if(done)done(); return; }
   function frame(ts){ if(t0==null)t0=ts; var e=ts-t0;
     if(e<rotMs){ G.carViz.ang=fa+dA*easeSS(e/rotMs); }
     else { var k=easeSS(Math.min(1,(e-rotMs)/movMs)); G.carViz.ang=ta; G.carViz.r=fr+(tr-fr)*k; G.carViz.c=fc+(tc-fc)*k; }
     positionCar();
-    if(e<T){ animRAF=requestAnimationFrame(frame); } else { animRAF=null; G.carViz={r:tr,c:tc,ang:ta}; positionCar(); }
+    if(e<T){ animRAF=requestAnimationFrame(frame); } else { animRAF=null; G.carViz={r:tr,c:tc,ang:ta}; positionCar(); if(done)done(); }
   }
   animRAF=requestAnimationFrame(frame);
 }
@@ -414,7 +429,7 @@ function drawMap(){
 /* 行ける方向（直進・左折・右折。Uターン以外）を薄い丸で表示。タップで運転できる */
 function reachableMoves(){ var out=[]; ['straight','left','right'].forEach(function(a){ var nd=(a==='left')?LEFT[G.car.dir]:(a==='right')?RIGHT[G.car.dir]:G.car.dir; var nr=G.car.r+DIRS[nd][0], nc=G.car.c+DIRS[nd][1]; if(inGrid(nr,nc)) out.push({act:a,cell:[nr,nc]}); }); return out; }
 function showHints(){ var g=document.getElementById('hintG'); if(!g) return;
-  var canTap=(G.mode==='driver' && !G.done && (G.level!=='super' || G.waiting));
+  var canTap=(G.mode==='driver' && !G.done && !driving);
   if(!canTap){ g.innerHTML=''; return; }
   var rr=MAP_STEP*0.17, h='';
   reachableMoves().forEach(function(m){ var x=PX(m.cell[1]), y=PY(m.cell[0]);
@@ -463,39 +478,38 @@ function fullGuideText(){
   return cl.join('、')+'ください。';
 }
 
-/* 超上級：自動走行。直進は自動、曲がる／目的地では止まって判断（＝赤信号） */
-var cruiseTimer=null, CRUISE_MS=430;
-function stopCruise(){ if(cruiseTimer){ clearTimeout(cruiseTimer); cruiseTimer=null; } }
-function scheduleCruise(){ stopCruise(); G.waiting=false; cruiseTimer=setTimeout(cruiseTick, CRUISE_MS); }
-function cruiseTick(){
-  cruiseTimer=null; if(G.done) return;
-  if(atDest()){ superStop(); return; }
-  var g=guideInfo();
-  if(g.act==='straight'){ doMove('straight'); resumeCruise(); }
-  else superDecision();
+function stopCruise(){}  /* 旧・自動走行は廃止（互換のため空関数） */
+
+/* ===== 連続走行エンジン（ドラッグで運転／交差点では止まらない） ===== */
+var driving=false;
+function startDrive(){ if(driving || G.done) return; driving=true; driveStep(); }
+function driveStep(){
+  if(G.done){ driving=false; return; }
+  var tc=G.dragTargetCell;
+  if(tc && G.car.r===tc[0] && G.car.c===tc[1]){        // 目標マスに到着
+    if(!G.dragging){ driving=false; onRest(); } else { driving=false; }  // 離した→停止／押したまま→待機
+    return;
+  }
+  if(!tc){ driving=false; if(!G.dragging) onRest(); return; }
+  var acts=routeTo(G.car.r,G.car.c,G.car.dir, tc[0],tc[1]);
+  if(!acts || !acts.length){ driving=false; onRest(); return; }
+  // 直進は複数マス連続で（交差点で止まらない）。曲がりが来たら1マスずつ
+  var act=acts[0];
+  doMove(act, function(){ driveStep(); });
 }
-function resumeCruise(){
-  if(atDest()){ superStop(); return; }
-  var g=guideInfo();
-  if(g.act==='straight'){ setStatus('🟢 まっすぐ 進みます…',''); scheduleCruise(); }
-  else superDecision();
-}
-/* 曲がり角（赤信号）：いまいる場所からの行き方を指示 */
-function superDecision(){
-  G.waiting=true; stopCruise(); showHints();
-  if(G.mode==='driver'){ var t=guideText(); setStatus('🔴 赤信号。'+t, 'タップ か ボタンで 操作。','ng'); say(t); }
-  else { setStatus('🔴 赤信号で 止まりました。', 'どちらへ 行きますか？ 話してください。','ng'); say('つぎは どちらへ 行きますか？'); }
-}
-/* 目的地に到着（赤信号）：止まる操作でクリア */
-function superStop(){
-  G.waiting=true; stopCruise(); showHints();
-  if(G.mode==='driver'){ setStatus('🔴 「'+G.destType.n+'」に 着きました。', 'タクシーを タップ、または ✋止まる。','ng'); say(G.destType.n+'で 止まってください。'); }
-  else { setStatus('🔴 目的地に 着きました。', '「止まって」と 言ってください。','ng'); say(G.destType.n+'で 止まってください。'); }
+/* タクシーが止まったとき：目的地なら到着、そうでなければ運転手モードで次の案内 */
+function onRest(){
+  if(G.done) return;
+  if(atDest()){ winRound(); return; }
+  if(G.mode==='driver'){
+    if(G.level==='easy') guideNow();
+    else { setStatus('🚕 いま '+DIRNAME[G.car.dir]+'むき。','🔊で 道順を もう一度 聞けます。'); showHints(); }
+  }
 }
 
 /* ===== 移動 ===== */
-function doMove(act){
-  // act: straight/left/right → 向きを変えて1マス前進。論理状態は即更新し、見た目はなめらかにアニメ
+function doMove(act, done){
+  // act: straight/left/right → 向きを変えて1マス前進。done=アニメ終了時のコールバック（連続走行に使う）
   var dir=G.car.dir;
   if(act==='right') dir=RIGHT[dir];
   else if(act==='left') dir=LEFT[dir];
@@ -504,7 +518,7 @@ function doMove(act){
   var v=G.carViz||{r:G.car.r,c:G.car.c,ang:ANGLE[G.car.dir]};
   var fr=v.r, fc=v.c, fa=v.ang;               // いま見えている位置から
   G.car.dir=dir; G.car.r=nr; G.car.c=nc;      // 論理位置を更新
-  animateMove(fr,fc,fa, nr,nc, ANGLE[dir]);   // なめらかに移動
+  animateMove(fr,fc,fa, nr,nc, ANGLE[dir], done);   // なめらかに移動
   return true;
 }
 function atDest(){ return G.car.r===G.dest[0] && G.car.c===G.dest[1]; }
@@ -512,79 +526,60 @@ function atDest(){ return G.car.r===G.dest[0] && G.car.c===G.dest[1]; }
 /* ===== 画面遷移 ===== */
 function show(id){ ['home','play','win'].forEach(function(s){ $(s).classList.toggle('hidden', s!==id); }); window.scrollTo({top:0}); }
 
-/* ===== 運転手モード（タッチ操作＋いまの場所からの案内） ===== */
+/* ===== 運転手モード（タクシーを指でドラッグして運転） ===== */
 function startDriver(){
-  stopCruise(); genScenario(LV_SEL);
+  driving=false; stopSeq(); G.dragging=false; G.dragTargetCell=null; genScenario(LV_SEL);
   $('driverCtrl').classList.remove('hidden'); $('passCtrl').classList.add('hidden');
   drawMap(); show('play');
   if(LV_SEL==='easy'){
-    setStatus('「'+G.destType.n+'まで お願いします。」', 'タクシーを タップ か ボタンで 動かしましょう。');
+    setStatus('「'+G.destType.n+'まで お願いします。」', 'タクシーを 指で ドラッグして 走らせましょう。');
     setTimeout(function(){ guideNow(); }, 700);
-  } else if(LV_SEL==='advanced'){
-    setStatus('🔊 道順を 覚えて 動かしましょう。', 'もう一度は 🔊。タクシーを タップ か ボタンで。');
-    setTimeout(function(){ say(G.destType.n+'まで。'+fullGuideText()); }, 600);
   } else {
-    setStatus('🚕 道順を 覚えましょう。まっすぐは 自動、曲がり角で 操作します。', '止まったら タップ か ボタンで。');
-    setTimeout(function(){ say(G.destType.n+'まで。'+fullGuideText()); }, 500);
-    setTimeout(function(){ resumeCruise(); }, 1400);
+    setStatus('🔊 道順を 覚えて、タクシーを ドラッグして 走らせましょう。', 'もう一度は 🔊。');
+    setTimeout(function(){ say(G.destType.n+'まで。'+fullGuideText()); }, 600);
   }
 }
-/* いまいる場所から次の一手を案内（やさしいモードの各停車時） */
+/* いまいる場所から次の一手を案内（やさしいモードの停車時） */
 function guideNow(){ if(G.done) return; var t=guideText(); setStatus('🚕 いま '+DIRNAME[G.car.dir]+'むき。', t); say(t); showHints(); }
+/* ボタン操作（補助）：1マスだけ動く */
 function driverAction(act){
-  if(G.done) return;
-  if(G.level==='super' && !G.waiting){ setStatus('🚕 走行中… 止まってから 操作してください。',''); return; }
-  if(act==='stop'){
-    if(atDest()){ winRound(); return; }
-    setStatus('ここは 目的地では ありません。', '案内を 聞いて 進みましょう。','ng'); say('まだ 目的地では ありませんよ。'); return;
-  }
+  if(G.done || driving) return;
+  if(act==='stop'){ if(atDest()) winRound(); else { setStatus('ここは 目的地では ありません。','案内を 聞いて 進みましょう。','ng'); say('まだ 目的地では ありませんよ。'); } return; }
   clearHints();
-  var moved=doMove(act);
-  if(!moved){ setStatus('そちらには 道が ありません。', 'ちがう 方向へ どうぞ。','ng'); say('そちらには 行けません。'); showHints(); return; }
-  if(G.level==='super'){ G.waiting=false; resumeCruise(); return; }
-  if(atDest()){ setStatus('🅿️ 「'+G.destType.n+'」に 着きました。', 'タクシーを タップ、または ✋止まる。'); say(G.destType.n+'に 着きました。止まってください。'); showHints(); return; }
-  if(G.level==='easy') guideNow();
-  else { setStatus('🚕 いま '+DIRNAME[G.car.dir]+'むき。つづけて どうぞ。', '🔊で ここからの 道を 聞けます。'); showHints(); }
+  var moved=doMove(act, function(){ onRest(); });
+  if(!moved){ setStatus('そちらには 道が ありません。','ちがう 方向へ どうぞ。','ng'); say('そちらには 行けません。'); showHints(); }
 }
-/* タクシーのタッチ操作：地図の隣の交差点をタップ→前/左/右へ。タクシー自身をタップ＝止まる */
-function tapCell(r,c){
-  if(!G || G.done || G.mode!=='driver') return;
-  if(G.level==='super' && !G.waiting) return;
-  if(r===G.car.r && c===G.car.c){ driverAction('stop'); return; }
-  var dr=r-G.car.r, dc=c-G.car.c;
-  if(Math.abs(dr)+Math.abs(dc)!==1) return;
-  var nd=(dr===-1)?'N':(dr===1)?'S':(dc===1)?'E':'W';
-  var act=(nd===G.car.dir)?'straight':(nd===RIGHT[G.car.dir])?'right':(nd===LEFT[G.car.dir])?'left':'back';
-  if(act==='back'){ setStatus('後ろへは 戻れません。', 'ぐるっと 回って 行きましょう。','ng'); return; }
-  driverAction(act);
-}
-function onMapTap(ev){
-  var box=$('mapBox'), svg=box&&box.querySelector('svg'); if(!svg) return;
-  var rect=svg.getBoundingClientRect(); if(!rect.width) return;
-  var cx=(ev.clientX!=null)?ev.clientX:(ev.changedTouches&&ev.changedTouches[0]?ev.changedTouches[0].clientX:0);
-  var cy=(ev.clientY!=null)?ev.clientY:(ev.changedTouches&&ev.changedTouches[0]?ev.changedTouches[0].clientY:0);
-  // カメラ（viewBox）を考慮してタップ位置をマップ座標へ変換
+/* ドラッグ運転：ポインタの位置（＝目標マス）へタクシーが交差点で止まらず走る */
+function pointerToCell(ev){
+  var box=$('mapBox'), svg=box&&box.querySelector('svg'); if(!svg) return null;
+  var rect=svg.getBoundingClientRect(); if(!rect.width) return null;
+  var cx=(ev.clientX!=null)?ev.clientX:(ev.touches&&ev.touches[0]?ev.touches[0].clientX:(ev.changedTouches&&ev.changedTouches[0]?ev.changedTouches[0].clientX:0));
+  var cy=(ev.clientY!=null)?ev.clientY:(ev.touches&&ev.touches[0]?ev.touches[0].clientY:(ev.changedTouches&&ev.changedTouches[0]?ev.changedTouches[0].clientY:0));
   var vb=(svg.getAttribute('viewBox')||('0 0 '+MAP_S+' '+MAP_S)).split(' ').map(Number);
   var x=vb[0]+(cx-rect.left)/rect.width*vb[2], y=vb[1]+(cy-rect.top)/rect.height*vb[3];
-  var c=Math.round((x-MAP_M)/MAP_STEP), r=Math.round((y-MAP_M)/MAP_STEP);
-  if(!inGrid(r,c)) return;
-  if(Math.abs(x-PX(c))>MAP_STEP*0.55 || Math.abs(y-PY(r))>MAP_STEP*0.55) return;
-  tapCell(r,c);
+  var c=Math.max(0,Math.min(N-1,Math.round((x-MAP_M)/MAP_STEP))), r=Math.max(0,Math.min(N-1,Math.round((y-MAP_M)/MAP_STEP)));
+  return [r,c];
 }
+function onPointerDown(ev){ if(G.mode!=='driver'||G.done) return;
+  var cell=pointerToCell(ev); if(!cell) return;
+  G.dragging=true; G.dragTargetCell=cell; clearHints(); startDrive();
+  if(ev.cancelable) ev.preventDefault();
+}
+function onPointerMove(ev){ if(!G.dragging) return;
+  var cell=pointerToCell(ev); if(cell){ G.dragTargetCell=cell; startDrive(); }
+  if(ev.cancelable) ev.preventDefault();
+}
+function onPointerUp(ev){ if(!G.dragging) return; G.dragging=false; startDrive();
+  if(ev&&ev.cancelable) ev.preventDefault(); }
 
 /* ===== 客モード（音声で案内する側） ===== */
 function startPassenger(){
-  stopCruise(); genScenario(LV_SEL);
+  driving=false; stopSeq(); genScenario(LV_SEL);
   $('passCtrl').classList.remove('hidden'); $('driverCtrl').classList.add('hidden');
   $('log').innerHTML='';
   drawMap(); show('play');
-  if(LV_SEL==='super'){
-    setStatus('🚕 車は 走り続けます。曲がり角で 止まります。', '止まったら 曲がる方向を 話してください（目的地：'+G.destType.n+'）。');
-    say(G.destType.n+'まで、曲がり角で 教えてください。'); setTimeout(function(){ resumeCruise(); }, 800);
-  } else {
-    setStatus(G.destType.e+' '+G.destType.n+'まで 案内してください。', '運転手に 指示を 話しましょう（今 '+DIRNAME[G.car.dir]+'むき）。');
-    say(G.destType.n+'まで、道を 教えてください。');
-  }
+  setStatus(G.destType.e+' '+G.destType.n+'まで 案内してください。', '運転手に 指示を 話しましょう（今 '+DIRNAME[G.car.dir]+'むき）。');
+  say(G.destType.n+'まで、道を 教えてください。');
 }
 function parseInstruction(text){
   var t=norm(text);
@@ -630,42 +625,35 @@ function parseCommands(raw){
   if(sawStraight) moves.push('straight');
   return moves;
 }
-var seqTimer=null;
-function stopSeq(){ if(seqTimer){ clearTimeout(seqTimer); seqTimer=null; } }
-function runMoves(moves){ stopSeq(); runStep(moves,0); }
-function runStep(moves,i){
-  if(G.done) return;
+/* 指示の並びを、交差点で止まらず なめらかに連続実行する（seqGen＝キャンセル用トークン） */
+var seqGen=0;
+function stopSeq(){ seqGen++; }
+function runMoves(moves){ var g=++seqGen; runStep(moves,0,g); }
+function runStep(moves,i,g){
+  if(G.done || g!==seqGen) return;
   if(i>=moves.length){ setStatus('つづけて 指示を どうぞ。','今 '+DIRNAME[G.car.dir]+'むき。'); return; }
   var m=moves[i];
   if(m==='stopHere'){ if(atDest()) winRound(); else { setStatus('ここは 目的地では ありません。','案内を つづけてください。','ng'); say('ここは まだ ちがいます。'); } return; }
-  if(m==='stopDest'){ driveToDest(0); return; }
-  var moved=doMove(m);
+  if(m==='stopDest'){ driveToDest(0,g); return; }
+  var moved=doMove(m, function(){
+    if(g!==seqGen || G.done) return;
+    if(m!=='straight') say(m==='right'?'右に 曲がります。':'左に 曲がります。');
+    if(atDest() && i>=moves.length-1){ setStatus('「'+G.destType.n+'」の 前です。','「止まって」と 言ってください。'); return; }
+    runStep(moves,i+1,g);   // 前の動きが終わり次第すぐ次へ＝交差点で止まらない
+  });
   if(!moved){ setStatus('その方向には 行けません。','べつの 言い方で どうぞ。','ng'); say('そちらには 行けません。'); return; }
-  say(m==='right'?'右に 曲がります。':m==='left'?'左に 曲がります。':'まっすぐ 行きます。');
-  if(atDest() && i>=moves.length-1){ setStatus('「'+G.destType.n+'」の 前です。','「止まって」と 言ってください。'); return; }
-  seqTimer=setTimeout(function(){ runStep(moves,i+1); }, 680);
 }
-function driveToDest(cnt){
-  if(G.done) return;
+function driveToDest(cnt,g){
+  if(G.done || g!==seqGen) return;
   if(atDest()){ winRound(); return; }
-  if(cnt>N+2 || !doMove('straight')){ setStatus('ここは 目的地では ありません。','道が ちがうかもしれません。','ng'); say('うまく つきませんでした。'); return; }
-  seqTimer=setTimeout(function(){ driveToDest(cnt+1); }, 680);
+  if(cnt>N+2){ setStatus('ここは 目的地では ありません。','道が ちがうかもしれません。','ng'); say('うまく つきませんでした。'); return; }
+  var moved=doMove('straight', function(){ driveToDest(cnt+1,g); });
+  if(!moved){ setStatus('ここは 目的地では ありません。','道が ちがうかもしれません。','ng'); say('うまく つきませんでした。'); }
 }
 function logLine(s){ var l=$('log'); l.innerHTML += '<div>'+esc(s)+'</div>'; l.scrollTop=l.scrollHeight; }
 function passengerHeard(raw){
   logLine('🗣️ '+raw);
-  // 超上級：赤信号で一手ずつ（自動走行に合わせる）
-  if(G.level==='super'){
-    var act=parseInstruction(raw);
-    if(!act){ setStatus('うまく 聞き取れませんでした。','もう一度 話してください。','ng'); say('もう一度 お願いします。'); return; }
-    if(act==='turn?'){ setStatus('右ですか、左ですか？','「右に 曲がって」のように。','ng'); say('右ですか、左ですか？'); return; }
-    if(!G.waiting){ setStatus('🚗 走行中です。','止まってから 話してください。','ng'); return; }
-    if(act==='stop'){ if(atDest()) winRound(); else { setStatus('まだ 目的地では ありません。','曲がる方向を 話してください。','ng'); say('まだ ちがいます。'); } return; }
-    var mv=doMove(act);
-    if(!mv){ setStatus('そちらには 道が ありません。','べつの 方向を どうぞ。','ng'); say('そちらには 行けません。'); return; }
-    G.waiting=false; say(act==='right'?'右に 曲がります。':act==='left'?'左に 曲がります。':'まっすぐ 行きます。'); resumeCruise(); return;
-  }
-  // やさしい／上級：複文（「二つ目の信号を右に曲がって、まっすぐ進んで、○○の前で止まって」）に対応
+  // どのレベルも複文に対応（「二つ目の信号を右に曲がって、まっすぐ進んで、○○の前で止まって」）
   var moves=parseCommands(raw);
   if(!moves.length){ setStatus('うまく 聞き取れませんでした。', '「二つ目の信号を 右に 曲がって」の ように 言ってください。','ng'); say('もう一度 お願いします。'); return; }
   setStatus('🚕 指示の とおりに 動きます…', '');
@@ -714,13 +702,13 @@ function geminiComment(){
 
 /* ===== 起動・イベント ===== */
 var MODE_NOTE={
-  driver:'客（AI）の 指示を 聞いて、タクシーを タップ（またはボタン）で 目的地まで 動かします。聞き取りの 練習。',
+  driver:'客（AI）の 指示を 聞いて、タクシーを 指で ドラッグして 目的地まで 走らせます。聞き取りの 練習。',
   passenger:'あなたが 運転手（AI）に 音声で 指示を 出して、目的地まで 案内します。話す 練習。'
 };
 var LEVEL_NOTE={
   easy:'やさしい：止まるたびに、いまの場所からの 行き方を 1つずつ 案内。',
   advanced:'上級：道順を まとめて 聞いて 覚えて 運転。🔊で いまの場所から 聞き直せる。',
-  super:'超上級：まっすぐは 自動。曲がり角で 止まって 判断（タップ か 音声）。'
+  super:'超上級：道順を 一度だけ 聞いて 覚えて 運転。道のりが 長め。'
 };
 var LV_SEL='easy';
 G.mode='driver';
@@ -738,7 +726,22 @@ $('repeatBtn').onclick=function(){
   if(G.level!=='easy') say(G.destType.n+'まで。'+fullGuideText());
   else say(guideText());
 };
-$('mapBox').addEventListener('click', onMapTap);
+/* タクシーを 指／カーソルで ドラッグして 運転（交差点で止まらず、はなした所まで走る） */
+(function(){ var mb=$('mapBox'); mb.style.touchAction='none';
+  if(window.PointerEvent){
+    mb.addEventListener('pointerdown', onPointerDown);
+    mb.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
+  } else {
+    mb.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerUp);
+    mb.addEventListener('touchstart', onPointerDown, {passive:false});
+    mb.addEventListener('touchmove', onPointerMove, {passive:false});
+    window.addEventListener('touchend', onPointerUp);
+  }
+})();
 $('micBtn').onclick=startVoice;
 $('newBtn').onclick=function(){ leavePlay(); startGame(); };
 $('homeBtn').onclick=function(){ leavePlay(); show('home'); };

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>問題 編集・修正ページ（全レベル・全種類）</title>
+<style>
+  :root{ --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6; --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890; --accent:#2D5A8E; --ok:#2F7168; --danger:#B33; --radius:14px; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif; line-height:1.7; }
+  .wrap{ max-width:860px; margin:0 auto; padding:16px; }
+  h1{ font-size:20px; margin:.2rem 0; }
+  .lead{ font-size:13px; color:var(--text-muted); margin-bottom:12px; }
+  .toolbar{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px; }
+  .btn{ font-family:inherit; font-weight:700; border:1px solid var(--border); border-radius:9px; padding:8px 13px; font-size:13px; cursor:pointer; background:var(--surface); color:var(--text); }
+  .btn:hover{ border-color:var(--accent); }
+  .btn.primary{ background:var(--accent); color:#fff; border-color:var(--accent); }
+  .btn.ok{ background:var(--ok); color:#fff; border-color:var(--ok); }
+  .btn.warn{ background:#eee; color:#333; }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .lockpill{ font-size:12px; font-weight:700; border-radius:999px; padding:5px 12px; }
+  .locked{ background:#F1EAdd; color:#8a5a12; border:1px solid #E7D3a6; }
+  .unlocked{ background:#E7F4EA; color:#1c6b34; border:1px solid #B9E2C4; }
+  .groupbar{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .glabel{ font-size:11px; font-weight:700; color:var(--text-hint); align-self:center; margin-right:2px; }
+  .tab{ background:var(--surface); border:1px solid var(--border); border-radius:9px; padding:7px 11px; font-size:12.5px; font-weight:600; cursor:pointer; font-family:inherit; color:var(--text); }
+  .tab:hover{ border-color:var(--accent); }
+  .tab.on{ background:var(--accent); color:#fff; border-color:var(--accent); }
+  .bar{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px; }
+  .bar select,.bar input{ font-family:inherit; font-size:13px; padding:7px 9px; border:1px solid var(--border); border-radius:8px; background:var(--surface); color:var(--text); }
+  .count{ font-size:12px; color:var(--text-muted); }
+  .msg{ background:#FFF6EA; border:1px solid #F0D8B0; border-radius:10px; padding:12px 14px; font-size:13px; color:#8a5a12; margin-bottom:12px; }
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:13px 14px; margin-bottom:12px; display:flex; gap:10px; align-items:flex-start; }
+  .card.hid{ opacity:.5; border-style:dashed; }
+  .card.rev{ opacity:.7; border-color:#27ae60; }
+  .cmain{ flex:1; min-width:0; }
+  .cmeta{ font-size:11px; color:var(--text-hint); margin-bottom:3px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .cnum{ font-weight:800; color:var(--accent); }
+  .cprev{ font-size:14px; line-height:1.5; word-break:break-word; margin-bottom:5px; white-space:pre-wrap; }
+  .chip{ font-size:12px; padding:2px 7px; border-radius:4px; background:var(--bg); color:var(--text-muted); border:1px solid var(--border); margin:2px 3px 2px 0; display:inline-block; }
+  .chip.ok{ background:var(--ok); color:#fff; border-color:var(--ok); }
+  .cans{ font-size:12px; color:#27ae60; margin-top:4px; }
+  .cex{ font-size:11.5px; color:var(--text-muted); margin-top:3px; }
+  .cbtns{ display:flex; flex-direction:column; gap:6px; flex-shrink:0; }
+  .cbtns .btn{ padding:6px 10px; font-size:11.5px; }
+  .badge{ font-size:10px; font-weight:700; border-radius:4px; padding:1px 6px; }
+  .b-rev{ color:#27ae60; } .b-un{ color:var(--danger); }
+  .b-hid{ color:#fff; background:#777; border-radius:4px; padding:1px 6px; }
+  .script{ border-top:1px dashed var(--border); margin-top:8px; padding-top:6px; }
+  .sline{ display:flex; gap:8px; margin-bottom:4px; align-items:flex-start; font-size:12.5px; }
+  .spk{ font-size:10px; font-weight:700; border-radius:4px; padding:1px 6px; flex-shrink:0; margin-top:2px; background:#EEECE7; color:#6B6560; }
+  .visual{ margin:6px 0; overflow-x:auto; }
+  audio{ width:100%; margin:6px 0; }
+  /* modal */
+  .modal{ position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:50; display:none; align-items:center; justify-content:center; padding:14px; }
+  .mbox{ background:#fff; border-radius:12px; padding:16px; max-width:560px; width:100%; max-height:92vh; overflow:auto; }
+  .lab{ font-size:12px; font-weight:700; color:var(--text-muted); margin:10px 0 3px; display:block; }
+  .inp,.ta{ width:100%; border:1px solid var(--border); border-radius:8px; padding:8px 10px; font-family:inherit; font-size:13px; background:#FCFBF9; color:var(--text); }
+  .ta{ min-height:56px; resize:vertical; line-height:1.6; }
+  .ta.code{ font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; min-height:120px; }
+  .crow{ display:flex; align-items:center; gap:8px; margin-bottom:5px; }
+  .crow input[type=radio]{ flex-shrink:0; width:18px; height:18px; }
+  .mfoot{ display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
+  details{ margin-top:10px; border-top:1px dashed var(--border); padding-top:8px; }
+  summary{ font-size:12px; font-weight:700; color:var(--text-hint); cursor:pointer; }
+  .hint{ font-size:11.5px; color:var(--text-hint); }
+  /* material（BJT/JTEST 資料）最低限 */
+  .mtl-scene{ display:inline-block; text-align:center; }
+  .mtl-cap{ font-size:11px; color:#6B6560; margin-top:2px; }
+  .mtl-t{ border-collapse:collapse; margin:0 auto; background:#fff; }
+  .mtl-t th,.mtl-t td{ border:1px solid #D9D3CA; padding:5px 9px; font-size:12px; text-align:center; }
+  .mtl-t td.l{ text-align:left; }
+  .mtl-hl{ background:#FCEFC7; font-weight:700; padding:0 3px; border-radius:3px; }
+  .mtl-mail,.mtl-notice,.mtl-list,.mtl-card{ display:inline-block; text-align:left; background:#FBF7EC; border:1px solid #EAD9B0; border-radius:8px; padding:10px 12px; font-size:12px; white-space:pre-wrap; max-width:340px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>問題 編集・修正ページ</h1>
+  <div class="lead">全レベル・全種類（JLPT / J.TEST / BJT）の問題を、この1ページで確認・修正できます。閲覧は自由、<b>編集はパスワード</b>で保護しています。修正後は「修正版ファイルをダウンロード」して GitHub にアップロードすると確定します。</div>
+
+  <div class="toolbar">
+    <span id="lockpill" class="lockpill locked">🔒 閲覧のみ（編集ロック中）</span>
+    <button id="unlockBtn" class="btn primary" onclick="unlock()">🔓 編集モードにする</button>
+    <button id="exportBtn" class="btn ok" onclick="exportCurrent()" disabled>💾 修正版ファイルをダウンロード</button>
+    <button class="btn" onclick="reloadCurrent()">↻ 再読み込み</button>
+  </div>
+
+  <div class="groupbar" id="tabs"></div>
+
+  <div class="bar">
+    <select id="unitSel"><option value="">—</option></select>
+    <input id="jump" type="text" inputmode="numeric" placeholder="番号へ移動" style="width:110px">
+    <label class="hint"><input type="checkbox" id="hideReviewed"> 確認済みを隠す</label>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div id="body"><div class="msg">上のタブからレベル・種類を選んでください。</div></div>
+</div>
+
+<!-- 編集モーダル -->
+<div class="modal" id="modal">
+  <div class="mbox">
+    <div id="mTitle" style="font-size:15px;font-weight:800;margin-bottom:6px"></div>
+    <div id="mExtraWrap"></div>
+    <label class="lab">問題文</label>
+    <textarea id="mQ" class="ta"></textarea>
+    <div id="mChoicesWrap">
+      <label class="lab" id="mChoicesLab">選択肢（正解を左の○で指定）</label>
+      <div id="mChoices"></div>
+    </div>
+    <label class="lab">解説</label>
+    <textarea id="mEx" class="ta"></textarea>
+    <details>
+      <summary>詳細（JSON）で編集 — 台本・話者・音声・資料など全項目</summary>
+      <div class="hint" style="margin:6px 0">この問題の生データです。台本(script/turns)・音声(audio)・資料(visual/material)など、上のフォームに無い項目はここで直接編集できます。「JSONで保存」を押すとこの内容が反映されます。</div>
+      <textarea id="mRaw" class="ta code"></textarea>
+    </details>
+    <div class="mfoot">
+      <button class="btn warn" onclick="closeModal()">キャンセル</button>
+      <button class="btn ok" onclick="saveForm()">フォームで保存</button>
+      <button class="btn" onclick="saveRaw()">JSONで保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+//  データソース定義
+//  model:
+//   'jlpt'     … n?_quiz.html。const vocab/grammar/reading/otherQuestions = {大問:[{question,choices,answer,explanation,hidden?}]}
+//               データ範囲マーカーは行コメント方式（// <DATA> … // </DATA>）
+//   'sections' … var SECTIONS=[{name,items:[{q,cs,a,ex,passage?,sub?,hidden?}]}]。ブロックコメント方式のマーカーで囲う
+//   'bjtjs'    … BJT_*_data.js。VAR = [ {id,sec,material,setup,turns,q,cs,a,ex} ]
+const SOURCES = [
+  {key:'n1', group:'JLPT', label:'N1', file:'n1_quiz.html', model:'jlpt'},
+  {key:'n2', group:'JLPT', label:'N2', file:'n2_quiz.html', model:'jlpt'},
+  {key:'n3', group:'JLPT', label:'N3', file:'n3_quiz.html', model:'jlpt'},
+  {key:'n4', group:'JLPT', label:'N4', file:'n4_quiz.html', model:'jlpt'},
+  {key:'n5', group:'JLPT', label:'N5', file:'n5_quiz.html', model:'jlpt'},
+  {key:'jac', group:'J.TEST', label:'J.TEST A-C', file:'jtest_ac.html', model:'sections'},
+  {key:'jde', group:'J.TEST', label:'J.TEST D-E', file:'jtest_de.html', model:'sections'},
+  {key:'jfg', group:'J.TEST', label:'J.TEST F-G', file:'jtest_fg.html', model:'sections'},
+  {key:'bdk', group:'BJT', label:'BJT 読解', file:'bjt_dokkai.html', model:'sections'},
+  {key:'bck', group:'BJT', label:'BJT 聴解', file:'bjt_choukai_data.js', model:'bjtjs', varname:'BJT_CHOUKAI'},
+  {key:'bcd', group:'BJT', label:'BJT 聴読解', file:'bjt_choudokkai_data.js', model:'bjtjs', varname:'BJT_CHOUDOKKAI'},
+];
+// DATAブロック内の変数名 → 表示ラベル（レベルにより otherQuestions か listeningQuestions が入る）
+const JLPT_NAME = {
+  vocabQuestions:'文字・語彙', grammarQuestions:'文法', readingQuestions:'読解',
+  otherQuestions:'その他', listeningQuestions:'聴解',
+};
+// msjptest の SHA-256
+const EDIT_HASH = '212c3a046555c1f473964977f8f21fefbbdd50af786fcfcb01ad4611764fb7c0';
+
+let cur = null;          // 現在のソース
+let unlocked = false;    // 編集ロック
+const CACHE = {};        // srcKey -> {model, ...parsed, units:[...]}
+let editing = null;      // {unit, idx}
+
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function D(id){ return document.getElementById(id); }
+
+/* ---- リテラル抽出（{ or [ を対応括弧で切り出す） ---- */
+function extractLiteral(text, varname){
+  const re = new RegExp(varname.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\s*=\\s*([\\[{])');
+  const m = re.exec(text);
+  if(!m) return null;
+  const open = m[1], close = open==='[' ? ']' : '}';
+  let i = text.indexOf(open, m.index), depth=0, instr=false, esc2=false, q=null;
+  const start = i;
+  while(i < text.length){
+    const c = text[i];
+    if(instr){ if(esc2) esc2=false; else if(c==='\\') esc2=true; else if(c===q) instr=false; }
+    else{
+      if(c==='"'||c==="'"||c==='`'){ instr=true; q=c; }
+      else if(c===open) depth++;
+      else if(c===close){ depth--; if(depth===0) return {lit:text.slice(start,i+1), start, end:i+1}; }
+    }
+    i++;
+  }
+  return null;
+}
+function evalLiteral(lit){
+  try{ return JSON.parse(lit); }catch(e){}
+  try{ return (new Function('return ('+lit+')'))(); }catch(e){ return null; }
+}
+
+/* ---- 取得＋パース ---- */
+async function loadSource(src){
+  const res = await fetch(src.file, {cache:'no-store'});
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  const text = await res.text();
+  const ds = {model:src.model, file:src.file, text, units:[]};
+  if(src.model==='jlpt'){
+    // DATAブロック内の const XxxQuestions を動的に検出（レベルにより変数構成が異なる）
+    const dm = /\/\/ <DATA>([\s\S]*?)\/\/ <\/DATA>/.exec(text);
+    const block = dm ? dm[1] : text;
+    const names = [...block.matchAll(/const\s+(\w+Questions)\s*=/g)].map(m=>m[1]);
+    ds.jlptVars = [];   // 書き出し時にこの順序・名前で完全再現（データを落とさない）
+    names.forEach(nm=>{
+      const ex = extractLiteral(text, 'const '+nm) || extractLiteral(text, nm);
+      const val = ex ? evalLiteral(ex.lit) : null;
+      if(val==null) return;
+      ds.jlptVars.push({ name:nm, value:val });
+      const label = JLPT_NAME[nm] || nm.replace(/Questions$/,'');
+      if(Array.isArray(val)){
+        if(val.length) ds.units.push({ id:nm, label:label, arr:val, kind:'jlpt' });
+      } else if(typeof val==='object'){
+        Object.keys(val).forEach(key=>{
+          if(Array.isArray(val[key]) && val[key].length){
+            ds.units.push({ id:nm+'/'+key, label:label+' ／ '+key, arr:val[key],
+                            objName:nm, jpKey:key, kind:'jlpt' });
+          }
+        });
+      }
+    });
+  } else if(src.model==='sections'){
+    const ex = extractLiteral(text, 'var SECTIONS') || extractLiteral(text, 'SECTIONS');
+    const arr = ex ? evalLiteral(ex.lit) : null;
+    ds.sections = Array.isArray(arr) ? arr : [];
+    ds.sections.forEach((sec,si)=>{
+      ds.units.push({ id:'s'+si, label:(sec.name||('パート'+(si+1)))+'（'+((sec.items||[]).length)+'問）',
+                      arr:sec.items||[], kind:'sections' });
+    });
+  } else if(src.model==='bjtjs'){
+    const ex = extractLiteral(text, src.varname);
+    const arr = ex ? evalLiteral(ex.lit) : null;
+    ds.arr = Array.isArray(arr) ? arr : [];
+    ds.varname = src.varname;
+    // sec ごとにまとめる（sec が無ければ全体）
+    const secs = [...new Set(ds.arr.map(x=>x.sec||'（区分なし）'))];
+    if(secs.length<=1){
+      ds.units.push({ id:'all', label:'全 '+ds.arr.length+' 問', arr:ds.arr, kind:'bjt' });
+    } else {
+      secs.forEach(s=>{
+        ds.units.push({ id:'sec:'+s, label:s+'（'+ds.arr.filter(x=>(x.sec||'（区分なし）')===s).length+'問）',
+                        arr:ds.arr.filter(x=>(x.sec||'（区分なし）')===s), kind:'bjt', filterSec:s });
+      });
+    }
+  }
+  return ds;
+}
+
+/* ---- 正規化：カード表示用の共通ビュー ---- */
+function view(it, kind){
+  if(kind==='jlpt'){
+    return { q:it.question||'', choices:it.choices||[], correct:it.answer,
+             correctIsText:true, ex:it.explanation||'', hidden:!!it.hidden,
+             script:null, visual:'', audio:'', situation:'' };
+  }
+  if(kind==='sections'){
+    return { q:(it.q||it.sub||it.passage||''), choices:it.cs||[], correct:it.a,
+             correctIsText:false, ex:it.ex||'', hidden:!!it.hidden,
+             script:null, visual:'', audio:'', situation:(it.passage&&it.q?it.passage:'') };
+  }
+  // bjt
+  return { q:it.q||'', choices:it.cs||[], correct:it.a, correctIsText:false,
+           ex:it.ex||'', hidden:!!it.hidden,
+           script:(it.turns||[]).map(t=>({w:t.w,t:t.t})), visual:it.material||'',
+           audio:it.id?('audio/bjt_'+it.id+'.mp3'):'', situation:it.setup||'' };
+}
+function isCorrect(v, ci){
+  if(v.correctIsText) return v.choices[ci]===v.correct;
+  return ci===v.correct;
+}
+
+/* ---- localStorage：確認済み ---- */
+function rkey(u,i){ return 'edall_rev_'+cur.key+'_'+u.id+'_'+i; }
+function isRev(u,i){ try{ return localStorage.getItem(rkey(u,i))==='1'; }catch(e){ return false; } }
+function setRev(u,i,v){ try{ v?localStorage.setItem(rkey(u,i),'1'):localStorage.removeItem(rkey(u,i)); }catch(e){} }
+
+/* ---- タブ ---- */
+function buildTabs(){
+  const groups = [...new Set(SOURCES.map(s=>s.group))];
+  D('tabs').innerHTML = groups.map(g=>{
+    const inner = SOURCES.filter(s=>s.group===g)
+      .map(s=>'<button class="tab" data-key="'+s.key+'" onclick="selectSource(\''+s.key+'\')">'+esc(s.label)+'</button>').join('');
+    return '<span class="glabel">'+esc(g)+'</span>'+inner;
+  }).join('<span style="width:8px"></span>');
+}
+
+async function selectSource(key){
+  const src = SOURCES.find(s=>s.key===key); if(!src) return;
+  cur = src;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on', t.dataset.key===key));
+  D('body').innerHTML = '<div class="msg">読み込み中… '+esc(src.label)+'</div>';
+  D('exportBtn').disabled = true;
+  try{
+    if(!CACHE[key]) CACHE[key] = await loadSource(src);
+    const ds = CACHE[key];
+    const sel = D('unitSel');
+    sel.innerHTML = ds.units.map((u,i)=>'<option value="'+i+'">'+esc(u.label)+'</option>').join('') || '<option value="">（データなし）</option>';
+    sel.onchange = renderUnit;
+    D('exportBtn').disabled = !unlocked;
+    renderUnit();
+  }catch(e){
+    D('body').innerHTML = '<div class="msg">読み込みに失敗しました（'+esc(e.message)+'）。<br>このページは <b>GitHub Pages（公開サイト）から</b> 開いてください。ローカルの file:// では他ファイルを読み込めません。</div>';
+    D('count').textContent='';
+  }
+}
+function reloadCurrent(){ if(cur){ delete CACHE[cur.key]; selectSource(cur.key); } }
+
+function curUnit(){
+  const ds = CACHE[cur.key]; if(!ds) return null;
+  const i = +D('unitSel').value; return ds.units[i]||ds.units[0]||null;
+}
+
+function renderUnit(){
+  const u = curUnit(); if(!u){ D('body').innerHTML='<div class="msg">データがありません。</div>'; D('count').textContent=''; return; }
+  const hideRev = D('hideReviewed').checked;
+  const arr = u.arr;
+  const hiddenCount = arr.filter(x=>x.hidden).length;
+  D('count').textContent = '全 '+arr.length+' 問 ／ 非表示 '+hiddenCount+' 問';
+  let html = '';
+  arr.forEach((it,i)=>{
+    const rev = isRev(u,i);
+    if(hideRev && rev) return;
+    const v = view(it, u.kind);
+    const prev = esc(String(v.q).replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').slice(0,80)) + (String(v.q).length>80?'…':'');
+    const chips = v.choices.map((c,ci)=>'<span class="chip'+(isCorrect(v,ci)?' ok':'')+'">'+(ci+1)+'．'+esc(c)+(isCorrect(v,ci)?' ✓':'')+'</span>').join('');
+    const cls = 'card'+(it.hidden?' hid':(rev?' rev':''));
+    const editBtns = unlocked ? (
+       '<div class="cbtns">'
+      +'<button class="btn ok" onclick="openEdit('+i+')">編集</button>'
+      +'<button class="btn" onclick="toggleRev('+i+')">'+(rev?'未確認へ':'✓確認済み')+'</button>'
+      +'<button class="btn" onclick="toggleHidden('+i+')">'+(it.hidden?'表示へ':'非表示')+'</button>'
+      +'</div>') : '';
+    html += '<div class="'+cls+'" id="q'+(i+1)+'"><div class="cmain">'
+      + '<div class="cmeta"><span class="cnum">#'+(i+1)+'</span>'
+        + (rev?'<span class="badge b-rev">✓ 確認済み</span>':'<span class="badge b-un">● 未確認</span>')
+        + (it.hidden?'<span class="b-hid">非表示</span>':'')
+        + (it.id?'<span class="hint">'+esc(it.id)+'</span>':'')
+        + '</div>'
+      + (v.situation?'<div class="hint" style="margin-bottom:4px">'+esc(v.situation)+'</div>':'')
+      + (v.visual?'<div class="visual">'+v.visual+'</div>':'')
+      + (v.audio?'<audio controls preload="none" src="'+esc(v.audio)+'"></audio>':'')
+      + '<div class="cprev">'+prev+'</div>'
+      + (v.script&&v.script.length?('<div class="script">'+v.script.map(s=>'<div class="sline"><span class="spk">'+esc(s.w||'')+'</span><span>'+esc(s.t||'')+'</span></div>').join('')+'</div>'):'')
+      + '<div>'+chips+'</div>'
+      + (v.correct!=null&&!v.correctIsText?'<div class="cans">正解：'+esc(v.choices[v.correct])+'</div>':'')
+      + (v.correctIsText&&v.correct!=null?'<div class="cans">正解：'+esc(v.correct)+'</div>':'')
+      + (v.ex?'<div class="cex">解説：'+esc(String(v.ex).slice(0,120))+(String(v.ex).length>120?'…':'')+'</div>':'')
+      + '</div>' + editBtns + '</div>';
+  });
+  D('body').innerHTML = html || '<div class="msg">表示できる問題がありません。</div>';
+}
+
+/* ---- 確認済み・非表示 ---- */
+function toggleRev(i){ const u=curUnit(); setRev(u,i,!isRev(u,i)); renderUnit(); }
+function toggleHidden(i){ const u=curUnit(); const it=u.arr[i]; if(it.hidden) delete it.hidden; else it.hidden=true; renderUnit(); }
+
+/* ---- 編集モーダル ---- */
+function openEdit(i){
+  const u=curUnit(); const it=u.arr[i]; if(!it) return; editing={u,i};
+  const v=view(it,u.kind);
+  D('mTitle').textContent = cur.label+' ／ '+u.label+' ／ #'+(i+1)+' を編集';
+  // 追加フィールド（読解本文・設問・BJT設定など）
+  let extra='';
+  if(u.kind==='sections'){
+    if(it.passage!=null) extra += '<label class="lab">本文（読解の文章）</label><textarea id="mPassage" class="ta">'+esc(it.passage)+'</textarea>';
+    if(it.sub!=null) extra += '<label class="lab">設問（sub）</label><textarea id="mSub" class="ta" style="min-height:44px">'+esc(it.sub)+'</textarea>';
+  }
+  if(u.kind==='bjt'){
+    extra += '<label class="lab">状況設定（setup）</label><textarea id="mSetup" class="ta" style="min-height:44px">'+esc(it.setup||'')+'</textarea>';
+  }
+  D('mExtraWrap').innerHTML = extra;
+  D('mQ').value = v.q;
+  // 選択肢
+  const g2 = (u.kind==='jlpt' && u.jpKey==='文の文法2');
+  const cw = D('mChoicesWrap');
+  if(v.choices && v.choices.length){
+    cw.style.display='block';
+    D('mChoicesLab').textContent = g2 ? '選択肢（並べ替え：③が★＝正解の位置）' : '選択肢（正解を左の○で指定）';
+    let curIdx = v.correctIsText ? Math.max(0, v.choices.findIndex(c=>c===v.correct)) : (v.correct||0);
+    if(g2) curIdx = 2;
+    D('mChoices').innerHTML = [0,1,2,3].map(k=>{
+      const val = v.choices[k]!=null?v.choices[k]:'';
+      return '<div class="crow"><input type="radio" name="mans" value="'+k+'" '+(k===curIdx?'checked':'')+(g2?' disabled':'')+'><input class="inp" id="mc'+k+'" value="'+esc(val)+'"></div>';
+    }).join('');
+  } else { cw.style.display='none'; D('mChoices').innerHTML=''; }
+  D('mEx').value = v.ex;
+  D('mRaw').value = JSON.stringify(it, null, 2);
+  D('modal').style.display='flex';
+}
+function closeModal(){ D('modal').style.display='none'; editing=null; }
+
+function saveForm(){
+  if(!editing) return; const {u,i}=editing; const it=u.arr[i];
+  const q = D('mQ').value;
+  const chEls = [0,1,2,3].map(k=>D('mc'+k)).filter(Boolean);
+  const choices = chEls.length ? [0,1,2,3].map(k=>{ const el=D('mc'+k); return el?el.value:''; }) : null;
+  const selEl = document.querySelector('input[name="mans"]:checked');
+  const selIdx = selEl ? +selEl.value : 0;
+  const ex = D('mEx').value;
+  if(u.kind==='jlpt'){
+    it.question = q;
+    if(choices){ it.choices = choices.map(s=>String(s).trim()); }
+    if(u.jpKey==='文の文法2'){ it.answer = it.choices[2]; }
+    else if(it.choices){ it.answer = it.choices[selIdx]; }
+    it.explanation = ex;
+  } else if(u.kind==='sections'){
+    if(D('mPassage')) it.passage = D('mPassage').value;
+    if(D('mSub')) it.sub = D('mSub').value;
+    it.q = q;
+    if(choices) it.cs = choices;
+    it.a = selIdx;
+    it.ex = ex;
+  } else { // bjt
+    if(D('mSetup')) it.setup = D('mSetup').value;
+    it.q = q;
+    if(choices) it.cs = choices;
+    it.a = selIdx;
+    it.ex = ex;
+  }
+  setRev(u,i,false);
+  closeModal(); renderUnit();
+}
+function saveRaw(){
+  if(!editing) return; const {u,i}=editing;
+  let obj; try{ obj = JSON.parse(D('mRaw').value); }catch(e){ alert('JSONの形式が正しくありません：\n'+e.message); return; }
+  // 既存オブジェクトを差し替え（参照は保ったままキーを入れ替える）
+  const it=u.arr[i];
+  Object.keys(it).forEach(k=>{ if(!(k in obj)) delete it[k]; });
+  Object.keys(obj).forEach(k=>{ it[k]=obj[k]; });
+  setRev(u,i,false);
+  closeModal(); renderUnit();
+}
+
+/* ---- パスワード解錠 ---- */
+function unlock(){
+  if(unlocked){ // ロックへ戻す
+    unlocked=false; D('lockpill').className='lockpill locked'; D('lockpill').textContent='🔒 閲覧のみ（編集ロック中）';
+    D('unlockBtn').textContent='🔓 編集モードにする'; D('exportBtn').disabled=true; renderUnit(); return;
+  }
+  const input = prompt('編集用パスワードを入力してください：'); if(!input) return;
+  crypto.subtle.digest('SHA-256', new TextEncoder().encode(input)).then(buf=>{
+    const hex = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    if(hex===EDIT_HASH){
+      unlocked=true; D('lockpill').className='lockpill unlocked'; D('lockpill').textContent='🔓 編集モード（ロック解除中）';
+      D('unlockBtn').textContent='🔒 ロックする'; D('exportBtn').disabled = !cur || !CACHE[cur.key];
+      renderUnit();
+    } else alert('パスワードが違います。');
+  });
+}
+
+/* ---- 書き出し（各モデルの元の作法に忠実に） ---- */
+function dl(text, name, mime){
+  const blob = new Blob([text], {type:(mime||'text/plain')+';charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+}
+async function exportCurrent(){
+  if(!unlocked){ alert('編集モードにしてください。'); return; }
+  const ds = CACHE[cur.key]; if(!ds){ alert('データが読み込まれていません。'); return; }
+  try{
+    if(cur.model==='bjtjs'){
+      const js = 'window.'+ds.varname+' = '+JSON.stringify(ds.arr)+';\n';
+      dl(js, cur.file, 'text/javascript');
+      done(); return;
+    }
+    // html系は元ファイルを取得してマーカー内を差し替え
+    const res = await fetch(cur.file, {cache:'no-store'});
+    let src = await res.text();
+    if(cur.model==='jlpt'){
+      // 検出した変数を、その順序・名前でそのまま再直列化（otherQuestions/listeningQuestions などを落とさない）
+      const ser = ds.jlptVars.map(v => 'const '+v.name+' = '+JSON.stringify(v.value)+';').join('\n');
+      const re = /\/\/ <DATA>[\s\S]*?\/\/ <\/DATA>/;
+      if(!re.test(src)){ alert('データ範囲のマーカー（// <DATA>）が見つかりません。公開サイトから開いて再度お試しください。'); return; }
+      src = src.replace(re, '// <DATA>\n'+ser+'\n// </DATA>');
+    } else if(cur.model==='sections'){
+      const re = /\/\*<DATA>\*\/[\s\S]*?\/\*<\/DATA>\*\//;
+      if(!re.test(src)){ alert('データ範囲のマーカー（/*<DATA>*/）が見つかりません。公開サイトから開いて再度お試しください。'); return; }
+      src = src.replace(re, '/*<DATA>*/ var SECTIONS='+JSON.stringify(ds.sections)+'; /*</DATA>*/');
+    }
+    dl(src, cur.file, 'text/html');
+    done();
+  }catch(e){
+    alert('ダウンロードに失敗しました（'+e.message+'）。公開サイト（GitHub Pages）から開いてお試しください。');
+  }
+  function done(){
+    const n = D('exportBtn'); const t=n.textContent; n.textContent='✓ ダウンロードしました'; setTimeout(()=>n.textContent=t,1800);
+  }
+}
+
+/* ---- 番号ジャンプ ---- */
+D('jump').addEventListener('keydown', e=>{
+  if(e.key==='Enter'){ const el=D('q'+e.target.value.trim()); if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); el.style.outline='2px solid var(--accent)'; setTimeout(()=>el.style.outline='',1500); } }
+});
+D('hideReviewed').addEventListener('change', renderUnit);
+
+buildTabs();
+</script>
+</body>
+</html>

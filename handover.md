@@ -1,3 +1,5 @@
+> 📕 **これは指示書ではなく「詳細リファレンス（辞書・変更履歴）」です。** 指示の入口は唯一の指示書 **`project_instructions.md`**。まずそちらを読み、各ページの細かい仕様・過去の落とし穴を調べたいときにこの文書を引く。
+
 # JLPTクイズサイト 引き継ぎ文書
 
 > **⚠ BJTの問題を作成・増量するときは、必ず `BJT_問題作成ルール.md`（このフォルダ内）に従うこと。**
@@ -73,11 +75,7 @@ jlpt-practice/
 
 ## 編集パスワード
 
-| レベル | パスワード |
-|--------|-----------|
-| N5 | `miurasuehisaJLPTN5` |
-| N4 | `miurasuehisaJLPTN4` |
-| N3 | `miurasuehisaJLPTN3` |
+**全ページ共通：`msjptest`**（2026-07-19 統一）。JLPT N1〜N5・J.TEST(ac/de/fg)・BJT(読解/聴解/聴読解) の各ページの編集エディタ、および統合編集ページ `edit_all.html` は、すべてこの1つのパスワード。SHA-256ハッシュで照合（平文は保持しない）。旧パスワード（`miurasuehisaJLPTNx` / `miurasuehisaJTEST` / `miurasuehisaBJT`）は廃止。
 
 ---
 
@@ -196,7 +194,8 @@ jlpt-practice/
 
 ### 各レベルの隠しリンク・編集/報告（かな以外の既存機能・確認済み）
 - JLPT N1〜N5、J.TEST（ac/de/fg）、BJT（読解・聴解）に**編集機能＋報告ボタン**あり。
-- パスワード：JLPT各レベルは `miurasuehisaJLPTNx`、N2=`miurasuehisaJLPTN2`／N1=`miurasuehisaJLPTN1`、J.TEST=`miurasuehisaJTEST`、BJT=`miurasuehisaBJT`。
+- パスワード：**全ページ共通 `msjptest`**（2026-07-19 統一。旧レベル別 `miurasuehisa…` は廃止）。
+- 統合編集ページ **`edit_all.html`**：全レベル・全種類を1ページで確認・修正（閲覧自由／編集は `msjptest`）。書き出しは各元ファイル形式のまま。「テスト対策」ページ `taisaku.html` のフッターに隠しリンク（✎）あり。
 - 編集の書き出しは、ページ自身のソースを取得し `// <DATA> … // </DATA>`（BJT聴解は `window.BJT_CHOUKAI`）を差し替えてダウンロードする方式。
 
 ### ⚠ OneDrive/ステージングの「キャッシュのズレ」対策（重要・2026-07-15 追記）
@@ -271,3 +270,24 @@ jlpt-practice/
 ### プロジェクト運用（2026-07-16〜）
 - 本サイトの保守は Claude の「プロジェクト」で継続する方針。共有前提（本 handover の要点・標準ルール）はプロジェクトのカスタム指示／ナレッジに置き、作業はテーマごとに別チャットで進める。
 - **真実の元（source of truth）は OneDrive のまま**。プロジェクトにアップした資料はスナップショットなので、実ファイルは毎回 OneDrive から最新をステージングして作業する。
+
+---
+
+## 追記：ハブ名の巻き戻り 再発防止（2026-07-16）
+
+> **事象**：「日本語を学ぶ」(`manabu.html`) 内のリンク名と、文法ハブ `bunpou.html` のタイトル・見出しが、正しい「**文法と表現を学ぶ**」から旧名「文法を学ぶ」に巻き戻っていた（本文の 活用／文型・表現 の構成自体は生きていた）。公開GitHub版＝OneDrive実ファイルで一致していたので、同期ズレではなく**実ファイル自体の巻き戻り**。OneDrive内の別コピーが原因ではなかった（`bunpou.html`/`manabu.html` の重複は root 直下のみ、`games/`・`_archive_古いファイル/`・`jlpt-site/` には無い）。
+
+### 正準状態（この名前・リンクが「正」。旧名に戻っていたら直す）
+- **`bunpou.html`**：`<title>` と `.app-title` は **「文法と表現を学ぶ」**（旧「文法を学ぶ」／さらに旧「文法」は誤り）。`.app-sub`＝「活用と文型・表現・品詞・ビジネス日本語 ・ Grammar」。構成は〈活用〉(`katsuyo.html`/`renshu.html`)＋〈文型・表現〉(`bunkei.html`/`keigo.html`/`hinshi.html`/**`bijinesu_hyougen.html`**)。
+- **`manabu.html`**：`bunpou.html` へのリンクの `entry-title` は **「文法と表現を学ぶ」**、`entry-sub`＝「活用（確認・ドリル）と、文型・敬語・品詞・ビジネス日本語」。
+- **`bijinesu_hyougen.html`**（新規：ビジネス日本語 場面別 語彙・表現集、端末TTS＝[data-say]付き。8点のPDF由来）：戻るリンクは `bunpou.html`（「‹ 文法と表現を学ぶにもどる」）。「文法と表現を学ぶ」配下に置く。
+
+### 巻き戻りの原因になりうるもの／防止策
+- **旧`*_top.html` を昇格・再アップロードしない**：`bunpou_top.html`（見出し「文法」だけの旧版）と `bunkei_top.html` は **2026-07-16 に `_archive_古いファイル/` へ退避済み**。現行ハブは `bunpou.html`／`bunkei.html`。これらを現行名で上書きアップロードしないこと。
+- **孤立した旧ページ（現行から未リンク）**：`hyougen.html`／`kihon_bunkei.html`／`hinshi_top.html`／`moji_top.html` は、退避された旧ハブ `bunpou_top.html` からしか辿れない孤立ページ（現行の `index`／`manabu`／`bunpou`／`bunkei` 等からはリンクなし）。よって旧`*_top`退避で**現行の到達可能なリンクは切れていない**。これら4つも整理として退避してよい（中身はアーカイブに残る）。デバイスブリッジは移動・削除ができないため、退避はエクスプローラーで手動。
+- **ステージング・キャッシュずれで旧版を書き戻さない**：編集前に「取り込んだ実バイト数 vs `device_list_dir` の size」を必ず突き合わせる（既出ルール）。**ハブ系（manabu/bunpou/bunkei 等）を編集したら、書き戻し後にタイトル文字列を必ず再確認**する。
+- **アップロード源に注意**：GitHub に上げるのは必ず最新版（作業チャットで配布したZIP等）。古いローカルDownloadやCamScannerの旧HTMLを上げない。
+
+### アップロード後の検証チェック
+- 公開URL `…/bunpou.html`・`…/manabu.html` を開き、名前が **「文法と表現を学ぶ」** になっていること、`bunpou.html` に「**ビジネス日本語を見る**」項目（→`bijinesu_hyougen.html`）が出ることを確認。
+- **GitHub のコミット履歴が復元ポイント**（万一また巻き戻ったら、正しいコミットへ戻す／このメモの正準状態に合わせて直す）。

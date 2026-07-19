@@ -177,10 +177,8 @@
   function __stopTimer(){ if(__timerIv){ clearInterval(__timerIv); __timerIv=null; } }
 
   /* ---------- 音声：mp3優先、なければ読み上げにフォールバック ---------- */
-  var curAudio=null, usingTTS=false, playGen=0, autoTimer=null;
+  var curAudio=null, usingTTS=false;
   function stopAudio(){
-    playGen++;                 // 進行中／予約中の再生を無効化（二重再生の防止）
-    if(autoTimer){ clearTimeout(autoTimer); autoTimer=null; }
     if(curAudio){ try{curAudio.pause();}catch(e){} curAudio=null; }
     if(window.speechSynthesis){ try{window.speechSynthesis.cancel();}catch(e){} }
     setPlayUI(false);
@@ -196,7 +194,7 @@
     var fem =ja.filter(function(v){return /nanami|haruka|ayumi|female|aoi|mayu|shiori|女/i.test(v.name);})[0];
     return {ja:ja[0]||null, male:male||ja[0]||null, fem:fem||ja[0]||null};
   }
-  function ttsPlay(it, gen){
+  function ttsPlay(it){
     if(!window.speechSynthesis){ return; }
     usingTTS=true; $("acSrc").textContent="（ブラウザの読み上げ音声を使用）";
     var segs=[];
@@ -208,7 +206,6 @@
     setPlayUI(true);
     var i=0;
     function next(){
-      if(gen!=null && gen!==playGen){ return; }   // 古い再生要求は無視（二重再生の防止）
       if(i>=segs.length){ setPlayUI(false); return; }
       var s=segs[i++];
       var u=new SpeechSynthesisUtterance(s.t);
@@ -221,34 +218,20 @@
     }
     next();
   }
-  function play(it, isAuto){
-    stopAudio();               // ここで playGen++（この再生の世代を確定させる）
-    var myGen=playGen;
+  function play(it){
+    stopAudio();
     usingTTS=false;
     var url=AUDIO_DIR+AUDIO_PREFIX+it.id+".mp3";
     var a=new Audio();
     var fellBack=false;
-    var fallback=function(){
-      if(fellBack||myGen!==playGen) return; fellBack=true;
-      try{a.pause();}catch(e){} curAudio=null;
-      // ★モバイル対策：自動再生が失敗しただけのときは読み上げに落とさない。
-      //   （操作なしで読み上げを走らせると、あとで mp3 と二重に鳴るため。再生ボタンのタップを待つ）
-      if(isAuto){ setPlayUI(false); return; }
-      ttsPlay(it, myGen);
-    };
+    var fallback=function(){ if(fellBack) return; fellBack=true; curAudio=null; ttsPlay(it); };
     a.src=url;
     a.addEventListener("error", fallback);
-    a.addEventListener("playing", function(){
-      if(myGen!==playGen) return;
-      // ★mp3が実際に鳴り始めたら、保留中の読み上げを必ず止める（相互排他・二重再生の防止）
-      if(window.speechSynthesis){ try{window.speechSynthesis.cancel();}catch(e){} }
-      usingTTS=false;
-      $("acSrc").textContent="（生成音声 mp3 を再生中）"; setPlayUI(true);
-    });
-    a.addEventListener("ended", function(){ if(myGen!==playGen) return; setPlayUI(false); });
+    a.addEventListener("playing", function(){ $("acSrc").textContent="（生成音声 mp3 を再生中）"; setPlayUI(true); });
+    a.addEventListener("ended", function(){ setPlayUI(false); });
     curAudio=a;
     var p=a.play();
-    if(p&&p.then){ p.then(function(){ if(myGen!==playGen) return; setPlayUI(true); }).catch(function(){ fallback(); }); }
+    if(p&&p.then){ p.then(function(){ setPlayUI(true); }).catch(function(){ fallback(); }); }
   }
   $("playBtn").addEventListener("click", function(){
     var it=pool[cur]&&pool[cur].it; if(!it) return;
@@ -306,8 +289,7 @@
     var e=$("exp"); e.className="exp"; e.innerHTML="";
     var nb=$("nextBtn"); nb.className="btn primary hidden";
     // 自動再生を試みる（ユーザー操作直後なので多くの環境で許可される。ダメでも▶ボタンで再生可）
-    // ※ stopAudio() で既存の予約は消えているが、二重予約を確実に防ぐため autoTimer で一元管理する
-    autoTimer=setTimeout(function(){ autoTimer=null; play(it, true); }, 200);
+    setTimeout(function(){ play(it); }, 200);
   }
 
   function buildScriptHTML(it){
@@ -436,7 +418,7 @@
 
   /* ===== 問題エディタ＋報告ボタン（J.TEST/BJT用・JLPTと同等の機能）===== */
   (function(){
-    var EDIT_HASH='87369b9abcd5e106eb34041267f2bf5d003094626a4e28c241d4dedacd979416';
+    var EDIT_HASH='212c3a046555c1f473964977f8f21fefbbdd50af786fcfcb01ad4611764fb7c0';
     var EXPORT_NAME='bjt_choudokkai.html';
     var EXPORT_KIND='bjtchoukai';           /* 'html' or 'bjtchoukai' */
     var FORMSPREE='https://formspree.io/f/xlgygdzd';

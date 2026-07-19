@@ -35,6 +35,14 @@
   .cat-name{font-size:15px;font-weight:700}
   .cat-desc{font-size:12px;color:var(--text-muted);margin-top:2px}
   .cat-arrow{font-size:20px;color:var(--text-hint)}
+  .cat.grp{cursor:pointer}
+  .grp-arrow{transition:transform .15s}
+  .cat.grp.open .grp-arrow{transform:rotate(90deg)}
+  .subwrap{margin:-6px 0 12px;padding-left:10px;display:flex;flex-direction:column;gap:7px}
+  .subcat{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:12px 15px;cursor:pointer;font-family:inherit;text-align:left}
+  .subcat:hover{border-color:var(--accent);box-shadow:0 3px 12px rgba(0,0,0,.06)}
+  .subcat-name{font-size:14px;font-weight:600;color:var(--text)}
+  .subcat-tag{font-size:11px;color:var(--accent);font-weight:700;flex-shrink:0}
   .qtop{display:flex;align-items:center;gap:10px;margin:.4rem 0 1rem}
   .pill{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;background:var(--accent-bg);color:var(--accent)}
   .prog{font-size:13px;font-weight:700;color:var(--text-muted)}
@@ -158,6 +166,33 @@
     ]}
   ]; /*</DATA>*/
 
+  /*<JTL>*/ var JT_LISTENING = []; /*</JTL>*/
+  // 聴解データ（JT_LISTENING）を SECTIONS に統合する。順序は 写真→聴読解→応答→会話・説明。
+  (function(){
+    if(!JT_LISTENING || !JT_LISTENING.length) return;
+    var ICON={ "写真問題":"📷", "聴読解問題":"📊", "応答問題":"💬", "会話・説明問題":"🗣" };
+    var DESC={ "写真問題":"写真を見て答える（音声）", "聴読解問題":"図表を見て会話を聞く（音声）",
+               "応答問題":"短い発話に合う返事を選ぶ（音声）", "会話・説明問題":"会話・説明を聞いて答える（音声）" };
+    var ORDER=["写真問題","聴読解問題","応答問題","会話・説明問題"];
+    var groups={};
+    JT_LISTENING.forEach(function(it){
+      var nm=it.section||"聴解";
+      if(!groups[nm]) groups[nm]=[];
+      groups[nm].push({
+        q: it.q || it.question || "音声を聞いて答えてください。",
+        cs: it.cs, a: it.a, ex: it.ex,
+        sub: it.situation || "",
+        audio: it.audio, visual: it.visual || "",
+        script: it.script || [], prompt: it.prompt || ""
+      });
+    });
+    ORDER.concat(Object.keys(groups)).forEach(function(nm){
+      if(!groups[nm]) return;
+      if(SECTIONS.some(function(s){return s.name===nm;})) return;
+      SECTIONS.push({ key:"jl_"+nm, name:nm, ic:ICON[nm]||"聴", desc:DESC[nm]||"音声を聞いて答える", items:groups[nm], listening:true });
+    });
+  })();
+
   function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
   var $=function(id){return document.getElementById(id);};
   var home=$("home"), quiz=$("quiz"), result=$("result");
@@ -167,15 +202,45 @@
   function __startTimer(){ __startTime=Date.now(); if(__timerIv) clearInterval(__timerIv); var el=document.getElementById("qTimer"); function up(){ if(el) el.textContent="⏱ "+__fmtT(Date.now()-__startTime); } up(); __timerIv=setInterval(up,1000); }
   function __stopTimer(){ if(__timerIv){ clearInterval(__timerIv); __timerIv=null; } }
 
+  // 大項目（読解試験／聴解試験）→ 小項目（問題の種類）の二段構成
+  var GROUPS=[
+    { name:"読解試験", ic:"📖", subs:[
+      { sec:"文法・語彙", label:"文法・語彙問題" },
+      { sec:"読解", label:"読解問題" },
+      { sec:"漢字（読み）", label:"漢字問題" }
+    ]},
+    { name:"聴解試験", ic:"🎧", subs:[
+      { sec:"写真問題", label:"問題１ 写真問題" },
+      { sec:"聴読解問題", label:"問題２ 聴読解問題" },
+      { sec:"応答問題", label:"問題３ 応答問題" },
+      { sec:"会話・説明問題", label:"問題４ 会話・説明問題" }
+    ]}
+  ];
   (function(){
     var box=$("cats"), html="";
     var all=0; SECTIONS.forEach(function(s){ all+=s.items.length; });
+    var byName={}; SECTIONS.forEach(function(s){ byName[s.name]=s; });
     html+='<button class="cat mix" data-k="__all"><span class="cat-ic">★</span><span class="cat-info"><span class="cat-name">ミックス（全部から）</span><span class="cat-desc">全パートから 10問 ・ 計'+all+'問</span></span><span class="cat-arrow">›</span></button>';
-    SECTIONS.forEach(function(s){
-      html+='<button class="cat" data-k="'+s.key+'"><span class="cat-ic">'+s.ic+'</span><span class="cat-info"><span class="cat-name">'+s.name+'</span><span class="cat-desc">'+s.desc+' ・ '+s.items.length+'問</span></span><span class="cat-arrow">›</span></button>';
+    GROUPS.forEach(function(g,gi){
+      var subs=g.subs.filter(function(x){ return byName[x.sec] && byName[x.sec].items.length; });
+      if(!subs.length) return;
+      var cnt=0; subs.forEach(function(x){ cnt+=byName[x.sec].items.length; });
+      html+='<button class="cat grp" data-g="'+gi+'"><span class="cat-ic">'+g.ic+'</span><span class="cat-info"><span class="cat-name">'+g.name+'</span><span class="cat-desc">'+subs.length+'種類 ・ 計'+cnt+'問</span></span><span class="cat-arrow grp-arrow">›</span></button>';
+      html+='<div class="subwrap" id="subwrap-'+gi+'" style="display:none">';
+      subs.forEach(function(x){ var s=byName[x.sec]; html+='<button class="subcat" data-k="'+s.key+'"><span class="subcat-name">'+x.label+'</span><span class="subcat-tag">'+s.items.length+'問</span></button>'; });
+      html+='</div>';
     });
     box.innerHTML=html;
-    box.querySelectorAll(".cat").forEach(function(b){ b.addEventListener("click",function(){ start(b.getAttribute("data-k")); }); });
+    box.querySelector(".cat.mix").addEventListener("click",function(){ start("__all"); });
+    box.querySelectorAll(".cat.grp").forEach(function(b){
+      b.addEventListener("click",function(){
+        var gi=b.getAttribute("data-g"), w=$("subwrap-"+gi), open=w.style.display!=="none";
+        box.querySelectorAll(".subwrap").forEach(function(x){ x.style.display="none"; });
+        box.querySelectorAll(".cat.grp").forEach(function(x){ x.classList.remove("open"); });
+        if(!open){ w.style.display="block"; b.classList.add("open"); }
+      });
+    });
+    box.querySelectorAll(".subcat").forEach(function(b){ b.addEventListener("click",function(){ start(b.getAttribute("data-k")); }); });
   })();
 
   function start(key){
@@ -197,10 +262,37 @@
     $("qText").textContent=it.q||"つぎの もんだいに こたえてください。";
     var extra="";
     if(it.passage){ extra+='<div class="passage">'+it.passage+'</div>'; }
-    if(it.sub){ extra+='<div class="q-sub">'+it.sub+'</div>'; }
+    if(it.audio){
+      var esc=function(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); };
+      var vis = it.visual ? '<div style="margin-bottom:10px;overflow-x:auto;text-align:center">'+it.visual+'</div>' : '';
+      var sit = it.sub ? '<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;line-height:1.7">'+esc(it.sub)+'</div>' : '';
+      var scriptHtml="";
+      var lines=[];
+      if(it.prompt){ lines.push({speaker:(it.promptSpeaker||"F"), text:it.prompt}); }
+      if(it.script && it.script.length){ it.script.forEach(function(s){ lines.push(s); }); }
+      if(lines.length){
+        var body=lines.map(function(s){
+          var isM=(s.speaker==="M"||s.speaker==="M2"||s.speaker==="男");
+          var badge=isM
+            ? '<span style="display:inline-block;background:#E8F0F8;color:#2D5A8E;font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;flex-shrink:0;margin-top:2px">男</span>'
+            : '<span style="display:inline-block;background:#FCE4EC;color:#c62828;font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;flex-shrink:0;margin-top:2px">女</span>';
+          return '<div style="display:flex;gap:8px;margin-bottom:8px;align-items:flex-start">'+badge+'<span style="font-size:12px;line-height:1.7;color:var(--text);flex:1">'+esc(s.text)+'</span></div>';
+        }).join("");
+        scriptHtml='<div id="jtScriptBox" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">'+body+'</div>'
+          +'<button type="button" id="jtScriptBtn" style="margin-top:8px;background:transparent;border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:11px;color:var(--text-muted);cursor:pointer">📄 スクリプトを見る</button>';
+      }
+      extra+='<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:12px">'
+        +vis+sit
+        +'<audio controls preload="none" style="width:100%;margin-top:4px" src="'+it.audio+'">お使いのブラウザは音声再生に対応していません。</audio>'
+        +'<div style="font-size:11px;color:var(--text-hint);margin-top:6px">※ 音声を聞いてから回答してください</div>'
+        +scriptHtml+'</div>';
+    }
+    if(it.sub && !it.audio){ extra+='<div class="q-sub">'+it.sub+'</div>'; }
     $("qExtra").innerHTML=extra;
+    var __sb=$("jtScriptBtn");
+    if(__sb){ __sb.addEventListener("click", function(){ var bx=$("jtScriptBox"); if(!bx) return; var op=bx.style.display!=="none"; bx.style.display=op?"none":"block"; __sb.textContent=op?"📄 スクリプトを見る":"📖 スクリプトを隠す"; }); }
     var opts=it.cs.map(function(c,ci){ return {t:c, ok:ci===it.a}; });
-    opts=shuffle(opts);
+    if(!it.audio){ opts=shuffle(opts); }  // 聴解は音声・図の番号と合わせるため並べ替えない
     var ch=$("choices"); ch.innerHTML="";
     opts.forEach(function(op,ci){
       var b=document.createElement("button"); b.className="choice";

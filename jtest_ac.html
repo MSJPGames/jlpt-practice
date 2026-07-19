@@ -35,6 +35,14 @@
   .cat-name{font-size:15px;font-weight:700}
   .cat-desc{font-size:12px;color:var(--text-muted);margin-top:2px}
   .cat-arrow{font-size:20px;color:var(--text-hint)}
+  .cat.grp{cursor:pointer}
+  .grp-arrow{transition:transform .15s}
+  .cat.grp.open .grp-arrow{transform:rotate(90deg)}
+  .subwrap{margin:-6px 0 12px;padding-left:10px;display:flex;flex-direction:column;gap:7px}
+  .subcat{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:12px 15px;cursor:pointer;font-family:inherit;text-align:left}
+  .subcat:hover{border-color:var(--accent);box-shadow:0 3px 12px rgba(0,0,0,.06)}
+  .subcat-name{font-size:14px;font-weight:600;color:var(--text)}
+  .subcat-tag{font-size:11px;color:var(--accent);font-weight:700;flex-shrink:0}
   .qtop{display:flex;align-items:center;gap:10px;margin:.4rem 0 1rem}
   .pill{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;background:var(--accent-bg);color:var(--accent)}
   .prog{font-size:13px;font-weight:700;color:var(--text-muted)}
@@ -158,6 +166,718 @@
     ]}
   ]; /*</DATA>*/
 
+  /*<JTL>*/ var JT_LISTENING = [
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_01.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "コピー機、また 故障 してるみたい。",
+  "promptSpeaker": "F",
+  "cs": [
+   "うん、調子が いいね。",
+   "え、この前 直した ばかりなのに。",
+   "じゃあ、たくさん コピーできるね。"
+  ],
+  "a": 1,
+  "ex": "故障している＝壊れている。直したばかりなのに、と残念がる返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_02.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "この 資料、目を 通して おいて くれる？",
+  "promptSpeaker": "M",
+  "cs": [
+   "はい、ご覧に なります。",
+   "はい、お目に かけます。",
+   "はい、拝見します。"
+  ],
+  "a": 2,
+  "ex": "自分が見るので謙譲語「拝見します」。ご覧になる＝尊敬、お目にかける＝見せる。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_03.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "山田さん、まだ 来ないね。",
+  "promptSpeaker": "F",
+  "cs": [
+   "渋滞にでも 巻き込まれたのかな。",
+   "もう 帰ったんだね。",
+   "早く 来て えらいね。"
+  ],
+  "a": 0,
+  "ex": "まだ来ない相手を気づかい、理由を推測する返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_04.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "その 企画、部長は 何て 言ってた？",
+  "promptSpeaker": "M",
+  "cs": [
+   "まだ 書いてないんだ。",
+   "どうやら 気に入った みたいだよ。",
+   "部長に 聞いて みてよ。"
+  ],
+  "a": 1,
+  "ex": "部長の反応を聞かれ、気に入ったようだと伝える返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_05.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "顔色、悪いよ。大丈夫？",
+  "promptSpeaker": "F",
+  "cs": [
+   "うん、元気 いっぱいだよ。",
+   "顔、洗って きたよ。",
+   "ちょっと 寝不足で。"
+  ],
+  "a": 2,
+  "ex": "顔色を心配され、寝不足だと理由を答える返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_06.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "この 仕事、今日中は ちょっと 無理そうです。",
+  "promptSpeaker": "M",
+  "cs": [
+   "じゃあ、明日でも 構わないよ。",
+   "もう 終わったんだね。",
+   "早くて 助かるよ。"
+  ],
+  "a": 0,
+  "ex": "今日中は無理という相手に、明日でよいと配慮する返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_07.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "会議、延びたって 本当？",
+  "promptSpeaker": "F",
+  "cs": [
+   "うん、時間 どおりだよ。",
+   "うん、来週に なったみたい。",
+   "会議は なかったよ。"
+  ],
+  "a": 1,
+  "ex": "延期を確認され、来週になったと答える返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_08.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "お先に 失礼します。",
+  "promptSpeaker": "M",
+  "cs": [
+   "いらっしゃいませ。",
+   "おはようございます。",
+   "お疲れさまでした。"
+  ],
+  "a": 2,
+  "ex": "先に帰る人への決まり文句は「お疲れさまでした」。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_09.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "この 数字、間違って ない？",
+  "promptSpeaker": "F",
+  "cs": [
+   "あ、確認して みます。",
+   "はい、合ってて よかったです。",
+   "数字は ありませんが。"
+  ],
+  "a": 0,
+  "ex": "間違いを指摘され、確認すると答える返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_10.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "田中さん、最近 元気 ないね。",
+  "promptSpeaker": "M",
+  "cs": [
+   "そんなに 張り切ってるんだ。",
+   "何か あったのかな。",
+   "元気で 何よりだね。"
+  ],
+  "a": 1,
+  "ex": "元気がない様子を心配し、理由を推測する返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_11.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "傘、持って いった ほうが いいよ。",
+  "promptSpeaker": "F",
+  "cs": [
+   "うん、いい 天気だね。",
+   "傘は もう 差してるよ。",
+   "そうだね、降りそうだもんね。"
+  ],
+  "a": 2,
+  "ex": "傘を勧められ、雨が降りそうだと同意する返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_12.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "課長、少し お時間 よろしいですか。",
+  "promptSpeaker": "M",
+  "cs": [
+   "ああ、どうぞ。",
+   "はい、失礼しました。",
+   "では、また 今度。"
+  ],
+  "a": 0,
+  "ex": "時間があるか尋ねられ、応じる「ああ、どうぞ」が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_13.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "この 店、ずいぶん 混んでるね。",
+  "promptSpeaker": "F",
+  "cs": [
+   "がらがらだね。",
+   "人気なんだろうね。",
+   "誰も いないね。"
+  ],
+  "a": 1,
+  "ex": "混んでいる様子から、人気なのだろうと返す返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_14.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "レポート、期限に 間に合いそう？",
+  "promptSpeaker": "M",
+  "cs": [
+   "いいえ、もう 出しました。",
+   "はい、来週が 期限です。",
+   "ええ、何とか なりそうです。"
+  ],
+  "a": 2,
+  "ex": "間に合うか聞かれ、何とかなりそうだと答える返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_15.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "エアコン、つけても いい？",
+  "promptSpeaker": "F",
+  "cs": [
+   "うん、ちょっと 暑いもんね。",
+   "じゃあ、消して おくね。",
+   "うん、涼しくて いいね。"
+  ],
+  "a": 0,
+  "ex": "つけてよいか尋ねられ、暑いから賛成する返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_16.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "彼、約束の 時間に 遅れて ばかりだね。",
+  "promptSpeaker": "M",
+  "cs": [
+   "几帳面で えらいね。",
+   "困った ものだね。",
+   "時間 どおりで 助かるね。"
+  ],
+  "a": 1,
+  "ex": "遅刻ばかりを非難する流れに同調する「困ったものだね」が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_17.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "この 服、私に 似合うかな。",
+  "promptSpeaker": "F",
+  "cs": [
+   "じゃあ、買わなくて いいね。",
+   "服は 着てないよ。",
+   "うん、よく 似合ってるよ。"
+  ],
+  "a": 2,
+  "ex": "似合うか尋ねられ、似合っていると答える返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_18.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "資料、メールで 送って おきました。",
+  "promptSpeaker": "M",
+  "cs": [
+   "ありがとう、確認するね。",
+   "じゃあ、送って おいてね。",
+   "まだ 届いてないんだ。"
+  ],
+  "a": 0,
+  "ex": "送ったと報告され、確認すると返す返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_19.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "明日の 打ち合わせ、何時からでしたっけ。",
+  "promptSpeaker": "F",
+  "cs": [
+   "昨日 でしたね。",
+   "確か 十時からだよ。",
+   "打ち合わせは ないよ。"
+  ],
+  "a": 1,
+  "ex": "時間を聞かれ、十時からと答える返事が適切。"
+ },
+ {
+  "section": "応答問題",
+  "mondai": 3,
+  "audio": "audio/jtest_ac_p3_20.mp3",
+  "q": "音声を聞いて、正しい返事を選んでください。",
+  "prompt": "この 件は、私の 一存では 決めかねます。",
+  "promptSpeaker": "M",
+  "cs": [
+   "決めて くれて 助かります。",
+   "一存で 決めるとは さすがですね。",
+   "では、上の 方に 相談しましょう。"
+  ],
+  "a": 2,
+  "ex": "一人では決められないという相手に、上に相談しようと返す返事が適切。"
+ },
+ {
+  "section": "会話・説明問題",
+  "mondai": 4,
+  "audio": "audio/jtest_ac_p4_01.mp3",
+  "q": "女の人は、このあとまず何をしますか。",
+  "situation": "会社で女の人と男の人が話しています。",
+  "cs": [
+   "新幹線の切符を取る",
+   "ホテルを予約する",
+   "先方に渡す資料を印刷する",
+   "出張の日程を決める"
+  ],
+  "a": 2,
+  "ex": "切符とホテルは済んでおり、まだ印刷していない資料を先に、と言われている。",
+  "script": [
+   {
+    "speaker": "M",
+    "text": "佐藤さん、明日の出張、準備できてる？"
+   },
+   {
+    "speaker": "F",
+    "text": "はい、新幹線の切符は取りました。ホテルも予約済みです。"
+   },
+   {
+    "speaker": "M",
+    "text": "ありがとう。資料は？先方に渡す分。"
+   },
+   {
+    "speaker": "F",
+    "text": "あ、それはまだ印刷していません。今からやります。"
+   },
+   {
+    "speaker": "M",
+    "text": "うん、それが一番大事だから、先にお願い。切符とホテルはもういいから。"
+   },
+   {
+    "speaker": "F",
+    "text": "分かりました。すぐ印刷します。"
+   }
+  ]
+ },
+ {
+  "section": "会話・説明問題",
+  "mondai": 4,
+  "audio": "audio/jtest_ac_p4_02.mp3",
+  "q": "男の人は、どうして返品したいのですか。",
+  "situation": "店で男の人と店員が話しています。",
+  "cs": [
+   "サイズが合わなかったから",
+   "シャツに穴があいていたから",
+   "色が気に入らなかったから",
+   "値段が高かったから"
+  ],
+  "a": 1,
+  "ex": "サイズはよいが、袖に小さな穴があったため返品したい。",
+  "script": [
+   {
+    "speaker": "M",
+    "text": "すみません、先週買ったこのシャツ、返品したいんですが。"
+   },
+   {
+    "speaker": "F",
+    "text": "かしこまりました。サイズが合いませんでしたか。"
+   },
+   {
+    "speaker": "M",
+    "text": "いえ、サイズはいいんです。ただ、家で見たら、袖に小さな穴があって。"
+   },
+   {
+    "speaker": "F",
+    "text": "あ、それは申し訳ございません。すぐお取り替えします。"
+   },
+   {
+    "speaker": "M",
+    "text": "取り替えじゃなくて、返金してもらえますか。同じものはもういらなくて。"
+   }
+  ]
+ },
+ {
+  "section": "会話・説明問題",
+  "mondai": 4,
+  "audio": "audio/jtest_ac_p4_03.mp3",
+  "q": "来月から変わることは何ですか。",
+  "situation": "会社で女の人が話しています。",
+  "cs": [
+   "食堂のメニューが新しくなる",
+   "食事の値段が上がる",
+   "食堂の場所が変わる",
+   "支払いが社員証をかざす方法になる"
+  ],
+  "a": 3,
+  "ex": "現金が使えなくなり、社員証をかざして支払う方法に変わる。メニューや値段は変わらない。",
+  "script": [
+   {
+    "speaker": "F",
+    "text": "来月から、社員食堂の利用方法が変わります。これまでは現金で支払っていましたが、今後は社員証をかざして支払う形になります。現金は使えなくなりますので、ご注意ください。チャージは入り口の機械でできます。なお、メニューや値段はこれまでと変わりません。"
+   }
+  ]
+ },
+ {
+  "section": "会話・説明問題",
+  "mondai": 4,
+  "audio": "audio/jtest_ac_p4_04.mp3",
+  "q": "男の学生は、レポートをどうすることにしましたか。",
+  "situation": "大学で男の学生と女の学生が話しています。",
+  "cs": [
+   "今のテーマのまま書く",
+   "テーマを変えて書く",
+   "締め切りを延ばしてもらう",
+   "レポートを出さない"
+  ],
+  "a": 0,
+  "ex": "テーマ変更は資料集めが大変で時間もないため、今のテーマのまま書くことにした。",
+  "script": [
+   {
+    "speaker": "F",
+    "text": "レポート、もう出した？"
+   },
+   {
+    "speaker": "M",
+    "text": "いや、まだ。実は、テーマを変えようか迷ってて。"
+   },
+   {
+    "speaker": "F",
+    "text": "え、締め切り明後日だよ。今から変えて間に合うの？"
+   },
+   {
+    "speaker": "M",
+    "text": "うーん。前のテーマ、資料は集めたんだけど、どうも面白くなくて。"
+   },
+   {
+    "speaker": "F",
+    "text": "気持ちは分かるけど、今から新しいテーマだと資料集めが大変だよ。"
+   },
+   {
+    "speaker": "M",
+    "text": "そうだね。やっぱり今のままで書くよ。時間もないし。"
+   }
+  ]
+ },
+ {
+  "section": "会話・説明問題",
+  "mondai": 4,
+  "audio": "audio/jtest_ac_p4_05.mp3",
+  "q": "男の人は、新しい事務所の何が問題だと言っていますか。",
+  "situation": "会社で男の人と女の人が新しい事務所について話しています。",
+  "cs": [
+   "駅から遠いこと",
+   "部屋が狭いこと",
+   "エレベーターがないこと",
+   "日当たりが悪いこと"
+  ],
+  "a": 2,
+  "ex": "広さも日当たりもよいが、エレベーターがなく四階まで階段なのが荷物のあるとき大変だと言っている。",
+  "script": [
+   {
+    "speaker": "M",
+    "text": "新しい事務所、どうですか。"
+   },
+   {
+    "speaker": "F",
+    "text": "広くていいですね。駅からも近いし。"
+   },
+   {
+    "speaker": "M",
+    "text": "ですよね。ただ、一つだけ気になることが。"
+   },
+   {
+    "speaker": "F",
+    "text": "何ですか。日当たりですか。"
+   },
+   {
+    "speaker": "M",
+    "text": "いや、日当たりはいいんです。エレベーターがなくて、四階まで階段なのが、荷物のあるときは大変で。"
+   }
+  ]
+ },
+ {
+  "section": "会話・説明問題",
+  "mondai": 4,
+  "audio": "audio/jtest_ac_p4_06.mp3",
+  "q": "明日の会議について、正しいものはどれですか。",
+  "situation": "電話で女の人と男の人が話しています。",
+  "cs": [
+   "午前十時から同じ会議室で行う",
+   "午後二時から二階の大会議室で行う",
+   "午後二時から同じ会議室で行う",
+   "中止になった"
+  ],
+  "a": 1,
+  "ex": "部長の都合で午後二時からに変更、場所も人数増で二階の大会議室になった。",
+  "script": [
+   {
+    "speaker": "F",
+    "text": "もしもし、明日の会議のことでご連絡しました。"
+   },
+   {
+    "speaker": "M",
+    "text": "はい、十時からでしたね。"
+   },
+   {
+    "speaker": "F",
+    "text": "それが、部長の都合で、午後二時からに変更になりまして。"
+   },
+   {
+    "speaker": "M",
+    "text": "あ、そうですか。場所は同じ会議室ですか。"
+   },
+   {
+    "speaker": "F",
+    "text": "いえ、二階の大会議室になりました。人数が増えたので。"
+   }
+  ]
+ },
+ {
+  "section": "会話・説明問題",
+  "mondai": 4,
+  "audio": "audio/jtest_ac_p4_07.mp3",
+  "q": "日曜日の天気はどうなると言っていますか。",
+  "situation": "ラジオで男の人が話しています。",
+  "cs": [
+   "一日中晴れ",
+   "朝から雨",
+   "一日中曇り",
+   "昼過ぎから曇り、夕方から雨"
+  ],
+  "a": 3,
+  "ex": "土曜は晴れ、日曜は昼過ぎから雲が広がり夕方から雨の見込み。",
+  "script": [
+   {
+    "speaker": "M",
+    "text": "週末の天気についてお伝えします。土曜日は一日中よく晴れて、行楽日和となるでしょう。ただ、日曜日は昼過ぎから雲が広がり、夕方には雨が降り出す見込みです。お出かけの際は、日曜日は折りたたみ傘があると安心です。"
+   }
+  ]
+ },
+ {
+  "section": "会話・説明問題",
+  "mondai": 4,
+  "audio": "audio/jtest_ac_p4_08.mp3",
+  "q": "女の人は、男の人に何をアドバイスしましたか。",
+  "situation": "会社で女の人と男の人が話しています。",
+  "cs": [
+   "もっとゆっくり話すこと",
+   "声を大きくすること",
+   "資料を増やすこと",
+   "時間を短くすること"
+  ],
+  "a": 0,
+  "ex": "内容はよいが少し早口だったので、もっとゆっくり話すとよいと助言している。",
+  "script": [
+   {
+    "speaker": "F",
+    "text": "田中さん、この前のプレゼン、すごくよかったですよ。"
+   },
+   {
+    "speaker": "M",
+    "text": "ありがとうございます。緊張しましたけど。"
+   },
+   {
+    "speaker": "F",
+    "text": "内容も分かりやすかったし。ただ、一つだけ。少し早口だったかな。もう少しゆっくり話すと、もっと伝わると思います。"
+   },
+   {
+    "speaker": "M",
+    "text": "なるほど。次から気をつけます。"
+   }
+  ]
+ },
+ {
+  "section": "会話・説明問題",
+  "mondai": 4,
+  "audio": "audio/jtest_ac_p4_09.mp3",
+  "q": "二人は、日曜日にどこへ行くことにしましたか。",
+  "situation": "家で夫と妻が話しています。",
+  "cs": [
+   "動物園",
+   "公園",
+   "新しくできた水族館",
+   "映画館"
+  ],
+  "a": 2,
+  "ex": "日曜は雨の予報なので屋内がよく、新しくできた水族館に行くことにした。",
+  "script": [
+   {
+    "speaker": "M",
+    "text": "今度の日曜、どこか出かけようか。"
+   },
+   {
+    "speaker": "F",
+    "text": "いいね。動物園はどう？子どもも喜ぶし。"
+   },
+   {
+    "speaker": "M",
+    "text": "あ、でも日曜は雨の予報だよ。"
+   },
+   {
+    "speaker": "F",
+    "text": "そっか。じゃあ、屋内がいいね。水族館は？"
+   },
+   {
+    "speaker": "M",
+    "text": "いいね。この前できた新しいところ、行ってみたかったんだ。"
+   },
+   {
+    "speaker": "F",
+    "text": "じゃあ、そこにしよう。"
+   }
+  ]
+ },
+ {
+  "section": "会話・説明問題",
+  "mondai": 4,
+  "audio": "audio/jtest_ac_p4_10.mp3",
+  "q": "経費の申請について、正しいものはどれですか。",
+  "situation": "会社で男の人が新入社員に説明しています。",
+  "cs": [
+   "紙の書類に記入して提出する",
+   "システムに入力して上司の承認を得る",
+   "領収書は捨ててよい",
+   "申請の締め切りはない"
+  ],
+  "a": 1,
+  "ex": "領収書は保管し、専用システムに入力して上司の承認を得る。締め切りは毎月末。",
+  "script": [
+   {
+    "speaker": "M",
+    "text": "それでは、経費の申請方法を説明します。まず、領収書は必ず保管してください。申請は、専用のシステムに入力して行います。紙の書類は使いません。入力後、上司の承認を得れば完了です。承認までに数日かかることがあるので、早めに申請してください。締め切りは毎月末です。"
+   }
+  ]
+ },
+ {
+  "section": "会話・説明問題",
+  "mondai": 4,
+  "audio": "audio/jtest_ac_p4_11.mp3",
+  "q": "男の人は、いつの研修に参加しますか。",
+  "situation": "会社で女の人と男の人が話しています。",
+  "cs": [
+   "来週",
+   "今週",
+   "参加しない",
+   "再来週の水曜"
+  ],
+  "a": 3,
+  "ex": "来週は打ち合わせがあるため、別日程の再来週の水曜に参加する。",
+  "script": [
+   {
+    "speaker": "F",
+    "text": "山田さん、来週の研修、参加されますか。"
+   },
+   {
+    "speaker": "M",
+    "text": "参加したいんですが、その日、外せない打ち合わせがあって。"
+   },
+   {
+    "speaker": "F",
+    "text": "あ、そうなんですね。じゃあ、別の日程もありますよ。再来週の水曜。"
+   },
+   {
+    "speaker": "M",
+    "text": "再来週の水曜なら大丈夫です。そちらでお願いします。"
+   }
+  ]
+ },
+ {
+  "section": "会話・説明問題",
+  "mondai": 4,
+  "audio": "audio/jtest_ac_p4_12.mp3",
+  "q": "女の人は、主に何について話していますか。",
+  "situation": "テレビで女の人が話しています。",
+  "cs": [
+   "家で手軽に野菜を育てる楽しさ",
+   "プロの農家の技術",
+   "野菜の値段の変化",
+   "ベランダの掃除の方法"
+  ],
+  "a": 0,
+  "ex": "ミニトマトやハーブならベランダでも簡単に育てられる、家庭菜園の楽しさを話している。",
+  "script": [
+   {
+    "speaker": "F",
+    "text": "最近、家で野菜を育てる人が増えています。難しそうに思われますが、実はミニトマトやハーブなら、ベランダでも簡単に育てられます。毎日の水やりは必要ですが、自分で育てた野菜を食べる喜びは格別です。何より、買うより新鮮で、料理も楽しくなります。まずは小さな鉢一つから始めてみてはいかがでしょうか。"
+   }
+  ]
+ }
+]; /*</JTL>*/
+  // 聴解データ（JT_LISTENING）を SECTIONS に統合する。順序は 写真→聴読解→応答→会話・説明。
+  (function(){
+    if(!JT_LISTENING || !JT_LISTENING.length) return;
+    var ICON={ "写真問題":"📷", "聴読解問題":"📊", "応答問題":"💬", "会話・説明問題":"🗣" };
+    var DESC={ "写真問題":"写真を見て答える（音声）", "聴読解問題":"図表を見て会話を聞く（音声）",
+               "応答問題":"短い発話に合う返事を選ぶ（音声）", "会話・説明問題":"会話・説明を聞いて答える（音声）" };
+    var ORDER=["写真問題","聴読解問題","応答問題","会話・説明問題"];
+    var groups={};
+    JT_LISTENING.forEach(function(it){
+      var nm=it.section||"聴解";
+      if(!groups[nm]) groups[nm]=[];
+      groups[nm].push({
+        q: it.q || it.question || "音声を聞いて答えてください。",
+        cs: it.cs, a: it.a, ex: it.ex,
+        sub: it.situation || "",
+        audio: it.audio, visual: it.visual || "",
+        script: it.script || [], prompt: it.prompt || ""
+      });
+    });
+    ORDER.concat(Object.keys(groups)).forEach(function(nm){
+      if(!groups[nm]) return;
+      if(SECTIONS.some(function(s){return s.name===nm;})) return;
+      SECTIONS.push({ key:"jl_"+nm, name:nm, ic:ICON[nm]||"聴", desc:DESC[nm]||"音声を聞いて答える", items:groups[nm], listening:true });
+    });
+  })();
+
   function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
   var $=function(id){return document.getElementById(id);};
   var home=$("home"), quiz=$("quiz"), result=$("result");
@@ -167,15 +887,45 @@
   function __startTimer(){ __startTime=Date.now(); if(__timerIv) clearInterval(__timerIv); var el=document.getElementById("qTimer"); function up(){ if(el) el.textContent="⏱ "+__fmtT(Date.now()-__startTime); } up(); __timerIv=setInterval(up,1000); }
   function __stopTimer(){ if(__timerIv){ clearInterval(__timerIv); __timerIv=null; } }
 
+  // 大項目（読解試験／聴解試験）→ 小項目（問題の種類）の二段構成
+  var GROUPS=[
+    { name:"読解試験", ic:"📖", subs:[
+      { sec:"文法・語彙", label:"文法・語彙問題" },
+      { sec:"読解", label:"読解問題" },
+      { sec:"漢字（読み）", label:"漢字問題" }
+    ]},
+    { name:"聴解試験", ic:"🎧", subs:[
+      { sec:"写真問題", label:"問題１ 写真問題" },
+      { sec:"聴読解問題", label:"問題２ 聴読解問題" },
+      { sec:"応答問題", label:"問題３ 応答問題" },
+      { sec:"会話・説明問題", label:"問題４ 会話・説明問題" }
+    ]}
+  ];
   (function(){
     var box=$("cats"), html="";
     var all=0; SECTIONS.forEach(function(s){ all+=s.items.length; });
+    var byName={}; SECTIONS.forEach(function(s){ byName[s.name]=s; });
     html+='<button class="cat mix" data-k="__all"><span class="cat-ic">★</span><span class="cat-info"><span class="cat-name">ミックス（全部から）</span><span class="cat-desc">全パートから 10問 ・ 計'+all+'問</span></span><span class="cat-arrow">›</span></button>';
-    SECTIONS.forEach(function(s){
-      html+='<button class="cat" data-k="'+s.key+'"><span class="cat-ic">'+s.ic+'</span><span class="cat-info"><span class="cat-name">'+s.name+'</span><span class="cat-desc">'+s.desc+' ・ '+s.items.length+'問</span></span><span class="cat-arrow">›</span></button>';
+    GROUPS.forEach(function(g,gi){
+      var subs=g.subs.filter(function(x){ return byName[x.sec] && byName[x.sec].items.length; });
+      if(!subs.length) return;
+      var cnt=0; subs.forEach(function(x){ cnt+=byName[x.sec].items.length; });
+      html+='<button class="cat grp" data-g="'+gi+'"><span class="cat-ic">'+g.ic+'</span><span class="cat-info"><span class="cat-name">'+g.name+'</span><span class="cat-desc">'+subs.length+'種類 ・ 計'+cnt+'問</span></span><span class="cat-arrow grp-arrow">›</span></button>';
+      html+='<div class="subwrap" id="subwrap-'+gi+'" style="display:none">';
+      subs.forEach(function(x){ var s=byName[x.sec]; html+='<button class="subcat" data-k="'+s.key+'"><span class="subcat-name">'+x.label+'</span><span class="subcat-tag">'+s.items.length+'問</span></button>'; });
+      html+='</div>';
     });
     box.innerHTML=html;
-    box.querySelectorAll(".cat").forEach(function(b){ b.addEventListener("click",function(){ start(b.getAttribute("data-k")); }); });
+    box.querySelector(".cat.mix").addEventListener("click",function(){ start("__all"); });
+    box.querySelectorAll(".cat.grp").forEach(function(b){
+      b.addEventListener("click",function(){
+        var gi=b.getAttribute("data-g"), w=$("subwrap-"+gi), open=w.style.display!=="none";
+        box.querySelectorAll(".subwrap").forEach(function(x){ x.style.display="none"; });
+        box.querySelectorAll(".cat.grp").forEach(function(x){ x.classList.remove("open"); });
+        if(!open){ w.style.display="block"; b.classList.add("open"); }
+      });
+    });
+    box.querySelectorAll(".subcat").forEach(function(b){ b.addEventListener("click",function(){ start(b.getAttribute("data-k")); }); });
   })();
 
   function start(key){
@@ -197,10 +947,38 @@
     $("qText").textContent=it.q||"つぎの もんだいに こたえてください。";
     var extra="";
     if(it.passage){ extra+='<div class="passage">'+it.passage+'</div>'; }
-    if(it.sub){ extra+='<div class="q-sub">'+it.sub+'</div>'; }
+    // 聴解: 図・写真 → 状況 → 音声プレイヤー → スクリプト
+    if(it.audio){
+      var esc=function(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); };
+      var vis = it.visual ? '<div style="margin-bottom:10px;overflow-x:auto;text-align:center">'+it.visual+'</div>' : '';
+      var sit = it.sub ? '<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;line-height:1.7">'+esc(it.sub)+'</div>' : '';
+      var scriptHtml="";
+      var lines=[];
+      if(it.prompt){ lines.push({speaker:(it.promptSpeaker||"F"), text:it.prompt}); }
+      if(it.script && it.script.length){ it.script.forEach(function(s){ lines.push(s); }); }
+      if(lines.length){
+        var body=lines.map(function(s){
+          var isM=(s.speaker==="M"||s.speaker==="M2"||s.speaker==="男");
+          var badge=isM
+            ? '<span style="display:inline-block;background:#E8F0F8;color:#2D5A8E;font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;flex-shrink:0;margin-top:2px">男</span>'
+            : '<span style="display:inline-block;background:#FCE4EC;color:#c62828;font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;flex-shrink:0;margin-top:2px">女</span>';
+          return '<div style="display:flex;gap:8px;margin-bottom:8px;align-items:flex-start">'+badge+'<span style="font-size:12px;line-height:1.7;color:var(--text);flex:1">'+esc(s.text)+'</span></div>';
+        }).join("");
+        scriptHtml='<div id="jtScriptBox" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">'+body+'</div>'
+          +'<button type="button" id="jtScriptBtn" style="margin-top:8px;background:transparent;border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:11px;color:var(--text-muted);cursor:pointer">📄 スクリプトを見る</button>';
+      }
+      extra+='<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:12px">'
+        +vis+sit
+        +'<audio controls preload="none" style="width:100%;margin-top:4px" src="'+it.audio+'">お使いのブラウザは音声再生に対応していません。</audio>'
+        +'<div style="font-size:11px;color:var(--text-hint);margin-top:6px">※ 音声を聞いてから回答してください</div>'
+        +scriptHtml+'</div>';
+    }
+    if(it.sub && !it.audio){ extra+='<div class="q-sub">'+it.sub+'</div>'; }
     $("qExtra").innerHTML=extra;
+    var __sb=$("jtScriptBtn");
+    if(__sb){ __sb.addEventListener("click", function(){ var bx=$("jtScriptBox"); if(!bx) return; var op=bx.style.display!=="none"; bx.style.display=op?"none":"block"; __sb.textContent=op?"📄 スクリプトを見る":"📖 スクリプトを隠す"; }); }
     var opts=it.cs.map(function(c,ci){ return {t:c, ok:ci===it.a}; });
-    opts=shuffle(opts);
+    if(!it.audio){ opts=shuffle(opts); }  // 聴解は音声・図の番号と合わせるため並べ替えない
     var ch=$("choices"); ch.innerHTML="";
     opts.forEach(function(op,ci){
       var b=document.createElement("button"); b.className="choice";

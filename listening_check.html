@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>聴解 確認・修正ページ</title>
+<style>
+  :root{ --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6; --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890; --accent:#2D5A8E; --radius:14px; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif; line-height:1.7; }
+  .wrap{ max-width:820px; margin:0 auto; padding:16px; }
+  h1{ font-size:20px; margin:.2rem 0; }
+  .lead{ font-size:13px; color:var(--text-muted); margin-bottom:12px; }
+  .tabs{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .tab{ background:var(--surface); border:1px solid var(--border); border-radius:9px; padding:8px 12px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; color:var(--text); }
+  .tab:hover{ border-color:var(--accent); }
+  .tab.on{ background:var(--accent); color:#fff; border-color:var(--accent); }
+  .bar{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px; }
+  .bar select,.bar input{ font-family:inherit; font-size:13px; padding:7px 9px; border:1px solid var(--border); border-radius:8px; background:var(--surface); color:var(--text); }
+  .count{ font-size:12px; color:var(--text-muted); }
+  .msg{ background:#FFF6EA; border:1px solid #F0D8B0; border-radius:10px; padding:12px 14px; font-size:13px; color:#8a5a12; margin-bottom:12px; }
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px; margin-bottom:14px; }
+  .card-h{ display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .num{ font-size:22px; font-weight:800; color:var(--accent); }
+  .id{ font-size:11px; color:var(--text-hint); font-family:monospace; }
+  .sec{ font-size:11px; font-weight:700; color:#fff; background:#9CB2C8; border-radius:5px; padding:2px 8px; }
+  .mtl{ margin:8px 0; overflow-x:auto; text-align:center; }
+  .sit{ font-size:12px; color:var(--text-muted); margin:6px 0; }
+  audio{ width:100%; margin:6px 0; }
+  .noaudio{ font-size:12px; color:#c0392b; background:#fdecec; border-radius:6px; padding:6px 9px; margin:6px 0; }
+  .script{ border-top:1px dashed var(--border); margin-top:8px; padding-top:8px; }
+  .line{ display:flex; gap:8px; margin-bottom:6px; align-items:flex-start; }
+  .badge{ font-size:10px; font-weight:700; border-radius:4px; padding:1px 6px; flex-shrink:0; margin-top:2px; }
+  .b-m{ background:#E8F0F8; color:#2D5A8E; }
+  .b-f{ background:#FCE4EC; color:#c62828; }
+  .b-n{ background:#EEECE7; color:#6B6560; }
+  .ltext{ font-size:13px; }
+  .q{ font-weight:700; margin-top:10px; font-size:14px; }
+  .choices{ margin:6px 0 0; padding:0; list-style:none; }
+  .choices li{ font-size:13px; padding:4px 8px; border-radius:6px; margin-bottom:3px; }
+  .choices li.ok{ background:#E7F4EA; color:#1c6b34; font-weight:700; }
+  .ex{ font-size:12px; color:var(--text-muted); background:#F3F0EA; border-radius:8px; padding:8px 10px; margin-top:8px; }
+  /* 資料（BJT/JTEST material）用の最低限のスタイル */
+  .mtl-scene{ display:inline-block; text-align:center; }
+  .mtl-cap{ font-size:11px; color:#6B6560; margin-top:2px; }
+  .mtl-t{ border-collapse:collapse; margin:0 auto; background:#fff; }
+  .mtl-t th,.mtl-t td{ border:1px solid #D9D3CA; padding:5px 9px; font-size:12px; text-align:center; }
+  .mtl-t td.l{ text-align:left; }
+  .mtl-hl{ background:#FCEFC7; font-weight:700; padding:0 3px; border-radius:3px; }
+  .mtl-mail,.mtl-notice,.mtl-list,.mtl-card{ display:inline-block; text-align:left; background:#FBF7EC; border:1px solid #EAD9B0; border-radius:8px; padding:10px 12px; font-size:12px; white-space:pre-wrap; max-width:320px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>聴解 確認・修正ページ</h1>
+  <div class="lead">聴解問題を「番号つき」で一覧し、音声とスクリプトを確認できます。おかしい問題があれば、<b>テスト名＋番号（またはID）</b>で教えてください（例：「N3の12番」「BJT聴解 k312」）。</div>
+  <div class="tabs" id="tabs"></div>
+  <div class="bar">
+    <select id="secSel"><option value="">大問：すべて</option></select>
+    <input id="jump" type="text" inputmode="numeric" placeholder="番号へ移動" style="width:110px">
+    <span class="count" id="count"></span>
+  </div>
+  <div id="body"></div>
+</div>
+<script>
+const SOURCES = [
+  {key:"n1", label:"N1", file:"n1_quiz.html", varname:"listeningQuestions", kind:"jlpt"},
+  {key:"n2", label:"N2", file:"n2_quiz.html", varname:"listeningQuestions", kind:"jlpt"},
+  {key:"n3", label:"N3", file:"n3_quiz.html", varname:"listeningQuestions", kind:"jlpt"},
+  {key:"n4", label:"N4", file:"n4_quiz.html", varname:"listeningQuestions", kind:"jlpt"},
+  {key:"n5", label:"N5", file:"n5_quiz.html", varname:"listeningQuestions", kind:"jlpt"},
+  {key:"jac", label:"J.TEST AC", file:"jtest_ac.html", varname:"JT_LISTENING", kind:"jtest"},
+  {key:"jde", label:"J.TEST DE", file:"jtest_de.html", varname:"JT_LISTENING", kind:"jtest"},
+  {key:"jfg", label:"J.TEST FG", file:"jtest_fg.html", varname:"JT_LISTENING", kind:"jtest"},
+  {key:"bk", label:"BJT 聴解", file:"bjt_choukai_data.js", varname:"BJT_CHOUKAI", kind:"bjt"},
+  {key:"bc", label:"BJT 聴読解", file:"bjt_choudokkai_data.js", varname:"BJT_CHOUDOKKAI", kind:"bjt"},
+];
+
+let cur = null, items = [];
+
+function extractArrayLiteral(text, varname){
+  const re = new RegExp(varname.replace(/[.*+?^${}()|[\]\\]/g,"\\$&") + "\\s*=\\s*\\[");
+  const m = re.exec(text);
+  if(!m) return null;
+  let j = text.indexOf("[", m.index);
+  let depth=0, i=j, instr=false, esc=false, q=null;
+  while(i<text.length){
+    const c=text[i];
+    if(instr){ if(esc)esc=false; else if(c==="\\")esc=true; else if(c===q)instr=false; }
+    else{ if(c==='"'||c==="'"||c==="`"){instr=true;q=c;} else if(c==="[")depth++; else if(c==="]"){depth--; if(depth===0) return text.slice(j,i+1);} }
+    i++;
+  }
+  return null;
+}
+function parseArray(text, varname){
+  const lit = extractArrayLiteral(text, varname);
+  if(lit===null) return null;
+  try{ return JSON.parse(lit); }catch(e){ try{ return (new Function("return ("+lit+")"))(); }catch(e2){ return null; } }
+}
+
+function badge(w){
+  const s=String(w||"").toUpperCase();
+  if(s==="N"||w==="ナ"||s==="NA") return '<span class="badge b-n">ナ</span>';
+  if(s.startsWith("M")||w==="男") return '<span class="badge b-m">男</span>';
+  return '<span class="badge b-f">女</span>';
+}
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function normalize(raw, kind, idx){
+  const o = { num: idx+1 };
+  if(kind==="jlpt"){
+    o.id = (raw.audio||"").replace(/^audio\//,"").replace(/\.mp3$/,"") || ("#"+(idx+1));
+    o.sec = "問題"+(raw.mondai||"")+" "+(raw.type||"");
+    o.audio = raw.audio||"";
+    o.visual = "";
+    o.situation = raw.situation||raw.preQuestion||"";
+    o.script = (raw.script||[]).map(s=>({w:s.speaker, t:s.text}));
+    o.question = raw.question||"";
+    o.choices = raw.choices||[];
+    o.correctText = raw.answer;
+    o.ex = raw.explanation||"";
+  } else if(kind==="jtest"){
+    o.id = (raw.audio||"").replace(/^audio\//,"").replace(/\.mp3$/,"") || ("#"+(idx+1));
+    o.sec = raw.section||"";
+    o.audio = raw.audio||"";
+    o.visual = raw.visual||"";
+    o.situation = raw.situation||"";
+    o.script = [];
+    if(raw.prompt) o.script.push({w:raw.promptSpeaker||"F", t:raw.prompt});
+    (raw.script||[]).forEach(s=>o.script.push({w:s.speaker, t:s.text}));
+    o.question = raw.q||raw.question||"";
+    o.choices = raw.cs||[];
+    o.correctIndex = raw.a;
+    o.ex = raw.ex||"";
+  } else { // bjt
+    o.id = raw.id||("#"+(idx+1));
+    o.sec = raw.sec||"";
+    o.audio = "audio/bjt_"+raw.id+".mp3";
+    o.visual = raw.material||"";
+    o.situation = raw.setup||"";
+    o.script = (raw.turns||[]).map(t=>({w:t.w, t:t.t}));
+    o.question = raw.q||"";
+    o.choices = raw.cs||[];
+    o.correctIndex = raw.a;
+    o.ex = raw.ex||"";
+  }
+  return o;
+}
+
+function isCorrect(o, ci){
+  if(o.correctIndex!=null) return ci===o.correctIndex;
+  if(o.correctText!=null) return o.choices[ci]===o.correctText;
+  return false;
+}
+
+function render(){
+  const secFilter = document.getElementById("secSel").value;
+  const list = secFilter ? items.filter(x=>x.sec===secFilter) : items;
+  document.getElementById("count").textContent = "全 "+items.length+" 問"+(secFilter?("／表示 "+list.length+" 問"):"");
+  const body = document.getElementById("body");
+  body.innerHTML = list.map(o=>{
+    const scriptHtml = o.script.length ? ('<div class="script">'+o.script.map(s=>'<div class="line">'+badge(s.w)+'<span class="ltext">'+esc(s.t)+'</span></div>').join("")+'</div>') : "";
+    const choiceHtml = o.choices.map((c,ci)=>'<li class="'+(isCorrect(o,ci)?"ok":"")+'">'+(ci+1)+'．'+esc(c)+(isCorrect(o,ci)?' ✓':'')+'</li>').join("");
+    const audioHtml = o.audio ? ('<audio controls preload="none" src="'+o.audio+'"></audio>') : '<div class="noaudio">音声ファイル未設定</div>';
+    return '<div class="card" id="q'+o.num+'">'
+      + '<div class="card-h"><span class="num">'+o.num+'</span><span class="sec">'+esc(o.sec)+'</span><span class="id">'+esc(o.id)+'</span></div>'
+      + (o.visual?('<div class="mtl">'+o.visual+'</div>'):"")
+      + (o.situation?('<div class="sit">'+esc(o.situation)+'</div>'):"")
+      + audioHtml
+      + scriptHtml
+      + (o.question?('<div class="q">'+esc(o.question)+'</div>'):"")
+      + '<ul class="choices">'+choiceHtml+'</ul>'
+      + (o.ex?('<div class="ex">解説：'+esc(o.ex)+'</div>'):"")
+      + '</div>';
+  }).join("");
+  if(!list.length) body.innerHTML = '<div class="msg">表示できる問題がありません。</div>';
+}
+
+async function load(src){
+  cur = src;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on", t.dataset.key===src.key));
+  const body = document.getElementById("body");
+  body.innerHTML = '<div class="msg">読み込み中… '+src.label+'</div>';
+  try{
+    const res = await fetch(src.file, {cache:"no-store"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const text = await res.text();
+    const arr = parseArray(text, src.varname);
+    if(!arr) throw new Error("データが見つかりません");
+    items = arr.map((raw,i)=>normalize(raw, src.kind, i));
+    // 大問セレクト更新
+    const secs = [...new Set(items.map(x=>x.sec))];
+    const sel = document.getElementById("secSel");
+    sel.innerHTML = '<option value="">大問：すべて</option>' + secs.map(s=>'<option value="'+esc(s)+'">'+esc(s)+'</option>').join("");
+    render();
+  }catch(e){
+    body.innerHTML = '<div class="msg">読み込みに失敗しました（'+esc(e.message)+'）。<br>このページは、GitHubに上げた公開サイト上で開いてください（ローカルのファイルを直接開くと、ブラウザの制限で読み込めません）。BJTのデータはローカルでも読めます。</div>';
+    document.getElementById("count").textContent="";
+    document.getElementById("secSel").innerHTML='<option value="">大問：すべて</option>';
+  }
+}
+
+// タブ生成
+document.getElementById("tabs").innerHTML = SOURCES.map(s=>'<button class="tab" data-key="'+s.key+'">'+s.label+'</button>').join("");
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click", ()=>{ const s=SOURCES.find(x=>x.key===t.dataset.key); load(s); });
+});
+document.getElementById("secSel").addEventListener("change", render);
+document.getElementById("jump").addEventListener("keydown", e=>{
+  if(e.key==="Enter"){ const el=document.getElementById("q"+e.target.value.trim()); if(el){ el.scrollIntoView({behavior:"smooth",block:"start"}); el.style.outline="2px solid var(--accent)"; setTimeout(()=>el.style.outline="",1500); } }
+});
+// 最初に BJT 聴解 を表示（ローカルでも動くため）
+load(SOURCES.find(s=>s.key==="bk"));
+</script>
+</body>
+</html>

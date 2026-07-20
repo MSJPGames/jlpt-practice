@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>あそんでなれる ｜ 日本語の部屋</title>
+<title>カタカナラッシュ</title>
 <style>
   :root {
     --bg: #F7F5F0;
@@ -12,211 +12,737 @@
     --text: #1C1C1C;
     --text-muted: #6B6560;
     --text-hint: #9E9890;
-    --radius: 16px;
-    --radius-lg: 22px;
-    /* ゲーム別アクセント（既存サイトのバッジ色と統一） */
-    --n5: #3B6D11; --n5-soft: #EAF3DE; --n5-deep:#2C520C;
-    --n4: #185FA5; --n4-soft: #E6F1FB; --n4-deep: #0E436F;
-    --n3: #3C3489; --n3-soft: #EEEDFE;
-    --n2: #854F0B; --n2-soft: #FAEEDA;
+    --go: #185FA5;
+    --go-soft: #E6F1FB;
+    --go-deep: #0E436F;
+    --miss: #C0432A;
+    --miss-soft: #FAECE7;
+    --gold: #B8860B;
+    --radius: 18px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow: hidden; }
   body {
     font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
-    background: var(--bg); color: var(--text);
-    min-height: 100vh; padding: 0 1rem 2.5rem;
+    background: var(--bg);
+    color: var(--text);
+    display: flex; align-items: center; justify-content: center;
+    user-select: none;
   }
-  .container { max-width: 480px; margin: 0 auto; }
+  .frame {
+    width: 100%; max-width: 460px; height: 100dvh; max-height: 880px;
+    display: flex; flex-direction: column; position: relative;
+    padding: 16px 16px 20px;
+  }
 
-  /* 戻る */
-  .topbar { display:flex; align-items:center; padding: 1.1rem 0 0; }
-  .back { font-size: 13px; color: var(--text-muted); text-decoration:none; font-weight:600; display:inline-flex; align-items:center; gap:4px; }
-  .back:active { opacity:.6; }
+  /* ====== 共通画面 ====== */
+  .screen { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+  .hidden { display: none !important; }
 
-  /* ヘッダー */
-  .head { text-align: center; padding: 1.4rem 0 0.5rem; }
-  .logo { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: var(--text-hint); margin-bottom: 8px; }
-  .title { font-size: 30px; font-weight: 800; letter-spacing: 0.03em; }
-  .sub { font-size: 13px; color: var(--text-muted); margin-top: 8px; line-height: 1.7; }
+  /* ====== スタート / 終了 ====== */
+  .center-card {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 20px; text-align: center;
+  }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; color: var(--text-hint); }
+  .big-title { font-size: 38px; font-weight: 800; letter-spacing: 0.04em; line-height: 1.1; }
+  .big-title small { display:block; font-size: 14px; font-weight:600; color: var(--text-muted); letter-spacing:0.08em; margin-top:8px; }
+  .lede { font-size: 14px; color: var(--text-muted); line-height: 1.8; max-width: 300px; }
+  .lede b { color: var(--go-deep); font-weight: 700; }
 
-  /* セクションラベル */
-  .label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-hint);
-    margin: 1.8rem 0 0.8rem; text-transform: uppercase; }
-
-  /* ===== 主役カード ===== */
-  .hero {
-    display:block; text-decoration:none; color:inherit;
+  /* ====== モード選択カード ====== */
+  .mode-list { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; }
+  .mode-card {
+    font-family: inherit; cursor: pointer; text-align: left;
+    border: 1px solid var(--border); background: var(--surface);
+    border-radius: var(--radius); padding: 18px 18px;
+    display: flex; align-items: center; gap: 14px; color: inherit;
     position: relative; overflow: hidden;
-    background: linear-gradient(145deg, #fff, #FBFAF6);
-    border: 1px solid var(--border); border-radius: var(--radius-lg);
-    padding: 22px 20px 20px;
-    box-shadow: 0 6px 22px rgba(0,0,0,0.06);
-    transition: transform .12s, box-shadow .12s;
+    box-shadow: 0 2px 0 var(--border);
+    transition: transform .1s, box-shadow .1s, border-color .12s;
   }
-  .hero:active { transform: scale(.985); }
-  .hero::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background: var(--n5); }
+  .mode-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background: var(--go); }
+  .mode-card:active { transform: translateY(2px); box-shadow: 0 0 0 var(--border); }
+  .mode-ic {
+    width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+    background: var(--go-soft); color: var(--go);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; font-weight: 800;
+  }
+  .mode-tx { flex: 1; min-width: 0; }
+  .mode-nm { font-size: 17px; font-weight: 800; }
+  .mode-ds { font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+  .mode-ar { font-size: 22px; color: var(--text-hint); flex-shrink: 0; }
+  .mode-card.word::before { background: var(--gold); }
+  .mode-card.word .mode-ic { background: #FBF0D6; color: #8A6608; }
 
-  /* 背景に漂うかな */
-  .float-layer { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
-  .float-kana { position:absolute; font-size:54px; font-weight:800; color: var(--n5); opacity:0.07; }
-  @media (prefers-reduced-motion: no-preference){
-    .float-kana { animation: drift 9s ease-in-out infinite; }
-    @keyframes drift { 0%,100%{transform:translateY(0) rotate(-4deg)} 50%{transform:translateY(-12px) rotate(4deg)} }
+  /* 難易度カード */
+  .diff-list { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; }
+  .diff-card {
+    font-family: inherit; cursor: pointer; text-align: left;
+    border: 1px solid var(--border); background: var(--surface);
+    border-radius: var(--radius); padding: 15px 16px;
+    display: flex; align-items: center; gap: 13px; color: inherit;
+    position: relative; overflow: hidden; box-shadow: 0 2px 0 var(--border);
+    transition: transform .1s, box-shadow .1s;
+  }
+  .diff-card:active { transform: translateY(2px); box-shadow: 0 0 0 var(--border); }
+  .diff-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; }
+  .diff-card.d1::before { background: #3E83C4; }
+  .diff-card.d2::before { background: var(--gold); }
+  .diff-card.d3::before { background: var(--miss); }
+  .diff-badge {
+    width: 46px; height: 46px; border-radius: 13px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 800;
+  }
+  .diff-card.d1 .diff-badge { background: var(--go-soft); color: var(--go); }
+  .diff-card.d2 .diff-badge { background: #FBF0D6; color: #8A6608; }
+  .diff-card.d3 .diff-badge { background: var(--miss-soft); color: var(--miss); }
+  .diff-tx { flex: 1; min-width: 0; }
+  .diff-nm { font-size: 16px; font-weight: 800; }
+  .diff-ds { font-size: 11.5px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .diff-ar { font-size: 20px; color: var(--text-hint); }
+
+  .btn {
+    border: none; cursor: pointer; font-family: inherit;
+    font-size: 17px; font-weight: 700; letter-spacing: 0.04em;
+    padding: 16px 44px; border-radius: 999px;
+    background: var(--go); color: #fff;
+    box-shadow: 0 6px 0 var(--go-deep), 0 10px 20px rgba(24,95,165,0.25);
+    transition: transform .08s, box-shadow .08s;
+  }
+  .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--go-deep), 0 4px 10px rgba(24,95,165,0.2); }
+  .btn-text {
+    background: none; border: none; cursor: pointer; font-family: inherit;
+    font-size: 14px; font-weight: 600; color: var(--text-muted);
+    text-decoration: none; padding: 6px 16px;
+  }
+  .btn-text:active { opacity: .6; }
+
+  .result-score { font-size: 54px; font-weight: 800; color: var(--go-deep); line-height: 1; }
+  .result-label { font-size: 13px; color: var(--text-hint); letter-spacing: 0.1em; font-weight: 700; }
+  .result-best { font-size: 13px; color: var(--gold); font-weight: 700; }
+  #endScreen .center-card { gap: 14px; }
+  #endScreen { overflow-y: auto; }
+
+  /* ベストスコア表 */
+  .board { width: 100%; max-width: 300px; display: flex; flex-direction: column; gap: 6px; }
+  .board-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-hint); margin-bottom: 2px; }
+  .brow {
+    display: flex; align-items: center; gap: 10px; padding: 7px 12px; text-align: left;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+  .brow.hi { background: var(--go-soft); border-color: var(--go); }
+  .brank { font-size: 13px; font-weight: 800; color: var(--text-hint); width: 18px; text-align: center; }
+  .brow.hi .brank { color: var(--go-deep); }
+  .bscore { font-size: 17px; font-weight: 800; flex: 1; }
+  .bscore small { font-size: 10px; font-weight: 700; color: var(--text-muted); margin-left: 2px; }
+  .bdate { font-size: 11px; color: var(--text-hint); }
+  .bnew { font-size: 9px; font-weight: 800; color: #fff; background: var(--go); padding: 2px 6px; border-radius: 6px; letter-spacing: 0.05em; }
+
+  .game-back {
+    align-self: flex-start; font-size: 13px; font-weight: 600;
+    color: var(--text-muted); text-decoration: none; padding: 2px 0; background:none; border:none; font-family:inherit; cursor:pointer;
+  }
+  .game-back:active { opacity: .6; }
+
+  /* ====== HUD ====== */
+  .hud { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .timebar-wrap { flex: 1; height: 10px; background: var(--border); border-radius: 999px; overflow: hidden; }
+  .timebar { height: 100%; width: 100%; background: var(--go);
+    border-radius: 999px; transition: width .25s linear, background .25s; }
+  .timebar.low { background: var(--miss); }
+  .hud-num { font-size: 20px; font-weight: 800; min-width: 52px; text-align: right; font-variant-numeric: tabular-nums; }
+  .hud-num small { font-size: 10px; font-weight: 700; color: var(--text-hint); display: block; letter-spacing: 0.08em; }
+  .quit, .soundbtn {
+    width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text-muted); font-size: 15px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-family: inherit;
+  }
+  .quit:active, .soundbtn:active { transform: scale(.92); }
+  .soundbtn.off { opacity: .55; }
+
+  /* ====== お題 ====== */
+  .prompt-zone { text-align: center; padding: 14px 0 8px; position: relative; }
+  .prompt-label { font-size: 12px; color: var(--text-hint); font-weight: 700; letter-spacing: 0.1em; }
+  .prompt-target {
+    font-size: 52px; font-weight: 800; color: var(--text); line-height: 1.1; letter-spacing: 0.02em;
+  }
+  .prompt-en { font-size: 12px; color: var(--text-hint); font-weight: 600; margin-top: 2px; min-height: 16px; }
+  .prompt-sound {
+    display:inline-flex; align-items:center; gap:5px; margin-top:6px;
+    font-family:inherit; font-size:12px; font-weight:700; color: var(--text-muted);
+    background: var(--surface); border:1px solid var(--border); border-radius:999px;
+    padding:5px 13px; cursor:pointer;
+  }
+  .prompt-sound:active { transform: scale(.95); }
+  .prompt-zone.pop .prompt-target { animation: targetpop .28s ease; }
+  @keyframes targetpop { 0%{transform:scale(.7);opacity:0} 60%{transform:scale(1.08)} 100%{transform:scale(1);opacity:1} }
+
+  /* コンボ表示 */
+  .combo {
+    position: absolute; top: 2px; left: 50%;
+    transform: translate(-50%,-50%) scale(.6);
+    font-size: 34px; font-weight: 800; color: var(--gold);
+    opacity: 0; pointer-events: none; white-space: nowrap;
+    text-shadow: 0 2px 10px rgba(184,134,11,0.28);
+  }
+  .combo.show { animation: comboflash .65s cubic-bezier(.2,.8,.3,1); }
+  @keyframes comboflash {
+    0%   { opacity: 0; transform: translate(-50%,-30%) scale(.5) rotate(-8deg); }
+    25%  { opacity: 1; transform: translate(-50%,-70%) scale(1.25) rotate(4deg); }
+    100% { opacity: 0; transform: translate(-50%,-150%) scale(1) rotate(0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .combo.show { animation: comboflashrm .65s ease; }
+    @keyframes comboflashrm { 0%{opacity:0} 25%{opacity:1} 100%{opacity:0} }
   }
 
-  .hero-top { display:flex; align-items:center; gap:8px; position:relative; }
-  .pill { font-size:10px; font-weight:700; letter-spacing:0.06em; padding:3px 10px; border-radius:999px; }
-  .pill-live { background: var(--n5-soft); color: var(--n5-deep); }
-  .pill-time { background:#F0EEE8; color: var(--text-muted); }
-  .hero-name { font-size: 27px; font-weight: 800; margin-top: 12px; letter-spacing:0.02em; position:relative; }
-  .hero-en { font-size:11px; font-weight:700; letter-spacing:0.14em; color: var(--text-hint); margin-top:2px; position:relative; }
-  .hero-desc { font-size:13.5px; color: var(--text-muted); line-height:1.7; margin-top:12px; max-width: 300px; position:relative; }
-  .play-btn {
-    margin-top:18px; display:inline-flex; align-items:center; gap:8px;
-    background: var(--n5); color:#fff; font-weight:700; font-size:16px; letter-spacing:0.04em;
-    padding:13px 30px; border-radius:999px; position:relative;
-    box-shadow: 0 4px 0 var(--n5-deep);
+  /* ====== グリッド（文字練習） ====== */
+  .grid {
+    flex: 1; display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px; align-content: center; padding: 6px 0;
   }
-  .hero:active .play-btn { box-shadow: 0 2px 0 var(--n5-deep); transform: translateY(2px); }
-
-  /* カタカナ用ヒーロー（青） */
-  .hero-kata::before { background: var(--n4); }
-  .hero-kata .float-kana { color: var(--n4); }
-  .hero-kata .pill-live { background: var(--n4-soft); color: var(--n4-deep); }
-  .hero-kata .play-btn { background: var(--n4); box-shadow: 0 4px 0 var(--n4-deep); }
-  .hero-kata:active .play-btn { box-shadow: 0 2px 0 var(--n4-deep); transform: translateY(2px); }
-  .hero-nazori::before { background: var(--n3); }
-  .hero-nazori .float-kana { color: var(--n3); }
-  .hero-nazori .pill-live { background: var(--n3-soft); color: var(--n3); }
-  .hero-nazori .play-btn { background: var(--n3); box-shadow: 0 4px 0 #2A2566; }
-  .hero-nazori:active .play-btn { box-shadow: 0 2px 0 #2A2566; transform: translateY(2px); }
-
-  /* ===== これからの枠 ===== */
-  .grid { display:flex; flex-direction:column; gap:10px; }
-  .game-card {
-    background: var(--surface); border:1px solid var(--border); border-radius: var(--radius);
-    padding: 14px 16px; display:flex; align-items:center; gap:14px;
-    opacity:.62;
+  .cell {
+    aspect-ratio: 1 / 1;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 38px; font-weight: 700; color: var(--text);
+    cursor: pointer; position: relative;
+    box-shadow: 0 2px 0 var(--border);
+    transition: transform .06s;
+    animation: cellin .22s cubic-bezier(.2,.9,.3,1.3) backwards;
   }
-  .game-badge {
-    width:50px; height:50px; border-radius:13px; flex-shrink:0;
-    display:flex; align-items:center; justify-content:center;
-    font-size:24px; font-weight:800;
+  @keyframes cellin { from{transform:scale(.4);opacity:0} to{transform:scale(1);opacity:1} }
+  .cell:active { transform: translateY(2px) scale(.97); }
+  .cell.correct { animation: hit .35s ease forwards; pointer-events:none; }
+  @keyframes hit {
+    0%{transform:scale(1);background:var(--go-soft);border-color:var(--go)}
+    40%{transform:scale(1.18);background:var(--go);color:#fff;border-color:var(--go)}
+    100%{transform:scale(.2);opacity:0}
   }
-  .b-kata { background: var(--n4-soft); color: var(--n4); }
-  .b-kanji { background: var(--n3-soft); color: var(--n3); }
-  .b-word { background: var(--n2-soft); color: var(--n2); }
-  .game-info { flex:1; min-width:0; }
-  .game-name { font-size:15px; font-weight:700; }
-  .game-desc { font-size:12px; color: var(--text-muted); margin-top:3px; line-height:1.5; }
-  .game-soon { font-size:10px; font-weight:700; color: var(--text-hint); background:#F0EEE8;
-    padding:2px 9px; border-radius:999px; display:inline-block; margin-top:6px; }
-  .game-soon.ready { background: var(--n4-soft); color: var(--n4); }
+  .cell.wrong { animation: shake .4s ease; }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-8px);background:var(--miss-soft);border-color:var(--miss)}
+    40%{transform:translateX(8px)}
+    60%{transform:translateX(-6px)}
+    80%{transform:translateX(6px)}
+  }
 
-  /* あそべるカード（カタカナラッシュ） */
-  .game-card.active { opacity:1; text-decoration:none; color:inherit; cursor:pointer;
-    transition: transform .12s, box-shadow .12s; }
-  .game-card.active:active { transform: scale(.985); }
-  .game-card.active:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-  .card-arrow { font-size:20px; color: var(--text-hint); flex-shrink:0; transition: transform .12s; }
-  .game-card.active:hover .card-arrow { transform: translateX(3px); }
+  /* ====== 単語練習エリア ====== */
+  .word-area { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+  .slots { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding: 6px 0 10px; min-height: 54px; }
+  .slots.shake { animation: shake .4s ease; }
+  .slot {
+    width: 40px; height: 46px; border-radius: 10px;
+    background: var(--surface); border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 700; color: var(--text);
+  }
+  .slot.filled { border-color: var(--go); background: var(--go-soft); }
+  .slot.bad { border-color: var(--miss); background: var(--miss-soft); color: var(--miss); }
+  .slot.cursor { border-color: var(--text-hint); border-style: dashed; }
 
-  .foot { text-align:center; font-size:11px; color: var(--text-hint); margin-top:2rem; line-height:1.9; }
+  .kb { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
+  .kb-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .key {
+    font-family: inherit; cursor: pointer;
+    height: 44px; border-radius: 10px;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); font-size: 21px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 0 var(--border); transition: transform .05s;
+  }
+  .key:active { transform: translateY(2px); box-shadow: 0 0 0 var(--border); background: var(--go-soft); }
+  .key.blank { visibility: hidden; box-shadow: none; }
+  .key.mod { background: #F0EEE8; font-size: 17px; font-weight: 800; color: var(--text-muted); }
+  .key.mod:active { background: #E6E2D8; }
+  .key.del { background: var(--miss-soft); color: var(--miss); font-size: 18px; }
+
+  /* 全画面フラッシュ */
+  .flash { position: absolute; inset: 0; pointer-events: none; opacity: 0; border-radius: var(--radius); }
+  .flash.go { background: radial-gradient(circle, rgba(24,95,165,0.16), transparent 70%); animation: flashout .4s ease; }
+  .flash.bad { background: radial-gradient(circle, rgba(192,67,42,0.16), transparent 70%); animation: flashout .4s ease; }
+  @keyframes flashout { from{opacity:1} to{opacity:0} }
+
+  /* パーティクル */
+  .particle { position: absolute; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--go); pointer-events: none; will-change: transform, opacity; }
+
+  .hint-row { text-align:center; font-size: 11px; color: var(--text-hint); margin-top: 6px; letter-spacing: 0.06em; min-height: 15px; }
 </style>
 </head>
 <body>
-<div class="container">
+<div class="frame">
 
-  <div class="topbar">
-    <a href="../index.html" class="back">‹ レベル選択にもどる</a>
+  <!-- スタート画面（モード選択） -->
+  <div id="startScreen" class="screen">
+    <a href="games.html" class="game-back">‹ もどる</a>
+    <div class="center-card">
+      <div class="logo">NIHONGO NO HEYA</div>
+      <div class="big-title">カタカナラッシュ<small>KATAKANA RUSH ・ 60秒</small></div>
+      <div class="lede">なにをれんしゅうする？</div>
+      <div class="mode-list">
+        <button class="mode-card" id="modeChar" type="button">
+          <div class="mode-ic">字</div>
+          <div class="mode-tx">
+            <div class="mode-nm">文字練習</div>
+            <div class="mode-ds">ローマ字を見て、正しいカタカナをタップ</div>
+          </div>
+          <div class="mode-ar">›</div>
+        </button>
+        <button class="mode-card word" id="modeWord" type="button">
+          <div class="mode-ic">語</div>
+          <div class="mode-tx">
+            <div class="mode-nm">単語練習</div>
+            <div class="mode-ds">カナキーボードで単語を入力。難易度3段階</div>
+          </div>
+          <div class="mode-ar">›</div>
+        </button>
+      </div>
+      <div class="hint-row">考えるより、指で反応</div>
+    </div>
   </div>
 
-  <div class="head">
-    <div class="logo">NIHONGO NO HEYA</div>
-    <div class="title">あそんでなれる</div>
-    <div class="sub">短い時間で、考えるより指で反応。<br>気がついたら日本語に慣れている。</div>
-  </div>
-
-  <div class="label">いま あそべる</div>
-
-  <!-- 主役：ひらがなラッシュ -->
-  <a href="kana_rush.html" class="hero">
-    <div class="float-layer">
-      <span class="float-kana" style="top:8px;right:18px;">あ</span>
-      <span class="float-kana" style="bottom:14px;right:64px;animation-delay:1.5s;">か</span>
-      <span class="float-kana" style="top:42px;right:120px;animation-delay:3s;font-size:38px;">ん</span>
-    </div>
-    <div class="hero-top">
-      <span class="pill pill-live">● あそべる</span>
-      <span class="pill pill-time">60秒</span>
-    </div>
-    <div class="hero-name">ひらがなラッシュ</div>
-    <div class="hero-en">HIRAGANA RUSH</div>
-    <div class="hero-desc">ひらがなをできるだけ早くタップ。連続で当てるとコンボがのびる。</div>
-    <span class="play-btn">▶ あそぶ</span>
-  </a>
-
-  <a href="katakana_rush.html" class="hero hero-kata" style="margin-top:10px;">
-    <div class="float-layer">
-      <span class="float-kana" style="top:8px;right:18px;">ア</span>
-      <span class="float-kana" style="bottom:14px;right:64px;animation-delay:1.5s;">カ</span>
-      <span class="float-kana" style="top:42px;right:120px;animation-delay:3s;font-size:38px;">ン</span>
-    </div>
-    <div class="hero-top">
-      <span class="pill pill-live">● あそべる</span>
-      <span class="pill pill-time">60秒</span>
-    </div>
-    <div class="hero-name">カタカナラッシュ</div>
-    <div class="hero-en">KATAKANA RUSH</div>
-    <div class="hero-desc">カタカナをできるだけ早くタップ。連続で当てるとコンボがのびる。</div>
-    <span class="play-btn">▶ あそぶ</span>
-  </a>
-
-  <a href="nazori.html" class="hero hero-nazori" style="margin-top:10px;">
-    <div class="float-layer">
-      <span class="float-kana" style="top:8px;right:18px;">書</span>
-      <span class="float-kana" style="bottom:14px;right:64px;animation-delay:1.5s;">順</span>
-      <span class="float-kana" style="top:42px;right:120px;animation-delay:3s;font-size:38px;">あ</span>
-    </div>
-    <div class="hero-top">
-      <span class="pill pill-live">● あそべる</span>
-      <span class="pill pill-time">92字</span>
-    </div>
-    <div class="hero-name">なぞり書き</div>
-    <div class="hero-en">NAZORI</div>
-    <div class="hero-desc">書き順どおりに、指でなぞって練習。ひらがな・カタカナ全字。</div>
-    <span class="play-btn">▶ あそぶ</span>
-  </a>
-
-  <div class="label">これから ふえる</div>
-
-  <div class="grid">
-
-    <div class="game-card">
-      <div class="game-badge b-kanji">読</div>
-      <div class="game-info">
-        <div class="game-name">漢字ハント</div>
-        <div class="game-desc">読みを聞いて、合う漢字をタップ。N5〜N4の漢字から</div>
-        <span class="game-soon">準備中</span>
+  <!-- 難易度選択画面（単語練習） -->
+  <div id="diffScreen" class="screen hidden">
+    <button class="game-back" id="diffBack" type="button">‹ もどる</button>
+    <div class="center-card">
+      <div class="logo">単語練習 ・ WORD PRACTICE</div>
+      <div class="big-title" style="font-size:30px;">難易度をえらぶ</div>
+      <div class="diff-list">
+        <button class="diff-card d1" data-lv="easy" type="button">
+          <div class="diff-badge">や</div>
+          <div class="diff-tx"><div class="diff-nm">やさしい</div>
+            <div class="diff-ds">短め・基本（テスト、トマト…）</div></div>
+          <div class="diff-ar">›</div>
+        </button>
+        <button class="diff-card d2" data-lv="normal" type="button">
+          <div class="diff-badge">ふ</div>
+          <div class="diff-tx"><div class="diff-nm">ふつう</div>
+            <div class="diff-ds">濁音・長音・促音（コーヒー、サッカー…）</div></div>
+          <div class="diff-ar">›</div>
+        </button>
+        <button class="diff-card d3" data-lv="hard" type="button">
+          <div class="diff-badge">む</div>
+          <div class="diff-tx"><div class="diff-nm">むずかしい</div>
+            <div class="diff-ds">長め・拗音促音（レストラン、エレベーター…）</div></div>
+          <div class="diff-ar">›</div>
+        </button>
       </div>
     </div>
-
-    <div class="game-card">
-      <div class="game-badge b-word">絵</div>
-      <div class="game-info">
-        <div class="game-name">ことばあて</div>
-        <div class="game-desc">絵を見て、合うことばをタップ。意味からおぼえる</div>
-        <span class="game-soon">準備中</span>
-      </div>
-    </div>
-
   </div>
 
-  <div class="foot">
-    遊びながら、ちょっとずつ。<br>
-    © 2025 日本語の部屋
+  <!-- ゲーム画面 -->
+  <div id="gameScreen" class="screen hidden">
+    <div class="hud">
+      <button class="quit" id="quitBtn" aria-label="やめる">✕</button>
+      <button class="soundbtn" id="soundBtn" aria-label="読み上げのオンオフ">🔊</button>
+      <div class="timebar-wrap"><div class="timebar" id="timebar"></div></div>
+      <div class="hud-num"><small>せいかい</small><span id="scoreVal">0</span></div>
+    </div>
+
+    <div class="prompt-zone" id="promptZone">
+      <div class="prompt-label" id="promptLabel">この音は？</div>
+      <div class="prompt-target" id="promptTarget">ka</div>
+      <div class="prompt-en" id="promptEn"></div>
+      <button class="prompt-sound hidden" id="promptSound" type="button">🔊 もう一度きく</button>
+      <div class="combo" id="comboTag"></div>
+    </div>
+
+    <!-- 文字練習：3x3グリッド -->
+    <div class="grid" id="grid"></div>
+
+    <!-- 単語練習：スロット＋かなキーボード -->
+    <div class="word-area hidden" id="wordArea">
+      <div class="slots" id="slots"></div>
+      <div class="kb" id="kb"></div>
+    </div>
+
+    <div class="hint-row" id="streakHint">　</div>
+  </div>
+
+  <!-- 結果画面 -->
+  <div id="endScreen" class="screen hidden">
+    <div class="center-card">
+      <div class="result-label">せいかい</div>
+      <div class="result-score" id="finalScore">0</div>
+      <div class="result-best" id="bestLine">　</div>
+      <div class="board" id="board"></div>
+      <div class="lede" id="endMsg"></div>
+      <button class="btn" id="againBtn">もう一回</button>
+      <button class="btn-text" id="toStart" type="button">モードをえらぶ</button>
+      <a href="../learn/katakana.html" class="btn-text">もっとくわしく学ぶ →</a>
+    </div>
   </div>
 
 </div>
+
+<script>
+(function(){
+  const KIND = 'kata'; // hira / kata
+
+  // ===== 単一かな（文字練習用） =====
+  const KANA = [
+    ['ア','a'],['イ','i'],['ウ','u'],['エ','e'],['オ','o'],
+    ['カ','ka'],['キ','ki'],['ク','ku'],['ケ','ke'],['コ','ko'],
+    ['サ','sa'],['シ','shi'],['ス','su'],['セ','se'],['ソ','so'],
+    ['タ','ta'],['チ','chi'],['ツ','tsu'],['テ','te'],['ト','to'],
+    ['ナ','na'],['ニ','ni'],['ヌ','nu'],['ネ','ne'],['ノ','no'],
+    ['ハ','ha'],['ヒ','hi'],['フ','fu'],['ヘ','he'],['ホ','ho'],
+    ['マ','ma'],['ミ','mi'],['ム','mu'],['メ','me'],['モ','mo'],
+    ['ヤ','ya'],['ユ','yu'],['ヨ','yo'],
+    ['ラ','ra'],['リ','ri'],['ル','ru'],['レ','re'],['ロ','ro'],
+    ['ワ','wa'],['ヲ','wo'],['ン','n']
+  ];
+
+  // ===== 単語リスト（単語練習用） kana / yomi(ローマ字) / en =====
+  const WORDS = {
+    easy: [
+      {k:'テスト',y:'tesuto',e:'test'},{k:'トマト',y:'tomato',e:'tomato'},{k:'メロン',y:'meron',e:'melon'},
+      {k:'レモン',y:'remon',e:'lemon'},{k:'カメラ',y:'kamera',e:'camera'},{k:'ノート',y:'nooto',e:'notebook'},
+      {k:'コート',y:'kooto',e:'coat'},{k:'スカート',y:'sukaato',e:'skirt'},{k:'ネクタイ',y:'nekutai',e:'necktie'},
+      {k:'テニス',y:'tenisu',e:'tennis'},{k:'ワイン',y:'wain',e:'wine'},{k:'ミルク',y:'miruku',e:'milk'}
+    ],
+    normal: [
+      {k:'コーヒー',y:'koohii',e:'coffee'},{k:'ジュース',y:'juusu',e:'juice'},{k:'スプーン',y:'supuun',e:'spoon'},
+      {k:'テーブル',y:'teeburu',e:'table'},{k:'サッカー',y:'sakkaa',e:'soccer'},{k:'スポーツ',y:'supootsu',e:'sports'},
+      {k:'ポケット',y:'poketto',e:'pocket'},{k:'チケット',y:'chiketto',e:'ticket'},{k:'パソコン',y:'pasokon',e:'PC'},
+      {k:'ボタン',y:'botan',e:'button'},{k:'カレー',y:'karee',e:'curry'},{k:'バナナ',y:'banana',e:'banana'}
+    ],
+    hard: [
+      {k:'レストラン',y:'resutoran',e:'restaurant'},{k:'コンビニ',y:'konbini',e:'convenience store'},
+      {k:'エレベーター',y:'erebeetaa',e:'elevator'},{k:'ハンバーガー',y:'hanbaagaa',e:'hamburger'},
+      {k:'チョコレート',y:'chokoreeto',e:'chocolate'},{k:'スマートフォン',y:'sumaatofon',e:'smartphone'},
+      {k:'アイスクリーム',y:'aisukuriimu',e:'ice cream'},{k:'テレビゲーム',y:'terebigeemu',e:'video game'},
+      {k:'ショッピング',y:'shoppingu',e:'shopping'},{k:'サングラス',y:'sangurasu',e:'sunglasses'},
+      {k:'パイナップル',y:'painappuru',e:'pineapple'},{k:'ハンバーグ',y:'hanbaagu',e:'hamburg steak'}
+    ]
+  };
+
+  // ===== かなキーボード配列（カタカナ） =====
+  const KB_GRID = [
+    ['ア','イ','ウ','エ','オ'],
+    ['カ','キ','ク','ケ','コ'],
+    ['サ','シ','ス','セ','ソ'],
+    ['タ','チ','ツ','テ','ト'],
+    ['ナ','ニ','ヌ','ネ','ノ'],
+    ['ハ','ヒ','フ','ヘ','ホ'],
+    ['マ','ミ','ム','メ','モ'],
+    ['ヤ','','ユ','','ヨ'],
+    ['ラ','リ','ル','レ','ロ'],
+    ['ワ','','ン','','ヲ']
+  ];
+  const DAKU = {'カ':'ガ','キ':'ギ','ク':'グ','ケ':'ゲ','コ':'ゴ','サ':'ザ','シ':'ジ','ス':'ズ','セ':'ゼ','ソ':'ゾ','タ':'ダ','チ':'ヂ','ツ':'ヅ','テ':'デ','ト':'ド','ハ':'バ','ヒ':'ビ','フ':'ブ','ヘ':'ベ','ホ':'ボ','ウ':'ヴ'};
+  const HANDAKU = {'ハ':'パ','ヒ':'ピ','フ':'プ','ヘ':'ペ','ホ':'ポ'};
+  const SMALL = {'ア':'ァ','イ':'ィ','ウ':'ゥ','エ':'ェ','オ':'ォ','ツ':'ッ','ヤ':'ャ','ユ':'ュ','ヨ':'ョ','ワ':'ヮ'};
+  const CHOON = 'ー';
+
+  const ROUND_TIME = 60;
+  const CELLS = 9;
+  const CHAR_COMBO = 2000;
+  const WORD_PER_CHAR = 1600;
+
+  const $ = id => document.getElementById(id);
+  const startScreen=$('startScreen'), diffScreen=$('diffScreen'), gameScreen=$('gameScreen'), endScreen=$('endScreen');
+  const grid=$('grid'), wordArea=$('wordArea'), slotsEl=$('slots'), kbEl=$('kb');
+  const promptTarget=$('promptTarget'), promptZone=$('promptZone'), promptLabel=$('promptLabel'), promptEn=$('promptEn'), promptSound=$('promptSound');
+  const scoreVal=$('scoreVal'), timebar=$('timebar'), comboTag=$('comboTag'), streakHint=$('streakHint');
+
+  let mode='char', level='easy';
+  let count=0, streak=0, maxStreak=0, timeLeft=0, timer=null, accepting=false, roundStart=0;
+  let target=null, typed='', lastWord=null;
+
+  // ===== 読み上げ =====
+  const speechOK = ('speechSynthesis' in window);
+  let soundOn = true;
+  function jaVoice(){
+    if(!speechOK) return null;
+    const ja = speechSynthesis.getVoices().filter(v=>/^ja(-|_)/i.test(v.lang) || (v.lang||'').toLowerCase().startsWith('ja'));
+    if(!ja.length) return null;
+    const bright = /female|kyoko|haruka|ayumi|nanami|sayaka|mizuki|google/i;
+    return ja.find(v=>bright.test(v.name)) || ja[0];
+  }
+  function speak(text){
+    if(!speechOK || !soundOn) return;
+    try {
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang='ja-JP'; u.rate=1.0; u.pitch=1.3;
+      const v=jaVoice(); if(v) u.voice=v;
+      speechSynthesis.speak(u);
+    } catch(e){}
+  }
+  if(speechOK){ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged=()=>{ jaVoice(); }; }
+
+  // ===== ベストスコア（モード/難易度別） =====
+  const SCORE_BASE = KIND==='hira' ? 'hiragana_rush' : 'katakana_rush';
+  function scoreKey(){ return SCORE_BASE + (mode==='char' ? '_char' : '_word_'+level); }
+  function modeLabel(){ return mode==='char' ? '文字練習' : ('単語練習・'+({easy:'やさしい',normal:'ふつう',hard:'むずかしい'}[level])); }
+  let storageOK=true, memScores={};
+  try { localStorage.setItem('__t','1'); localStorage.removeItem('__t'); } catch(e){ storageOK=false; }
+  function loadScores(){ if(!storageOK) return (memScores[scoreKey()]||[]).slice();
+    try { return JSON.parse(localStorage.getItem(scoreKey()))||[]; } catch(e){ return []; } }
+  function saveScores(list){ if(!storageOK){ memScores[scoreKey()]=list.slice(); return; }
+    try { localStorage.setItem(scoreKey(), JSON.stringify(list)); } catch(e){} }
+  function renderBoard(list, entry){
+    $('board').innerHTML = '<div class="board-title">ベストスコア TOP5 ・ '+modeLabel()+'</div>' +
+      list.map((s,i)=>{ const hi=(s===entry);
+        return '<div class="brow'+(hi?' hi':'')+'"><span class="brank">'+(i+1)+'</span>'+
+          '<span class="bscore">'+s.score+'<small>個</small></span>'+
+          '<span class="bdate">'+s.date+'</span>'+(hi?'<span class="bnew">NEW</span>':'')+'</div>';
+      }).join('');
+  }
+
+  function rand(n){ return Math.floor(Math.random()*n); }
+  function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=rand(i+1);[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+  // ===================== 文字練習 =====================
+  function newCharRound(){
+    target = KANA[rand(KANA.length)];
+    promptLabel.textContent='この音は？';
+    promptTarget.textContent=target[1];
+    promptEn.textContent=''; promptSound.classList.add('hidden');
+    promptZone.classList.remove('pop'); void promptZone.offsetWidth; promptZone.classList.add('pop');
+    const pool = shuffle(KANA.filter(k=>k[0]!==target[0])).slice(0, CELLS-1);
+    const cells = shuffle([target, ...pool]);
+    grid.innerHTML='';
+    cells.forEach((k,i)=>{
+      const c=document.createElement('div');
+      c.className='cell'; c.textContent=k[0]; c.style.animationDelay=(i*18)+'ms';
+      c.addEventListener('pointerdown', ()=>tapCell(k,c), {passive:true});
+      grid.appendChild(c);
+    });
+    accepting=true; roundStart=performance.now();
+  }
+  function tapCell(k, cell){
+    if(!accepting) return;
+    if(k[0]===target[0]){
+      accepting=false; count++; scoreVal.textContent=count;
+      speak(target[0]); cell.classList.add('correct'); burst(cell); flash('go');
+      const fast=(performance.now()-roundStart)<=CHAR_COMBO;
+      bumpStreak(fast);
+      setTimeout(newCharRound,120);
+    } else {
+      breakStreak();
+      cell.classList.remove('wrong'); void cell.offsetWidth; cell.classList.add('wrong'); flash('bad');
+    }
+  }
+
+  // ===================== 単語練習 =====================
+  function buildKeyboard(){
+    kbEl.innerHTML='';
+    KB_GRID.forEach(row=>{
+      const r=document.createElement('div'); r.className='kb-row';
+      row.forEach(ch=>{
+        const b=document.createElement('button'); b.type='button';
+        if(ch===''){ b.className='key blank'; }
+        else { b.className='key'; b.textContent=ch; b.addEventListener('click',()=>pressKey(ch)); }
+        r.appendChild(b);
+      });
+      kbEl.appendChild(r);
+    });
+    const r=document.createElement('div'); r.className='kb-row';
+    [['゛','daku'],['゜','handaku'],['小','small'],[CHOON,'choon'],['⌫','del']].forEach(([label,act])=>{
+      const b=document.createElement('button'); b.type='button';
+      b.className='key '+(act==='del'?'del':'mod'); b.textContent=label;
+      b.addEventListener('click',()=>pressMod(act));
+      r.appendChild(b);
+    });
+    kbEl.appendChild(r);
+  }
+
+  function newWordRound(){
+    const list=WORDS[level];
+    let w; do { w=list[rand(list.length)]; } while(list.length>1 && w===lastWord);
+    lastWord=w; target=w; typed='';
+    promptLabel.textContent='この単語を入力';
+    promptTarget.textContent=w.y;
+    promptEn.textContent=w.e||'';
+    promptSound.classList.toggle('hidden', !speechOK);
+    promptZone.classList.remove('pop'); void promptZone.offsetWidth; promptZone.classList.add('pop');
+    renderSlots();
+    speak(w.k);
+    accepting=true; roundStart=performance.now();
+  }
+
+  function renderSlots(){
+    const tk=target.k; slotsEl.innerHTML='';
+    for(let i=0;i<tk.length;i++){
+      const s=document.createElement('div'); s.className='slot';
+      const ch=typed[i];
+      if(ch!==undefined){
+        s.textContent=ch;
+        s.classList.add(ch===tk[i]?'filled':'bad');
+      } else if(i===typed.length){
+        s.classList.add('cursor');
+      }
+      slotsEl.appendChild(s);
+    }
+  }
+
+  function pressKey(ch){
+    if(!accepting || mode!=='word') return;
+    if(typed.length>=target.k.length){ shakeSlots(); return; }
+    typed+=ch; afterWordInput();
+  }
+  function pressMod(act){
+    if(!accepting || mode!=='word') return;
+    if(act==='del'){ if(typed.length){ typed=typed.slice(0,-1); afterWordInput(); } return; }
+    if(act==='choon'){
+      if(typed.length>=target.k.length){ shakeSlots(); return; }
+      typed+=CHOON; afterWordInput(); return;
+    }
+    if(!typed.length){ return; }
+    const last=typed[typed.length-1];
+    let map=null;
+    if(act==='daku'){ map=DAKU; }
+    else if(act==='handaku'){ map=HANDAKU; }
+    else if(act==='small'){ map=SMALL; }
+    const rev=invert(map);
+    let nx=null;
+    if(map[last]) nx=map[last];
+    else if(rev[last]) nx=rev[last];
+    if(nx){ typed=typed.slice(0,-1)+nx; afterWordInput(); }
+    else { shakeSlots(); }
+  }
+  function invert(m){ const o={}; for(const k in m) o[m[k]]=k; return o; }
+
+  function afterWordInput(){
+    renderSlots();
+    if(typed===target.k){ wordCorrect(); }
+  }
+  function wordCorrect(){
+    accepting=false; count++; scoreVal.textContent=count;
+    slotsEl.querySelectorAll('.slot').forEach(s=>{ s.classList.remove('bad','cursor'); s.classList.add('filled'); });
+    burst(slotsEl); flash('go');
+    const fast=(performance.now()-roundStart)<=(WORD_PER_CHAR*target.k.length);
+    bumpStreak(fast);
+    setTimeout(newWordRound,300);
+  }
+  function shakeSlots(){ slotsEl.classList.remove('shake'); void slotsEl.offsetWidth; slotsEl.classList.add('shake'); }
+
+  // ===== 共通：コンボ =====
+  function bumpStreak(fast){
+    if(fast){ streak++; if(streak>maxStreak) maxStreak=streak;
+      comboTag.textContent='×'+streak;
+      comboTag.classList.remove('show'); void comboTag.offsetWidth; comboTag.classList.add('show');
+      streakHint.textContent=streak+'連続！';
+    } else { streak=0; streakHint.textContent='　'; }
+  }
+  function breakStreak(){ streak=0; streakHint.textContent='　'; }
+
+  function burst(el){
+    const r=el.getBoundingClientRect(), f=document.querySelector('.frame').getBoundingClientRect();
+    const cx=r.left-f.left+r.width/2, cy=r.top-f.top+r.height/2;
+    const colors=['#185FA5','#3E83C4','#B8860B','#0E436F'];
+    for(let i=0;i<10;i++){
+      const p=document.createElement('div'); p.className='particle';
+      p.style.background=colors[rand(colors.length)];
+      p.style.left=cx+'px'; p.style.top=cy+'px';
+      document.querySelector('.frame').appendChild(p);
+      const ang=Math.random()*Math.PI*2, dist=40+Math.random()*60;
+      const dx=Math.cos(ang)*dist, dy=Math.sin(ang)*dist;
+      p.animate([{transform:'translate(-50%,-50%) scale(1)',opacity:1},
+        {transform:`translate(${dx-4}px,${dy-4}px) scale(0)`,opacity:0}],
+        {duration:480+Math.random()*200, easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>p.remove();
+    }
+  }
+  function flash(type){
+    const host = mode==='word' ? wordArea : grid;
+    const f=document.createElement('div'); f.className='flash '+(type==='go'?'go':'bad');
+    host.appendChild(f); setTimeout(()=>f.remove(),400);
+  }
+
+  function tick(){
+    timeLeft-=0.25;
+    const pct=Math.max(0, timeLeft/ROUND_TIME*100);
+    timebar.style.width=pct+'%'; timebar.classList.toggle('low', timeLeft<=10);
+    if(timeLeft<=0){ endGame(); }
+  }
+
+  function startGame(){
+    count=0; streak=0; maxStreak=0; timeLeft=ROUND_TIME; lastWord=null; typed='';
+    scoreVal.textContent='0'; streakHint.textContent='　';
+    timebar.style.width='100%'; timebar.classList.remove('low');
+    startScreen.classList.add('hidden'); diffScreen.classList.add('hidden'); endScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+    if(mode==='word'){
+      grid.classList.add('hidden'); wordArea.classList.remove('hidden');
+      buildKeyboard(); newWordRound();
+    } else {
+      wordArea.classList.add('hidden'); grid.classList.remove('hidden');
+      promptSound.classList.add('hidden');
+      newCharRound();
+    }
+    clearInterval(timer); timer=setInterval(tick,250);
+  }
+
+  function endGame(){
+    clearInterval(timer); accepting=false;
+    if(speechOK) speechSynthesis.cancel();
+    gameScreen.classList.add('hidden'); endScreen.classList.remove('hidden');
+    $('finalScore').textContent=count;
+    const list=loadScores();
+    const prevBest=list.reduce((m,s)=>Math.max(m,s.score||0),0);
+    const d=new Date();
+    const entry={score:count, date:(d.getMonth()+1)+'/'+d.getDate(), t:d.getTime()};
+    list.push(entry); list.sort((a,b)=>(b.score-a.score)||(a.t-b.t));
+    const top=list.slice(0,5); saveScores(top);
+    renderBoard(top, top.indexOf(entry)>=0?entry:null);
+    const isBest=count>prevBest && count>0;
+    $('bestLine').textContent=(maxStreak>=3)?('このプレイ 最高コンボ ×'+maxStreak):'　';
+    let msg;
+    if(mode==='word'){
+      if(count>=18) msg='単語名人！すらすら打ててる。';
+      else if(count>=10) msg='いい調子。指が覚えてきた。';
+      else if(count>=5) msg='その調子。読みとカナをつなげよう。';
+      else msg='まずは短い単語から、ゆっくり確実に。';
+    } else {
+      if(count>=40) msg='カナ名人！指が覚えてる。';
+      else if(count>=25) msg='いい反応。コンボが効いてる。';
+      else if(count>=12) msg='その調子。もう一回いける。';
+      else msg='まずは音と形を合わせる感覚から。';
+    }
+    $('endMsg').innerHTML=msg+(isBest?'<br><b style="color:#B8860B">自己ベスト更新！（'+modeLabel()+'）</b>':'');
+  }
+
+  function toStartScreen(){
+    clearInterval(timer); accepting=false;
+    if(speechOK) speechSynthesis.cancel();
+    gameScreen.classList.add('hidden'); endScreen.classList.add('hidden'); diffScreen.classList.add('hidden');
+    startScreen.classList.remove('hidden');
+  }
+
+  // ===== イベント =====
+  $('modeChar').addEventListener('click', ()=>{ mode='char'; startGame(); });
+  $('modeWord').addEventListener('click', ()=>{ startScreen.classList.add('hidden'); diffScreen.classList.remove('hidden'); });
+  $('diffBack').addEventListener('click', ()=>{ diffScreen.classList.add('hidden'); startScreen.classList.remove('hidden'); });
+  document.querySelectorAll('.diff-card').forEach(c=>{
+    c.addEventListener('click', ()=>{ mode='word'; level=c.dataset.lv; startGame(); });
+  });
+  $('againBtn').addEventListener('click', startGame);
+  $('quitBtn').addEventListener('click', toStartScreen);
+  $('toStart').addEventListener('click', toStartScreen);
+  promptSound.addEventListener('click', ()=>{ if(mode==='word' && target) speak(target.k); });
+  $('soundBtn').addEventListener('click', (e)=>{
+    soundOn=!soundOn;
+    e.currentTarget.textContent=soundOn?'🔊':'🔇';
+    e.currentTarget.classList.toggle('off',!soundOn);
+    if(!soundOn && speechOK) speechSynthesis.cancel();
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if(mode!=='word' || !accepting) return;
+    if(e.key==='Backspace'){ e.preventDefault(); if(typed.length){ typed=typed.slice(0,-1); afterWordInput(); } }
+  });
+})();
+</script>
 </body>
 </html>

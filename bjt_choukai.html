@@ -415,7 +415,7 @@
 
   /* ===== 問題エディタ＋報告ボタン（J.TEST/BJT用・JLPTと同等の機能）===== */
   (function(){
-    var EDIT_HASH='212c3a046555c1f473964977f8f21fefbbdd50af786fcfcb01ad4611764fb7c0';
+    var EDIT_HASH='87369b9abcd5e106eb34041267f2bf5d003094626a4e28c241d4dedacd979416';
     var EXPORT_NAME='bjt_choukai.html';
     var EXPORT_KIND='bjtchoukai';           /* 'html' or 'bjtchoukai' */
     var FORMSPREE='https://formspree.io/f/xlgygdzd';
@@ -458,6 +458,8 @@
     em.innerHTML='<div class="edmbox"><div id="edmtitle" style="font-size:15px;font-weight:800;margin-bottom:6px"></div>'
       +'<div id="edpassagewrap" style="display:none"><label class="edlab">本文（読解の文章）</label><textarea id="edpassage" class="edta"></textarea></div>'
       +'<div id="edsubwrap" style="display:none"><label class="edlab">設問（sub）</label><textarea id="edsub" class="edta" style="min-height:44px"></textarea></div>'
+      +'<div id="edsetupwrap" style="display:none"><label class="edlab">場面ナレーション（setup・音声で読まれます）</label><textarea id="edsetup" class="edta" style="min-height:44px"></textarea></div>'
+      +'<div id="edturnswrap" style="display:none"><label class="edlab">会話（turns・音声）</label><textarea id="edturns" class="edta" style="min-height:90px"></textarea><div style="font-size:11px;color:#9E9890;margin-top:3px;line-height:1.6">1行に1せりふ。「<b>話者：せりふ</b>」の形で書きます（話者は <b>女</b>／<b>男</b>／<b>ナ</b>＝ナレーター）。<br>例）女：はい、営業部でございます。<br>※setup・会話・問題文を変えたら、PCで <b>make_bjt_audio.py</b> を回して音声を作り直してください。</div></div>'
       +'<label class="edlab">問題文</label><textarea id="edq" class="edta"></textarea>'
       +'<label class="edlab">選択肢（正解は左の○で指定）</label>'
       +[0,1,2,3].map(function(i){return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><input type="radio" name="edans" value="'+i+'" id="edans'+i+'" style="flex-shrink:0"><input class="edinp" id="edc'+i+'" style="flex:1"></div>';}).join('')
@@ -538,6 +540,8 @@
       D('edmtitle').textContent='パート「'+SECTIONS[si].name+'」 #'+(ii+1)+' を編集';
       var pw=D('edpassagewrap'); if(it.passage!=null){ pw.style.display='block'; D('edpassage').value=it.passage||''; } else pw.style.display='none';
       var sw=D('edsubwrap'); if(it.sub!=null){ sw.style.display='block'; D('edsub').value=it.sub||''; } else sw.style.display='none';
+      var stw=D('edsetupwrap'); if(it.setup!=null){ stw.style.display='block'; D('edsetup').value=it.setup||''; } else stw.style.display='none';
+      var tw=D('edturnswrap'); if(it.turns!=null){ tw.style.display='block'; D('edturns').value=(it.turns||[]).map(function(tn){return tn.w+'：'+tn.t;}).join('\n'); } else tw.style.display='none';
       D('edq').value=it.q||'';
       for(var i=0;i<4;i++){ D('edc'+i).value=(it.cs&&it.cs[i]!=null)?it.cs[i]:''; }
       var r=D('edans'+(it.a||0)); if(r) r.checked=true;
@@ -549,6 +553,15 @@
       if(!edEditing) return; var it=SECTIONS[edEditing[0]].items[edEditing[1]];
       if(D('edpassagewrap').style.display!=='none') it.passage=D('edpassage').value;
       if(D('edsubwrap').style.display!=='none') it.sub=D('edsub').value;
+      if(D('edsetupwrap').style.display!=='none') it.setup=D('edsetup').value;
+      if(D('edturnswrap').style.display!=='none'){
+        it.turns=D('edturns').value.split('\n').map(function(line){return line.replace(/\s+$/,'');}).filter(function(l){return l.trim();}).map(function(line){
+          var idx=line.search(/[：:]/); var w,t;
+          if(idx>=0){ w=line.slice(0,idx).trim(); t=line.slice(idx+1).trim(); } else { w='ナ'; t=line.trim(); }
+          if(w!=='女'&&w!=='男'&&w!=='ナ'){ w='ナ'; t=line.trim(); }
+          return {w:w,t:t};
+        });
+      }
       it.q=D('edq').value;
       it.cs=[0,1,2,3].map(function(i){return D('edc'+i).value;});
       var sel=document.querySelector('input[name="edans"]:checked'); it.a=sel?+sel.value:0;

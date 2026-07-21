@@ -795,8 +795,8 @@ const ADJ_GENKI = {"高い":2, "安い":5, "大きい":5, "小さい":5, "新し
 const VFORMS=[['masu','ます形'],['plain','普通形'],['te','て形'],['nai','ない形'],['ta','た形'],['nakatta','なかった形'],
   ['potential','可能動詞'],['volition','意向形'],['ba','条件形'],['imperative','命令形'],
   ['prohibitive','禁止形'],['passive','受身動詞'],['causative','使役動詞'],['causpass','使役受身']];
-const IFORMS=[['neg','否定'],['past','過去'],['pastneg','過去否定'],['te','て形'],['adv','副詞形'],['ba','条件形']];
-const NFORMS=[['neg','否定'],['past','過去'],['pastneg','過去否定'],['te','て形'],['adv','副詞形'],['noun','名詞修飾'],['ba','条件形']];
+const IFORMS=[['plain','普通形'],['neg','否定'],['past','過去'],['pastneg','過去否定'],['te','て形'],['adv','副詞形'],['ba','条件形']];
+const NFORMS=[['plain','普通形'],['neg','否定'],['past','過去'],['pastneg','過去否定'],['te','て形'],['adv','副詞形'],['noun','名詞修飾'],['ba','条件形']];
 const HINTS={noun:'〜な＋名詞',adv:'〜く / 〜に',ba:'〜ば / 〜なら',volition:'〜う/よう',prohibitive:'〜な'};
 
 /* ===================== 状態 ===================== */
@@ -954,6 +954,7 @@ function renderQuiz(){
   // 起点の表示（動詞でます形起点ならます形で提示）
   let stimK=word.dict, stimR=word.kana;
   if(cat==='v' && (startForm==='masu' || key==='plain')){ const c=conjugateVerb(word); stimK=c.masu.k; stimR=c.masu.r; }
+  if((cat==='i'||cat==='n') && key==='plain'){ stimK=word.dict+'です'; stimR=word.kana+'です'; }
   let inner = `
     ${gtag}
     <div class="q-word">${stimK}</div>

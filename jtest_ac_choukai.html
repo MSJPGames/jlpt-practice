@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J.TEST 聴解 練習（A-Cレベル）・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px; --accent:#3C5A78; --accent-bg:#E4EAF1;
+    --ok:#3B6D11; --ok-bg:#EAF3DE; --ng:#9A3D1C; --ng-bg:#FAECE7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.7;-webkit-text-size-adjust:100%}
+  .container{max-width:480px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.25rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none;cursor:pointer;background:none;border:0;font-family:inherit}
+  .app-header{text-align:center;padding:1.1rem 0 .5rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:22px;font-weight:700}
+  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:11px 14px;font-size:12px;color:#6b5d40;line-height:1.65;margin:.6rem 0 1rem}
+  .hidden{display:none}
+  .lead{font-size:13px;color:var(--text-muted);margin:.2rem 2px 1rem}
+  .cat{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:var(--radius);padding:14px 15px;margin-bottom:11px;cursor:pointer;width:100%;text-align:left;font-family:inherit;
+    -webkit-tap-highlight-color:transparent;transition:transform .1s,box-shadow .12s}
+  .cat:hover{box-shadow:0 4px 16px rgba(0,0,0,.07)}
+  .cat:active{transform:scale(.99)}
+  .cat.mix{border-left-color:#854F0B;background:linear-gradient(135deg,#FFFFFF,#FAF3E6)}
+  .cat-ic{width:44px;height:44px;border-radius:11px;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .cat.mix .cat-ic{background:#FAEEDA;color:#854F0B}
+  .cat-info{flex:1;min-width:0}
+  .cat-name{font-size:15px;font-weight:700}
+  .cat-desc{font-size:12px;color:var(--text-muted);margin-top:2px}
+  .cat-arrow{font-size:20px;color:var(--text-hint)}
+  /* quiz */
+  .qtop{display:flex;align-items:center;gap:10px;margin:.4rem 0 1rem}
+  .pill{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;background:var(--accent-bg);color:var(--accent)}
+  .prog{font-size:13px;font-weight:700;color:var(--text-muted)}
+  .progbar{flex:1;height:7px;background:#ECE8E1;border-radius:5px;overflow:hidden}
+  .progbar>span{display:block;height:100%;background:var(--accent);border-radius:5px;transition:width .25s}
+  .audio-card{background:linear-gradient(135deg,#3C5A78,#4A6B8A);border-radius:var(--radius);padding:18px 16px;margin-bottom:14px;text-align:center;color:#fff}
+  .audio-card .ac-hint{font-size:12.5px;opacity:.9;margin-bottom:12px}
+  .playbtn{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:30px;padding:12px 26px;cursor:pointer;background:#fff;color:var(--accent);
+    display:inline-flex;align-items:center;gap:9px;transition:transform .1s;-webkit-tap-highlight-color:transparent}
+  .playbtn:active{transform:scale(.97)}
+  .playbtn .ico{font-size:16px}
+  .ac-src{font-size:10.5px;opacity:.7;margin-top:10px;letter-spacing:.02em}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 16px;margin-bottom:14px}
+  .q-text{font-size:16px;font-weight:600;white-space:pre-line;line-height:1.8}
+  .choices{display:flex;flex-direction:column;gap:8px}
+  .choice{display:flex;align-items:flex-start;gap:10px;padding:12px 13px;border:1px solid var(--border);border-radius:11px;cursor:pointer;
+    font-size:15px;background:#fff;-webkit-tap-highlight-color:transparent;transition:background .1s,border-color .1s;width:100%;text-align:left;font-family:inherit}
+  .choice:hover{background:#FAF9F6}
+  .choice .cn{font-weight:700;color:var(--text-muted);flex-shrink:0}
+  .choice.correct{border-color:var(--ok);background:var(--ok-bg)}
+  .choice.wrong{border-color:var(--ng);background:var(--ng-bg)}
+  .choice:disabled{cursor:default}
+  .exp{margin-top:12px;font-size:13px;color:var(--text-muted);background:#F3F0EA;border-radius:10px;padding:12px 14px;line-height:1.7;display:none}
+  .exp.show{display:block}
+  .exp .mk{font-weight:700;margin-right:6px}
+  .mk.ok{color:var(--ok)} .mk.ng{color:var(--ng)}
+  .script{margin-top:11px;padding-top:11px;border-top:1px dashed #d8d2c8}
+  .script .sc-h{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.05em;margin-bottom:6px}
+  .script .sc-setup{font-size:12.5px;color:var(--text-muted);margin-bottom:6px}
+  .script .sc-turn{font-size:13.5px;color:var(--text);margin:3px 0}
+  .script .sc-turn b{color:var(--accent);margin-right:5px}
+  .btn{font-family:inherit;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:14px 16px;cursor:pointer;width:100%;transition:transform .1s}
+  .primary{background:var(--accent);color:#fff}
+  .primary:active{transform:scale(.99)}
+  .ghost{background:#F0EEE8;color:var(--text)}
+  /* result */
+  .rcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 18px;text-align:center;margin-bottom:14px}
+  .rbig{font-size:34px;font-weight:700;color:var(--accent)}
+  .rsub{font-size:13px;color:var(--text-muted);margin-top:6px}
+  .rmsg{font-size:14px;font-weight:700;margin-top:10px}
+  .foot{text-align:center;font-size:11px;color:var(--text-hint);margin-top:1.5rem}
+
+  /* ---- 資料(material) ---- */
+  .mtl-card{padding:12px 14px}
+  .mtl-h{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.08em;margin-bottom:8px}
+  #mtl{font-size:13.5px;line-height:1.6}
+  .mtl-mail{border-left:3px solid var(--accent);background:#FAFAF6;padding:8px 11px;white-space:pre-line;line-height:1.75;border-radius:0 8px 8px 0}
+  .mtl-notice{border:1.5px dashed #C9B994;background:#FCF9F1;border-radius:10px;padding:10px 12px;text-align:center;line-height:1.7}
+  .mtl-notice .nt-t{font-weight:700;margin-bottom:4px}
+  table.mtl-t{width:100%;border-collapse:collapse;font-size:12.5px;margin:2px 0}
+  table.mtl-t th,table.mtl-t td{border:1px solid var(--border);padding:5px 7px;text-align:center}
+  table.mtl-t th{background:var(--accent-bg);color:var(--accent);font-weight:700}
+  table.mtl-t td.l{text-align:left}
+  .mtl-scene{text-align:center;padding:4px 0}
+  .mtl-cap{font-weight:700;color:var(--accent);font-size:13px;margin-top:4px}
+  .mtl-hl{background:#FFF1A8;padding:0 3px;border-radius:3px}
+  .mtl-list{list-style:none;padding:0;margin:0}
+  .mtl-list li{padding:4px 2px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:10px}
+  .mtl-list li:last-child{border-bottom:0}
+</style>
+</head>
+<body>
+<div class="container">
+  <button class="back" id="backBtn">‹ もどる</button>
+  <div class="app-header">
+    <div class="app-logo">J.TEST — 練習</div>
+    <div class="app-title">J.TEST 聴解 練習</div>
+    <div class="app-sub">実用日本語検定 A-Cレベル ・ 音声を聞いて 答える</div>
+  </div>
+
+  <!-- ホーム -->
+  <div id="home">
+    <div class="note">これは <b>J.TEST（実用日本語検定）A-Cレベルの聴解</b>の<b>出題形式に合わせたオリジナル練習問題</b>です（公式の問題・音声ではありません）。<b>写真問題・聴読解問題・応答問題・会話説明問題</b>の4分野。1回<b>10問</b>。<br>※資料や場面は画面に表示されます。音声は▶で再生できます（写真のかわりに場面を音声・イラストで示します）。</div>
+    <div class="lead">練習する パートを えらんでください。</div>
+    <div id="cats"></div>
+  </div>
+
+  <!-- クイズ -->
+  <div id="quiz" class="hidden">
+    <div class="qtop">
+      <span class="pill" id="secPill"></span>
+      <span class="prog" id="prog"></span>
+      <span class="prog" id="qTimer" style="color:var(--accent)">⏱ 0:00</span>
+      <span class="progbar"><span id="progFill" style="width:0%"></span></span>
+    </div>
+    <div class="card mtl-card hidden" id="mtlCard"><div class="mtl-h">資料</div><div id="mtl"></div></div>
+    <div class="audio-card">
+      <div class="ac-hint">音声を聞いて、質問に答えましょう。</div>
+      <button class="playbtn" id="playBtn"><span class="ico" id="playIco">▶</span><span id="playTxt">再生する</span></button>
+      <div class="ac-src" id="acSrc"></div>
+    </div>
+    <div class="card">
+      <div class="q-text" id="qText"></div>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="exp" id="exp"></div>
+    <button class="btn primary hidden" id="nextBtn" style="margin-top:14px"></button>
+  </div>
+
+  <!-- 結果 -->
+  <div id="result" class="hidden">
+    <div class="rcard">
+      <div class="rbig" id="rScore"></div>
+      <div class="rsub" id="rRate"></div>
+      <div class="rsub" id="rTime" style="opacity:.85;font-size:13px"></div>
+      <div class="rmsg" id="rMsg"></div>
+    </div>
+    <div id="nnhRecordHost"></div>
+    <button class="btn primary" id="againBtn" style="margin-bottom:10px">同じパートで もう10問</button>
+    <button class="btn ghost" id="homeBtn">パートを えらびなおす</button>
+  </div>
+
+  <div class="foot">© 2025 日本語の部屋 ・ J.TEST形式 聴解練習（A-Cレベル・オリジナル）</div>
+</div>
+
+<script src="jtest_ac_choukai_data.js"></script>
+<script>
+(function(){
+  "use strict";
+  var PER=10, AUDIO_DIR="audio/", AUDIO_PREFIX="jac_"; // audio/jac_<id>.mp3
+
+  var DATA = window.JTEST_AC_CHOUKAI || [];
+  // セクション順にグループ化
+  var order=[], map={};
+  DATA.forEach(function(d){ if(!map[d.sec]){ map[d.sec]=[]; order.push(d.sec); } map[d.sec].push(d); });
+  var __IC={"写真問題":"写","聴読解問題":"資","応答問題":"応","会話・説明問題":"話"};
+  var __DESC={"写真問題":"場面をイメージして 答える","聴読解問題":"資料を見ながら 聞く","応答問題":"ふさわしい 応答を えらぶ","会話・説明問題":"会話・説明を 聞いて 答える"};
+  var SECTIONS = order.map(function(name){
+    return {key:name, name:name, ic:(__IC[name]||"聴"), desc:(__DESC[name]||"音声を 聞いて 答える"), items:map[name]};
+  });
+
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+  var $=function(id){return document.getElementById(id);};
+  var home=$("home"), quiz=$("quiz"), result=$("result");
+  var pool=[], cur=0, correct=0, answered=false, curSec="";
+  var __startTime=0, __timerIv=null;
+  function __fmtT(ms){ var s=Math.max(0,Math.floor(ms/1000)); var m=Math.floor(s/60); s=s%60; return m+":"+(s<10?"0":"")+s; }
+  function __startTimer(){ __startTime=Date.now(); if(__timerIv) clearInterval(__timerIv); var el=document.getElementById("qTimer"); function up(){ if(el) el.textContent="⏱ "+__fmtT(Date.now()-__startTime); } up(); __timerIv=setInterval(up,1000); }
+  function __stopTimer(){ if(__timerIv){ clearInterval(__timerIv); __timerIv=null; } }
+
+  /* ---------- 音声：mp3優先、なければ読み上げにフォールバック ---------- */
+  var curAudio=null, usingTTS=false, playGen=0, autoTimer=null;
+  function stopAudio(){
+    playGen++;                 // 進行中／予約中の再生を無効化（二重再生の防止）
+    if(autoTimer){ clearTimeout(autoTimer); autoTimer=null; }
+    if(curAudio){ try{curAudio.pause();}catch(e){} curAudio=null; }
+    if(window.speechSynthesis){ try{window.speechSynthesis.cancel();}catch(e){} }
+    setPlayUI(false);
+  }
+  function setPlayUI(playing){
+    $("playIco").textContent = playing?"❚❚":"▶";
+    $("playTxt").textContent = playing?"再生中…":"再生する";
+  }
+  function pickVoices(){
+    var vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
+    var ja=vs.filter(function(v){return /ja[-_]?JP|Japanese|日本/i.test(v.lang+" "+v.name);});
+    var male=ja.filter(function(v){return /keita|ichiro|male|daichi|naoki|男/i.test(v.name);})[0];
+    var fem =ja.filter(function(v){return /nanami|haruka|ayumi|female|aoi|mayu|shiori|女/i.test(v.name);})[0];
+    return {ja:ja[0]||null, male:male||ja[0]||null, fem:fem||ja[0]||null};
+  }
+  function ttsPlay(it, gen){
+    if(!window.speechSynthesis){ return; }
+    usingTTS=true; $("acSrc").textContent="（ブラウザの読み上げ音声を使用）";
+    var segs=[];
+    if(it.setup) segs.push({w:"ナ",t:it.setup});
+    it.turns.forEach(function(tn){ segs.push({w:tn.w,t:tn.t}); });
+    if(it.q) segs.push({w:"ナ",t:it.q});
+    var V=pickVoices();
+    speechSynthesis.cancel();
+    setPlayUI(true);
+    var i=0;
+    function next(){
+      if(gen!=null && gen!==playGen){ return; }   // 古い再生要求は無視（二重再生の防止）
+      if(i>=segs.length){ setPlayUI(false); return; }
+      var s=segs[i++];
+      var u=new SpeechSynthesisUtterance(s.t);
+      u.lang="ja-JP"; u.rate=0.95;
+      if(s.w==="男"){ u.voice=V.male; u.pitch=0.8; }
+      else if(s.w==="女"){ u.voice=V.fem; u.pitch=1.15; }
+      else { u.voice=V.ja; u.pitch=1.0; u.rate=0.92; }
+      u.onend=next; u.onerror=function(){ setPlayUI(false); };
+      speechSynthesis.speak(u);
+    }
+    next();
+  }
+  function play(it, isAuto){
+    stopAudio();               // ここで playGen++（この再生の世代を確定させる）
+    var myGen=playGen;
+    usingTTS=false;
+    var url=AUDIO_DIR+AUDIO_PREFIX+it.id+".mp3";
+    var a=new Audio();
+    var fellBack=false;
+    var fallback=function(){
+      if(fellBack||myGen!==playGen) return; fellBack=true;
+      try{a.pause();}catch(e){} curAudio=null;
+      // ★モバイル対策：自動再生が失敗しただけのときは読み上げに落とさない。
+      //   （操作なしで読み上げを走らせると、あとで mp3 と二重に鳴るため。再生ボタンのタップを待つ）
+      if(isAuto){ setPlayUI(false); return; }
+      ttsPlay(it, myGen);
+    };
+    a.src=url;
+    a.addEventListener("error", fallback);
+    a.addEventListener("playing", function(){
+      if(myGen!==playGen) return;
+      // ★mp3が実際に鳴り始めたら、保留中の読み上げを必ず止める（相互排他・二重再生の防止）
+      if(window.speechSynthesis){ try{window.speechSynthesis.cancel();}catch(e){} }
+      usingTTS=false;
+      $("acSrc").textContent="（生成音声 mp3 を再生中）"; setPlayUI(true);
+    });
+    a.addEventListener("ended", function(){ if(myGen!==playGen) return; setPlayUI(false); });
+    curAudio=a;
+    var p=a.play();
+    if(p&&p.then){ p.then(function(){ if(myGen!==playGen) return; setPlayUI(true); }).catch(function(){ fallback(); }); }
+  }
+  $("playBtn").addEventListener("click", function(){
+    var it=pool[cur]&&pool[cur].it; if(!it) return;
+    // トグル：再生中なら止める
+    if((curAudio&&!curAudio.paused)|| (usingTTS&&window.speechSynthesis&&speechSynthesis.speaking)){ stopAudio(); return; }
+    play(it);
+  });
+  // voices が非同期で読み込まれる場合に備える
+  if(window.speechSynthesis){ speechSynthesis.onvoiceschanged=function(){ pickVoices(); }; }
+
+  /* ---------- ホーム描画 ---------- */
+  (function(){
+    var box=$("cats"), html="";
+    var all=0; SECTIONS.forEach(function(s){ all+=s.items.length; });
+    html+='<button class="cat mix" data-k="__all"><span class="cat-ic">★</span><span class="cat-info"><span class="cat-name">ミックス（全部から）</span><span class="cat-desc">全パートから 10問 ・ 計'+all+'問</span></span><span class="cat-arrow">›</span></button>';
+    SECTIONS.forEach(function(s){
+      html+='<button class="cat" data-k="'+s.key+'"><span class="cat-ic">'+s.ic+'</span><span class="cat-info"><span class="cat-name">'+s.name+'</span><span class="cat-desc">'+s.desc+' ・ '+s.items.length+'問</span></span><span class="cat-arrow">›</span></button>';
+    });
+    box.innerHTML=html;
+    box.querySelectorAll(".cat").forEach(function(b){ b.addEventListener("click",function(){ start(b.getAttribute("data-k")); }); });
+  })();
+
+  function start(key){
+    var items=[];
+    if(key==="__all"){ SECTIONS.forEach(function(s){ s.items.forEach(function(it){ items.push({it:it, sec:s.name}); }); }); curSec="ミックス"; }
+    else { var s=SECTIONS.filter(function(x){return x.key===key;})[0]; s.items.forEach(function(it){ items.push({it:it, sec:s.name}); }); curSec=s.name; }
+    pool=shuffle(items).slice(0, PER);
+    cur=0; correct=0; __startTimer();
+    home.classList.add("hidden"); result.classList.add("hidden"); quiz.classList.remove("hidden");
+    render();
+    window.scrollTo({top:0});
+  }
+
+  function render(){
+    answered=false; stopAudio();
+    var o=pool[cur], it=o.it;
+    var __mc=$("mtlCard"), __mtl=$("mtl");
+    if(it.material){ __mtl.innerHTML=it.material; __mc.classList.remove("hidden"); } else { __mtl.innerHTML=""; __mc.classList.add("hidden"); }
+    $("secPill").textContent=curSec+"／"+o.sec;
+    $("prog").textContent=(cur+1)+" / "+pool.length;
+    $("progFill").style.width=Math.round((cur)/pool.length*100)+"%";
+    $("acSrc").textContent="";
+    setPlayUI(false);
+    $("qText").textContent=it.q;
+    // choices shuffle
+    var opts=it.cs.map(function(c,ci){ return {t:c, ok:ci===it.a}; });
+    opts=shuffle(opts);
+    var ch=$("choices"); ch.innerHTML="";
+    opts.forEach(function(op,ci){
+      var b=document.createElement("button"); b.className="choice";
+      b.innerHTML='<span class="cn">'+(ci+1)+'</span><span>'+op.t+'</span>';
+      b.addEventListener("click",function(){ pick(b, op.ok, ch, it); });
+      ch.appendChild(b);
+    });
+    var e=$("exp"); e.className="exp"; e.innerHTML="";
+    var nb=$("nextBtn"); nb.className="btn primary hidden";
+    // 自動再生を試みる（ユーザー操作直後なので多くの環境で許可される。ダメでも▶ボタンで再生可）
+    // ※ stopAudio() で既存の予約は消えているが、二重予約を確実に防ぐため autoTimer で一元管理する
+    autoTimer=setTimeout(function(){ autoTimer=null; play(it, true); }, 200);
+  }
+
+  function buildScriptHTML(it){
+    var h='<div class="script"><div class="sc-h">スクリプト（音声の内容）</div>';
+    if(it.setup) h+='<div class="sc-setup">'+it.setup+'</div>';
+    it.turns.forEach(function(tn){ h+='<div class="sc-turn"><b>'+tn.w+'：</b>'+tn.t+'</div>'; });
+    h+='</div>';
+    return h;
+  }
+
+  function pick(btn, ok, ch, it){
+    if(answered) return; answered=true;
+    var btns=ch.querySelectorAll(".choice");
+    btns.forEach(function(b){ b.disabled=true; });
+    if(ok){ correct++; btn.classList.add("correct"); }
+    else { btn.classList.add("wrong"); }
+    markCorrect(ch, it);
+    var mk = ok ? '<span class="mk ok">○ 正解</span>' : '<span class="mk ng">✗ 不正解</span>';
+    var e=$("exp"); e.innerHTML=mk+(it.ex||"")+buildScriptHTML(it); e.classList.add("show");
+    var nb=$("nextBtn"); nb.classList.remove("hidden");
+    nb.textContent=(cur+1>=pool.length)?"結果を みる":"つぎへ";
+    $("progFill").style.width=Math.round((cur+1)/pool.length*100)+"%";
+  }
+  function markCorrect(ch, it){
+    var correctText=it.cs[it.a];
+    ch.querySelectorAll(".choice").forEach(function(b){
+      var t=b.querySelector("span:last-child").textContent;
+      if(t===correctText) b.classList.add("correct");
+    });
+  }
+
+  $("nextBtn").addEventListener("click", function(){
+    stopAudio();
+    if(cur+1>=pool.length){ finish(); }
+    else { cur++; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+  });
+
+  function finish(){
+    stopAudio();
+    __stopTimer(); var __elapsed=Date.now()-__startTime;
+    quiz.classList.add("hidden"); result.classList.remove("hidden");
+    var n=pool.length, pct=Math.round(correct/n*100);
+    $("rScore").textContent=correct+" / "+n;
+    $("rRate").textContent="正答率 "+pct+"％";
+    $("rTime").textContent="⏱ かかった時間 "+__fmtT(__elapsed);
+    var msg = pct>=80?"すばらしい！ 聞き取りの力が ついています。" : pct>=50?"いい かんじです。もう すこし！" : "だいじょうぶ。音声を くりかえし 聞きましょう。";
+    $("rMsg").textContent=msg;
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  $("againBtn").addEventListener("click", function(){
+    var key=curSec==="ミックス"?"__all":(SECTIONS.filter(function(s){return s.name===curSec;})[0]||{}).key;
+    start(key);
+  });
+  $("homeBtn").addEventListener("click", goHome);
+  $("backBtn").addEventListener("click", function(){
+    if(!quiz.classList.contains("hidden")||!result.classList.contains("hidden")){ goHome(); }
+    else { location.href="jtest.html"; }
+  });
+  function goHome(){ stopAudio(); __stopTimer(); quiz.classList.add("hidden"); result.classList.add("hidden"); home.classList.remove("hidden"); window.scrollTo({top:0}); }
+
+  // データが無いとき
+  if(!DATA.length){ $("cats").innerHTML='<div class="note">データ（jtest_ac_choukai_data.js）が読み込めませんでした。</div>'; }
+
+  /* === 間違えた問題の復習（後付け・共通） === */
+  var __WKEY='nnhwrong_'+((location.pathname.split('/').pop()||'quiz').replace(/\.html$/,''));
+  var __CKEY='nnhcat_'+((location.pathname.split('/').pop()||'quiz').replace(/\.html$/,''));
+  function __loadW(){ try{ return JSON.parse(localStorage.getItem(__WKEY)||'{}'); }catch(e){ return {}; } }
+  function __saveW(m){ try{ localStorage.setItem(__WKEY, JSON.stringify(m)); }catch(e){} }
+  function __sig(o){ var it=o.it||{}; return (o.sec||'')+'|'+String(it.q||it.sub||it.passage||'').replace(/\s+/g,'').slice(0,80)+'|'+((it.cs||[]).join('#')).slice(0,90); }
+  function __recordAns(o, ok){ if(!o) return; var m=__loadW(), k=__sig(o); if(ok){ if(m[k]){ delete m[k]; __saveW(m); } } else { m[k]={it:o.it, sec:o.sec}; __saveW(m); } try{ var cat=o.sub||o.sec||'その他'; var cm=JSON.parse(localStorage.getItem(__CKEY)||'{}'); var cc=cm[cat]||{s:0,c:0}; cc.s++; if(ok)cc.c++; cm[cat]=cc; localStorage.setItem(__CKEY, JSON.stringify(cm)); }catch(e){} __updateReviewUI(); }
+  function __wcount(){ return Object.keys(__loadW()).length; }
+  function __clearW(){ if(!confirm('復習リストにある間違えた問題をすべて消しますか？この操作は元に戻せません。')) return; localStorage.removeItem(__WKEY); __updateReviewUI(); }
+  function startReview(){
+    var items=Object.values(__loadW());
+    if(!items.length){ alert('間違えた問題はまだありません。まずは各パートに挑戦しましょう！'); return; }
+    pool=shuffle(items.map(function(x){ return {it:x.it, sec:x.sec}; })).slice(0, PER);
+    cur=0; correct=0; curSec='復習'; __startTimer();
+    home.classList.add('hidden'); result.classList.add('hidden'); quiz.classList.remove('hidden');
+    render(); window.scrollTo({top:0});
+  }
+  function __updateReviewUI(){
+    var n=__wcount();
+    var c=document.getElementById('reviewCount'); if(c) c.textContent=n;
+    var card=document.getElementById('reviewCard'); if(card) card.style.display=n>0?'':'none';
+    var rb=document.getElementById('rReviewBtn'); if(rb){ rb.style.display=n>0?'':'none'; var rc=document.getElementById('rReviewCount'); if(rc) rc.textContent=n; }
+  }
+  function __injectReview(){
+    var homeEl=document.getElementById('home');
+    if(homeEl && !document.getElementById('reviewCard')){
+      var card=document.createElement('div'); card.id='reviewCard'; card.style.cssText='display:none;margin:0 0 14px';
+      card.innerHTML='<div id="__rvGo" role="button" style="cursor:pointer;background:#FFF6EA;border:1px solid #F0D8B0;border-left:5px solid #E8912D;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px"><div style="font-size:24px;flex-shrink:0">🔁</div><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:15px;color:#B96A12">間違えた問題を復習</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px">まちがえた問題だけをまとめて練習。正解すると自動で消えます。</div></div><div style="text-align:right;flex-shrink:0"><div style="font-size:20px;font-weight:700;color:#E8912D"><span id="reviewCount">0</span>問</div></div></div><div style="text-align:right;margin-top:5px"><span id="__rvClear" style="font-size:11px;color:var(--text-hint);text-decoration:underline;cursor:pointer">復習リストを空にする</span></div>';
+      var cats=document.getElementById('cats');
+      if(cats && cats.parentNode) cats.parentNode.insertBefore(card, cats); else homeEl.insertBefore(card, homeEl.firstChild);
+      document.getElementById('__rvGo').addEventListener('click', startReview);
+      document.getElementById('__rvClear').addEventListener('click', __clearW);
+    }
+    if(!document.getElementById('rReviewBtn')){
+      var ag=document.getElementById('againBtn');
+      if(ag && ag.parentNode){
+        var b=document.createElement('button'); b.id='rReviewBtn'; b.className=ag.className; b.style.cssText='display:none;margin-bottom:10px;border-color:#E8912D;color:#B96A12';
+        b.innerHTML='🔁 間違えた問題を復習（<span id="rReviewCount">0</span>問）';
+        b.addEventListener('click', startReview);
+        ag.parentNode.insertBefore(b, ag);
+      }
+    }
+    __updateReviewUI();
+  }
+  pick=(function(o){ return function(btn, ok){ var was=answered; var r=o.apply(this, arguments); try{ if(!was) __recordAns(pool[cur], ok); }catch(e){} return r; }; })(pick);
+  start=(function(o){ return function(key){ if(key==null){ if(curSec==='復習'){ startReview(); return; } key='__all'; } return o.call(this, key); }; })(start);
+  finish=(function(o){ return function(){ var r=o.apply(this, arguments); try{ __updateReviewUI(); }catch(e){} return r; }; })(finish);
+  goHome=(function(o){ return function(){ var r=o.apply(this, arguments); try{ __updateReviewUI(); }catch(e){} return r; }; })(goHome);
+  // ==== 練習の記録（Wordで保存）: quiz_record.js 連携（JLPTと同じ仕組み）====
+  (function(){
+    var TOOL = "J.TEST 聴解 練習（A-C）";
+    function __q2s(it){ return String((it&&(it.q||it.sub||it.passage))||'つぎのもんだい').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,120); }
+    function __chosen(btn){ try{ var sp=btn.querySelector('span:last-child'); return sp?sp.textContent:String(btn.textContent||'').replace(/^\s*\d+\s*/,''); }catch(e){ return ''; } }
+    start=(function(o){ return function(){ var r=o.apply(this,arguments); try{ if(window.NNHRecord) NNHRecord.init({tool:TOOL, level:curSec||''}); }catch(e){} return r; }; })(start);
+    startReview=(function(o){ return function(){ var r=o.apply(this,arguments); try{ if(window.NNHRecord) NNHRecord.init({tool:TOOL, level:'復習（間違えた問題）'}); }catch(e){} return r; }; })(startReview);
+    pick=(function(o){ return function(btn, ok){ var was=answered; var r=o.apply(this,arguments); try{ if(window.NNHRecord && !was && pool[cur]){ var it=pool[cur].it||pool[cur]; NNHRecord.add({sec:(pool[cur].sec||curSec||''), q:__q2s(it), chosen:__chosen(btn), correct:(it.cs&&it.cs[it.a])||'', ok:!!ok}); } }catch(e){} return r; }; })(pick);
+    finish=(function(o){ return function(){ var r=o.apply(this,arguments); try{ if(window.NNHRecord){ var host=document.getElementById('nnhRecordHost'); if(host){ host.innerHTML=''; NNHRecord.mount(host,{score:correct,total:pool.length}); } } }catch(e){} return r; }; })(finish);
+  })();
+  __injectReview();
+  try{ if(/[?&]review=1/.test(location.search) && __wcount()>0){ startReview(); } }catch(e){}
+
+
+  /* ===== 問題エディタ＋報告ボタン（J.TEST/BJT用・JLPTと同等の機能）===== */
+  (function(){
+    var EDIT_HASH='87369b9abcd5e106eb34041267f2bf5d003094626a4e28c241d4dedacd979416';
+    var EXPORT_NAME='jtest_ac_choukai.html';
+    var EXPORT_KIND='bjtchoukai';           /* 'html' or 'bjtchoukai' */
+    var FORMSPREE='https://formspree.io/f/xlgygdzd';
+    var D=function(id){return document.getElementById(id);};
+    function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    /* --- CSS --- */
+    var st=document.createElement('style'); st.textContent=[
+     '.edov{position:fixed;inset:0;background:#F7F5F0;z-index:300;overflow:auto;display:none;padding:14px}',
+     '.edwrap{max-width:640px;margin:0 auto}',
+     '.edhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}',
+     '.edcard{background:#fff;border:1px solid #E2DDD6;border-radius:10px;padding:11px 13px;margin-bottom:10px}',
+     '.edbtn{font-family:inherit;font-weight:700;border:none;border-radius:8px;padding:8px 13px;cursor:pointer;font-size:13px}',
+     '.edmodal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:320;display:none;align-items:center;justify-content:center;padding:14px}',
+     '.edmbox{background:#fff;border-radius:12px;padding:16px;max-width:460px;width:100%;max-height:92vh;overflow:auto}',
+     '.edlab{font-size:12px;font-weight:700;color:#6B6560;margin:9px 0 3px;display:block}',
+     '.edinp,.edta{width:100%;border:1px solid #E2DDD6;border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;background:#FCFBF9;color:#1C1C1C}',
+     '.edta{min-height:58px;resize:vertical;line-height:1.6}',
+     '.rpmodal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:340;display:none;align-items:center;justify-content:center;padding:14px}',
+     '.rpbox{background:#fff;border-radius:12px;padding:18px;max-width:360px;width:100%}',
+     '.rpbtn{flex:1;padding:11px;border-radius:8px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;border:none}',
+     '.rep-link{margin-top:8px;font-size:12px;color:#9E9890;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:inherit;padding:2px 4px}'
+    ].join(''); document.head.appendChild(st);
+
+    /* --- エディタ画面 --- */
+    var ov=document.createElement('div'); ov.className='edov'; ov.id='edov';
+    ov.innerHTML='<div class="edwrap">'
+      +'<div class="edhead"><div style="font-size:17px;font-weight:800">📝 問題エディタ</div>'
+      +'<button class="edbtn" style="background:#eee;color:#333" onclick="edClose()">閉じる</button></div>'
+      +'<div class="edcard" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">'
+      +'<label class="edlab" style="margin:0">パート</label>'
+      +'<select id="edsec" class="edinp" style="width:auto;flex:1;min-width:150px"></select>'
+      +'<button class="edbtn" style="background:#2D5A8E;color:#fff" onclick="edExport()">💾 修正版をダウンロード</button></div>'
+      +'<div class="edcard" style="font-size:11.5px;color:#9E9890;line-height:1.7">編集した内容はこの画面（端末内）に反映されます。確定するには「修正版をダウンロード」で保存し、GitHubにアップロードしてください。<br>※正確な保存のため、公開サイト（サーバー）から開いて操作してください。</div>'
+      +'<div id="edlist"></div></div>';
+    document.body.appendChild(ov);
+
+    /* --- 編集モーダル --- */
+    var em=document.createElement('div'); em.className='edmodal'; em.id='edmodal';
+    em.innerHTML='<div class="edmbox"><div id="edmtitle" style="font-size:15px;font-weight:800;margin-bottom:6px"></div>'
+      +'<div id="edpassagewrap" style="display:none"><label class="edlab">本文（読解の文章）</label><textarea id="edpassage" class="edta"></textarea></div>'
+      +'<div id="edsubwrap" style="display:none"><label class="edlab">設問（sub）</label><textarea id="edsub" class="edta" style="min-height:44px"></textarea></div>'
+      +'<div id="edmaterialwrap" style="display:none"><label class="edlab">資料（material・画面に出す表や図。HTML）</label><textarea id="edmaterial" class="edta" style="min-height:70px;font-family:monospace;font-size:12px"></textarea></div>'
+      +'<div id="edsetupwrap" style="display:none"><label class="edlab">場面ナレーション（setup・音声で読まれます）</label><textarea id="edsetup" class="edta" style="min-height:44px"></textarea></div>'
+      +'<div id="edturnswrap" style="display:none"><label class="edlab">会話（turns・音声）</label><textarea id="edturns" class="edta" style="min-height:90px"></textarea><div style="font-size:11px;color:#9E9890;margin-top:3px;line-height:1.6">1行に1せりふ。「<b>話者：せりふ</b>」の形で書きます（話者は <b>女</b>／<b>男</b>／<b>ナ</b>＝ナレーター）。<br>例）女：はい、承知いたしました。<br>※setup・会話・問題文を変えたら、PCで <b>make_choudokkai_audio.py</b> を回して音声を作り直してください。</div></div>'
+      +'<label class="edlab">問題文</label><textarea id="edq" class="edta"></textarea>'
+      +'<label class="edlab">選択肢（正解は左の○で指定）</label>'
+      +[0,1,2,3].map(function(i){return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><input type="radio" name="edans" value="'+i+'" id="edans'+i+'" style="flex-shrink:0"><input class="edinp" id="edc'+i+'" style="flex:1"></div>';}).join('')
+      +'<label class="edlab">解説</label><textarea id="edex" class="edta"></textarea>'
+      +'<div style="display:flex;gap:8px;margin-top:12px"><button class="edbtn" style="flex:1;background:#eee;color:#333" onclick="edCloseModal()">キャンセル</button>'
+      +'<button class="edbtn" style="flex:1;background:#2F7168;color:#fff" onclick="edSaveEdit()">保存</button></div></div>';
+    document.body.appendChild(em);
+
+    /* --- 報告モーダル --- */
+    var rp=document.createElement('div'); rp.className='rpmodal'; rp.id='rpmodal';
+    rp.innerHTML='<div class="rpbox"><div id="rpform"><div style="font-size:15px;font-weight:800;margin-bottom:5px">⚠ この問題を報告</div>'
+      +'<div id="rpinfo" style="font-size:12px;color:#6B6560;margin-bottom:10px;line-height:1.6"></div>'
+      +'<textarea id="rpmsg" class="edta" placeholder="気づいた点（誤りや不自然な点など）を書いてください。" style="min-height:90px"></textarea>'
+      +'<div style="display:flex;gap:8px;margin-top:10px"><button class="rpbtn" style="background:#eee;color:#333" onclick="closeReport()">キャンセル</button>'
+      +'<button class="rpbtn" style="background:#2F7168;color:#fff" onclick="sendReport()">送信する</button></div></div>'
+      +'<div id="rpsent" style="display:none;text-align:center;padding:12px 0"><div style="font-size:34px">✓</div><div style="font-weight:700;margin-top:6px">送信しました。ありがとうございます。</div></div></div>';
+    document.body.appendChild(rp);
+
+    /* --- ✎ トリガー（ホーム画面・目立たない）--- */
+    try{ var h=D('home'); if(h){ var t=document.createElement('div'); t.style.cssText='text-align:right;margin-top:8px';
+      t.innerHTML='<span onclick="openEditor()" style="color:#9E9890;font-size:11px;cursor:pointer;opacity:.4;user-select:none;padding:6px 10px;display:inline-block">✎</span>';
+      h.appendChild(t); } }catch(e){}
+
+    /* --- 確認済み状態（localStorage）--- */
+    function rkey(si,ii){ return 'edrev_'+EXPORT_NAME+'_'+si+'_'+ii; }
+    function isRev(si,ii){ return localStorage.getItem(rkey(si,ii))==='1'; }
+    function setRev(si,ii,v){ try{ if(v) localStorage.setItem(rkey(si,ii),'1'); else localStorage.removeItem(rkey(si,ii)); }catch(e){} }
+
+    window.openEditor=function(){
+      var input=prompt('パスワードを入力してください：'); if(!input) return;
+      crypto.subtle.digest('SHA-256', new TextEncoder().encode(input)).then(function(buf){
+        var hex=Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+        if(hex===EDIT_HASH){
+          var sel=D('edsec');
+          if(!sel.options.length){ SECTIONS.forEach(function(s,si){ var o=document.createElement('option'); o.value=si; o.textContent=s.name+'（'+s.items.length+'問）'; sel.appendChild(o); }); sel.addEventListener('change',edLoad); }
+          D('edov').style.display='block'; edLoad();
+        } else alert('パスワードが違います。');
+      });
+    };
+    window.edClose=function(){ D('edov').style.display='none'; };
+
+    window.edLoad=function(){
+      var si=+D('edsec').value; var sec=SECTIONS[si]; if(!sec) return;
+      var list=D('edlist'); list.innerHTML='';
+      var hid=sec.items.filter(function(x){return x.hidden;}).length;
+      var bar=document.createElement('div'); bar.className='edcard'; bar.style.fontSize='12px'; bar.style.color='#6B6560';
+      bar.textContent='このパート：全 '+sec.items.length+' 問 ／ 非表示 '+hid+' 問';
+      list.appendChild(bar);
+      sec.items.forEach(function(it,ii){
+        var rev=isRev(si,ii);
+        var q=(it.q||it.sub||it.passage||'（問題文なし）');
+        var prev=esc(String(q).replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').slice(0,60))+'…';
+        var ch=it.cs.map(function(c,ci){ return '<span style="font-size:12px;padding:2px 7px;border-radius:4px;background:'+(ci===it.a?'#2F7168':'#F0EEE8')+';color:'+(ci===it.a?'#fff':'#6B6560')+';border:1px solid #E2DDD6;margin:2px 3px 2px 0;display:inline-block">'+esc(c)+'</span>'; }).join('');
+        var card=document.createElement('div'); card.className='edcard';
+        card.style.display='flex'; card.style.gap='10px'; card.style.alignItems='flex-start';
+        if(it.hidden){ card.style.opacity='.5'; card.style.borderStyle='dashed'; } else if(rev){ card.style.opacity='.7'; card.style.borderColor='#27ae60'; }
+        card.innerHTML='<div style="flex:1;min-width:0">'
+          +'<div style="font-size:11px;color:#9E9890;margin-bottom:3px"><b>#'+(ii+1)+'</b> '+(rev?'<span style="color:#27ae60;font-weight:700">✓ 確認済み</span>':'<span style="color:#B33;font-weight:700">● 未確認</span>')+(it.hidden?' <span style="color:#fff;background:#777;border-radius:4px;padding:1px 6px">非表示</span>':'')+'</div>'
+          +'<div style="font-size:14px;line-height:1.5;margin-bottom:5px;word-break:break-all">'+prev+'</div>'
+          +'<div>'+ch+'</div>'
+          +'<div style="font-size:12px;color:#27ae60;margin-top:4px">正解：'+esc(it.cs[it.a])+'</div>'
+          +(it.ex?'<div style="font-size:11.5px;color:#6B6560;margin-top:3px">解説：'+esc(String(it.ex).slice(0,90))+'</div>':'')
+          +'</div>'
+          +'<div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">'
+          +'<button class="edbtn" style="background:#2F7168;color:#fff;padding:7px 12px" onclick="edEdit('+si+','+ii+')">編集</button>'
+          +'<button class="edbtn" style="padding:5px 8px;font-size:11px;background:'+(rev?'#eee':'#27ae60')+';color:'+(rev?'#6B6560':'#fff')+'" onclick="edToggleRev('+si+','+ii+')">'+(rev?'未確認へ':'✓確認済み')+'</button>'
+          +'<button class="edbtn" style="padding:5px 8px;font-size:11px;background:'+(it.hidden?'#2D5A8E':'#eee')+';color:'+(it.hidden?'#fff':'#6B6560')+'" onclick="edToggleHidden('+si+','+ii+')">'+(it.hidden?'表示へ':'非表示')+'</button>'
+          +'</div>';
+        list.appendChild(card);
+      });
+    };
+    window.edToggleRev=function(si,ii){ setRev(si,ii,!isRev(si,ii)); edLoad(); };
+    window.edToggleHidden=function(si,ii){ var it=SECTIONS[si].items[ii]; if(it.hidden) delete it.hidden; else it.hidden=true; edLoad(); };
+
+    var edEditing=null;
+    window.edEdit=function(si,ii){
+      var it=SECTIONS[si].items[ii]; if(!it) return; edEditing=[si,ii];
+      D('edmtitle').textContent='パート「'+SECTIONS[si].name+'」 #'+(ii+1)+' を編集';
+      var pw=D('edpassagewrap'); if(it.passage!=null){ pw.style.display='block'; D('edpassage').value=it.passage||''; } else pw.style.display='none';
+      var sw=D('edsubwrap'); if(it.sub!=null){ sw.style.display='block'; D('edsub').value=it.sub||''; } else sw.style.display='none';
+      var mw=D('edmaterialwrap'); if(it.material!=null){ mw.style.display='block'; D('edmaterial').value=it.material||''; } else mw.style.display='none';
+      var stw=D('edsetupwrap'); if(it.setup!=null){ stw.style.display='block'; D('edsetup').value=it.setup||''; } else stw.style.display='none';
+      var tw=D('edturnswrap'); if(it.turns!=null){ tw.style.display='block'; D('edturns').value=(it.turns||[]).map(function(tn){return tn.w+'：'+tn.t;}).join('\n'); } else tw.style.display='none';
+      D('edq').value=it.q||'';
+      for(var i=0;i<4;i++){ D('edc'+i).value=(it.cs&&it.cs[i]!=null)?it.cs[i]:''; }
+      var r=D('edans'+(it.a||0)); if(r) r.checked=true;
+      D('edex').value=it.ex||'';
+      D('edmodal').style.display='flex';
+    };
+    window.edCloseModal=function(){ D('edmodal').style.display='none'; };
+    window.edSaveEdit=function(){
+      if(!edEditing) return; var it=SECTIONS[edEditing[0]].items[edEditing[1]];
+      if(D('edpassagewrap').style.display!=='none') it.passage=D('edpassage').value;
+      if(D('edsubwrap').style.display!=='none') it.sub=D('edsub').value;
+      if(D('edmaterialwrap').style.display!=='none') it.material=D('edmaterial').value;
+      if(D('edsetupwrap').style.display!=='none') it.setup=D('edsetup').value;
+      if(D('edturnswrap').style.display!=='none'){
+        it.turns=D('edturns').value.split('\n').map(function(line){return line.replace(/\s+$/,'');}).filter(function(l){return l.trim();}).map(function(line){
+          var idx=line.search(/[：:]/); var w,t;
+          if(idx>=0){ w=line.slice(0,idx).trim(); t=line.slice(idx+1).trim(); } else { w='ナ'; t=line.trim(); }
+          if(w!=='女'&&w!=='男'&&w!=='ナ'){ w='ナ'; t=line.trim(); }
+          return {w:w,t:t};
+        });
+      }
+      it.q=D('edq').value;
+      it.cs=[0,1,2,3].map(function(i){return D('edc'+i).value;});
+      var sel=document.querySelector('input[name="edans"]:checked'); it.a=sel?+sel.value:0;
+      it.ex=D('edex').value;
+      setRev(edEditing[0],edEditing[1],false);
+      edCloseModal(); edLoad();
+    };
+
+    function dl(blob,name){ var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){try{URL.revokeObjectURL(a.href);}catch(e){}},1500); }
+    window.edExport=function(){
+      if(EXPORT_KIND==='bjtchoukai'){
+        try{ var js='window.JTEST_AC_CHOUKAI = '+JSON.stringify(window.JTEST_AC_CHOUKAI)+';\n'; dl(new Blob([js],{type:'text/javascript;charset=utf-8'}),'jtest_ac_choukai_data.js'); }
+        catch(e){ alert('ダウンロードに失敗しました。'); }
+        return;
+      }
+      fetch(location.href,{cache:'no-store'}).then(function(r){return r.text();}).then(function(src){
+        var re=/\/\*<DATA>\*\/[\s\S]*?\/\*<\/DATA>\*\//;
+        if(!re.test(src)){ alert('データ範囲のマーカーが見つかりません。公開サイト（サーバー）から開いて、もう一度お試しください。'); return; }
+        src=src.replace(re,'/*<DATA>*/ var SECTIONS='+JSON.stringify(SECTIONS)+'; /*</DATA>*/');
+        dl(new Blob([src],{type:'text/html;charset=utf-8'}),EXPORT_NAME);
+      }).catch(function(){ alert('ダウンロードに失敗しました。公開サイト（サーバー）から開いてお試しください。'); });
+    };
+
+    /* --- 報告 --- */
+    window.openReport=function(){
+      if(!pool.length||!pool[cur]) return;
+      var it=pool[cur].it||pool[cur];
+      D('rpinfo').textContent='問題：'+String(it.q||it.sub||it.passage||'').replace(/<[^>]*>/g,' ').slice(0,50)+'…';
+      D('rpmsg').value=''; D('rpform').style.display='block'; D('rpsent').style.display='none'; D('rpmodal').style.display='flex';
+    };
+    window.closeReport=function(){ D('rpmodal').style.display='none'; };
+    window.sendReport=function(){
+      var msg=D('rpmsg').value.trim(); if(!msg){ alert('コメントを入力してください。'); return; }
+      var it=(pool[cur]&&(pool[cur].it||pool[cur]))||{};
+      var body={ message:msg, test:EXPORT_NAME, section:curSec+((pool[cur]&&pool[cur].sec)?(' / '+pool[cur].sec):''),
+        question:String(it.q||it.sub||it.passage||''), choices:(it.cs||[]).join(' / '), answer:(it.cs&&it.cs[it.a])||'' };
+      fetch(FORMSPREE,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)})
+        .then(function(res){ if(res.ok){ D('rpform').style.display='none'; D('rpsent').style.display='block'; setTimeout(closeReport,1800); } else alert('送信に失敗しました。'); })
+        .catch(function(){ alert('送信に失敗しました。ネット接続をご確認ください。'); });
+    };
+
+    /* --- 出題画面に報告ボタンを差し込む（解答後）--- */
+    if(typeof pick==='function'){
+      var _pick=pick; pick=function(){ var r=_pick.apply(this,arguments); try{ var e=D('exp'); if(e && !D('repInBtn')){ var bb=document.createElement('div'); bb.style.textAlign='right'; bb.innerHTML='<button id="repInBtn" class="rep-link" onclick="openReport()">⚠ この問題を報告</button>'; e.appendChild(bb); } }catch(err){} return r; };
+    }
+
+    /* --- 非表示問題を出題から除外 --- */
+    function filterHidden(){ try{ pool=pool.filter(function(x){ return !((x.it||x).hidden); }); }catch(e){} }
+    if(typeof start==='function'){ var _s=start; start=function(){ var r=_s.apply(this,arguments); filterHidden(); try{ if(pool.length){ if(cur>=pool.length) cur=0; render(); } }catch(e){} return r; }; }
+    if(typeof startReview==='function'){ var _sr=startReview; startReview=function(){ var r=_sr.apply(this,arguments); filterHidden(); try{ if(pool.length){ if(cur>=pool.length) cur=0; render(); } }catch(e){} return r; }; }
+  })();
+
+})();
+</script>
+<script src="record_config.js"></script>
+<script src="quiz_record.js"></script>
+</body>
+</html>

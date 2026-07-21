@@ -185,6 +185,10 @@
   @media (prefers-reduced-motion: reduce) { .btn-mic.listening { animation: none; } }
 
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+  /* PC・タブレットなど広い画面では、スマホ用レイアウトのまま全体を拡大して見やすくする */
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
 </style>
 </head>
 <body>
@@ -1003,11 +1007,27 @@ function wireNext(){ const n=$('nextBtn'); if(n){ n.onclick=newProblem; n.focus(
 // （マイク使用中インジケーターは点灯したままになります。ページを閉じると解放されます。）
 var micPrimed=false, sharedRec=null, micStream=null;
 function primeMic(){
-  // 以前はここで getUserMedia を呼び、マイクを開いたまま保持していたが、
-  // それが音声認識(SpeechRecognition)とマイクを奪い合い、Android等で音声入力
-  // できない原因になっていた。音声認識は自前でマイク権限を取得するため、
-  // ここでは何もせず、マイクを音声認識に譲る。
-  return Promise.resolve();
+  // マイク許可の確認ダイアログを「初回だけ」にする。
+  // 初回に getUserMedia で許可を取り、すぐにトラックを停止してマイクを解放する
+  // （ストリームを握りっぱなしにすると Android で音声認識とマイクを奪い合うため、
+  //  取得後すぐ解放するのがポイント）。許可はブラウザがオリジン単位で記憶するので、
+  //  2回目以降は SpeechRecognition が確認なしで使える。
+  if(micPrimed) return Promise.resolve();
+  var reqOnce=function(){
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ return Promise.resolve(); }
+    return navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+      try{ stream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
+      micPrimed=true;
+    }).catch(function(){ /* 拒否・非対応時は音声認識側の処理に任せる */ });
+  };
+  // すでに許可済みなら何もしない（確認は出ない）。'prompt' のときだけ一度だけ取得する。
+  if(navigator.permissions && navigator.permissions.query){
+    return navigator.permissions.query({name:'microphone'}).then(function(st){
+      if(st.state==='granted'){ micPrimed=true; return; }
+      return reqOnce();
+    }).catch(function(){ return reqOnce(); });
+  }
+  return reqOnce();
 }
 window.addEventListener("pagehide", function(){ try{ if(micStream) micStream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){} });
 function startVoice(){

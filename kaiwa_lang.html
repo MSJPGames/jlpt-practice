@@ -355,7 +355,11 @@
       +".rec{display:flex;align-items:center;gap:8px;margin-top:8px;background:#fff;border:1px solid #CDE3CE;border-radius:10px;padding:6px 8px;}.rec-ic{font-size:15px;}.rec audio{height:34px;flex:1;min-width:0;}"
       +".fb{margin-top:8px;font-size:11.5px;color:#6B6560;border-top:1px dashed #CDE3CE;padding-top:6px;}.fb-in{color:#9E9890;}"
       +".foot{text-align:center;font-size:11px;color:#9E9890;margin-top:2rem;}";
-    var html='<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>会話練習の記録 '+esc(nowStr())+'</title><style>'+css+'</style></head><body><div class="container">'
+    var html='<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>会話練習の記録 '+esc(nowStr())+'</title><style>'+css+'
+  /* PC・タブレットなど広い画面では、スマホ用レイアウトのまま全体を拡大して見やすくする */
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style></head><body><div class="container">'
       +'<div class="head"><div class="h-title">会話練習の記録</div><div class="h-sub">学習者の各発話は🎧でその場で再生できます（オフラインでも可）</div></div>'
       +'<div class="meta"><div><b>言語</b>：'+esc(L.jp)+'</div><div><b>場面</b>：'+esc(sc.name)+'</div><div><b>レベル</b>：'+esc(levelLabel)+'</div><div><b>日時</b>：'+esc(nowStr())+'</div><div><b>録音</b>：学習者の発話 '+nRec+'件</div></div>'
       +'<div class="conv">'+rows+'</div>'

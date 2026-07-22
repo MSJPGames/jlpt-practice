@@ -94,12 +94,27 @@
 
   <!-- 設定 -->
   <div class="card" id="setupCard">
-    <label for="key" data-i18n="key.label">あなたの無料 Gemini API キー</label>
-    <input type="password" id="key" placeholder="ここにキーを貼り付け（例: AIza...）" data-i18n-ph="key.ph" autocomplete="off">
-    <div class="hint" style="margin-top:6px" data-i18n-html="key.hint">
-      キーは<strong>この端末の中だけ</strong>に保存され、外部には送られません（Google以外）。
-      <span style="display:block;margin-top:4px">取り方: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> でログイン →「Create API key」→ コピーして貼り付け（無料）。</span>
+    <label for="provider" data-i18n="provider.label">会話AIの提供元（プロバイダー）</label>
+    <select id="provider">
+      <option value="gemini">Google Gemini</option>
+      <option value="openrouter">OpenRouter</option>
+      <option value="custom" data-i18n="provider.custom">OpenAI互換（DeepSeek / 智譜GLM / Qwen 等）</option>
+    </select>
+
+    <div id="customBox" style="display:none;margin-top:8px">
+      <div id="baseRow" style="display:none">
+        <label for="baseUrl" data-i18n="custom.base.label">ベースURL（OpenAI互換エンドポイント）</label>
+        <input type="text" id="baseUrl" placeholder="例: https://api.deepseek.com/v1" autocomplete="off">
+      </div>
+      <div id="modelRow" style="margin-top:6px">
+        <label for="modelName" data-i18n="custom.model.label">モデル名</label>
+        <input type="text" id="modelName" placeholder="例: deepseek-chat" autocomplete="off">
+      </div>
     </div>
+
+    <label for="key" style="margin-top:12px;display:block" data-i18n="key.label">APIキー</label>
+    <input type="password" id="key" placeholder="ここにキーを貼り付け" data-i18n-ph="key.ph" autocomplete="off">
+    <div class="hint" id="providerHint" style="margin-top:6px"></div>
 
     <div style="margin-top:12px" id="practiceModeRow">
       <label for="practiceMode" data-i18n="mode.label">練習モード</label>
@@ -108,7 +123,6 @@
         <option value="kouryuu" data-i18n="mode.kouryuu">交流</option>
         <option value="business" data-i18n="mode.business">ビジネス</option>
         <option value="free" data-i18n="mode.free">自由会話（テーマ自由）</option>
-        <option value="textbook" data-i18n="mode.textbook">みんなの日本語（教科書の練習C）</option>
       </select>
     </div>
 
@@ -122,19 +136,8 @@
       </div>
     </div>
 
-    <div id="textbookBox" style="margin-top:12px;display:none">
-      <div class="row">
-        <div style="flex:0 0 120px">
-          <label for="lesson" data-i18n="lesson.label">課</label>
-          <select id="lesson"></select>
-        </div>
-        <div style="flex:1">
-          <label for="renshuC" data-i18n="renshuC.label">練習C（やりとり）</label>
-          <select id="renshuC"></select>
-        </div>
-      </div>
-      <div class="hint" style="margin-top:4px" data-i18n="textbook.hint">『みんなの日本語 初級Ⅰ・Ⅱ』全50課の練習C（やりとり）から選べます。相手役が、その練習の目標に合わせて会話をリードします。</div>
-    </div>
+    <!-- 教科書モード（練習C）は公開版では無効。JS参照用に空の隠し要素だけ残す。 -->
+    <div id="textbookBox" style="display:none"><select id="lesson"></select><select id="renshuC"></select></div>
 
     <div id="freeBox" style="margin-top:12px;display:none">
       <label for="freeTopic" data-i18n="free.label">テーマ（自由・空欄でもOK）</label>
@@ -176,7 +179,6 @@
       <label for="vocabLevel" data-i18n="vocab.label">語彙・文法のレベル（教科書に合わせる）</label>
       <select id="vocabLevel">
         <option value="none" selected data-i18n="vocab.none">制限なし（自然な日本語）</option>
-        <option value="textbook" data-i18n="vocab.textbook">みんなの日本語・選んだ課まで（教科書モードのとき）</option>
         <option value="n5" data-i18n="vocab.n5">やさしい（JLPT N5 相当・入門〜初級前半）</option>
         <option value="n4" data-i18n="vocab.n4">初級（JLPT N4 相当・初級修了レベル）</option>
         <option value="n3" data-i18n="vocab.n3">初中級（JLPT N3 相当）</option>
@@ -289,6 +291,15 @@
   var TTS_MODEL = "gemini-2.5-flash-preview-tts";
   var TTS_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/" + TTS_MODEL + ":generateContent";
 
+  // ==== 会話AIの提供元（学習者が選択） ====
+  // gemini＝Googleネイティブ形式／それ以外＝OpenAI互換（/chat/completions）。
+  var PROVIDERS = {
+    gemini:{ kind:"gemini" },
+    openrouter:{ kind:"openai", base:"https://openrouter.ai/api/v1", model:"deepseek/deepseek-chat-v3-0324:free" },
+    custom:{ kind:"openai", base:"", model:"" }
+  };
+  function curProv(){ var p=store.get("llm_provider")||"gemini"; return PROVIDERS[p]?p:"gemini"; }
+
   // ★合言葉（授業用・限定公開のとき設定）。空 "" なら合言葉なし＝誰でも使える。
   var PASSCODE = window.PASSCODE || "";
 
@@ -329,7 +340,59 @@
   })();
 
   // ---- 設定の復元 ----
-  var sk=store.get("gemini_key"); if(sk) keyEl.value=sk;
+  // ---- 提供元（プロバイダー）の初期化・切替 ----
+  var provSel=$("provider"), customBox=$("customBox"), baseRow=$("baseRow"), modelRow=$("modelRow"), baseUrlEl=$("baseUrl"), modelNameEl=$("modelName"), providerHintEl=$("providerHint");
+  if(store.get("gemini_key") && !store.get("key_gemini")){ store.set("key_gemini", store.get("gemini_key")); }
+  var PROV_HINT = {
+    gemini:{
+      ja:'キーは<strong>この端末の中だけ</strong>に保存されます。取り方: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> でログイン→「Create API key」→貼り付け（無料）。<br><b>※香港・中国本土では取得できません</b>。その場合は上で OpenRouter か OpenAI互換 を選んでください。',
+      en:'Your key is saved <strong>only on this device</strong>. Get one at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> (free). <br><b>Not available in Hong Kong / mainland China</b> — choose OpenRouter or an OpenAI-compatible provider above.',
+      zh:'密钥<strong>仅保存在本设备中</strong>。获取：<a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>（免费）。<br><b>香港・中国大陆无法获取</b>，请在上方选择 OpenRouter 或 OpenAI 兼容 提供商。'
+    },
+    openrouter:{
+      ja:'キーは<strong>この端末の中だけ</strong>に保存されます。取り方: <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a> で登録→「Create Key」→貼り付け。<br>無料モデル（末尾 <code>:free</code>）が使えます。香港からOK（中国本土はVPNが要る場合あり）。モデル名は下欄で変更可。',
+      en:'Your key is saved <strong>only on this device</strong>. Get one at <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a>. Free models end with <code>:free</code>. Works from Hong Kong (mainland China may need a VPN). Change the model below if needed.',
+      zh:'密钥<strong>仅保存在本设备中</strong>。获取：<a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a>。免费模型以 <code>:free</code> 结尾。香港可用（中国大陆可能需VPN）。可在下方修改模型名。'
+    },
+    custom:{
+      ja:'DeepSeek・智譜GLM・Qwen などOpenAI互換サービスを使います。ベースURL・モデル名・キーを入力（例：DeepSeek＝<code>https://api.deepseek.com/v1</code> ／ <code>deepseek-chat</code>）。中国本土から使える提供元もあります。<br>※ブラウザから直接呼ぶため、その提供元が<b>CORSを許可</b>している必要があります。弾かれる場合は中継が必要です。',
+      en:'Any OpenAI-compatible service (DeepSeek, Zhipu GLM, Qwen…). Enter base URL, model and key (e.g. DeepSeek <code>https://api.deepseek.com/v1</code> / <code>deepseek-chat</code>). Some work from mainland China. <br>The provider must allow browser <b>CORS</b>; otherwise a proxy is needed.',
+      zh:'任意 OpenAI 兼容服务（DeepSeek、智谱GLM、Qwen 等）。填写 Base URL、模型名与密钥（如 DeepSeek <code>https://api.deepseek.com/v1</code> / <code>deepseek-chat</code>）。部分在中国大陆可用。<br>提供商需允许浏览器 <b>CORS</b>，否则需自建中转。'
+    }
+  };
+  function updateProviderHint(){
+    var p = provSel ? provSel.value : "gemini";
+    var lang = (typeof UI_LANG!=="undefined" && UI_LANG) ? UI_LANG : "ja";
+    var h = PROV_HINT[p] || PROV_HINT.gemini;
+    if(providerHintEl) providerHintEl.innerHTML = h[lang] || h.ja;
+  }
+  function updateProviderUI(){
+    var p=provSel.value, isGem=(p==="gemini"), isCustom=(p==="custom");
+    customBox.style.display = isGem ? "none" : "block";
+    baseRow.style.display = isCustom ? "block" : "none";
+    modelRow.style.display = isGem ? "none" : "block";
+    var gemOpt = engineSelect.querySelector('option[value="gemini"]'); if(gemOpt) gemOpt.disabled = !isGem;
+    if(!isGem && engineSelect.value==="gemini"){ engineSelect.value="browser"; store.set("voice_engine","browser"); try{updateEngineUI();}catch(e){} }
+    updateProviderHint();
+  }
+  function loadProviderFields(){
+    var p=curProv(); provSel.value=p;
+    keyEl.value = store.get("key_"+p) || "";
+    baseUrlEl.value = store.get("custom_base") || "";
+    modelNameEl.value = (p==="openrouter") ? (store.get("or_model")||PROVIDERS.openrouter.model) : (store.get("custom_model")||"");
+    updateProviderUI();
+  }
+  provSel.addEventListener("change", function(){
+    var prev=curProv(); store.set("key_"+prev, keyEl.value.trim());
+    if(prev==="custom"){ store.set("custom_base",baseUrlEl.value.trim()); store.set("custom_model",modelNameEl.value.trim()); }
+    if(prev==="openrouter"){ store.set("or_model",modelNameEl.value.trim()); }
+    store.set("llm_provider", provSel.value);
+    keyEl.value = store.get("key_"+provSel.value) || "";
+    baseUrlEl.value = store.get("custom_base") || "";
+    modelNameEl.value = (provSel.value==="openrouter") ? (store.get("or_model")||PROVIDERS.openrouter.model) : (store.get("custom_model")||"");
+    updateProviderUI();
+  });
+  loadProviderFields();
   var sv=store.get("voice_name"); var sr=store.get("voice_rate"); var sp=store.get("voice_pitch");
   if(sr) rateEl.value=sr; if(sp) pitchEl.value=sp;
   var svv=store.get("vv_url"); if(svv) vvUrl.value=svv;
@@ -769,8 +832,7 @@
   foreignLangEl.addEventListener("change", function(){ store.set("foreign_lang", foreignLangEl.value); });
   updateForeignUI();
 
-  // ---- みんなの日本語（教科書）データ: 各課の練習C(c) と 新出語彙・文型(v) ----
-  // MINNA は別スクリプトで定義（window.MINNA）。無ければ教科書モードは無効（完全公開版）。
+  // ---- 教科書モードは公開版では無効（著作権のため教科書の内容は公開版に置かない）----
   var MINNA = window.MINNA || {};
   var TEXTBOOK_ENABLED = Object.keys(MINNA).length > 0;
   if(!TEXTBOOK_ENABLED){
@@ -786,33 +848,11 @@
   function isTextbook(){ return practiceModeEl.value==="textbook"; }
   function isFree(){ return practiceModeEl.value==="free"; }
 
-  function populateLessons(){
-    lessonEl.innerHTML="";
-    for(var L=1;L<=50;L++){
-      var span = (L<=25)?"初級Ⅰ":"初級Ⅱ";
-      var o=document.createElement("option"); o.value=L; o.textContent="第"+L+"課（"+span+"）"; lessonEl.appendChild(o);
-    }
-    var saved=store.get("lesson"); if(saved) lessonEl.value=saved;
-  }
-  function populateRenshuC(){
-    renshuCEl.innerHTML="";
-    var L=currentLesson(); var items=(MINNA[L]&&MINNA[L].c)||[];
-    items.forEach(function(it){
-      var o=document.createElement("option"); o.value=it.code; o.textContent=it.code+"  "+it.desc; renshuCEl.appendChild(o);
-    });
-    var saved=store.get("renshuC_"+L); if(saved) renshuCEl.value=saved;
-  }
-  function getRenshuC(){
-    var L=currentLesson(); var items=(MINNA[L]&&MINNA[L].c)||[];
-    for(var i=0;i<items.length;i++){ if(items[i].code===renshuCEl.value) return items[i]; }
-    return items[0]||{code:"",desc:""};
-  }
-  // 第1課〜Lまでの累積語彙・文型テキスト
-  function cumulativeVocab(L){
-    var out=[];
-    for(var i=1;i<=L;i++){ if(MINNA[i]&&MINNA[i].v){ out.push("【"+i+"課】"+MINNA[i].v); } }
-    return out.join("\n");
-  }
+  // 公開版では教科書モードは無効（下記はJS参照用の空スタブ）。
+  function populateLessons(){}
+  function populateRenshuC(){}
+  function getRenshuC(){ return {code:"",desc:""}; }
+  function cumulativeVocab(L){ return ""; }
 
   populateLessons(); populateRenshuC();
   lessonEl.addEventListener("change", function(){ store.set("lesson",lessonEl.value); populateRenshuC(); });
@@ -858,11 +898,6 @@
       if(topic){ lines.push("会話のテーマ: 「"+topic+"」。このテーマを中心に、興味を持って自然に話を広げ、学習者にも質問してください。"); }
       else { lines.push("テーマは特に決まっていません。学習者が話しやすい身近な話題（趣味・週末・食べ物・天気・出身など）から、自然に会話を始めてください。"); }
       lines.push("まず、あなたから短いあいさつや一つの質問で会話を始めてください。学習者が話しやすいよう、一度に一つずつ話し、相手の返事を受けて会話をつなげてください。");
-    }else if(isTextbook()){
-      var L=currentLesson(); var rc=getRenshuC();
-      lines.push("あなたは日本語会話の練習相手です。教科書『みんなの日本語 初級』第"+L+"課の練習C（やりとり）の会話練習をします。");
-      lines.push("この練習の目標: 「"+rc.desc+"」（"+rc.code+"）");
-      lines.push("あなたはこの場面での相手役を演じ、学習者（私）がこの目標を達成できるように、自然に会話を進めてください。まず、あなたから場面に合った短い一言で会話を始めてください。学習者が話しやすいように、一度に一つずつ質問や反応をしてください。");
     }else{
       var sc=getScenario(), r=getRole();
       lines.push("あなたは日本語会話の練習相手です。日本の「"+sc.name+"」の場面でロールプレイをします。");
@@ -897,7 +932,6 @@
     }else{
       var list="";
       if(vl==="custom"){ list=(vocabListEl.value||"").trim(); }
-      else if(vl==="textbook"){ list=cumulativeVocab(currentLesson()); }
       if(list){
         lines.push("語彙・文法の制限: 学習者は今、次の範囲までを習っています。相手役のセリフは、この範囲の語彙・文法・表現を中心に組み立て、範囲外の言葉はできるだけ使わないでください。どうしても必要なときは、範囲内のやさしい言い換えをするか、使った直後にやさしい言葉で短く説明してください。基本的な助詞・あいさつ・数字などの土台となる表現は使ってかまいません。");
         lines.push("＜習った範囲＞");
@@ -944,7 +978,34 @@
   function retrySeconds(msg){ var m=/retry(?:Delay)?[^0-9]*([0-9]+(?:\.[0-9]+)?)\s*s/i.exec(msg||""); var s=m?parseFloat(m[1]):30; if(!(s>0))s=30; return Math.min(35,Math.max(5,Math.ceil(s)+1)); }
   function quotaMessage(){ return "いま無料の利用上限に達しています。少し時間をおいてからお試しください（キーの残量は https://ai.dev/rate-limit で確認できます）。"; }
 
+  function callOpenAICompat(cb,_retried){
+    var key=keyEl.value.trim();
+    var p=curProv();
+    var base=(p==="openrouter")?PROVIDERS.openrouter.base:(baseUrlEl.value.trim().replace(/\/+$/,""));
+    var model=(modelNameEl.value.trim())||((p==="openrouter")?PROVIDERS.openrouter.model:"");
+    if(!base){ cb(null,"ベースURLが未設定です。"); return; }
+    if(!model){ cb(null,"モデル名が未設定です。"); return; }
+    var msgs=[{role:"system",content:systemText}];
+    history.forEach(function(h){ var t=(h.parts&&h.parts[0]&&h.parts[0].text)||""; msgs.push({role:(h.role==="model"?"assistant":"user"),content:t}); });
+    var headers={"Content-Type":"application/json","Authorization":"Bearer "+key};
+    if(p==="openrouter"){ headers["HTTP-Referer"]="https://msjpgames.github.io/jlpt-practice/"; headers["X-Title"]="Nihongo no Heya"; }
+    fetch(base+"/chat/completions",{ method:"POST", headers:headers,
+      body:JSON.stringify({ model:model, messages:msgs, temperature:0.9, max_tokens:512 }) })
+    .then(function(res){ return res.json().then(function(d){ return {ok:res.ok,status:res.status,data:d}; }); })
+      .then(function(r){
+        if(!r.ok){ var em=(r.data&&r.data.error&&(r.data.error.message||r.data.error))||"エラーが発生しました"; if(typeof em!=="string") em=JSON.stringify(em);
+          if(!_retried && isQuotaError(r.status,em)){ var w=retrySeconds(em);
+            statusEl.textContent="混み合っています。"+w+"秒ほど待って、自動でもう一度試します…";
+            setTimeout(function(){ callOpenAICompat(cb,true); }, w*1000); return; }
+          cb(null, isQuotaError(r.status,em)?quotaMessage():em); return; }
+        var text=""; try{ text=(r.data.choices[0].message.content||"").trim(); }catch(e){ text=""; }
+        if(!text){ cb(null,"返事を受け取れませんでした。もう一度お試しください。"); return; }
+        cb(text,null);
+      }).catch(function(){ cb(null,"通信に失敗しました。ネット接続やキー・URLをご確認ください。"); });
+  }
+
   function callGemini(cb,_retried){
+    if(PROVIDERS[curProv()].kind==="openai"){ callOpenAICompat(cb,_retried); return; }
     var key=keyEl.value.trim();
     var body={ systemInstruction:{parts:[{text:systemText}]}, contents:history,
       generationConfig:{ temperature:0.9, maxOutputTokens:512 } };
@@ -1054,7 +1115,7 @@
     var dstr=now.getFullYear()+"/"+p2(now.getMonth()+1)+"/"+p2(now.getDate())+" "+p2(now.getHours())+":"+p2(now.getMinutes());
     var stamp=""+now.getFullYear()+p2(now.getMonth()+1)+p2(now.getDate())+"_"+p2(now.getHours())+p2(now.getMinutes());
     var titleInfo="";
-    try{ if(isFree()){ var tpi=(freeTopicEl.value||"").trim(); titleInfo="自由会話"+(tpi?"・「"+tpi+"」":"（テーマ自由）"); } else if(isTextbook()){ var rc=getRenshuC(); titleInfo="みんなの日本語 第"+currentLesson()+"課・練習C "+rc.code+"／「"+rc.desc+"」"; } else { titleInfo=getScenario().name+"（相手："+getRole()+"）"; } }catch(e){}
+    try{ if(isFree()){ var tpi=(freeTopicEl.value||"").trim(); titleInfo="自由会話"+(tpi?"・「"+tpi+"」":"（テーマ自由）"); } else { titleInfo=getScenario().name+"（相手："+getRole()+"）"; } }catch(e){}
     var rows="", nRec=0;
     for(var i=0;i<log.children.length;i++){
       var el=log.children[i];
@@ -1082,11 +1143,11 @@
       +".fb{margin-top:8px;font-size:11.5px;color:#6B6560;border-top:1px dashed #CFE0F3;padding-top:6px;}.fb-in{color:#9E9890;}"
       +".note-b{align-self:center;margin:0 auto;background:#eef1f7;color:#5b6675;font-size:12.5px;padding:8px 12px;border-radius:10px;text-align:center;max-width:92%;white-space:pre-wrap;}"
       +".foot{text-align:center;font-size:11px;color:#9E9890;margin-top:2rem;}";
-    var doc='<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>会話練習の記録 '+dstr+'</title><style>'+css+'
-  /* PC・タブレットなど広い画面では、スマホ用レイアウトのまま全体を拡大して見やすくする */
-  @media (min-width: 700px)  { .container { zoom: 1.3; } }
-  @media (min-width: 1100px) { .container { zoom: 1.5; } }
-</style></head><body><div class="container">'
+    var doc='<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>会話練習の記録 '+dstr+'</title><style>'+css
+      +'\n/* PC・タブレットなど広い画面では、スマホ用レイアウトのまま全体を拡大して見やすくする */\n'
+      +'@media (min-width: 700px)  { .container { zoom: 1.3; } }\n'
+      +'@media (min-width: 1100px) { .container { zoom: 1.5; } }\n'
+      +'</style></head><body><div class="container">'
       +'<div class="head"><div class="h-title">会話練習の記録</div><div class="h-sub">学習者の各発話は🎧でその場で再生できます（オフラインでも可）</div></div>'
       +'<div class="meta">'+(titleInfo?'<div><b>場面</b>：'+escHtml(titleInfo)+'</div>':'')+'<div><b>日時</b>：'+dstr+'</div><div><b>録音</b>：学習者の発話 '+nRec+'件</div></div>'
       +'<div class="conv">'+rows+'</div>'
@@ -1164,7 +1225,8 @@
           return;
         }
         if(srWords){ done(srWords,null); return; }   // 端末内蔵の認識が成功＝Geminiを使わない
-        transcribeAudio(u, done);                     // だめなら従来どおりGeminiで文字起こし
+        if(curProv()==="gemini"){ transcribeAudio(u, done); }   // Geminiのときだけ音声を文字起こし
+        else { done(null,"この提供元では音声の文字起こしに未対応です。対応ブラウザの音声認識か、テキスト入力をお使いください。"); }
       });
     });
   }
@@ -1183,24 +1245,23 @@
 
   function startConversation(){
     var key=keyEl.value.trim();
-    if(!key){ setupStatus.textContent="⚠ まず Gemini API キーを入力してください。"; return; }
-    store.set("gemini_key",key);
+    if(!key){ var _l=(typeof UI_LANG!=="undefined"&&UI_LANG)?UI_LANG:"ja"; setupStatus.textContent=(_l==="en"?"⚠ Please enter your API key first.":(_l==="zh"?"⚠ 请先输入 API 密钥。":"⚠ まず API キーを入力してください。")); return; }
+    var __p=curProv();
+    store.set("key_"+__p,key); if(__p==="gemini") store.set("gemini_key",key);
+    if(__p==="custom"){ store.set("custom_base",baseUrlEl.value.trim()); store.set("custom_model",modelNameEl.value.trim()); }
+    if(__p==="openrouter"){ store.set("or_model",modelNameEl.value.trim()); }
     store.set("voice_engine",engineSelect.value); store.set("gemini_voice",gVoice.value);
     store.set("voice_name",voiceSelect.value); store.set("voice_rate",rateEl.value); store.set("voice_pitch",pitchEl.value);
     store.set("vv_url",vvUrl.value); store.set("vv_speaker",vvSpeaker.value);
     store.set("practice_mode",practiceModeEl.value);
-    if(isTextbook()){ store.set("lesson",lessonEl.value); store.set("renshuC_"+currentLesson(),renshuCEl.value); }
-    else if(isFree()){ store.set("free_topic", freeTopicEl.value); }
+    if(isFree()){ store.set("free_topic", freeTopicEl.value); }
     else { store.set("scenario_"+currentCat(),scenarioEl.value); store.set("role_"+getScenario().id, roleEl.value); store.set("detail_"+getScenario().id, scenarioDetailEl.value); }
     store.set("vocab_level",vocabLevelEl.value); store.set("vocab_list",vocabListEl.value);
     systemText=buildSystem(); history=[]; log.innerHTML=""; creditLine.textContent="";
     setupCard.classList.add("hidden"); talkCard.classList.remove("hidden");
     try{ ensureStream(function(){}); }catch(e){}
 
-    if(isTextbook()){
-      var rc=getRenshuC();
-      addNote("みんなの日本語 第"+currentLesson()+"課・練習C "+rc.code+"\n目標:「"+rc.desc+"」");
-    }else if(isFree()){
+    if(isFree()){
       var tpn=(freeTopicEl.value||"").trim();
       addNote("自由会話"+(tpn?"・テーマ:「"+tpn+"」":"（テーマ自由）")+"\n相手（AI）から話しかけます。");
     }else{
@@ -1234,8 +1295,12 @@
       "gate.ph":"Enter the passcode from your teacher",
       "gate.btn":"Enter",
       "gate.hint":"This page is for class use. Only people who know the passcode can use it.",
-      "key.label":"Your free Gemini API key",
-      "key.ph":"Paste your key here (e.g. AIza...)",
+      "key.label":"API key",
+      "key.ph":"Paste your key here",
+      "provider.label":"Conversation AI provider",
+      "provider.custom":"OpenAI-compatible (DeepSeek / Zhipu GLM / Qwen, etc.)",
+      "custom.base.label":"Base URL (OpenAI-compatible endpoint)",
+      "custom.model.label":"Model name",
       "key.hint":"Your key is saved <strong>only on this device</strong> and is never sent anywhere else (except Google). <span style=\"display:block;margin-top:4px\">How to get one: sign in at <a href=\"https://aistudio.google.com/apikey\" target=\"_blank\" rel=\"noopener\">aistudio.google.com/apikey</a> &rarr; “Create API key” &rarr; copy and paste it here (free).</span>",
       "mode.label":"Practice mode",
       "mode.general":"General situations",
@@ -1243,16 +1308,12 @@
       "mode.kouryuu":"Interaction",
       "mode.business":"Business",
       "mode.free":"Free conversation (your topic)",
-      "mode.textbook":"Minna no Nihongo (Textbook Practice C)",
       "free.label":"Topic (optional — can be blank)",
       "detail.label":"Detail (optional)",
       "detail.other.ph":"Type your own (e.g. a crowded shop, a regulars' place, many foreign tourists)",
       "free.ph":"e.g. weekend plans, favorite movies, travel in Japan, work…",
       "free.hint":"Chat freely with the AI about this topic. Leave blank and the AI starts from an everyday topic. No scene/role is used; the level and vocabulary settings below still apply.",
       "scenario.label":"Situation",
-      "lesson.label":"Lesson",
-      "renshuC.label":"Practice C (dialogue)",
-      "textbook.hint":"Choose from Practice C (dialogue) across all 50 lessons of “Minna no Nihongo Elementary I & II”. Your partner leads the conversation toward that lesson’s goal.",
       "level.label":"Level (speed)",
       "level.beginner":"Beginner (easy & slow)",
       "level.intermediate":"Intermediate (normal speed)",
@@ -1263,7 +1324,6 @@
       "foreignlang.label":"Partner's native language (mixed in)",
       "vocab.label":"Vocabulary & grammar level (match your textbook)",
       "vocab.none":"No limit (natural Japanese)",
-      "vocab.textbook":"Minna no Nihongo, up to the chosen lesson (in textbook mode)",
       "vocab.n5":"Easy (approx. JLPT N5, intro to early beginner)",
       "vocab.n4":"Beginner (approx. JLPT N4, end of beginner)",
       "vocab.n3":"Lower-intermediate (approx. JLPT N3)",
@@ -1306,8 +1366,12 @@
       "gate.ph":"输入老师告诉你的暗号",
       "gate.btn":"进入",
       "gate.hint":"本页面供课堂使用。只有知道暗号的人才能使用。",
-      "key.label":"你的免费 Gemini API 密钥",
-      "key.ph":"在此粘贴密钥（例：AIza...）",
+      "key.label":"API 密钥",
+      "key.ph":"在此粘贴密钥",
+      "provider.label":"对话AI提供商",
+      "provider.custom":"OpenAI 兼容（DeepSeek / 智谱GLM / Qwen 等）",
+      "custom.base.label":"Base URL（OpenAI 兼容端点）",
+      "custom.model.label":"模型名称",
       "key.hint":"密钥<strong>仅保存在本设备中</strong>，不会发送到外部（Google 除外）。<span style=\"display:block;margin-top:4px\">获取方法：登录 <a href=\"https://aistudio.google.com/apikey\" target=\"_blank\" rel=\"noopener\">aistudio.google.com/apikey</a> &rarr;「Create API key」&rarr; 复制并粘贴到此处（免费）。</span>",
       "mode.label":"练习模式",
       "mode.general":"常见场景",
@@ -1315,16 +1379,12 @@
       "mode.kouryuu":"交流",
       "mode.business":"商务",
       "mode.free":"自由会话（自定主题）",
-      "mode.textbook":"大家的日本语（课本练习C）",
       "free.label":"主题（可选・可留空）",
       "detail.label":"详细设定（可选）",
       "detail.other.ph":"自行输入（例：拥挤的店、常客光顾的店、外国游客很多的店）",
       "free.ph":"例）周末计划、喜欢的电影、日本旅行、工作…",
       "free.hint":"和AI围绕这个主题自由聊天。留空时AI会从身边话题开始。不使用场景和角色设定；下面的等级和词汇设置仍然有效。",
       "scenario.label":"场景",
-      "lesson.label":"课",
-      "renshuC.label":"练习C（对话）",
-      "textbook.hint":"可从《大家的日本语 初级Ⅰ・Ⅱ》全50课的练习C（对话）中选择。对话伙伴会按照该练习的目标引导会话。",
       "level.label":"级别（语速）",
       "level.beginner":"初级（简单・慢速）",
       "level.intermediate":"中级（正常语速）",
@@ -1335,7 +1395,6 @@
       "foreignlang.label":"对话方的母语（夹杂的外语）",
       "vocab.label":"词汇・语法级别（配合课本）",
       "vocab.none":"不限制（自然日语）",
-      "vocab.textbook":"大家的日本语・到所选课为止（课本模式时）",
       "vocab.n5":"简单（约 JLPT N5・入门至初级前半）",
       "vocab.n4":"初级（约 JLPT N4・初级结业水平）",
       "vocab.n3":"初中级（约 JLPT N3）",
@@ -1395,6 +1454,7 @@
     // 動的な選択肢（場面・役）を現在の言語で作り直し、選択は保持
     try{ var sv=scenarioEl.value; populateScenarios(); if(sv) scenarioEl.value=sv;
          var rv=roleEl.value; populateRoles(); if(rv) roleEl.value=rv; }catch(e){}
+    try{ updateProviderHint(); }catch(e){}
     try{ document.documentElement.lang = (lang==='zh'?'zh':(lang==='en'?'en':'ja')); }catch(e){}
     var lb=document.getElementById('langbar');
     if(lb){ [].forEach.call(lb.querySelectorAll('.langbtn'), function(btn){ btn.classList.toggle('active', btn.getAttribute('data-lang')===lang); }); }

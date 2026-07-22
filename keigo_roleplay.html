@@ -109,9 +109,26 @@
   <div id="main">
     <!-- キー設定 -->
     <div class="card" id="keyCard">
-      <div class="card-h">Gemini キー（無料）</div>
-      <input type="password" class="k" id="key" placeholder="ここにキーを貼り付け（例: AIza...）" autocomplete="off">
-      <div class="kh">キーは<b>この端末の中だけ</b>に保存され、外部には送られません（Google以外）。取り方：<a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> →「Create API key」→ 貼り付け（<b>無料</b>）。会話練習ページと同じキーが使えます。</div>
+      <div class="card-h">会話AIの提供元とキー</div>
+      <label class="f" for="provider">提供元（プロバイダー）</label>
+      <select id="provider">
+        <option value="gemini">Google Gemini</option>
+        <option value="openrouter">OpenRouter</option>
+        <option value="custom">OpenAI互換（DeepSeek / 智譜GLM / Qwen 等）</option>
+      </select>
+      <div id="customBox" style="display:none">
+        <div id="baseRow" style="display:none">
+          <label class="f" for="baseUrl">ベースURL（OpenAI互換エンドポイント）</label>
+          <input type="text" class="k" id="baseUrl" placeholder="例: https://api.deepseek.com/v1" autocomplete="off">
+        </div>
+        <div id="modelRow">
+          <label class="f" for="modelName">モデル名</label>
+          <input type="text" class="k" id="modelName" placeholder="例: deepseek-chat" autocomplete="off">
+        </div>
+      </div>
+      <label class="f" for="key">APIキー</label>
+      <input type="password" class="k" id="key" placeholder="ここにキーを貼り付け" autocomplete="off">
+      <div class="kh" id="providerHint"></div>
       <div class="keystate" id="keyState"></div>
     </div>
 
@@ -218,7 +235,7 @@
     </div>
   </div>
 
-  <div class="foot">© 2025 日本語の部屋 ・ 敬語ロールプレイ（AI・Gemini）</div>
+  <div class="foot">© 2025 日本語の部屋 ・ 敬語ロールプレイ（AI）</div>
 </div>
 
 <script>
@@ -227,6 +244,13 @@
 var MODEL = "gemini-3.5-flash";  // 会話練習ページ(kaiwa)と同じモデル。変える場合は両方合わせる
 var ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/" + MODEL + ":generateContent";
 var PASSCODE = window.PASSCODE || "";
+
+/* 会話AIの提供元（学習者が選択）。gemini＝Googleネイティブ／それ以外＝OpenAI互換 */
+var PROVIDERS = {
+  gemini:{ kind:"gemini" },
+  openrouter:{ kind:"openai", base:"https://openrouter.ai/api/v1", model:"deepseek/deepseek-chat-v3-0324:free" },
+  custom:{ kind:"openai", base:"", model:"" }
+};
 
 /* 場面（g=グループ, goal=クリア条件） */
 var SCENES = [
@@ -524,15 +548,49 @@ var convo=[], systemText="", busy=false, curScene=null, startMode="ai";
   $("gateInput").addEventListener("keydown",function(e){ if(e.key==="Enter") tryEnter(); });
 })();
 
-/* ---- キー（kaiwaと同じ gemini_key を共用）---- */
-var keyEl=$("key");
-var sk=store.get("gemini_key"); if(sk) keyEl.value=sk;
+/* ---- 提供元＋キー（kaiwaと同じ localStorage を共用）---- */
+function curProv(){ var p=store.get("llm_provider")||"gemini"; return PROVIDERS[p]?p:"gemini"; }
+var keyEl=$("key"), provSel=$("provider"), customBox=$("customBox"), baseRow=$("baseRow"), modelRow=$("modelRow"), baseUrlEl=$("baseUrl"), modelNameEl=$("modelName"), providerHintEl=$("providerHint");
+if(store.get("gemini_key") && !store.get("key_gemini")){ store.set("key_gemini", store.get("gemini_key")); }
+var PROV_HINT = {
+  gemini:'キーは<b>この端末の中だけ</b>に保存されます。取り方：<a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> →「Create API key」→貼り付け（無料）。会話練習ページと同じキーが使えます。<br><b>※香港・中国本土では取得できません</b>。その場合は上で OpenRouter か OpenAI互換 を選んでください。',
+  openrouter:'キーは<b>この端末の中だけ</b>に保存されます。取り方：<a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a> で登録→「Create Key」→貼り付け。無料モデル（末尾 <code>:free</code>）が使えます。香港からOK（中国本土はVPNが要る場合あり）。モデル名は下欄で変更可。',
+  custom:'DeepSeek・智譜GLM・Qwen などOpenAI互換サービスを使います。ベースURL・モデル名・キーを入力（例：DeepSeek＝<code>https://api.deepseek.com/v1</code> ／ <code>deepseek-chat</code>）。中国本土から使える提供元もあります。<br>※ブラウザから直接呼ぶため、提供元が<b>CORSを許可</b>している必要があります。'
+};
+function updateProviderHint(){ providerHintEl.innerHTML = PROV_HINT[provSel.value]||PROV_HINT.gemini; }
+function updateProviderUI(){
+  var p=provSel.value, isGem=(p==="gemini"), isCustom=(p==="custom");
+  customBox.style.display=isGem?"none":"block";
+  baseRow.style.display=isCustom?"block":"none";
+  modelRow.style.display=isGem?"none":"block";
+  updateProviderHint();
+}
+function loadProviderFields(){
+  var p=curProv(); provSel.value=p;
+  keyEl.value=store.get("key_"+p)||"";
+  baseUrlEl.value=store.get("custom_base")||"";
+  modelNameEl.value=(p==="openrouter")?(store.get("or_model")||PROVIDERS.openrouter.model):(store.get("custom_model")||"");
+  updateProviderUI();
+}
+provSel.addEventListener("change",function(){
+  var prev=curProv(); store.set("key_"+prev, keyEl.value.trim());
+  if(prev==="custom"){ store.set("custom_base",baseUrlEl.value.trim()); store.set("custom_model",modelNameEl.value.trim()); }
+  if(prev==="openrouter"){ store.set("or_model",modelNameEl.value.trim()); }
+  store.set("llm_provider",provSel.value);
+  keyEl.value=store.get("key_"+provSel.value)||"";
+  baseUrlEl.value=store.get("custom_base")||"";
+  modelNameEl.value=(provSel.value==="openrouter")?(store.get("or_model")||PROVIDERS.openrouter.model):(store.get("custom_model")||"");
+  updateProviderUI(); refreshKeyState();
+});
 function refreshKeyState(){
   var has=keyEl.value.trim().length>0, el=$("keyState");
   el.textContent=has?"✓ キーを保存しました（この端末のみ）":"キーを入力すると練習を始められます";
   el.className="keystate "+(has?"ok":"no");
 }
-keyEl.addEventListener("input",function(){ store.set("gemini_key",keyEl.value.trim()); refreshKeyState(); });
+keyEl.addEventListener("input",function(){ store.set("key_"+curProv(),keyEl.value.trim()); if(curProv()==="gemini") store.set("gemini_key",keyEl.value.trim()); refreshKeyState(); });
+baseUrlEl.addEventListener("input",function(){ store.set("custom_base",baseUrlEl.value.trim()); });
+modelNameEl.addEventListener("input",function(){ if(curProv()==="openrouter") store.set("or_model",modelNameEl.value.trim()); else store.set("custom_model",modelNameEl.value.trim()); });
+loadProviderFields();
 refreshKeyState();
 
 /* ---- プルダウン組み立て＋保存復元 ---- */
@@ -632,7 +690,7 @@ function settingsSummary(){
 
 /* ---- 開始 ---- */
 $("startBtn").addEventListener("click",function(){
-  if(!keyEl.value.trim()){ refreshKeyState(); $("keyState").textContent="先に無料の Gemini キーを入力してください（上の欄）"; keyEl.focus(); window.scrollTo({top:0,behavior:"smooth"}); return; }
+  if(!keyEl.value.trim()){ refreshKeyState(); $("keyState").textContent="先にAPIキーを入力してください（上の欄）"; keyEl.focus(); window.scrollTo({top:0,behavior:"smooth"}); return; }
   curScene=SCENES.filter(function(x){return x.id===$("scene").value;})[0]||SCENES[0];
   systemText=buildSystem(curScene); startMode=$("startby").value;
   convo=[]; $("chat").innerHTML=""; $("fbHost").innerHTML=""; hideErr();
@@ -664,7 +722,28 @@ function setBusy(b){ busy=b; $("sendBtn").disabled=b; $("input").disabled=b; $("
 function showErr(m){ setBusy(false); var e=$("err"); e.textContent="⚠ "+m; e.classList.remove("hidden"); }
 function hideErr(){ $("err").classList.add("hidden"); }
 
+function callOpenAICompat(cb){
+  setBusy(true);
+  var key=keyEl.value.trim(), p=curProv();
+  var base=(p==="openrouter")?PROVIDERS.openrouter.base:(baseUrlEl.value.trim().replace(/\/+$/,""));
+  var model=(modelNameEl.value.trim())||((p==="openrouter")?PROVIDERS.openrouter.model:"");
+  if(!base){ setBusy(false); cb(null,"ベースURLが未設定です。"); return; }
+  if(!model){ setBusy(false); cb(null,"モデル名が未設定です。"); return; }
+  var msgs=[{role:"system",content:systemText}];
+  convo.forEach(function(m){ var t=(m.parts&&m.parts[0]&&m.parts[0].text)||""; msgs.push({role:(m.role==="model"?"assistant":"user"),content:t}); });
+  var headers={"Content-Type":"application/json","Authorization":"Bearer "+key};
+  if(p==="openrouter"){ headers["HTTP-Referer"]="https://msjpgames.github.io/jlpt-practice/"; headers["X-Title"]="Nihongo no Heya"; }
+  fetch(base+"/chat/completions",{ method:"POST", headers:headers, body:JSON.stringify({ model:model, messages:msgs, temperature:0.9, max_tokens:512 }) })
+    .then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+    .then(function(r){ setBusy(false);
+      if(!r.ok){ var em=(r.data&&r.data.error&&(r.data.error.message||r.data.error))||"エラーが発生しました（キー・URL・通信をご確認ください）"; if(typeof em!=="string") em=JSON.stringify(em); cb(null,em); return; }
+      var text=""; try{ text=(r.data.choices[0].message.content||"").trim(); }catch(e){ text=""; }
+      if(!text){ cb(null,"返事を受け取れませんでした。もう一度お試しください。"); return; }
+      cb(text,null);
+    }).catch(function(){ setBusy(false); cb(null,"通信に失敗しました。ネット接続やキー・URLをご確認ください。"); });
+}
 function callGemini(cb){
+  if(PROVIDERS[curProv()].kind==="openai"){ callOpenAICompat(cb); return; }
   setBusy(true);
   var key=keyEl.value.trim();
   var body={ systemInstruction:{parts:[{text:systemText}]}, contents:convo, generationConfig:{ temperature:0.9, maxOutputTokens:512 } };

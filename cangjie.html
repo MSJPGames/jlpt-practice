@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>倉頡入力法 ・ 日本語の部屋</title>
+<style>
+  :root{ --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6; --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --accent:#B03A2E; --accent-bg:#F7E4E0; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.75;-webkit-text-size-adjust:100%}
+  .container{max-width:540px;margin:0 auto}
+  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.25rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none}
+  .back:hover{color:var(--text)}
+  .app-header{text-align:center;padding:1.1rem 0 .6rem}
+  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
+  .app-title{font-size:23px;font-weight:700}
+  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+  .lead{font-size:13.5px;color:var(--text-muted);line-height:1.8;margin:.4rem 2px 1rem}
+  .sec-head{display:flex;align-items:center;gap:9px;margin:1.9rem 2px .8rem}
+  .sec-bar{width:4px;height:18px;border-radius:2px;background:var(--accent)}
+  .sec-title{font-size:15px;font-weight:700}
+  .sec-en{font-size:11px;font-weight:600;color:var(--text-hint)}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 15px;margin-bottom:12px}
+  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:12px 14px;font-size:12.5px;color:#6b5d40;line-height:1.7;margin-bottom:12px}
+  table.t{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.t th,table.t td{border:1px solid var(--border);padding:8px 6px;text-align:center;vertical-align:middle}
+  table.t th{background:#FAF8F4;font-weight:700;color:var(--text-muted);font-size:11.5px}
+  table.t td.l{text-align:left}
+  .key{display:inline-block;min-width:22px;height:22px;line-height:22px;border-radius:5px;background:var(--accent);color:#fff;font-size:12px;font-weight:800;padding:0 4px}
+  .rad{font-size:20px;font-weight:800;color:var(--text)}
+  .grp{font-size:11px;font-weight:700;color:var(--accent);margin:2px 2px 6px;letter-spacing:.03em}
+  .kt{width:100%;border-collapse:collapse;font-size:12.5px}
+  .kt td{border:1px solid var(--border);padding:7px 4px;text-align:center}
+  .kt td .k{display:block;font-size:11px;font-weight:800;color:var(--accent)}
+  .kt td .r{display:block;font-size:19px;font-weight:700;margin-top:2px}
+  .decomp{font-size:13px;color:var(--text-muted);line-height:2}
+  .decomp b{color:var(--text)}
+  .play{border:0;border-radius:20px;padding:6px 11px;font-family:inherit;font-size:12px;font-weight:700;background:var(--accent-bg);color:var(--accent);cursor:pointer}
+  b.ac{color:var(--accent)}
+  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2rem;line-height:1.8}
+  @media (min-width:700px){.container{zoom:1.3}}
+  @media (min-width:1100px){.container{zoom:1.5}}
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="lang.html?code=yue" class="back">‹ 広東語にもどる</a>
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="app-title">倉頡入力法</div>
+    <div class="app-sub">漢字を字形で打つ ・ Cangjie input method</div>
+  </div>
+
+  <div class="lead">
+    <b>倉頡入力法（そうけつにゅうりょくほう／Cangjie）</b>は、漢字を<b>字形（パーツ）</b>に分解してアルファベットのキーで打つ、香港・台湾で広く使われる漢字入力方式です。<b>朱邦復（しゅ・ほうふく）</b>が1976年に考案しました。発音を知らなくても字の形だけで打てるため、<b>読み方が地域でちがう繁体字圏</b>、とくに<b class="ac">香港（広東語）</b>で定番の入力法になっています。
+  </div>
+
+  <div class="note">キーボードの <b>A〜Y の25キー</b>にそれぞれ「字根（じこん）」＝基本パーツが割り当てられています。漢字を字根の並びに分解し、その字根のキーを順に打って入力します。</div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">24の字根（キー配列）</span><span class="sec-en">The radicals</span></div>
+
+  <div class="grp">■ 哲理類 A–G（自然）</div>
+  <div class="card" style="padding:10px 8px;margin-bottom:14px">
+    <table class="kt">
+      <tr>
+        <td><span class="k">A</span><span class="r">日</span></td>
+        <td><span class="k">B</span><span class="r">月</span></td>
+        <td><span class="k">C</span><span class="r">金</span></td>
+        <td><span class="k">D</span><span class="r">木</span></td>
+      </tr>
+      <tr>
+        <td><span class="k">E</span><span class="r">水</span></td>
+        <td><span class="k">F</span><span class="r">火</span></td>
+        <td><span class="k">G</span><span class="r">土</span></td>
+        <td style="background:#FAF8F4;color:var(--text-hint);font-size:11px">ひ・つき<br>きん・き…</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="grp">■ 筆畫類 H–N（線・画）</div>
+  <div class="card" style="padding:10px 8px;margin-bottom:14px">
+    <table class="kt">
+      <tr>
+        <td><span class="k">H</span><span class="r">竹</span></td>
+        <td><span class="k">I</span><span class="r">戈</span></td>
+        <td><span class="k">J</span><span class="r">十</span></td>
+        <td><span class="k">K</span><span class="r">大</span></td>
+      </tr>
+      <tr>
+        <td><span class="k">L</span><span class="r">中</span></td>
+        <td><span class="k">M</span><span class="r">一</span></td>
+        <td><span class="k">N</span><span class="r">弓</span></td>
+        <td style="background:#FAF8F4;color:var(--text-hint);font-size:11px">たけ・ほこ<br>じゅう…</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="grp">■ 人體類 O–R（からだ）</div>
+  <div class="card" style="padding:10px 8px;margin-bottom:14px">
+    <table class="kt">
+      <tr>
+        <td><span class="k">O</span><span class="r">人</span></td>
+        <td><span class="k">P</span><span class="r">心</span></td>
+        <td><span class="k">Q</span><span class="r">手</span></td>
+        <td><span class="k">R</span><span class="r">口</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="grp">■ 字形類 S–Y（形）</div>
+  <div class="card" style="padding:10px 8px;margin-bottom:12px">
+    <table class="kt">
+      <tr>
+        <td><span class="k">S</span><span class="r">尸</span></td>
+        <td><span class="k">T</span><span class="r">廿</span></td>
+        <td><span class="k">U</span><span class="r">山</span></td>
+        <td><span class="k">V</span><span class="r">女</span></td>
+      </tr>
+      <tr>
+        <td><span class="k">W</span><span class="r">田</span></td>
+        <td><span class="k">X</span><span class="r" style="font-size:14px">難／重</span></td>
+        <td><span class="k">Y</span><span class="r">卜</span></td>
+        <td style="background:#FAF8F4;color:var(--text-hint);font-size:11px">X＝特殊<br>Z＝未使用</td>
+      </tr>
+    </table>
+  </div>
+  <div class="note">A〜Y の各キーは「代表字根」で覚えますが、実際には<b>形の似た複数のパーツ</b>を兼ねます（例：<b class="ac">D＝木</b>は「木」だけでなく偏の「⺘」なども含む）。<b>X</b>は分解しにくい特殊な字に、<b>Z</b>は原則使いません。</div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">分解のしくみ（例）</span><span class="sec-en">How to break a character</span></div>
+  <div class="card">
+    <div class="decomp">
+      ・<b class="ac" style="font-size:18px">明</b> ＝ 日＋月 ＝ <span class="key">A</span><span class="key">B</span><br>
+      ・<b class="ac" style="font-size:18px">林</b> ＝ 木＋木 ＝ <span class="key">D</span><span class="key">D</span><br>
+      ・<b class="ac" style="font-size:18px">好</b> ＝ 女＋子 ＝ <span class="key">V</span><span class="key">N</span><span class="key">D</span><br>
+      <span style="font-size:11.5px;color:var(--text-hint)">（「子」は字根で <b>弓＝N</b>＋<b>木＝D</b> に分解されます）</span><br>
+      ・<b class="ac" style="font-size:18px">田</b> ＝ 田 ＝ <span class="key">W</span>（そのまま1キー）
+    </div>
+  </div>
+  <div class="note">分解には規則があり、字の構造（左右・上下・囲みなど）に応じて<b>最大5キー</b>までに収めます。パーツが多い字は「最初のいくつか＋最後の1つ」だけを取ります。慣れるまでは字典やアプリの<b>倉頡コード表示</b>を見ながら覚えるのが近道です。</div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">速成（かんたん版）</span><span class="sec-en">Quick / Sucheng</span></div>
+  <div class="card" style="font-size:13px;color:var(--text-muted);line-height:1.85">
+    倉頡には簡易版の<b class="ac">速成（そくせい／簡易）</b>があり、スマホでよく使われます。フルの倉頡コードのうち<b>最初と最後の字根だけ</b>を打ち、あとは候補から選びます。<br>
+    例：<b>好</b>＝フル <span class="key">V</span><span class="key">N</span><span class="key">D</span> → 速成は <span class="key">V</span><span class="key">D</span>（女＋木）で候補表示。<br>
+    キー数が少なく覚えやすい反面、<b>同じコードの候補が増える</b>ので、正確さでは本来の倉頡が上です。
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">なぜ香港で使われる？</span><span class="sec-en">Why Hong Kong</span></div>
+  <div class="card" style="font-size:13px;color:var(--text-muted);line-height:1.85">
+    ・広東語には<b>発音入力の全国標準がない</b>（普通話のピンイン、台湾の注音のような統一規格が弱い）ため、<b>発音に依存しない字形入力</b>が好まれました。<br>
+    ・<b>繁体字を1文字ずつ確実に</b>打て、同音異字に強い。公的文書や専門用途でも安定します。<br>
+    ・台湾でも注音とならんで根強く使われ、繁体字圏共通の入力法として定着しています。
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">日本語話者へのヒント</span><span class="sec-en">Tips</span></div>
+  <div class="card" style="font-size:13px;color:var(--text-muted);line-height:1.85">
+    ・まず<b>24字根の代表字（日月金木水火土…）</b>とキー位置を丸暗記。ここが土台です。<br>
+    ・次に「よく使う偏や旁が、どの字根に含まれるか」を少しずつ覚えます。<br>
+    ・スマホなら<b>速成</b>から入り、候補選択に慣れてからフル倉頡へ進むと挫折しにくいです。<br>
+    ・漢字を「音」でなく<b>「形の部品」で見る</b>クセがつくので、繁体字の字形理解にも役立ちます。
+  </div>
+
+  <div class="app-footer">倉頡＝朱邦復（1976）考案。字根の割り当て・分解規則には版による差があります。<br>© 2025 日本語の部屋</div>
+</div>
+</body>
+</html>

@@ -367,6 +367,18 @@
           <div id="edit-answer-note" style="font-size:11px;color:var(--text-hint);margin-top:6px"></div>
         </div>
 
+        <div id="edit-listening-block" style="display:none;margin-bottom:12px;border-top:1px dashed var(--border);padding-top:12px">
+          <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:4px">状況（じょうきょう）</label>
+          <textarea id="edit-situation" rows="2" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit;resize:vertical"></textarea>
+          <label style="font-size:12px;color:var(--text-hint);display:block;margin:10px 0 4px">会話（1行に「話者：せりふ」。話者は F＝女／M＝男／N＝ナレーター）</label>
+          <textarea id="edit-script" rows="6" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit;resize:vertical"></textarea>
+          <label style="font-size:12px;color:var(--text-hint);display:block;margin:10px 0 4px">正解</label>
+          <select id="edit-answer-sel" style="padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit"><option value="0">①</option><option value="1">②</option><option value="2">③</option><option value="3">④</option></select>
+          <label style="font-size:12px;color:var(--text-hint);display:block;margin:10px 0 4px">音声ファイル名（audio）</label>
+          <input id="edit-audio" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:13px;font-family:inherit">
+          <div style="font-size:11px;color:#B85C00;margin-top:6px">※ 会話・音声ファイル名を変えたら、mp3の作り直しが必要です（変えなければ そのまま使えます）。</div>
+        </div>
+
         <div style="margin-bottom:16px">
           <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:4px">解説</label>
           <textarea id="edit-explanation" rows="3" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit;resize:vertical"></textarea>
@@ -1340,21 +1352,36 @@ function openEditModal(catStr, idx) {
   editingIdx = idx;
   const isG2 = (key === '文の文法2');
 
-  const bodyLines = q.question.split('\n').slice(1);
-  document.getElementById('edit-question').value = bodyLines.join('\n');
+  const isListening = (catStr.split('/')[0] === '聴解');
+  const lb = document.getElementById('edit-listening-block');
   document.getElementById('edit-c1').value = q.choices[0] || '';
   document.getElementById('edit-c2').value = q.choices[1] || '';
   document.getElementById('edit-c3').value = q.choices[2] || '';
   document.getElementById('edit-c4').value = q.choices[3] || '';
   document.getElementById('edit-explanation').value = q.explanation || '';
-
   const note = document.getElementById('edit-answer-note');
-  if (isG2) {
-    note.textContent = '⚠ 並べ替え問題：①〜④を「正しい語順」で入力してください。③が★（正解）です。本文の「★4★」は4つの空欄の位置です（消さないでください）。';
-    note.style.color = '#2D5A8E';
-  } else {
-    note.textContent = '※ 正解は③の選択肢に自動設定されます。正解にしたい語を③に入力してください。';
+
+  if (isListening) {
+    document.getElementById('edit-question').value = q.question || '';
+    if (lb) lb.style.display = 'block';
+    document.getElementById('edit-situation').value = q.situation || '';
+    document.getElementById('edit-audio').value = q.audio || '';
+    document.getElementById('edit-script').value = (q.script || []).map(function(s){ return (s.speaker || '') + '：' + (s.text || ''); }).join('\n');
+    const ai = q.choices.indexOf(q.answer);
+    document.getElementById('edit-answer-sel').value = String(ai >= 0 ? ai : 0);
+    note.textContent = '※ 聴解：正解は下の「正解」で えらびます（③固定ではありません）。';
     note.style.color = 'var(--text-hint)';
+  } else {
+    if (lb) lb.style.display = 'none';
+    const bodyLines = q.question.split('\n').slice(1);
+    document.getElementById('edit-question').value = bodyLines.join('\n');
+    if (isG2) {
+      note.textContent = '⚠ 並べ替え問題：①〜④を「正しい語順」で入力してください。③が★（正解）です。本文の「★4★」は4つの空欄の位置です（消さないでください）。';
+      note.style.color = '#2D5A8E';
+    } else {
+      note.textContent = '※ 正解は③の選択肢に自動設定されます。正解にしたい語を③に入力してください。';
+      note.style.color = 'var(--text-hint)';
+    }
   }
 
   document.getElementById('edit-modal-title').textContent = `問${idx+1} を編集`;
@@ -1370,15 +1397,36 @@ function saveEdit() {
   const q = pool[editingIdx];
   if (!q) return;
 
-  const firstLine = q.question.split('\n')[0];
-  q.question    = firstLine + '\n' + document.getElementById('edit-question').value;
+  const isListening = (editingCat.split('/')[0] === '聴解');
   const c1 = document.getElementById('edit-c1').value.trim();
   const c2 = document.getElementById('edit-c2').value.trim();
   const c3 = document.getElementById('edit-c3').value.trim();
   const c4 = document.getElementById('edit-c4').value.trim();
   q.choices     = [c1, c2, c3, c4];
-  q.answer      = c3;
   q.explanation = document.getElementById('edit-explanation').value.trim();
+
+  if (isListening) {
+    q.question  = document.getElementById('edit-question').value;
+    q.situation = document.getElementById('edit-situation').value;
+    const av = document.getElementById('edit-audio').value.trim();
+    q.audio = av;
+    const ai = parseInt(document.getElementById('edit-answer-sel').value) || 0;
+    q.answer = q.choices[ai];
+    const spMap = {'女':'F','おんな':'F','男':'M','おとこ':'M','ナ':'N','ナレーター':'N','N':'N','F':'F','M':'M'};
+    const lines = document.getElementById('edit-script').value.split('\n').map(function(s){ return s.trim(); }).filter(function(s){ return s; });
+    q.script = lines.map(function(l){
+      let ci = l.indexOf('：'); if (ci < 0) ci = l.indexOf(':');
+      let sp, tx;
+      if (ci >= 0) { sp = l.slice(0, ci).trim(); tx = l.slice(ci + 1).trim(); }
+      else { sp = ''; tx = l; }
+      sp = spMap[sp] || sp;
+      return { speaker: sp, text: tx };
+    });
+  } else {
+    const firstLine = q.question.split('\n')[0];
+    q.question = firstLine + '\n' + document.getElementById('edit-question').value;
+    q.answer   = c3;
+  }
 
   // 編集したら自動的に未確認に戻す
   setReviewed(editingCat, editingIdx, false);

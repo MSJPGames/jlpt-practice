@@ -559,6 +559,25 @@
     if(!m){ cb(null,"録音が取得できませんでした"); return; }
     var key=keyEl.value.trim();
     if(!key){ cb(null,"APIキーが未設定です"); return; }
+    if(PROVIDERS[curProv()].kind==="openai"){
+      // OpenAI互換（中継/Groq等）の音声認識(Whisper)へ multipart で送る
+      var _p=curProv();
+      var _base=(_p==="openrouter")?PROVIDERS.openrouter.base:(baseUrlEl.value.trim().replace(/\/+$/,""));
+      if(!_base){ cb(null,"ベースURLが未設定です。"); return; }
+      var _bin=atob(m[2]); var _arr=new Uint8Array(_bin.length); for(var _i=0;_i<_bin.length;_i++){ _arr[_i]=_bin.charCodeAt(_i); }
+      var _ext=(m[1].indexOf("mp4")>=0)?"mp4":((m[1].indexOf("ogg")>=0)?"ogg":"webm");
+      var _fd=new FormData();
+      _fd.append("file", new Blob([_arr],{type:m[1]}), "audio."+_ext);
+      _fd.append("model","whisper-large-v3");
+      _fd.append("response_format","json");
+      fetch(_base+"/audio/transcriptions",{ method:"POST", headers:{"Authorization":"Bearer "+key}, body:_fd })
+        .then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+        .then(function(r){
+          if(!r.ok){ var em=(r.data&&r.data.error&&(r.data.error.message||r.data.error))||"認識に失敗しました"; if(typeof em!=="string") em=JSON.stringify(em); cb(null,em); return; }
+          cb(((r.data&&r.data.text)||"").trim(), null);
+        }).catch(function(){ cb(null,"通信に失敗しました"); });
+      return;
+    }
     var body={ contents:[{ parts:[
       {text:"次の音声を、話されている言語のまま、聞こえたとおりに文字起こししてください。書き起こした文だけを出力し、説明・引用符・前置きは付けないでください。聞き取れないときは何も出力しないでください。"},
       {inlineData:{mimeType:m[1], data:m[2]}}

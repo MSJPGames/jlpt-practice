@@ -75,6 +75,10 @@
   textarea#input{flex:1;resize:none;border:1px solid var(--border);border-radius:12px;padding:11px 13px;font-family:inherit;font-size:14.5px;line-height:1.5;background:#fff;color:var(--text);max-height:120px}
   .send{flex-shrink:0;border:0;border-radius:12px;padding:11px 16px;font-family:inherit;font-size:14px;font-weight:700;background:var(--accent);color:#fff;cursor:pointer}
   .send:disabled{opacity:.5;cursor:default}
+  .mic{flex-shrink:0;border:0;border-radius:12px;padding:11px 13px;font-size:16px;background:#EAF3F0;color:#1f5b53;cursor:pointer;line-height:1}
+  .mic.rec{background:#c0392b;color:#fff;animation:micpulse 1s infinite}
+  .mic:disabled{opacity:.5;cursor:default}
+  @keyframes micpulse{0%,100%{opacity:1}50%{opacity:.55}}
   .tools{display:flex;gap:8px;margin:8px 0 2px;flex-wrap:wrap}
   .tbtn{font-family:inherit;font-size:12.5px;font-weight:700;border:1px solid var(--border);background:#fff;color:var(--text-muted);border-radius:20px;padding:7px 13px;cursor:pointer}
   .tbtn.judge{border-color:#B9884A;color:#8a5a10;background:#FBF3E2}
@@ -229,6 +233,7 @@
       <div class="composer">
         <div class="row">
           <textarea id="input" rows="1" maxlength="300" placeholder="敬語で入力して送信…"></textarea>
+          <button class="mic" id="micBtn" type="button" title="押して話す">🎤</button>
           <button class="send" id="sendBtn">送信</button>
         </div>
       </div>
@@ -764,8 +769,65 @@ function send(){
   var v=$("input").value.trim(); if(!v) return;
   convo.push({role:"user",parts:[{text:v}]}); addBubble("user",v);
   $("input").value=""; autoresize();
-  callGemini(function(reply,err){ if(err){ showErr(err); return; } convo.push({role:"model",parts:[{text:reply}]}); addBubble("model",reply); });
+  callGemini(function(reply,err){ if(err){ showErr(err); return; } convo.push({role:"model",parts:[{text:reply}]}); addBubble("model",reply); speak(reply); });
 }
+// ---- 相手の返事を読み上げる（ブラウザTTS・無料）----
+function speak(text){ try{ if(!window.speechSynthesis) return; var u=new SpeechSynthesisUtterance(String(text)); u.lang="ja-JP"; u.rate=1; window.speechSynthesis.cancel(); window.speechSynthesis.speak(u); }catch(e){} }
+// ---- 音声入力（マイク→文字起こし→送信）----
+var _recStream=null,_mediaRec=null,_recChunks=[],_recMime="audio/webm",_listening=false,_transcribing=false;
+var _VOICE_OK=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&typeof MediaRecorder!=="undefined");
+function _ensureStream(cb){ if(_recStream){ cb(true); return; } if(!_VOICE_OK){ cb(false); return; }
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){ _recStream=s; cb(true); }).catch(function(){ cb(false); }); }
+function _startRec(){ _ensureStream(function(ok){ if(!ok){ showErr("マイクを使えません。文字入力をお使いください。"); return; }
+  try{ _recChunks=[]; var mime="";
+    if(MediaRecorder.isTypeSupported("audio/webm;codecs=opus"))mime="audio/webm;codecs=opus";
+    else if(MediaRecorder.isTypeSupported("audio/webm"))mime="audio/webm";
+    else if(MediaRecorder.isTypeSupported("audio/mp4"))mime="audio/mp4";
+    _recMime=(mime||"audio/webm").split(";")[0];
+    _mediaRec=new MediaRecorder(_recStream, mime?{mimeType:mime}:undefined);
+    _mediaRec.ondataavailable=function(e){ if(e.data&&e.data.size)_recChunks.push(e.data); };
+    _mediaRec.start(); _listening=true;
+    var mb=$("micBtn"); mb.classList.add("rec"); mb.textContent="⏹"; mb.title="押して止める";
+  }catch(e){ showErr("録音を開始できませんでした。"); } }); }
+function _stopRec(cb){ if(!_mediaRec||!_listening){ cb(null); return; } _listening=false;
+  _mediaRec.onstop=function(){ var blob=new Blob(_recChunks,{type:_recMime}); var fr=new FileReader();
+    fr.onload=function(){ cb(fr.result); }; fr.onerror=function(){ cb(null); }; fr.readAsDataURL(blob); };
+  try{ _mediaRec.stop(); }catch(e){ cb(null); } }
+function _micToggle(){ if(busy||_transcribing) return;
+  if(!_listening){ _startRec(); return; }
+  var mb=$("micBtn"); mb.classList.remove("rec"); mb.textContent="…"; _transcribing=true;
+  _stopRec(function(u){ if(!u){ _transcribing=false; mb.textContent="🎤"; showErr("録音できませんでした。"); return; }
+    transcribeAudio(u,function(text,err){ _transcribing=false; mb.textContent="🎤"; mb.title="押して話す";
+      if(err||!text){ showErr("音声を認識できませんでした（"+(err||"聞き取れません")+"）。文字入力もお使いください。"); return; }
+      $("input").value=text; autoresize(); send();
+    }); }); }
+function transcribeAudio(dataUrl, cb){
+  var m=/^data:([^;]+);base64,([\s\S]*)$/.exec(dataUrl||"");
+  if(!m){ cb(null,"録音が取得できませんでした"); return; }
+  var key=keyEl.value.trim();
+  if(!key){ cb(null,"APIキーが未設定です"); return; }
+  if(PROVIDERS[curProv()].kind==="openai"){
+    var _p=curProv();
+    var _base=(_p==="openrouter")?PROVIDERS.openrouter.base:(baseUrlEl.value.trim().replace(/\/+$/,""));
+    if(!_base){ cb(null,"ベースURLが未設定です。"); return; }
+    var _bin=atob(m[2]); var _arr=new Uint8Array(_bin.length); for(var _i=0;_i<_bin.length;_i++){ _arr[_i]=_bin.charCodeAt(_i); }
+    var _ext=(m[1].indexOf("mp4")>=0)?"mp4":((m[1].indexOf("ogg")>=0)?"ogg":"webm");
+    var _fd=new FormData();
+    _fd.append("file", new Blob([_arr],{type:m[1]}), "audio."+_ext);
+    _fd.append("model","whisper-large-v3"); _fd.append("response_format","json");
+    fetch(_base+"/audio/transcriptions",{method:"POST",headers:{"Authorization":"Bearer "+key},body:_fd})
+      .then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+      .then(function(r){ if(!r.ok){ var em=(r.data&&r.data.error&&(r.data.error.message||r.data.error))||"認識に失敗しました"; if(typeof em!=="string")em=JSON.stringify(em); cb(null,em); return; } cb(((r.data&&r.data.text)||"").trim(),null); })
+      .catch(function(){ cb(null,"通信に失敗しました"); });
+    return;
+  }
+  var body={ contents:[{ parts:[ {text:"次の音声を、話されている言語のまま、聞こえたとおりに文字起こししてください。書き起こした文だけを出力し、説明・引用符・前置きは付けないでください。聞き取れないときは何も出力しないでください。"}, {inlineData:{mimeType:m[1],data:m[2]}} ] }], generationConfig:{temperature:0} };
+  fetch(ENDPOINT+"?key="+encodeURIComponent(key),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})
+    .then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+    .then(function(r){ if(!r.ok){ cb(null,(r.data&&r.data.error&&r.data.error.message)?r.data.error.message:"認識に失敗しました"); return; } var t=""; try{ t=r.data.candidates[0].content.parts.map(function(p){return p.text||"";}).join("").trim(); }catch(e){ t=""; } cb(t,null); })
+    .catch(function(){ cb(null,"通信に失敗しました"); });
+}
+(function(){ var mb=$("micBtn"); if(!mb) return; if(!_VOICE_OK){ mb.style.display="none"; return; } mb.addEventListener("click",_micToggle); })();
 function getFeedback(){
   if(busy) return;
   if(!hasUserTurn()){ showErr("もう少し会話してから試してください。"); return; }

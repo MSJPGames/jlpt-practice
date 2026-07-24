@@ -206,6 +206,16 @@
           <textarea id="detail" class="dtl" rows="3" maxlength="400"></textarea>
         </div>
         <div class="dh"><b>かんたん</b>＝選ぶだけ（簡易練習）。<b>くわしく</b>＝会社名・経緯などを自由に書く（詳細練習）。空欄でもOK。</div>
+
+        <label class="f" for="rpVoice" style="margin-top:10px">声（相手の読み上げ）</label>
+        <select id="rpVoice"><option value="">自動（この端末のおすすめ）</option></select>
+        <div class="two" style="margin-top:8px">
+          <div><label class="f" for="rpRate">読み上げの速さ</label>
+            <select id="rpRate"><option value="0.8">ゆっくり</option><option value="1" selected>ふつう</option><option value="1.2">はやめ</option></select>
+          </div>
+          <div style="display:flex;align-items:flex-end"><button type="button" class="tbtn" id="rpVoiceTest" style="width:100%">🔊 声を試す</button></div>
+        </div>
+        <div class="dh">声は、その端末に入っている日本語の声から選べます。Windowsのパソコンは <b>Microsoft Edge</b> で開くと自然な声（Nanami等）が使えます。</div>
       </div>
 
       <button class="primary" id="startBtn">この設定で会話をはじめる</button>
@@ -772,7 +782,32 @@ function send(){
   callGemini(function(reply,err){ if(err){ showErr(err); return; } convo.push({role:"model",parts:[{text:reply}]}); addBubble("model",reply); speak(reply); });
 }
 // ---- 相手の返事を読み上げる（ブラウザTTS・無料）----
-function speak(text){ try{ if(!window.speechSynthesis) return; var u=new SpeechSynthesisUtterance(String(text)); u.lang="ja-JP"; u.rate=1; window.speechSynthesis.cancel(); window.speechSynthesis.speak(u); }catch(e){} }
+function _voiceByName(name){ try{ var vs=window.speechSynthesis.getVoices()||[]; for(var i=0;i<vs.length;i++){ if(vs[i].name===name) return vs[i]; } }catch(e){} return null; }
+function speak(text){ try{ if(!window.speechSynthesis) return;
+  var u=new SpeechSynthesisUtterance(String(text)); u.lang="ja-JP";
+  var vn=store.get("rp_voice")||""; var v=vn?_voiceByName(vn):null; if(v) u.voice=v;
+  var r=parseFloat(store.get("rp_rate")||"1"); u.rate=(r>0?r:1);
+  window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
+}catch(e){} }
+// ---- 声（読み上げ）の選択 ----
+(function(){
+  var rpVoice=$("rpVoice"), rpRate=$("rpRate"), rpTest=$("rpVoiceTest");
+  if(!rpVoice) return;
+  function loadRpVoices(){
+    if(!("speechSynthesis" in window)) return;
+    var vs=window.speechSynthesis.getVoices()||[];
+    var ja=vs.filter(function(v){ return v.lang && v.lang.toLowerCase().indexOf("ja")===0; });
+    var want=store.get("rp_voice")||"";
+    while(rpVoice.options.length>1){ rpVoice.remove(1); }
+    ja.forEach(function(v){ var o=document.createElement("option"); o.value=v.name; o.textContent=v.name+"（"+v.lang+"）"; if(v.name===want)o.selected=true; rpVoice.appendChild(o); });
+  }
+  loadRpVoices();
+  try{ if("speechSynthesis" in window) window.speechSynthesis.onvoiceschanged=loadRpVoices; }catch(e){}
+  var sr=store.get("rp_rate"); if(sr && rpRate) rpRate.value=sr;
+  rpVoice.addEventListener("change",function(){ store.set("rp_voice",rpVoice.value); });
+  if(rpRate) rpRate.addEventListener("change",function(){ store.set("rp_rate",rpRate.value); });
+  if(rpTest) rpTest.addEventListener("click",function(){ speak("いらっしゃいませ。ご用件をうかがいます。"); });
+})();
 // ---- 音声入力（マイク→文字起こし→送信）----
 var _recStream=null,_mediaRec=null,_recChunks=[],_recMime="audio/webm",_listening=false,_transcribing=false;
 var _VOICE_OK=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&typeof MediaRecorder!=="undefined");

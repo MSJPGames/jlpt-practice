@@ -31,6 +31,8 @@
   .tt{font-size:14.5px;font-weight:700;color:var(--accent-deep);}
   .tt .en{font-size:11px;color:var(--hint);font-weight:600;margin-left:6px;}
   .td{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.7;}
+  .more{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:4px 12px;text-decoration:none;}
+  .more:active{transform:scale(.97);}
   .empty{text-align:center;color:var(--muted);padding:2rem 0;font-size:13px;}
   .foot{text-align:center;font-size:11px;color:var(--hint);margin-top:2rem;line-height:1.9;}
 
@@ -77,20 +79,20 @@ var DATA=[
   {t:"文化変容（ベリー）",d:"自文化保持×新文化参加の組合せで、統合・同化・分離・周辺化の4類型に分ける。"}
  ]},
  {g:"言語と社会", terms:[
-  {t:"言語変種",d:"地域方言・社会方言・位相語・レジスターなど、話し手や場面で異なる言語のあらわれ。"},
-  {t:"位相語",d:"性別・年齢・職業・集団などによる語彙の違い（女性語・幼児語・専門語など）。"},
-  {t:"レジスター",d:"場面・話題・改まり度に応じた言語使用のスタイル。"},
-  {t:"ダイグロシア",d:"高変種（公的）と低変種（日常）が機能的に使い分けられる社会状態。"},
-  {t:"コードスイッチング",d:"一つの談話・発話の中で言語や変種を切り替えること。"},
-  {t:"ピジン／クレオール",d:"接触で生じた簡略な混成語がピジン。それが母語化し体系化したものがクレオール。"},
-  {t:"ポライトネス（B&L）",d:"ブラウン＆レビンソン。相手のフェイスに配慮する言語行動。積極的／消極的ポライトネス。"},
-  {t:"フェイス",d:"認められたい欲求（ポジティブ）と、邪魔されたくない欲求（ネガティブ）の二面。"},
-  {t:"待遇表現",d:"上下・親疎・場面に応じて相手や事柄への配慮を示す表現。敬語もその一部。"},
-  {t:"言語政策・言語計画",d:"地位計画（席次計画）と実体計画（本体計画）。常用漢字表・現代仮名遣いなどは実体計画。"},
-  {t:"あいづち",d:"聞き手が示す共感・理解の反応。日本語では頻度が高いとされる。"},
-  {t:"ターンテイキング",d:"会話における話者交替のしくみ。"},
-  {t:"役割語",d:"「〜じゃ／わし」など、特定の人物像を想起させる話し方（金水敏）。"},
-  {t:"言語権",d:"自らの言語を使用・継承する権利。多言語社会の議論で重要。"}
+  {t:"言語変種",s:"hensyu",d:"地域方言・社会方言・位相語・レジスターなど、話し手や場面で異なる言語のあらわれ。"},
+  {t:"位相語",s:"isougo",d:"性別・年齢・職業・集団などによる語彙の違い（女性語・幼児語・専門語など）。"},
+  {t:"レジスター",s:"register",d:"場面・話題・改まり度に応じた言語使用のスタイル。"},
+  {t:"ダイグロシア",s:"diglossia",d:"高変種（公的）と低変種（日常）が機能的に使い分けられる社会状態。"},
+  {t:"コードスイッチング",s:"codeswitching",d:"一つの談話・発話の中で言語や変種を切り替えること。"},
+  {t:"ピジン／クレオール",s:"pidgin_creole",d:"接触で生じた簡略な混成語がピジン。それが母語化し体系化したものがクレオール。"},
+  {t:"ポライトネス（B&L）",s:"politeness",d:"ブラウン＆レビンソン。相手のフェイスに配慮する言語行動。積極的／消極的ポライトネス。"},
+  {t:"フェイス",s:"face",d:"認められたい欲求（ポジティブ）と、邪魔されたくない欲求（ネガティブ）の二面。"},
+  {t:"待遇表現",s:"taiguu",d:"上下・親疎・場面に応じて相手や事柄への配慮を示す表現。敬語もその一部。"},
+  {t:"言語政策・言語計画",s:"gengoseisaku",d:"地位計画（席次計画）と実体計画（本体計画）。常用漢字表・現代仮名遣いなどは実体計画。"},
+  {t:"あいづち",s:"aizuchi",d:"聞き手が示す共感・理解の反応。日本語では頻度が高いとされる。"},
+  {t:"ターンテイキング",s:"turntaking",d:"会話における話者交替のしくみ。"},
+  {t:"役割語",s:"yakuwarigo",d:"「〜じゃ／わし」など、特定の人物像を想起させる話し方（金水敏）。"},
+  {t:"言語権",s:"gengoken",d:"自らの言語を使用・継承する権利。多言語社会の議論で重要。"}
  ]},
  {g:"言語と心理", terms:[
   {t:"臨界期仮説",d:"言語習得には最適な時期があり、それを過ぎると母語話者並みの習得が難しくなるとする説。"},
@@ -182,7 +184,7 @@ function render(){
     if(!ts.length) return;
     total+=ts.length;
     html+='<div class="ghead"><span class="gbar"></span>'+esc(d.g)+'</div>';
-    html+=ts.map(function(x){return '<div class="term"><div class="tt">'+esc(x.t)+'</div><div class="td">'+esc(x.d)+'</div></div>';}).join('');
+    html+=ts.map(function(x){var m=x.s?'<a class="more" href="kyoin_yogo_'+x.s+'.html">くわしく ›</a>':'';return '<div class="term"><div class="tt">'+esc(x.t)+'</div><div class="td">'+esc(x.d)+'</div>'+m+'</div>';}).join('');
   });
   document.getElementById('cnt').textContent=total+' 語';
   document.getElementById('list').innerHTML=html||'<div class="empty">該当する用語がありません。</div>';

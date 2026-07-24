@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教案（レッスンプラン）の作り方 ｜ 日本語の部屋</title>
+<meta name="description" content="日本語の授業の教案の作り方を実務目線で解説。授業の基本の型（導入→提示→練習→活用／PPP・TBLT）、作る手順、そのまま使えるテンプレート表、チェックリスト、よくある落とし穴。">
+<style>
+  :root{--bg:#F7F5F0;--surface:#FFFFFF;--border:#E2DDD6;--text:#1C1C1C;--muted:#6B6560;--hint:#9E9890;
+    --accent:#8A3A5B;--accent-soft:#F6E5EE;--accent-deep:#5E223D;--radius:14px;}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);
+    min-height:100vh;padding:0 1rem 2.5rem;line-height:1.75;}
+  .container{max-width:620px;margin:0 auto;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:14px 0 2px;flex-wrap:wrap;}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);transition:transform .12s;}
+  .back-link:active{transform:scale(.97);}
+  .arrow{font-size:16px;line-height:1;}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent-deep);
+    background:var(--accent-soft);border-radius:7px;padding:3px 10px;margin-top:1.3rem;}
+  h1{font-size:25px;font-weight:800;margin-top:9px;}
+  .reading{font-size:12.5px;color:var(--hint);font-weight:600;margin-top:4px;}
+  .lead{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);
+    padding:14px 16px;margin-top:16px;font-size:14px;line-height:1.85;}
+  .lead b{color:var(--accent-deep);}
+  .sec{margin-top:1.9rem;}
+  .sec-h{display:flex;align-items:center;gap:9px;margin-bottom:.6rem;}
+  .sec-bar{width:4px;height:18px;border-radius:2px;background:var(--accent);}
+  .sec-t{font-size:16px;font-weight:800;}
+  p.tx{font-size:13.5px;color:var(--text);line-height:1.9;margin-top:.4rem;}
+  .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:.6rem;}
+  .flow .st{font-size:12.5px;font-weight:700;color:var(--accent-deep);background:var(--accent-soft);border-radius:8px;padding:6px 11px;}
+  .flow .ar{color:var(--hint);font-weight:800;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin-top:9px;}
+  .card .ct{font-size:14px;font-weight:700;color:var(--accent-deep);}
+  .card .cd{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.8;}
+  ol.steps{list-style:none;counter-reset:s;margin-top:.5rem;}
+  ol.steps li{position:relative;padding-left:2.1em;font-size:13.5px;line-height:1.85;margin-top:.6rem;}
+  ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:2px;width:1.5em;height:1.5em;
+    background:var(--accent);color:#fff;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  ol.steps b{color:var(--accent-deep);}
+  .tblwrap{overflow-x:auto;margin-top:10px;-webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:12.5px;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  caption{caption-side:top;text-align:left;font-size:12px;color:var(--muted);margin-bottom:6px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;vertical-align:top;line-height:1.6;text-align:left;}
+  thead th{background:var(--accent-soft);color:var(--accent-deep);font-weight:700;white-space:nowrap;}
+  tbody th{background:#FAF6F0;color:var(--accent-deep);font-weight:700;white-space:nowrap;}
+  .meta{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:12.5px;color:var(--muted);line-height:1.9;}
+  .meta b{color:var(--text);}
+  ul.chk{list-style:none;margin-top:.5rem;}
+  ul.chk li{position:relative;padding-left:1.7em;font-size:13.5px;line-height:1.85;margin-top:.4rem;}
+  ul.chk li::before{content:'✓';position:absolute;left:0;color:var(--accent);font-weight:800;}
+  ul.pit{list-style:none;margin-top:.5rem;}
+  ul.pit li{position:relative;padding-left:1.3em;font-size:13.5px;line-height:1.85;margin-top:.4rem;}
+  ul.pit li::before{content:'⚠';position:absolute;left:0;font-size:12px;}
+  .rel{display:flex;flex-wrap:wrap;gap:7px;margin-top:.7rem;}
+  .rel a{font-size:12.5px;font-weight:700;color:var(--accent-deep);background:var(--surface);border:1px solid var(--border);
+    border-radius:999px;padding:6px 12px;text-decoration:none;}
+  .foot{text-align:center;font-size:11px;color:var(--hint);margin-top:2.4rem;line-height:1.9;}
+  @media (min-width: 700px)  { .container { zoom: 1.25; } }
+  @media (min-width: 1100px) { .container { zoom: 1.45; } }
+</style></head>
+<body><div class="container">
+
+  <div class="topbar">
+    <a href="nihongokyoiku.html" class="back-link"><span class="arrow">‹</span>日本語教育</a>
+    <a href="index.html" class="back-link">🏠 トップ</a>
+  </div>
+
+  <div class="eyebrow">実践ガイド ・ 授業づくり</div>
+  <h1>教案（レッスンプラン）の作り方</h1>
+  <div class="reading">lesson plan ・ 1コマの授業の設計図をつくる</div>
+
+  <div class="lead">
+    教案は、<b>1回の授業の設計図</b>です。「何が言える・できるようになるか（目標）」を決め、そこへ届くように<b>活動を順番に並べ、時間・教材・確認方法をまとめた1枚</b>。上手な教案の共通点は、<b>教える内容を欲張らず、学習者が実際に使う時間を多くとっている</b>ことです。
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">授業の基本の型</span></div>
+    <p class="tx">初級の文型導入でよく使われるのが、次の流れ（PPPの考え方に近い型）です。</p>
+    <div class="flow">
+      <span class="st">導入</span><span class="ar">→</span><span class="st">提示</span><span class="ar">→</span>
+      <span class="st">基本練習</span><span class="ar">→</span><span class="st">応用練習</span><span class="ar">→</span><span class="st">まとめ</span>
+    </div>
+    <div class="card"><div class="ct">導入</div><div class="cd">場面や既習事項から、今日の項目が必要になる状況をつくる。学習者の興味・注意を引く。</div></div>
+    <div class="card"><div class="ct">提示</div><div class="cd">新しい文型・語彙の「意味・形・使い方」を、例文や絵・場面でわかるように示す。説明しすぎない。</div></div>
+    <div class="card"><div class="ct">基本練習（統制練習）</div><div class="cd">形に慣れる練習。反復・代入・変換・ペアなど。正確さ重視。</div></div>
+    <div class="card"><div class="ct">応用練習（産出）</div><div class="cd">自由度を上げ、自分のことで使う。ロールプレイ・インタビュー・タスク。流暢さと運用重視。</div></div>
+    <div class="card"><div class="ct">まとめ</div><div class="cd">今日できるようになったことを確認し、次につなぐ。宿題や振り返り。</div></div>
+    <p class="tx">課題（タスク）を先に置き、必要な言語にあとから注目させる<b>TBLT（タスク先行）</b>の型もあります。「導入・展開・まとめ」という3部構成で考えても構いません。<b>大事なのは、提示だけで終わらず、練習→産出まで届かせること</b>です。</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">作る手順</span></div>
+    <ol class="steps">
+      <li><b>学習者とゴールを確認</b>：誰が（レベル・人数・背景）、コースの中で今日はどこか。</li>
+      <li><b>本時の目標を1〜2文で</b>：学習者を主語に「〜の場面で〜が言える／聞き取れる」と書く（「〜を教える」ではなく）。</li>
+      <li><b>学習項目をしぼる</b>：文型・語彙・機能・技能。1コマ<b>1〜2項目</b>まで。欲張らない。</li>
+      <li><b>活動を並べる</b>：導入→提示→基本→応用。各活動に「ねらい・やり方・形態（一斉／ペア／グループ）」を決める。</li>
+      <li><b>時間を配分</b>：合計に収める。うまくいかない時のために<b>予備活動</b>と<b>削る候補</b>を用意。</li>
+      <li><b>教材・教具</b>：絵カード・スライド・配布物・音源など、必要なものを書き出す。</li>
+      <li><b>確認方法を決める</b>：何をもって「できた」とするか（産出の観察・小テスト・振り返り）。</li>
+      <li><b>想定される誤りと対応</b>：出そうな間違いと、その場での直し方・板書を先に考えておく。</li>
+    </ol>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">テンプレート（そのまま使えます）</span></div>
+    <div class="meta">
+      <b>クラス／レベル：</b>　　　　　　<b>日時：</b>　　　　　　<b>人数：</b><br>
+      <b>本時の目標：</b>（学習者が）〜の場面で〜できる<br>
+      <b>学習項目：</b>文型／語彙／機能　　<b>教材：</b>絵カード・スライド・配布物・音源 など
+    </div>
+    <div class="tblwrap">
+      <table>
+        <caption>授業の流れ（時間の目安つき）</caption>
+        <thead>
+          <tr><th>段階</th><th>時間</th><th>教師の活動</th><th>学習者の活動</th><th>形態</th><th>教材・留意点</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>導入</th><td>5分</td><td>場面を提示し関心を引く／既習を確認</td><td>質問に答える・気づく</td><td>一斉</td><td>絵・写真</td></tr>
+          <tr><th>提示</th><td>10分</td><td>意味→形→使い方を例で示す</td><td>意味を推測・確認</td><td>一斉</td><td>板書・スライド</td></tr>
+          <tr><th>基本練習</th><td>15分</td><td>反復・代入・変換をリード</td><td>正確に言う・書く</td><td>一斉→ペア</td><td>フラッシュ・カード</td></tr>
+          <tr><th>応用練習</th><td>15分</td><td>タスク／ロールプレイを設定・観察</td><td>自分のことで使う</td><td>ペア／グループ</td><td>タスクシート</td></tr>
+          <tr><th>まとめ</th><td>5分</td><td>到達を確認・宿題提示</td><td>振り返る</td><td>一斉</td><td>振り返りメモ</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">仕上げのチェックリスト</span></div>
+    <ul class="chk">
+      <li>目標が「学習者ができること」で書けているか</li>
+      <li>1コマの項目を1〜2つにしぼれているか</li>
+      <li>提示 → 練習 → 産出（自由使用）の流れになっているか</li>
+      <li>学習者が話す・使う時間が十分か（教師が話しすぎていないか）</li>
+      <li>時間配分に無理はないか。予備活動と削る候補があるか</li>
+      <li>出そうな誤りと、その場での対応を想定したか</li>
+      <li>「できた」を確かめる方法があるか</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">よくある落とし穴</span></div>
+    <ul class="pit">
+      <li>項目を詰め込みすぎて、練習の時間が足りなくなる。</li>
+      <li>説明が長く、学習者が使う時間が少ない。</li>
+      <li>目標が「〜を教える」になっている（学習者主語で「〜できる」に）。</li>
+      <li>統制練習だけで終わり、自由に使う産出活動がない。</li>
+      <li>時間が押した時の「削る計画」がない。</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">あわせて読む</span></div>
+    <div class="rel">
+      <a href="nihongokyoiku.html">教授法ガイド</a>
+      <a href="nihongokyoiku.html">シラバス設計</a>
+      <a href="nihongokyoiku.html">評価とテスト</a>
+    </div>
+  </div>
+
+  <div class="foot">© 2025 日本語の部屋<br>※ 実務の考え方の一例です。所属機関の様式・方針がある場合はそれに合わせてください。</div>
+</div></body></html>

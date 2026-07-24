@@ -568,7 +568,7 @@ function curProv(){ var p=store.get("llm_provider")||"gemini"; return PROVIDERS[
 var keyEl=$("key"), provSel=$("provider"), customBox=$("customBox"), baseRow=$("baseRow"), modelRow=$("modelRow"), baseUrlEl=$("baseUrl"), modelNameEl=$("modelName"), providerHintEl=$("providerHint");
 if(store.get("gemini_key") && !store.get("key_gemini")){ store.set("key_gemini", store.get("gemini_key")); }
 var PROV_HINT = {
-  gemini:'キーは<b>この端末の中だけ</b>に保存されます。取り方：<a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> →「Create API key」→貼り付け（無料）。会話練習ページと同じキーが使えます。<br><b>※香港・中国本土では取得できません</b>。その場合は上で OpenRouter か OpenAI互換 を選んでください。',
+  gemini:'キーは<b>この端末の中だけ</b>に保存されます。取り方：<a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> →「Create API key」→貼り付け（無料）。会話練習ページと同じキーが使えます。<br><b>※香港・中国本土では取得できません</b>。その場合は上で OpenRouter か OpenAI互換 を選んでください。<br><b>※「high demand（混雑）」</b>と出るのは、使いすぎではなくGoogle側の混雑＋無料枠が順番待ちのためです。少し待って送り直すか、上の「OpenAI互換」をお使いください。',
   openrouter:'キーは<b>この端末の中だけ</b>に保存されます。取り方：<a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a> で登録→「Create Key」→貼り付け。無料モデル（末尾 <code>:free</code>）が使えます。香港からOK（中国本土はVPNが要る場合あり）。モデル名は下欄で変更可。',
   custom:'DeepSeek・智譜GLM・Qwen などOpenAI互換サービスを使います。ベースURL・モデル名・キーを入力（例：DeepSeek＝<code>https://api.deepseek.com/v1</code> ／ <code>deepseek-chat</code>）。中国本土から使える提供元もあります。<br>※ブラウザから直接呼ぶため、提供元が<b>CORSを許可</b>している必要があります。'
 };

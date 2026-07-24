@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>評価とテスト ｜ 日本語の部屋</title>
+<meta name="description" content="日本語教育の評価を実務目線で解説。妥当性・信頼性、形成的／総括的、到達度／熟達度、ルーブリック、作問のコツ、フィードバックまで。">
+<style>
+  :root{--bg:#F7F5F0;--surface:#FFFFFF;--border:#E2DDD6;--text:#1C1C1C;--muted:#6B6560;--hint:#9E9890;
+    --accent:#8A3A5B;--accent-soft:#F6E5EE;--accent-deep:#5E223D;--radius:14px;}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);
+    min-height:100vh;padding:0 1rem 2.5rem;line-height:1.75;}
+  .container{max-width:620px;margin:0 auto;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:14px 0 2px;flex-wrap:wrap;}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);transition:transform .12s;}
+  .back-link:active{transform:scale(.97);}
+  .arrow{font-size:16px;line-height:1;}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent-deep);
+    background:var(--accent-soft);border-radius:7px;padding:3px 10px;margin-top:1.3rem;}
+  h1{font-size:25px;font-weight:800;margin-top:9px;}
+  .reading{font-size:12.5px;color:var(--hint);font-weight:600;margin-top:4px;}
+  .en{font-size:.82em;color:var(--hint);font-weight:600;}
+  .lead{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);
+    padding:14px 16px;margin-top:16px;font-size:14px;line-height:1.85;}
+  .lead b{color:var(--accent-deep);}
+  .sec{margin-top:1.9rem;}
+  .sec-h{display:flex;align-items:center;gap:9px;margin-bottom:.6rem;}
+  .sec-bar{width:4px;height:18px;border-radius:2px;background:var(--accent);}
+  .sec-t{font-size:16px;font-weight:800;}
+  p.tx{font-size:13.5px;color:var(--text);line-height:1.9;margin-top:.4rem;}
+  .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:.6rem;}
+  .flow .st{font-size:12.5px;font-weight:700;color:var(--accent-deep);background:var(--accent-soft);border-radius:8px;padding:6px 11px;}
+  .flow .ar{color:var(--hint);font-weight:800;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin-top:9px;}
+  .card .ct{font-size:14px;font-weight:700;color:var(--accent-deep);}
+  .card .cd{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.8;}
+  ol.steps{list-style:none;counter-reset:s;margin-top:.5rem;}
+  ol.steps li{position:relative;padding-left:2.1em;font-size:13.5px;line-height:1.85;margin-top:.6rem;}
+  ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:2px;width:1.5em;height:1.5em;
+    background:var(--accent);color:#fff;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  ol.steps b{color:var(--accent-deep);}
+  .tblwrap{overflow-x:auto;margin-top:10px;-webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:12.5px;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  caption{caption-side:top;text-align:left;font-size:12px;color:var(--muted);margin-bottom:6px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;vertical-align:top;line-height:1.6;text-align:left;}
+  thead th{background:var(--accent-soft);color:var(--accent-deep);font-weight:700;white-space:nowrap;}
+  tbody th{background:#FAF6F0;color:var(--accent-deep);font-weight:700;white-space:nowrap;}
+  .meta{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:12.5px;color:var(--muted);line-height:1.9;}
+  .meta b{color:var(--text);}
+  ul.chk{list-style:none;margin-top:.5rem;}
+  ul.chk li{position:relative;padding-left:1.7em;font-size:13.5px;line-height:1.85;margin-top:.4rem;}
+  ul.chk li::before{content:'\2713';position:absolute;left:0;color:var(--accent);font-weight:800;}
+  ul.pit{list-style:none;margin-top:.5rem;}
+  ul.pit li{position:relative;padding-left:1.3em;font-size:13.5px;line-height:1.85;margin-top:.4rem;}
+  ul.pit li::before{content:'\26A0';position:absolute;left:0;font-size:12px;}
+  .rel{display:flex;flex-wrap:wrap;gap:7px;margin-top:.7rem;}
+  .rel a{font-size:12.5px;font-weight:700;color:var(--accent-deep);background:var(--surface);border:1px solid var(--border);
+    border-radius:999px;padding:6px 12px;text-decoration:none;}
+  .foot{text-align:center;font-size:11px;color:var(--hint);margin-top:2.4rem;line-height:1.9;}
+  @media (min-width: 700px)  { .container { zoom: 1.25; } }
+  @media (min-width: 1100px) { .container { zoom: 1.45; } }
+</style></head>
+<body><div class="container">
+
+  <div class="topbar">
+    <a href="nihongokyoiku.html" class="back-link"><span class="arrow">‹</span>日本語教育</a>
+    <a href="index.html" class="back-link">🏠 トップ</a>
+  </div>
+
+  <div class="eyebrow">実践ガイド ・ 授業づくり</div>
+  <h1>評価とテスト</h1>
+  <div class="reading">assessment & testing</div>
+
+  <div class="lead">
+    「<b>測りたい力を、正しく・公平に測る</b>」ための考え方です。<b>妥当性・信頼性</b>を土台に、目的に合った評価を選び、<b>ルーブリック</b>で採点をそろえます。
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">2つの土台</span></div>
+    <div class="card"><div class="ct">妥当性 <span class="en">validity</span></div><div class="cd">測りたい力を、実際に測れているか（→ <a href="kyoin_yogo_validity.html">用語</a>）。</div></div>
+    <div class="card"><div class="ct">信頼性 <span class="en">reliability</span></div><div class="cd">だれが・いつ測っても結果が安定しているか。</div></div>
+    <p class="tx">会話力を測りたいのに文法の紙テストだけ＝妥当性が低い。採点者で点が大きく変わる＝信頼性が低い、という具合です。</p>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">評価の種類（目的で選ぶ）</span></div>
+    <div class="tblwrap">
+      <table>
+        <caption>いつ・何を・どう測るか</caption>
+        <thead><tr><th>区別</th><th>A</th><th>B</th></tr></thead>
+        <tbody>
+          <tr><th>タイミング</th><td>形成的（途中・改善のため）</td><td>総括的（最後・まとめ）</td></tr>
+          <tr><th>測る範囲</th><td>到達度（学んだ範囲）</td><td>熟達度（一般的な運用力・JLPT等）</td></tr>
+          <tr><th>ものさし</th><td>相対評価（順位）</td><td>絶対評価（基準に達したか）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tx">詳しくは <a href="kyoin_yogo_keisei.html">形成的／総括的</a>、<a href="kyoin_yogo_achievement_proficiency.html">到達度／熟達度</a> の用語ページへ。</p>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">ルーブリック（採点基準表）</span></div>
+    <p class="tx">観点（何を見るか）×段階（どのくらいできたか）の表にすると、<b>採点がそろい（信頼性）、学習者にも基準が伝わります</b>。</p>
+    <div class="tblwrap">
+      <table>
+        <caption>会話の評価ルーブリック（例）</caption>
+        <thead><tr><th>観点</th><th>◎ よくできる</th><th>○ できる</th><th>△ もう少し</th></tr></thead>
+        <tbody>
+          <tr><th>課題達成</th><td>目的を十分に果たす</td><td>だいたい果たす</td><td>果たせない</td></tr>
+          <tr><th>正確さ</th><td>誤りがほぼない</td><td>時々誤るが通じる</td><td>誤りが多く通じにくい</td></tr>
+          <tr><th>流暢さ</th><td>自然に続けられる</td><td>時々止まる</td><td>たびたび止まる</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">作問のコツ</span></div>
+    <ul class="chk">
+      <li>測りたい目標と問題が対応しているか（妥当性）</li>
+      <li>指示・問い方が明確か（何を答えるか迷わせない）</li>
+      <li>選択肢は紛らわしさをそろえ、正解が偏らないか</li>
+      <li>易しい問題から難しい問題へ、難易度を配分したか</li>
+      <li>「聞く・話す・読む・書く」をバランスよく測れているか</li>
+    </ul>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">フィードバックに生かす</span></div>
+    <p class="tx">評価は点をつけて終わりではなく、<b>次の学びに生かす（形成的）</b>のが大切です。誤りは「ダメ」ではなく<b>学びの途中</b>としてあつかい（→ <a href="kyoin_yogo_interlanguage.html">中間言語</a>）、通じるからと放置して固定化（<a href="kyoin_yogo_fossilization.html">化石化</a>）しないよう、気づきを促します。</p>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">よくある落とし穴</span></div>
+    <ul class="pit">
+      <li>教えていない範囲を出す（妥当性が下がる）。</li>
+      <li>採点基準があいまいで、採点者や日によって点が変わる。</li>
+      <li>総括的評価ばかりで、途中の改善（形成的）がない。</li>
+    </ul>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">あわせて読む</span></div>
+    <div class="rel">
+      <a href="kyoin_kyoan.html">教案の作り方</a>
+      <a href="kyoin_syllabus.html">シラバス設計</a>
+      <a href="kyoin_yogo_validity.html">用語：妥当性・信頼性</a>
+      <a href="kyoin_yogo_keisei.html">用語：形成的／総括的</a>
+      <a href="kyoin_yogo_achievement_proficiency.html">用語：到達度／熟達度</a>
+    </div>
+  </div>
+
+  <div class="foot">© 2025 日本語の部屋<br>※ 実務の考え方の一例です。所属機関の様式・方針がある場合はそれに合わせてください。</div>
+</div></body></html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教授法ガイド ｜ 日本語の部屋</title>
+<meta name="description" content="代表的な日本語の教授法（文法訳読・直接法・オーディオリンガル・CLT・TPR・ナチュラル・アプローチ・TBLT）の特徴と使いどころ、授業への落とし込みを実務目線で解説。">
+<style>
+  :root{--bg:#F7F5F0;--surface:#FFFFFF;--border:#E2DDD6;--text:#1C1C1C;--muted:#6B6560;--hint:#9E9890;
+    --accent:#8A3A5B;--accent-soft:#F6E5EE;--accent-deep:#5E223D;--radius:14px;}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);
+    min-height:100vh;padding:0 1rem 2.5rem;line-height:1.75;}
+  .container{max-width:620px;margin:0 auto;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:14px 0 2px;flex-wrap:wrap;}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);transition:transform .12s;}
+  .back-link:active{transform:scale(.97);}
+  .arrow{font-size:16px;line-height:1;}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent-deep);
+    background:var(--accent-soft);border-radius:7px;padding:3px 10px;margin-top:1.3rem;}
+  h1{font-size:25px;font-weight:800;margin-top:9px;}
+  .reading{font-size:12.5px;color:var(--hint);font-weight:600;margin-top:4px;}
+  .en{font-size:.82em;color:var(--hint);font-weight:600;}
+  .lead{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);
+    padding:14px 16px;margin-top:16px;font-size:14px;line-height:1.85;}
+  .lead b{color:var(--accent-deep);}
+  .sec{margin-top:1.9rem;}
+  .sec-h{display:flex;align-items:center;gap:9px;margin-bottom:.6rem;}
+  .sec-bar{width:4px;height:18px;border-radius:2px;background:var(--accent);}
+  .sec-t{font-size:16px;font-weight:800;}
+  p.tx{font-size:13.5px;color:var(--text);line-height:1.9;margin-top:.4rem;}
+  .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:.6rem;}
+  .flow .st{font-size:12.5px;font-weight:700;color:var(--accent-deep);background:var(--accent-soft);border-radius:8px;padding:6px 11px;}
+  .flow .ar{color:var(--hint);font-weight:800;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin-top:9px;}
+  .card .ct{font-size:14px;font-weight:700;color:var(--accent-deep);}
+  .card .cd{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.8;}
+  ol.steps{list-style:none;counter-reset:s;margin-top:.5rem;}
+  ol.steps li{position:relative;padding-left:2.1em;font-size:13.5px;line-height:1.85;margin-top:.6rem;}
+  ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:2px;width:1.5em;height:1.5em;
+    background:var(--accent);color:#fff;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  ol.steps b{color:var(--accent-deep);}
+  .tblwrap{overflow-x:auto;margin-top:10px;-webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:12.5px;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  caption{caption-side:top;text-align:left;font-size:12px;color:var(--muted);margin-bottom:6px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;vertical-align:top;line-height:1.6;text-align:left;}
+  thead th{background:var(--accent-soft);color:var(--accent-deep);font-weight:700;white-space:nowrap;}
+  tbody th{background:#FAF6F0;color:var(--accent-deep);font-weight:700;white-space:nowrap;}
+  .meta{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:12.5px;color:var(--muted);line-height:1.9;}
+  .meta b{color:var(--text);}
+  ul.chk{list-style:none;margin-top:.5rem;}
+  ul.chk li{position:relative;padding-left:1.7em;font-size:13.5px;line-height:1.85;margin-top:.4rem;}
+  ul.chk li::before{content:'\2713';position:absolute;left:0;color:var(--accent);font-weight:800;}
+  ul.pit{list-style:none;margin-top:.5rem;}
+  ul.pit li{position:relative;padding-left:1.3em;font-size:13.5px;line-height:1.85;margin-top:.4rem;}
+  ul.pit li::before{content:'\26A0';position:absolute;left:0;font-size:12px;}
+  .rel{display:flex;flex-wrap:wrap;gap:7px;margin-top:.7rem;}
+  .rel a{font-size:12.5px;font-weight:700;color:var(--accent-deep);background:var(--surface);border:1px solid var(--border);
+    border-radius:999px;padding:6px 12px;text-decoration:none;}
+  .foot{text-align:center;font-size:11px;color:var(--hint);margin-top:2.4rem;line-height:1.9;}
+  @media (min-width: 700px)  { .container { zoom: 1.25; } }
+  @media (min-width: 1100px) { .container { zoom: 1.45; } }
+</style></head>
+<body><div class="container">
+
+  <div class="topbar">
+    <a href="nihongokyoiku.html" class="back-link"><span class="arrow">‹</span>日本語教育</a>
+    <a href="index.html" class="back-link">🏠 トップ</a>
+  </div>
+
+  <div class="eyebrow">実践ガイド ・ 授業づくり</div>
+  <h1>教授法ガイド</h1>
+  <div class="reading">teaching methods ・ 使いどころで選ぶ</div>
+
+  <div class="lead">
+    「どれが正解」ではなく、<b>目的・レベル・学習者</b>に合わせて使い分けるのがコツです。ここでは代表的な教授法の特徴と、<b>授業への落とし込み</b>を整理します。各教授法の詳しい解説は用語ページへリンクしています。
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">大きな流れ</span></div>
+    <p class="tx">教授法は、おおまかに「訳して読む」から「使って伝える」へと重心が動いてきました。</p>
+    <div class="flow"><span class="st">文法訳読</span><span class="ar">→</span><span class="st">直接法</span><span class="ar">→</span><span class="st">オーディオリンガル</span><span class="ar">→</span><span class="st">CLT / TBLT</span></div>
+    <p class="tx">新しい方法が古い方法を完全に置きかえるのではなく、<b>それぞれの良さを場面で使い分ける</b>のが今の実務です。</p>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">主な教授法の早見表</span></div>
+    <div class="tblwrap">
+      <table>
+        <caption>教授法 ・ 重点 ・ 向く場面</caption>
+        <thead><tr><th>教授法</th><th>重点</th><th>向く場面／注意</th></tr></thead>
+        <tbody>
+          <tr><th><a href="kyoin_yogo_grammar_translation.html">文法訳読法</a></th><td>文法・読解・訳</td><td>読解や訳読、母語を共有するクラス。会話は伸びにくい。</td></tr>
+          <tr><th><a href="kyoin_yogo_direct_method.html">直接法</a></th><td>口頭・目標言語だけ</td><td>多国籍クラス、入門〜。国内の基本。</td></tr>
+          <tr><th><a href="kyoin_yogo_audiolingual.html">オーディオリンガル</a></th><td>文型・習慣形成</td><td>初級の口慣らし。機械的になりがち。</td></tr>
+          <tr><th><a href="kyoin_yogo_clt.html">CLT</a></th><td>意味のやりとり</td><td>会話・運用力。正確さとのバランス。</td></tr>
+          <tr><th><a href="kyoin_yogo_tpr.html">TPR</a></th><td>聞く・動く</td><td>入門・子ども。抽象語には不向き。</td></tr>
+          <tr><th><a href="kyoin_yogo_natural.html">ナチュラル・アプローチ</a></th><td>理解可能なインプット</td><td>入門・初級。安心できる環境と。</td></tr>
+          <tr><th><a href="kyoin_yogo_tblt.html">タスクベース(TBLT)</a></th><td>課題遂行</td><td>生活・実務場面。成果と意味を重視。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">選び方の目安</span></div>
+    <div class="card"><div class="ct">入門・ゼロ初級</div><div class="cd">TPR・直接法・インプット重視。まず「聞いて分かる」を育てる。</div></div>
+    <div class="card"><div class="ct">会話・運用を伸ばす</div><div class="cd">CLT・TBLT。情報の差やタスクで、本当に伝え合わせる。</div></div>
+    <div class="card"><div class="ct">読解・訳が目的</div><div class="cd">文法訳読の要素も部分的に。母語を共有するなら効率的。</div></div>
+    <div class="card"><div class="ct">子ども・年少者</div><div class="cd">TPR・活動中心。体を使い、負担を下げる。</div></div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">1コマの中で混ぜる</span></div>
+    <p class="tx">実際の授業では一つの方法に固執しません。たとえば<b>導入</b>は直接法的に場面で示し、<b>練習</b>はパターン練習で形に慣れ、<b>産出</b>はタスクで使わせる、というように<b>組み合わせる</b>のが自然です。</p>
+    <div class="flow"><span class="st">導入（直接法的）</span><span class="ar">→</span><span class="st">練習（パターン）</span><span class="ar">→</span><span class="st">産出（タスク）</span></div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">選ぶときのチェック</span></div>
+    <ul class="chk">
+      <li>授業の目標（何ができるように）に合った方法か</li>
+      <li>学習者のレベル・母語構成・年齢に合うか</li>
+      <li>「聞く・話す・読む・書く」のどの技能を伸ばすか</li>
+      <li>産出（使う）の時間が十分あるか</li>
+      <li>母語（L1）をどこまで使うかを決めたか</li>
+    </ul>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">あわせて読む</span></div>
+    <div class="rel">
+      <a href="kyoin_kyoan.html">教案の作り方</a>
+      <a href="kyoin_syllabus.html">シラバス設計</a>
+      <a href="kyoin_hyoka.html">評価とテスト</a>
+      <a href="kyoin_yogo_input.html">用語：インプット仮説</a>
+      <a href="kyoin_yogo_tblt.html">用語：タスクベース</a>
+    </div>
+  </div>
+
+  <div class="foot">© 2025 日本語の部屋<br>※ 実務の考え方の一例です。所属機関の様式・方針がある場合はそれに合わせてください。</div>
+</div></body></html>

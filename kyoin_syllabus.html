@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>シラバス設計（コースデザイン） ｜ 日本語の部屋</title>
+<meta name="description" content="日本語コースの設計手順を実務目線で解説。ニーズ／レディネス分析から目標設定、シラバスの型の選択、配列、教材・活動、評価計画まで。テンプレート付き。">
+<style>
+  :root{--bg:#F7F5F0;--surface:#FFFFFF;--border:#E2DDD6;--text:#1C1C1C;--muted:#6B6560;--hint:#9E9890;
+    --accent:#8A3A5B;--accent-soft:#F6E5EE;--accent-deep:#5E223D;--radius:14px;}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);
+    min-height:100vh;padding:0 1rem 2.5rem;line-height:1.75;}
+  .container{max-width:620px;margin:0 auto;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:14px 0 2px;flex-wrap:wrap;}
+  .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--muted);
+    text-decoration:none;padding:6px 13px 6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--surface);transition:transform .12s;}
+  .back-link:active{transform:scale(.97);}
+  .arrow{font-size:16px;line-height:1;}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent-deep);
+    background:var(--accent-soft);border-radius:7px;padding:3px 10px;margin-top:1.3rem;}
+  h1{font-size:25px;font-weight:800;margin-top:9px;}
+  .reading{font-size:12.5px;color:var(--hint);font-weight:600;margin-top:4px;}
+  .en{font-size:.82em;color:var(--hint);font-weight:600;}
+  .lead{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);
+    padding:14px 16px;margin-top:16px;font-size:14px;line-height:1.85;}
+  .lead b{color:var(--accent-deep);}
+  .sec{margin-top:1.9rem;}
+  .sec-h{display:flex;align-items:center;gap:9px;margin-bottom:.6rem;}
+  .sec-bar{width:4px;height:18px;border-radius:2px;background:var(--accent);}
+  .sec-t{font-size:16px;font-weight:800;}
+  p.tx{font-size:13.5px;color:var(--text);line-height:1.9;margin-top:.4rem;}
+  .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:.6rem;}
+  .flow .st{font-size:12.5px;font-weight:700;color:var(--accent-deep);background:var(--accent-soft);border-radius:8px;padding:6px 11px;}
+  .flow .ar{color:var(--hint);font-weight:800;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin-top:9px;}
+  .card .ct{font-size:14px;font-weight:700;color:var(--accent-deep);}
+  .card .cd{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.8;}
+  ol.steps{list-style:none;counter-reset:s;margin-top:.5rem;}
+  ol.steps li{position:relative;padding-left:2.1em;font-size:13.5px;line-height:1.85;margin-top:.6rem;}
+  ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:2px;width:1.5em;height:1.5em;
+    background:var(--accent);color:#fff;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  ol.steps b{color:var(--accent-deep);}
+  .tblwrap{overflow-x:auto;margin-top:10px;-webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:12.5px;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  caption{caption-side:top;text-align:left;font-size:12px;color:var(--muted);margin-bottom:6px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;vertical-align:top;line-height:1.6;text-align:left;}
+  thead th{background:var(--accent-soft);color:var(--accent-deep);font-weight:700;white-space:nowrap;}
+  tbody th{background:#FAF6F0;color:var(--accent-deep);font-weight:700;white-space:nowrap;}
+  .meta{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:12.5px;color:var(--muted);line-height:1.9;}
+  .meta b{color:var(--text);}
+  ul.chk{list-style:none;margin-top:.5rem;}
+  ul.chk li{position:relative;padding-left:1.7em;font-size:13.5px;line-height:1.85;margin-top:.4rem;}
+  ul.chk li::before{content:'\2713';position:absolute;left:0;color:var(--accent);font-weight:800;}
+  ul.pit{list-style:none;margin-top:.5rem;}
+  ul.pit li{position:relative;padding-left:1.3em;font-size:13.5px;line-height:1.85;margin-top:.4rem;}
+  ul.pit li::before{content:'\26A0';position:absolute;left:0;font-size:12px;}
+  .rel{display:flex;flex-wrap:wrap;gap:7px;margin-top:.7rem;}
+  .rel a{font-size:12.5px;font-weight:700;color:var(--accent-deep);background:var(--surface);border:1px solid var(--border);
+    border-radius:999px;padding:6px 12px;text-decoration:none;}
+  .foot{text-align:center;font-size:11px;color:var(--hint);margin-top:2.4rem;line-height:1.9;}
+  @media (min-width: 700px)  { .container { zoom: 1.25; } }
+  @media (min-width: 1100px) { .container { zoom: 1.45; } }
+</style></head>
+<body><div class="container">
+
+  <div class="topbar">
+    <a href="nihongokyoiku.html" class="back-link"><span class="arrow">‹</span>日本語教育</a>
+    <a href="index.html" class="back-link">🏠 トップ</a>
+  </div>
+
+  <div class="eyebrow">実践ガイド ・ 授業づくり</div>
+  <h1>シラバス設計（コースデザイン）</h1>
+  <div class="reading">syllabus / course design</div>
+
+  <div class="lead">
+    コースの<b>骨組み</b>を作る作業です。<b>誰に・何のために（ニーズ）</b> → <b>何を どの順で（シラバス）</b> → <b>どう教え どう測るか</b>、を決めていきます。
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">コースデザインの流れ</span></div>
+    <div class="flow"><span class="st">ニーズ／レディネス分析</span><span class="ar">→</span><span class="st">目標設定(Can do)</span><span class="ar">→</span><span class="st">シラバス選択</span><span class="ar">→</span><span class="st">教材・活動</span><span class="ar">→</span><span class="st">評価計画</span></div>
+    <p class="tx">最初の<a href="kyoin_yogo_needs_analysis.html">ニーズ・レディネス分析</a>が、その後すべての土台になります。</p>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">シラバスの型</span></div>
+    <div class="tblwrap">
+      <table>
+        <caption>何を軸に並べるか</caption>
+        <thead><tr><th>型</th><th>軸</th><th>例</th></tr></thead>
+        <tbody>
+          <tr><th>構造シラバス</th><td>文型・文法</td><td>初級文型の積み上げ。</td></tr>
+          <tr><th>場面シラバス</th><td>場面</td><td>空港・病院・買い物 など。</td></tr>
+          <tr><th>機能シラバス</th><td>言語の働き</td><td>依頼・断り・許可を求める など。</td></tr>
+          <tr><th>タスクシラバス</th><td>課題</td><td>予約する・道を尋ねる など。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tx">実際は<b>組み合わせて</b>使います。CLT・TBLTは機能・タスクと相性がよいです（→ <a href="kyoin_yogo_syllabus.html">用語：シラバス</a>）。</p>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">作る手順</span></div>
+    <ol class="steps">
+      <li><b>ニーズ・レディネス分析</b>：目的（就職・進学・生活）と、現有レベル・条件をつかむ。</li>
+      <li><b>到達目標を Can do で</b>：「〜の場面で〜ができる」で書く（→ <a href="kyoin_yogo_sanshouwaku.html">参照枠</a>）。</li>
+      <li><b>シラバスの軸を選ぶ</b>：構造・場面・機能・タスクのどれを中心にするか。</li>
+      <li><b>項目を配列</b>：易→難、頻度の高いもの、必要度の高いものから。</li>
+      <li><b>教材・活動を決める</b>：目標に向く教材・タスク・技能配分。</li>
+      <li><b>評価計画</b>：何を・いつ・どう測るか（→ <a href="kyoin_hyoka.html">評価とテスト</a>）。</li>
+      <li><b>実施して見直す</b>：うまくいかない点を次の期に反映する。</li>
+    </ol>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">コース表テンプレート</span></div>
+    <div class="meta"><b>コース名：</b>　　　　　<b>対象・レベル：</b>　　　　　<b>期間：</b><br><b>コース目標：</b>（学習者が）〜できる</div>
+    <div class="tblwrap">
+      <table>
+        <caption>週ごとの計画（例）</caption>
+        <thead><tr><th>週</th><th>目標(Can do)</th><th>学習項目</th><th>活動</th><th>評価</th></tr></thead>
+        <tbody>
+          <tr><th>1</th><td>あいさつ・自己紹介ができる</td><td>名前・国・職業／です</td><td>ペアで自己紹介</td><td>観察</td></tr>
+          <tr><th>2</th><td>買い物で値段が聞ける</td><td>数・〜はいくらですか</td><td>ロールプレイ</td><td>小テスト</td></tr>
+          <tr><th>…</th><td>…</td><td>…</td><td>…</td><td>…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">チェックリスト</span></div>
+    <ul class="chk">
+      <li>ニーズ分析にもとづいて目標を決めたか</li>
+      <li>目標が「学習者ができること(Can do)」で書けているか</li>
+      <li>シラバスの軸がコースの目的に合っているか</li>
+      <li>配列に無理はないか（易→難・必要度）</li>
+      <li>評価が目標と対応しているか</li>
+    </ul>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sec-bar"></span><span class="sec-t">あわせて読む</span></div>
+    <div class="rel">
+      <a href="kyoin_kyojuho.html">教授法ガイド</a>
+      <a href="kyoin_kyoan.html">教案の作り方</a>
+      <a href="kyoin_hyoka.html">評価とテスト</a>
+      <a href="kyoin_yogo_needs_analysis.html">用語：ニーズ／レディネス分析</a>
+      <a href="kyoin_yogo_sanshouwaku.html">用語：参照枠</a>
+    </div>
+  </div>
+
+  <div class="foot">© 2025 日本語の部屋<br>※ 実務の考え方の一例です。所属機関の様式・方針がある場合はそれに合わせてください。</div>
+</div></body></html>

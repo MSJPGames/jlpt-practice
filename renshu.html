@@ -185,16 +185,12 @@
   @media (prefers-reduced-motion: reduce) { .btn-mic.listening { animation: none; } }
 
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-
-  /* PC・タブレットなど広い画面では、スマホ用レイアウトのまま全体を拡大して見やすくする */
-  @media (min-width: 700px)  { .container { zoom: 1.3; } }
-  @media (min-width: 1100px) { .container { zoom: 1.5; } }
 </style>
 </head>
 <body>
 <div class="container">
 
-  <a href="index.html" class="back">‹ もどる</a>
+  <a href="bunpou.html" class="back">‹ 文法を学ぶ</a> <a href="index.html" class="back">‹ もどる</a>
 
   <div class="app-header">
     <div class="app-logo">NIHONGO NO HEYA</div>
@@ -303,7 +299,7 @@ function kuru(){const K=(k,r)=>({k,r});return {dict:K('来る','くる'),masu:K(
   imperative:K('来い','こい'),passive:K('来られる','こられる'),causative:K('来させる','こさせる'),causpass:K('来させられる','こさせられる')};}
 function conjugateVerb(v){
   let c; if(v.dict==='来る')c=kuru(); else if(v.group===3)c=suru(v); else if(v.group===2)c=ichidan(v); else c=godan(v);
-  c.prohibitive={k:c.dict.k+'な',r:c.dict.r+'な'}; c.plain={k:c.dict.k,r:c.dict.r}; return c;
+  c.prohibitive={k:c.dict.k+'な',r:c.dict.r+'な'}; return c;
 }
 function iadj(a){
   let base,kb;
@@ -796,11 +792,11 @@ const NAADJ=[
 const ADJ_TSUNAGU = {"高い":2, "安い":2, "大きい":2, "小さい":2, "新しい":6, "古い":6, "いい":6, "悪い":6, "暑い":1, "寒い":1, "難しい":6, "易しい":10, "面白い":2, "おいしい":2, "忙しい":6, "楽しい":6, "低い":10, "冷たい":14, "白い":2, "黒い":2, "きれい":6, "静か":6, "にぎやか":6, "有名":6, "親切":6, "元気":6, "暇":6, "便利":6, "すてき":11, "好き":6, "嫌い":6, "上手":6, "下手":6};
 const ADJ_GENKI = {"高い":2, "安い":5, "大きい":5, "小さい":5, "新しい":5, "古い":5, "いい":3, "悪い":5, "暑い":5, "寒い":5, "難しい":5, "易しい":5, "面白い":5, "おいしい":2, "忙しい":5, "楽しい":5, "低い":5, "冷たい":5, "白い":5, "黒い":9, "赤い":9, "青い":9, "きれい":5, "静か":5, "にぎやか":5, "有名":8, "親切":7, "元気":5, "暇":5, "便利":7, "すてき":12, "ハンサム":5, "好き":5, "嫌い":5, "上手":8, "下手":8};
 [...IADJ,...NAADJ].forEach(w=>{ if(ADJ_TSUNAGU[w.dict]!=null)(w.alt=w.alt||{}).tsunagu=ADJ_TSUNAGU[w.dict]; if(ADJ_GENKI[w.dict]!=null)(w.alt=w.alt||{}).genki=ADJ_GENKI[w.dict]; });
-const VFORMS=[['masu','ます形'],['plain','普通形'],['te','て形'],['nai','ない形'],['ta','た形'],['nakatta','なかった形'],
+const VFORMS=[['masu','ます形'],['te','て形'],['nai','ない形'],['ta','た形'],['nakatta','なかった形'],
   ['potential','可能動詞'],['volition','意向形'],['ba','条件形'],['imperative','命令形'],
   ['prohibitive','禁止形'],['passive','受身動詞'],['causative','使役動詞'],['causpass','使役受身']];
-const IFORMS=[['plain','普通形'],['neg','否定'],['past','過去'],['pastneg','過去否定'],['te','て形'],['adv','副詞形'],['ba','条件形']];
-const NFORMS=[['plain','普通形'],['neg','否定'],['past','過去'],['pastneg','過去否定'],['te','て形'],['adv','副詞形'],['noun','名詞修飾'],['ba','条件形']];
+const IFORMS=[['neg','否定'],['past','過去'],['pastneg','過去否定'],['te','て形'],['adv','副詞形'],['ba','条件形']];
+const NFORMS=[['neg','否定'],['past','過去'],['pastneg','過去否定'],['te','て形'],['adv','副詞形'],['noun','名詞修飾'],['ba','条件形']];
 const HINTS={noun:'〜な＋名詞',adv:'〜く / 〜に',ba:'〜ば / 〜なら',volition:'〜う/よう',prohibitive:'〜な'};
 
 /* ===================== 状態 ===================== */
@@ -957,8 +953,7 @@ function renderQuiz(){
   const hint = HINTS[key] ? `<div class="q-hint">（${HINTS[key]}）</div>` : '';
   // 起点の表示（動詞でます形起点ならます形で提示）
   let stimK=word.dict, stimR=word.kana;
-  if(cat==='v' && (startForm==='masu' || key==='plain')){ const c=conjugateVerb(word); stimK=c.masu.k; stimR=c.masu.r; }
-  if((cat==='i'||cat==='n') && key==='plain'){ stimK=word.dict+'です'; stimR=word.kana+'です'; }
+  if(cat==='v' && startForm==='masu'){ const c=conjugateVerb(word); stimK=c.masu.k; stimR=c.masu.r; }
   let inner = `
     ${gtag}
     <div class="q-word">${stimK}</div>
@@ -1032,7 +1027,7 @@ function startVoice(){
       'service-not-allowed':'マイクの使用が許可されていません。','no-speech':'声が聞き取れませんでした。もう一度どうぞ。',
       'audio-capture':'マイクが見つかりません。','network':'ネットワークエラーです。','aborted':''};
       if(st) st.textContent = (e.error in map)?map[e.error]:('認識に失敗しました（'+e.error+'）。'); };
-    rec.onend=()=>{ activeRec=null; reset(); var isTouch=('ontouchstart' in window)||(navigator.maxTouchPoints>0); if(got && !isTouch) inp.focus({preventScroll:true}); };
+    rec.onend=()=>{ activeRec=null; reset(); if(got) inp.focus({preventScroll:true}); };
     activeRec=rec;
     mic.classList.add('listening'); mic.textContent='● きいています…'; if(st) st.textContent='いま、答えを話してください。';
     try{ rec.start(); }catch(e){ activeRec=null; reset(); if(st) st.textContent='音声入力を開始できませんでした。'; }

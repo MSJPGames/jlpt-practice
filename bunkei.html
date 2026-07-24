@@ -85,8 +85,6 @@
     text-decoration: none; -webkit-tap-highlight-color: transparent; transition: background .15s, transform .1s; }
   .bk-kaiwa:hover { background: #E1E4F6; }
   .bk-kaiwa:active { transform: scale(.98); }
-  .bk-renshu { color: #6B4B12; background: #FAEEDA; border-color: #EAD6AE; margin-left: 6px; }
-  .bk-renshu:hover { background: #F3E4C6; }
 
   .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
 
@@ -166,16 +164,12 @@
   .ka-link { font-size: 12px; font-weight: 700; color: var(--n5); background: var(--n5-bg); padding: 3px 10px; border-radius: 999px; text-decoration: none; cursor: pointer; border: none; font-family: inherit; }
   .ka-link:hover { filter: brightness(0.97); }
   mark { background: #FBE7C2; color: inherit; border-radius: 3px; padding: 0 1px; }
-
-  /* PC・タブレットなど広い画面では、スマホ用レイアウトのまま全体を拡大して見やすくする */
-  @media (min-width: 700px)  { .container { zoom: 1.3; } }
-  @media (min-width: 1100px) { .container { zoom: 1.5; } }
 </style>
 </head>
 <body>
 <div class="container">
 
-  <a href="katsuyo.html" class="back">‹ 活用表にもどる</a>
+  <a href="katsuyo.html" class="back">‹ 活用表にもどる</a><a href="index.html" class="back">🏠 トップ</a>
 
   <div class="app-header">
     <div class="app-logo">NIHONGO NO HEYA</div>
@@ -1356,8 +1350,6 @@ function hi(text,q){
   return esc(text.slice(0,i))+'<mark>'+esc(text.slice(i,i+q.length))+'</mark>'+esc(text.slice(i+q.length));
 }
 
-/* 練習ページ(bunkei_renshu.html)がある文型。練習を増やしたらここに追加。 */
-const PRACTICE_PATTERNS = {'〜たいです':1,'〜てください':1,'〜ています':1,'〜てもいいです':1,'〜てはいけません':1,'〜ないでください':1,'〜ましょう':1,'〜ながら':1,'〜てから':1,'〜たことがあります':1,'〜なければなりません':1,'〜たり〜たりします':1};
 /* ---- 解説モード（既存の解説カード＋課タグ） ---- */
 function renderKaisetsu(){
   const list=document.getElementById('list');
@@ -1381,7 +1373,7 @@ function renderKaisetsu(){
       <div class="bk-ex">${ex}</div>
       ${d.note?`<div class="bk-note">${d.note}</div>`:''}
       ${tag}
-      <div><a class="bk-kaiwa" href="kaiwa.html?g=${encodeURIComponent(d.p)}&lv=${encodeURIComponent(d.lvl)}&ex=${encodeURIComponent(d.ex&&d.ex[0]?d.ex[0][0]:'')}">🗣️ この文法で会話練習</a>${PRACTICE_PATTERNS[d.p]?`<a class="bk-kaiwa bk-renshu" href="bunkei_renshu.html?p=${encodeURIComponent(d.p)}">✍️ パターン練習</a>`:''}</div>
+      <div><a class="bk-kaiwa" href="kaiwa.html?g=${encodeURIComponent(d.p)}&lv=${encodeURIComponent(d.lvl)}&ex=${encodeURIComponent(d.ex&&d.ex[0]?d.ex[0][0]:'')}">🗣️ この文法で会話練習</a></div>
     </div>`;
   });
   list.innerHTML=html;

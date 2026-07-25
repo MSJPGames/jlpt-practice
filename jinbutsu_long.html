@@ -63,6 +63,12 @@
   <div class="eyebrow">人物 ・ 第二言語習得</div>
   <h1>マイケル・ロング</h1>
   <div class="reading">Michael H. Long（1945–2021）・応用言語学者</div>
+  <div class="wikirow">
+    <a class="wikichip" href="https://en.wikipedia.org/wiki/Michael_Long_(linguist)" target="_blank" rel="noopener"
+       data-wikilang="en" data-wikititle="Michael Long (linguist)">🔗 Wikipediaで見る ↗</a>
+    <span class="wikinote">内容はWikipediaから読み込み（写真がある場合のみ表示・当サイトには保存しません）</span>
+  </div>
+
 
   <div class="lead">
     第二言語習得の研究者。<b>「インタラクション仮説」</b>を提唱し、<b>意味のやりとり（意味交渉）</b>が習得を促すことを主張しました。<b>タスクベースの言語教育</b>や<b>フォーカス・オン・フォーム</b>でも知られます。
@@ -105,4 +111,40 @@
   <div class="foot">© 2025 日本語の部屋<br>※ 学習用のまとめです。人物情報は概要であり、詳細は各研究機関の公開情報等でご確認ください。</div>
 </div>
 
+
+<script>
+/* Wikipedia公式REST APIで、ホバー時に写真＋要約をプレビュー。画像は保存せず、閲覧時にWikipediaから読み込む。 */
+(function(){
+  var card=null, cache={};
+  function ensure(){ if(!card){ card=document.createElement('div'); card.id='wikicard'; document.body.appendChild(card);
+    card.addEventListener('mouseenter',function(){ card.style.display='block'; });
+    card.addEventListener('mouseleave',hide); } return card; }
+  function hide(){ if(card) card.style.display='none'; }
+  function show(a){
+    var lang=a.getAttribute('data-wikilang')||'en', title=a.getAttribute('data-wikititle');
+    var c=ensure(), r=a.getBoundingClientRect();
+    c.style.left=Math.max(8,Math.min(r.left, window.innerWidth-296))+'px';
+    c.style.top=(r.bottom+8)+'px'; c.style.display='block';
+    if(cache[title]!==undefined){ c.innerHTML=cache[title]; return; }
+    c.innerHTML='<div class="wc-x">読み込み中…</div>';
+    fetch('https://'+lang+'.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title))
+      .then(function(res){ if(!res.ok) throw 0; return res.json(); })
+      .then(function(d){
+        if(d.type==='disambiguation') throw 0;
+        var img=(d.thumbnail&&d.thumbnail.source)?'<img src="'+d.thumbnail.source+'" alt="">':'';
+        var ex=(d.extract||'').slice(0,170);
+        var html=img+'<div class="wc-t">'+(d.title||title)+'</div><div class="wc-x">'+ex+'…</div>'
+          +'<div class="wc-c">出典：Wikipedia（CC BY-SA）／画像はリンク先を参照</div>';
+        cache[title]=html; if(c.style.display!=='none') c.innerHTML=html;
+      })
+      .catch(function(){ var html='<div class="wc-x">プレビューを表示できませんでした。クリックでWikipediaを開きます。</div>';
+        cache[title]=html; if(c.style.display!=='none') c.innerHTML=html; });
+  }
+  var chips=document.querySelectorAll('.wikichip');
+  for(var i=0;i<chips.length;i++){ (function(a){
+    a.addEventListener('mouseenter',function(){ show(a); });
+    a.addEventListener('mouseleave',function(){ setTimeout(function(){ if(card && !card.matches(':hover')) hide(); },140); });
+  })(chips[i]); }
+})();
+</script>
 </body></html>

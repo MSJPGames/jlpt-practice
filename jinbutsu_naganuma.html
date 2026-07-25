@@ -63,6 +63,12 @@
   <div class="eyebrow">人物 ・ 日本語教育史</div>
   <h1>長沼 直兄</h1>
   <div class="reading">長沼 直兄（ながぬま なおえ／1894–1973）・日本語教育者</div>
+  <div class="wikirow">
+    <a class="wikichip" href="https://ja.wikipedia.org/wiki/%E9%95%B7%E6%B2%BC%E7%9B%B4%E5%85%84" target="_blank" rel="noopener"
+       data-wikilang="ja" data-wikititle="長沼直兄">🔗 Wikipediaで見る ↗</a>
+    <span class="wikinote">内容はWikipediaから読み込み（写真がある場合のみ表示・当サイトには保存しません）</span>
+  </div>
+
 
   <div class="lead">
     戦前・戦後にかけて、外国人への日本語教育に尽力した教育者です。アメリカ大使館などで教え、<b>『標準日本語読本』（ナガヌマ・リーダー）</b>を著しました。<b>パーマーのオーラル・メソッド</b>の影響を受けた、口語中心の教授で知られます。
@@ -104,4 +110,40 @@
   <div class="foot">© 2025 日本語の部屋<br>※ 学習用のまとめです。人物情報は概要であり、詳細は各研究機関の公開情報等でご確認ください。</div>
 </div>
 
+
+<script>
+/* Wikipedia公式REST APIで、ホバー時に写真＋要約をプレビュー。画像は保存せず、閲覧時にWikipediaから読み込む。 */
+(function(){
+  var card=null, cache={};
+  function ensure(){ if(!card){ card=document.createElement('div'); card.id='wikicard'; document.body.appendChild(card);
+    card.addEventListener('mouseenter',function(){ card.style.display='block'; });
+    card.addEventListener('mouseleave',hide); } return card; }
+  function hide(){ if(card) card.style.display='none'; }
+  function show(a){
+    var lang=a.getAttribute('data-wikilang')||'en', title=a.getAttribute('data-wikititle');
+    var c=ensure(), r=a.getBoundingClientRect();
+    c.style.left=Math.max(8,Math.min(r.left, window.innerWidth-296))+'px';
+    c.style.top=(r.bottom+8)+'px'; c.style.display='block';
+    if(cache[title]!==undefined){ c.innerHTML=cache[title]; return; }
+    c.innerHTML='<div class="wc-x">読み込み中…</div>';
+    fetch('https://'+lang+'.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title))
+      .then(function(res){ if(!res.ok) throw 0; return res.json(); })
+      .then(function(d){
+        if(d.type==='disambiguation') throw 0;
+        var img=(d.thumbnail&&d.thumbnail.source)?'<img src="'+d.thumbnail.source+'" alt="">':'';
+        var ex=(d.extract||'').slice(0,170);
+        var html=img+'<div class="wc-t">'+(d.title||title)+'</div><div class="wc-x">'+ex+'…</div>'
+          +'<div class="wc-c">出典：Wikipedia（CC BY-SA）／画像はリンク先を参照</div>';
+        cache[title]=html; if(c.style.display!=='none') c.innerHTML=html;
+      })
+      .catch(function(){ var html='<div class="wc-x">プレビューを表示できませんでした。クリックでWikipediaを開きます。</div>';
+        cache[title]=html; if(c.style.display!=='none') c.innerHTML=html; });
+  }
+  var chips=document.querySelectorAll('.wikichip');
+  for(var i=0;i<chips.length;i++){ (function(a){
+    a.addEventListener('mouseenter',function(){ show(a); });
+    a.addEventListener('mouseleave',function(){ setTimeout(function(){ if(card && !card.matches(':hover')) hide(); },140); });
+  })(chips[i]); }
+})();
+</script>
 </body></html>

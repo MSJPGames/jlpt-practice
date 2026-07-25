@@ -52,6 +52,28 @@ td .k{font-weight:800;color:var(--accent-deep);}
 .nyu{background:#FCEEE6;border:1px solid #F0D9C9;border-radius:4px;padding:0 3px;font-weight:800;}
 .idic{font-size:16px;letter-spacing:.04em;}
 .rd{font-size:10.5px;color:var(--hint);}
+.btab{font-size:10.5px;width:100%;}
+.btab th,.btab td{padding:4px 4px;text-align:center;border:1px solid var(--border);}
+.btab .pl{text-align:left;background:var(--accent-soft);color:var(--accent-deep);font-weight:800;white-space:nowrap;}
+.btab .ic{font-size:15px;color:var(--text);}
+.btab .ipa{font-size:9px;color:var(--hint);display:block;}
+.btab thead th{background:var(--accent-soft);color:var(--accent-deep);font-size:9.5px;line-height:1.3;}
+.scrollx{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.wikichip{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:var(--accent-deep);background:var(--accent-soft);border:1px solid #EBD3DE;border-radius:999px;padding:7px 13px;text-decoration:none;-webkit-tap-highlight-color:transparent;}
+.wikinote{font-size:10.5px;color:var(--hint);}
+#wikicard{position:fixed;z-index:50;max-width:288px;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.16);padding:12px;display:none;font-size:12.5px;line-height:1.7;color:var(--text);}
+#wikicard img{width:110px;height:auto;border-radius:8px;float:left;margin:0 10px 6px 0;}
+#wikicard .wc-t{font-weight:800;color:var(--accent-deep);font-size:13px;}
+#wikicard .wc-x{margin-top:4px;}
+#wikicard .wc-c{clear:both;margin-top:8px;font-size:10.5px;color:var(--hint);}
+.vwrap{display:flex;flex-direction:row-reverse;justify-content:center;gap:14px;margin:6px 0 4px;}
+.vcol{display:flex;flex-direction:column;gap:5px;font-size:23px;font-weight:800;}
+.vcol span{width:1.5em;height:1.5em;line-height:1.5em;text-align:center;border-radius:5px;}
+.vcol .ping{color:#2C6088;}
+.vcol .ze{color:var(--accent);}
+.vcol .nyu{background:#FCEEE6;border:1px solid #F0D9C9;color:var(--accent-deep);}
+.svgwrap{text-align:center;}
+.svgwrap svg{max-width:100%;height:auto;}
 @media (min-width:700px){.container{zoom:1.28;}}
 </style></head><body>
 <div class="container">
@@ -110,17 +132,19 @@ td .k{font-weight:800;color:var(--accent-deep);}
     <div class="point">▸ <b>ポイント</b>：五十音図は<b>悉曇学</b>（サンスクリット音韻学）由来。<b>摩多＝母音／体文＝子音</b>。子音の行の順番はインドの調音分類（口の奥→前）を反映。</div>
     <div class="teach"><div class="th">🎓 教える人向け</div>五十音図の子音の並び「k・s・t・n・h・m・y・r・w」は、サンスクリットの調音位置による配列（軟口蓋→唇 ほか）の影響を受けたと説明されます。学習者に「なぜこの順番？」と聞かれたときの背景知識になります。</div>
 
-    <p class="tx">この「音を体系的に並べる」インドの伝統は、いまも南・東南アジアの文字に生きています。<b>ヒンディー語のデーヴァナーガリー</b>も<b>タイ文字</b>も、子音を<b>調音の場所（口の奥→前）</b>でグループにして並べます。五十音図は、この並べ方の<b>原理</b>を受け継いだものです（音の数や細部は日本語に合わせて簡略化）。</p>
-    <div class="diagram" style="text-align:left;">
-      <table>
-        <tr><th>調音の場所</th><th>デーヴァナーガリー<br>（ヒンディー語）</th><th>タイ文字</th><th>五十音では</th></tr>
-        <tr><td class="k">のどの奥（軟口蓋）<br>k の仲間</td><td class="idic">क ख ग घ ङ</td><td class="idic">ก ข ค ฆ ง</td><td>か行</td></tr>
-        <tr><td class="k">硬口蓋<br>c の仲間</td><td class="idic">च छ ज झ ञ</td><td class="idic">จ ฉ ช ฌ ญ</td><td>—</td></tr>
-        <tr><td class="k">そり舌<br>ṭ の仲間</td><td class="idic">ट ठ ड ढ ण</td><td class="idic">ฏ ฐ ฑ ฒ ณ</td><td>—</td></tr>
-        <tr><td class="k">歯<br>t の仲間</td><td class="idic">त थ द ध न</td><td class="idic">ต ถ ท ธ น</td><td>た行・な行</td></tr>
-        <tr><td class="k">くちびる（唇）<br>p の仲間</td><td class="idic">प फ ब भ म</td><td class="idic">ป ผ พ ภ ม</td><td>は行・ま行</td></tr>
-      </table>
-      <div class="rd" style="margin-top:6px;">※ 梵字（デーヴァナーガリー）とタイ文字は、同じインド系の並び順（各行に母音記号を組み合わせて音節をつくる）。五十音図も「調音の場所でそろえ、奥→前に並べる」という同じ考え方を共有しています。</div>
+    <p class="tx">この「音を体系的に並べる」インドの伝統は、いまも南・東南アジアの文字に生きています。子音を<b>調音の場所（口の奥→前）</b>で並べ、さらに各行を<b>清濁（声帯の振動）・有気/無気（息の強さ）・鼻音</b>で細かく分けるのです。この精密さこそインド音声学の到達点で、五十音図もこの並べ方の<b>原理</b>を受け継いでいます。</p>
+
+    <h3 style="font-size:14.5px;color:var(--accent-deep);margin:16px 0 4px;">デーヴァナーガリー（ヒンディー語・サンスクリット）</h3>
+    <div class="diagram" style="text-align:left;padding:10px;"><div class="scrollx"><table class="btab"><thead><tr><th>調音の場所</th><th>清・無気<br>aghoṣa<br>alpaprāṇa</th><th>清・有気<br>mahāprāṇa</th><th>濁・無気<br>saghoṣa<br>alpaprāṇa</th><th>濁・有気<br>mahāprāṇa</th><th>鼻音<br>anunāsika</th></tr></thead><tbody><tr><td class="pl">軟口蓋 velar</td><td><span class="ic">क</span><span class="ipa">[k]</span></td><td><span class="ic">ख</span><span class="ipa">[kʰ]</span></td><td><span class="ic">ग</span><span class="ipa">[ɡ]</span></td><td><span class="ic">घ</span><span class="ipa">[ɡʱ]</span></td><td><span class="ic">ङ</span><span class="ipa">[ŋ]</span></td></tr><tr><td class="pl">硬口蓋 palatal</td><td><span class="ic">च</span><span class="ipa">[tʃ]</span></td><td><span class="ic">छ</span><span class="ipa">[tʃʰ]</span></td><td><span class="ic">ज</span><span class="ipa">[dʒ]</span></td><td><span class="ic">झ</span><span class="ipa">[dʒʱ]</span></td><td><span class="ic">ञ</span><span class="ipa">[ɲ]</span></td></tr><tr><td class="pl">そり舌 retroflex</td><td><span class="ic">ट</span><span class="ipa">[ʈ]</span></td><td><span class="ic">ठ</span><span class="ipa">[ʈʰ]</span></td><td><span class="ic">ड</span><span class="ipa">[ɖ]</span></td><td><span class="ic">ढ</span><span class="ipa">[ɖʱ]</span></td><td><span class="ic">ण</span><span class="ipa">[ɳ]</span></td></tr><tr><td class="pl">歯 dental</td><td><span class="ic">त</span><span class="ipa">[t̪]</span></td><td><span class="ic">थ</span><span class="ipa">[t̪ʰ]</span></td><td><span class="ic">द</span><span class="ipa">[d̪]</span></td><td><span class="ic">ध</span><span class="ipa">[d̪ʱ]</span></td><td><span class="ic">न</span><span class="ipa">[n]</span></td></tr><tr><td class="pl">唇 labial</td><td><span class="ic">प</span><span class="ipa">[p]</span></td><td><span class="ic">फ</span><span class="ipa">[pʰ]</span></td><td><span class="ic">ब</span><span class="ipa">[b]</span></td><td><span class="ic">भ</span><span class="ipa">[bʱ]</span></td><td><span class="ic">म</span><span class="ipa">[m]</span></td></tr></tbody></table></div>
+      <div class="rd" style="margin-top:6px;">接近音（antastha）：य [j]・र [r]・ल [l]・व [ʋ]　／　摩擦音（ūṣman）：श [ʃ]・ष [ʂ]・स [s]・ह [ɦ]</div>
+    </div>
+
+    <h3 style="font-size:14.5px;color:var(--accent-deep);margin:16px 0 4px;">タイ文字</h3>
+    <div class="diagram" style="text-align:left;padding:10px;"><div class="scrollx"><table class="btab"><thead><tr><th>調音の場所</th><th>清・無気<br>aghoṣa<br>alpaprāṇa</th><th>清・有気<br>mahāprāṇa</th><th>濁・無気<br>saghoṣa<br>alpaprāṇa</th><th>濁・有気<br>mahāprāṇa</th><th>鼻音<br>anunāsika</th></tr></thead><tbody><tr><td class="pl">軟口蓋 velar</td><td><span class="ic">ก</span><span class="ipa">[k]</span></td><td><span class="ic">ข</span><span class="ipa">[kʰ]</span></td><td><span class="ic">ค</span><span class="ipa">[kʰ]</span></td><td><span class="ic">ฆ</span><span class="ipa">[kʰ]</span></td><td><span class="ic">ง</span><span class="ipa">[ŋ]</span></td></tr><tr><td class="pl">硬口蓋 palatal</td><td><span class="ic">จ</span><span class="ipa">[tɕ]</span></td><td><span class="ic">ฉ</span><span class="ipa">[tɕʰ]</span></td><td><span class="ic">ช</span><span class="ipa">[tɕʰ]</span></td><td><span class="ic">ฌ</span><span class="ipa">[tɕʰ]</span></td><td><span class="ic">ญ</span><span class="ipa">[j]</span></td></tr><tr><td class="pl">そり舌 retroflex</td><td><span class="ic">ฏ</span><span class="ipa">[t]</span></td><td><span class="ic">ฐ</span><span class="ipa">[tʰ]</span></td><td><span class="ic">ฑ</span><span class="ipa">[tʰ]</span></td><td><span class="ic">ฒ</span><span class="ipa">[tʰ]</span></td><td><span class="ic">ณ</span><span class="ipa">[n]</span></td></tr><tr><td class="pl">歯 dental</td><td><span class="ic">ต</span><span class="ipa">[t]</span></td><td><span class="ic">ถ</span><span class="ipa">[tʰ]</span></td><td><span class="ic">ท</span><span class="ipa">[tʰ]</span></td><td><span class="ic">ธ</span><span class="ipa">[tʰ]</span></td><td><span class="ic">น</span><span class="ipa">[n]</span></td></tr><tr><td class="pl">唇 labial</td><td><span class="ic">ป</span><span class="ipa">[p]</span></td><td><span class="ic">ผ</span><span class="ipa">[pʰ]</span></td><td><span class="ic">พ</span><span class="ipa">[pʰ]</span></td><td><span class="ic">ภ</span><span class="ipa">[pʰ]</span></td><td><span class="ic">ม</span><span class="ipa">[m]</span></td></tr></tbody></table></div>
+      <div class="rd" style="margin-top:6px;">接近音：ย [j]・ร [r]・ล [l]・ว [w]　／　摩擦音：ศ ษ ส [s]・ห [h]。<br>※ タイ語では、もとの「清濁×有気/無気」の区別が失われ、この4列はいまは<b>声調を決める子音の種類（高・中・低子音）</b>として使われています（③の声調につながります）。同じ枠組みが、別の役割で生き続けているのです。</div>
+    </div>
+
+    <div class="rd" style="margin-top:2px;">※ どちらの文字も、各子音字に母音記号を組み合わせて1音節をつくります。五十音図は「調音の場所でそろえ、奥→前に並べる」という<b>考え方</b>を共有しています（日本語の音に合わせて簡略化）。</div>
     </div>
   </div>
 
@@ -144,6 +168,11 @@ td .k{font-weight:800;color:var(--accent-deep);}
 
     <h3 style="font-size:14.5px;color:var(--accent-deep);margin:16px 0 4px;">韻書 — 音をまとめた辞書</h3>
     <p class="tx">同じ響き（韻）の漢字を集めて分類した辞書を<b>韻書</b>といいます。代表が<b>『切韻』（601年・陸法言）</b>で、のちに『広韻』などへ受け継がれました。これらは、当時の漢字音（<b>中古音</b>）を今に伝える貴重な手がかりです。</p>
+    <div class="diagram" style="text-align:left;">
+      <a class="wikichip" href="https://commons.wikimedia.org/wiki/Category:Guangyun" target="_blank" rel="noopener" data-wikilang="en" data-wikititle="Kanmiu Buque Qieyun">📜 韻書の写本（写真）を見る ↗</a>
+      <span class="wikinote">マウスを載せると、唐代の切韻系写本（王仁昫『刊謬補闕切韻』）の写真が表示されます。</span>
+      <div class="rd" style="margin-top:8px;"><b>著作権について</b>：数百年前の写本そのものは<b>パブリックドメイン</b>（保護期間が満了）で、その忠実な複写にも新たな著作権は生じません。上のリンクはウィキメディア・コモンズや各図書館が公開するPD画像で、当サイトには画像を保存せず、閲覧時に引用元から読み込みます（出典明記）。実物大で常設したい場合は、コモンズやIIIF公開のPDスキャンを出典つきで掲載するのが安全です。</div>
+    </div>
 
     <h3 style="font-size:14.5px;color:var(--accent-deep);margin:16px 0 4px;">四声 — 昔の四声（平・上・去・入）</h3>
     <p class="tx">ここが大事なところです。現代の中国語（普通話）の「四声」は<b>第一〜第四声</b>ですが、伝統的な<b>四声</b>は別物で、<b>平声・上声・去声・入声</b>の四つを指します。</p>
@@ -155,19 +184,23 @@ td .k{font-weight:800;color:var(--accent-deep);}
       <tr><td class="k">入声<br>（にっしょう）</td><td>-p / -t / -k で<br>詰まって短く終わる</td><td><b>消えた</b>（他の声調へ）</td></tr>
     </table>
     <p class="tx">とくに<b>入声</b>は、詰まる音で終わる短い響きで、現代の普通話では失われました。しかし——のちに見るように、その名残は<b>日本語の漢字音</b>や、中国の方言・韓国語のなかに、今も生きています。</p>
-    <div class="card"><div class="ct">さらに「陰」と「陽」に分かれる</div><div class="cd">四声は、頭の子音が<b>清音（無声）</b>か<b>濁音（有声）</b>かによって、それぞれ「<b>陰</b>」と「<b>陽</b>」に枝分かれしました（陰平・陽平・陰上・陽上…）。現代普通話で平声が<b>第一声（陰平）</b>と<b>第二声（陽平）</b>に分かれたのはこの名残で、広東語が六〜九もの声調をもつのも同じしくみによります。</div></div>
+    <div class="card"><div class="ct">「陰」と「陽」＝音の高さ（調域）</div><div class="cd">四声は、さらに<b>高い調域＝「陰」</b>と<b>低い調域＝「陽」</b>の二つに分かれました。もともとは、頭の子音が<b>清音（無声）</b>だと高く（陰）、<b>濁音（有声）</b>だと低く（陽）なった——という<b>音の高低（ピッチ）</b>の違いです（清濁が原因、高低が結果）。現代普通話で平声が<b>第一声＝陰平（高い）</b>と<b>第二声＝陽平（低め）</b>に分かれたのも、この名残です。</div></div>
+    <p class="tx"><b>広東語</b>は、この陰陽の枠組みがそのまま六つの声調として残っています。同じ「si」でも、<b>高い調域（陰）</b>の3つと<b>低い調域（陽）</b>の3つに、きれいに分かれます。</p>
+    <div class="diagram"><div class="svgwrap"><svg viewBox="0 0 360 168" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="広東語の6声調と陰陽の図"><rect x="0" y="0" width="180" height="130" fill="#FBF1F4"/><rect x="180" y="0" width="180" height="130" fill="#EEF3F8"/><line x1="0" y1="40" x2="360" y2="40" stroke="#E7E0D8" stroke-width="1"/><line x1="0" y1="60" x2="360" y2="60" stroke="#E7E0D8" stroke-width="1"/><line x1="0" y1="80" x2="360" y2="80" stroke="#E7E0D8" stroke-width="1"/><line x1="0" y1="100" x2="360" y2="100" stroke="#E7E0D8" stroke-width="1"/><line x1="0" y1="120" x2="360" y2="120" stroke="#E7E0D8" stroke-width="1"/><text x="90" y="14" text-anchor="middle" font-size="12" font-weight="800" fill="#8A3A5B">陰（高い調域）</text><text x="270" y="14" text-anchor="middle" font-size="12" font-weight="800" fill="#2C6088">陽（低い調域）</text><polyline points="12,40 48,40" fill="none" stroke="#8A3A5B" stroke-width="3.5" stroke-linecap="round"/><text x="30" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#8A3A5B">詩</text><text x="30" y="146" text-anchor="middle" font-size="10" fill="#6E655C">si1</text><text x="30" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#8A3A5B">55</text><polyline points="72,80 108,40" fill="none" stroke="#8A3A5B" stroke-width="3.5" stroke-linecap="round"/><text x="90" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#8A3A5B">史</text><text x="90" y="146" text-anchor="middle" font-size="10" fill="#6E655C">si2</text><text x="90" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#8A3A5B">35</text><polyline points="132,80 168,80" fill="none" stroke="#8A3A5B" stroke-width="3.5" stroke-linecap="round"/><text x="150" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#8A3A5B">試</text><text x="150" y="146" text-anchor="middle" font-size="10" fill="#6E655C">si3</text><text x="150" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#8A3A5B">33</text><polyline points="192,100 228,120" fill="none" stroke="#2C6088" stroke-width="3.5" stroke-linecap="round"/><text x="210" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#2C6088">時</text><text x="210" y="146" text-anchor="middle" font-size="10" fill="#6E655C">si4</text><text x="210" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#2C6088">21</text><polyline points="252,120 288,80" fill="none" stroke="#2C6088" stroke-width="3.5" stroke-linecap="round"/><text x="270" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#2C6088">市</text><text x="270" y="146" text-anchor="middle" font-size="10" fill="#6E655C">si5</text><text x="270" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#2C6088">13</text><polyline points="312,100 348,100" fill="none" stroke="#2C6088" stroke-width="3.5" stroke-linecap="round"/><text x="330" y="26" text-anchor="middle" font-size="15" font-weight="800" fill="#2C6088">事</text><text x="330" y="146" text-anchor="middle" font-size="10" fill="#6E655C">si6</text><text x="330" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#2C6088">22</text></svg></div>
+      <div class="rd" style="margin-top:6px;">縦軸は声の高さ（5＝高い／1＝低い）。<span style="color:#8A3A5B;font-weight:800;">陰＝詩・史・試</span>は高い調域、<span style="color:#2C6088;font-weight:800;">陽＝時・市・事</span>は低い調域にまとまります。数字は五度式の高さ（例：55＝高く平ら、21＝低く下がる）。</div>
+    </div>
 
     <h3 style="font-size:14.5px;color:var(--accent-deep);margin:16px 0 4px;">平仄 — 唐詩のリズムで見る</h3>
-    <p class="tx">漢詩では、平声を「<span class="ping">平（ひょう）</span>」、上・去・入声をまとめて「<span class="ze">仄（そく）</span>」とし、その並びでリズムを整えます。唐代の名詩、<b>王之渙「登鸛雀楼（とうかんじゃくろう）」</b>で見てみましょう。この詩は<b>入声</b>の字（白・日・入・欲・目・一）がとても多く使われています。</p>
-    <div class="diagram" style="text-align:left;">
-      <table>
-        <tr><th>句</th><th>平仄</th><th>入声字と当時の音（中古音・推定）</th></tr>
-        <tr><td><b>白日依山盡</b><br><span class="rd">白日 山に依りて尽き</span></td><td><span class="ze">仄仄</span><span class="ping">平平</span><span class="ze">仄</span></td><td><span class="nyu">白 bæk (-k)</span>・<span class="nyu">日 nyit (-t)</span></td></tr>
-        <tr><td><b>黃河入海流</b><br><span class="rd">黄河 海に入りて流る</span></td><td><span class="ping">平平</span><span class="ze">仄仄</span><span class="ping">平</span></td><td><span class="nyu">入 nyip (-p)</span></td></tr>
-        <tr><td><b>欲窮千里目</b><br><span class="rd">千里の目を窮めんと欲し</span></td><td><span class="ze">仄</span><span class="ping">平平</span><span class="ze">仄仄</span></td><td><span class="nyu">欲 yowk (-k)</span>・<span class="nyu">目 mjuk (-k)</span></td></tr>
-        <tr><td><b>更上一層樓</b><br><span class="rd">更に上る 一層の楼</span></td><td><span class="ze">仄仄仄</span><span class="ping">平平</span></td><td><span class="nyu">一 ʔit (-t)</span></td></tr>
+    <p class="tx">漢詩では、平声を「<span class="ping">平（ひょう）</span>」、上・去・入声をまとめて「<span class="ze">仄（そく）</span>」とし、その並びでリズムを整えます。唐代の名詩、<b>王之渙「登鸛雀楼（とうかんじゃくろう）」</b>で見てみましょう。この詩は<b>入声</b>の字（<span class="nyu">白・日・入・欲・目・一</span>）がとても多く使われています。</p>
+    <div class="diagram">
+      <div class="vwrap"><div class="vcol"><span class="nyu">白</span><span class="nyu">日</span><span class="ping">依</span><span class="ping">山</span><span class="ze">盡</span></div><div class="vcol"><span class="ping">黃</span><span class="ping">河</span><span class="nyu">入</span><span class="ze">海</span><span class="ping">流</span></div><div class="vcol"><span class="nyu">欲</span><span class="ping">窮</span><span class="ping">千</span><span class="ze">里</span><span class="nyu">目</span></div><div class="vcol"><span class="ze">更</span><span class="ze">上</span><span class="nyu">一</span><span class="ping">層</span><span class="ping">樓</span></div></div>
+      <div class="rd" style="margin-top:4px;text-align:center;"><span class="ping" style="font-weight:800;">青＝平</span>　<span class="ze" style="font-weight:800;">えんじ＝仄</span>　<span class="nyu">オレンジ＝入声</span>（縦書き・右から左に読みます）</div>
+      <table style="margin-top:12px;">
+        <tr><th>句</th><th>各字の中古音（推定・Baxter式）</th></tr>
+        <tr><td class="k" style="white-space:nowrap;">白日依山盡</td><td>白 baek〔入-k〕・日 nyit〔入-t〕・依 ʔjɨj〔平〕・山 srean〔平〕・盡 dzinX〔上〕</td></tr><tr><td class="k" style="white-space:nowrap;">黃河入海流</td><td>黃 hwang〔平〕・河 ha〔平〕・入 nyip〔入-p〕・海 xojX〔上〕・流 ljuw〔平〕</td></tr><tr><td class="k" style="white-space:nowrap;">欲窮千里目</td><td>欲 yowk〔入-k〕・窮 gjuwng〔平〕・千 tshen〔平〕・里 liX〔上〕・目 mjuwk〔入-k〕</td></tr><tr><td class="k" style="white-space:nowrap;">更上一層樓</td><td>更 kaengH〔去〕・上 dzyangX〔上〕・一 ʔjit〔入-t〕・層 dzong〔平〕・樓 luw〔平〕</td></tr>
       </table>
-      <div class="rd" style="margin-top:6px;"><span class="ping">平＝青</span>／<span class="ze">仄＝えんじ</span>。<span class="nyu">入声字</span>は必ず「仄」になり、-k / -t / -p で詰まって終わります。押韻は「流・樓」（-ou の響き）。当時の音は推定復元音（諸説あり）。</div>
+      <div class="rd" style="margin-top:6px;">中古音は Baxter の表記法（<b>無印＝平声／X＝上声／H＝去声／-p・-t・-k＝入声</b>）。末尾の子音がそのまま声調（平上去入）を表すのが分かります。入声の字はすべて -p/-t/-k で終わり、必ず「仄」になります。押韻は「流 ljuw・樓 luw」。</div>
+      <div class="rd" style="margin-top:6px;">🔊 <b>音は聞けますか？</b> 中古音は文献から復元した<b>推定音</b>のため、実際の録音は存在しません（発音には諸説あります）。ただし、入声を今に伝える<b>広東語</b>などで読むと、-p/-t/-k で詰まる響きを体感できます。</div>
     </div>
     <div class="point">▸ <b>ポイント</b>：<b>反切</b>＝上字（声母）＋下字（韻母＋声調）。<b>韻書</b>＝切韻・広韻。伝統的な<b>四声＝平上去入</b>（現代の第一〜四声とは別）。<b>平仄</b>は、平声＝「平」／上・去・入＝「仄」で、漢詩のリズムの基礎。</div>
   </div>
@@ -177,18 +210,32 @@ td .k{font-weight:800;color:var(--accent-deep);}
     <div class="sec-h"><span class="sec-bar"></span><h2>④ 日本語とのつながり</h2></div>
     <p class="tx">これらの伝統は、日本語のなかに深く入りこんでいます。</p>
     <div class="card"><div class="ct">漢字音の層 — 呉音・漢音・唐音（唐宋音）</div><div class="cd">中国の音を、時代や地域ごとに取り入れた層。<b>呉音</b>（古く、仏教語に多い：行＝<b>ぎょう</b>）／<b>漢音</b>（遣唐使が持ち帰った：行＝<b>こう</b>）／<b>唐音</b>（禅宗・貿易など鎌倉以降：行灯＝<b>あん</b>どん）。同じ「行」でも読みが違うのは、この層の違いです。<br><span class="rd">※ 唐音は、実際には宋代以降に伝わった音を含むため <b>「唐宋音（とうそうおん）」</b> とも呼ばれます（「唐」は王朝名ではなく「中国」の意）。</span></div></div>
-    <div class="card"><div class="ct">入声の名残 — 日本語・漢語方言・韓国語</div><div class="cd">昔の四声の入声（-k / -t / -p で終わる音）は、日本漢字音では<b>「く・き／つ・ち／ふ」</b>などに対応します（例：「十」＝じゅう／<b>じっ</b>、「一」＝いち／<b>いつ</b>。促音・二重の読みのルーツ）。そして、中国の南方の方言や韓国語には、この入声が<b>今もそのまま</b>残っています。</div></div>
+    <div class="card"><div class="ct">入声の名残 — 日本語・漢語方言・韓国語</div><div class="cd">昔の四声の入声（-k / -t / -p で終わる音）は、日本漢字音では<b>「く・き／つ・ち／ふ」</b>などに対応します（例：「十」＝じゅ<b>う</b>／じ<b>っ</b>、「一」＝い<b>ち</b>／い<b>つ</b>。太字が入声由来の部分で、促音・二重の読みのルーツ）。そして、中国の南方の方言や韓国語には、この入声が<b>今もそのまま</b>残っています。</div></div>
     <div class="diagram" style="text-align:left;">
       <table>
         <tr><th>漢字</th><th>日本漢字音</th><th>広東語</th><th>韓国語</th><th>元の韻尾</th></tr>
-        <tr><td class="k">十</td><td>じゅう／<b>じっ</b></td><td>sap6</td><td>십 sip</td><td>-p</td></tr>
-        <tr><td class="k">一</td><td>いち／<b>いつ</b></td><td>jat1</td><td>일 il</td><td>-t</td></tr>
-        <tr><td class="k">六</td><td><b>ろく</b></td><td>luk6</td><td>육 yuk</td><td>-k</td></tr>
-        <tr><td class="k">国（國）</td><td><b>こく</b></td><td>gwok3</td><td>국 guk</td><td>-k</td></tr>
+        <tr><td class="k">十</td><td>じゅ<b>う</b>／じ<b>っ</b></td><td>sap6</td><td>십 sip</td><td>-p</td></tr>
+        <tr><td class="k">一</td><td>い<b>ち</b>／い<b>つ</b></td><td>jat1</td><td>일 il</td><td>-t</td></tr>
+        <tr><td class="k">六</td><td>ろ<b>く</b></td><td>luk6</td><td>육 yuk</td><td>-k</td></tr>
+        <tr><td class="k">国（國）</td><td>こ<b>く</b></td><td>gwok3</td><td>국 guk</td><td>-k</td></tr>
       </table>
       <div class="rd" style="margin-top:6px;">広東語は -p / -t / -k を<b>三種とも保存</b>。韓国語は -t が <b>-l（ㄹ）</b> に変化（例：一＝일 il）。日本語は母音を添えて（つ・ち・く・き・ふ）取り込みました。同じ入声が、言語ごとに違う形で生きています。</div>
     </div>
-    <div class="card"><div class="ct">アクセントを点で書く — 声点（しょうてん）</div><div class="cd">平安時代、漢字や仮名の四隅に点を打って、声の高さ（アクセント）を示しました。中国の四声の考え方を、日本語のアクセント記述に応用したものです。古い時代の日本語アクセントを知る手がかりになります。</div></div>
+    <div class="card"><div class="ct">なぜ母音を添える？ — 日本語は「開音節」</div><div class="cd">日本語は、音のまとまりが基本的に<b>母音で終わる</b>言語です（これを<b>開音節</b>といいます）。だから、子音で終わる入声（-p/-t/-k）を<b>そのまま</b>発音できず、母音を添えて「く・き・つ・ち・ふ」や促音「っ」にして取り込みました。<br>これは昔だけの話ではありません。<b>今の外来語</b>もまったく同じで、英語の bed（-d で終わる）は「ベッ<b>ド</b>」、book は「ブッ<b>ク</b>」と、母音を添えて開音節にします。千年前の入声の受け入れ方と、同じしくみが働いているのです。</div></div>
+    <div class="card"><div class="ct">アクセントを点で書く — 声点（しょうてん）</div><div class="cd">平安時代、漢字や仮名の<b>四隅</b>に点（声点）を打って、声の高さ（アクセント）や四声を示しました。中国の四声の考え方を、日本語のアクセント記述に応用したものです。四隅のどこに点を打つかで、四声を区別しました。</div>
+      <div class="svgwrap" style="margin-top:8px;"><svg viewBox="0 0 300 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="声点の四隅と四声の対応図">
+  <rect x="95" y="50" width="110" height="110" fill="#fff" stroke="#8C857C" stroke-width="2"/>
+  <text x="150" y="122" text-anchor="middle" font-size="58" font-weight="800" fill="#2B2622">東</text>
+  <circle cx="95" cy="50" r="6" fill="#8A3A5B"/><circle cx="205" cy="50" r="6" fill="#8A3A5B"/>
+  <circle cx="95" cy="160" r="6" fill="#8A3A5B"/><circle cx="205" cy="160" r="6" fill="#8A3A5B"/>
+  <text x="66" y="44" text-anchor="middle" font-size="13" font-weight="800" fill="#6E2A46">上声</text>
+  <text x="234" y="44" text-anchor="middle" font-size="13" font-weight="800" fill="#6E2A46">去声</text>
+  <text x="66" y="182" text-anchor="middle" font-size="13" font-weight="800" fill="#6E2A46">平声</text>
+  <text x="234" y="182" text-anchor="middle" font-size="13" font-weight="800" fill="#6E2A46">入声</text>
+  <text x="150" y="200" text-anchor="middle" font-size="11" fill="#9E948A">漢字（または仮名）の四隅に点を打つ</text>
+</svg></div>
+      <div class="rd" style="margin-top:4px;text-align:center;">左下＝平声／左上＝上声／右上＝去声／右下＝入声（配置は流派・時代により差があります）。古い時代の日本語アクセントを知る貴重な手がかりです。</div>
+    </div>
     <p class="tx">つまり、五十音図の<b>並び方</b>も、漢字の<b>読み方</b>も、日本語アクセントの<b>記述法</b>も——そのルーツをたどると、インドと中国の伝統的な言語学に行き着くのです。西洋近代の言語学とは別の、もう一つの豊かな「ことばの見方」がそこにあります。</p>
     <div class="point">▸ <b>ポイント</b>：漢字音の<b>呉音・漢音・唐音（唐宋音）</b>／入声の名残（じっ・いつ 等）／平安の<b>声点</b>によるアクセント表記。いずれも東洋の伝統が日本語に生きている例。</div>
   </div>
@@ -208,4 +255,33 @@ td .k{font-weight:800;color:var(--accent-deep);}
     © 2026 日本語の部屋<br>
     ※ 学習用のまとめです。歴史・学説の細部は諸説あり、詳細は専門書でご確認ください。
   </div>
-</div></body></html>
+</div><script>
+/* Wikipedia/Commons 公式REST APIで、ホバー時に写真＋要約をプレビュー（画像は保存せず閲覧時に読み込む）。 */
+(function(){
+  var card=null,cache={};
+  function ensure(){ if(!card){ card=document.createElement('div'); card.id='wikicard'; document.body.appendChild(card);
+    card.addEventListener('mouseenter',function(){card.style.display='block';}); card.addEventListener('mouseleave',hide);} return card;}
+  function hide(){ if(card) card.style.display='none';}
+  function show(a){
+    var lang=a.getAttribute('data-wikilang')||'en',title=a.getAttribute('data-wikititle');
+    var c=ensure(),r=a.getBoundingClientRect();
+    c.style.left=Math.max(8,Math.min(r.left,window.innerWidth-296))+'px'; c.style.top=(r.bottom+8)+'px'; c.style.display='block';
+    if(cache[title]!==undefined){c.innerHTML=cache[title];return;}
+    c.innerHTML='<div class="wc-x">読み込み中…</div>';
+    fetch('https://'+lang+'.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title))
+      .then(function(res){if(!res.ok)throw 0;return res.json();})
+      .then(function(d){ if(d.type==='disambiguation')throw 0;
+        var img=(d.thumbnail&&d.thumbnail.source)?'<img src="'+d.thumbnail.source+'" alt="">':'';
+        var ex=(d.extract||'').slice(0,150);
+        var html=img+'<div class="wc-t">'+(d.title||title)+'</div><div class="wc-x">'+ex+'…</div><div class="wc-c">出典：Wikipedia／Wikimedia Commons（パブリックドメイン等）</div>';
+        cache[title]=html; if(c.style.display!=='none')c.innerHTML=html;})
+      .catch(function(){var html='<div class="wc-x">プレビューを表示できませんでした。クリックで開きます。</div>';cache[title]=html; if(c.style.display!=='none')c.innerHTML=html;});
+  }
+  var chips=document.querySelectorAll('.wikichip');
+  for(var i=0;i<chips.length;i++){(function(a){
+    a.addEventListener('mouseenter',function(){show(a);});
+    a.addEventListener('mouseleave',function(){setTimeout(function(){if(card&&!card.matches(':hover'))hide();},140);});
+  })(chips[i]);}
+})();
+</script>
+</body></html>

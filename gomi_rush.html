@@ -19,6 +19,8 @@
     --navy:#274690; --navy-bg:#E4EAF7;
     --orange:#B5651D; --orange-bg:#FBEBD9;
     --gray:#55606E; --gray-bg:#E9ECF0;
+    --crimson:#A0392E; --crimson-bg:#FBE9E4;
+    --olive:#6B6117; --olive-bg:#F3F0DC;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
   body{font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
@@ -102,6 +104,20 @@
     background:var(--surface);border:2px dashed var(--border);border-radius:16px;padding:11px 16px;
     display:flex;align-items:center;gap:12px;justify-content:center;transition:border-color .15s;z-index:8;}
   .tray.filled{border-style:solid;border-color:var(--teal);box-shadow:0 6px 18px rgba(31,111,107,.16);}
+  .tray.needprep{border-style:solid;border-color:var(--olive);box-shadow:0 6px 18px rgba(107,97,23,.18);}
+  /* 処理パネル */
+  .prep{position:absolute;top:224px;left:50%;transform:translateX(-50%);width:86%;max-width:330px;
+    background:rgba(255,255,255,.97);border:2px solid var(--olive);border-radius:16px;padding:11px 12px 12px;
+    z-index:12;display:none;box-shadow:0 10px 26px rgba(0,0,0,.16);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
+  .prep.show{display:block;animation:rise .18s;}
+  .prep-q{font-size:12.5px;font-weight:800;color:var(--olive);text-align:center;margin-bottom:8px;line-height:1.4;}
+  .prep-q .sub{display:block;font-size:10.5px;font-weight:700;color:var(--text-hint);margin-top:2px;}
+  .prep-opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+  .prep-b{border:1px solid var(--border);background:var(--surface);border-radius:11px;padding:9px 7px;
+    font-family:inherit;font-size:12px;font-weight:700;color:var(--text);cursor:pointer;line-height:1.35;
+    min-height:46px;display:flex;align-items:center;justify-content:center;text-align:center;transition:transform .1s;}
+  .prep-b:active{transform:scale(.96);}
+  .prep-b .pi{font-size:15px;margin-right:4px;}
   .tray-hint{font-size:13px;font-weight:700;color:var(--text-hint);}
   .tray-plate{width:46px;height:46px;border-radius:50%;background:#fff;border:2px solid var(--teal);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
   .tray-plate .tem{font-size:25px;}
@@ -132,6 +148,8 @@
   .c-kaden{background:var(--navy-bg);border-color:var(--navy);color:var(--navy);} .c-kaden .mouth{background:var(--navy);}
   .c-depot{background:var(--orange-bg);border-color:var(--orange);color:var(--orange);} .c-depot .mouth{background:var(--orange);}
   .c-pc{background:var(--gray-bg);border-color:var(--gray);color:var(--gray);} .c-pc .mouth{background:var(--gray);}
+  .c-libatt{background:var(--crimson-bg);border-color:var(--crimson);color:var(--crimson);} .c-libatt .mouth{background:var(--crimson);}
+  .c-pretreat{background:var(--olive-bg);border-color:var(--olive);color:var(--olive);} .c-pretreat .mouth{background:var(--olive);}
   /* 実際の指定ごみ袋の色 */
   .c-bag-red{background:#E2503F;border-color:#B5351F;color:#fff;}.c-bag-red::before{background:#8f2515;}.c-bag-red .mouth{background:#8f2515;}
   .c-bag-blue{background:#3B7CC4;border-color:#255a97;color:#fff;}.c-bag-blue::before{background:#1c4576;}.c-bag-blue .mouth{background:#1c4576;}
@@ -158,6 +176,12 @@
   .qfb-head{font-weight:800;font-size:15px;margin-bottom:3px;} .qfb.ok .qfb-head{color:var(--green);} .qfb.ng .qfb-head{color:var(--red);}
   .qfb-body{font-size:13px;line-height:1.7;color:var(--text-muted);} .qfb-body b{color:var(--text);}
   .qfb .btn{margin-top:10px;}
+  .qfb.danger{background:#FFF1EC;border-color:#E8B9A6;}
+  .qfb.danger .qfb-head{color:#A0392E;}
+  .qfb-warn{margin-top:9px;padding:9px 11px;border-radius:9px;background:#FFE3D8;border:1px solid #E8B9A6;
+    font-size:12.5px;line-height:1.65;color:#7A2B20;font-weight:600;}
+  .qfb-tip{margin-top:8px;padding-left:10px;border-left:2px solid var(--border);
+    font-size:12px;line-height:1.6;color:var(--text-muted);}
   .overlay{position:fixed;inset:0;background:rgba(28,28,28,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:1rem;}
   .overlay.show{display:flex;animation:fade .2s;}
   @keyframes fade{from{opacity:0;}to{opacity:1;}}
@@ -176,6 +200,7 @@
   .m-bin.c-paper::before{background:var(--brown);}.m-bin.c-hazard::before{background:var(--red);}
   .m-bin.c-bulky::before{background:var(--purple);}.m-bin.c-kaden::before{background:var(--navy);}
   .m-bin.c-depot::before{background:var(--orange);}.m-bin.c-pc::before{background:var(--gray);}
+  .m-bin.c-libatt::before{background:var(--crimson);}.m-bin.c-pretreat::before{background:var(--olive);}
   .m-bl{font-size:13px;font-weight:800;}
   .m-ex{font-size:11.5px;color:var(--text-muted);margin-top:2px;line-height:1.5;}
   .result{text-align:center;}
@@ -236,7 +261,8 @@
         粗大ごみ（役所に申込）や家電リサイクル（店へ）なども登場！</p>
     </div>
     <div class="btn-row"><button class="btn btn-primary" onclick="show('city')">▶ 街をえらぶ</button></div>
-    <p class="foot">分別ルールは実際の自治体をもとにした学習用の簡易版です。</p>
+    <p class="foot">分別ルールは実際の自治体をもとにした学習用の簡易版です。<br>
+      <b>実際にごみを出すときは、住んでいる市区町村のルールを必ず確認してください。</b></p>
   </div>
 
   <div id="s-city" class="hidden">
@@ -285,6 +311,7 @@
       <div class="belt" id="belt"><span class="belt-label">▶ 流れてくる（タップで選ぶ）</span></div>
       <div class="q-banner" id="qBanner">このゴミは どのゴミ袋？</div>
       <div class="tray" id="tray"><span class="tray-hint">🖐 流れてくるゴミをタップ</span></div>
+      <div class="prep" id="prep"><div class="prep-q" id="prepQ"></div><div class="prep-opts" id="prepOpts"></div></div>
       <div class="arrow-down">▼</div>
       <div class="truck" id="truck"><div class="truck-inner"><svg viewBox="0 0 72 44" width="72" height="44" xmlns="http://www.w3.org/2000/svg">
         <rect x="2" y="11" width="44" height="23" rx="3" fill="#3F9D5E"/>
@@ -360,16 +387,17 @@ const ITEMS = {
   okashi:{name:'お菓子の袋（プラ）',emoji:'🍬',mat:'plastic_pack',lv:2},
   omutsu:{name:'使用済み紙おむつ',emoji:'👶',mat:'paper_burn',lv:2},
   tissue:{name:'使ったティッシュ',emoji:'🤧',mat:'paper_burn',lv:2},
-  glassbroken:{name:'割れたガラスのコップ',emoji:'💥',mat:'broken',lv:2},
-  chawan:{name:'割れた茶わん（陶器）',emoji:'🥣',mat:'broken',lv:2},
-  spray:{name:'スプレー缶（中身なし）',emoji:'🧴',mat:'spray',lv:2},
+  glassbroken:{name:'割れたガラスのコップ',emoji:'💥',mat:'broken',lv:2,danger:true},
+  chawan:{name:'割れた茶わん（陶器）',emoji:'🥣',mat:'broken',lv:2,danger:true},
+  spray:{name:'スプレー缶（中身なし）',emoji:'🧴',mat:'spray',lv:2,danger:true},
+  spray_full:{name:'中身が残ったスプレー缶',emoji:'🫧',mat:'pretreat',lv:2,danger:true},
   cloth:{name:'古着（着られるTシャツ）',emoji:'👕',mat:'cloth',lv:2},
   frypan:{name:'使い古したフライパン',emoji:'🍳',mat:'metal',lv:2},
   bucket:{name:'プラのバケツ',emoji:'🪣',mat:'plastic_prod',lv:2},
   toy:{name:'こわれたおもちゃの車',emoji:'🚗',mat:'plastic_prod',lv:2},
   habrush:{name:'歯ブラシ',emoji:'🪥',mat:'plastic_prod',lv:2},
   cd:{name:'いらないCD・DVD',emoji:'💿',mat:'plastic_prod',lv:2},
-  mirror:{name:'割れた鏡',emoji:'🪞',mat:'broken',lv:2},
+  mirror:{name:'割れた鏡',emoji:'🪞',mat:'broken',lv:2,danger:true},
   waribashi:{name:'使った割り箸',emoji:'🥢',mat:'paper_burn',lv:2},
   pizzabox:{name:'油で汚れたピザの箱',emoji:'🍕',mat:'paper_burn',lv:2},
   receipt:{name:'レシート（感熱紙）',emoji:'🧾',mat:'paper_burn',lv:2},
@@ -384,28 +412,45 @@ const ITEMS = {
   bicycle:{name:'こわれた自転車',emoji:'🚲',mat:'bulky',lv:3},
   chair:{name:'こわれたイス',emoji:'🪑',mat:'bulky',lv:3},
   suitcase:{name:'こわれたスーツケース',emoji:'🧳',mat:'bulky',lv:3},
-  battery:{name:'使い終わった乾電池',emoji:'🔋',mat:'depot',lv:3},
-  lighter:{name:'使い捨てライター',emoji:'🔥',mat:'depot',lv:3},
-  fluor:{name:'切れた蛍光灯',emoji:'💡',mat:'depot',lv:3},
+  battery:{name:'使い終わった乾電池',emoji:'🔋',mat:'depot',lv:3,danger:true},
+  lighter:{name:'使い捨てライター',emoji:'🔥',mat:'depot',lv:3,danger:true},
+  fluor:{name:'切れた蛍光灯',emoji:'💡',mat:'depot',lv:3,danger:true},
   pc:{name:'こわれたノートパソコン',emoji:'💻',mat:'pc',lv:3},
   desktop:{name:'デスクトップパソコン',emoji:'🖥️',mat:'pc',lv:3},
   printer:{name:'こわれたプリンター',emoji:'🖨️',mat:'bulky',lv:3},
   fan:{name:'こわれた扇風機',emoji:'🌀',mat:'bulky',lv:3},
-  gamem:{name:'こわれたゲーム機',emoji:'🎮',mat:'bulky',lv:3}
+  gamem:{name:'こわれたゲーム機',emoji:'🎮',mat:'bulky',lv:3},
+
+  /* 使い終わった油：そのままは出せない → 処理してから燃えるごみ */
+  abura_raw:{name:'使い終わった天ぷら油',emoji:'🫗',mat:'pretreat',lv:1,danger:true},
+  abura_katameta:{name:'固めた油',emoji:'🧈',mat:'paper_burn',lv:1},
+  abura_kami:{name:'新聞紙に吸わせた油',emoji:'🗞️',mat:'paper_burn',lv:1},
+  abura_pan:{name:'フライパンに残った少しの油',emoji:'🧽',mat:'paper_burn',lv:1},
+
+  /* 充電池が入っているもの：ふつうのごみに出すと発火する */
+  mobilebatt:{name:'モバイルバッテリー',emoji:'🪫',mat:'libatt',lv:2,danger:true},
+  handyfan:{name:'充電式のハンディファン',emoji:'💨',mat:'libatt',lv:2,danger:true},
+  heattobacco:{name:'加熱式たばこ',emoji:'🚬',mat:'libatt',lv:2,danger:true},
+  earphone:{name:'ワイヤレスイヤホン',emoji:'🎧',mat:'libatt',lv:2,danger:true},
+  smartphone:{name:'こわれたスマートフォン',emoji:'📱',mat:'libatt',lv:2,danger:true}
 };
-const SPECIAL_MATS=['bulky','kaden','depot','pc'];
+const SPECIAL_MATS=['bulky','kaden','depot','pc','libatt','pretreat'];
 const SPECIAL_BINS=[
-  {id:'bulky',label:'役所に連絡',cls:'c-bulky',ex:'粗大ごみ（布団・自転車・大きな電化製品）。役所に申し込んで有料で出す'},
-  {id:'kaden',label:'お店に連絡',cls:'c-kaden',ex:'テレビ・冷蔵庫・洗濯機・エアコンの4品目。お店が引き取り（有料）'},
-  {id:'depot',label:'回収ボックスへ',cls:'c-depot',ex:'乾電池・ライター・蛍光灯。お店や施設の回収箱へ'},
-  {id:'pc',label:'メーカーに連絡',cls:'c-pc',ex:'パソコン本体・モニター。メーカーが回収（無料のことも）'}
+  {id:'pretreat',label:'先に処理する',cls:'c-pretreat',ex:'使い終わった油は固めるか吸わせる。スプレー缶は使い切る。そのままでは出せない',lv:1},
+  {id:'libatt',label:'充電池の回収へ',cls:'c-libatt',ex:'モバイルバッテリー・充電式の家電・加熱式たばこ。店や市の専用回収へ',lv:2},
+  {id:'bulky',label:'役所に連絡',cls:'c-bulky',ex:'粗大ごみ（布団・自転車・大きな電化製品）。役所に申し込んで有料で出す',lv:3},
+  {id:'kaden',label:'お店に連絡',cls:'c-kaden',ex:'テレビ・冷蔵庫・洗濯機・エアコンの4品目。お店が引き取り（有料）',lv:3},
+  {id:'depot',label:'回収ボックスへ',cls:'c-depot',ex:'乾電池・ライター・蛍光灯。お店や施設の回収箱へ',lv:3},
+  {id:'pc',label:'メーカーに連絡',cls:'c-pc',ex:'パソコン本体・モニター。メーカーが回収（無料のことも）',lv:3}
 ];
 const MAT_WHY={
   bulky:'大きな家具や、家電4品目・パソコン以外の電化製品は「粗大ごみ」。役所に連絡して、有料で出します。',
   kaden:'テレビ・冷蔵庫・洗濯機・エアコンの4品目は、買ったお店や買いかえるお店に連絡して引き取ってもらいます（有料）。',
   pc:'パソコン本体とモニターは、メーカーに連絡して回収してもらいます（無料のことも）。プリンターは対象外で粗大ごみへ。',
   depot:'乾電池・ライター・蛍光灯などは、お店や施設の回収ボックスに入れます。',
-  spray:'スプレー缶は中身を使い切ってから。街によって出す場所が違うので注意。'
+  spray:'スプレー缶は中身を使い切ってから。街によって出す場所が違うので注意。穴をあけるかどうかは、市の案内にしたがってください。',
+  libatt:'充電できる電池（リチウムイオン電池）が入っているものです。ふつうのごみに出すと、ごみ収集車やごみ処理場で発火します。店や市の専用の回収に出してください。',
+  pretreat:'そのままでは出せないものです。「使い切る」「固める」「吸わせる」などの処理をしてから出します。'
 };
 const ITEM_WHY={
   pizzabox:'油で汚れた紙は古紙にできません。だから「燃えるゴミ」へ。',
@@ -415,8 +460,58 @@ const ITEM_WHY={
   mirror:'鏡はガラス（割れ物）。紙などに包んで、けがに注意して出します。',
   nuigurumi:'ぬいぐるみは古布ではなく「燃えるゴミ」です（大きければ粗大ごみ）。',
   shoes:'靴は多くの街で「燃えるゴミ」（大きいものは粗大ごみ）。',
-  waribashi:'割り箸は木なので「燃えるゴミ」です。'
+  waribashi:'割り箸は木なので「燃えるゴミ」です。',
+
+  abura_raw:'油はそのままでは出せません。冷ましてから、市販の凝固剤で固めるか、新聞紙や古い布に吸わせて「燃えるゴミ」へ。熱いまま袋に入れると発火することがあります。',
+  abura_katameta:'凝固剤で固めた油は「燃えるゴミ」に出せます。冷えて固まってから袋に入れます。',
+  abura_kami:'新聞紙や古い布に吸わせ、袋に入れて口をしばれば「燃えるゴミ」です。',
+  abura_pan:'少しの油は、キッチンペーパーや新聞紙でふき取ってから洗います。ふき取った紙は「燃えるゴミ」へ。',
+  spray_full:'中身が残ったまま出すと、収集車の中で爆発して火事になります。まず最後まで使い切ってください。',
+  mobilebatt:'リチウムイオン電池が入っています。つぶれると激しく発火し、ごみの火事の原因でいちばん多いものです。ふつうのごみには絶対に入れません。',
+  handyfan:'充電できるものには電池が入っています。分解すると危ないので、そのまま専用の回収へ。',
+  heattobacco:'これも充電池が入っています。銘柄によってはお店が回収しています。',
+  earphone:'小さくても充電池が入っています。ごみ袋に入れないでください。',
+  smartphone:'充電池が入っています。中のデータを消してから、店や市の回収へ出します。'
 };
+
+/* 使い終わった油の出し方（学習用の補足） */
+const OIL_TIP='油を流しに流すと、排水管がつまり、下水の処理にも大きな負担がかかります。'+
+  '<b>①冷ます ②固める／新聞紙・古布に吸わせる ③袋の口をしばって燃えるゴミ</b>の順にします。'+
+  '牛乳パックに新聞紙をつめて油を吸わせる方法もよく使われます。'+
+  '市によっては、使い終わった油を集めている場所（拠点回収）もあります。';
+/* 出す前に「処理」が必要なごみ。ok の選択をすると、処理ずみの品目に変わる。 */
+const PREP={
+  abura_raw:{q:'この油、どうやって出す？',sub:'そのままでは出せません',
+    ok:[{i:'🗞️',t:'新聞紙に吸わせる',to:'abura_kami'},
+        {i:'🧈',t:'薬品で固める',to:'abura_katameta'}],
+    traps:[{i:'🚰',t:'流しに流す',why:'排水管がつまります。下水の処理にも大きな負担がかかります。'},
+           {i:'🛍️',t:'そのまま袋へ',warn:true,why:'袋から漏れます。熱いまま入れると発火することもあります。'}]},
+
+  spray_full:{q:'中身が残っています。どうする？',sub:'そのままでは出せません',
+    ok:[{i:'💨',t:'最後まで使い切る',to:'spray'}],
+    traps:[{i:'🛍️',t:'そのまま袋へ',warn:true,why:'収集車の中でつぶれて爆発します。必ず使い切ってから出します。'},
+           {i:'🕳️',t:'先に穴をあける',warn:true,why:'中身が残ったまま穴をあけると、火が出たり爆発したりします。まず使い切ってください。'}]},
+
+  milk:{q:'紙パック、出す前にすることは？',sub:'手順は3つ',
+    ok:[{i:'🚿',t:'洗って開いて乾かす',to:'milk'}],
+    traps:[{i:'🛍️',t:'そのまま出す',why:'中が汚れたままだと資源になりません。洗って・開いて・乾かします。'}]},
+
+  glassbroken:{q:'割れたガラス。どうやって出す？',sub:'集める人がけがをします',
+    ok:[{i:'📄',t:'紙に包んで「キケン」と書く',to:'glassbroken'}],
+    traps:[{i:'🛍️',t:'そのまま袋へ',warn:true,why:'袋がやぶれて、集める人がけがをします。紙に包んで「キケン」と書きます。'}]},
+
+  mirror:{q:'割れた鏡。どうやって出す？',sub:'集める人がけがをします',
+    ok:[{i:'📄',t:'紙に包んで「キケン」と書く',to:'mirror'}],
+    traps:[{i:'🛍️',t:'そのまま袋へ',warn:true,why:'鏡はガラスです。包まないと、集める人がけがをします。'}]},
+
+  bento:{q:'ソースがついています。どうする？',sub:'資源にするために',
+    ok:[{i:'🚿',t:'かるく洗って乾かす',to:'bento'}],
+    traps:[{i:'🛍️',t:'そのまま出す',why:'汚れたままだと資源になりません。かるくすすいで乾かします。'}]}
+};
+function pickOne(a){return a[Math.floor(Math.random()*a.length)];}
+function needsPrep(key){return !!PREP[key];}
+
+const DANGER_WARN='この出し方は、ごみ収集車やごみ処理場の<b>火事・けが</b>につながります。ここはとくに気をつけてください。';
 const CITIES=[
   {
     id:'fukuoka', name:'福岡市', region:'福岡県', emoji:'🌃', tag:'プラは燃える・缶は燃えない',
@@ -526,7 +621,7 @@ function resolveBinId(city,item){
 function binDef(city,id){return city.bins.find(b=>b.id===id)||SPECIAL_BINS.find(b=>b.id===id);}
 function binsShown(city,diff){
   let a=city.bins.filter(b=>b.lv<=diff);
-  if(diff>=3)SPECIAL_BINS.forEach(sb=>{if(!(city.special&&city.special[sb.id]!==undefined))a=a.concat([sb]);});
+  SPECIAL_BINS.forEach(sb=>{if(sb.lv<=diff&&!(city.special&&city.special[sb.id]!==undefined))a=a.concat([sb]);});
   return a;
 }
 function itemPool(city,diff){const ids={};binsShown(city,diff).forEach(b=>ids[b.id]=1);
@@ -594,9 +689,9 @@ function startGame(city,mode,diff){
   G={city,mode,diff,pool:itemPool(city,diff),shown:binsShown(city,diff),
      plates:[],selected:null,lives:3,score:0,combo:0,bestCombo:0,
      speed:d.speed,cap:d.cap,gap:d.gap,running:true,paused:false,
-     queue:[],qi:0,correct:0,answered:false};
+     queue:[],qi:0,correct:0,answered:false,prepOpen:false,prepped:false};
   layoutBins();
-  hideQfb();
+  hideQfb(); closePrep();
   document.getElementById('hudCity').textContent=city.emoji+' '+city.name+'・'+d.name;
   setLifeUI(mode==='rush');
   if(mode==='rush'){ startLifeSetup(city,diff); return; }
@@ -628,13 +723,64 @@ function layoutBins(){
     stage.appendChild(d); bn._el=d;
   });
 }
+/* ---- 処理（前処理）パネル ---- */
+function closePrep(){document.getElementById('prep').className='prep';if(G)G.prepOpen=false;}
+function openPrep(key){
+  const d=PREP[key]; if(!d)return false;
+  G.prepOpen=true;
+  document.getElementById('prepQ').innerHTML=d.q+'<span class="sub">'+(d.sub||'')+'</span>';
+  const w=document.getElementById('prepOpts'); w.innerHTML='';
+  const good=pickOne(d.ok); good.ok=true;
+  const bad=pickOne(d.traps); bad.ok=false;
+  shuffle([good,bad]).forEach(o=>{
+    const b=document.createElement('button'); b.className='prep-b'; b.type='button';
+    b.innerHTML='<span class="pi">'+o.i+'</span>'+o.t;
+    b.onclick=(e)=>{e.preventDefault();choosePrep(o);};
+    w.appendChild(b);
+  });
+  document.getElementById('prep').className='prep show';
+  renderTray();
+  return true;
+}
+function choosePrep(o){
+  if(!G||!G.running||G.paused||!G.prepOpen)return;
+  const key=G.selected, it=ITEMS[key];
+  closePrep();
+  if(o.ok){
+    G.prepped=true;
+    if(o.to && ITEMS[o.to]) G.selected=o.to;
+    renderTray();
+    if(G.mode!=='quiz') popup(stage.clientWidth/2,'✔ 処理できた','ok');
+    return;
+  }
+  /* まちがった処理 */
+  if(G.mode==='quiz'){
+    G.answered=true;
+    const q=document.getElementById('qfb');
+    document.getElementById('qfbHead').textContent = o.warn ? '🔥 あぶない！' : '❌ ざんねん…';
+    document.getElementById('qfbBody').innerHTML =
+      '<b>'+it.name+'</b> を「'+o.t+'」はいけません。<br>'+o.why+
+      (o.warn?'<div class="qfb-warn">⚠️ '+DANGER_WARN+'</div>':'')+
+      (key.indexOf('abura')===0?'<div class="qfb-tip">🍳 '+OIL_TIP+'</div>':'');
+    q.className='qfb '+(o.warn?'danger':'ng')+' show';
+    updateHUD();
+    return;
+  }
+  G.combo=0;
+  popup(stage.clientWidth/2, o.warn?'🔥 あぶない処理！':'✗ 処理ミス','ng');
+  stage.classList.add('shake'); setTimeout(()=>stage.classList.remove('shake'),300);
+  G.selected=null; G.prepped=false; stage.classList.remove('has-sel'); renderTray();
+  addMiss();
+}
+
 function renderTray(){
   const t=document.getElementById('tray');
   if(G&&G.selected){
     const it=ITEMS[G.selected];
-    t.className='tray filled';
+    t.className='tray filled'+((G.prepOpen)?' needprep':'');
     t.innerHTML='<div class="tray-plate"><span class="tem">'+it.emoji+'</span></div>'+
-      '<div class="tray-txt"><b>'+it.name+'</b><span>→ 正しいゴミ袋をタップ</span></div>';
+      '<div class="tray-txt"><b>'+it.name+'</b><span>'+
+      (G.prepOpen?'→ 先に「処理」をえらぶ':'→ 正しいゴミ袋をタップ')+'</span></div>';
   }else{t.className='tray';t.innerHTML='<span class="tray-hint">🖐 流れてくるゴミをタップ</span>';}
 }
 function hideQfb(){const q=document.getElementById('qfb');q.className='qfb';}
@@ -674,7 +820,8 @@ function selectPlate(p){
   if(!G||!G.running||G.paused||G.mode!=='rush'||G.selected)return;
   if(!G.plates.includes(p))return;
   p.el.remove(); G.plates=G.plates.filter(x=>x!==p);
-  G.selected=p.key; stage.classList.add('has-sel'); renderTray();
+  G.selected=p.key; G.prepped=false; stage.classList.add('has-sel'); renderTray();
+  if(needsPrep(p.key)) openPrep(p.key);
 }
 function loop(now){
   if(!G||!G.running||G.mode!=='rush')return;
@@ -701,15 +848,18 @@ function buildQueue(){
   G.queue=q; G.qi=0; G.correct=0;
 }
 function showQuestion(){
-  G.answered=false; G.selected=G.queue[G.qi];
+  G.answered=false; G.selected=G.queue[G.qi]; G.prepped=false; closePrep();
   stage.querySelectorAll('.bin').forEach(b=>b.classList.remove('mark-ok','mark-ng'));
   renderTray(); stage.classList.add('has-sel'); hideQfb(); updateHUD();
+  if(needsPrep(G.selected)) openPrep(G.selected);
 }
 
 /* ---- 共通：ゴミ袋タップ ---- */
 function dropToBin(idx,e){
   if(e&&e.preventDefault)e.preventDefault();
   if(!G||!G.running||G.paused)return;
+  if(G.prepOpen)return;
+  if(G.selected&&needsPrep(G.selected)&&!G.prepped){openPrep(G.selected);return;}
   const bin=G.shown[idx];
   if(G.mode==='rush'){
     if(!G.selected)return;
@@ -723,7 +873,7 @@ function dropToBin(idx,e){
       renderLife();
     }else{
       G.combo=0;
-      popup(bin._el.offsetLeft+bin._el.offsetWidth/2,'✗ 分別ミス','ng');
+      popup(bin._el.offsetLeft+bin._el.offsetWidth/2,it.danger?'🔥 火が出る！':'✗ 分別ミス','ng');
       stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);
       addMiss();
     }
@@ -740,14 +890,17 @@ function dropToBin(idx,e){
     if(G.city.special && G.city.special[it.mat]!==undefined) why=null;
     if(!why) why='この街では「'+binDef(G.city,correctId).label+'」に出します。';
     const q=document.getElementById('qfb');
+    let extra='';
+    if(it.danger && !correct) extra+='<div class="qfb-warn">⚠️ '+DANGER_WARN+'</div>';
+    if(it.mat==='pretreat'||key.indexOf('abura')===0) extra+='<div class="qfb-tip">🍳 '+OIL_TIP+'</div>';
     if(correct){G.correct++;G.score+=10;
-      document.getElementById('qfbHead').textContent='⭕ せいかい！';
-      document.getElementById('qfbBody').innerHTML='<b>'+it.name+'</b> → 「'+bin.label+'」<br>'+why;
-      q.className='qfb ok show';
+      document.getElementById('qfbHead').textContent=it.danger?'⭕ せいかい（きけんなもの）':'⭕ せいかい！';
+      document.getElementById('qfbBody').innerHTML='<b>'+it.name+'</b> → 「'+bin.label+'」<br>'+why+extra;
+      q.className='qfb '+(it.danger?'danger':'ok')+' show';
     }else{
-      document.getElementById('qfbHead').textContent='❌ ざんねん…';
-      document.getElementById('qfbBody').innerHTML='<b>'+it.name+'</b> は「'+bin.label+'」ではなく<br>正しくは <b>「'+binDef(G.city,correctId).label+'」</b>。<br>'+why;
-      q.className='qfb ng show';
+      document.getElementById('qfbHead').textContent=it.danger?'🔥 あぶない！':'❌ ざんねん…';
+      document.getElementById('qfbBody').innerHTML='<b>'+it.name+'</b> は「'+bin.label+'」ではなく<br>正しくは <b>「'+binDef(G.city,correctId).label+'」</b>。<br>'+why+extra;
+      q.className='qfb '+(it.danger?'danger':'ng')+' show';
     }
     updateHUD();
     return;

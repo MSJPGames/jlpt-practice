@@ -374,6 +374,7 @@
 
   // ---- 読み上げ（ブラウザ / VOICEVOX）----
   var currentAudio=null;
+  var ttsCache={};  // 生成済み音声を本文テキストで保存し再生時にAPIを使い回さない
   function stopAudio(){
     try{ window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
     if(currentAudio){ try{ currentAudio.pause(); }catch(e){} currentAudio=null; }
@@ -404,7 +405,8 @@
       .then(function(r){ if(!r.ok) throw new Error("synthesis "+r.status); return r.blob(); })
       .then(function(blob){
         stopAudio();
-        currentAudio=new Audio(URL.createObjectURL(blob));
+        var _u=URL.createObjectURL(blob); ttsCache[text]=_u;
+        currentAudio=new Audio(_u);
         currentAudio.play();
         creditLine.textContent="音声: VOICEVOX（話者ID "+ (vvSpeaker.value||"3") +"）※規約にしたがい話者名のクレジット表記をしてください";
       })
@@ -461,7 +463,8 @@
         }catch(e){}
         if(!chunks.length) throw new Error("no audio");
         stopAudio();
-        currentAudio=new Audio(URL.createObjectURL(pcmToWav(concatBytes(chunks))));
+        var _u=URL.createObjectURL(pcmToWav(concatBytes(chunks))); ttsCache[text]=_u;
+        currentAudio=new Audio(_u);
         currentAudio.play();
         creditLine.textContent="音声: Gemini 自然音声";
       })
@@ -734,12 +737,26 @@
   }
 
   // ---- 表示 ----
+  function replay(text){
+    stopAudio();
+    if(ttsCache[text]){ try{ currentAudio=new Audio(ttsCache[text]); currentAudio.play(); return; }catch(e){} }
+    speak(text);
+  }
   function addMsg(text, who){
     var d=document.createElement("div");
     d.className="msg "+(who==="model"?"guest":"staff");
+    d.dataset.text=text;
     var w=document.createElement("span"); w.className="who";
     w.textContent=(who==="model")?"相手":"あなた";
     d.appendChild(w); d.appendChild(document.createTextNode(text));
+    if(who==="model"){
+      var rb=document.createElement("button");
+      rb.type="button"; rb.className="replay-say"; rb.textContent="🔊";
+      rb.title="もう一度聞く"; rb.setAttribute("aria-label","もう一度聞く");
+      rb.style.cssText="margin-left:6px;border:none;background:transparent;cursor:pointer;font-size:1rem;line-height:1;vertical-align:middle;opacity:.65;padding:0 2px;";
+      rb.addEventListener("click",function(){ replay(text); });
+      d.appendChild(rb);
+    }
     log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
     return d;
   }
@@ -831,7 +848,7 @@
       } else if(el.classList.contains("msg")){
         var isMe=el.classList.contains("staff");
         var who=isMe?"あなた（学習者）":"相手";
-        var txt=el.lastChild?el.lastChild.textContent:el.textContent;
+        var txt=(el.dataset&&el.dataset.text!=null)?el.dataset.text:(el.lastChild?el.lastChild.textContent:el.textContent);
         var audio="";
         if(isMe && el.dataset && el.dataset.audio){ nRec++; audio='<div class="rec"><span class="rec-ic">🎧</span><audio controls preload="none" src="'+el.dataset.audio+'"></audio></div>'; }
         var fb=isMe?'<div class="fb">先生コメント：<span class="fb-in">（発音・文法のアドバイスを書けます）</span></div>':"";

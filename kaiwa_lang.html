@@ -234,6 +234,7 @@
   }
 
   var currentAudio=null;
+  var ttsCache={};  // 生成済み音声を本文テキストで保存し再生時にAPIを使い回さない
   function stopAudio(){ try{ window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){} }
   function speak(text){
     try{
@@ -303,6 +304,11 @@
   }
 
   // ---- 表示 ----
+  function replay(text){
+    stopAudio();
+    if(ttsCache[text]){ try{ currentAudio=new Audio(ttsCache[text]); currentAudio.play(); return; }catch(e){} }
+    speak(text);
+  }
   function addMsg(text, who){
     var _rec={who:who, text:text}; transcript.push(_rec);
     var d=document.createElement("div");
@@ -310,6 +316,14 @@
     var w=document.createElement("span"); w.className="who";
     w.textContent=(who==="model")?"相手":"あなた";
     d.appendChild(w); d.appendChild(document.createTextNode(text));
+    if(who==="model"){
+      var rb=document.createElement("button");
+      rb.type="button"; rb.className="replay-say"; rb.textContent="🔊";
+      rb.title="もう一度聞く"; rb.setAttribute("aria-label","もう一度聞く");
+      rb.style.cssText="margin-left:6px;border:none;background:transparent;cursor:pointer;font-size:1rem;line-height:1;vertical-align:middle;opacity:.65;padding:0 2px;";
+      rb.addEventListener("click",function(){ replay(text); });
+      d.appendChild(rb);
+    }
     log.appendChild(d); d.scrollIntoView({behavior:"smooth",block:"end"});
     return _rec;
   }

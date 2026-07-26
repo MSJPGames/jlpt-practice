@@ -236,7 +236,7 @@ td .k{font-weight:800;color:var(--accent-deep);}
     <div class="diagram">
       <div class="vwrap"><div class="vcol"><span class="nyu">白</span><span class="nyu">日</span><span class="ping">依</span><span class="ping">山</span><span class="ze">盡</span></div><div class="vcol"><span class="ping">黃</span><span class="ping">河</span><span class="nyu">入</span><span class="ze">海</span><span class="ping">流</span></div><div class="vcol"><span class="nyu">欲</span><span class="ping">窮</span><span class="ping">千</span><span class="ze">里</span><span class="nyu">目</span></div><div class="vcol"><span class="ze">更</span><span class="ze">上</span><span class="nyu">一</span><span class="ping">層</span><span class="ping">樓</span></div></div>
       <div class="rd" style="margin-top:4px;text-align:center;"><span class="ping" style="font-weight:800;">青＝平</span>　<span class="ze" style="font-weight:800;">えんじ＝仄</span>　<span class="nyu">オレンジ＝入声</span>（縦書き・右から左に読みます）</div>
-      <div class="audiorow" style="text-align:center;">🔊 詩を読む：<button class="pbtn" data-say="白日依山盡黃河入海流欲窮千里目更上一層樓" data-lang="zh-CN">普通話 ▶</button><button class="pbtn yue" data-say="白日依山盡黃河入海流欲窮千里目更上一層樓" data-lang="zh-HK">広東語 ▶</button><br><span class="rd">同じ詩でも、普通話は入声が消え、広東語では -p/-t/-k が残ります（端末に各音声がある場合に再生）。</span></div>
+      <div class="audiorow" style="text-align:center;">🔊 詩を読む：<button class="pbtn" data-say="白日，依山盡。　黃河，入海流。　欲窮，千里目。　更上，一層樓。" data-lang="zh-CN" data-rate="0.5">普通話 ▶</button><button class="pbtn yue" data-say="白日，依山盡。　黃河，入海流。　欲窮，千里目。　更上，一層樓。" data-lang="zh-HK" data-rate="0.5">広東語 ▶</button><br><span class="rd">同じ詩でも、普通話は入声が消え、広東語では -p/-t/-k が残ります（端末に各音声がある場合に再生）。</span></div>
       <table style="margin-top:12px;">
         <tr><th>句</th><th>各字の中古音（推定・Baxter式）</th></tr>
         <tr><td class="k" style="white-space:nowrap;">白日依山盡</td><td>白 baek〔入-k〕・日 nyit〔入-t〕・依 ʔjɨj〔平〕・山 srean〔平〕・盡 dzinX〔上〕</td></tr><tr><td class="k" style="white-space:nowrap;">黃河入海流</td><td>黃 hwang〔平〕・河 ha〔平〕・入 nyip〔入-p〕・海 xojX〔上〕・流 ljuw〔平〕</td></tr><tr><td class="k" style="white-space:nowrap;">欲窮千里目</td><td>欲 yowk〔入-k〕・窮 gjuwng〔平〕・千 tshen〔平〕・里 liX〔上〕・目 mjuwk〔入-k〕</td></tr><tr><td class="k" style="white-space:nowrap;">更上一層樓</td><td>更 kaengH〔去〕・上 dzyangX〔上〕・一 ʔjit〔入-t〕・層 dzong〔平〕・樓 luw〔平〕</td></tr>
@@ -323,8 +323,8 @@ td .k{font-weight:800;color:var(--accent-deep);}
   </div>
 </div><script>
 /* 現代音の再生（普通話 zh-CN／広東語 zh-HK）。端末に該当音声がある場合に再生。 */
-(function(){function speak(txt,lang){if(!window.speechSynthesis)return;try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(txt);u.lang=lang||"zh-CN";u.rate=0.8;speechSynthesis.speak(u);}catch(e){}}
-document.addEventListener("click",function(e){var b=e.target.closest("[data-say]");if(b&&b.tagName==="BUTTON")speak(b.getAttribute("data-say"),b.getAttribute("data-lang"));});})();
+(function(){function speak(txt,lang,rate){if(!window.speechSynthesis)return;try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(txt);u.lang=lang||"zh-CN";u.rate=rate?parseFloat(rate):0.8;u.pitch=0.95;speechSynthesis.speak(u);}catch(e){}}
+document.addEventListener("click",function(e){var b=e.target.closest("[data-say]");if(b&&b.tagName==="BUTTON")speak(b.getAttribute("data-say"),b.getAttribute("data-lang"),b.getAttribute("data-rate"));});})();
 </script>
 <script>
 /* Wikipedia/Commons 公式REST APIで、ホバー時に写真＋要約をプレビュー（画像は保存せず閲覧時に読み込む）。 */

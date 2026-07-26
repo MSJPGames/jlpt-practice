@@ -315,6 +315,29 @@ function naadj(a){
     noun:{k:k+'な',r:r+'な'},ba:{k:k+'なら',r:r+'なら'}};
 }
 
+/* ===== 普通形（総合）：丁寧形→普通形 の変換用 ===== */
+const PLAINKEY={
+  v:{aff:'plain',neg:'nai',past:'ta',pastneg:'nakatta'},
+  i:{aff:'plain',neg:'neg',past:'past',pastneg:'pastneg'},
+  n:{aff:'plain',neg:'neg',past:'past',pastneg:'pastneg'}};
+function politeStim(cat,word,slot){
+  if(cat==='v'){ const c=conjugateVerb(word); const sw=(s,suf)=>s.replace(/ます$/,suf);
+    if(slot==='neg') return {k:sw(c.masu.k,'ません'),r:sw(c.masu.r,'ません')};
+    if(slot==='past') return {k:sw(c.masu.k,'ました'),r:sw(c.masu.r,'ました')};
+    if(slot==='pastneg') return {k:sw(c.masu.k,'ませんでした'),r:sw(c.masu.r,'ませんでした')};
+    return {k:c.masu.k,r:c.masu.r}; }
+  if(cat==='i'){ const c=iadj(word); const P=(o)=>({k:o.k+'です',r:o.r+'です'});
+    if(slot==='neg') return P(c.neg);
+    if(slot==='past') return P(c.past);
+    if(slot==='pastneg') return P(c.pastneg);
+    return P(c.plain); }
+  const k=word.dict,r=word.kana;   // な形容詞
+  if(slot==='neg') return {k:k+'じゃないです',r:r+'じゃないです'};
+  if(slot==='past') return {k:k+'でした',r:r+'でした'};
+  if(slot==='pastneg') return {k:k+'じゃなかったです',r:r+'じゃなかったです'};
+  return {k:k+'です',r:r+'です'};
+}
+
 /* ===================== データ ===================== */
 /* 『みんなの日本語 初級 第2版』の動詞（課の割り当ては目安。lessonを直せば範囲しぼりに反映されます）。
    ※ 帰る・入る・要る・知る・走る・切る 等は形は一段風でも1グループ（例外）。groupの値が正です。 */
@@ -903,8 +926,11 @@ function newProblem(){
   let key=s.key;
   // ます形起点で「ます形」を出題すると重複するので、辞書形（ます→辞書形）に振り替える
   if(s.cat==='v' && startForm==='masu' && key==='masu') key='dict';
-  if(s.cat==='v' && startForm==='dict' && (key==='dict'||key==='plain')) key='masu';
-  current={cat:s.cat,key,word,ans:makeAnswer(s.cat,key,word)};
+  if(s.cat==='v' && startForm==='dict' && key==='dict') key='masu';
+  let slot=null;
+  if(key==='plain') slot=rand(['aff','neg','past','pastneg']);
+  const ansKey = slot ? PLAINKEY[s.cat][slot] : key;
+  current={cat:s.cat,key,word,slot,ans:makeAnswer(s.cat,ansKey,word)};
   renderQuiz();
 }
 const norm=s=>(s||'').replace(/[\s　。、，．・！？!?,.「」『』〜～]/g,'');
@@ -955,7 +981,7 @@ function renderQuiz(){
   // 起点の表示（動詞でます形起点ならます形で提示）
   let stimK=word.dict, stimR=word.kana;
   if(cat==='v' && startForm==='masu'){ const c=conjugateVerb(word); stimK=c.masu.k; stimR=c.masu.r; }
-  if((cat==='i'||cat==='n') && key==='plain'){ stimK=word.dict+'です'; stimR=word.kana+'です'; }
+  if(key==='plain'){ const ps=politeStim(cat,word,current.slot||'aff'); stimK=ps.k; stimR=ps.r; }
   let inner = `
     ${gtag}
     <div class="q-word">${stimK}</div>

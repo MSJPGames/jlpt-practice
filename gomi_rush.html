@@ -110,6 +110,7 @@
     background:rgba(255,255,255,.97);border:2px solid var(--olive);border-radius:16px;padding:11px 12px 12px;
     z-index:12;display:none;box-shadow:0 10px 26px rgba(0,0,0,.16);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
   .prep.show{display:block;animation:rise .18s;}
+  .stage.prep-on .bin{opacity:.3;filter:grayscale(.5);transition:opacity .15s;}
   .prep-q{font-size:12.5px;font-weight:800;color:var(--olive);text-align:center;margin-bottom:8px;line-height:1.4;}
   .prep-q .sub{display:block;font-size:10.5px;font-weight:700;color:var(--text-hint);margin-top:2px;}
   .prep-opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
@@ -118,6 +119,24 @@
     min-height:46px;display:flex;align-items:center;justify-content:center;text-align:center;transition:transform .1s;}
   .prep-b:active{transform:scale(.96);}
   .prep-b .pi{font-size:15px;margin-right:4px;}
+  /* 手順（順番どおりに押す） */
+  .seq{display:flex;flex-direction:column;gap:6px;}
+  .seq-b{display:flex;align-items:center;gap:9px;width:100%;border:1px solid var(--border);
+    background:var(--surface);border-radius:11px;padding:9px 11px;font-family:inherit;font-size:12.5px;
+    font-weight:700;color:var(--text);text-align:left;cursor:pointer;transition:transform .1s,opacity .15s;padding:8px 10px;}
+  .seq-b .no{width:19px;height:19px;border-radius:50%;background:var(--border);color:#fff;font-size:11px;
+    font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .seq-b .ic{font-size:16px;flex-shrink:0;}
+  .seq-b .tx{flex:1;line-height:1.35;}
+  .seq-b .tx small{display:block;font-size:10px;font-weight:700;color:var(--text-hint);margin-top:1px;}
+  .seq-b.now{border-color:var(--olive);background:#FCFBF2;box-shadow:0 3px 10px rgba(107,97,23,.13);}
+  .seq-b.now .no{background:var(--olive);}
+  .seq-b.now:active{transform:scale(.98);}
+  .seq-b.todo{opacity:.42;pointer-events:none;}
+  .seq-b.done{opacity:.75;pointer-events:none;border-color:#CFE3B6;background:var(--green-bg);}
+  .seq-b.done .no{background:var(--green);}
+  .seq-pair{display:flex;gap:6px;}
+  .seq-pair .seq-b{flex:1;}
   .tray-hint{font-size:13px;font-weight:700;color:var(--text-hint);}
   .tray-plate{width:46px;height:46px;border-radius:50%;background:#fff;border:2px solid var(--teal);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
   .tray-plate .tem{font-size:25px;}
@@ -462,6 +481,7 @@ const ITEM_WHY={
   shoes:'靴は多くの街で「燃えるゴミ」（大きいものは粗大ごみ）。',
   waribashi:'割り箸は木なので「燃えるゴミ」です。',
 
+  milk:'紙パックは、洗って・切って開いて・かわかしてから「古紙」に出します。内側が銀色のものは資源にできないので、燃えるゴミへ。',
   abura_raw:'油はそのままでは出せません。冷ましてから、市販の凝固剤で固めるか、新聞紙や古い布に吸わせて「燃えるゴミ」へ。熱いまま袋に入れると発火することがあります。',
   abura_katameta:'凝固剤で固めた油は「燃えるゴミ」に出せます。冷えて固まってから袋に入れます。',
   abura_kami:'新聞紙や古い布に吸わせ、袋に入れて口をしばれば「燃えるゴミ」です。',
@@ -481,20 +501,10 @@ const OIL_TIP='油を流しに流すと、排水管がつまり、下水の処�
   '市によっては、使い終わった油を集めている場所（拠点回収）もあります。';
 /* 出す前に「処理」が必要なごみ。ok の選択をすると、処理ずみの品目に変わる。 */
 const PREP={
-  abura_raw:{q:'この油、どうやって出す？',sub:'そのままでは出せません',
-    ok:[{i:'🗞️',t:'新聞紙に吸わせる',to:'abura_kami'},
-        {i:'🧈',t:'薬品で固める',to:'abura_katameta'}],
-    traps:[{i:'🚰',t:'流しに流す',why:'排水管がつまります。下水の処理にも大きな負担がかかります。'},
-           {i:'🛍️',t:'そのまま袋へ',warn:true,why:'袋から漏れます。熱いまま入れると発火することもあります。'}]},
-
   spray_full:{q:'中身が残っています。どうする？',sub:'そのままでは出せません',
     ok:[{i:'💨',t:'最後まで使い切る',to:'spray'}],
     traps:[{i:'🛍️',t:'そのまま袋へ',warn:true,why:'収集車の中でつぶれて爆発します。必ず使い切ってから出します。'},
            {i:'🕳️',t:'先に穴をあける',warn:true,why:'中身が残ったまま穴をあけると、火が出たり爆発したりします。まず使い切ってください。'}]},
-
-  milk:{q:'紙パック、出す前にすることは？',sub:'手順は3つ',
-    ok:[{i:'🚿',t:'洗って開いて乾かす',to:'milk'}],
-    traps:[{i:'🛍️',t:'そのまま出す',why:'中が汚れたままだと資源になりません。洗って・開いて・乾かします。'}]},
 
   glassbroken:{q:'割れたガラス。どうやって出す？',sub:'集める人がけがをします',
     ok:[{i:'📄',t:'紙に包んで「キケン」と書く',to:'glassbroken'}],
@@ -509,7 +519,24 @@ const PREP={
     traps:[{i:'🛍️',t:'そのまま出す',why:'汚れたままだと資源になりません。かるくすすいで乾かします。'}]}
 };
 function pickOne(a){return a[Math.floor(Math.random()*a.length)];}
-function needsPrep(key){return !!PREP[key];}
+
+/* 順番どおりに押す手順。まちがいの選択肢は置かない（行程をそのまま覚えるため）。
+   choose を持つ段は、どちらを選んでも正しい（＝方法が2つある）。 */
+const PREP_SEQ={
+  milk:{q:'紙パックを 出す じゅんび',sub:'上から じゅんばんに おします',steps:[
+    {i:'🚿',t:'中を 水で洗う',note:'牛乳を のこさない'},
+    {i:'✂️',t:'切って ひらく',note:'はさみで 平らに'},
+    {i:'☀️',t:'かわかす',note:'ぬれたままは 出せない'}
+  ]},
+  abura_raw:{q:'油を出す じゅんび',sub:'上から じゅんばんに おします',steps:[
+    {i:'🌡️',t:'冷ます',note:'熱いままは あぶない'},
+    {choose:[{i:'🗞️',t:'新聞紙に吸わせる',to:'abura_kami'},
+             {i:'🧈',t:'薬品で固める',to:'abura_katameta'}]},
+    {i:'🎀',t:'袋の口をしばる',note:'もれないように'}
+  ]}
+};
+function hasSeq(key){return !!PREP_SEQ[key];}
+function needsPrep(key){return !!PREP[key]||!!PREP_SEQ[key];}
 
 const DANGER_WARN='この出し方は、ごみ収集車やごみ処理場の<b>火事・けが</b>につながります。ここはとくに気をつけてください。';
 const CITIES=[
@@ -689,7 +716,7 @@ function startGame(city,mode,diff){
   G={city,mode,diff,pool:itemPool(city,diff),shown:binsShown(city,diff),
      plates:[],selected:null,lives:3,score:0,combo:0,bestCombo:0,
      speed:d.speed,cap:d.cap,gap:d.gap,running:true,paused:false,
-     queue:[],qi:0,correct:0,answered:false,prepOpen:false,prepped:false};
+     queue:[],qi:0,correct:0,answered:false,prepOpen:false,prepped:false,seq:null};
   layoutBins();
   hideQfb(); closePrep();
   document.getElementById('hudCity').textContent=city.emoji+' '+city.name+'・'+d.name;
@@ -724,8 +751,11 @@ function layoutBins(){
   });
 }
 /* ---- 処理（前処理）パネル ---- */
-function closePrep(){document.getElementById('prep').className='prep';if(G)G.prepOpen=false;}
+function closePrep(){document.getElementById('prep').className='prep';
+  stage.classList.remove('prep-on');
+  if(G){G.prepOpen=false;const w=document.getElementById('prepOpts');w.className='prep-opts';}}
 function openPrep(key){
+  if(PREP_SEQ[key]) return openSeq(key);
   const d=PREP[key]; if(!d)return false;
   G.prepOpen=true;
   document.getElementById('prepQ').innerHTML=d.q+'<span class="sub">'+(d.sub||'')+'</span>';
@@ -739,9 +769,64 @@ function openPrep(key){
     w.appendChild(b);
   });
   document.getElementById('prep').className='prep show';
+  stage.classList.add('prep-on');
   renderTray();
   return true;
 }
+/* ---- 手順パネル（順番どおり・まちがいなし） ---- */
+function openSeq(key){
+  const d=PREP_SEQ[key];
+  G.prepOpen=true; G.seq={key:key,i:0,to:null};
+  document.getElementById('prepQ').innerHTML=d.q+'<span class="sub">'+(d.sub||'')+'</span>';
+  renderSeq();
+  document.getElementById('prep').className='prep show';
+  stage.classList.add('prep-on');
+  renderTray();
+  return true;
+}
+function renderSeq(){
+  const d=PREP_SEQ[G.seq.key], w=document.getElementById('prepOpts');
+  w.className=''; w.innerHTML='';
+  const box=document.createElement('div'); box.className='seq';
+  d.steps.forEach((st,n)=>{
+    const stat = n<G.seq.i ? 'done' : (n===G.seq.i ? 'now' : 'todo');
+    if(st.choose){
+      const pair=document.createElement('div'); pair.className='seq-pair';
+      st.choose.forEach(c=>{
+        const b=document.createElement('button'); b.type='button'; b.className='seq-b '+stat;
+        const label = (stat==='done' && G.seq.to && G.seq.to!==c.to) ? 'todo' : stat;
+        b.className='seq-b '+label;
+        b.innerHTML='<span class="no">'+(n+1)+'</span><span class="ic">'+c.i+'</span>'+
+                    '<span class="tx">'+c.t+'</span>';
+        b.onclick=(e)=>{e.preventDefault();stepSeq(n,c);};
+        pair.appendChild(b);
+      });
+      box.appendChild(pair);
+    }else{
+      const b=document.createElement('button'); b.type='button'; b.className='seq-b '+stat;
+      b.innerHTML='<span class="no">'+(stat==='done'?'✓':(n+1))+'</span><span class="ic">'+st.i+'</span>'+
+                  '<span class="tx">'+st.t+(st.note?'<small>'+st.note+'</small>':'')+'</span>';
+      b.onclick=(e)=>{e.preventDefault();stepSeq(n,null);};
+      box.appendChild(b);
+    }
+  });
+  w.appendChild(box);
+}
+function stepSeq(n,choice){
+  if(!G||!G.running||G.paused||!G.prepOpen||!G.seq)return;
+  if(n!==G.seq.i)return;                 /* 順番どおりだけ進む（まちがいの罰はない） */
+  if(choice) G.seq.to=choice.to;
+  G.seq.i++;
+  const d=PREP_SEQ[G.seq.key];
+  if(G.seq.i<d.steps.length){ renderSeq(); return; }
+  /* 完了 */
+  const to=G.seq.to;
+  closePrep(); G.prepped=true; G.seq=null;
+  if(to && ITEMS[to]) G.selected=to;
+  renderTray();
+  popup(stage.clientWidth/2,'✔ じゅんび できた','ok');
+}
+
 function choosePrep(o){
   if(!G||!G.running||G.paused||!G.prepOpen)return;
   const key=G.selected, it=ITEMS[key];
@@ -820,7 +905,7 @@ function selectPlate(p){
   if(!G||!G.running||G.paused||G.mode!=='rush'||G.selected)return;
   if(!G.plates.includes(p))return;
   p.el.remove(); G.plates=G.plates.filter(x=>x!==p);
-  G.selected=p.key; G.prepped=false; stage.classList.add('has-sel'); renderTray();
+  G.selected=p.key; G.prepped=false; G.seq=null; stage.classList.add('has-sel'); renderTray();
   if(needsPrep(p.key)) openPrep(p.key);
 }
 function loop(now){
@@ -848,7 +933,7 @@ function buildQueue(){
   G.queue=q; G.qi=0; G.correct=0;
 }
 function showQuestion(){
-  G.answered=false; G.selected=G.queue[G.qi]; G.prepped=false; closePrep();
+  G.answered=false; G.selected=G.queue[G.qi]; G.prepped=false; G.seq=null; closePrep();
   stage.querySelectorAll('.bin').forEach(b=>b.classList.remove('mark-ok','mark-ng'));
   renderTray(); stage.classList.add('has-sel'); hideQfb(); updateHUD();
   if(needsPrep(G.selected)) openPrep(G.selected);

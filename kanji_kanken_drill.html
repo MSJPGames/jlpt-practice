@@ -100,12 +100,19 @@
 var K = window.KANKEN || {};
 var LEVELS = ['10','9','8','7','6','5','4','3','準2','2'];
 var TYPES = [
-  {k:'yomi',  l:'読み'},
-  {k:'kaki',  l:'書き取り'},
-  {k:'bushu', l:'部首'},
-  {k:'ouyou', l:'応用（構成・対義/類義・四字熟語）'}
+  {k:'yomi',      l:'読み'},
+  {k:'bushu',     l:'部首'},
+  {k:'kakusu',    l:'画数'},
+  {k:'kousei',    l:'熟語の構成'},
+  {k:'shikibetsu',l:'漢字の識別'},
+  {k:'doukun',    l:'同音・同訓異字'},
+  {k:'yoji',      l:'四字熟語'},
+  {k:'tairui',    l:'対義語・類義語'},
+  {k:'goji',      l:'誤字訂正'},
+  {k:'okuri',     l:'漢字と送りがな'},
+  {k:'kaki',      l:'書き取り'}
 ];
-var sel = { level:null, types:{yomi:true,kaki:true,bushu:true,ouyou:true} };
+var sel = { level:null, types:{} };
 var setup = document.getElementById('setup');
 var quiz  = document.getElementById('quiz');
 
@@ -155,7 +162,7 @@ var Q=[], idx=0, right=0, wrong=0, missed=[];
 function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
 function startQuiz(){
   var secs=K[sel.level].sections; Q=[];
-  ['yomi','kaki','bushu','ouyou'].forEach(function(k){
+  TYPES.forEach(function(t){ var k=t.k;
     if(sel.types[k] && secs[k]) secs[k].forEach(function(it){ Q.push({t:k,it:it}); });
   });
   shuffle(Q);

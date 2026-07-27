@@ -135,6 +135,44 @@
   .seq-b.todo{opacity:.42;pointer-events:none;}
   .seq-b.done{opacity:.75;pointer-events:none;border-color:#CFE3B6;background:var(--green-bg);}
   .seq-b.done .no{background:var(--green);}
+  /* 貼り紙（掲示） */
+  .sign{background:#FFFDF6;border:2px solid #C9BE94;border-radius:8px;padding:13px 14px 12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.09);position:relative;}
+  .sign::before,.sign::after{content:'';position:absolute;top:-7px;width:34px;height:13px;
+    background:rgba(210,225,235,.85);border:1px solid rgba(150,175,190,.5);border-radius:2px;transform:rotate(-2deg);}
+  .sign::before{left:14px;} .sign::after{right:14px;transform:rotate(2deg);}
+  .sign-h{text-align:center;font-size:15px;font-weight:800;letter-spacing:.04em;padding-bottom:7px;
+    border-bottom:2px solid #C9BE94;margin-bottom:9px;}
+  .sign-h small{display:block;font-size:10px;font-weight:700;color:var(--text-hint);letter-spacing:.02em;margin-top:2px;}
+  .sign-row{display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px dotted #DDD3B4;font-size:12.5px;}
+  .sign-row:last-of-type{border-bottom:none;}
+  .sign-d{width:34px;flex-shrink:0;font-weight:800;color:var(--text);}
+  .sign-v{flex:1;line-height:1.5;}
+  .sign-v .bag{display:inline-block;font-size:10px;font-weight:700;padding:0 5px;border-radius:9px;
+    border:1px solid var(--border);margin-left:5px;vertical-align:1px;}
+  .sign-note{margin-top:9px;padding-top:8px;border-top:2px solid #C9BE94;font-size:12px;line-height:1.75;color:var(--text-muted);}
+  .sign-note b{color:var(--red);}
+  /* 読み取り問題 */
+  .rq{margin-top:12px;}
+  .rq-q{font-size:14px;font-weight:800;margin-bottom:8px;line-height:1.5;}
+  .rq-opts{display:flex;flex-direction:column;gap:7px;}
+  .rq-b{border:1px solid var(--border);background:var(--surface);border-radius:11px;padding:11px 13px;
+    font-family:inherit;font-size:13.5px;font-weight:700;color:var(--text);text-align:left;cursor:pointer;transition:transform .1s;}
+  .rq-b:active{transform:scale(.985);}
+  .rq-b.ok{background:var(--green-bg);border-color:#CFE3B6;color:var(--green);}
+  .rq-b.ng{background:var(--red-bg);border-color:#F0D2C6;color:var(--red);}
+  .rq-b.dim{opacity:.5;pointer-events:none;}
+  .rq-fb{margin-top:10px;font-size:13px;line-height:1.7;color:var(--text-muted);
+    background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:11px 12px;display:none;}
+  .rq-fb.show{display:block;}
+  .rq-prog{font-size:11px;font-weight:700;color:var(--text-hint);text-align:right;margin-bottom:6px;letter-spacing:.05em;}
+  /* ことば */
+  .wlist{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
+  .wrow{display:flex;gap:9px;align-items:baseline;border-bottom:1px dotted var(--border);padding-bottom:6px;}
+  .wrow:last-child{border-bottom:none;}
+  .wja{font-size:13.5px;font-weight:800;flex-shrink:0;min-width:88px;}
+  .wex{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
+  .wex em{display:block;font-style:normal;color:var(--text-hint);font-size:10.5px;letter-spacing:.02em;}
   .seq-pair{display:flex;gap:6px;}
   .seq-pair .seq-b{flex:1;}
   .tray-hint{font-size:13px;font-weight:700;color:var(--text-hint);}
@@ -376,6 +414,33 @@
   </div>
 </div>
 
+<div class="overlay" id="ovSign">
+  <div class="sheet">
+    <div class="sheet-grip"></div>
+    <div class="sheet-title">🧾 ごみ集積所の 貼り紙を 読む</div>
+    <div class="sheet-sub">じっさいの 掲示には こう 書いてあります。<br>
+      ※ 曜日は 練習用の 例です。ほんとうの 収集日は、住んでいる ところの ごみカレンダーで 確認してください。</div>
+    <div id="signBox"></div>
+    <div class="rq">
+      <div class="rq-prog" id="rqProg"></div>
+      <div class="rq-q" id="rqQ"></div>
+      <div class="rq-opts" id="rqOpts"></div>
+      <div class="rq-fb" id="rqFb"></div>
+      <button class="btn btn-primary" id="rqNext" style="margin-top:10px;display:none;">つぎへ ›</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="ovWords">
+  <div class="sheet">
+    <div class="sheet-grip"></div>
+    <div class="sheet-title">📖 貼り紙の ことば</div>
+    <div class="sheet-sub">ごみの 掲示で よく 見る ことばです。</div>
+    <div class="wlist" id="wordList"></div>
+    <button class="btn btn-primary" id="wordsClose" style="margin-top:12px;">とじる</button>
+  </div>
+</div>
+
 <div class="overlay" id="ovResult">
   <div class="sheet result">
     <div class="r-emoji" id="rEmoji">😵</div>
@@ -383,6 +448,7 @@
     <div class="r-stats" id="rStats"></div>
     <div id="rLesson"></div>
     <button class="btn btn-primary" id="rRetry">🔁 もう一度</button>
+    <button class="btn btn-ghost" id="rSign" style="margin-top:8px;">🧾 貼り紙を もう一度 読む</button>
     <button class="btn btn-ghost" onclick="toCity()" style="margin-top:8px;">🗺️ 別の街をえらぶ</button>
   </div>
 </div>
@@ -654,6 +720,131 @@ function binsShown(city,diff){
 function itemPool(city,diff){const ids={};binsShown(city,diff).forEach(b=>ids[b.id]=1);
   return Object.keys(ITEMS).filter(k=>ITEMS[k].lv<=diff&&ids[resolveBinId(city,ITEMS[k])]);}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+/* ============ 貼り紙（掲示）を読む ============ */
+const BAGJA={red:'赤い袋',green:'緑の袋',blue:'青い袋',yellow:'黄色い袋',orange:'オレンジの袋',
+  clear:'とうめい・半とうめいの袋',kraft:'ひもで しばる'};
+/* 掲示でよく見ることば */
+const SIGN_WORDS=[
+  {ja:'収集日',yomi:'しゅうしゅうび',ex:'ごみを あつめる 日',en:'collection day'},
+  {ja:'指定袋',yomi:'していぶくろ',ex:'市が きめた 袋。ちがう袋では 出せない',en:'designated bag'},
+  {ja:'資源',yomi:'しげん',ex:'また つかえる もの',en:'recyclable resource'},
+  {ja:'粗大ごみ',yomi:'そだいごみ',ex:'大きい ごみ。先に 申し込みが 必要',en:'oversized waste'},
+  {ja:'申し込み',yomi:'もうしこみ',ex:'先に 電話や インターネットで つたえる こと',en:'advance application'},
+  {ja:'手数料',yomi:'てすうりょう',ex:'はらう お金',en:'handling fee'},
+  {ja:'回収できません',yomi:'かいしゅうできません',ex:'ここでは あつめません',en:'cannot be collected'},
+  {ja:'持ち帰り',yomi:'もちかえり',ex:'自分の 家に もどす こと',en:'take it back'},
+  {ja:'厳守',yomi:'げんしゅ',ex:'かならず まもる こと',en:'strictly observe'},
+  {ja:'ご協力ください',yomi:'ごきょうりょくください',ex:'てつだって ください（おねがいの ことば）',en:'your cooperation is appreciated'}
+];
+function cityBins(city){return city.bins.slice();}
+function citySchedule(city){return makeSchedule(cityBins(city));}
+function timeLine(city){
+  return cityWindow(city)==='night'
+    ? {t:'日がしずんでから 夜12時までに 出してください',ans:'夜12時までに'}
+    : {t:'朝8時までに 出してください',ans:'朝8時までに'};
+}
+function buildSign(city){
+  const sc=citySchedule(city), bins=cityBins(city), tl=timeLine(city);
+  let rows='';
+  DAYNAMES.forEach((dn,d)=>{
+    const todays=bins.filter(b=>sc[b.id].indexOf(d)>=0);
+    const v = todays.length
+      ? todays.map(b=>{const c=(BAGCOLORS[city.id]||{})[b.id];
+          return b.label+(c?'<span class="bag">'+BAGJA[c]+'</span>':'');}).join('　')
+      : '<span style="color:#9E9890;">— お休み —</span>';
+    rows+='<div class="sign-row"><div class="sign-d">'+dn+'</div><div class="sign-v">'+v+'</div></div>';
+  });
+  return '<div class="sign"><div class="sign-h">ごみ収集の お知らせ<small>'+city.name+'</small></div>'+rows+
+    '<div class="sign-note">・'+tl.t+'<br>・<b>前の日の夜に 出さないで ください。</b><br>'+
+    '・かならず ネットを かけて ください。<br>・粗大ごみは 申し込みが 必要です（手数料が かかります）。<br>'+
+    '・分けていない ごみは <b>回収できません</b>。ご協力 ください。</div></div>';
+}
+/* 掲示から読み取る問題を作る */
+function buildReadQs(city){
+  const sc=citySchedule(city), bins=cityBins(city), tl=timeLine(city), qs=[];
+  /* ①「◯曜日に出せるのはどれ」 */
+  const days=[0,1,2,3,4,5,6].filter(d=>bins.some(b=>sc[b.id].indexOf(d)>=0));
+  const d1=pickOne(days), right=bins.filter(b=>sc[b.id].indexOf(d1)>=0)[0];
+  const wrong=shuffle(bins.filter(b=>sc[b.id].indexOf(d1)<0)).slice(0,2);
+  if(right&&wrong.length){
+    qs.push({q:DAYNAMES[d1]+'曜日に 出せるのは どれですか。',
+      opts:shuffle([right.label].concat(wrong.map(b=>b.label))),a:right.label,
+      why:'貼り紙の '+DAYNAMES[d1]+'曜日の ところを 見ます。'+DAYNAMES[d1]+'曜日は「'+right.label+'」です。'});
+  }
+  /* ②「何時までに出しますか」 */
+  const tOpts=['朝8時までに','夜12時までに','お昼までに'];
+  qs.push({q:'ごみは 何時までに 出しますか。',opts:shuffle(tOpts.slice()),a:tl.ans,
+    why:'貼り紙の 下に 書いてあります。'+tl.t+'。前の日の夜に 出しては いけません。'});
+  /* ③「◯◯は何曜日ですか」 */
+  const b3=pickOne(bins), d3=sc[b3.id][0];
+  const dw=shuffle(DAYNAMES.filter(x=>x!==DAYNAMES[d3])).slice(0,2);
+  qs.push({q:'「'+b3.label+'」は 何曜日ですか。',
+    opts:shuffle([DAYNAMES[d3]+'曜日'].concat(dw.map(x=>x+'曜日'))),a:DAYNAMES[d3]+'曜日',
+    why:'「'+b3.label+'」を さがすと、'+DAYNAMES[d3]+'曜日に あります。'});
+  /* ④ 掲示の内容 */
+  qs.push({q:'貼り紙に 書いて あるのは どれですか。',
+    opts:shuffle(['分けていない ごみは 回収できません','どの袋でも 出せます','粗大ごみは いつでも 無料です']),
+    a:'分けていない ごみは 回収できません',
+    why:'分けていない ごみは あつめて もらえません。粗大ごみは 申し込みと 手数料が 必要です。'});
+  return shuffle(qs);
+}
+let RQ={qs:[],i:0,ok:0,city:null};
+function openSign(city){
+  RQ={qs:buildReadQs(city),i:0,ok:0,city:city};
+  document.getElementById('signBox').innerHTML=buildSign(city);
+  document.getElementById('ovSign').classList.add('show');
+  showReadQ();
+}
+function showReadQ(){
+  const q=RQ.qs[RQ.i];
+  document.getElementById('rqProg').textContent='読みとり '+(RQ.i+1)+' / '+RQ.qs.length;
+  document.getElementById('rqQ').textContent=q.q;
+  const w=document.getElementById('rqOpts'); w.innerHTML='';
+  q.opts.forEach(o=>{
+    const b=document.createElement('button'); b.type='button'; b.className='rq-b'; b.textContent=o;
+    b.onclick=(e)=>{e.preventDefault();answerReadQ(o,b);};
+    w.appendChild(b);
+  });
+  const fb=document.getElementById('rqFb'); fb.className='rq-fb'; fb.innerHTML='';
+  document.getElementById('rqNext').style.display='none';
+}
+function answerReadQ(picked,btn){
+  const q=RQ.qs[RQ.i];
+  [...document.querySelectorAll('#rqOpts .rq-b')].forEach(b=>{
+    if(b.textContent===q.a)b.className='rq-b ok';
+    else if(b===btn)b.className='rq-b ng';
+    else b.className='rq-b dim';
+  });
+  if(picked===q.a)RQ.ok++;
+  const fb=document.getElementById('rqFb');
+  fb.innerHTML=(picked===q.a?'⭕ ':'❌ ')+q.why;
+  fb.className='rq-fb show';
+  const nx=document.getElementById('rqNext');
+  nx.style.display='block';
+  nx.textContent=(RQ.i>=RQ.qs.length-1)?'ことばを 見る ›':'つぎへ ›';
+}
+document.getElementById('rqNext').onclick=function(){
+  if(RQ.i>=RQ.qs.length-1){
+    document.getElementById('ovSign').classList.remove('show');
+    openWords();
+    return;
+  }
+  RQ.i++; showReadQ();
+};
+function openWords(){
+  const w=document.getElementById('wordList'); w.innerHTML='';
+  SIGN_WORDS.forEach(x=>{
+    const d=document.createElement('div'); d.className='wrow';
+    d.innerHTML='<div class="wja">'+x.ja+'</div><div class="wex">'+x.ex+'<em>'+x.yomi+' ・ '+x.en+'</em></div>';
+    w.appendChild(d);
+  });
+  document.getElementById('ovWords').classList.add('show');
+}
+document.getElementById('wordsClose').onclick=function(){
+  document.getElementById('ovWords').classList.remove('show');
+  document.getElementById('ovResult').classList.add('show');
+};
 
 /* ============ 画面 ============ */
 const SCREENS=['intro','city','mode','game'];
@@ -1037,11 +1228,15 @@ function quizResult(){
   document.getElementById('rStats').innerHTML='正解 <b>'+G.correct+'</b> ／ '+G.queue.length+'　（'+pct+'%）';
   showResultLesson();
   document.getElementById('rRetry').onclick=()=>{document.getElementById('ovResult').classList.remove('show');startGame(G.city,'quiz',G.diff);};
-  document.getElementById('ovResult').classList.add('show');
+  openSign(G.city);   /* 分別のあとに、掲示を読む */
 }
 function showResultLesson(){
   document.getElementById('rLesson').innerHTML='<div class="lesson"><div class="lh">📗 '+G.city.name+'のポイント</div>'+G.city.lesson+'</div>';
 }
+document.getElementById('rSign').onclick=function(){
+  document.getElementById('ovResult').classList.remove('show');
+  openSign(G.city);
+};
 function toCity(){document.getElementById('ovResult').classList.remove('show');show('city');}
 
 document.addEventListener('keydown',e=>{

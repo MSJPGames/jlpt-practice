@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>用廣東話讀日文音讀｜日本語の部屋</title>
+<meta name="description" content="廣東話保留了入聲，所以睇住粵音就估到日文嘅音讀。學=hok6→がく、三=saam1→さん、東=dung1→とう。普通話做唔到，廣東話做得到。">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0;
+    --p:#B5541F; --p-bg:#FBEDE4;      /* -p */
+    --t:#A0392E; --t-bg:#FBE9E4;      /* -t */
+    --k:#8A6D00; --k-bg:#FBF3D9;      /* -k */
+    --m:#3E6B2F; --m-bg:#EDF3E6;      /* -m -n */
+    --ng:#2F5C8A; --ng-bg:#E6EEF6;    /* -ng */
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"PingFang HK","Hiragino Sans CNS","Noto Sans HK","Noto Sans JP",sans-serif;
+    font-size:16px;line-height:1.85;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 90px;}
+
+  /* 言語切替 */
+  .langbar{position:sticky;top:0;z-index:40;background:rgba(247,245,240,.94);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:8px 0;margin-bottom:0;}
+  .langbar-in{max-width:760px;margin:0 auto;padding:0 18px;display:flex;gap:6px;align-items:center;}
+  .lb{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.03em;padding:5px 13px;
+    border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
+  .lb.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .lb:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .home{margin-left:auto;font-size:12px;color:var(--hint);text-decoration:none;}
+  .home:hover{color:var(--teal);}
+
+  /* 見出し */
+  header{padding:38px 0 26px;}
+  .kicker{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--hint);
+    text-transform:uppercase;margin-bottom:10px;}
+  h1{margin:0 0 12px;font-size:clamp(26px,6vw,38px);line-height:1.3;letter-spacing:-.01em;}
+  .sub{margin:0;font-size:16px;color:var(--muted);line-height:1.8;}
+  h2{margin:46px 0 14px;font-size:21px;line-height:1.45;
+    padding-bottom:8px;border-bottom:2px solid var(--ink);}
+  h3{margin:28px 0 8px;font-size:16.5px;}
+  p{margin:0 0 15px;}
+  strong{font-weight:800;}
+  .lead{font-size:17px;}
+
+  /* 韻尾のバッジ */
+  .coda{display:inline-block;font-family:var(--mono);font-weight:800;font-size:.92em;
+    padding:1px 7px;border-radius:6px;border:1px solid;}
+  .c-p{color:var(--p);background:var(--p-bg);border-color:#EBD3C2;}
+  .c-t{color:var(--t);background:var(--t-bg);border-color:#F0D2C6;}
+  .c-k{color:var(--k);background:var(--k-bg);border-color:#E8DCAF;}
+  .c-m{color:var(--m);background:var(--m-bg);border-color:#CFE3B6;}
+  .c-ng{color:var(--ng);background:var(--ng-bg);border-color:#C4D6E8;}
+
+  /* 主表 */
+  .maintable{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    overflow:hidden;margin:22px 0;}
+  .row{display:grid;grid-template-columns:96px 1fr;gap:0;border-bottom:1px solid var(--line);}
+  .row:last-child{border-bottom:none;}
+  .row-h{padding:15px 12px;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:5px;border-right:1px solid var(--line);}
+  .row-h .big{font-family:var(--mono);font-size:20px;font-weight:800;}
+  .row-h .to{font-size:11px;color:var(--hint);font-weight:700;}
+  .row-b{padding:13px 15px;}
+  .row-b .rule{font-size:14.5px;font-weight:700;margin-bottom:9px;}
+  .ex{display:flex;flex-wrap:wrap;gap:7px;}
+  .ex-i{background:var(--bg);border:1px solid var(--line);border-radius:8px;
+    padding:5px 9px;font-size:13px;line-height:1.5;}
+  .ex-i b{font-size:16px;font-weight:800;margin-right:3px;}
+  .ex-i .jy{font-family:var(--mono);font-size:11.5px;color:var(--hint);}
+  .ex-i .ar{color:var(--hint);margin:0 3px;}
+  .ex-i .on{font-weight:800;color:var(--teal);}
+  .r-p .row-h{background:var(--p-bg);color:var(--p);}
+  .r-t .row-h{background:var(--t-bg);color:var(--t);}
+  .r-k .row-h{background:var(--k-bg);color:var(--k);}
+  .r-m .row-h{background:var(--m-bg);color:var(--m);}
+  .r-ng .row-h{background:var(--ng-bg);color:var(--ng);}
+
+  /* 対比ボックス */
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:20px 0;}
+  .vs-c{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 15px;}
+  .vs-c h4{margin:0 0 7px;font-size:13px;letter-spacing:.04em;color:var(--hint);font-weight:800;}
+  .vs-c .big{font-size:19px;font-weight:800;line-height:1.5;}
+  .vs-c .note{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.65;}
+  @media(max-width:560px){.vs{grid-template-columns:1fr;}}
+
+  .callout{background:var(--teal-bg);border:1px solid #BFD9D7;border-left:4px solid var(--teal);
+    border-radius:10px;padding:15px 17px;margin:22px 0;font-size:15px;line-height:1.8;}
+  .callout b{color:var(--teal);}
+  .warn{background:#FBF3D9;border-color:#E8DCAF;border-left-color:var(--k);}
+  .warn b{color:var(--k);}
+
+  table.plain{width:100%;border-collapse:collapse;background:var(--surface);
+    border:1px solid var(--line);border-radius:11px;overflow:hidden;margin:18px 0;font-size:14px;}
+  table.plain th,table.plain td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;}
+  table.plain th{background:var(--bg);font-size:11.5px;letter-spacing:.05em;color:var(--muted);font-weight:800;}
+  table.plain tr:last-child td{border-bottom:none;}
+  table.plain td.j{font-weight:800;}
+
+  /* 練習 */
+  .quiz{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:18px 18px 20px;margin:26px 0;}
+  .q-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;}
+  .q-n{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--hint);}
+  .q-sc{font-size:12.5px;font-weight:800;color:var(--teal);}
+  .q-char{text-align:center;padding:14px 0 4px;}
+  .q-char .c{font-size:56px;font-weight:800;line-height:1.1;}
+  .q-char .jy{font-family:var(--mono);font-size:15px;color:var(--hint);margin-top:4px;}
+  .q-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;}
+  .q-b{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:12px 8px;
+    font-family:inherit;font-size:17px;font-weight:800;color:var(--ink);cursor:pointer;}
+  .q-b:active{transform:scale(.98);}
+  .q-b.ok{background:var(--m-bg);border-color:#CFE3B6;color:var(--m);}
+  .q-b.ng{background:var(--t-bg);border-color:#F0D2C6;color:var(--t);}
+  .q-b.dim{opacity:.45;}
+  .q-fb{margin-top:12px;font-size:14px;line-height:1.75;color:var(--muted);
+    background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 13px;display:none;}
+  .q-fb.show{display:block;}
+  .q-next{margin-top:11px;width:100%;border:none;background:var(--teal);color:#fff;
+    font-family:inherit;font-size:15px;font-weight:800;border-radius:10px;padding:12px;cursor:pointer;display:none;}
+  .q-next.show{display:block;}
+
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--hint);line-height:1.8;}
+  footer a{color:var(--teal);}
+  .ja,.zh{display:none;}
+  body.lang-zh .zh{display:revert;}
+  body.lang-ja .ja{display:revert;}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body class="lang-zh">
+
+<div class="langbar"><div class="langbar-in">
+  <button class="lb on" id="bZh" type="button">繁體中文</button>
+  <button class="lb" id="bJa" type="button">日本語</button>
+  <a class="home" href="../index.html">日本語の部屋</a>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">粵語 × 日語 · 音讀</div>
+  <h1><span class="zh">用廣東話讀日文音讀</span><span class="ja">広東語で日本語の音読みを読む</span></h1>
+  <p class="sub">
+    <span class="zh">廣東話保留咗入聲。所以你一睇個粵音，就估到日文個音讀係「っ」、「ん」定係長音。呢樣嘢，講普通話嘅人做唔到。</span>
+    <span class="ja">広東語には入声が残っています。だから広東語の音を見れば、日本語の音読みが「っ」になるか「ん」になるか長音になるかが予測できます。これは普通話の話者にはできません。</span>
+  </p>
+</header>
+
+<p class="lead">
+  <span class="zh">好多人學日文漢字，都係一個一個死記。但係如果你識廣東話，其實你已經有一套現成嘅工具，只係冇人話過你知。</span>
+  <span class="ja">日本語の漢字を、一つずつ丸暗記している人は多いと思います。でも広東語ができるなら、すでに道具は手元にあります。誰も教えてくれなかっただけです。</span>
+</p>
+
+<div class="callout">
+  <span class="zh"><b>一句講晒：</b>廣東話字尾係 -p / -t / -k，日文就會出現「っ」；係 -m / -n，就係「ん」；係 -ng，就係長音。</span>
+  <span class="ja"><b>要点：</b>広東語の語末が -p / -t / -k なら日本語では「っ」が出る。-m / -n なら「ん」。-ng なら長音になります。</span>
+</div>
+
+<h2><span class="zh">點解廣東話有著數</span><span class="ja">なぜ広東語が有利なのか</span></h2>
+
+<p>
+  <span class="zh">日文嘅音讀，係一千幾年前由中國傳入日本嘅。當時嘅中文有「入聲」──即係字尾收 -p、-t、-k，好似「學」hok6 個 k 音咁，喉嚨會停一停。</span>
+  <span class="ja">日本語の音読みは、千数百年前に中国から日本に入った音です。当時の中国語には入声がありました。語末が -p、-t、-k で終わる音、つまり「學」hok6 の k のように、喉が一度止まる音です。</span>
+</p>
+<p>
+  <span class="zh">普通話後來冇晒呢啲收音，所以「學 xué」聽落係開放音，乜線索都冇。但係廣東話原封不動保留咗，所以你講「學」嘅時候，個 -k 仲喺度。</span>
+  <span class="ja">普通話ではこの韻尾が消えました。だから「學 xué」からは何の手がかりも得られません。広東語はそのまま保っているので、「學」と言うとき -k がまだ残っています。</span>
+</p>
+<p>
+  <span class="zh"><strong>而日文嘅促音「っ」，正正就係嗰個停頓。</strong>你唔使學點樣發「がっこう」個「っ」──你講「學」嘅時候，一直都喺度發緊。</span>
+  <span class="ja"><strong>そして日本語の促音「っ」は、まさにその止まりです。</strong>「がっこう」の「っ」を新しく覚える必要はありません。「學」と言うたびに、ずっと発音しています。</span>
+</p>
+
+<div class="vs">
+  <div class="vs-c">
+    <h4><span class="zh">講普通話嘅人睇到</span><span class="ja">普通話話者に見えるもの</span></h4>
+    <div class="big">學 xué　三 sān　東 dōng</div>
+    <div class="note"><span class="zh">三個字尾都唔同，但係同日文冇明顯關係。要逐個記。</span><span class="ja">語末はそれぞれ違うが、日本語との対応が見えない。一つずつ覚えるしかない。</span></div>
+  </div>
+  <div class="vs-c">
+    <h4><span class="zh">講廣東話嘅人睇到</span><span class="ja">広東語話者に見えるもの</span></h4>
+    <div class="big">學 ho<span class="coda c-k">k</span>　三 saa<span class="coda c-m">m</span>　東 du<span class="coda c-ng">ng</span></div>
+    <div class="note"><span class="zh">-k → がく（がっこう）／-m → さん／-ng → とう。三個都估得到。</span><span class="ja">-k → がく（がっこう）／-m → さん／-ng → とう。三つとも予測できる。</span></div>
+  </div>
+</div>
+
+<h2><span class="zh">六個韻尾，六條規則</span><span class="ja">六つの韻尾、六つの規則</span></h2>
+
+<div class="maintable">
+
+  <div class="row r-k">
+    <div class="row-h"><span class="big">-k</span><span class="to">→ く・き</span></div>
+    <div class="row-b">
+      <div class="rule"><span class="zh">收 -k → 日文「く」或「き」</span><span class="ja">-k で終わる → 日本語は「く」か「き」</span></div>
+      <div class="ex">
+        <span class="ex-i"><b>學</b><span class="jy">hok6</span><span class="ar">→</span><span class="on">がく</span></span>
+        <span class="ex-i"><b>國</b><span class="jy">gwok3</span><span class="ar">→</span><span class="on">こく</span></span>
+        <span class="ex-i"><b>百</b><span class="jy">baak3</span><span class="ar">→</span><span class="on">ひゃく</span></span>
+        <span class="ex-i"><b>食</b><span class="jy">sik6</span><span class="ar">→</span><span class="on">しょく</span></span>
+        <span class="ex-i"><b>力</b><span class="jy">lik6</span><span class="ar">→</span><span class="on">りょく</span></span>
+        <span class="ex-i"><b>客</b><span class="jy">haak3</span><span class="ar">→</span><span class="on">きゃく</span></span>
+        <span class="ex-i"><b>白</b><span class="jy">baak6</span><span class="ar">→</span><span class="on">はく</span></span>
+        <span class="ex-i"><b>特</b><span class="jy">dak6</span><span class="ar">→</span><span class="on">とく</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row r-t">
+    <div class="row-h"><span class="big">-t</span><span class="to">→ つ・ち</span></div>
+    <div class="row-b">
+      <div class="rule"><span class="zh">收 -t → 日文「つ」或「ち」</span><span class="ja">-t で終わる → 日本語は「つ」か「ち」</span></div>
+      <div class="ex">
+        <span class="ex-i"><b>一</b><span class="jy">jat1</span><span class="ar">→</span><span class="on">いち</span></span>
+        <span class="ex-i"><b>日</b><span class="jy">jat6</span><span class="ar">→</span><span class="on">にち</span></span>
+        <span class="ex-i"><b>月</b><span class="jy">jyut6</span><span class="ar">→</span><span class="on">げつ</span></span>
+        <span class="ex-i"><b>發</b><span class="jy">faat3</span><span class="ar">→</span><span class="on">はつ</span></span>
+        <span class="ex-i"><b>出</b><span class="jy">ceot1</span><span class="ar">→</span><span class="on">しゅつ</span></span>
+        <span class="ex-i"><b>實</b><span class="jy">sat6</span><span class="ar">→</span><span class="on">じつ</span></span>
+        <span class="ex-i"><b>熱</b><span class="jy">jit6</span><span class="ar">→</span><span class="on">ねつ</span></span>
+        <span class="ex-i"><b>質</b><span class="jy">zat1</span><span class="ar">→</span><span class="on">しつ</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row r-p">
+    <div class="row-h"><span class="big">-p</span><span class="to">→ う</span></div>
+    <div class="row-b">
+      <div class="rule"><span class="zh">收 -p → 日文「う」（以前係「ふ」）</span><span class="ja">-p で終わる → 日本語は「う」（古くは「ふ」）</span></div>
+      <div class="ex">
+        <span class="ex-i"><b>十</b><span class="jy">sap6</span><span class="ar">→</span><span class="on">じゅう</span></span>
+        <span class="ex-i"><b>急</b><span class="jy">gap1</span><span class="ar">→</span><span class="on">きゅう</span></span>
+        <span class="ex-i"><b>習</b><span class="jy">zaap6</span><span class="ar">→</span><span class="on">しゅう</span></span>
+        <span class="ex-i"><b>入</b><span class="jy">jap6</span><span class="ar">→</span><span class="on">にゅう</span></span>
+        <span class="ex-i"><b>業</b><span class="jy">jip6</span><span class="ar">→</span><span class="on">ぎょう</span></span>
+        <span class="ex-i"><b>答</b><span class="jy">daap3</span><span class="ar">→</span><span class="on">とう</span></span>
+        <span class="ex-i"><b>合</b><span class="jy">hap6</span><span class="ar">→</span><span class="on">ごう</span></span>
+        <span class="ex-i"><b>集</b><span class="jy">zaap6</span><span class="ar">→</span><span class="on">しゅう</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row r-m">
+    <div class="row-h"><span class="big">-m</span><span class="to">→ ん</span></div>
+    <div class="row-b">
+      <div class="rule"><span class="zh">收 -m → 日文「ん」</span><span class="ja">-m で終わる → 日本語は「ん」</span></div>
+      <div class="ex">
+        <span class="ex-i"><b>三</b><span class="jy">saam1</span><span class="ar">→</span><span class="on">さん</span></span>
+        <span class="ex-i"><b>心</b><span class="jy">sam1</span><span class="ar">→</span><span class="on">しん</span></span>
+        <span class="ex-i"><b>金</b><span class="jy">gam1</span><span class="ar">→</span><span class="on">きん</span></span>
+        <span class="ex-i"><b>音</b><span class="jy">jam1</span><span class="ar">→</span><span class="on">おん</span></span>
+        <span class="ex-i"><b>南</b><span class="jy">naam4</span><span class="ar">→</span><span class="on">なん</span></span>
+        <span class="ex-i"><b>點</b><span class="jy">dim2</span><span class="ar">→</span><span class="on">てん</span></span>
+        <span class="ex-i"><b>感</b><span class="jy">gam2</span><span class="ar">→</span><span class="on">かん</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row r-m">
+    <div class="row-h"><span class="big">-n</span><span class="to">→ ん</span></div>
+    <div class="row-b">
+      <div class="rule"><span class="zh">收 -n → 日文都係「ん」</span><span class="ja">-n で終わる → こちらも「ん」</span></div>
+      <div class="ex">
+        <span class="ex-i"><b>山</b><span class="jy">saan1</span><span class="ar">→</span><span class="on">さん</span></span>
+        <span class="ex-i"><b>新</b><span class="jy">san1</span><span class="ar">→</span><span class="on">しん</span></span>
+        <span class="ex-i"><b>天</b><span class="jy">tin1</span><span class="ar">→</span><span class="on">てん</span></span>
+        <span class="ex-i"><b>先</b><span class="jy">sin1</span><span class="ar">→</span><span class="on">せん</span></span>
+        <span class="ex-i"><b>萬</b><span class="jy">maan6</span><span class="ar">→</span><span class="on">まん</span></span>
+        <span class="ex-i"><b>電</b><span class="jy">din6</span><span class="ar">→</span><span class="on">でん</span></span>
+        <span class="ex-i"><b>文</b><span class="jy">man4</span><span class="ar">→</span><span class="on">ぶん</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row r-ng">
+    <div class="row-h"><span class="big">-ng</span><span class="to">→ 長音</span></div>
+    <div class="row-b">
+      <div class="rule"><span class="zh">收 -ng → 日文係長音（ー・う・い），唔係「ん」</span><span class="ja">-ng で終わる → 長音（ー・う・い）。「ん」ではありません</span></div>
+      <div class="ex">
+        <span class="ex-i"><b>東</b><span class="jy">dung1</span><span class="ar">→</span><span class="on">とう</span></span>
+        <span class="ex-i"><b>中</b><span class="jy">zung1</span><span class="ar">→</span><span class="on">ちゅう</span></span>
+        <span class="ex-i"><b>京</b><span class="jy">ging1</span><span class="ar">→</span><span class="on">きょう</span></span>
+        <span class="ex-i"><b>明</b><span class="jy">ming4</span><span class="ar">→</span><span class="on">めい</span></span>
+        <span class="ex-i"><b>長</b><span class="jy">coeng4</span><span class="ar">→</span><span class="on">ちょう</span></span>
+        <span class="ex-i"><b>上</b><span class="jy">soeng6</span><span class="ar">→</span><span class="on">じょう</span></span>
+        <span class="ex-i"><b>生</b><span class="jy">sang1</span><span class="ar">→</span><span class="on">せい</span></span>
+        <span class="ex-i"><b>英</b><span class="jy">jing1</span><span class="ar">→</span><span class="on">えい</span></span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="callout">
+  <span class="zh"><b>最緊要嘅一條：</b>-m / -n 係「ん」，-ng 係<b>長音</b>。好多學生成日搞錯「東京」讀「とんきょん」定「とうきょう」──其實 <b>東 dung1</b> 同 <b>京 ging1</b> 都係 -ng，所以兩個都係長音：<b>とうきょう</b>。</span>
+  <span class="ja"><b>最重要な一点：</b>-m / -n は「ん」、-ng は<b>長音</b>です。「東京」を「とんきょん」としてしまう間違いが多いですが、<b>東 dung1</b> も <b>京 ging1</b> も -ng なので、どちらも長音になり <b>とうきょう</b> です。</span>
+</div>
+
+<h2><span class="zh">點樣估到「っ」</span><span class="ja">「っ」をどう予測するか</span></h2>
+
+<p>
+  <span class="zh">收 -p / -t / -k 嘅字，如果後面接住嘅字係清音（か・さ・た・は行），個尾音就會變成「っ」。</span>
+  <span class="ja">-p / -t / -k で終わる字のうしろに、清音（か・さ・た・は行）が来ると、その末尾が「っ」に変わります。</span>
+</p>
+
+<table class="plain">
+  <thead><tr>
+    <th><span class="zh">粵音</span><span class="ja">広東語</span></th>
+    <th><span class="zh">單獨讀</span><span class="ja">単独</span></th>
+    <th><span class="zh">組詞</span><span class="ja">熟語</span></th>
+    <th><span class="zh">點解</span><span class="ja">理由</span></th>
+  </tr></thead>
+  <tbody>
+    <tr><td>學 ho<b>k</b> + 校</td><td>がく</td><td class="j">が<b>っ</b>こう</td><td><span class="zh">-k 撞 か行</span><span class="ja">-k ＋ か行</span></td></tr>
+    <tr><td>國 gwo<b>k</b> + 家</td><td>こく</td><td class="j">こ<b>っ</b>か</td><td><span class="zh">-k 撞 か行</span><span class="ja">-k ＋ か行</span></td></tr>
+    <tr><td>一 ja<b>t</b> + 本</td><td>いち</td><td class="j">い<b>っ</b>ぽん</td><td><span class="zh">-t 撞 は行 → ぱ行</span><span class="ja">-t ＋ は行 → ぱ行</span></td></tr>
+    <tr><td>發 faa<b>t</b> + 表</td><td>はつ</td><td class="j">は<b>っ</b>ぴょう</td><td><span class="zh">-t 撞 は行 → ぱ行</span><span class="ja">-t ＋ は行 → ぱ行</span></td></tr>
+    <tr><td>出 ceo<b>t</b> + 發</td><td>しゅつ</td><td class="j">しゅ<b>っ</b>ぱつ</td><td><span class="zh">-t 撞 は行</span><span class="ja">-t ＋ は行</span></td></tr>
+    <tr><td>十 sa<b>p</b> + 分</td><td>じゅう</td><td class="j">じゅ<b>っ</b>ぷん</td><td><span class="zh">-p 撞 は行 → ぱ行</span><span class="ja">-p ＋ は行 → ぱ行</span></td></tr>
+    <tr><td>雜 zaa<b>p</b> + 誌</td><td>ざつ</td><td class="j">ざ<b>っ</b>し</td><td><span class="zh">-p 撞 さ行</span><span class="ja">-p ＋ さ行</span></td></tr>
+  </tbody>
+</table>
+
+<p>
+  <span class="zh">相反，如果後面接住嘅係濁音（が・ざ・だ・ば行）或者鼻音（な・ま行），就<strong>唔會</strong>變「っ」。</span>
+  <span class="ja">逆に、うしろが濁音（が・ざ・だ・ば行）や鼻音（な・ま行）なら、<strong>「っ」になりません</strong>。</span>
+</p>
+
+<div class="vs">
+  <div class="vs-c">
+    <h4><span class="zh">會變「っ」</span><span class="ja">「っ」になる</span></h4>
+    <div class="big">學校 が<b>っ</b>こう<br>一杯 い<b>っ</b>ぱい</div>
+    <div class="note"><span class="zh">後面係 か・さ・た・は行</span><span class="ja">うしろが か・さ・た・は行</span></div>
+  </div>
+  <div class="vs-c">
+    <h4><span class="zh">唔會變</span><span class="ja">「っ」にならない</span></h4>
+    <div class="big">學生 が<b>く</b>せい<br>國民 こ<b>く</b>みん</div>
+    <div class="note"><span class="zh">「く」保持原狀（-k 主要係撞か行先變）</span><span class="ja">「く」のまま（-k は主にか行の前で変わる）</span></div>
+  </div>
+</div>
+
+<h2><span class="zh">例外</span><span class="ja">例外</span></h2>
+
+<div class="callout warn">
+  <span class="zh"><b>-t 同 -k 幾乎百發百中，但 -p 有啲例外。</b>唔講埋出嚟就唔老實。</span>
+  <span class="ja"><b>-t と -k はほぼ確実に当たりますが、-p には例外があります。</b>隠さずに書いておきます。</span>
+</div>
+
+<table class="plain">
+  <thead><tr>
+    <th><span class="zh">字</span><span class="ja">字</span></th>
+    <th><span class="zh">規則上</span><span class="ja">規則どおりなら</span></th>
+    <th><span class="zh">實際</span><span class="ja">実際</span></th>
+    <th><span class="zh">備註</span><span class="ja">備考</span></th>
+  </tr></thead>
+  <tbody>
+    <tr><td>立 laap6</td><td>りゅう</td><td class="j">りつ</td>
+      <td><span class="zh">但「建立」讀 こん<b>りゅう</b>，舊音仲喺度</span><span class="ja">ただし「建立 こんりゅう」に古い音が残る</span></td></tr>
+    <tr><td>接 zip3</td><td>しょう</td><td class="j">せつ</td>
+      <td><span class="zh">慣用音</span><span class="ja">慣用音</span></td></tr>
+    <tr><td>雜 zaap6</td><td>ぞう</td><td class="j">ざつ</td>
+      <td><span class="zh">兩個都有：雜木林 <b>ぞう</b>きばやし</span><span class="ja">両方ある：雑木林 ぞうきばやし</span></td></tr>
+    <tr><td>法 faat3</td><td>—</td><td class="j">ほう</td>
+      <td><span class="zh">呢個係粵語變咗（本來收 -p）</span><span class="ja">これは広東語側が変化（本来 -p）</span></td></tr>
+  </tbody>
+</table>
+
+<p>
+  <span class="zh">另外，日本漢字有啲同繁體字唔同形，要留意：<strong>學→学、國→国、發→発、實→実、萬→万、點→点、廣→広、藝→芸</strong>。意思一樣，寫法唔同。</span>
+  <span class="ja">また、日本の漢字は繁体字と形が違うものがあります：<strong>學→学、國→国、發→発、實→実、萬→万、點→点、廣→広、藝→芸</strong>。意味は同じで字体が違うだけです。</span>
+</p>
+
+<h2><span class="zh">試吓</span><span class="ja">試してみる</span></h2>
+
+<p>
+  <span class="zh">睇住個粵音，估下日文個音讀係邊種。</span>
+  <span class="ja">広東語の音を見て、日本語の音読みがどれになるか当ててください。</span>
+</p>
+
+<div class="quiz" id="quiz">
+  <div class="q-top">
+    <span class="q-n" id="qn"></span>
+    <span class="q-sc" id="qsc"></span>
+  </div>
+  <div class="q-char"><div class="c" id="qc"></div><div class="jy" id="qj"></div></div>
+  <div class="q-opts" id="qo"></div>
+  <div class="q-fb" id="qf"></div>
+  <button class="q-next" id="qnext" type="button"></button>
+</div>
+
+<footer>
+  <p>
+    <span class="zh">粵拼（Jyutping）根據香港語言學學會方案。日文音讀以現代常用音為準，古音（歷史的假名遣い）只喺解釋時提及。</span>
+    <span class="ja">粤拼（Jyutping）は香港語言学学会方式。日本語の音読みは現代の常用音を基準にし、歴史的仮名遣いは説明のためだけに触れています。</span>
+  </p>
+  <p>© 日本語の部屋</p>
+</footer>
+
+</div>
+
+<script>
+/* ---- 言語切替 ---- */
+var LS='nnh_onyomi_lang';
+function setLang(l){
+  document.body.className='lang-'+l;
+  document.getElementById('bZh').classList.toggle('on',l==='zh');
+  document.getElementById('bJa').classList.toggle('on',l==='ja');
+  document.documentElement.lang = (l==='ja')?'ja':'zh-Hant';
+  try{localStorage.setItem(LS,l);}catch(e){}
+  if(window.QZ) drawQ();
+}
+document.getElementById('bZh').onclick=function(){setLang('zh');};
+document.getElementById('bJa').onclick=function(){setLang('ja');};
+(function(){var l='zh';try{l=localStorage.getItem(LS)||'zh';}catch(e){}setLang(l);})();
+
+/* ---- 練習 ---- */
+var BANK=[
+ {c:'學',j:'hok6',a:'く',on:'がく',w:'学校 がっこう'},
+ {c:'月',j:'jyut6',a:'つ',on:'げつ',w:'月曜日 げつようび'},
+ {c:'三',j:'saam1',a:'ん',on:'さん',w:'三人 さんにん'},
+ {c:'東',j:'dung1',a:'長音',on:'とう',w:'東京 とうきょう'},
+ {c:'十',j:'sap6',a:'う',on:'じゅう',w:'十分 じゅっぷん'},
+ {c:'國',j:'gwok3',a:'く',on:'こく',w:'国家 こっか'},
+ {c:'新',j:'san1',a:'ん',on:'しん',w:'新聞 しんぶん'},
+ {c:'中',j:'zung1',a:'長音',on:'ちゅう',w:'中国 ちゅうごく'},
+ {c:'發',j:'faat3',a:'つ',on:'はつ',w:'発表 はっぴょう'},
+ {c:'金',j:'gam1',a:'ん',on:'きん',w:'金曜日 きんようび'},
+ {c:'食',j:'sik6',a:'く',on:'しょく',w:'食事 しょくじ'},
+ {c:'長',j:'coeng4',a:'長音',on:'ちょう',w:'社長 しゃちょう'},
+ {c:'急',j:'gap1',a:'う',on:'きゅう',w:'急行 きゅうこう'},
+ {c:'實',j:'sat6',a:'つ',on:'じつ',w:'実は じつは'},
+ {c:'電',j:'din6',a:'ん',on:'でん',w:'電話 でんわ'},
+ {c:'明',j:'ming4',a:'長音',on:'めい',w:'説明 せつめい'}
+];
+var OPTS=['く','つ','う','ん','長音'];
+var QZ={q:[],i:0,ok:0,done:false};
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function newRound(){
+  QZ.q=shuffle(BANK.slice()).slice(0,8); QZ.i=0; QZ.ok=0; QZ.done=false; drawQ();
+}
+function T(zh,ja){return (document.body.className==='lang-ja')?ja:zh;}
+function drawQ(){
+  if(QZ.done) return drawEnd();
+  var q=QZ.q[QZ.i];
+  document.getElementById('qn').textContent=T('第 '+(QZ.i+1)+' / '+QZ.q.length+' 題','第 '+(QZ.i+1)+' / '+QZ.q.length+' 問');
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  document.getElementById('qc').textContent=q.c;
+  document.getElementById('qj').textContent=q.j;
+  var o=document.getElementById('qo'); o.innerHTML='';
+  var picks=shuffle([q.a].concat(shuffle(OPTS.filter(function(x){return x!==q.a;})).slice(0,3)));
+  picks.forEach(function(p){
+    var b=document.createElement('button'); b.type='button'; b.className='q-b'; b.textContent=p;
+    b.onclick=function(){answer(p,b);};
+    o.appendChild(b);
+  });
+  var f=document.getElementById('qf'); f.className='q-fb'; f.innerHTML='';
+  document.getElementById('qnext').className='q-next';
+}
+function answer(p,btn){
+  var q=QZ.q[QZ.i];
+  var bs=document.querySelectorAll('#qo .q-b');
+  for(var i=0;i<bs.length;i++){
+    if(bs[i].textContent===q.a) bs[i].className='q-b ok';
+    else if(bs[i]===btn) bs[i].className='q-b ng';
+    else bs[i].className='q-b dim';
+    bs[i].onclick=null;
+  }
+  if(p===q.a) QZ.ok++;
+  var f=document.getElementById('qf');
+  f.innerHTML=(p===q.a?'⭕ ':'❌ ')+
+    T('<b>'+q.c+'</b> '+q.j+' → <b>'+q.on+'</b>（'+q.w+'）',
+      '<b>'+q.c+'</b> '+q.j+' → <b>'+q.on+'</b>（'+q.w+'）');
+  f.className='q-fb show';
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  var n=document.getElementById('qnext');
+  n.textContent=(QZ.i>=QZ.q.length-1)?T('睇結果','結果を見る'):T('下一題 ›','つぎへ ›');
+  n.className='q-next show';
+}
+document.getElementById('qnext').onclick=function(){
+  if(QZ.i>=QZ.q.length-1){ QZ.done=true; drawEnd(); return; }
+  QZ.i++; drawQ();
+};
+function drawEnd(){
+  document.getElementById('qn').textContent=T('完成','おわり');
+  document.getElementById('qsc').textContent='';
+  document.getElementById('qc').textContent=(QZ.ok>=7?'🎉':(QZ.ok>=5?'👍':'📚'));
+  document.getElementById('qj').textContent='';
+  document.getElementById('qo').innerHTML='';
+  var f=document.getElementById('qf');
+  f.innerHTML=T('<b>'+QZ.ok+' / '+QZ.q.length+'</b> 題答啱。'+
+      (QZ.ok>=7?'你已經捉到個規律喇。':'返上面睇多次個表，再試過。'),
+    '<b>'+QZ.ok+' / '+QZ.q.length+'</b> 正解。'+
+      (QZ.ok>=7?'規則をつかめています。':'上の表をもう一度見てから、もう一度どうぞ。'));
+  f.className='q-fb show';
+  var n=document.getElementById('qnext');
+  n.textContent=T('再嚟一次','もう一度');
+  n.className='q-next show';
+  n.onclick=function(){ newRound(); n.onclick=nextHandler; };
+}
+var nextHandler=document.getElementById('qnext').onclick;
+newRound();
+</script>
+</body>
+</html>

@@ -173,6 +173,24 @@
   .wja{font-size:13.5px;font-weight:800;flex-shrink:0;min-width:88px;}
   .wex{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
   .wex em{display:block;font-style:normal;color:var(--text-hint);font-size:10.5px;letter-spacing:.02em;}
+  /* 母語表示 */
+  .tr{color:var(--text-hint);font-weight:600;}
+  .bin .bl .tr{display:block;font-size:8.5px;line-height:1.2;margin-top:1px;letter-spacing:0;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .tray-txt .tr{display:block;font-size:11px;margin-top:1px;}
+  .qfb .tr-safe{margin-top:9px;padding:9px 11px;border-radius:9px;background:var(--bg);
+    border:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--text-muted);}
+  .seq-b .tx .tr{display:block;font-size:10px;font-weight:600;margin-top:1px;}
+  .prep-b .tr{display:block;font-size:9.5px;font-weight:600;margin-top:1px;}
+  .wex .tr2{display:block;color:var(--teal);font-size:11px;font-weight:700;margin-top:1px;}
+  /* 言語えらび */
+  .lang-btn{position:fixed;top:10px;right:64px;z-index:9999;font-family:inherit;font-size:11px;
+    font-weight:700;letter-spacing:.04em;padding:6px 11px;border-radius:999px;border:1px solid #E2DDD6;
+    background:rgba(255,255,255,.92);color:#1C1C1C;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);}
+  .lang-list{display:flex;flex-direction:column;gap:7px;}
+  .lang-i{border:1px solid var(--border);background:var(--surface);border-radius:11px;padding:12px 14px;
+    font-family:inherit;font-size:14px;font-weight:700;color:var(--text);text-align:left;cursor:pointer;}
+  .lang-i.on{border-color:var(--teal);background:var(--teal-bg);color:var(--teal);}
   .seq-pair{display:flex;gap:6px;}
   .seq-pair .seq-b{flex:1;}
   .tray-hint{font-size:13px;font-weight:700;color:var(--text-hint);}
@@ -428,6 +446,16 @@
       <div class="rq-fb" id="rqFb"></div>
       <button class="btn btn-primary" id="rqNext" style="margin-top:10px;display:none;">つぎへ ›</button>
     </div>
+  </div>
+</div>
+
+<div class="overlay" id="ovLang">
+  <div class="sheet">
+    <div class="sheet-grip"></div>
+    <div class="sheet-title">🌐 ことばの いみを 見る</div>
+    <div class="sheet-sub">日本語は そのまま。下に あなたの ことばで いみが 出ます。<br>
+      <span class="en">Japanese stays; your language is shown underneath as support.</span></div>
+    <div class="lang-list" id="langList"></div>
   </div>
 </div>
 
@@ -721,6 +749,54 @@ function itemPool(city,diff){const ids={};binsShown(city,diff).forEach(b=>ids[b.
   return Object.keys(ITEMS).filter(k=>ITEMS[k].lv<=diff&&ids[resolveBinId(city,ITEMS[k])]);}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
+/* ============ 多言語（母語での意味表示） ============
+   訳語は、自治体が実際に多言語版のごみ案内で使っている表記に合わせている。
+   参照した公的資料（TR.sources に保持）：
+     西尾市 家庭用ごみ収集カレンダー（英・葡・中・越）
+     那須烏山市 ごみ分別 多言語表（英・中）
+     千葉市 ごみ分別 韓国語版
+     名古屋市 ごみの分け方・出し方（やさしい日本語）
+   用語（単語）は標準語彙として使用。説明文は当サイトのオリジナル。
+   日本語学習のサイトなので、日本語は消さずに残し、母語は「支え」として下に出す。
+   訳語は品目名・区分名・安全にかかわる説明・手順・掲示のことばに限定している。 */
+const TR={"langs":[{"id":"en","label":"English"},{"id":"zh","label":"中文"},{"id":"vi","label":"Tiếng Việt"},{"id":"ko","label":"한국어"},{"id":"pt","label":"Português"}],"bins":{"可燃":{"en":"Burnable garbage","zh":"可燃垃圾","vi":"Rác cháy được","ko":"타는 쓰레기","pt":"Lixo combustível"},"燃える":{"en":"Burnable garbage","zh":"可燃垃圾","vi":"Rác cháy được","ko":"타는 쓰레기","pt":"Lixo combustível"},"燃やせる":{"en":"Burnable garbage","zh":"可燃垃圾","vi":"Rác cháy được","ko":"타는 쓰레기","pt":"Lixo combustível"},"普通ごみ":{"en":"Burnable garbage","zh":"可燃垃圾","vi":"Rác cháy được","ko":"타는 쓰레기","pt":"Lixo combustível"},"不燃":{"en":"Non-burnable garbage","zh":"不可燃垃圾","vi":"Rác không cháy được","ko":"타지 않는 쓰레기","pt":"Lixo não-combustível"},"燃えない":{"en":"Non-burnable garbage","zh":"不可燃垃圾","vi":"Rác không cháy được","ko":"타지 않는 쓰레기","pt":"Lixo não-combustível"},"燃やせない":{"en":"Non-burnable garbage","zh":"不可燃垃圾","vi":"Rác không cháy được","ko":"타지 않는 쓰레기","pt":"Lixo não-combustível"},"プラ資源":{"en":"Plastic recyclables","zh":"塑料制容器包装","vi":"Nhựa tái chế","ko":"플라스틱 자원","pt":"Plástico reciclável"},"容器包装プラ":{"en":"Plastic containers and packaging","zh":"塑料制容器包装","vi":"Bao bì nhựa","ko":"용기포장 플라스틱","pt":"Recipientes e embalagens de plástico"},"その他プラ":{"en":"Other plastics","zh":"其他塑料制品","vi":"Nhựa khác","ko":"기타 플라스틱","pt":"Outros plásticos"},"ペットボトル":{"en":"PET bottles","zh":"塑料瓶（PET）","vi":"Chai nhựa PET","ko":"페트병","pt":"Garrafas PET"},"びん・ペット":{"en":"Bottles and PET bottles","zh":"空瓶・塑料瓶","vi":"Chai rỗng và chai nhựa PET","ko":"빈 병·페트병","pt":"Garrafas de vidro e PET"},"びん・缶類":{"en":"Bottles and cans","zh":"空瓶・空罐","vi":"Chai rỗng và lon rỗng","ko":"빈 병·빈 캔","pt":"Garrafas de vidro e latas"},"びん缶ペット":{"en":"Bottles, cans and PET bottles","zh":"空瓶・空罐・塑料瓶","vi":"Chai, lon và chai nhựa PET","ko":"병·캔·페트병","pt":"Vidro, latas e PET"},"缶びんペット":{"en":"Cans, bottles and PET bottles","zh":"空罐・空瓶・塑料瓶","vi":"Lon, chai và chai nhựa PET","ko":"캔·병·페트병","pt":"Latas, vidro e PET"},"資源ごみ":{"en":"Recyclables","zh":"资源类废弃物","vi":"Rác tái chế","ko":"자원 쓰레기","pt":"Lixo reciclável"},"古紙":{"en":"Waste paper","zh":"纸类","vi":"Các loại giấy","ko":"폐지","pt":"Papéis"},"古紙・衣類":{"en":"Paper and cloth","zh":"纸类・布类","vi":"Các loại giấy và các loại vải","ko":"폐지·의류","pt":"Papéis e tecidos"},"紙・布":{"en":"Paper and cloth","zh":"纸类・布类","vi":"Các loại giấy và các loại vải","ko":"폐지·의류","pt":"Papéis e tecidos"},"発火性危険":{"en":"Fire-hazard waste","zh":"易燃危险垃圾","vi":"Rác dễ cháy nổ","ko":"발화성 위험 쓰레기","pt":"Lixo inflamável"},"処理困難物":{"en":"Hard-to-process waste","zh":"难处理垃圾","vi":"Rác khó xử lý","ko":"처리곤란 쓰레기","pt":"Lixo de difícil tratamento"},"先に処理する":{"en":"Treat it first","zh":"先做处理","vi":"Xử lý trước","ko":"먼저 처리하기","pt":"Trate antes"},"充電池の回収へ":{"en":"To rechargeable-battery collection","zh":"送充电电池回收点","vi":"Đến nơi thu gom pin sạc","ko":"충전지 수거함으로","pt":"Ao ponto de coleta de baterias recarregáveis"},"回収ボックスへ":{"en":"To the collection box","zh":"投入回收箱","vi":"Bỏ vào hộp thu gom","ko":"수거함으로","pt":"Na caixa de coleta"},"役所に連絡":{"en":"Contact the city office","zh":"联系市政府","vi":"Liên hệ tòa thị chính","ko":"시청에 연락","pt":"Contate a prefeitura"},"お店に連絡":{"en":"Contact the shop","zh":"联系购买的商店","vi":"Liên hệ cửa hàng","ko":"구입한 가게에 연락","pt":"Contate a loja"},"メーカーに連絡":{"en":"Contact the maker","zh":"联系厂商","vi":"Liên hệ nhà sản xuất","ko":"제조사에 연락","pt":"Contate o fabricante"}},"items":{"nama":{"en":"Food scraps (vegetable)","zh":"厨余垃圾（菜叶）","vi":"Rác thực phẩm (vỏ rau)","ko":"음식물 쓰레기(채소 찌꺼기)","pt":"Restos de comida (legumes)"},"pet":{"en":"PET bottles","zh":"塑料瓶（PET）","vi":"Chai nhựa PET","ko":"페트병","pt":"Garrafas PET"},"can":{"en":"Aluminium cans","zh":"铝罐","vi":"Lon nhôm","ko":"알루미늄 캔","pt":"Latas de alumínio"},"bine":{"en":"Glass bottles","zh":"空瓶","vi":"Chai thủy tinh","ko":"빈 병","pt":"Garrafas de vidro"},"bento":{"en":"Plastic bento tray","zh":"塑料便当盒","vi":"Hộp cơm nhựa","ko":"플라스틱 도시락 용기","pt":"Marmita de plástico"},"cap":{"en":"Bottle cap","zh":"塑料瓶盖","vi":"Nắp chai nhựa","ko":"페트병 뚜껑","pt":"Tampa de garrafa"},"news":{"en":"Newspaper","zh":"报纸","vi":"Báo","ko":"신문지","pt":"Jornais"},"cardb":{"en":"Cardboard","zh":"纸板","vi":"Thùng carton","ko":"골판지","pt":"Papelão"},"zasshi":{"en":"Magazines and misc. paper","zh":"杂志・杂纸","vi":"Tạp chí và giấy vụn","ko":"잡지·잡종이","pt":"Revistas e papéis diversos"},"milk":{"en":"Paper cartons","zh":"纸包装","vi":"Hộp giấy","ko":"종이팩","pt":"Cartonados"},"tray":{"en":"Foam food tray","zh":"泡沫食品托盘","vi":"Khay xốp đựng thực phẩm","ko":"스티로폼 식품 트레이","pt":"Bandeja de isopor"},"cupmen":{"en":"Instant noodle cup","zh":"泡面碗","vi":"Cốc mì ăn liền","ko":"컵라면 용기","pt":"Copo de macarrão instantâneo"},"okashi":{"en":"Snack bag","zh":"零食袋","vi":"Túi bánh kẹo","ko":"과자 봉지","pt":"Embalagem de salgadinho"},"omutsu":{"en":"Used diaper","zh":"用过的纸尿裤","vi":"Bỉm đã dùng","ko":"사용한 기저귀","pt":"Fralda usada"},"tissue":{"en":"Used tissue","zh":"用过的纸巾","vi":"Giấy ăn đã dùng","ko":"사용한 휴지","pt":"Lenço de papel usado"},"glassbroken":{"en":"Broken glass cup","zh":"打碎的玻璃杯","vi":"Cốc thủy tinh vỡ","ko":"깨진 유리컵","pt":"Copo de vidro quebrado"},"chawan":{"en":"Broken ceramic bowl","zh":"打碎的陶瓷碗","vi":"Bát sứ vỡ","ko":"깨진 도자기 그릇","pt":"Tigela de cerâmica quebrada"},"spray":{"en":"Spray cans (empty)","zh":"喷雾罐（空）","vi":"Lon xịt (đã hết)","ko":"스프레이 캔(빈 것)","pt":"Latas de spray (vazias)"},"spray_full":{"en":"Spray can with contents left","zh":"还有残留的喷雾罐","vi":"Lon xịt còn chất bên trong","ko":"내용물이 남은 스프레이 캔","pt":"Lata de spray com conteúdo"},"cloth":{"en":"Fabric products","zh":"旧衣物","vi":"Các loại vải","ko":"의류","pt":"Tecidos"},"frypan":{"en":"Worn-out frying pan","zh":"用旧的平底锅","vi":"Chảo cũ","ko":"낡은 프라이팬","pt":"Frigideira velha"},"bucket":{"en":"Plastic bucket","zh":"塑料水桶","vi":"Xô nhựa","ko":"플라스틱 양동이","pt":"Balde de plástico"},"toy":{"en":"Broken toy car","zh":"坏掉的玩具车","vi":"Ô tô đồ chơi hỏng","ko":"고장난 장난감 자동차","pt":"Carrinho de brinquedo quebrado"},"habrush":{"en":"Toothbrush","zh":"牙刷","vi":"Bàn chải đánh răng","ko":"칫솔","pt":"Escova de dentes"},"cd":{"en":"Unwanted CD or DVD","zh":"不要的CD・DVD","vi":"Đĩa CD hoặc DVD không dùng","ko":"필요 없는 CD·DVD","pt":"CD ou DVD sem uso"},"mirror":{"en":"Broken mirror","zh":"打碎的镜子","vi":"Gương vỡ","ko":"깨진 거울","pt":"Espelho quebrado"},"waribashi":{"en":"Used disposable chopsticks","zh":"用过的一次性筷子","vi":"Đũa dùng một lần đã dùng","ko":"사용한 나무젓가락","pt":"Hashi descartável usado"},"pizzabox":{"en":"Greasy pizza box","zh":"沾油的披萨盒","vi":"Hộp pizza dính dầu mỡ","ko":"기름 묻은 피자 상자","pt":"Caixa de pizza engordurada"},"receipt":{"en":"Receipt (thermal paper)","zh":"收据（热敏纸）","vi":"Hóa đơn (giấy nhiệt)","ko":"영수증(감열지)","pt":"Recibo (papel térmico)"},"shoes":{"en":"Worn-out shoes","zh":"穿旧的鞋","vi":"Giày cũ","ko":"낡은 신발","pt":"Sapatos velhos"},"nuigurumi":{"en":"Broken stuffed toy","zh":"破损的毛绒玩具","vi":"Thú nhồi bông hỏng","ko":"망가진 인형","pt":"Bicho de pelúcia estragado"},"tv":{"en":"Broken TV","zh":"坏掉的电视","vi":"Tivi hỏng","ko":"고장난 TV","pt":"TV quebrada"},"fridge":{"en":"Old refrigerator","zh":"旧冰箱","vi":"Tủ lạnh cũ","ko":"오래된 냉장고","pt":"Geladeira velha"},"washer":{"en":"Broken washing machine","zh":"坏掉的洗衣机","vi":"Máy giặt hỏng","ko":"고장난 세탁기","pt":"Máquina de lavar quebrada"},"aircon":{"en":"Old air conditioner","zh":"旧空调","vi":"Điều hòa cũ","ko":"오래된 에어컨","pt":"Ar-condicionado velho"},"futon":{"en":"Old futon bedding","zh":"旧被褥","vi":"Chăn đệm cũ","ko":"오래된 이불","pt":"Futon velho"},"bicycle":{"en":"Broken bicycle","zh":"坏掉的自行车","vi":"Xe đạp hỏng","ko":"고장난 자전거","pt":"Bicicleta quebrada"},"chair":{"en":"Broken chair","zh":"坏掉的椅子","vi":"Ghế hỏng","ko":"부서진 의자","pt":"Cadeira quebrada"},"suitcase":{"en":"Broken suitcase","zh":"坏掉的行李箱","vi":"Vali hỏng","ko":"망가진 여행가방","pt":"Mala quebrada"},"battery":{"en":"Used dry-cell battery","zh":"用完的干电池","vi":"Pin đã dùng hết","ko":"다 쓴 건전지","pt":"Pilha usada"},"lighter":{"en":"Disposable lighter","zh":"一次性打火机","vi":"Bật lửa dùng một lần","ko":"일회용 라이터","pt":"Isqueiro descartável"},"fluor":{"en":"Burnt-out fluorescent tube","zh":"坏掉的荧光灯管","vi":"Bóng đèn huỳnh quang cháy","ko":"다 된 형광등","pt":"Lâmpada fluorescente queimada"},"pc":{"en":"Broken laptop","zh":"坏掉的笔记本电脑","vi":"Laptop hỏng","ko":"고장난 노트북","pt":"Notebook quebrado"},"desktop":{"en":"Desktop computer","zh":"台式电脑","vi":"Máy tính để bàn","ko":"데스크톱 PC","pt":"Computador de mesa"},"printer":{"en":"Broken printer","zh":"坏掉的打印机","vi":"Máy in hỏng","ko":"고장난 프린터","pt":"Impressora quebrada"},"fan":{"en":"Broken electric fan","zh":"坏掉的电风扇","vi":"Quạt điện hỏng","ko":"고장난 선풍기","pt":"Ventilador quebrado"},"gamem":{"en":"Broken game console","zh":"坏掉的游戏机","vi":"Máy chơi game hỏng","ko":"고장난 게임기","pt":"Videogame quebrado"},"abura_raw":{"en":"Used cooking oil","zh":"用过的食用油","vi":"Dầu ăn đã qua sử dụng","ko":"사용한 튀김 기름","pt":"Óleo de fritura usado"},"abura_katameta":{"en":"Solidified oil","zh":"凝固后的油","vi":"Dầu đã làm đông","ko":"굳힌 기름","pt":"Óleo solidificado"},"abura_kami":{"en":"Oil soaked into newspaper","zh":"用报纸吸掉的油","vi":"Dầu thấm vào giấy báo","ko":"신문지에 흡수시킨 기름","pt":"Óleo absorvido em jornal"},"abura_pan":{"en":"A little oil left in the pan","zh":"平底锅里剩下的少量油","vi":"Chút dầu còn lại trong chảo","ko":"프라이팬에 남은 소량의 기름","pt":"Pouco óleo na frigideira"},"mobilebatt":{"en":"Power bank","zh":"移动电源","vi":"Pin sạc dự phòng","ko":"보조배터리","pt":"Power bank"},"handyfan":{"en":"Rechargeable handheld fan","zh":"充电式手持风扇","vi":"Quạt cầm tay sạc điện","ko":"충전식 휴대용 선풍기","pt":"Ventilador portátil recarregável"},"heattobacco":{"en":"Heated tobacco device","zh":"加热式电子烟","vi":"Thiết bị thuốc lá nung nóng","ko":"가열식 담배","pt":"Dispositivo de tabaco aquecido"},"earphone":{"en":"Wireless earbuds","zh":"无线耳机","vi":"Tai nghe không dây","ko":"무선 이어폰","pt":"Fones de ouvido sem fio"},"smartphone":{"en":"Broken smartphone (small appliance)","zh":"坏掉的智能手机（小型家电）","vi":"Điện thoại hỏng (đồ điện gia dụng cỡ nhỏ)","ko":"고장난 스마트폰(소형가전)","pt":"Smartphone quebrado (eletrodoméstico de pequeno porte)"}},"safety":{"libatt":{"en":"This contains a lithium-ion battery. If it is crushed it can catch fire violently. It is the most common cause of fires in garbage trucks and waste plants. Never put it in normal household waste.","zh":"内含锂离子电池。一旦被压坏就会剧烈起火，是垃圾车和垃圾处理厂火灾最常见的原因。绝对不要丢进普通垃圾。","vi":"Bên trong có pin lithium-ion. Nếu bị bóp méo, nó có thể bốc cháy dữ dội. Đây là nguyên nhân cháy phổ biến nhất ở xe rác và nhà máy xử lý rác. Tuyệt đối không bỏ vào rác thường.","ko":"리튬이온 배터리가 들어 있습니다. 눌리면 격렬하게 발화하며, 쓰레기차와 처리장 화재의 가장 큰 원인입니다. 절대로 일반 쓰레기에 넣지 마세요.","pt":"Contém uma bateria de íon-lítio. Se for amassada, pode pegar fogo violentamente. É a causa mais comum de incêndios em caminhões e usinas de lixo. Nunca coloque no lixo comum."},"oil":{"en":"Never pour cooking oil down the sink: it clogs the pipes and burdens the sewage system. Let it cool, then solidify it or soak it into newspaper or old cloth, tie the bag shut, and put it in burnable waste.","zh":"不要把食用油倒进水槽，会堵塞排水管，也会加重污水处理的负担。请先放凉，用凝固剂使其凝固，或用报纸、旧布吸干，把袋口扎紧后作为可燃垃圾丢弃。","vi":"Không đổ dầu ăn xuống bồn rửa: dầu làm tắc đường ống và gây tải nặng cho hệ thống nước thải. Hãy để nguội, làm đông bằng chất làm đông hoặc thấm vào giấy báo, vải cũ, buộc kín miệng túi rồi bỏ vào rác cháy được.","ko":"식용유를 싱크대에 버리지 마세요. 배관이 막히고 하수 처리에도 큰 부담이 됩니다. 식힌 뒤 응고제로 굳히거나 신문지·헌 천에 흡수시키고, 봉지 입구를 묶어서 타는 쓰레기로 버립니다.","pt":"Nunca jogue óleo de cozinha na pia: entope os canos e sobrecarrega o sistema de esgoto. Deixe esfriar, solidifique com produto próprio ou absorva em jornal ou pano velho, feche bem o saco e descarte no lixo queimável."},"spray":{"en":"Use the can up completely before throwing it away. If contents are left inside, it can explode in the garbage truck and start a fire. Whether you should pierce a hole depends on your city, so follow the local instructions.","zh":"丢弃前请把罐内的东西全部用完。如果还有残留，可能在垃圾车内爆炸引起火灾。是否需要扎孔各市规定不同，请按当地的说明处理。","vi":"Hãy dùng hết bình trước khi bỏ. Nếu còn chất bên trong, bình có thể phát nổ trong xe rác và gây cháy. Việc có nên chọc lỗ hay không tùy theo từng thành phố, hãy làm theo hướng dẫn của địa phương.","ko":"버리기 전에 내용물을 끝까지 다 사용하세요. 남아 있으면 쓰레기차 안에서 폭발해 화재가 날 수 있습니다. 구멍을 뚫어야 하는지는 시마다 다르므로 지역 안내에 따르세요.","pt":"Use todo o conteúdo antes de descartar. Se sobrar produto dentro, a lata pode explodir no caminhão de lixo e causar incêndio. Se deve ou não furar a lata depende da cidade; siga as orientações locais."},"broken":{"en":"Wrap broken glass, mirrors, and blades in thick paper and write キケン (danger) on the outside. Otherwise the collection workers can be injured.","zh":"碎玻璃、镜子和刀刃请用厚纸包好，并在外面写上「キケン」（危险）。否则收垃圾的工作人员会受伤。","vi":"Hãy bọc thủy tinh vỡ, gương và lưỡi dao bằng giấy dày và ghi キケン (nguy hiểm) ở bên ngoài. Nếu không, người thu gom rác có thể bị thương.","ko":"깨진 유리, 거울, 칼날은 두꺼운 종이에 싸고 겉에 キケン(위험)이라고 쓰세요. 그렇지 않으면 수거하는 분이 다칩니다.","pt":"Embrulhe vidros quebrados, espelhos e lâminas em papel grosso e escreva キケン (perigo) do lado de fora. Caso contrário, os coletores podem se ferir."},"vary":{"en":"Sorting rules are different in every city and ward. Always check the rules where you live.","zh":"垃圾分类的规定每个市区町村都不一样。请务必确认您居住地的规定。","vi":"Quy định phân loại rác khác nhau ở từng thành phố, quận. Hãy luôn kiểm tra quy định nơi bạn đang sống.","ko":"쓰레기 분리 규정은 시·구마다 다릅니다. 반드시 살고 있는 지역의 규정을 확인하세요.","pt":"As regras de separação mudam em cada cidade e bairro. Confira sempre as regras do lugar onde você mora."},"night":{"en":"Do not put your garbage out the night before. Put it out on the morning of collection day, by the stated time.","zh":"请不要在前一天晚上把垃圾拿出去。请在收集日当天早上，在规定时间之前拿出去。","vi":"Đừng mang rác ra từ tối hôm trước. Hãy mang ra vào buổi sáng của ngày thu gom, trước giờ quy định.","ko":"전날 밤에 쓰레기를 내놓지 마세요. 수거일 아침에 정해진 시간까지 내놓으세요.","pt":"Não coloque o lixo na noite anterior. Coloque na manhã do dia da coleta, até o horário indicado."}},"steps":{"冷ます":{"en":"Let it cool","zh":"放凉","vi":"Để nguội","ko":"식히기","pt":"Deixe esfriar"},"新聞紙に吸わせる":{"en":"Soak it into newspaper","zh":"用报纸吸掉","vi":"Thấm vào giấy báo","ko":"신문지에 흡수시키기","pt":"Absorva em jornal"},"薬品で固める":{"en":"Solidify it with a product","zh":"用凝固剂凝固","vi":"Làm đông bằng chất làm đông","ko":"응고제로 굳히기","pt":"Solidifique com produto"},"袋の口をしばる":{"en":"Tie the bag shut","zh":"扎紧袋口","vi":"Buộc kín miệng túi","ko":"봉지 입구를 묶기","pt":"Feche bem o saco"},"中を 水で洗う":{"en":"Rinse the inside with water","zh":"用水冲洗内部","vi":"Rửa bên trong bằng nước","ko":"안을 물로 씻기","pt":"Enxágue por dentro"},"切って ひらく":{"en":"Cut it open and flatten it","zh":"剪开压平","vi":"Cắt ra và làm phẳng","ko":"잘라서 펴기","pt":"Corte e abra"},"かわかす":{"en":"Let it dry","zh":"晾干","vi":"Phơi khô","ko":"말리기","pt":"Deixe secar"},"最後まで使い切る":{"en":"Use it up completely","zh":"全部用完","vi":"Dùng hết hoàn toàn","ko":"끝까지 다 쓰기","pt":"Use até o fim"},"紙に包んで「キケン」と書く":{"en":"Wrap in paper and write DANGER","zh":"用纸包好写上「危险」","vi":"Bọc giấy và ghi NGUY HIỂM","ko":"종이에 싸고 위험이라고 쓰기","pt":"Embrulhe e escreva PERIGO"},"かるく洗って乾かす":{"en":"Rinse lightly and dry","zh":"轻轻冲洗后晾干","vi":"Rửa nhẹ rồi phơi khô","ko":"살짝 씻어 말리기","pt":"Enxágue e deixe secar"}},"signw":{"収集日":{"zh":"收集日","vi":"ngày thu gom","ko":"수거일","pt":"dia da coleta"},"指定袋":{"zh":"指定垃圾袋","vi":"túi chỉ định","ko":"지정봉투","pt":"saco estabelecido"},"資源":{"zh":"资源类废弃物","vi":"rác tái chế","ko":"자원","pt":"lixo reciclável"},"粗大ごみ":{"zh":"大件垃圾","vi":"rác cỡ lớn","ko":"대형 쓰레기","pt":"lixo volumoso"},"申し込み":{"zh":"预约申请","vi":"Đăng ký trước","ko":"사전 신청","pt":"Solicitação prévia"},"手数料":{"zh":"手续费","vi":"Phí xử lý","ko":"수수료","pt":"Taxa"},"回収できません":{"zh":"无法回收","vi":"Không thể thu gom","ko":"수거할 수 없습니다","pt":"Não pode ser coletado"},"持ち帰り":{"zh":"带回自己家","vi":"Mang về nhà","ko":"가지고 돌아가기","pt":"Leve de volta"},"厳守":{"zh":"必须遵守","vi":"Tuân thủ nghiêm ngặt","ko":"엄수","pt":"Cumprir rigorosamente"},"ご協力ください":{"zh":"请配合","vi":"Mong bạn hợp tác","ko":"협조해 주세요","pt":"Contamos com sua colaboração"}},"sources":[{"name":"西尾市 家庭用ごみ収集カレンダー（英・葡・中・越）","url":"https://www.city.nishio.aichi.jp/"},{"name":"那須烏山市 ごみ分別 多言語表（英・中）","url":"https://www.city.nasukarasuyama.lg.jp/"},{"name":"千葉市 ごみ分別 韓国語版","url":"https://www.city.chiba.jp/"},{"name":"名古屋市 ごみの分け方・出し方（やさしい日本語）","url":"https://www.city.nagoya.jp/"}]};
+let LANG='';
+try{LANG=localStorage.getItem('nnh_gomi_lang')||'';}catch(e){}
+function tr(group,key){
+  if(!LANG)return '';
+  const g=TR[group]; if(!g)return '';
+  const e=g[key]; if(!e)return '';
+  return e[LANG]||'';
+}
+function trTag(group,key){
+  const t=tr(group,key);
+  return t?'<span class="tr">'+t+'</span>':'';
+}
+function setLang(id){
+  LANG=id||'';
+  try{localStorage.setItem('nnh_gomi_lang',LANG);}catch(e){}
+  paintLangBtn(); renderLangList();
+  if(G&&G.running){ layoutBins(); renderTray(); }
+}
+function renderLangList(){
+  const w=document.getElementById('langList'); if(!w)return;
+  w.innerHTML='';
+  const opts=[{id:'',label:'日本語だけ'}].concat(TR.langs);
+  opts.forEach(o=>{
+    const b=document.createElement('button'); b.type='button';
+    b.className='lang-i'+(LANG===o.id?' on':'');
+    b.textContent=o.label;
+    b.onclick=(e)=>{e.preventDefault();setLang(o.id);
+      document.getElementById('ovLang').classList.remove('show');};
+    w.appendChild(b);
+  });
+}
+function paintLangBtn(){
+  const b=document.getElementById('langBtn'); if(!b)return;
+  const cur=TR.langs.filter(function(x){return x.id===LANG;})[0];
+  b.textContent='🌐 '+(cur?cur.label:'日本語');
+}
+
 /* ============ 貼り紙（掲示）を読む ============ */
 const BAGJA={red:'赤い袋',green:'緑の袋',blue:'青い袋',yellow:'黄色い袋',orange:'オレンジの袋',
   clear:'とうめい・半とうめいの袋',kraft:'ひもで しばる'};
@@ -751,7 +827,7 @@ function buildSign(city){
     const todays=bins.filter(b=>sc[b.id].indexOf(d)>=0);
     const v = todays.length
       ? todays.map(b=>{const c=(BAGCOLORS[city.id]||{})[b.id];
-          return b.label+(c?'<span class="bag">'+BAGJA[c]+'</span>':'');}).join('　')
+          return b.label+trTag('bins',b.label)+(c?'<span class="bag">'+BAGJA[c]+'</span>':'');}).join('　')
       : '<span style="color:#9E9890;">— お休み —</span>';
     rows+='<div class="sign-row"><div class="sign-d">'+dn+'</div><div class="sign-v">'+v+'</div></div>';
   });
@@ -836,7 +912,8 @@ function openWords(){
   const w=document.getElementById('wordList'); w.innerHTML='';
   SIGN_WORDS.forEach(x=>{
     const d=document.createElement('div'); d.className='wrow';
-    d.innerHTML='<div class="wja">'+x.ja+'</div><div class="wex">'+x.ex+'<em>'+x.yomi+' ・ '+x.en+'</em></div>';
+    const extra=(LANG&&LANG!=='en')?('<span class="tr2">'+(tr('signw',x.ja)||'')+'</span>'):'';
+    d.innerHTML='<div class="wja">'+x.ja+'</div><div class="wex">'+x.ex+'<em>'+x.yomi+' ・ '+x.en+'</em>'+extra+'</div>';
     w.appendChild(d);
   });
   document.getElementById('ovWords').classList.add('show');
@@ -936,7 +1013,7 @@ function layoutBins(){
     const d=document.createElement('div');d.className='bin '+(bagCls(G.city.id,bn.id)||bn.cls);
     d.style.left=left+'px';d.style.top=top+'px';d.style.width=binW+'px';d.style.height=rowH+'px';
     d.dataset.idx=idx;
-    d.innerHTML='<div class="mouth"></div><div class="binstock"></div><div class="binmeter"><i></i></div><div class="bl">'+bn.label+'</div>';
+    d.innerHTML='<div class="mouth"></div><div class="binstock"></div><div class="binmeter"><i></i></div><div class="bl">'+bn.label+trTag('bins',bn.label)+'</div>';
     d.onpointerdown=(e)=>dropToBin(idx,e);
     stage.appendChild(d); bn._el=d;
   });
@@ -955,7 +1032,7 @@ function openPrep(key){
   const bad=pickOne(d.traps); bad.ok=false;
   shuffle([good,bad]).forEach(o=>{
     const b=document.createElement('button'); b.className='prep-b'; b.type='button';
-    b.innerHTML='<span class="pi">'+o.i+'</span>'+o.t;
+    b.innerHTML='<span class="pi">'+o.i+'</span>'+o.t+trTag('steps',o.t);
     b.onclick=(e)=>{e.preventDefault();choosePrep(o);};
     w.appendChild(b);
   });
@@ -988,7 +1065,7 @@ function renderSeq(){
         const label = (stat==='done' && G.seq.to && G.seq.to!==c.to) ? 'todo' : stat;
         b.className='seq-b '+label;
         b.innerHTML='<span class="no">'+(n+1)+'</span><span class="ic">'+c.i+'</span>'+
-                    '<span class="tx">'+c.t+'</span>';
+                    '<span class="tx">'+c.t+trTag('steps',c.t)+'</span>';
         b.onclick=(e)=>{e.preventDefault();stepSeq(n,c);};
         pair.appendChild(b);
       });
@@ -996,7 +1073,7 @@ function renderSeq(){
     }else{
       const b=document.createElement('button'); b.type='button'; b.className='seq-b '+stat;
       b.innerHTML='<span class="no">'+(stat==='done'?'✓':(n+1))+'</span><span class="ic">'+st.i+'</span>'+
-                  '<span class="tx">'+st.t+(st.note?'<small>'+st.note+'</small>':'')+'</span>';
+                  '<span class="tx">'+st.t+trTag('steps',st.t)+(st.note?'<small>'+st.note+'</small>':'')+'</span>';
       b.onclick=(e)=>{e.preventDefault();stepSeq(n,null);};
       box.appendChild(b);
     }
@@ -1055,7 +1132,7 @@ function renderTray(){
     const it=ITEMS[G.selected];
     t.className='tray filled'+((G.prepOpen)?' needprep':'');
     t.innerHTML='<div class="tray-plate"><span class="tem">'+it.emoji+'</span></div>'+
-      '<div class="tray-txt"><b>'+it.name+'</b><span>'+
+      '<div class="tray-txt"><b>'+it.name+'</b>'+trTag('items',G.selected)+'<span>'+
       (G.prepOpen?'→ 先に「処理」をえらぶ':'→ 正しいゴミ袋をタップ')+'</span></div>';
   }else{t.className='tray';t.innerHTML='<span class="tray-hint">🖐 流れてくるゴミをタップ</span>';}
 }
@@ -1168,6 +1245,11 @@ function dropToBin(idx,e){
     const q=document.getElementById('qfb');
     let extra='';
     if(it.danger && !correct) extra+='<div class="qfb-warn">⚠️ '+DANGER_WARN+'</div>';
+    const sk = (it.mat==='libatt')?'libatt':(key.indexOf('abura')===0?'oil':
+               ((key==='spray'||key==='spray_full')?'spray':
+               ((it.mat==='broken'||key==='mirror')?'broken':'')));
+    const st = sk?tr('safety',sk):'';
+    if(st) extra+='<div class="tr-safe">'+st+'</div>';
     if(it.mat==='pretreat'||key.indexOf('abura')===0) extra+='<div class="qfb-tip">🍳 '+OIL_TIP+'</div>';
     if(correct){G.correct++;G.score+=10;
       document.getElementById('qfbHead').textContent=it.danger?'⭕ せいかい（きけんなもの）':'⭕ せいかい！';
@@ -1375,6 +1457,14 @@ function missGameOver(){
 document.getElementById('lifeDispose').onclick=lifeDispose;
 
 renderCities();
+
+/* 言語ボタン */
+(function(){
+  var b=document.createElement('button'); b.type='button'; b.id='langBtn'; b.className='lang-btn';
+  b.onclick=function(){renderLangList();document.getElementById('ovLang').classList.add('show');};
+  document.body.appendChild(b);
+  paintLangBtn(); renderLangList();
+})();
 
 /* EN toggle */
 (function(){

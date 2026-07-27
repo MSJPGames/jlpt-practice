@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ゴミ分別ゲーム データ編集｜日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0; --red:#A0392E; --red-bg:#FBE9E4;
+    --green:#3E6B2F; --green-bg:#EDF3E6; --amber:#8A6D00; --amber-bg:#FBF3D9;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Noto Sans Mono CJK JP",monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    font-size:14px;line-height:1.6;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 14px 80px;}
+
+  /* 見出し */
+  header{padding:20px 0 12px;border-bottom:1px solid var(--line);margin-bottom:0;}
+  h1{margin:0;font-size:19px;letter-spacing:.02em;}
+  h1 span{font-size:11px;font-weight:700;color:var(--hint);letter-spacing:.12em;
+    display:block;text-transform:uppercase;margin-bottom:3px;}
+  .lead{margin:6px 0 0;font-size:12.5px;color:var(--muted);}
+  .lead code{font-family:var(--mono);font-size:11.5px;background:var(--surface);
+    border:1px solid var(--line);border-radius:4px;padding:1px 5px;}
+
+  /* 検証バー（このページの中心） */
+  .check{position:sticky;top:0;z-index:50;background:var(--bg);
+    border-bottom:1px solid var(--line);padding:9px 0;margin-bottom:14px;}
+  .check-in{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;
+    padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);}
+  .chip b{font-family:var(--mono);font-size:13px;}
+  .chip.ok{background:var(--green-bg);border-color:#CFE3B6;color:var(--green);}
+  .chip.ng{background:var(--red-bg);border-color:#F0D2C6;color:var(--red);}
+  .chip.warn{background:var(--amber-bg);border-color:#E8DCAF;color:var(--amber);}
+  .chip.dirty{background:var(--teal-bg);border-color:#BFD9D7;color:var(--teal);}
+  .check .spacer{flex:1;}
+
+  /* タブ */
+  nav.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px;}
+  .tab{border:1px solid var(--line);background:var(--surface);border-radius:8px 8px 0 0;
+    padding:8px 14px;font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);
+    cursor:pointer;border-bottom-color:transparent;}
+  .tab.on{color:var(--teal);border-color:var(--teal);background:var(--teal-bg);}
+  section.pane{display:none;}
+  section.pane.on{display:block;}
+
+  /* 道具箱 */
+  .tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px;}
+  input[type=text],input[type=search],select,textarea{font-family:inherit;font-size:13px;
+    border:1px solid var(--line);border-radius:7px;padding:7px 9px;background:var(--surface);
+    color:var(--ink);}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--teal);outline-offset:1px;}
+  textarea{width:100%;resize:vertical;line-height:1.6;}
+  .btn{font-family:inherit;font-size:13px;font-weight:700;border-radius:8px;padding:8px 14px;
+    border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;}
+  .btn:hover{border-color:var(--hint);}
+  .btn.primary{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .btn.danger{color:var(--red);border-color:#F0D2C6;background:var(--red-bg);}
+  .btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+
+  /* 表 */
+  .tablewrap{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    overflow:auto;max-height:70vh;}
+  table{border-collapse:collapse;width:100%;font-size:13px;}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{position:sticky;top:0;background:var(--bg);font-size:11px;letter-spacing:.06em;
+    color:var(--muted);font-weight:700;z-index:2;white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+  tr.bad td{background:var(--red-bg);}
+  td.key{font-family:var(--mono);font-size:11.5px;color:var(--hint);white-space:nowrap;}
+  td input[type=text]{width:100%;min-width:80px;}
+  td select{width:100%;}
+  .em{width:52px;text-align:center;font-size:17px;}
+  .mini{font-size:11px;color:var(--hint);}
+  .flag{font-size:11px;font-weight:700;padding:1px 6px;border-radius:999px;
+    background:var(--red-bg);color:var(--red);border:1px solid #F0D2C6;white-space:nowrap;}
+  .flag.ok{background:var(--green-bg);color:var(--green);border-color:#CFE3B6;}
+
+  /* 検証タブ */
+  .issue{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;margin-bottom:9px;}
+  .issue h3{margin:0 0 6px;font-size:13.5px;}
+  .issue ul{margin:0;padding-left:18px;font-size:12.5px;color:var(--muted);}
+  .issue li{margin:2px 0;}
+  .issue.clear{background:var(--green-bg);border-color:#CFE3B6;}
+  .issue.clear h3{color:var(--green);}
+
+  /* 書き出し */
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;margin-bottom:12px;}
+  .card h3{margin:0 0 6px;font-size:14px;}
+  .card p{margin:0 0 10px;font-size:12.5px;color:var(--muted);}
+  .steps{counter-reset:s;margin:0;padding:0;list-style:none;}
+  .steps li{counter-increment:s;position:relative;padding-left:26px;margin-bottom:5px;
+    font-size:12.5px;color:var(--muted);}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:18px;height:18px;
+    border-radius:50%;background:var(--line);color:var(--ink);font-size:10.5px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;}
+  .note{font-size:12px;color:var(--muted);background:var(--amber-bg);border:1px solid #E8DCAF;
+    border-radius:8px;padding:9px 11px;}
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);
+    color:#fff;font-size:13px;font-weight:700;padding:10px 18px;border-radius:999px;
+    opacity:0;pointer-events:none;transition:opacity .2s;z-index:99;}
+  .toast.show{opacity:1;}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1><span>Gomi game · data editor</span>ゴミ分別ゲーム データ編集</h1>
+  <p class="lead">直したら「<b>書き出し</b>」タブで <code>gomi_data.js</code> をダウンロードし、サイトの同じファイルを置きかえます。ゲーム本体（<code>gomi_rush.html</code>）は触りません。</p>
+</header>
+
+<div class="check">
+  <div class="check-in" id="checkBar"></div>
+</div>
+
+<nav class="tabs">
+  <button class="tab on" data-p="items">品目</button>
+  <button class="tab" data-p="cities">街ごとの行き先</button>
+  <button class="tab" data-p="tr">訳語</button>
+  <button class="tab" data-p="issues">検証</button>
+  <button class="tab" data-p="io">書き出し・読みこみ</button>
+</nav>
+
+<!-- ===== 品目 ===== -->
+<section class="pane on" id="p-items">
+  <div class="tools">
+    <input type="search" id="q" placeholder="品目をさがす（名前・キー）" style="min-width:220px;">
+    <select id="fMat"><option value="">材質：すべて</option></select>
+    <label class="mini"><input type="checkbox" id="fDanger"> 危険なものだけ</label>
+    <span style="flex:1"></span>
+    <button class="btn" id="addItem">＋ 品目を足す</button>
+  </div>
+  <div class="tablewrap">
+    <table id="tItems">
+      <thead><tr>
+        <th style="width:110px;">キー</th><th style="width:46px;">絵</th><th style="min-width:150px;">名前（日本語）</th>
+        <th style="width:130px;">材質・行き先</th><th style="width:70px;">レベル</th><th style="width:60px;">危険</th>
+        <th style="min-width:240px;">この品目の理由（空欄なら材質の説明が出ます）</th><th style="width:60px;"></th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="mini" style="margin-top:8px;">「材質・行き先」を変えると、5つの街すべての行き先が同時に変わります。街ごとに変えたいときは「街ごとの行き先」タブへ。</p>
+</section>
+
+<!-- ===== 街 ===== -->
+<section class="pane" id="p-cities">
+  <div class="tools">
+    <select id="citySel"></select>
+    <span class="mini" id="cityNote"></span>
+  </div>
+  <div class="tablewrap">
+    <table id="tCity">
+      <thead><tr><th style="width:150px;">材質</th><th style="width:230px;">この街での行き先</th>
+        <th>その行き先に入る品目</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="card" style="margin-top:12px;">
+    <h3>材質ごとの説明</h3>
+    <p>品目に個別の理由がないとき、ここの文が表示されます。</p>
+    <div class="tablewrap" style="max-height:340px;">
+      <table id="tMatWhy"><thead><tr><th style="width:150px;">材質</th><th>説明</th></tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 訳語 ===== -->
+<section class="pane" id="p-tr">
+  <div class="tools">
+    <select id="trGroup">
+      <option value="items">品目名</option>
+      <option value="bins">区分名（ゴミ箱・掲示）</option>
+      <option value="steps">手順のことば</option>
+      <option value="signw">掲示のことば</option>
+      <option value="safety">安全の説明（長文）</option>
+    </select>
+    <select id="trLang"></select>
+    <input type="search" id="trQ" placeholder="さがす" style="min-width:180px;">
+    <span class="mini">日本語は左、選んだ言語だけ編集できます。</span>
+  </div>
+  <div class="tablewrap">
+    <table id="tTr"><thead><tr><th style="width:220px;">日本語</th><th style="width:220px;">English（参考）</th><th>訳</th></tr></thead><tbody></tbody></table>
+  </div>
+  <p class="mini" style="margin-top:8px;">区分名は自治体の多言語ごみ案内の表記に合わせてあります。直すときは公的な表記を確認してからにしてください。参照先は「書き出し」タブの下に一覧があります。</p>
+</section>
+
+<!-- ===== 検証 ===== -->
+<section class="pane" id="p-issues">
+  <div id="issueList"></div>
+</section>
+
+<!-- ===== 書き出し ===== -->
+<section class="pane" id="p-io">
+  <div class="card">
+    <h3>gomi_data.js を書き出す</h3>
+    <p>編集した内容を、そのままサイトに置けるファイルにします。</p>
+    <ol class="steps">
+      <li>下のボタンでダウンロードする</li>
+      <li>サイトの <code>gomi_data.js</code> を、いま落としたファイルで置きかえる</li>
+      <li>GitHubに上げて、ブラウザで Ctrl+F5（強制再読みこみ）</li>
+    </ol>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn primary" id="dlJs">gomi_data.js をダウンロード</button>
+      <button class="btn" id="prevJs">中身を見る</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>エクセルで直す</h3>
+    <p>品目の一覧をCSVで出し、エクセルで直してから読みこめます。まとめて直すときはこちらが速いです。<b>キーの列は変えないでください。</b>照合に使います。</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <button class="btn" id="dlCsv">品目CSVを書き出す</button>
+      <label class="btn" style="cursor:pointer;">CSVを読みこむ<input type="file" id="upCsv" accept=".csv,text/csv" hidden></label>
+      <button class="btn" id="dlCsvTr">訳語CSVを書き出す</button>
+      <label class="btn" style="cursor:pointer;">訳語CSVを読みこむ<input type="file" id="upCsvTr" accept=".csv,text/csv" hidden></label>
+    </div>
+    <p class="mini" style="margin-top:9px;">エクセルで開くと文字化けしないようBOM付きで書き出します。保存するときは「CSV UTF-8」を選んでください。</p>
+  </div>
+
+  <div class="card">
+    <h3>やり直す</h3>
+    <p>編集はこのブラウザに自動保存されます。最初の状態（いま読みこんでいる gomi_data.js）に戻すこともできます。</p>
+    <button class="btn danger" id="reset">編集を捨てて読みこみ直す</button>
+  </div>
+
+  <div class="card">
+    <h3>訳語の参照先</h3>
+    <div id="srcList" class="mini"></div>
+  </div>
+
+  <div class="card" id="prevCard" style="display:none;">
+    <h3>書き出される中身</h3>
+    <textarea id="prevBox" rows="18" spellcheck="false" style="font-family:var(--mono);font-size:11.5px;"></textarea>
+  </div>
+</section>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="gomi_data.js"></script>
+<script>
+/* ===========================================================
+   ゴミ分別ゲーム データ編集ページ
+   - gomi_data.js を読みこみ、編集し、同じ形で書き出す
+   - サーバは不要（静的サイトのまま動く）
+   =========================================================== */
+var SAVEKEY='nnh_gomi_edit_draft';
+var D=null;          /* 編集中のデータ */
+var ORIG=null;       /* 読みこんだ直後 */
+var dirty=false;
+
+function clone(o){return JSON.parse(JSON.stringify(o));}
+function collect(){
+  return {ITEMS:clone(ITEMS),ITEM_WHY:clone(ITEM_WHY),MAT_WHY:clone(MAT_WHY),
+          SPECIAL_MATS:clone(SPECIAL_MATS),SPECIAL_BINS:clone(SPECIAL_BINS),
+          OIL_TIP:OIL_TIP,DANGER_WARN:DANGER_WARN,
+          PREP:clone(PREP),PREP_SEQ:clone(PREP_SEQ),
+          CITIES:clone(CITIES),BAGCOLORS:clone(BAGCOLORS),
+          BAGJA:clone(BAGJA),SIGN_WORDS:clone(SIGN_WORDS),TR:clone(TR)};
+}
+function boot(){
+  ORIG=collect();
+  var saved=null;
+  try{var raw=localStorage.getItem(SAVEKEY); if(raw)saved=JSON.parse(raw);}catch(e){}
+  D = saved || clone(ORIG);
+  dirty = !!saved;
+}
+function save(){
+  dirty=true;
+  try{localStorage.setItem(SAVEKEY,JSON.stringify(D));}catch(e){}
+  refreshCheck();
+}
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast show';
+  clearTimeout(toast._t); toast._t=setTimeout(function(){t.className='toast';},1900);
+}
+
+/* ---------- 行き先の解決（ゲーム本体と同じ規則） ---------- */
+function matsOf(){
+  var set={};
+  Object.keys(D.ITEMS).forEach(function(k){set[D.ITEMS[k].mat]=1;});
+  D.CITIES.forEach(function(c){Object.keys(c.matMap||{}).forEach(function(m){set[m]=1;});});
+  D.SPECIAL_MATS.forEach(function(m){set[m]=1;});
+  return Object.keys(set).sort();
+}
+function resolveBinId(city,item){
+  if(D.SPECIAL_MATS.indexOf(item.mat)>=0){
+    if(city.special && city.special[item.mat]!==undefined) return city.special[item.mat];
+    return item.mat;
+  }
+  return (city.matMap||{})[item.mat];
+}
+function binDef(city,id){
+  var b=(city.bins||[]).filter(function(x){return x.id===id;})[0];
+  if(b)return b;
+  return D.SPECIAL_BINS.filter(function(x){return x.id===id;})[0];
+}
+function binsOf(city){
+  return (city.bins||[]).concat(D.SPECIAL_BINS);
+}
+
+/* ---------- 検証 ---------- */
+function validate(){
+  var out={route:[],name:[],tr:[],prep:[],dupe:[]};
+  var langs=D.TR.langs.map(function(l){return l.id;});
+  Object.keys(D.ITEMS).forEach(function(k){
+    var it=D.ITEMS[k];
+    if(!it.name||!String(it.name).trim()) out.name.push(k+'：名前が空です');
+    D.CITIES.forEach(function(c){
+      var id=resolveBinId(c,it);
+      if(!id) out.route.push(c.name+'／'+(it.name||k)+'：行き先が決まっていません（材質「'+it.mat+'」）');
+      else if(!binDef(c,id)) out.route.push(c.name+'／'+(it.name||k)+'：「'+id+'」という行き先がこの街にありません');
+    });
+    var t=D.TR.items[k];
+    if(!t) out.tr.push((it.name||k)+'：訳語がまったくありません');
+    else langs.forEach(function(l){ if(!t[l]) out.tr.push((it.name||k)+'：'+l+' の訳がありません'); });
+  });
+  /* 区分名の訳 */
+  var labels={};
+  D.CITIES.forEach(function(c){(c.bins||[]).forEach(function(b){labels[b.label]=1;});});
+  D.SPECIAL_BINS.forEach(function(b){labels[b.label]=1;});
+  Object.keys(labels).forEach(function(L){
+    var t=D.TR.bins[L];
+    if(!t){ out.tr.push('区分「'+L+'」：訳語がありません'); return; }
+    langs.forEach(function(l){ if(!t[l]) out.tr.push('区分「'+L+'」：'+l+' の訳がありません'); });
+  });
+  /* 処理の行き先 */
+  Object.keys(D.PREP).forEach(function(k){
+    if(!D.ITEMS[k]) out.prep.push('処理「'+k+'」：もとの品目がありません');
+    (D.PREP[k].ok||[]).forEach(function(o){
+      if(o.to && !D.ITEMS[o.to]) out.prep.push('処理「'+k+'」：変化先「'+o.to+'」がありません');
+    });
+  });
+  Object.keys(D.PREP_SEQ).forEach(function(k){
+    if(!D.ITEMS[k]) out.prep.push('手順「'+k+'」：もとの品目がありません');
+    (D.PREP_SEQ[k].steps||[]).forEach(function(st){
+      (st.choose||[]).forEach(function(c){
+        if(c.to && !D.ITEMS[c.to]) out.prep.push('手順「'+k+'」：変化先「'+c.to+'」がありません');
+      });
+    });
+  });
+  return out;
+}
+function refreshCheck(){
+  var v=validate();
+  var bar=document.getElementById('checkBar');
+  var route=v.route.length+v.name.length+v.prep.length, tr=v.tr.length;
+  bar.innerHTML=
+    '<span class="chip '+(route?'ng':'ok')+'">行き先 <b>'+(route?route:'OK')+'</b></span>'+
+    '<span class="chip '+(tr?'warn':'ok')+'">訳語 <b>'+(tr?tr:'OK')+'</b></span>'+
+    '<span class="chip">品目 <b>'+Object.keys(D.ITEMS).length+'</b></span>'+
+    '<span class="chip">街 <b>'+D.CITIES.length+'</b></span>'+
+    '<span class="chip">言語 <b>'+D.TR.langs.length+'</b></span>'+
+    '<span class="spacer"></span>'+
+    (dirty?'<span class="chip dirty">編集あり・自動保存ずみ</span>':'<span class="chip">編集なし</span>');
+  return v;
+}
+
+/* ---------- 品目タブ ---------- */
+function drawItems(){
+  var q=document.getElementById('q').value.trim().toLowerCase();
+  var fm=document.getElementById('fMat').value;
+  var fd=document.getElementById('fDanger').checked;
+  var tb=document.querySelector('#tItems tbody'); tb.innerHTML='';
+  var mats=matsOf();
+  Object.keys(D.ITEMS).forEach(function(k){
+    var it=D.ITEMS[k];
+    if(q && (k+' '+(it.name||'')).toLowerCase().indexOf(q)<0) return;
+    if(fm && it.mat!==fm) return;
+    if(fd && !it.danger) return;
+    var tr=document.createElement('tr');
+    var broken=D.CITIES.some(function(c){var id=resolveBinId(c,it);return !id||!binDef(c,id);});
+    if(broken) tr.className='bad';
+    var matOpts=mats.map(function(m){return '<option value="'+m+'"'+(m===it.mat?' selected':'')+'>'+m+'</option>';}).join('');
+    tr.innerHTML=
+      '<td class="key">'+k+(broken?' <span class="flag">行き先なし</span>':'')+'</td>'+
+      '<td><input type="text" class="em" data-f="emoji" value="'+esc(it.emoji||'')+'"></td>'+
+      '<td><input type="text" data-f="name" value="'+esc(it.name||'')+'"></td>'+
+      '<td><select data-f="mat">'+matOpts+'</select></td>'+
+      '<td><select data-f="lv"><option value="1"'+(it.lv==1?' selected':'')+'>1 やさしい</option>'+
+        '<option value="2"'+(it.lv==2?' selected':'')+'>2 ふつう</option>'+
+        '<option value="3"'+(it.lv==3?' selected':'')+'>3 むずかしい</option></select></td>'+
+      '<td style="text-align:center;"><input type="checkbox" data-f="danger"'+(it.danger?' checked':'')+'></td>'+
+      '<td><input type="text" data-f="why" value="'+esc(D.ITEM_WHY[k]||'')+'" placeholder="（材質の説明を使う）"></td>'+
+      '<td><button class="btn danger" data-del="1" style="padding:4px 9px;font-size:11.5px;">削除</button></td>';
+    tr.querySelectorAll('[data-f]').forEach(function(el){
+      el.addEventListener('change',function(){
+        var f=el.dataset.f;
+        if(f==='danger'){ if(el.checked)it.danger=true; else delete it.danger; }
+        else if(f==='lv'){ it.lv=parseInt(el.value,10); }
+        else if(f==='why'){ if(el.value.trim())D.ITEM_WHY[k]=el.value.trim(); else delete D.ITEM_WHY[k]; }
+        else { it[f]=el.value; }
+        save(); drawItems();
+      });
+    });
+    tr.querySelector('[data-del]').addEventListener('click',function(){
+      if(!confirm('「'+(it.name||k)+'」を消します。よろしいですか。'))return;
+      delete D.ITEMS[k]; delete D.ITEM_WHY[k]; delete D.TR.items[k];
+      delete D.PREP[k]; delete D.PREP_SEQ[k];
+      save(); drawItems(); toast('削除しました');
+    });
+    tb.appendChild(tr);
+  });
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+/* ---------- 街タブ ---------- */
+function drawCitySel(){
+  var sel=document.getElementById('citySel');
+  sel.innerHTML=D.CITIES.map(function(c,i){return '<option value="'+i+'">'+c.emoji+' '+c.name+'</option>';}).join('');
+}
+function drawCity(){
+  var ci=parseInt(document.getElementById('citySel').value,10)||0;
+  var c=D.CITIES[ci];
+  document.getElementById('cityNote').textContent=c.tag||'';
+  var tb=document.querySelector('#tCity tbody'); tb.innerHTML='';
+  var bins=binsOf(c);
+  matsOf().forEach(function(m){
+    var isSpecial=D.SPECIAL_MATS.indexOf(m)>=0;
+    var cur=isSpecial ? ((c.special&&c.special[m]!==undefined)?c.special[m]:m) : ((c.matMap||{})[m]||'');
+    var opts='<option value="">（未設定）</option>'+bins.map(function(b){
+      return '<option value="'+b.id+'"'+(b.id===cur?' selected':'')+'>'+b.label+'</option>';}).join('');
+    var items=Object.keys(D.ITEMS).filter(function(k){return D.ITEMS[k].mat===m;})
+      .map(function(k){return D.ITEMS[k].name;});
+    var tr=document.createElement('tr');
+    if(!cur||!binDef(c,cur)) tr.className='bad';
+    tr.innerHTML='<td class="key">'+m+(isSpecial?' <span class="mini">（特別）</span>':'')+'</td>'+
+      '<td><select>'+opts+'</select></td>'+
+      '<td class="mini">'+(items.length?items.join('・'):'—')+'</td>';
+    tr.querySelector('select').addEventListener('change',function(){
+      var v=this.value;
+      if(isSpecial){ c.special=c.special||{}; if(v===m)delete c.special[m]; else c.special[m]=v; }
+      else { c.matMap=c.matMap||{}; if(v)c.matMap[m]=v; else delete c.matMap[m]; }
+      save(); drawCity(); drawItems();
+    });
+    tb.appendChild(tr);
+  });
+  var tw=document.querySelector('#tMatWhy tbody'); tw.innerHTML='';
+  matsOf().forEach(function(m){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td class="key">'+m+'</td><td><input type="text" style="width:100%" value="'+esc(D.MAT_WHY[m]||'')+'"></td>';
+    tr.querySelector('input').addEventListener('change',function(){
+      if(this.value.trim())D.MAT_WHY[m]=this.value.trim(); else delete D.MAT_WHY[m];
+      save();
+    });
+    tw.appendChild(tr);
+  });
+}
+
+/* ---------- 訳語タブ ---------- */
+function drawTrLang(){
+  var sel=document.getElementById('trLang');
+  sel.innerHTML=D.TR.langs.map(function(l){return '<option value="'+l.id+'">'+l.label+'</option>';}).join('');
+}
+function trRows(group){
+  if(group==='items'){
+    return Object.keys(D.ITEMS).map(function(k){return {key:k,ja:D.ITEMS[k].name};});
+  }
+  if(group==='bins'){
+    var labels={};
+    D.CITIES.forEach(function(c){(c.bins||[]).forEach(function(b){labels[b.label]=1;});});
+    D.SPECIAL_BINS.forEach(function(b){labels[b.label]=1;});
+    return Object.keys(labels).map(function(L){return {key:L,ja:L};});
+  }
+  return Object.keys(D.TR[group]||{}).map(function(k){return {key:k,ja:k};});
+}
+function drawTr(){
+  var g=document.getElementById('trGroup').value;
+  var L=document.getElementById('trLang').value;
+  var q=document.getElementById('trQ').value.trim().toLowerCase();
+  var tb=document.querySelector('#tTr tbody'); tb.innerHTML='';
+  D.TR[g]=D.TR[g]||{};
+  var isLong=(g==='safety');
+  trRows(g).forEach(function(r){
+    if(q && (r.key+' '+(r.ja||'')).toLowerCase().indexOf(q)<0) return;
+    var e=D.TR[g][r.key]||(D.TR[g][r.key]={});
+    var tr=document.createElement('tr');
+    var val=esc(e[L]||'');
+    var field = isLong
+      ? '<textarea rows="3">'+val+'</textarea>'
+      : '<input type="text" style="width:100%" value="'+val+'">';
+    tr.innerHTML='<td>'+esc(r.ja||r.key)+'<div class="key">'+esc(r.key)+'</div></td>'+
+      '<td class="mini">'+esc(e.en||'')+'</td>'+
+      '<td>'+field+(e[L]?'':' <span class="flag">未</span>')+'</td>';
+    tr.querySelector(isLong?'textarea':'input').addEventListener('change',function(){
+      if(this.value.trim())e[L]=this.value.trim(); else delete e[L];
+      save(); drawTr();
+    });
+    tb.appendChild(tr);
+  });
+}
+
+/* ---------- 検証タブ ---------- */
+function drawIssues(){
+  var v=refreshCheck();
+  var box=document.getElementById('issueList');
+  var groups=[
+    ['行き先が決まっていない', v.route.concat(v.name), 'これがあるとゲームがその品目を出しません。先に直してください。'],
+    ['処理・手順の食いちがい', v.prep, '油や紙パックの手順で、変化先の品目が見つからない状態です。'],
+    ['訳語が足りない', v.tr, 'その言語では英語が代わりに出ます。急ぎではありませんが、埋めておくと親切です。']
+  ];
+  var html='';
+  groups.forEach(function(g){
+    if(!g[1].length){
+      html+='<div class="issue clear"><h3>✔ '+g[0]+'：問題なし</h3></div>';
+    }else{
+      html+='<div class="issue"><h3>'+g[0]+'：'+g[1].length+'件</h3><p class="mini">'+g[2]+'</p><ul>'+
+        g[1].slice(0,120).map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+
+        (g[1].length>120?'<li>… ほか '+(g[1].length-120)+'件</li>':'')+'</ul></div>';
+    }
+  });
+  box.innerHTML=html;
+}
+
+/* ---------- 書き出し ---------- */
+function buildJs(){
+  var stamp=new Date().toISOString().slice(0,16).replace('T',' ');
+  var head='/* gomi_data.js — ゴミ分別ゲームのデータ\n'+
+    ' * gomi_edit.html で書き出したファイルです。最終更新：'+stamp+'\n'+
+    ' * ゲーム本体（gomi_rush.html）はこのファイルを読みこみます。\n'+
+    ' * 区分名などの訳語は、自治体が実際に使っている多言語表記に合わせています（TR.sources 参照）。\n'+
+    ' */\n\n';
+  var order=['ITEMS','ITEM_WHY','MAT_WHY','SPECIAL_MATS','SPECIAL_BINS','OIL_TIP','DANGER_WARN',
+             'PREP','PREP_SEQ','CITIES','BAGCOLORS','BAGJA','SIGN_WORDS','TR'];
+  return head+order.map(function(k){
+    return 'const '+k+' = '+JSON.stringify(D[k],null,2)+';\n';
+  }).join('\n');
+}
+function download(name,text,mime){
+  var blob=new Blob([text],{type:(mime||'text/plain')+';charset=utf-8'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},400);
+}
+
+/* ---------- CSV ---------- */
+function csvCell(v){
+  v=(v===undefined||v===null)?'':String(v);
+  return /[",\n\r]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v;
+}
+function toCsv(rows){ return '\ufeff'+rows.map(function(r){return r.map(csvCell).join(',');}).join('\r\n'); }
+function parseCsv(text){
+  if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
+  var rows=[],row=[],cell='',q=false,i=0;
+  while(i<text.length){
+    var ch=text[i];
+    if(q){
+      if(ch==='"'){ if(text[i+1]==='"'){cell+='"';i+=2;continue;} q=false;i++;continue; }
+      cell+=ch;i++;continue;
+    }
+    if(ch==='"'){q=true;i++;continue;}
+    if(ch===','){row.push(cell);cell='';i++;continue;}
+    if(ch==='\r'){i++;continue;}
+    if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell='';i++;continue;}
+    cell+=ch;i++;
+  }
+  if(cell.length||row.length){row.push(cell);rows.push(row);}
+  return rows.filter(function(r){return r.some(function(c){return c!=='';});});
+}
+function itemsCsv(){
+  var langs=D.TR.langs.map(function(l){return l.id;});
+  var head=['キー','名前','絵','材質','レベル','危険','理由'].concat(langs);
+  var rows=[head];
+  Object.keys(D.ITEMS).forEach(function(k){
+    var it=D.ITEMS[k], t=D.TR.items[k]||{};
+    rows.push([k,it.name,it.emoji,it.mat,it.lv,it.danger?'1':'',D.ITEM_WHY[k]||'']
+      .concat(langs.map(function(l){return t[l]||'';})));
+  });
+  return toCsv(rows);
+}
+function readItemsCsv(text){
+  var rows=parseCsv(text);
+  if(!rows.length) return '中身が読めませんでした。';
+  var head=rows[0], langs=D.TR.langs.map(function(l){return l.id;});
+  var ix={}; head.forEach(function(h,i){ix[h.trim()]=i;});
+  if(ix['キー']===undefined) return '「キー」の列が見つかりません。書き出したCSVの1行目はそのままにしてください。';
+  var n=0,skip=0;
+  rows.slice(1).forEach(function(r){
+    var k=(r[ix['キー']]||'').trim();
+    if(!k){skip++;return;}
+    if(!D.ITEMS[k]){skip++;return;}
+    var it=D.ITEMS[k];
+    if(ix['名前']!==undefined && r[ix['名前']]!==undefined) it.name=r[ix['名前']].trim();
+    if(ix['絵']!==undefined && r[ix['絵']]!==undefined) it.emoji=r[ix['絵']].trim();
+    if(ix['材質']!==undefined && (r[ix['材質']]||'').trim()) it.mat=r[ix['材質']].trim();
+    if(ix['レベル']!==undefined && (r[ix['レベル']]||'').trim()) it.lv=parseInt(r[ix['レベル']],10)||it.lv;
+    if(ix['危険']!==undefined){ var d=(r[ix['危険']]||'').trim(); if(d&&d!=='0')it.danger=true; else delete it.danger; }
+    if(ix['理由']!==undefined){ var w=(r[ix['理由']]||'').trim(); if(w)D.ITEM_WHY[k]=w; else delete D.ITEM_WHY[k]; }
+    D.TR.items[k]=D.TR.items[k]||{};
+    langs.forEach(function(l){ if(ix[l]!==undefined){ var v=(r[ix[l]]||'').trim(); if(v)D.TR.items[k][l]=v; } });
+    n++;
+  });
+  save();
+  return n+'件を反映しました。'+(skip?'（'+skip+'行はキーが合わないので飛ばしました）':'');
+}
+function trCsv(){
+  var langs=D.TR.langs.map(function(l){return l.id;});
+  var rows=[['種類','キー','日本語'].concat(langs)];
+  ['bins','steps','signw','safety'].forEach(function(g){
+    Object.keys(D.TR[g]||{}).forEach(function(k){
+      var e=D.TR[g][k];
+      rows.push([g,k,k].concat(langs.map(function(l){return e[l]||'';})));
+    });
+  });
+  return toCsv(rows);
+}
+function readTrCsv(text){
+  var rows=parseCsv(text); if(!rows.length) return '中身が読めませんでした。';
+  var head=rows[0], ix={}; head.forEach(function(h,i){ix[h.trim()]=i;});
+  if(ix['種類']===undefined||ix['キー']===undefined) return '「種類」「キー」の列が必要です。';
+  var langs=D.TR.langs.map(function(l){return l.id;}), n=0,skip=0;
+  rows.slice(1).forEach(function(r){
+    var g=(r[ix['種類']]||'').trim(), k=(r[ix['キー']]||'').trim();
+    if(!g||!k||!D.TR[g]){skip++;return;}
+    D.TR[g][k]=D.TR[g][k]||{};
+    langs.forEach(function(l){ if(ix[l]!==undefined){ var v=(r[ix[l]]||'').trim(); if(v)D.TR[g][k][l]=v; } });
+    n++;
+  });
+  save();
+  return n+'件を反映しました。'+(skip?'（'+skip+'行は飛ばしました）':'');
+}
+
+/* ---------- 配線 ---------- */
+function initFilters(){
+  var sel=document.getElementById('fMat');
+  sel.innerHTML='<option value="">材質：すべて</option>'+
+    matsOf().map(function(m){return '<option value="'+m+'">'+m+'</option>';}).join('');
+}
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on');
+    document.getElementById('p-'+t.dataset.p).classList.add('on');
+    if(t.dataset.p==='issues') drawIssues();
+    if(t.dataset.p==='cities') drawCity();
+    if(t.dataset.p==='tr') drawTr();
+  });
+});
+['q','fMat','fDanger'].forEach(function(id){
+  document.getElementById(id).addEventListener('input',drawItems);
+  document.getElementById(id).addEventListener('change',drawItems);
+});
+document.getElementById('citySel').addEventListener('change',drawCity);
+['trGroup','trLang','trQ'].forEach(function(id){
+  document.getElementById(id).addEventListener('input',drawTr);
+  document.getElementById(id).addEventListener('change',drawTr);
+});
+document.getElementById('addItem').addEventListener('click',function(){
+  var k=prompt('新しい品目のキー（英数字。例：kairo）');
+  if(!k)return; k=k.trim();
+  if(!/^[A-Za-z][A-Za-z0-9_]*$/.test(k)){alert('英字ではじまる英数字とアンダースコアだけ使えます。');return;}
+  if(D.ITEMS[k]){alert('そのキーはもうあります。');return;}
+  D.ITEMS[k]={name:'（名前を入れてください）',emoji:'🗑️',mat:matsOf()[0],lv:2};
+  D.TR.items[k]={};
+  save(); document.getElementById('q').value=k; drawItems(); initFilters();
+  toast('足しました。名前と材質を入れてください');
+});
+document.getElementById('dlJs').addEventListener('click',function(){
+  download('gomi_data.js',buildJs(),'application/javascript'); toast('書き出しました');
+});
+document.getElementById('prevJs').addEventListener('click',function(){
+  document.getElementById('prevCard').style.display='block';
+  document.getElementById('prevBox').value=buildJs();
+});
+document.getElementById('dlCsv').addEventListener('click',function(){
+  download('gomi_items.csv',itemsCsv(),'text/csv'); toast('CSVを書き出しました');
+});
+document.getElementById('dlCsvTr').addEventListener('click',function(){
+  download('gomi_tr.csv',trCsv(),'text/csv'); toast('CSVを書き出しました');
+});
+document.getElementById('upCsv').addEventListener('change',function(e){
+  var f=e.target.files[0]; if(!f)return;
+  var rd=new FileReader();
+  rd.onload=function(){ var msg=readItemsCsv(rd.result); drawItems(); initFilters(); alert(msg); };
+  rd.onerror=function(){ alert('ファイルを読めませんでした。'); };
+  rd.readAsText(f,'utf-8'); e.target.value='';
+});
+document.getElementById('upCsvTr').addEventListener('change',function(e){
+  var f=e.target.files[0]; if(!f)return;
+  var rd=new FileReader();
+  rd.onload=function(){ var msg=readTrCsv(rd.result); drawTr(); alert(msg); };
+  rd.onerror=function(){ alert('ファイルを読めませんでした。'); };
+  rd.readAsText(f,'utf-8'); e.target.value='';
+});
+document.getElementById('reset').addEventListener('click',function(){
+  if(!confirm('いまの編集を全部捨てて、読みこんだ gomi_data.js の状態に戻します。よろしいですか。'))return;
+  try{localStorage.removeItem(SAVEKEY);}catch(e){}
+  D=clone(ORIG); dirty=false;
+  initFilters(); drawItems(); drawCitySel(); drawCity(); drawTr(); drawIssues();
+  toast('読みこみ直しました');
+});
+window.addEventListener('beforeunload',function(e){
+  if(dirty){ e.preventDefault(); e.returnValue=''; }
+});
+
+/* 起動 */
+if(typeof ITEMS==='undefined'){
+  document.body.innerHTML='<div class="wrap"><header><h1>データが読みこめません</h1></header>'+
+    '<div class="card" style="margin-top:14px;">このページと同じ場所に <code>gomi_data.js</code> を置いてください。'+
+    'ファイルを直接ひらいている場合は、ブラウザの制限で読めないことがあります。'+
+    'その場合はサイトに上げてから開いてください。</div></div>';
+}else{
+  boot();
+  document.getElementById('srcList').innerHTML=(D.TR.sources||[])
+    .map(function(s){return '・'+s.name+'（'+s.url+'）';}).join('<br>')||'（記録なし）';
+  initFilters(); drawItems(); drawCitySel(); drawTrLang(); refreshCheck();
+}
+</script>
+</body>
+</html>

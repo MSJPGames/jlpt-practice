@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>粵音估日文音讀 遊戲｜日本語の部屋</title>
+<meta name="description" content="睇住廣東話個音，估日文嘅音讀。三種玩法：估韻尾、估音讀、估促音。">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0;
+    --p:#B5541F; --p-bg:#FBEDE4; --t:#A0392E; --t-bg:#FBE9E4;
+    --k:#8A6D00; --k-bg:#FBF3D9; --m:#3E6B2F; --m-bg:#EDF3E6;
+    --ng:#2F5C8A; --ng-bg:#E6EEF6;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"PingFang HK","Noto Sans HK","Noto Sans JP",sans-serif;
+    font-size:16px;line-height:1.8;-webkit-tap-highlight-color:transparent;}
+  .wrap{max-width:520px;margin:0 auto;padding:0 16px 70px;}
+
+  .topbar{position:sticky;top:0;z-index:40;background:rgba(247,245,240,.94);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:8px 0;}
+  .topbar-in{max-width:520px;margin:0 auto;padding:0 16px;display:flex;gap:6px;align-items:center;}
+  .lb{font-family:inherit;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
+  .lb.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .back{margin-left:auto;font-size:12px;color:var(--hint);text-decoration:none;}
+
+  header{padding:26px 0 8px;text-align:center;}
+  .kicker{font-size:10.5px;font-weight:800;letter-spacing:.18em;color:var(--hint);text-transform:uppercase;}
+  h1{margin:7px 0 6px;font-size:25px;line-height:1.35;}
+  .sub{margin:0;font-size:13.5px;color:var(--muted);}
+
+  /* 選択画面 */
+  .modes{display:flex;flex-direction:column;gap:10px;margin:22px 0 14px;}
+  .mode{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:15px 16px;
+    text-align:left;font-family:inherit;cursor:pointer;color:var(--ink);}
+  .mode:hover{border-color:var(--teal);}
+  .mode .mn{font-size:16.5px;font-weight:800;display:flex;align-items:center;gap:8px;}
+  .mode .mn .ic{font-size:20px;}
+  .mode .md{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.65;}
+  .mode .mex{font-size:12px;color:var(--hint);margin-top:6px;font-family:var(--mono);}
+  .lvrow{display:flex;gap:7px;margin:6px 0 20px;}
+  .lvb{flex:1;font-family:inherit;font-size:13px;font-weight:700;padding:9px 4px;border-radius:9px;
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
+  .lvb.on{background:var(--teal-bg);border-color:var(--teal);color:var(--teal);}
+  .hintbox{font-size:12.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;padding:12px 14px;line-height:1.75;}
+  .hintbox a{color:var(--teal);}
+
+  /* ゲーム */
+  .hud{display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;font-weight:700;color:var(--hint);margin:14px 0 8px;letter-spacing:.04em;}
+  .hud .sc{color:var(--teal);}
+  .bar{height:4px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:14px;}
+  .bar i{display:block;height:100%;background:var(--teal);width:0;transition:width .3s;}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:22px 18px;text-align:center;}
+  .card .ask{font-size:12.5px;color:var(--hint);font-weight:700;}
+  .card .ch{font-size:66px;font-weight:800;line-height:1.15;margin:6px 0 2px;}
+  .card .word{font-size:38px;font-weight:800;line-height:1.25;margin:8px 0 2px;letter-spacing:.03em;}
+  .card .jy{font-family:var(--mono);font-size:16px;color:var(--hint);}
+  .card .jpk{font-size:11.5px;color:var(--hint);margin-top:6px;}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px;}
+  .opts.two{grid-template-columns:1fr 1fr;}
+  .ob{border:1px solid var(--line);background:var(--surface);border-radius:11px;padding:15px 8px;
+    font-family:inherit;font-size:19px;font-weight:800;color:var(--ink);cursor:pointer;}
+  .ob:active{transform:scale(.98);}
+  .ob.ok{background:var(--m-bg);border-color:#CFE3B6;color:var(--m);}
+  .ob.ng{background:var(--t-bg);border-color:#F0D2C6;color:var(--t);}
+  .ob.dim{opacity:.4;}
+  .fb{margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:14px 15px;font-size:14px;line-height:1.75;display:none;}
+  .fb.show{display:block;}
+  .fb .h{font-weight:800;margin-bottom:5px;}
+  .fb .h.o{color:var(--m);} .fb .h.x{color:var(--t);}
+  .fb .line{color:var(--muted);}
+  .fb .line b{color:var(--ink);}
+  .fb .note{margin-top:8px;padding:9px 11px;border-radius:9px;background:var(--k-bg);
+    border:1px solid #E8DCAF;font-size:12.5px;color:#6B5400;line-height:1.7;}
+  .coda{display:inline-block;font-family:var(--mono);font-weight:800;padding:1px 7px;
+    border-radius:6px;border:1px solid;font-size:.95em;}
+  .c-k{color:var(--k);background:var(--k-bg);border-color:#E8DCAF;}
+  .c-t{color:var(--t);background:var(--t-bg);border-color:#F0D2C6;}
+  .c-p{color:var(--p);background:var(--p-bg);border-color:#EBD3C2;}
+  .c-m{color:var(--m);background:var(--m-bg);border-color:#CFE3B6;}
+  .c-ng{color:var(--ng);background:var(--ng-bg);border-color:#C4D6E8;}
+  .next{margin-top:11px;width:100%;border:none;background:var(--teal);color:#fff;font-family:inherit;
+    font-size:16px;font-weight:800;border-radius:11px;padding:14px;cursor:pointer;display:none;}
+  .next.show{display:block;}
+  .ghost{margin-top:9px;width:100%;border:1px solid var(--line);background:var(--surface);
+    color:var(--muted);font-family:inherit;font-size:13.5px;font-weight:700;border-radius:11px;
+    padding:11px;cursor:pointer;}
+
+  /* 結果 */
+  .result{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:24px 20px;text-align:center;}
+  .result .big{font-size:44px;font-weight:800;line-height:1.2;}
+  .result .msg{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.75;}
+  .weak{margin-top:14px;text-align:left;font-size:13px;color:var(--muted);
+    background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:12px 13px;}
+  .weak b{color:var(--ink);}
+  .ja,.zh{display:none;}
+  body.lang-zh .zh{display:revert;}
+  body.lang-ja .ja{display:revert;}
+  .hidden{display:none!important;}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body class="lang-zh">
+
+<div class="topbar"><div class="topbar-in">
+  <button class="lb on" id="bZh" type="button">繁體中文</button>
+  <button class="lb" id="bJa" type="button">日本語</button>
+  <a class="back" href="onyomi_cantonese.html">← <span class="zh">解說</span><span class="ja">解説</span></a>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">粵語 × 日語 · 音讀</div>
+  <h1><span class="zh">粵音估日文音讀</span><span class="ja">広東語で音読みを当てる</span></h1>
+  <p class="sub"><span class="zh">識廣東話，你已經有晒工具。</span><span class="ja">広東語ができれば、道具はもう手元にあります。</span></p>
+</header>
+
+<!-- 選択 -->
+<section id="menu">
+  <div class="lvrow">
+    <button class="lvb on" data-lv="1" type="button"><span class="zh">初級</span><span class="ja">やさしい</span></button>
+    <button class="lvb" data-lv="2" type="button"><span class="zh">中級</span><span class="ja">ふつう</span></button>
+    <button class="lvb" data-lv="3" type="button"><span class="zh">全部</span><span class="ja">ぜんぶ</span></button>
+  </div>
+  <div class="modes">
+    <button class="mode" data-m="coda" type="button">
+      <span class="mn"><span class="ic">🎯</span><span class="zh">估韻尾</span><span class="ja">韻尾あて</span></span>
+      <span class="md"><span class="zh">睇粵音，估日文個尾係「く・つ・う・ん・長音」邊種。</span><span class="ja">広東語の音を見て、日本語の末尾が「く・つ・う・ん・長音」のどれか当てます。</span></span>
+      <span class="mex">學 hok6 → ？</span>
+    </button>
+    <button class="mode" data-m="on" type="button">
+      <span class="mn"><span class="ic">🔤</span><span class="zh">估音讀</span><span class="ja">音読みあて</span></span>
+      <span class="md"><span class="zh">直接估成個音讀點讀。</span><span class="ja">音読みそのものを当てます。</span></span>
+      <span class="mex">學 hok6 → がく／がつ／こう／かん</span>
+    </button>
+    <button class="mode" data-m="soku" type="button">
+      <span class="mn"><span class="ic">⚡</span><span class="zh">估促音</span><span class="ja">促音あて</span></span>
+      <span class="md"><span class="zh">呢個詞有冇「っ」？學校 定 学生？</span><span class="ja">この熟語に「っ」は入るか。学校か、学生か。</span></span>
+      <span class="mex">学校 → がっこう／がくこう</span>
+    </button>
+  </div>
+  <div class="hintbox">
+    <span class="zh"><b>唔記得規則？</b>　-k / -t / -p → 「っ」が出る　·　-m / -n → 「ん」　·　-ng → 長音。<br>
+      詳細睇 <a href="onyomi_cantonese.html">解說頁</a>。</span>
+    <span class="ja"><b>規則を忘れたら：</b>　-k / -t / -p →「っ」が出る　·　-m / -n →「ん」　·　-ng → 長音。<br>
+      詳しくは <a href="onyomi_cantonese.html">解説ページ</a>。</span>
+  </div>
+</section>
+
+<!-- ゲーム -->
+<section id="play" class="hidden">
+  <div class="hud"><span id="hn"></span><span class="sc" id="hs"></span></div>
+  <div class="bar"><i id="hb"></i></div>
+  <div class="card" id="card"></div>
+  <div class="opts" id="opts"></div>
+  <div class="fb" id="fb"></div>
+  <button class="next" id="next" type="button"></button>
+  <button class="ghost" id="quit" type="button"></button>
+</section>
+
+<!-- 結果 -->
+<section id="done" class="hidden">
+  <div class="result">
+    <div class="big" id="rb"></div>
+    <div class="msg" id="rm"></div>
+    <div class="weak hidden" id="rw"></div>
+  </div>
+  <button class="next show" id="again" type="button"></button>
+  <button class="ghost" id="tomenu" type="button"></button>
+</section>
+
+</div>
+
+<script src="onyomi_data.js"></script>
+<script>
+/* ---------- 言語 ---------- */
+var LS='nnh_onyomi_lang';
+function setLang(l){
+  document.body.className='lang-'+l;
+  document.getElementById('bZh').classList.toggle('on',l==='zh');
+  document.getElementById('bJa').classList.toggle('on',l==='ja');
+  document.documentElement.lang=(l==='ja')?'ja':'zh-Hant';
+  try{localStorage.setItem(LS,l);}catch(e){}
+  paintStatic(); if(G) draw();
+}
+function T(zh,ja){return document.body.className==='lang-ja'?ja:zh;}
+document.getElementById('bZh').onclick=function(){setLang('zh');};
+document.getElementById('bJa').onclick=function(){setLang('ja');};
+
+function paintStatic(){
+  document.getElementById('quit').textContent=T('停止','やめる');
+  document.getElementById('again').textContent=T('再玩一次','もう一度');
+  document.getElementById('tomenu').textContent=T('返去揀玩法','選びなおす');
+}
+
+/* ---------- 状態 ---------- */
+var N=10, LV=1, MODE='coda', G=null;
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function pool(){ return CHARS.filter(function(c){return c.lv<=LV;}); }
+
+document.querySelectorAll('.lvb').forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll('.lvb').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); LV=parseInt(b.dataset.lv,10);
+  };
+});
+document.querySelectorAll('.mode').forEach(function(b){
+  b.onclick=function(){ MODE=b.dataset.m; start(); };
+});
+document.getElementById('quit').onclick=function(){ show('menu'); G=null; };
+document.getElementById('tomenu').onclick=function(){ show('menu'); G=null; };
+document.getElementById('again').onclick=function(){ start(); };
+
+function show(id){
+  ['menu','play','done'].forEach(function(x){
+    document.getElementById(x).classList.toggle('hidden', x!==id);
+  });
+}
+
+/* ---------- 出題 ---------- */
+function start(){
+  var q=[];
+  if(MODE==='soku'){
+    q=shuffle(SOKUON.slice()).slice(0,N);
+  }else{
+    var p=pool();
+    q=shuffle(p.slice()).slice(0,Math.min(N,p.length));
+  }
+  G={q:q,i:0,ok:0,ans:false,miss:[]};
+  show('play'); draw();
+}
+var ENDS=['く','つ','う','ん','長音'];
+
+function draw(){
+  if(!G) return;
+  var q=G.q[G.i];
+  document.getElementById('hn').textContent=T('第 '+(G.i+1)+' / '+G.q.length+' 題','第 '+(G.i+1)+' / '+G.q.length+' 問');
+  document.getElementById('hs').textContent=T('答啱 '+G.ok,'正解 '+G.ok);
+  document.getElementById('hb').style.width=Math.round(G.i/G.q.length*100)+'%';
+  var card=document.getElementById('card'), opts=document.getElementById('opts');
+  opts.className='opts'; opts.innerHTML='';
+  var choices=[], correct;
+
+  if(MODE==='soku'){
+    card.innerHTML='<div class="ask">'+T('呢個詞有冇「っ」？','この熟語に「っ」は入る？')+'</div>'+
+      '<div class="word">'+q.w+'</div>'+
+      '<div class="jy">'+q.base+'</div>';
+    var yes=T('有「っ」','っが入る'), no=T('冇「っ」','入らない');
+    choices=[yes,no]; correct=q.q?yes:no;
+    opts.className='opts two';
+  }else if(MODE==='on'){
+    card.innerHTML='<div class="ask">'+T('日文個音讀係？','日本語の音読みは？')+'</div>'+
+      '<div class="ch">'+q.c+'</div><div class="jy">'+q.jyut+'</div>'+
+      (q.jp?'<div class="jpk">'+T('日本寫法：','日本の字体：')+q.jp+'</div>':'');
+    /* 同じ音読みの字が複数あるので、重ならないように選ぶ */
+    var seen={}; seen[q.on]=1; var others=[];
+    shuffle(CHARS.slice()).forEach(function(x){
+      if(others.length>=3) return;
+      if(seen[x.on]) return;
+      seen[x.on]=1; others.push(x.on);
+    });
+    choices=shuffle([q.on].concat(others)); correct=q.on;
+  }else{
+    card.innerHTML='<div class="ask">'+T('個尾會變成？','末尾はどれになる？')+'</div>'+
+      '<div class="ch">'+q.c+'</div><div class="jy">'+q.jyut+'</div>';
+    var right=CODAS[q.coda].end;
+    var wrong=shuffle(ENDS.filter(function(e){return e!==right;})).slice(0,3);
+    choices=shuffle([right].concat(wrong)); correct=right;
+  }
+
+  choices.forEach(function(ch){
+    var b=document.createElement('button'); b.type='button'; b.className='ob'; b.textContent=ch;
+    b.onclick=function(){ pick(ch,correct,b); };
+    opts.appendChild(b);
+  });
+  var f=document.getElementById('fb'); f.className='fb'; f.innerHTML='';
+  document.getElementById('next').className='next';
+  G.ans=false;
+}
+function pick(ch,correct,btn){
+  if(G.ans) return; G.ans=true;
+  var q=G.q[G.i], good=(ch===correct);
+  var bs=document.querySelectorAll('#opts .ob');
+  for(var i=0;i<bs.length;i++){
+    if(bs[i].textContent===correct) bs[i].className='ob ok';
+    else if(bs[i]===btn) bs[i].className='ob ng';
+    else bs[i].className='ob dim';
+  }
+  if(good) G.ok++; else G.miss.push(q);
+  var f=document.getElementById('fb'), h, body;
+  if(MODE==='soku'){
+    h=good?'⭕':'❌';
+    body='<div class="line"><b>'+q.w+'</b> → <b>'+q.r+'</b></div>'+
+         '<div class="line">'+q.base+'</div>'+
+         '<div class="line">'+q.why+'</div>';
+  }else{
+    var cd=CODAS[q.coda];
+    h=good?'⭕':'❌';
+    body='<div class="line"><b>'+q.c+'</b> '+q.jyut+' → <span class="coda c-'+cd.color+'">'+cd.label+'</span> → <b>'+q.on+'</b></div>'+
+         '<div class="line">'+T('例：','例：')+'<b>'+q.w+'</b>（'+q.wr+'）</div>'+
+         (q.jp?'<div class="line">'+T('日本寫法：','日本の字体：')+'<b>'+q.jp+'</b></div>':'');
+    if(q.note) body+='<div class="note">'+q.note+'</div>';
+  }
+  f.innerHTML='<div class="h '+(good?'o':'x')+'">'+h+'</div>'+body;
+  f.className='fb show';
+  document.getElementById('hs').textContent=T('答啱 '+G.ok,'正解 '+G.ok);
+  var n=document.getElementById('next');
+  n.textContent=(G.i>=G.q.length-1)?T('睇結果','結果を見る'):T('下一題 ›','つぎへ ›');
+  n.className='next show';
+}
+document.getElementById('next').onclick=function(){
+  if(G.i>=G.q.length-1){ finish(); return; }
+  G.i++; draw();
+};
+
+function finish(){
+  show('done');
+  var pct=Math.round(G.ok/G.q.length*100);
+  document.getElementById('rb').textContent=G.ok+' / '+G.q.length;
+  document.getElementById('rm').textContent = pct>=80
+    ? T('好叻！你已經捉到個規律。','よくできました。規則をつかめています。')
+    : (pct>=50 ? T('唔錯，再練多兩次就穩陣。','いい調子です。もう少し練習すれば安定します。')
+               : T('返去睇下解說頁，再嚟過。','解説ページを見てから、もう一度どうぞ。'));
+  var w=document.getElementById('rw');
+  if(G.miss.length && MODE!=='soku'){
+    var by={};
+    G.miss.forEach(function(m){ by[m.coda]=(by[m.coda]||0)+1; });
+    var worst=Object.keys(by).sort(function(a,b){return by[b]-by[a];});
+    w.innerHTML='<b>'+T('要留意：','注意したいところ：')+'</b><br>'+
+      worst.map(function(c){
+        return '<span class="coda c-'+CODAS[c].color+'">'+CODAS[c].label+'</span> → '+CODAS[c].jp+
+          '　'+T('錯咗 ','間違い ')+by[c]+T(' 次','回');
+      }).join('<br>')+'<br><br>'+
+      T('間違えた字：','間違えた字：')+G.miss.map(function(m){return m.c;}).join('・');
+    w.classList.remove('hidden');
+  }else if(G.miss.length){
+    w.innerHTML='<b>'+T('要留意：','注意したいところ：')+'</b><br>'+
+      G.miss.map(function(m){return m.w+'（'+m.r+'）';}).join('<br>');
+    w.classList.remove('hidden');
+  }else{
+    w.classList.add('hidden');
+  }
+}
+
+/* 起動 */
+(function(){
+  if(typeof CHARS==='undefined'){
+    document.querySelector('.wrap').innerHTML='<p style="margin-top:40px">データ（onyomi_data.js）が読みこめません。同じ場所に置いてください。</p>';
+    return;
+  }
+  var l='zh'; try{l=localStorage.getItem(LS)||'zh';}catch(e){}
+  setLang(l); show('menu');
+})();
+</script>
+</body>
+</html>

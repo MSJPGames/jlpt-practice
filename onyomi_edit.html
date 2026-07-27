@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>粵音×音読み データ編集｜日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0; --red:#A0392E; --red-bg:#FBE9E4;
+    --green:#3E6B2F; --green-bg:#EDF3E6; --amber:#8A6D00; --amber-bg:#FBF3D9;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Noto Sans Mono CJK JP",monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    font-size:14px;line-height:1.6;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 14px 80px;}
+  header{padding:20px 0 12px;border-bottom:1px solid var(--line);}
+  h1{margin:0;font-size:19px;}
+  h1 span{display:block;font-size:11px;font-weight:700;color:var(--hint);
+    letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;}
+  .lead{margin:6px 0 0;font-size:12.5px;color:var(--muted);}
+  .lead code{font-family:var(--mono);font-size:11.5px;background:var(--surface);
+    border:1px solid var(--line);border-radius:4px;padding:1px 5px;}
+
+  .check{position:sticky;top:0;z-index:50;background:var(--bg);
+    border-bottom:1px solid var(--line);padding:9px 0;margin-bottom:14px;}
+  .check-in{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;
+    padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);}
+  .chip b{font-family:var(--mono);font-size:13px;}
+  .chip.ok{background:var(--green-bg);border-color:#CFE3B6;color:var(--green);}
+  .chip.ng{background:var(--red-bg);border-color:#F0D2C6;color:var(--red);}
+  .chip.dirty{background:var(--teal-bg);border-color:#BFD9D7;color:var(--teal);}
+  .spacer{flex:1;}
+
+  nav.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px;}
+  .tab{border:1px solid var(--line);background:var(--surface);border-radius:8px 8px 0 0;
+    padding:8px 14px;font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;}
+  .tab.on{color:var(--teal);border-color:var(--teal);background:var(--teal-bg);}
+  section.pane{display:none;} section.pane.on{display:block;}
+
+  .tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px;}
+  input[type=text],input[type=search],select,textarea{font-family:inherit;font-size:13px;
+    border:1px solid var(--line);border-radius:7px;padding:7px 9px;background:var(--surface);color:var(--ink);}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--teal);outline-offset:1px;}
+  .btn{font-family:inherit;font-size:13px;font-weight:700;border-radius:8px;padding:8px 14px;
+    border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;}
+  .btn.primary{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .btn.danger{color:var(--red);border-color:#F0D2C6;background:var(--red-bg);}
+
+  .tablewrap{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    overflow:auto;max-height:70vh;}
+  table{border-collapse:collapse;width:100%;font-size:13px;}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{position:sticky;top:0;background:var(--bg);font-size:11px;letter-spacing:.06em;
+    color:var(--muted);font-weight:700;z-index:2;white-space:nowrap;}
+  tr.bad td{background:var(--red-bg);}
+  td input[type=text]{width:100%;min-width:60px;}
+  td select{width:100%;}
+  .ch{width:44px;text-align:center;font-size:19px;font-weight:800;}
+  .mini{font-size:11px;color:var(--hint);}
+  .flag{font-size:10.5px;font-weight:700;padding:1px 6px;border-radius:999px;
+    background:var(--red-bg);color:var(--red);border:1px solid #F0D2C6;white-space:nowrap;}
+
+  .issue{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;margin-bottom:9px;}
+  .issue h3{margin:0 0 6px;font-size:13.5px;}
+  .issue ul{margin:0;padding-left:18px;font-size:12.5px;color:var(--muted);}
+  .issue.clear{background:var(--green-bg);border-color:#CFE3B6;}
+  .issue.clear h3{color:var(--green);}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;margin-bottom:12px;}
+  .card h3{margin:0 0 6px;font-size:14px;}
+  .card p{margin:0 0 10px;font-size:12.5px;color:var(--muted);}
+  .steps{counter-reset:s;margin:0;padding:0;list-style:none;}
+  .steps li{counter-increment:s;position:relative;padding-left:26px;margin-bottom:5px;
+    font-size:12.5px;color:var(--muted);}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:18px;height:18px;
+    border-radius:50%;background:var(--line);font-size:10.5px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;}
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);
+    color:#fff;font-size:13px;font-weight:700;padding:10px 18px;border-radius:999px;
+    opacity:0;pointer-events:none;transition:opacity .2s;z-index:99;}
+  .toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1><span>Onyomi game · data editor</span>粵音×音読み データ編集</h1>
+  <p class="lead">直したら「書き出し」タブで <code>onyomi_data.js</code> をダウンロードし、サイトの同じファイルを置きかえます。ゲーム本体（<code>onyomi_game.html</code>）と解説ページは触りません。</p>
+</header>
+
+<div class="check"><div class="check-in" id="checkBar"></div></div>
+
+<nav class="tabs">
+  <button class="tab on" data-p="chars">漢字</button>
+  <button class="tab" data-p="soku">促音</button>
+  <button class="tab" data-p="issues">検証</button>
+  <button class="tab" data-p="io">書き出し・読みこみ</button>
+</nav>
+
+<section class="pane on" id="p-chars">
+  <div class="tools">
+    <input type="search" id="q" placeholder="漢字・粵音・音読みでさがす" style="min-width:220px;">
+    <select id="fCoda"><option value="">韻尾：すべて</option></select>
+    <select id="fLv"><option value="">レベル：すべて</option><option value="1">1 よく使う</option>
+      <option value="2">2 ふつう</option><option value="3">3 むずかしい</option></select>
+    <span class="spacer"></span>
+    <button class="btn" id="addChar">＋ 漢字を足す</button>
+  </div>
+  <div class="tablewrap">
+    <table id="tChars"><thead><tr>
+      <th style="width:46px;">字</th><th style="width:64px;">日本字体</th><th style="width:96px;">粵拼</th>
+      <th style="width:78px;">韻尾</th><th style="width:96px;">音読み</th>
+      <th style="width:96px;">例の語</th><th style="width:120px;">例の読み</th>
+      <th style="width:64px;">レベル</th><th style="min-width:180px;">例外・注意</th><th style="width:56px;"></th>
+    </tr></thead><tbody></tbody></table>
+  </div>
+  <p class="mini" style="margin-top:8px;">「日本字体」は繁体字と形が違うときだけ入れます（學→学）。同じ字なら空欄のままにしてください。</p>
+</section>
+
+<section class="pane" id="p-soku">
+  <div class="tools">
+    <input type="search" id="qs" placeholder="熟語でさがす" style="min-width:200px;">
+    <span class="spacer"></span>
+    <button class="btn" id="addSoku">＋ 熟語を足す</button>
+  </div>
+  <div class="tablewrap">
+    <table id="tSoku"><thead><tr>
+      <th style="width:90px;">熟語</th><th style="width:130px;">読み</th><th style="width:70px;">っが入る</th>
+      <th style="width:170px;">組み立て</th><th style="min-width:200px;">理由</th><th style="width:56px;"></th>
+    </tr></thead><tbody></tbody></table>
+  </div>
+  <p class="mini" style="margin-top:8px;">「っが入る」のチェックと、読みに「っ」があるかは一致していなければいけません。ずれていると検証で赤くなります。</p>
+</section>
+
+<section class="pane" id="p-issues"><div id="issueList"></div></section>
+
+<section class="pane" id="p-io">
+  <div class="card">
+    <h3>onyomi_data.js を書き出す</h3>
+    <p>編集した内容を、そのままサイトに置けるファイルにします。</p>
+    <ol class="steps">
+      <li>下のボタンでダウンロードする</li>
+      <li>サイトの <code>onyomi_data.js</code> を置きかえる</li>
+      <li>ブラウザで Ctrl+F5（強制再読みこみ）</li>
+    </ol>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn primary" id="dlJs">onyomi_data.js をダウンロード</button>
+      <button class="btn" id="prevJs">中身を見る</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>エクセルで直す</h3>
+    <p>まとめて直すときはCSVが速いです。<b>1列目（字・熟語）は変えないでください。</b>照合に使います。</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn" id="dlCsv">漢字CSVを書き出す</button>
+      <label class="btn" style="cursor:pointer;">漢字CSVを読みこむ<input type="file" id="upCsv" accept=".csv,text/csv" hidden></label>
+      <button class="btn" id="dlCsvS">促音CSVを書き出す</button>
+      <label class="btn" style="cursor:pointer;">促音CSVを読みこむ<input type="file" id="upCsvS" accept=".csv,text/csv" hidden></label>
+    </div>
+    <p class="mini" style="margin-top:9px;">BOM付きで書き出すのでエクセルで文字化けしません。保存は「CSV UTF-8」で。</p>
+  </div>
+  <div class="card">
+    <h3>やり直す</h3>
+    <p>編集はこのブラウザに自動保存されます。最初の状態に戻すこともできます。</p>
+    <button class="btn danger" id="reset">編集を捨てて読みこみ直す</button>
+  </div>
+  <div class="card" id="prevCard" style="display:none;">
+    <h3>書き出される中身</h3>
+    <textarea id="prevBox" rows="18" spellcheck="false" style="width:100%;font-family:var(--mono);font-size:11.5px;"></textarea>
+  </div>
+</section>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="onyomi_data.js"></script>
+<script>
+var SAVEKEY='nnh_onyomi_edit_draft';
+var D=null, ORIG=null, dirty=false;
+function clone(o){return JSON.parse(JSON.stringify(o));}
+function collect(){return {CODAS:clone(CODAS),CHARS:clone(CHARS),SOKUON:clone(SOKUON)};}
+function boot(){
+  ORIG=collect();
+  var saved=null; try{var r=localStorage.getItem(SAVEKEY); if(r)saved=JSON.parse(r);}catch(e){}
+  D=saved||clone(ORIG); dirty=!!saved;
+}
+function save(){dirty=true;try{localStorage.setItem(SAVEKEY,JSON.stringify(D));}catch(e){}refreshCheck();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.className='toast show';
+  clearTimeout(toast._t);toast._t=setTimeout(function(){t.className='toast';},1800);}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+/* 韻尾と音読みの整合（ゲームで教えている規則そのもの） */
+function endMatches(c){
+  var o=c.on||'';
+  if(c.note) return true;              /* 例外と明記してあるものは対象外 */
+  if(c.coda==='k')  return /[くき]$/.test(o);
+  if(c.coda==='t')  return /[つち]$/.test(o);
+  if(c.coda==='p')  return /う$/.test(o);
+  if(c.coda==='m'||c.coda==='n') return /ん$/.test(o);
+  if(c.coda==='ng') return /[うい]$/.test(o);
+  return false;
+}
+function validate(){
+  var v={miss:[],coda:[],dupe:[],soku:[]}, seen={};
+  D.CHARS.forEach(function(c){
+    var who=c.c||'（空）';
+    if(!c.c||!c.jyut||!c.on||!c.w||!c.wr) v.miss.push(who+'：項目が空です');
+    if(!D.CODAS[c.coda]) v.miss.push(who+'：韻尾「'+c.coda+'」がありません');
+    else if(!endMatches(c)) v.coda.push(who+' '+c.jyut+'：韻尾 '+D.CODAS[c.coda].label+' なら「'+D.CODAS[c.coda].jp+'」で終わるはずですが、音読みが「'+c.on+'」です');
+    if(c.c){ if(seen[c.c]) v.dupe.push(c.c+'：同じ字が2回あります'); seen[c.c]=1; }
+    if(c.jp && c.jp===c.c) v.miss.push(c.c+'：日本字体が同じ字になっています（空欄にしてください）');
+  });
+  D.SOKUON.forEach(function(s){
+    var has=/っ/.test(s.r||'');
+    if(!s.w||!s.r) v.soku.push('（空欄の行があります）');
+    else if(has!==!!s.q) v.soku.push(s.w+'（'+s.r+'）：「っが入る」のチェックと読みが合っていません');
+  });
+  return v;
+}
+function refreshCheck(){
+  var v=validate();
+  var n=v.miss.length+v.coda.length+v.dupe.length+v.soku.length;
+  document.getElementById('checkBar').innerHTML=
+    '<span class="chip '+(n?'ng':'ok')+'">まちがい <b>'+(n?n:'OK')+'</b></span>'+
+    '<span class="chip">漢字 <b>'+D.CHARS.length+'</b></span>'+
+    '<span class="chip">促音 <b>'+D.SOKUON.length+'</b></span>'+
+    '<span class="spacer"></span>'+
+    (dirty?'<span class="chip dirty">編集あり・自動保存ずみ</span>':'<span class="chip">編集なし</span>');
+  return v;
+}
+
+/* ---- 漢字タブ ---- */
+function drawChars(){
+  var q=document.getElementById('q').value.trim().toLowerCase();
+  var fc=document.getElementById('fCoda').value, fl=document.getElementById('fLv').value;
+  var tb=document.querySelector('#tChars tbody'); tb.innerHTML='';
+  var codas=Object.keys(D.CODAS);
+  D.CHARS.forEach(function(c,idx){
+    if(q && ((c.c||'')+' '+(c.jyut||'')+' '+(c.on||'')+' '+(c.w||'')).toLowerCase().indexOf(q)<0) return;
+    if(fc && c.coda!==fc) return;
+    if(fl && String(c.lv)!==fl) return;
+    var bad=!endMatches(c)||!c.jyut||!c.on;
+    var tr=document.createElement('tr'); if(bad) tr.className='bad';
+    tr.innerHTML=
+      '<td class="ch">'+esc(c.c)+'</td>'+
+      '<td><input type="text" data-f="jp" value="'+esc(c.jp)+'" placeholder="—"></td>'+
+      '<td><input type="text" data-f="jyut" value="'+esc(c.jyut)+'"></td>'+
+      '<td><select data-f="coda">'+codas.map(function(k){
+          return '<option value="'+k+'"'+(k===c.coda?' selected':'')+'>'+D.CODAS[k].label+'</option>';}).join('')+'</select></td>'+
+      '<td><input type="text" data-f="on" value="'+esc(c.on)+'">'+(bad?' <span class="flag">要確認</span>':'')+'</td>'+
+      '<td><input type="text" data-f="w" value="'+esc(c.w)+'"></td>'+
+      '<td><input type="text" data-f="wr" value="'+esc(c.wr)+'"></td>'+
+      '<td><select data-f="lv"><option value="1"'+(c.lv==1?' selected':'')+'>1</option>'+
+        '<option value="2"'+(c.lv==2?' selected':'')+'>2</option>'+
+        '<option value="3"'+(c.lv==3?' selected':'')+'>3</option></select></td>'+
+      '<td><input type="text" data-f="note" value="'+esc(c.note)+'" placeholder="例外なら書く"></td>'+
+      '<td><button class="btn danger" data-del="1" style="padding:4px 8px;font-size:11px;">削除</button></td>';
+    tr.querySelectorAll('[data-f]').forEach(function(el){
+      el.addEventListener('change',function(){
+        var f=el.dataset.f;
+        if(f==='lv') c.lv=parseInt(el.value,10);
+        else if(f==='note'||f==='jp'){ if(el.value.trim())c[f]=el.value.trim(); else c[f]=''; }
+        else c[f]=el.value.trim();
+        save(); drawChars();
+      });
+    });
+    tr.querySelector('[data-del]').addEventListener('click',function(){
+      if(!confirm('「'+c.c+'」を消します。よろしいですか。'))return;
+      D.CHARS.splice(D.CHARS.indexOf(c),1); save(); drawChars(); toast('削除しました');
+    });
+    tb.appendChild(tr);
+  });
+}
+/* ---- 促音タブ ---- */
+function drawSoku(){
+  var q=document.getElementById('qs').value.trim();
+  var tb=document.querySelector('#tSoku tbody'); tb.innerHTML='';
+  D.SOKUON.forEach(function(s){
+    if(q && ((s.w||'')+(s.r||'')).indexOf(q)<0) return;
+    var bad=(/っ/.test(s.r||''))!==!!s.q;
+    var tr=document.createElement('tr'); if(bad) tr.className='bad';
+    tr.innerHTML=
+      '<td><input type="text" data-f="w" value="'+esc(s.w)+'"></td>'+
+      '<td><input type="text" data-f="r" value="'+esc(s.r)+'"></td>'+
+      '<td style="text-align:center;"><input type="checkbox" data-f="q"'+(s.q?' checked':'')+'>'+(bad?'<br><span class="flag">不一致</span>':'')+'</td>'+
+      '<td><input type="text" data-f="base" value="'+esc(s.base)+'"></td>'+
+      '<td><input type="text" data-f="why" value="'+esc(s.why)+'"></td>'+
+      '<td><button class="btn danger" data-del="1" style="padding:4px 8px;font-size:11px;">削除</button></td>';
+    tr.querySelectorAll('[data-f]').forEach(function(el){
+      el.addEventListener('change',function(){
+        var f=el.dataset.f;
+        if(f==='q') s.q=el.checked; else s[f]=el.value.trim();
+        save(); drawSoku();
+      });
+    });
+    tr.querySelector('[data-del]').addEventListener('click',function(){
+      if(!confirm('「'+s.w+'」を消します。'))return;
+      D.SOKUON.splice(D.SOKUON.indexOf(s),1); save(); drawSoku(); toast('削除しました');
+    });
+    tb.appendChild(tr);
+  });
+}
+/* ---- 検証 ---- */
+function drawIssues(){
+  var v=refreshCheck(), box=document.getElementById('issueList');
+  var gs=[
+    ['韻尾と音読みが合わない', v.coda, 'ゲームが教えている規則と食いちがっています。粵拼か音読みのどちらかが間違っている可能性があります。例外なら「例外・注意」欄に理由を書けば、この警告は消えます。'],
+    ['項目が足りない・字体の重複', v.miss.concat(v.dupe), '空欄のままだとゲームで表示が崩れます。'],
+    ['促音の指定が合わない', v.soku, '「っが入る」のチェックと、読みの中の「っ」が一致していません。']
+  ];
+  box.innerHTML=gs.map(function(g){
+    if(!g[1].length) return '<div class="issue clear"><h3>✔ '+g[0]+'：問題なし</h3></div>';
+    return '<div class="issue"><h3>'+g[0]+'：'+g[1].length+'件</h3><p class="mini">'+g[2]+'</p><ul>'+
+      g[1].slice(0,100).map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div>';
+  }).join('');
+}
+/* ---- 書き出し ---- */
+function buildJs(){
+  var stamp=new Date().toISOString().slice(0,16).replace('T',' ');
+  return '/* onyomi_data.js — 粵音から日本語の音読みを予測するゲームのデータ\n'+
+    ' * onyomi_edit.html で書き出したファイルです。最終更新：'+stamp+'\n'+
+    ' * 粵拼（Jyutping）は香港語言学学会方式。\n */\n\n'+
+    'const CODAS = '+JSON.stringify(D.CODAS,null,2)+';\n\n'+
+    'const CHARS = '+JSON.stringify(D.CHARS,null,2)+';\n\n'+
+    'const SOKUON = '+JSON.stringify(D.SOKUON,null,2)+';\n';
+}
+function download(name,text,mime){
+  var blob=new Blob([text],{type:(mime||'text/plain')+';charset=utf-8'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},400);
+}
+function csvCell(v){v=(v==null)?'':String(v);return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
+function toCsv(rows){return '\ufeff'+rows.map(function(r){return r.map(csvCell).join(',');}).join('\r\n');}
+function parseCsv(t){
+  if(t.charCodeAt(0)===0xFEFF)t=t.slice(1);
+  var rows=[],row=[],cell='',q=false,i=0;
+  while(i<t.length){var ch=t[i];
+    if(q){ if(ch==='"'){ if(t[i+1]==='"'){cell+='"';i+=2;continue;} q=false;i++;continue;} cell+=ch;i++;continue;}
+    if(ch==='"'){q=true;i++;continue;}
+    if(ch===','){row.push(cell);cell='';i++;continue;}
+    if(ch==='\r'){i++;continue;}
+    if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell='';i++;continue;}
+    cell+=ch;i++;}
+  if(cell.length||row.length){row.push(cell);rows.push(row);}
+  return rows.filter(function(r){return r.some(function(c){return c!=='';});});
+}
+var CH_COLS=['字','日本字体','粵拼','韻尾','音読み','例の語','例の読み','レベル','例外・注意'];
+function charsCsv(){
+  var rows=[CH_COLS];
+  D.CHARS.forEach(function(c){rows.push([c.c,c.jp||'',c.jyut,c.coda,c.on,c.w,c.wr,c.lv,c.note||'']);});
+  return toCsv(rows);
+}
+function readCharsCsv(t){
+  var rows=parseCsv(t); if(!rows.length) return '読めませんでした。';
+  var ix={}; rows[0].forEach(function(h,i){ix[h.trim()]=i;});
+  if(ix['字']===undefined) return '「字」の列が見つかりません。書き出したCSVの1行目はそのままにしてください。';
+  var n=0,skip=0;
+  rows.slice(1).forEach(function(r){
+    var k=(r[ix['字']]||'').trim(); if(!k){skip++;return;}
+    var c=D.CHARS.filter(function(x){return x.c===k;})[0];
+    if(!c){skip++;return;}
+    if(ix['日本字体']!==undefined) c.jp=(r[ix['日本字体']]||'').trim();
+    if(ix['粵拼']!==undefined && (r[ix['粵拼']]||'').trim()) c.jyut=r[ix['粵拼']].trim();
+    if(ix['韻尾']!==undefined && D.CODAS[(r[ix['韻尾']]||'').trim()]) c.coda=r[ix['韻尾']].trim();
+    if(ix['音読み']!==undefined && (r[ix['音読み']]||'').trim()) c.on=r[ix['音読み']].trim();
+    if(ix['例の語']!==undefined && (r[ix['例の語']]||'').trim()) c.w=r[ix['例の語']].trim();
+    if(ix['例の読み']!==undefined && (r[ix['例の読み']]||'').trim()) c.wr=r[ix['例の読み']].trim();
+    if(ix['レベル']!==undefined && (r[ix['レベル']]||'').trim()) c.lv=parseInt(r[ix['レベル']],10)||c.lv;
+    if(ix['例外・注意']!==undefined) c.note=(r[ix['例外・注意']]||'').trim();
+    n++;
+  });
+  save(); return n+'件を反映しました。'+(skip?'（'+skip+'行は字が合わないので飛ばしました）':'');
+}
+var SK_COLS=['熟語','読み','っが入る','組み立て','理由'];
+function sokuCsv(){
+  var rows=[SK_COLS];
+  D.SOKUON.forEach(function(s){rows.push([s.w,s.r,s.q?'1':'',s.base||'',s.why||'']);});
+  return toCsv(rows);
+}
+function readSokuCsv(t){
+  var rows=parseCsv(t); if(!rows.length) return '読めませんでした。';
+  var ix={}; rows[0].forEach(function(h,i){ix[h.trim()]=i;});
+  if(ix['熟語']===undefined) return '「熟語」の列が見つかりません。';
+  var n=0,skip=0;
+  rows.slice(1).forEach(function(r){
+    var k=(r[ix['熟語']]||'').trim(); if(!k){skip++;return;}
+    var s=D.SOKUON.filter(function(x){return x.w===k;})[0];
+    if(!s){skip++;return;}
+    if(ix['読み']!==undefined && (r[ix['読み']]||'').trim()) s.r=r[ix['読み']].trim();
+    if(ix['っが入る']!==undefined){var d=(r[ix['っが入る']]||'').trim(); s.q=!!(d&&d!=='0');}
+    if(ix['組み立て']!==undefined) s.base=(r[ix['組み立て']]||'').trim();
+    if(ix['理由']!==undefined) s.why=(r[ix['理由']]||'').trim();
+    n++;
+  });
+  save(); return n+'件を反映しました。'+(skip?'（'+skip+'行は飛ばしました）':'');
+}
+
+/* ---- 配線 ---- */
+function initFilters(){
+  document.getElementById('fCoda').innerHTML='<option value="">韻尾：すべて</option>'+
+    Object.keys(D.CODAS).map(function(k){return '<option value="'+k+'">'+D.CODAS[k].label+' → '+D.CODAS[k].jp+'</option>';}).join('');
+}
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on'); document.getElementById('p-'+t.dataset.p).classList.add('on');
+    if(t.dataset.p==='issues')drawIssues();
+    if(t.dataset.p==='soku')drawSoku();
+  });
+});
+['q','fCoda','fLv'].forEach(function(id){
+  document.getElementById(id).addEventListener('input',drawChars);
+  document.getElementById(id).addEventListener('change',drawChars);
+});
+document.getElementById('qs').addEventListener('input',drawSoku);
+document.getElementById('addChar').addEventListener('click',function(){
+  var c=prompt('足したい漢字（繁体字で1文字）'); if(!c)return; c=c.trim();
+  if(D.CHARS.some(function(x){return x.c===c;})){alert('その字はもうあります。');return;}
+  D.CHARS.push({c:c,jp:'',jyut:'',coda:'k',on:'',w:'',wr:'',lv:2});
+  save(); document.getElementById('q').value=c; drawChars(); toast('足しました。粵拼と音読みを入れてください');
+});
+document.getElementById('addSoku').addEventListener('click',function(){
+  var w=prompt('足したい熟語'); if(!w)return; w=w.trim();
+  D.SOKUON.push({w:w,r:'',q:false,base:'',why:''});
+  save(); document.getElementById('qs').value=w; drawSoku(); toast('足しました');
+});
+document.getElementById('dlJs').addEventListener('click',function(){
+  download('onyomi_data.js',buildJs(),'application/javascript'); toast('書き出しました');
+});
+document.getElementById('prevJs').addEventListener('click',function(){
+  document.getElementById('prevCard').style.display='block';
+  document.getElementById('prevBox').value=buildJs();
+});
+document.getElementById('dlCsv').addEventListener('click',function(){download('onyomi_chars.csv',charsCsv(),'text/csv');toast('書き出しました');});
+document.getElementById('dlCsvS').addEventListener('click',function(){download('onyomi_sokuon.csv',sokuCsv(),'text/csv');toast('書き出しました');});
+document.getElementById('upCsv').addEventListener('change',function(e){
+  var f=e.target.files[0]; if(!f)return; var rd=new FileReader();
+  rd.onload=function(){var m=readCharsCsv(rd.result);drawChars();alert(m);};
+  rd.readAsText(f,'utf-8'); e.target.value='';
+});
+document.getElementById('upCsvS').addEventListener('change',function(e){
+  var f=e.target.files[0]; if(!f)return; var rd=new FileReader();
+  rd.onload=function(){var m=readSokuCsv(rd.result);drawSoku();alert(m);};
+  rd.readAsText(f,'utf-8'); e.target.value='';
+});
+document.getElementById('reset').addEventListener('click',function(){
+  if(!confirm('いまの編集を全部捨てて、読みこんだ onyomi_data.js の状態に戻します。'))return;
+  try{localStorage.removeItem(SAVEKEY);}catch(e){}
+  D=clone(ORIG); dirty=false; initFilters(); drawChars(); drawSoku(); drawIssues(); toast('読みこみ直しました');
+});
+window.addEventListener('beforeunload',function(e){ if(dirty){e.preventDefault();e.returnValue='';} });
+
+if(typeof CHARS==='undefined'){
+  document.querySelector('.wrap').innerHTML='<header><h1>データが読みこめません</h1></header>'+
+    '<div class="card" style="margin-top:14px;">このページと同じ場所に <code>onyomi_data.js</code> を置いてください。</div>';
+}else{
+  boot(); initFilters(); drawChars(); refreshCheck();
+}
+</script>
+</body>
+</html>

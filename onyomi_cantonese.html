@@ -32,8 +32,12 @@
     border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
   .lb.on{background:var(--teal);border-color:var(--teal);color:#fff;}
   .lb:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
-  .home{margin-left:auto;font-size:12px;color:var(--hint);text-decoration:none;}
+  .navs{margin-left:auto;display:flex;gap:10px;align-items:center;}
+  .home{font-size:12px;color:var(--hint);text-decoration:none;white-space:nowrap;}
   .home:hover{color:var(--teal);}
+  .gamelink{display:block;background:var(--teal);color:#fff;text-align:center;text-decoration:none;
+    font-size:16px;font-weight:800;border-radius:12px;padding:15px;margin:30px 0 8px;}
+  .gamelink small{display:block;font-size:12px;font-weight:600;opacity:.85;margin-top:3px;}
 
   /* 見出し */
   header{padding:38px 0 26px;}
@@ -139,7 +143,10 @@
 <div class="langbar"><div class="langbar-in">
   <button class="lb on" id="bZh" type="button">繁體中文</button>
   <button class="lb" id="bJa" type="button">日本語</button>
-  <a class="home" href="../index.html">日本語の部屋</a>
+  <span class="navs">
+    <a class="home" href="lang.html?code=yue">‹ <span class="zh">廣東話</span><span class="ja">広東語</span></a>
+    <a class="home" href="index.html">🏠 <span class="zh">首頁</span><span class="ja">トップ</span></a>
+  </span>
 </div></div>
 
 <div class="wrap">
@@ -393,6 +400,11 @@
   <div class="q-fb" id="qf"></div>
   <button class="q-next" id="qnext" type="button"></button>
 </div>
+
+<a class="gamelink" href="onyomi_game.html">
+  <span class="zh">▶ 去玩練習遊戲<small>估韻尾 ・ 估音讀 ・ 估促音</small></span>
+  <span class="ja">▶ 練習ゲームへ<small>韻尾あて ・ 音読みあて ・ 促音あて</small></span>
+</a>
 
 <footer>
   <p>

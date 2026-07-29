@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>片假名 — 識漢字反而幫唔到你｜日本語の部屋</title>
+<meta name="description" content="香港人講「巴士」，日本人講「バス」——兩邊都係音譯 bus，只係規則唔同。學識個規則，就唔使死記。仲有和製英語同唔係英文嘅外來語。">
+<link rel="canonical" href="https://msjpgames.github.io/jlpt-practice/chinese_katakana.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="日本語の部屋 ・ Nihongo no Heya">
+<meta property="og:locale" content="zh_HK">
+<meta property="og:url" content="https://msjpgames.github.io/jlpt-practice/chinese_katakana.html">
+<meta property="og:title" content="片假名 — 識漢字反而幫唔到你">
+<meta property="og:description" content="香港人講「巴士」，日本人講「バス」。兩邊都係音譯 bus，只係規則唔同。">
+<meta property="og:image" content="https://msjpgames.github.io/jlpt-practice/og_katakana.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="片假名 — 識漢字反而幫唔到你">
+<meta name="twitter:description" content="香港人講「巴士」，日本人講「バス」。同一個 bus，兩種音譯。">
+<meta name="twitter:image" content="https://msjpgames.github.io/jlpt-practice/og_katakana.png">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0;
+    --hk:#A0392E; --hk-bg:#FBE9E4;
+    --jp:#2F5C8A; --jp-bg:#E6EEF6;
+    --good:#3E6B2F; --good-bg:#EDF3E6;
+    --warn:#8A6D00; --warn-bg:#FBF3D9;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"PingFang HK","Noto Sans HK","Noto Sans JP",sans-serif;
+    font-size:16px;line-height:1.85;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 90px;}
+  .langbar{position:sticky;top:0;z-index:40;background:rgba(247,245,240,.94);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:8px 0;}
+  .langbar-in{max-width:760px;margin:0 auto;padding:0 18px;display:flex;gap:6px;align-items:center;}
+  .lb{font-family:inherit;font-size:12px;font-weight:700;padding:5px 13px;border-radius:999px;
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
+  .lb.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .navs{margin-left:auto;display:flex;gap:10px;align-items:center;}
+  .home{font-size:12px;color:var(--hint);text-decoration:none;white-space:nowrap;}
+
+  header{padding:38px 0 20px;}
+  .kicker{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--hint);
+    text-transform:uppercase;margin-bottom:10px;}
+  h1{margin:0 0 14px;font-size:clamp(25px,5.6vw,36px);line-height:1.32;}
+  .sub{margin:0;font-size:16.5px;color:var(--muted);line-height:1.8;}
+  h2{margin:46px 0 12px;font-size:21px;line-height:1.45;padding-bottom:8px;border-bottom:2px solid var(--ink);}
+  h3{margin:28px 0 8px;font-size:16.5px;}
+  p{margin:0 0 15px;}
+  .lead{font-size:17px;}
+
+  /* 香港 vs 日本 */
+  .pairs{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:18px 0;}
+  .pr{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--line);}
+  .pr:last-child{border-bottom:none;}
+  .pr>div{padding:10px 12px;font-size:15.5px;}
+  .pr .en{font-family:var(--mono);font-size:14px;color:var(--muted);border-right:1px solid var(--line);
+    display:flex;align-items:center;}
+  .pr .hk{font-weight:800;color:var(--hk);border-right:1px solid var(--line);}
+  .pr .jp{font-weight:800;color:var(--jp);}
+  .pr.h{background:var(--bg);}
+  .pr.h>div{font-size:11.5px;font-weight:800;letter-spacing:.05em;color:var(--muted);padding:8px 12px;}
+
+  /* 規則 */
+  .rules{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:18px 0;}
+  .rr{display:grid;grid-template-columns:112px 1fr;border-bottom:1px solid var(--line);}
+  .rr:last-child{border-bottom:none;}
+  .rk{background:var(--bg);padding:11px;text-align:center;font-family:var(--mono);font-size:15px;
+    font-weight:800;color:var(--jp);border-right:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;}
+  .rb{padding:11px 14px;font-size:15px;line-height:1.8;}
+  .rb b{color:var(--teal);font-weight:800;}
+  .rb small{display:block;font-size:12.5px;color:var(--hint);margin-top:2px;}
+
+  .sent{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 17px;margin:14px 0;}
+  .sent .note{font-size:13px;color:var(--hint);margin-top:7px;line-height:1.7;}
+  .ok,.ng{display:flex;gap:10px;align-items:flex-start;font-size:17px;line-height:1.75;margin:6px 0;}
+  .ok .mk,.ng .mk{flex-shrink:0;font-weight:800;font-size:14px;width:24px;text-align:center;}
+  .ok .mk{color:var(--good);} .ng .mk{color:var(--hk);} .ng .tx{color:var(--hk);}
+
+  /* 語彙リスト */
+  .wl{display:flex;flex-direction:column;gap:8px;margin:16px 0;}
+  .w{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:11px 14px;
+    display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;}
+  .w .k{font-size:19px;font-weight:800;color:var(--jp);min-width:132px;}
+  .w .m{font-size:14.5px;font-weight:700;}
+  .w .o{font-size:12.5px;color:var(--hint);margin-left:auto;font-family:var(--mono);}
+  .w .warn{font-size:12.5px;color:var(--warn);font-weight:700;}
+
+  .callout{background:var(--teal-bg);border:1px solid #BFD9D7;border-left:4px solid var(--teal);
+    border-radius:10px;padding:15px 17px;margin:22px 0;font-size:15px;line-height:1.8;}
+  .callout b{color:var(--teal);}
+  .callout.w{background:var(--warn-bg);border-color:#E8DCAF;border-left-color:var(--warn);}
+  .callout.w b{color:var(--warn);}
+  .callout.h{background:var(--hk-bg);border-color:#F0D2C6;border-left-color:var(--hk);}
+  .callout.h b{color:var(--hk);}
+
+  .quiz{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:18px 18px 20px;margin:26px 0;}
+  .q-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .q-n{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--hint);}
+  .q-sc{font-size:12.5px;font-weight:800;color:var(--teal);}
+  .q-k{text-align:center;font-size:40px;font-weight:800;line-height:1.3;padding:8px 0 0;color:var(--jp);}
+  .q-ask{text-align:center;font-size:13px;color:var(--hint);font-weight:700;}
+  .q-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;}
+  .q-b{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:13px 6px;
+    font-family:inherit;font-size:17px;font-weight:800;color:var(--ink);cursor:pointer;}
+  .q-b.ok{background:var(--good-bg);border-color:#CFE3B6;color:var(--good);}
+  .q-b.ng{background:var(--hk-bg);border-color:#F0D2C6;color:var(--hk);}
+  .q-b.dim{opacity:.4;}
+  .q-fb{margin-top:12px;font-size:14px;line-height:1.75;color:var(--muted);background:var(--bg);
+    border:1px solid var(--line);border-radius:10px;padding:11px 13px;display:none;}
+  .q-fb.show{display:block;}
+  .q-next{margin-top:11px;width:100%;border:none;background:var(--teal);color:#fff;font-family:inherit;
+    font-size:15px;font-weight:800;border-radius:10px;padding:12px;cursor:pointer;display:none;}
+  .q-next.show{display:block;}
+
+  .gamelink{display:block;background:var(--teal);color:#fff;text-align:center;text-decoration:none;
+    font-size:16px;font-weight:800;border-radius:12px;padding:15px;margin:30px 0 8px;}
+  .gamelink small{display:block;font-size:12px;font-weight:600;opacity:.85;margin-top:3px;}
+  footer{margin-top:50px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--hint);line-height:1.8;}
+  .ja,.zh{display:none;}
+  body.lang-zh .zh{display:revert;}
+  body.lang-ja .ja{display:revert;}
+  @media(max-width:520px){
+    .pr{grid-template-columns:1fr 1fr;}
+    .pr .en{grid-column:1 / -1;border-right:none;border-bottom:1px dotted var(--line);
+      font-size:12.5px;padding-bottom:4px;}
+    .pr.h{display:none;}
+    .pr .hk::before{content:'港 ';font-size:10.5px;color:var(--hint);font-weight:800;}
+    .pr .jp::before{content:'日 ';font-size:10.5px;color:var(--hint);font-weight:800;}
+  }
+</style>
+</head>
+<body class="lang-zh">
+
+<div class="langbar"><div class="langbar-in">
+  <button class="lb on" id="bZh" type="button">繁體中文</button>
+  <button class="lb" id="bJa" type="button">日本語</button>
+  <span class="navs">
+    <a class="home" href="chinese_start.html">‹ <span class="zh">中文入口</span><span class="ja">中国語の入口</span></a>
+    <a class="home" href="index.html">🏠 <span class="zh">首頁</span><span class="ja">トップ</span></a>
+  </span>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">中文 × 日本語 · 片假名</div>
+  <h1><span class="zh">片假名 — 識漢字反而幫唔到你</span><span class="ja">カタカナ — 漢字が読めるほどつまずく</span></h1>
+  <p class="sub">
+    <span class="zh">睇日文嗰陣，漢字你估到，平假名係文法。但係一去到<strong>片假名</strong>，意思就即刻消失——因為佢淨係表音，冇任何意思上嘅線索。</span>
+    <span class="ja">日本語を読むとき、漢字は推測でき、ひらがなは文法です。ところが<strong>カタカナ</strong>になると意味が消えます。音だけを表し、意味の手がかりがないからです。</span>
+  </p>
+</header>
+
+<div class="callout h">
+  <span class="zh"><b>但係你其實已經識呢套嘢。</b>香港人日日講「巴士」「的士」「朱古力」——嗰啲全部都係音譯英文。日文做緊同一件事，只係規則唔同。</span>
+  <span class="ja"><b>ただ、この仕組み自体はすでに知っています。</b>香港では「巴士」「的士」「朱古力」を日常的に使います。すべて英語の音訳です。日本語も同じことをしていて、規則が違うだけです。</span>
+</div>
+
+<h2><span class="zh">一、同一個英文字，兩種音譯</span><span class="ja">一、同じ英語、二つの音訳</span></h2>
+<div class="pairs" id="pairs"></div>
+<div class="callout">
+  <span class="zh"><b>睇得出分別嗎？</b>粵語音譯用返漢字，而且可以有入聲收尾（<b>力</b> lik6、<b>多</b> do1）。<br>
+    日文冇入聲，每個音都要「子音＋母音」，所以每個子音後面都要加返個母音。<br>
+    chocolate → 朱古力（3個音）／チョコレート（5個音）。</span>
+  <span class="ja"><b>違いが見えますか。</b>広東語の音訳は漢字を使い、入声で終わることもできます。<br>
+    日本語には入声がなく、すべて「子音＋母音」なので、子音のあとに母音が必要です。<br>
+    chocolate → 朱古力（3音）／チョコレート（5音）。</span>
+</div>
+
+<h2><span class="zh">二、音點樣變</span><span class="ja">二、音がどう変わるか</span></h2>
+<p><span class="zh">記熟呢幾條，見到未學過嘅片假名都估到係乜。</span>
+   <span class="ja">これを覚えると、知らないカタカナ語も推測できます。</span></p>
+<div class="rules">
+  <div class="rr"><div class="rk">t → ト</div><div class="rb">tes<b>t</b> → テス<b>ト</b><small>ligh<b>t</b> → ライ<b>ト</b></small></div></div>
+  <div class="rr"><div class="rk">d → ド</div><div class="rb">be<b>d</b> → ベッ<b>ド</b><small>car<b>d</b> → カー<b>ド</b></small></div></div>
+  <div class="rr"><div class="rk"><span class="zh">其他子音<br>→ ＋ウ</span><span class="ja">他の子音<br>→ ＋ウ</span></div>
+    <div class="rb">des<b>k</b> → デス<b>ク</b>／ba<b>g</b> → バッ<b>グ</b><small><span class="zh">子音一定要有母音跟住</span><span class="ja">子音には必ず母音がつく</span></small></div></div>
+  <div class="rr"><div class="rk">L・R → ラ行</div><div class="rb"><b>l</b>ight → <b>ラ</b>イト／<b>r</b>ight → <b>ラ</b>イト
+    <small><span class="zh">兩個字變成一樣！日文分唔開 L 同 R。</span><span class="ja">L と R は区別されず同じになります。</span></small></div></div>
+  <div class="rr"><div class="rk">V → バ行</div><div class="rb"><b>v</b>ideo → <b>ビ</b>デオ<small><span class="zh">有時寫 ヴ，但係讀音一樣</span><span class="ja">ヴ と書くこともありますが音は同じ</span></small></div></div>
+  <div class="rr"><div class="rk">TH → サ・ザ行</div><div class="rb"><b>th</b>ree → <b>ス</b>リー／ba<b>th</b> → バ<b>ス</b></div></div>
+  <div class="rr"><div class="rk">F → ファ行</div><div class="rb"><b>f</b>ork → <b>フォ</b>ーク／<b>f</b>ilm → <b>フィ</b>ルム</div></div>
+  <div class="rr"><div class="rk">-er / -or<br>→ ー</div><div class="rb">comput<b>er</b> → コンピュータ<b>ー</b>／doct<b>or</b> → ドクタ<b>ー</b></div></div>
+  <div class="rr"><div class="rk">-tion<br>→ ション</div><div class="rb">sta<b>tion</b> → ステー<b>ション</b></div></div>
+</div>
+<div class="callout">
+  <span class="zh"><b>反過嚟用：</b>見到唔識嘅片假名，<b>大聲讀出嚟，再刪走多餘嘅母音</b>。<br>
+    ストライク → s(u)torai k(u) → strike。<br>
+    クリスマス → k(u)ris(u)mas(u) → Christmas。</span>
+  <span class="ja"><b>逆に使う：</b>知らないカタカナ語は<b>声に出して、余分な母音を取る</b>と元の語が見えます。<br>
+    ストライク → s(u)torai k(u) → strike。</span>
+</div>
+
+<h2><span class="zh">三、中文母語者最易漏嘅兩樣</span><span class="ja">三、中国語話者が落としやすい二つ</span></h2>
+<h3><span class="zh">① 長音「ー」</span><span class="ja">① 長音「ー」</span></h3>
+<p><span class="zh">粵語冇長短音之分，所以好容易漏。但係<strong>漏咗會變成第二個字</strong>。</span>
+   <span class="ja">広東語に長短の区別がないため落としがちですが、<strong>落とすと別の語になります</strong>。</span></p>
+<div class="sent">
+  <div class="ok"><span class="mk">ビル</span><span class="tx">building　<span style="color:var(--hint);font-size:14px;">大廈</span></span></div>
+  <div class="ok"><span class="mk">ビール</span><span class="tx">beer　<span style="color:var(--hint);font-size:14px;">啤酒</span></span></div>
+  <div class="note"><span class="zh">差一個「ー」，大廈變啤酒。</span><span class="ja">「ー」一つで建物がビールになります。</span></div>
+</div>
+<h3><span class="zh">② 促音「ッ」</span><span class="ja">② 促音「ッ」</span></h3>
+<p><span class="zh">如果你講廣東話，呢個反而易——<b>入聲</b>就係嗰種停頓。bed 個 -d 之前有個急停，就係 ベッ<b>ド</b>。</span>
+   <span class="ja">広東語話者にはこちらは易しいはずです。<b>入声</b>がまさにその止まりです。</span></p>
+
+<h2><span class="zh">四、唔好以為全部都係英文</span><span class="ja">四、すべてが英語とは限らない</span></h2>
+<p><span class="zh">好多人卡住，係因為用英文去估，但係嗰個字根本唔係英文。</span>
+   <span class="ja">英語から推測しようとして詰まるのは、そもそも英語でない語があるからです。</span></p>
+<div class="wl" id="loanlist"></div>
+
+<h2><span class="zh">五、和製英語</span><span class="ja">五、和製英語</span></h2>
+<p><span class="zh">呢啲係<strong>日本人自己砌出嚟</strong>嘅「英文」。用英文去理解會錯，而且錯得好交關。</span>
+   <span class="ja">これは<strong>日本で作られた</strong>「英語」です。英語として理解すると外れます。</span></p>
+<div class="wl" id="wasei"></div>
+<div class="callout w">
+  <span class="zh"><b>マンション</b> 唔係英文嘅 mansion（大宅）。日文嘅マンション ＝ 普通嘅住宅大廈單位。<br>
+    同外國人講「私のマンション」，佢會以為你住大屋。</span>
+  <span class="ja"><b>マンション</b> は英語の mansion（大邸宅）ではなく、集合住宅の一室を指します。</span>
+</div>
+
+<h2><span class="zh">試吓</span><span class="ja">試してみる</span></h2>
+<p><span class="zh">呢個片假名係乜？</span><span class="ja">このカタカナ語は何でしょう。</span></p>
+<div class="quiz" id="quiz">
+  <div class="q-top"><span class="q-n" id="qn"></span><span class="q-sc" id="qsc"></span></div>
+  <div class="q-k" id="qk"></div>
+  <div class="q-ask" id="qask"></div>
+  <div class="q-opts" id="qo"></div>
+  <div class="q-fb" id="qf"></div>
+  <button class="q-next" id="qnext" type="button"></button>
+</div>
+
+<a class="gamelink" href="chinese_bunkei.html">
+  <span class="zh">▶ 各種動詞形嘅用途<small>て形接乜？三十一個用法</small></span>
+  <span class="ja">▶ 各活用形の使い道<small>て形に何が続くか</small></span>
+</a>
+
+<footer>
+  <p><span class="zh">粵語音譯以香港嘅慣用寫法為準。同一個英文字，台灣同大陸嘅譯法可能唔同。</span>
+     <span class="ja">広東語の音訳は香港の慣用表記によります。台湾・中国大陸では別の訳語になることがあります。</span></p>
+  <p>© 日本語の部屋</p>
+</footer>
+
+</div>
+
+<script>
+var LS='nnh_kata_lang';
+function setLang(l){
+  document.body.className='lang-'+l;
+  document.getElementById('bZh').classList.toggle('on',l==='zh');
+  document.getElementById('bJa').classList.toggle('on',l==='ja');
+  document.documentElement.lang=(l==='ja')?'ja':'zh-Hant';
+  try{localStorage.setItem(LS,l);}catch(e){}
+  draw(); if(QZ.q.length) drawQ();
+}
+function T(zh,ja){return document.body.className==='lang-ja'?ja:zh;}
+document.getElementById('bZh').onclick=function(){setLang('zh');};
+document.getElementById('bJa').onclick=function(){setLang('ja');};
+
+/* 同じ英語の、香港と日本の音訳 */
+var PAIRS=[
+{en:'bus',hk:'巴士',jp:'バス'},
+{en:'taxi',hk:'的士',jp:'タクシー'},
+{en:'chocolate',hk:'朱古力',jp:'チョコレート'},
+{en:'salad',hk:'沙律',jp:'サラダ'},
+{en:'strawberry',hk:'士多啤梨',jp:'ストロベリー'},
+{en:'toast',hk:'多士',jp:'トースト'},
+{en:'sofa',hk:'梳化',jp:'ソファ'},
+{en:'cream',hk:'忌廉',jp:'クリーム'},
+{en:'film',hk:'菲林',jp:'フィルム'},
+{en:'cherry',hk:'車厘子',jp:'チェリー'},
+{en:'card',hk:'咭',jp:'カード'},
+{en:'tips',hk:'貼士',jp:'チップ'}
+];
+/* 英語でない外来語 */
+var LOAN=[
+{k:'パン',mzh:'麵包',mja:'パン',from:'português  pão'},
+{k:'タバコ',mzh:'煙',mja:'たばこ',from:'português  tabaco'},
+{k:'カステラ',mzh:'長崎蛋糕',mja:'カステラ',from:'português  castela'},
+{k:'アルバイト',mzh:'兼職',mja:'アルバイト',from:'Deutsch  Arbeit'},
+{k:'カルテ',mzh:'病歷',mja:'カルテ',from:'Deutsch  Karte'},
+{k:'エネルギー',mzh:'能量',mja:'エネルギー',from:'Deutsch  Energie'},
+{k:'ズボン',mzh:'褲',mja:'ズボン',from:'français  jupon'},
+{k:'アンケート',mzh:'問卷',mja:'アンケート',from:'français  enquête'},
+{k:'ピーマン',mzh:'青椒',mja:'ピーマン',from:'français  piment'},
+{k:'イクラ',mzh:'三文魚子',mja:'イクラ',from:'русский  икра'}
+];
+/* 和製英語 */
+var WASEI=[
+{k:'マンション',mzh:'住宅大廈嘅單位',mja:'集合住宅の一室',w:'≠ mansion（大宅）'},
+{k:'コンセント',mzh:'插座',mja:'電源コンセント',w:'≠ consent'},
+{k:'サラリーマン',mzh:'上班族',mja:'会社員',w:'salary + man'},
+{k:'ノートパソコン',mzh:'手提電腦',mja:'ノートPC',w:'≠ notebook'},
+{k:'ペットボトル',mzh:'膠樽',mja:'PETボトル',w:'PET + bottle'},
+{k:'ガソリンスタンド',mzh:'油站',mja:'給油所',w:'≠ gas station'},
+{k:'クーラー',mzh:'冷氣',mja:'エアコン',w:'≠ cooler'},
+{k:'ワンピース',mzh:'連身裙',mja:'ドレス',w:'one + piece'},
+{k:'ベビーカー',mzh:'嬰兒車',mja:'ベビーカー',w:'≠ baby car'},
+{k:'クレーム',mzh:'投訴',mja:'苦情',w:'≠ claim（索償）'},
+{k:'ハンドル',mzh:'軚盤',mja:'ステアリング',w:'≠ handle'},
+{k:'ナイーブ',mzh:'纖細、敏感',mja:'繊細',w:'≠ naive（天真）'}
+];
+
+function draw(){
+  document.getElementById('pairs').innerHTML=
+    '<div class="pr h"><div class="en">English</div><div class="hk">'+T('香港','香港')+'</div><div class="jp">'+T('日本','日本')+'</div></div>'+
+    PAIRS.map(function(p){
+      return '<div class="pr"><div class="en">'+p.en+'</div><div class="hk">'+p.hk+'</div><div class="jp">'+p.jp+'</div></div>';
+    }).join('');
+  document.getElementById('loanlist').innerHTML=LOAN.map(function(x){
+    return '<div class="w"><span class="k">'+x.k+'</span><span class="m">'+T(x.mzh,x.mja)+'</span>'+
+      '<span class="o">'+x.from+'</span></div>';
+  }).join('');
+  document.getElementById('wasei').innerHTML=WASEI.map(function(x){
+    return '<div class="w"><span class="k">'+x.k+'</span><span class="m">'+T(x.mzh,x.mja)+'</span>'+
+      '<span class="o warn">'+x.w+'</span></div>';
+  }).join('');
+}
+
+/* ---------- 練習 ---------- */
+var BANK=[
+{k:'ストライク',a:'strike',o:['strike','street','strong','string'],
+ ezh:'s(u)torai k(u) → strike。刪走多餘母音就見到。',eja:'余分な母音を取ると strike。'},
+{k:'クリスマス',a:'Christmas',o:['Christmas','classmate','crystal','cream'],
+ ezh:'k(u)ris(u)mas(u) → Christmas。',eja:'k(u)ris(u)mas(u) → Christmas。'},
+{k:'コンピューター',a:'computer',o:['computer','company','complete','compact'],
+ ezh:'語尾 -er 變成長音「ー」。',eja:'語尾の -er が長音になります。'},
+{k:'ステーション',a:'station',o:['station','situation','stadium','standard'],
+ ezh:'-tion → ション。',eja:'-tion → ション。'},
+{k:'ビール',a:'beer（啤酒）',o:['beer（啤酒）','building（大廈）','bill（帳單）','ball（波）'],
+ ezh:'有長音係 beer。冇長音嘅ビル先係 building。',eja:'長音があれば beer。ビル は building。'},
+{k:'マンション',a:'公寓單位',o:['公寓單位','大宅','經理','菜單'],
+ ezh:'和製英語。唔係英文嘅 mansion。',eja:'和製英語で、英語の mansion ではありません。'},
+{k:'アルバイト',a:'兼職',o:['兼職','鬧鐘','相簿','酒精'],
+ ezh:'德文 Arbeit，唔係英文。',eja:'ドイツ語の Arbeit です。'},
+{k:'コンセント',a:'插座',o:['插座','同意','演唱會','水泥'],
+ ezh:'和製英語。≠ consent。',eja:'和製英語で consent ではありません。'},
+{k:'ズボン',a:'褲',o:['褲','湯','區域','按鈕'],
+ ezh:'法文 jupon。',eja:'フランス語の jupon から。'},
+{k:'クレーム',a:'投訴',o:['投訴','奶油','班級','時鐘'],
+ ezh:'≠ claim（索償）。日文係「投訴」。',eja:'英語の claim ではなく「苦情」の意味です。'}
+];
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+var QZ={q:[],i:0,ok:0};
+function newRound(){QZ={q:shuffle(BANK.slice()).slice(0,8),i:0,ok:0};drawQ();}
+function drawQ(){
+  var q=QZ.q[QZ.i];
+  document.getElementById('qn').textContent=T('第 '+(QZ.i+1)+' / '+QZ.q.length+' 題','第 '+(QZ.i+1)+' / '+QZ.q.length+' 問');
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  document.getElementById('qk').textContent=q.k;
+  document.getElementById('qask').textContent=T('係乜嘢？','どれでしょう');
+  var w=document.getElementById('qo'); w.innerHTML='';
+  shuffle(q.o.slice()).forEach(function(o){
+    var b=document.createElement('button'); b.type='button'; b.className='q-b'; b.textContent=o;
+    b.onclick=function(){ans(o,b);};
+    w.appendChild(b);
+  });
+  var f=document.getElementById('qf'); f.className='q-fb'; f.innerHTML='';
+  document.getElementById('qnext').className='q-next';
+}
+function ans(o,btn){
+  var q=QZ.q[QZ.i];
+  var bs=document.querySelectorAll('#qo .q-b');
+  for(var i=0;i<bs.length;i++){
+    if(bs[i].textContent===q.a) bs[i].className='q-b ok';
+    else if(bs[i]===btn) bs[i].className='q-b ng';
+    else bs[i].className='q-b dim';
+    bs[i].onclick=null;
+  }
+  if(o===q.a) QZ.ok++;
+  var f=document.getElementById('qf');
+  f.innerHTML=(o===q.a?'⭕ ':'❌ ')+'<b>'+q.k+'</b> ＝ '+q.a+'　'+T(q.ezh,q.eja);
+  f.className='q-fb show';
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  var n=document.getElementById('qnext');
+  n.textContent=(QZ.i>=QZ.q.length-1)?T('睇結果','結果を見る'):T('下一題 ›','つぎへ ›');
+  n.className='q-next show';
+}
+document.getElementById('qnext').onclick=function(){
+  if(QZ.i>=QZ.q.length-1){ done(); return; }
+  QZ.i++; drawQ();
+};
+function done(){
+  document.getElementById('qn').textContent=T('完成','おわり');
+  document.getElementById('qsc').textContent='';
+  document.getElementById('qk').textContent=(QZ.ok>=7?'🎉':(QZ.ok>=5?'👍':'📚'));
+  document.getElementById('qask').textContent='';
+  document.getElementById('qo').innerHTML='';
+  var f=document.getElementById('qf');
+  f.innerHTML='<b>'+QZ.ok+' / '+QZ.q.length+'</b>　'+
+    (QZ.ok>=7?T('已經識得拆片假名。','カタカナを読み解けています。')
+             :T('返上面睇多次個規則表。','上の規則表をもう一度どうぞ。'));
+  f.className='q-fb show';
+  var n=document.getElementById('qnext');
+  n.textContent=T('再嚟一次','もう一度'); n.className='q-next show';
+  n.onclick=function(){newRound(); n.onclick=nextH;};
+}
+var nextH=document.getElementById('qnext').onclick;
+
+(function(){
+  var l='zh'; try{l=localStorage.getItem(LS)||'zh';}catch(e){}
+  newRound(); setLang(l);
+})();
+</script>
+</body>
+</html>

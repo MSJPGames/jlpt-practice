@@ -225,6 +225,14 @@ function paintStatic(){
 
 /* ---------- 状態 ---------- */
 var N=10, LV=1, MODE='coda', G=null;
+/* その字の正しい音読み（呉音・漢音など）を全部返す */
+function readingsOf(c){
+  return (c.ons && c.ons.length) ? c.ons.map(function(o){return o.r;}) : [c.on];
+}
+function readingLabel(c){
+  if(!c.ons || c.ons.length<2) return c.on;
+  return c.ons.map(function(o){return o.r+'（'+o.k+'）';}).join(' ／ ');
+}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 function pool(){ return CHARS.filter(function(c){return c.lv<=LV;}); }
 
@@ -282,14 +290,20 @@ function draw(){
     card.innerHTML='<div class="ask">'+T('日文個音讀係？','日本語の音読みは？')+'</div>'+
       '<div class="ch">'+q.c+'</div><div class="jy">'+q.jyut+'</div>'+
       (q.jp?'<div class="jpk">'+T('日本寫法：','日本の字体：')+q.jp+'</div>':'');
-    /* 同じ音読みの字が複数あるので、重ならないように選ぶ */
-    var seen={}; seen[q.on]=1; var others=[];
+    /* この字の正しい読みは複数ありうる（呉音・漢音）。
+       出題は1つだけ見せ、誤答にはその字のどの読みも入れない。 */
+    var valid=readingsOf(q);
+    var seen={}; valid.forEach(function(r){seen[r]=1;});
+    var others=[];
     shuffle(CHARS.slice()).forEach(function(x){
       if(others.length>=3) return;
-      if(seen[x.on]) return;
-      seen[x.on]=1; others.push(x.on);
+      readingsOf(x).forEach(function(r){
+        if(others.length>=3 || seen[r]) return;
+        seen[r]=1; others.push(r);
+      });
     });
-    choices=shuffle([q.on].concat(others)); correct=q.on;
+    var show=valid[Math.floor(Math.random()*valid.length)];
+    choices=shuffle([show].concat(others)); correct=show;
   }else{
     card.innerHTML='<div class="ask">'+T('個尾會變成？','末尾はどれになる？')+'</div>'+
       '<div class="ch">'+q.c+'</div><div class="jy">'+q.jyut+'</div>';
@@ -309,10 +323,13 @@ function draw(){
 }
 function pick(ch,correct,btn){
   if(G.ans) return; G.ans=true;
-  var q=G.q[G.i], good=(ch===correct);
+  var q=G.q[G.i];
+  /* 音読みモードでは、その字の正しい読みならどれを選んでも正解 */
+  var good = (MODE==='on') ? (readingsOf(q).indexOf(ch)>=0) : (ch===correct);
   var bs=document.querySelectorAll('#opts .ob');
+  var okSet = (MODE==='on') ? readingsOf(q) : [correct];
   for(var i=0;i<bs.length;i++){
-    if(bs[i].textContent===correct) bs[i].className='ob ok';
+    if(okSet.indexOf(bs[i].textContent)>=0) bs[i].className='ob ok';
     else if(bs[i]===btn) bs[i].className='ob ng';
     else bs[i].className='ob dim';
   }
@@ -326,9 +343,17 @@ function pick(ch,correct,btn){
   }else{
     var cd=CODAS[q.coda];
     h=good?'⭕':'❌';
-    body='<div class="line"><b>'+q.c+'</b> '+q.jyut+' → <span class="coda c-'+cd.color+'">'+cd.label+'</span> → <b>'+q.on+'</b></div>'+
-         '<div class="line">'+T('例：','例：')+'<b>'+q.w+'</b>（'+q.wr+'）</div>'+
-         (q.jp?'<div class="line">'+T('日本寫法：','日本の字体：')+'<b>'+q.jp+'</b></div>':'');
+    body='<div class="line"><b>'+q.c+'</b> '+q.jyut+' → <span class="coda c-'+cd.color+'">'+cd.label+'</span> → <b>'+readingLabel(q)+'</b></div>';
+    if(q.ons && q.ons.length>1){
+      body+='<div class="line">'+q.ons.map(function(o){
+        return '<b>'+o.r+'</b>（'+o.k+'）'+(o.w?' '+o.w:'');
+      }).join('<br>')+'</div>'+
+      '<div class="note">'+T('呉音・漢音の両方が正しい。どちらを選んでも正解。',
+                             '呉音・漢音の両方が正しく、どちらを選んでも正解です。')+'</div>';
+    }else{
+      body+='<div class="line">'+T('例：','例：')+'<b>'+q.w+'</b>（'+q.wr+'）</div>';
+    }
+    body+=(q.jp?'<div class="line">'+T('日本寫法：','日本の字体：')+'<b>'+q.jp+'</b></div>':'');
     if(q.note) body+='<div class="note">'+q.note+'</div>';
   }
   f.innerHTML='<div class="h '+(good?'o':'x')+'">'+h+'</div>'+body;

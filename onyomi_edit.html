@@ -116,12 +116,14 @@
   <div class="tablewrap">
     <table id="tChars"><thead><tr>
       <th style="width:46px;">字</th><th style="width:64px;">日本字体</th><th style="width:96px;">粵拼</th>
-      <th style="width:78px;">韻尾</th><th style="width:96px;">音読み</th>
+      <th style="width:78px;">韻尾</th><th style="min-width:230px;">読み（呉音・漢音）</th>
       <th style="width:96px;">例の語</th><th style="width:120px;">例の読み</th>
       <th style="width:64px;">レベル</th><th style="min-width:180px;">例外・注意</th><th style="width:56px;"></th>
     </tr></thead><tbody></tbody></table>
   </div>
-  <p class="mini" style="margin-top:8px;">「日本字体」は繁体字と形が違うときだけ入れます（學→学）。同じ字なら空欄のままにしてください。</p>
+  <p class="mini" style="margin-top:8px;">「日本字体」は繁体字と形が違うときだけ入れます（學→学）。同じ字なら空欄のままに。<br>
+  <b>読みの書き方</b>：<span style="font-family:var(--mono);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:1px 5px;">めい 漢 説明 せつめい / みょう 呉 明日 みょうにち</span>
+  ＝ 読み・種別（呉／漢／慣）・例語 を空白で区切り、複数の読みは <b>/</b> で区切ります。1つだけなら「めい」だけでも構いません。</p>
 </section>
 
 <section class="pane" id="p-soku">
@@ -196,16 +198,38 @@ function toast(m){var t=document.getElementById('toast');t.textContent=m;t.class
   clearTimeout(toast._t);toast._t=setTimeout(function(){t.className='toast';},1800);}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
+/* 読みの書き方：  めい 漢 説明 せつめい / みょう 呉 明日 みょうにち */
+function onsToText(c){
+  if(!c.ons||!c.ons.length) return c.on||'';
+  return c.ons.map(function(o){
+    return [o.r,o.k||'',o.w||''].filter(function(x){return x!=='';}).join(' ');
+  }).join(' / ');
+}
+function textToOns(t){
+  var parts=String(t||'').split('/').map(function(x){return x.trim();}).filter(Boolean);
+  if(!parts.length) return null;
+  return parts.map(function(p){
+    var seg=p.split(/\s+/);
+    var r=seg.shift()||'', k='';
+    if(seg.length && /^[呉漢慣]$/.test(seg[0])) k=seg.shift();
+    return {r:r,k:k,w:seg.join(' ')};
+  });
+}
+
 /* 韻尾と音読みの整合（ゲームで教えている規則そのもの） */
-function endMatches(c){
-  var o=c.on||'';
-  if(c.note) return true;              /* 例外と明記してあるものは対象外 */
-  if(c.coda==='k')  return /[くき]$/.test(o);
-  if(c.coda==='t')  return /[つち]$/.test(o);
-  if(c.coda==='p')  return /う$/.test(o);
-  if(c.coda==='m'||c.coda==='n') return /ん$/.test(o);
-  if(c.coda==='ng') return /[うい]$/.test(o);
+function oneEndMatches(coda,o){
+  if(coda==='k')  return /[くき]$/.test(o);
+  if(coda==='t')  return /[つち]$/.test(o);
+  if(coda==='p')  return /う$/.test(o);
+  if(coda==='m'||coda==='n') return /ん$/.test(o);
+  if(coda==='ng') return /[うい]$/.test(o);
   return false;
+}
+/* 読みが複数あるときは、慣用音を除く全部を規則にかける */
+function endMatches(c){
+  if(c.note) return true;
+  var list=(c.ons&&c.ons.length)?c.ons:[{r:c.on,k:''}];
+  return list.every(function(o){ return o.k==='慣' || oneEndMatches(c.coda,o.r); });
 }
 function validate(){
   var v={miss:[],coda:[],dupe:[],soku:[]}, seen={};
@@ -213,7 +237,12 @@ function validate(){
     var who=c.c||'（空）';
     if(!c.c||!c.jyut||!c.on||!c.w||!c.wr) v.miss.push(who+'：項目が空です');
     if(!D.CODAS[c.coda]) v.miss.push(who+'：韻尾「'+c.coda+'」がありません');
-    else if(!endMatches(c)) v.coda.push(who+' '+c.jyut+'：韻尾 '+D.CODAS[c.coda].label+' なら「'+D.CODAS[c.coda].jp+'」で終わるはずですが、音読みが「'+c.on+'」です');
+    else if(!endMatches(c)){
+      var lst=((c.ons&&c.ons.length)?c.ons:[{r:c.on,k:''}])
+        .filter(function(o){return o.k!=='慣' && !oneEndMatches(c.coda,o.r);})
+        .map(function(o){return o.r;}).join('・');
+      v.coda.push(who+' '+c.jyut+'：韻尾 '+D.CODAS[c.coda].label+' なら「'+D.CODAS[c.coda].jp+'」で終わるはずですが、「'+lst+'」があります');
+    }
     if(c.c){ if(seen[c.c]) v.dupe.push(c.c+'：同じ字が2回あります'); seen[c.c]=1; }
     if(c.jp && c.jp===c.c) v.miss.push(c.c+'：日本字体が同じ字になっています（空欄にしてください）');
   });
@@ -254,7 +283,7 @@ function drawChars(){
       '<td><input type="text" data-f="jyut" value="'+esc(c.jyut)+'"></td>'+
       '<td><select data-f="coda">'+codas.map(function(k){
           return '<option value="'+k+'"'+(k===c.coda?' selected':'')+'>'+D.CODAS[k].label+'</option>';}).join('')+'</select></td>'+
-      '<td><input type="text" data-f="on" value="'+esc(c.on)+'">'+(bad?' <span class="flag">要確認</span>':'')+'</td>'+
+      '<td><input type="text" data-f="ons" value="'+esc(onsToText(c))+'">'+(bad?' <span class="flag">要確認</span>':'')+'</td>'+
       '<td><input type="text" data-f="w" value="'+esc(c.w)+'"></td>'+
       '<td><input type="text" data-f="wr" value="'+esc(c.wr)+'"></td>'+
       '<td><select data-f="lv"><option value="1"'+(c.lv==1?' selected':'')+'>1</option>'+
@@ -267,6 +296,11 @@ function drawChars(){
         var f=el.dataset.f;
         if(f==='lv') c.lv=parseInt(el.value,10);
         else if(f==='note'||f==='jp'){ if(el.value.trim())c[f]=el.value.trim(); else c[f]=''; }
+        else if(f==='ons'){
+          var ons=textToOns(el.value);
+          if(ons&&ons.length){ c.on=ons[0].r;
+            if(ons.length>1||ons[0].k) c.ons=ons; else delete c.ons; }
+        }
         else c[f]=el.value.trim();
         save(); drawChars();
       });
@@ -352,10 +386,10 @@ function parseCsv(t){
   if(cell.length||row.length){row.push(cell);rows.push(row);}
   return rows.filter(function(r){return r.some(function(c){return c!=='';});});
 }
-var CH_COLS=['字','日本字体','粵拼','韻尾','音読み','例の語','例の読み','レベル','例外・注意'];
+var CH_COLS=['字','日本字体','粵拼','韻尾','読み','例の語','例の読み','レベル','例外・注意'];
 function charsCsv(){
   var rows=[CH_COLS];
-  D.CHARS.forEach(function(c){rows.push([c.c,c.jp||'',c.jyut,c.coda,c.on,c.w,c.wr,c.lv,c.note||'']);});
+  D.CHARS.forEach(function(c){rows.push([c.c,c.jp||'',c.jyut,c.coda,onsToText(c),c.w,c.wr,c.lv,c.note||'']);});
   return toCsv(rows);
 }
 function readCharsCsv(t){
@@ -370,7 +404,11 @@ function readCharsCsv(t){
     if(ix['日本字体']!==undefined) c.jp=(r[ix['日本字体']]||'').trim();
     if(ix['粵拼']!==undefined && (r[ix['粵拼']]||'').trim()) c.jyut=r[ix['粵拼']].trim();
     if(ix['韻尾']!==undefined && D.CODAS[(r[ix['韻尾']]||'').trim()]) c.coda=r[ix['韻尾']].trim();
-    if(ix['音読み']!==undefined && (r[ix['音読み']]||'').trim()) c.on=r[ix['音読み']].trim();
+    if(ix['読み']!==undefined && (r[ix['読み']]||'').trim()){
+      var ons=textToOns(r[ix['読み']]);
+      if(ons&&ons.length){ c.on=ons[0].r;
+        if(ons.length>1||ons[0].k) c.ons=ons; else delete c.ons; }
+    }
     if(ix['例の語']!==undefined && (r[ix['例の語']]||'').trim()) c.w=r[ix['例の語']].trim();
     if(ix['例の読み']!==undefined && (r[ix['例の読み']]||'').trim()) c.wr=r[ix['例の読み']].trim();
     if(ix['レベル']!==undefined && (r[ix['レベル']]||'').trim()) c.lv=parseInt(r[ix['レベル']],10)||c.lv;

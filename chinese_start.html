@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>用中文底子學日文｜日本語の部屋</title>
+<meta name="description" content="識中文，學日文本身已經贏咗一大截：詞彙、漢字、音讀都通。但係都有陷阱——同形異義詞、新字體、助詞。呢版話你知邊啲用得着，邊啲要小心。">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0;
+    --good:#3E6B2F; --good-bg:#EDF3E6;
+    --warn:#8A6D00; --warn-bg:#FBF3D9;
+    --bad:#A0392E; --bad-bg:#FBE9E4;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"PingFang HK","Noto Sans HK","Noto Sans JP",sans-serif;
+    font-size:16px;line-height:1.85;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 90px;}
+
+  .langbar{position:sticky;top:0;z-index:40;background:rgba(247,245,240,.94);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:8px 0;}
+  .langbar-in{max-width:760px;margin:0 auto;padding:0 18px;display:flex;gap:6px;align-items:center;}
+  .lb{font-family:inherit;font-size:12px;font-weight:700;padding:5px 13px;border-radius:999px;
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
+  .lb.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .navs{margin-left:auto;display:flex;gap:10px;align-items:center;}
+  .home{font-size:12px;color:var(--hint);text-decoration:none;white-space:nowrap;}
+  .home:hover{color:var(--teal);}
+
+  header{padding:38px 0 24px;}
+  .kicker{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--hint);
+    text-transform:uppercase;margin-bottom:10px;}
+  h1{margin:0 0 14px;font-size:clamp(26px,6vw,38px);line-height:1.3;letter-spacing:-.01em;}
+  .sub{margin:0;font-size:16.5px;color:var(--muted);line-height:1.8;}
+  h2{margin:48px 0 14px;font-size:21px;line-height:1.45;padding-bottom:8px;border-bottom:2px solid var(--ink);}
+  h3{margin:26px 0 8px;font-size:16.5px;}
+  p{margin:0 0 15px;}
+  .lead{font-size:17px;}
+
+  /* 三段のまとめ */
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:24px 0 8px;}
+  .tc{border-radius:12px;padding:14px 13px;border:1px solid;}
+  .tc .tt{font-size:12px;font-weight:800;letter-spacing:.05em;margin-bottom:5px;}
+  .tc .tb{font-size:14px;line-height:1.65;}
+  .tc.g{background:var(--good-bg);border-color:#CFE3B6;} .tc.g .tt{color:var(--good);}
+  .tc.w{background:var(--warn-bg);border-color:#E8DCAF;} .tc.w .tt{color:var(--warn);}
+  .tc.b{background:var(--bad-bg);border-color:#F0D2C6;} .tc.b .tt{color:var(--bad);}
+  @media(max-width:600px){.three{grid-template-columns:1fr;}}
+
+  /* 語彙のチップ */
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px;}
+  .chip{background:var(--surface);border:1px solid var(--line);border-radius:9px;
+    padding:7px 11px;font-size:14px;line-height:1.5;}
+  .chip b{font-size:18px;font-weight:800;margin-right:4px;}
+  .chip .rd{font-size:12px;color:var(--hint);font-family:var(--mono);}
+
+  /* 同形異義の表 */
+  .ff{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:18px 0;}
+  .ff-row{display:grid;grid-template-columns:96px 1fr 1fr;border-bottom:1px solid var(--line);}
+  .ff-row:last-child{border-bottom:none;}
+  .ff-h{background:var(--bg);font-size:11.5px;font-weight:800;letter-spacing:.05em;color:var(--muted);}
+  .ff-row>div{padding:10px 12px;}
+  .ff-w{text-align:center;border-right:1px solid var(--line);}
+  .ff-w b{display:block;font-size:23px;font-weight:800;line-height:1.25;}
+  .ff-w .rd{font-size:11px;color:var(--hint);font-family:var(--mono);}
+  .ff-jp{border-right:1px solid var(--line);font-size:14px;line-height:1.65;}
+  .ff-zh{font-size:14px;line-height:1.65;color:var(--bad);}
+  .ff-h .ff-jp,.ff-h .ff-zh{color:var(--muted);}
+  @media(max-width:560px){
+    .ff-row{grid-template-columns:74px 1fr;}
+    .ff-row>.ff-zh{grid-column:2;border-top:1px dotted var(--line);}
+    .ff-row>.ff-w{grid-row:span 2;display:flex;flex-direction:column;justify-content:center;}
+    .ff-h{display:none;}
+    .ff-jp::before{content:'日 ';color:var(--hint);font-size:11px;font-weight:800;}
+    .ff-zh::before{content:'中 ';color:var(--hint);font-size:11px;font-weight:800;}
+  }
+
+  .callout{background:var(--teal-bg);border:1px solid #BFD9D7;border-left:4px solid var(--teal);
+    border-radius:10px;padding:15px 17px;margin:22px 0;font-size:15px;line-height:1.8;}
+  .callout b{color:var(--teal);}
+  .callout.w{background:var(--warn-bg);border-color:#E8DCAF;border-left-color:var(--warn);}
+  .callout.w b{color:var(--warn);}
+
+  /* 導線カード */
+  .cards{display:flex;flex-direction:column;gap:10px;margin:18px 0;}
+  .card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:15px 16px;text-decoration:none;color:var(--ink);}
+  .card:hover{border-color:var(--teal);}
+  .card .ct{font-size:16.5px;font-weight:800;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .card .cd{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.7;}
+  .tagl{font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;
+    border:1px solid var(--line);color:var(--hint);white-space:nowrap;}
+  .tagl.zhok{background:var(--good-bg);border-color:#CFE3B6;color:var(--good);}
+  .tagl.jaonly{background:var(--bg);}
+  footer{margin-top:54px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--hint);line-height:1.8;}
+  footer a{color:var(--teal);}
+  .ja,.zh{display:none;}
+  body.lang-zh .zh{display:revert;}
+  body.lang-ja .ja{display:revert;}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body class="lang-zh">
+
+<div class="langbar"><div class="langbar-in">
+  <button class="lb on" id="bZh" type="button">繁體中文</button>
+  <button class="lb" id="bJa" type="button">日本語</button>
+  <span class="navs">
+    <a class="home" href="index.html">🏠 <span class="zh">首頁</span><span class="ja">トップ</span></a>
+  </span>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">中文 × 日本語</div>
+  <h1><span class="zh">用中文底子學日文</span><span class="ja">中国語の下地で日本語を学ぶ</span></h1>
+  <p class="sub">
+    <span class="zh">識中文，學日文一開始就贏咗一大截。但係贏喺邊、輸喺邊，好少人講清楚。呢版就係講呢樣。</span>
+    <span class="ja">中国語ができれば、日本語学習は最初から大きく有利です。ただ、どこが有利でどこが落とし穴かを、はっきり説明したものは多くありません。このページはそれを扱います。</span>
+  </p>
+</header>
+
+<div class="three">
+  <div class="tc g">
+    <div class="tt"><span class="zh">用得着</span><span class="ja">使えるもの</span></div>
+    <div class="tb"><span class="zh">詞彙、漢字、音讀嘅規律</span><span class="ja">語彙・漢字・音読みの規則</span></div>
+  </div>
+  <div class="tc w">
+    <div class="tt"><span class="zh">要調整</span><span class="ja">調整が要るもの</span></div>
+    <div class="tb"><span class="zh">字形（新字體）、讀音有兩套</span><span class="ja">字体（新字体）・読みが二系統</span></div>
+  </div>
+  <div class="tc b">
+    <div class="tt"><span class="zh">要由零開始</span><span class="ja">ゼロから要るもの</span></div>
+    <div class="tb"><span class="zh">助詞、動詞變化、敬語</span><span class="ja">助詞・動詞の活用・敬語</span></div>
+  </div>
+</div>
+
+<h2><span class="zh">一、你已經識咗好多字</span><span class="ja">一、すでに多くの語を知っている</span></h2>
+<p>
+  <span class="zh">日文有大量詞語同中文完全一樣，意思都一樣。你唔使學，一睇就明。</span>
+  <span class="ja">日本語には、中国語とまったく同じ形で意味も同じ語が大量にあります。学ばなくても見れば分かります。</span>
+</p>
+<div class="chips" id="sameChips"></div>
+<p class="lead" style="margin-top:14px;">
+  <span class="zh">呢個唔係小優勢。歐美嘅學習者要一個一個記，你係直接跳過。</span>
+  <span class="ja">これは小さな利点ではありません。欧米の学習者が一つずつ覚える部分を、丸ごと飛ばせます。</span>
+</p>
+
+<h2><span class="zh">二、音讀有規律，估得到</span><span class="ja">二、音読みは規則で予測できる</span></h2>
+<p>
+  <span class="zh">日文漢字嘅「音讀」，係一千幾年前由中國傳過去嘅。所以同中文有系統性嘅對應。</span>
+  <span class="ja">日本語の漢字の「音読み」は、千数百年前に中国から伝わった音です。だから中国語と体系的に対応しています。</span>
+</p>
+<div class="callout">
+  <span class="zh"><b>如果你講廣東話，優勢仲大。</b>廣東話保留咗入聲（-p / -t / -k），所以你睇個粵音就估到日文個「っ」、「ん」定係長音。學 ho<b>k</b> → がく（が<b>っ</b>こう）、三 saa<b>m</b> → さん、東 du<b>ng</b> → と<b>う</b>。普通話冇晒呢啲收音，做唔到。</span>
+  <span class="ja"><b>広東語話者なら、利点はさらに大きくなります。</b>広東語には入声（-p / -t / -k）が残っているので、粤音を見れば日本語の「っ」「ん」長音が予測できます。學 ho<b>k</b> → がく（が<b>っ</b>こう）、三 saa<b>m</b> → さん、東 du<b>ng</b> → と<b>う</b>。普通話ではこの韻尾が失われていて、これができません。</span>
+</div>
+
+<h2><span class="zh">三、但係字形變咗</span><span class="ja">三、ただし字体が変わっている</span></h2>
+<p>
+  <span class="zh">日文用嘅係<strong>新字體</strong>，同繁體唔同，亦<strong>唔等於</strong>大陸嘅簡體字。</span>
+  <span class="ja">日本語で使うのは<strong>新字体</strong>で、繁体字とも違い、中国の簡体字とも<strong>同じではありません</strong>。</span>
+</p>
+<div class="ff" id="shinBox"></div>
+<div class="callout w">
+  <span class="zh"><b>上面一半「同」、一半「唔同」。</b>所以唔可以當成簡體字嚟估——啱一半，錯一半。要當佢係第三套字。</span>
+  <span class="ja"><b>上の表は半分が「同じ」、半分が「ちがう」です。</b>だから簡体字として推測すると半分外れます。第三の字体だと考えてください。</span>
+</div>
+
+<h2><span class="zh">四、最危險：同形異義</span><span class="ja">四、最も危ないのは同形異義語</span></h2>
+<p class="lead">
+  <span class="zh">呢度先係中文母語者真正嘅陷阱。字一模一樣，意思完全唔同——而且因為你「睇得明」，所以唔會查字典。</span>
+  <span class="ja">中国語話者にとって本当の落とし穴はここです。字がまったく同じで意味が違う。しかも「読めてしまう」ので、辞書を引きません。</span>
+</p>
+<div class="ff" id="ffBox"></div>
+
+<h2><span class="zh">五、要由零開始嘅三樣</span><span class="ja">五、ゼロから必要な三つ</span></h2>
+<p>
+  <span class="zh">講咗咁多優勢，都要老實講返：以下三樣，中文完全幫唔到手。</span>
+  <span class="ja">利点を並べましたが、正直に言うと、次の三つは中国語がまったく助けになりません。</span>
+</p>
+<h3><span class="zh">① 助詞（は・が・を・に・で）</span><span class="ja">① 助詞（は・が・を・に・で）</span></h3>
+<p><span class="zh">中文靠語序，日文靠助詞。呢個係最大嘅分別，亦係最難嘅一關。</span>
+   <span class="ja">中国語は語順で示し、日本語は助詞で示します。ここが最大の違いで、最も難しい関門です。</span></p>
+<h3><span class="zh">② 動詞變化</span><span class="ja">② 動詞の活用</span></h3>
+<p><span class="zh">中文動詞唔變形。日文一個動詞可以變十幾個樣。呢個要死練。</span>
+   <span class="ja">中国語の動詞は形を変えません。日本語は一つの動詞が十数通りに変化します。ここは反復するしかありません。</span></p>
+<h3><span class="zh">③ 敬語</span><span class="ja">③ 敬語</span></h3>
+<p><span class="zh">中文都有禮貌講法，但係日文係成套語法系統，唔係換個詞咁簡單。</span>
+   <span class="ja">中国語にも丁寧な言い方はありますが、日本語の敬語は文法体系そのもので、語を置きかえるだけでは済みません。</span></p>
+
+<h2><span class="zh">由邊度開始</span><span class="ja">どこから始めるか</span></h2>
+<p>
+  <span class="zh">呢個網站大部分內容係日文寫嘅，不過因為有漢字，中文母語者其實睇得明大半。下面標咗邊啲版有中文。</span>
+  <span class="ja">このサイトの多くは日本語で書かれていますが、漢字があるので中国語話者は大半が読めます。下に、中国語があるページを示しました。</span>
+</p>
+<div class="cards" id="cardBox"></div>
+
+<footer>
+  <p>
+    <span class="zh">同形異義詞嘅中文意思，以香港・台灣嘅用法為準；大陸用法可能略有出入。</span>
+    <span class="ja">同形異義語の中国語の意味は、香港・台湾の用法を基準にしています。中国大陸の用法とは異なる場合があります。</span>
+  </p>
+  <p>© 日本語の部屋</p>
+</footer>
+
+</div>
+
+<script>
+/* ---------- 言語 ---------- */
+var LS='nnh_zh_lang';
+function setLang(l){
+  document.body.className='lang-'+l;
+  document.getElementById('bZh').classList.toggle('on',l==='zh');
+  document.getElementById('bJa').classList.toggle('on',l==='ja');
+  document.documentElement.lang=(l==='ja')?'ja':'zh-Hant';
+  try{localStorage.setItem(LS,l);}catch(e){}
+  draw();
+}
+function T(zh,ja){return document.body.className==='lang-ja'?ja:zh;}
+document.getElementById('bZh').onclick=function(){setLang('zh');};
+document.getElementById('bJa').onclick=function(){setLang('ja');};
+
+/* ---------- データ ---------- */
+/* 同じ形・同じ意味 */
+var SAME=[
+{w:'学校',r:'がっこう'},{w:'電話',r:'でんわ'},{w:'銀行',r:'ぎんこう'},
+{w:'音楽',r:'おんがく'},{w:'動物',r:'どうぶつ'},{w:'世界',r:'せかい'},
+{w:'時間',r:'じかん'},{w:'質問',r:'しつもん'},{w:'練習',r:'れんしゅう'},
+{w:'説明',r:'せつめい'},{w:'図書館',r:'としょかん'},{w:'安全',r:'あんぜん'}
+];
+/* 繁体字 → 新字体 */
+var SHIN=[
+{t:'學',j:'学',c:'学'},{t:'國',j:'国',c:'国'},{t:'點',j:'点',c:'点'},
+{t:'萬',j:'万',c:'万'},{t:'醫',j:'医',c:'医'},
+{t:'發',j:'発',c:'发'},{t:'實',j:'実',c:'实'},{t:'廣',j:'広',c:'广'},
+{t:'經',j:'経',c:'经'},{t:'藝',j:'芸',c:'艺'},{t:'邊',j:'辺',c:'边'},
+{t:'鐵',j:'鉄',c:'铁'}
+];
+/* 同形異義（中文の意味は香港・台湾の用法） */
+var FF=[
+{w:'手紙',r:'てがみ',jp:{zh:'書信',ja:'書いて送るもの（レター）'},zhm:{zh:'廁紙',ja:'トイレットペーパー'}},
+{w:'勉強',r:'べんきょう',jp:{zh:'讀書、學習',ja:'学習すること'},zhm:{zh:'勉強、迫住做',ja:'無理をする・強いる'}},
+{w:'大丈夫',r:'だいじょうぶ',jp:{zh:'冇問題、唔緊要',ja:'問題ない'},zhm:{zh:'男子漢',ja:'立派な男子'}},
+{w:'娘',r:'むすめ',jp:{zh:'女兒',ja:'自分のむすめ'},zhm:{zh:'母親',ja:'母親'}},
+{w:'汽車',r:'きしゃ',jp:{zh:'火車（蒸汽火車）',ja:'蒸気機関車の列車'},zhm:{zh:'車、私家車',ja:'自動車'}},
+{w:'新聞',r:'しんぶん',jp:{zh:'報紙',ja:'紙の新聞'},zhm:{zh:'新聞消息',ja:'ニュース'}},
+{w:'先生',r:'せんせい',jp:{zh:'老師、醫生',ja:'教師・医師など'},zhm:{zh:'先生（稱呼男性）',ja:'成人男性への敬称'}},
+{w:'丈夫',r:'じょうぶ',jp:{zh:'堅固、耐用',ja:'こわれにくい'},zhm:{zh:'老公',ja:'夫'}},
+{w:'邪魔',r:'じゃま',jp:{zh:'阻住、麻煩到人',ja:'じゃまをすること'},zhm:{zh:'妖魔',ja:'悪い妖怪'}},
+{w:'人参',r:'にんじん',jp:{zh:'甘筍（紅蘿蔔）',ja:'にんじん（野菜）'},zhm:{zh:'人參',ja:'高麗人参'}},
+{w:'検討',r:'けんとう',jp:{zh:'研究、考慮',ja:'よく考えること'},zhm:{zh:'檢討自己嘅錯',ja:'自分の非を反省する'}},
+{w:'迷惑',r:'めいわく',jp:{zh:'麻煩到人',ja:'人に迷惑をかけること'},zhm:{zh:'令人困惑',ja:'まどわす・とまどう'}},
+{w:'便宜',r:'べんぎ',jp:{zh:'方便、權宜',ja:'便利・都合'},zhm:{zh:'平（價錢低）',ja:'値段が安い'}},
+{w:'結束',r:'けっそく',jp:{zh:'團結',ja:'団結すること'},zhm:{zh:'完咗、結束',ja:'終わること'}},
+{w:'工作',r:'こうさく',jp:{zh:'手工、工程作業',ja:'手作業・工作'},zhm:{zh:'返工、職業',ja:'仕事'}},
+{w:'湯',r:'ゆ',jp:{zh:'熱水',ja:'熱いお湯'},zhm:{zh:'湯（飲嘅）',ja:'スープ'}},
+{w:'走',r:'はしる',jp:{zh:'跑',ja:'走ること'},zhm:{zh:'行路',ja:'歩くこと'}},
+{w:'切手',r:'きって',jp:{zh:'郵票',ja:'郵便の切手'},zhm:{zh:'（字面：切到手）',ja:'（字面どおりなら「手を切る」）'}}
+];
+/* サイト内の導線 */
+var CARDS=[
+{href:'onyomi_cantonese.html',icon:'🈯',zh:'用廣東話讀日文音讀',ja:'広東語で日本語の音読みを読む',
+ dzh:'入聲 -p / -t / -k 同日文「っ・ん・長音」嘅對應。有解說同練習。',
+ dja:'入声 -p / -t / -k と日本語の「っ・ん・長音」の対応。解説と練習。',lang:'zh'},
+{href:'onyomi_game.html',icon:'🎯',zh:'音讀猜猜遊戲',ja:'音読みあてゲーム',
+ dzh:'睇粵音估日文音讀。估韻尾、估音讀、估促音三種玩法。',
+ dja:'粤音を見て音読みを当てる。韻尾・音読み・促音の3種。',lang:'zh'},
+{href:'cangjie.html',icon:'⌨️',zh:'用倉頡字根睇日本漢字',ja:'倉頡の字根で日本の漢字を見る',
+ dzh:'二十四字根、拆字次序，同埋繁體與新字體嘅分別。',
+ dja:'24字根と分解の順序、繁体字と新字体のちがい。',lang:'zh'},
+{href:'gomi_rush.html',icon:'🗑️',zh:'垃圾分類遊戲（九種語言）',ja:'ゴミ分別ゲーム（9言語）',
+ dzh:'去日本住或者留學要識。有繁體中文。',
+ dja:'日本で暮らすときに必要。繁體中文あり。',lang:'zh'},
+{href:'games.html',icon:'🎮',zh:'日文遊戲',ja:'日本語であそぶ',
+ dzh:'假名、漢字、詞彙嘅遊戲。日文介面，不過有漢字，睇得明。',
+ dja:'かな・漢字・語彙のゲーム。',lang:'ja'},
+{href:'manabu.html',icon:'📖',zh:'日文學習',ja:'日本語を学ぶ',
+ dzh:'文字、漢字、文法、會話、JLPT對策。日文介面。',
+ dja:'文字・漢字・文法・会話・試験対策。',lang:'ja'},
+{href:'lang.html?code=yue',icon:'🇭🇰',zh:'廣東話嘅版面',ja:'広東語のページ',
+ dzh:'聲調、音讀、倉頡，全部喺呢度。',
+ dja:'声調・音読み・倉頡はこちらに。',lang:'zh'}
+];
+
+/* ---------- 描画 ---------- */
+function draw(){
+  document.getElementById('sameChips').innerHTML=SAME.map(function(s){
+    return '<span class="chip"><b>'+s.w+'</b><span class="rd">'+s.r+'</span></span>';
+  }).join('');
+
+  document.getElementById('shinBox').innerHTML=
+    '<div class="ff-row ff-h"><div class="ff-w">'+T('繁體','繁体')+'</div>'+
+    '<div class="ff-jp">'+T('日本（新字體）','日本（新字体）')+'</div>'+
+    '<div class="ff-zh">'+T('大陸（簡體）','中国（簡体字）')+'</div></div>'+
+    SHIN.map(function(s){
+      var same=(s.j===s.c);
+      return '<div class="ff-row"><div class="ff-w"><b>'+s.t+'</b></div>'+
+        '<div class="ff-jp" style="font-size:23px;font-weight:800;">'+s.j+
+          '<span style="font-size:11px;font-weight:700;margin-left:7px;color:'+
+          (same?'var(--good)':'var(--bad)')+';">'+
+          T(same?'同':'唔同', same?'同じ':'ちがう')+'</span></div>'+
+        '<div class="ff-zh" style="font-size:23px;font-weight:800;'+
+          (same?'color:var(--hint);':'')+'">'+s.c+'</div></div>';
+    }).join('');
+
+  document.getElementById('ffBox').innerHTML=
+    '<div class="ff-row ff-h"><div class="ff-w">'+T('字','語')+'</div>'+
+    '<div class="ff-jp">'+T('日文意思','日本語での意味')+'</div>'+
+    '<div class="ff-zh">'+T('中文意思','中国語での意味')+'</div></div>'+
+    FF.map(function(f){
+      return '<div class="ff-row"><div class="ff-w"><b>'+f.w+'</b><span class="rd">'+f.r+'</span></div>'+
+        '<div class="ff-jp">'+T(f.jp.zh,f.jp.ja)+'</div>'+
+        '<div class="ff-zh">'+T(f.zhm.zh,f.zhm.ja)+'</div></div>';
+    }).join('');
+
+  document.getElementById('cardBox').innerHTML=CARDS.map(function(c){
+    var tag=(c.lang==='zh')
+      ? '<span class="tagl zhok">'+T('有中文','中国語あり')+'</span>'
+      : '<span class="tagl jaonly">'+T('日文介面','日本語のみ')+'</span>';
+    return '<a class="card" href="'+c.href+'"><span class="ct">'+c.icon+' '+
+      T(c.zh,c.ja)+' '+tag+'</span><span class="cd">'+T(c.dzh,c.dja)+'</span></a>';
+  }).join('');
+}
+
+(function(){
+  var l='zh'; try{l=localStorage.getItem(LS)||'zh';}catch(e){}
+  setLang(l);
+})();
+</script>
+</body>
+</html>

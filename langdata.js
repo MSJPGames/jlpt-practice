@@ -7,7 +7,7 @@
    ========================================================================= */
 window.LANGS = [
   {
-    code:'zh', extras:[{href:'zh_tones.html',title:'🎵 声調（四声）',desc:'音の高さで意味が変わる。四声＋軽声・変調'}], jp:'中国語（普通話）', autonym:'中文 / 普通話', en:'Chinese (Mandarin)', chip:'中', group:'漢語',
+    code:'zh', extras:[{href:'zh_tones.html',title:'🎵 声調（四声）',desc:'音の高さで意味が変わる。四声＋軽声・変調'},{href:'chinese_start.html',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'}], jp:'中国語（普通話）', autonym:'中文 / 普通話', en:'Chinese (Mandarin)', chip:'中', group:'漢語',
     region:'中国・台湾・シンガポール ほか', script:'漢字（簡体字／繁体字）', family:'シナ・チベット語族', order:'SVO',
     tts:'zh-CN', resRank:'1位', learnRank:'1位', core:true, resident:true, learner:true, sov:false,
     accent:'#9A3D1C', bg:'#FAECE7', grammar:'grammar.html?code=zh', grammarTitle:'📖 HSKレベル別の文法を見る', grammarDesc:'新HSK1〜9級の文法を、例文つきでレベル別に',
@@ -233,7 +233,7 @@ window.LANGS = [
     tips:['SOV・後置詞で日本語と語順が近い（ヒンディー語とほぼ同じ文法）。','文字はアラビア文字系で右から左へ。短母音は記号で表す。']
   },
   {
-    code:'yue', extras:[{href:'yue_tones.html',title:'🎵 声調（6声）',desc:'6つの声調。Jyutpingの数字で表す'}], grammar:'grammar.html?code=yue', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、広東語の文法を例文つきで', jp:'広東語', autonym:'廣東話 / 粵語', en:'Cantonese', chip:'粵',
+    code:'yue', extras:[{href:'yue_tones.html',title:'🎵 声調（6声）',desc:'6つの声調。Jyutpingの数字で表す'},{href:'onyomi_cantonese.html',title:'🈯 広東語で日本語の音読み',desc:'入声（-p/-t/-k）から日本語の「っ・ん・長音」を予測する'},{href:'onyomi_game.html',title:'🎯 音読みあてゲーム',desc:'粵音を見て日本語の音読みを当てる。韻尾・音読み・促音の3種'},{href:'cangjie.html',title:'⌨️ 倉頡字根で日本の漢字',desc:'24字根で漢字を分解。繁体字と日本の新字体のちがいも'},{href:'chinese_start.html',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'}], grammar:'grammar.html?code=yue', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、広東語の文法を例文つきで', jp:'広東語', autonym:'廣東話 / 粵語', en:'Cantonese', chip:'粵',
     region:'香港・マカオ・広東省', script:'漢字（繁体字）', family:'シナ・チベット語族', order:'SVO',
     tts:'zh-HK', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false, group:'漢語',
     accent:'#B03A2E', bg:'#F7E4E0',
@@ -293,7 +293,7 @@ window.LANGS = [
     tips:['SVO。名詞に性、動詞は主語で活用。','つづりと発音がほぼ規則的で読みやすい。']
   },
   {
-    code:'zhtw', grammar:'grammar.html?code=zhtw', grammarTitle:'📖 TOCFLレベル別の文法を見る', grammarDesc:'TOCFL1〜6級（華語文能力測驗・繁体字）の文法を例文つきで', jp:'台湾華語', autonym:'臺灣華語 / 國語', en:'Taiwanese Mandarin', chip:'華', group:'漢語',
+    code:'zhtw', extras:[{href:'chinese_start.html',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'}], grammar:'grammar.html?code=zhtw', grammarTitle:'📖 TOCFLレベル別の文法を見る', grammarDesc:'TOCFL1〜6級（華語文能力測驗・繁体字）の文法を例文つきで', jp:'台湾華語', autonym:'臺灣華語 / 國語', en:'Taiwanese Mandarin', chip:'華', group:'漢語',
     region:'台湾', script:'漢字（繁体字）・注音符号', family:'シナ・チベット語族', order:'SVO',
     tts:'zh-TW', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#B23B3B', bg:'#F8E6E3',
@@ -308,7 +308,7 @@ window.LANGS = [
     tips:['文法・語彙は普通話とほぼ共通だが、繁体字で書く。','発音表記は注音符号（ㄅㄆㄇㄈ）。一部の声調・語彙・発音が大陸と異なる。','検定試験は TOCFL（華語文能力測驗）。']
   },
   {
-    code:'nan', grammar:'grammar.html?code=nan', grammarTitle:'📖 台語の文法をレベル別に見る', grammarDesc:'基礎〜上級の台語文法を、漢字＋台羅の例文つきで', jp:'台湾語（台語）', autonym:'臺語 / 臺灣話', en:'Taiwanese (Hokkien)', chip:'台', group:'漢語',
+    code:'nan', extras:[{href:'chinese_start.html',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'}], grammar:'grammar.html?code=nan', grammarTitle:'📖 台語の文法をレベル別に見る', grammarDesc:'基礎〜上級の台語文法を、漢字＋台羅の例文つきで', jp:'台湾語（台語）', autonym:'臺語 / 臺灣話', en:'Taiwanese (Hokkien)', chip:'台', group:'漢語',
     region:'台湾', script:'漢字・台羅（ローマ字）', family:'シナ・チベット語族（閩南語）', order:'SVO',
     tts:'nan', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#8A6D1B', bg:'#F5EFD8',

@@ -80,7 +80,7 @@
 
   <!-- 設定 -->
   <div id="home">
-    <div class="note">学びたい<b>言語</b>と<b>ジャンル</b>を選んでスタート。意味とことばを4択で結びつけ、<b>▶</b>で発音も聞けます。1回<b>10問</b>。</div>
+    <div class="note">学びたい<b>言語</b>と<b>ジャンル</b>を選んでスタート。<b>日本語</b>を選ぶと「スーパーで売られているもの」など<b>生活の場面ごと</b>の語彙が練習できます。意味とことばを4択で結びつけ、<b>▶</b>で発音も聞けます。1回<b>10問</b>。</div>
     <div class="card">
       <div class="card-h">設定</div>
       <label class="f" for="lang">言語</label>
@@ -134,11 +134,15 @@
 </div>
 
 <script src="langdata.js"></script>
+<script src="nihongo_goi.js"></script>
 <script>
 (function(){
   "use strict";
   var PER=10;
-  var LANGS=(window.LANGS||[]).filter(function(l){ return l && (l.phrases||l.numbers); });
+  var LANGS=(window.LANGS||[]).filter(function(l){ return l && (l.phrases||l.numbers||l.cats); });
+  if(window.NIHONGO_GOI && window.NIHONGO_GOI.length){
+    LANGS.unshift({ code:"ja", jp:"日本語", autonym:"にほんご", tts:"ja-JP", accent:"#8A3A5B", bg:"#F6E7EE", cats:window.NIHONGO_GOI });
+  }
   var $=function(id){return document.getElementById(id);};
   var mem={}, store={ get:function(k){try{return localStorage.getItem(k);}catch(e){return (k in mem)?mem[k]:null;}},
     set:function(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}} };
@@ -151,15 +155,24 @@
 
   if(!LANGS.length){ $("home").innerHTML='<div class="note">言語データ（langdata.js）が読み込めませんでした。</div>'; return; }
 
-  /* 言語プルダウン */
+  /* 言語・ジャンル プルダウン（ジャンルは言語ごとに切り替え） */
+  function currentLangObj(){ return LANGS.filter(function(l){return l.code===$("lang").value;})[0]; }
+  function catsFor(l){ return (l&&l.cats&&l.cats.length) ? l.cats : [{id:"greet",label:"あいさつ・会話"},{id:"number",label:"数字"}]; }
+  function populateCats(){
+    var l=currentLangObj(), cats=catsFor(l), sel=$("cat"), h="";
+    cats.forEach(function(c){ h+='<option value="'+c.id+'">'+esc(c.label)+'</option>'; });
+    h+='<option value="all">ぜんぶ</option>';
+    sel.innerHTML=h;
+    var sc=store.get("gg_cat_"+(l?l.code:"")); if(sc && sel.querySelector('option[value="'+sc+'"]')) sel.value=sc;
+  }
   (function(){
     var sel=$("lang"), h="";
     LANGS.forEach(function(l){ h+='<option value="'+l.code+'">'+esc(l.jp)+(l.autonym?'（'+esc(l.autonym)+'）':'')+'</option>'; });
     sel.innerHTML=h;
     var sv=store.get("gg_lang"); if(sv && LANGS.some(function(l){return l.code===sv;})) sel.value=sv;
-    sel.addEventListener("change",function(){ store.set("gg_lang",sel.value); });
-    var sc=store.get("gg_cat"); if(sc) $("cat").value=sc;
-    $("cat").addEventListener("change",function(){ store.set("gg_cat",$("cat").value); });
+    populateCats();
+    sel.addEventListener("change",function(){ store.set("gg_lang",sel.value); populateCats(); });
+    $("cat").addEventListener("change",function(){ var l=currentLangObj(); store.set("gg_cat_"+(l?l.code:""),$("cat").value); });
   })();
 
   /* 向きトグル */
@@ -174,17 +187,26 @@
   /* 言語×ジャンル → 出題アイテム [{jp, fw, kana, kind}] */
   function itemsFor(lang, cat){
     var out=[];
-    function pushPhr(arr, kind){ (arr||[]).forEach(function(it){
-      if(!it) return;
-      if(it.length>=3) out.push({jp:it[0], fw:it[1], kana:it[2], kind:kind});
-      else if(it.length===2) out.push({jp:it[0], fw:it[0], kana:it[1], kind:kind});
-    }); }
-    function pushNum(arr){ (arr||[]).forEach(function(it,i){
-      if(!it) return;
-      out.push({jp:String(i+1), fw:it[0], kana:it[1], kind:"数字"});
-    }); }
-    if(cat==="greet"||cat==="all"){ pushPhr(lang.phrases,"あいさつ・会話"); pushPhr(lang.selfintro,"自己紹介"); }
-    if(cat==="number"||cat==="all"){ pushNum(lang.numbers); }
+    if(lang.cats && lang.cats.length){
+      var chosen=(cat==="all")?lang.cats:lang.cats.filter(function(c){return c.id===cat;});
+      chosen.forEach(function(c){ (c.items||[]).forEach(function(it){
+        if(!it) return;
+        if(it.length>=3) out.push({jp:it[0], fw:it[1], kana:it[2], kind:c.label});
+        else if(it.length===2) out.push({jp:it[0], fw:it[0], kana:it[1], kind:c.label});
+      }); });
+    } else {
+      var pushPhr=function(arr, kind){ (arr||[]).forEach(function(it){
+        if(!it) return;
+        if(it.length>=3) out.push({jp:it[0], fw:it[1], kana:it[2], kind:kind});
+        else if(it.length===2) out.push({jp:it[0], fw:it[0], kana:it[1], kind:kind});
+      }); };
+      var pushNum=function(arr){ (arr||[]).forEach(function(it,i){
+        if(!it) return;
+        out.push({jp:String(i+1), fw:it[0], kana:it[1], kind:"数字"});
+      }); };
+      if(cat==="greet"||cat==="all"){ pushPhr(lang.phrases,"あいさつ・会話"); pushPhr(lang.selfintro,"自己紹介"); }
+      if(cat==="number"||cat==="all"){ pushNum(lang.numbers); }
+    }
     // 重複（同じ fw）を除去
     var seen={}, uniq=[];
     out.forEach(function(o){ var k=o.fw+"|"+o.jp; if(!seen[k]){ seen[k]=1; uniq.push(o); } });

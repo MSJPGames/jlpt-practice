@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>各種動詞形嘅用途 — て形、ない形、た形…｜日本語の部屋</title>
+<meta name="description" content="學完動詞變化之後，每個形可以接乜？て形接 ています・てください・てから・ておく…。ない形、た形、辭書形、ます形嘅用途一次過睇晒。">
+<link rel="canonical" href="https://msjpgames.github.io/jlpt-practice/chinese_bunkei.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="日本語の部屋 ・ Nihongo no Heya">
+<meta property="og:locale" content="zh_HK">
+<meta property="og:url" content="https://msjpgames.github.io/jlpt-practice/chinese_bunkei.html">
+<meta property="og:title" content="各種動詞形嘅用途 — 一個形，好多用法">
+<meta property="og:description" content="て形接 ています・てください・てから・ておく…。五個形、三十幾個用法，用中文解釋。">
+<meta property="og:image" content="https://msjpgames.github.io/jlpt-practice/og_bunkei.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="各種動詞形嘅用途">
+<meta name="twitter:description" content="五個形、三十幾個用法，用中文解釋。">
+<meta name="twitter:image" content="https://msjpgames.github.io/jlpt-practice/og_bunkei.png">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0;
+    --te:#1F6F6B; --te-bg:#E8F1F0;
+    --nai:#A0392E; --nai-bg:#FBE9E4;
+    --ta:#8A6D00; --ta-bg:#FBF3D9;
+    --dic:#2F5C8A; --dic-bg:#E6EEF6;
+    --mas:#6B4A8B; --mas-bg:#F0EAF6;
+    --good:#3E6B2F; --good-bg:#EDF3E6;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"PingFang HK","Noto Sans HK","Noto Sans JP",sans-serif;
+    font-size:16px;line-height:1.85;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 90px;}
+  .langbar{position:sticky;top:0;z-index:40;background:rgba(247,245,240,.94);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:8px 0;}
+  .langbar-in{max-width:760px;margin:0 auto;padding:0 18px;display:flex;gap:6px;align-items:center;}
+  .lb{font-family:inherit;font-size:12px;font-weight:700;padding:5px 13px;border-radius:999px;
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
+  .lb.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .navs{margin-left:auto;display:flex;gap:10px;align-items:center;}
+  .home{font-size:12px;color:var(--hint);text-decoration:none;white-space:nowrap;}
+
+  header{padding:38px 0 20px;}
+  .kicker{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--hint);
+    text-transform:uppercase;margin-bottom:10px;}
+  h1{margin:0 0 14px;font-size:clamp(25px,5.6vw,36px);line-height:1.32;}
+  .sub{margin:0;font-size:16.5px;color:var(--muted);line-height:1.8;}
+  h2{margin:44px 0 12px;font-size:21px;line-height:1.45;padding-bottom:8px;border-bottom:2px solid var(--ink);}
+  p{margin:0 0 15px;}
+  .lead{font-size:17px;}
+
+  /* 形えらび */
+  .forms{display:flex;gap:7px;flex-wrap:wrap;margin:18px 0 6px;position:sticky;top:46px;z-index:30;
+    background:var(--bg);padding:8px 0;}
+  .fb{font-family:inherit;font-size:14px;font-weight:800;padding:9px 15px;border-radius:999px;
+    border:1.5px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
+  .fb .cnt{font-size:11px;font-weight:700;opacity:.75;margin-left:5px;}
+  .fb.on{color:#fff;}
+  .fb.on[data-f="te"]{background:var(--te);border-color:var(--te);}
+  .fb.on[data-f="nai"]{background:var(--nai);border-color:var(--nai);}
+  .fb.on[data-f="ta"]{background:var(--ta);border-color:var(--ta);}
+  .fb.on[data-f="dic"]{background:var(--dic);border-color:var(--dic);}
+  .fb.on[data-f="mas"]{background:var(--mas);border-color:var(--mas);}
+
+  .fhead{border-radius:12px;padding:14px 16px;margin:6px 0 14px;border:1px solid;}
+  .fhead .ft{font-size:19px;font-weight:800;}
+  .fhead .fd{font-size:13.5px;margin-top:4px;line-height:1.7;}
+  .fhead.te{background:var(--te-bg);border-color:#BFD9D7;} .fhead.te .ft{color:var(--te);}
+  .fhead.nai{background:var(--nai-bg);border-color:#F0D2C6;} .fhead.nai .ft{color:var(--nai);}
+  .fhead.ta{background:var(--ta-bg);border-color:#E8DCAF;} .fhead.ta .ft{color:var(--ta);}
+  .fhead.dic{background:var(--dic-bg);border-color:#C4D6E8;} .fhead.dic .ft{color:var(--dic);}
+  .fhead.mas{background:var(--mas-bg);border-color:#DCCEE8;} .fhead.mas .ft{color:var(--mas);}
+
+  /* 用法カード */
+  .uses{display:flex;flex-direction:column;gap:10px;}
+  .u{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .u-h{display:flex;align-items:baseline;gap:10px;padding:11px 15px;background:var(--bg);
+    border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .u-p{font-size:19px;font-weight:800;font-family:var(--mono);}
+  .u-m{font-size:14px;font-weight:800;color:var(--muted);}
+  .u-b{padding:12px 15px;}
+  .u-ex{font-size:18px;font-weight:800;line-height:1.7;}
+  .u-ex em{font-style:normal;color:var(--teal);background:var(--teal-bg);padding:1px 5px;border-radius:5px;}
+  .u-tr{font-size:13.5px;color:var(--muted);margin-top:4px;}
+  .u-c{margin-top:9px;padding:9px 11px;border-radius:9px;background:#FBF3D9;border:1px solid #E8DCAF;
+    font-size:13px;color:#6B5400;line-height:1.7;}
+  .u-lv{font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;
+    border:1px solid var(--line);color:var(--hint);margin-left:auto;white-space:nowrap;}
+
+  .callout{background:var(--teal-bg);border:1px solid #BFD9D7;border-left:4px solid var(--teal);
+    border-radius:10px;padding:15px 17px;margin:22px 0;font-size:15px;line-height:1.8;}
+  .callout b{color:var(--teal);}
+
+  .quiz{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:18px 18px 20px;margin:26px 0;}
+  .q-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .q-n{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--hint);}
+  .q-sc{font-size:12.5px;font-weight:800;color:var(--teal);}
+  .q-zh{text-align:center;font-size:15px;color:var(--muted);font-weight:700;}
+  .q-s{text-align:center;font-size:21px;font-weight:800;line-height:1.6;padding:6px 0 2px;}
+  .q-s .blank{color:var(--teal);border-bottom:3px solid var(--teal);padding:0 8px;}
+  .q-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;}
+  .q-b{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:13px 6px;
+    font-family:inherit;font-size:17px;font-weight:800;color:var(--ink);cursor:pointer;}
+  .q-b.ok{background:var(--good-bg);border-color:#CFE3B6;color:var(--good);}
+  .q-b.ng{background:var(--nai-bg);border-color:#F0D2C6;color:var(--nai);}
+  .q-b.dim{opacity:.4;}
+  .q-fb{margin-top:12px;font-size:14px;line-height:1.75;color:var(--muted);background:var(--bg);
+    border:1px solid var(--line);border-radius:10px;padding:11px 13px;display:none;}
+  .q-fb.show{display:block;}
+  .q-next{margin-top:11px;width:100%;border:none;background:var(--teal);color:#fff;font-family:inherit;
+    font-size:15px;font-weight:800;border-radius:10px;padding:12px;cursor:pointer;display:none;}
+  .q-next.show{display:block;}
+
+  .gamelink{display:block;background:var(--teal);color:#fff;text-align:center;text-decoration:none;
+    font-size:16px;font-weight:800;border-radius:12px;padding:15px;margin:30px 0 8px;}
+  .gamelink small{display:block;font-size:12px;font-weight:600;opacity:.85;margin-top:3px;}
+  footer{margin-top:50px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--hint);line-height:1.8;}
+  .ja,.zh{display:none;}
+  body.lang-zh .zh{display:revert;}
+  body.lang-ja .ja{display:revert;}
+</style>
+</head>
+<body class="lang-zh">
+
+<div class="langbar"><div class="langbar-in">
+  <button class="lb on" id="bZh" type="button">繁體中文</button>
+  <button class="lb" id="bJa" type="button">日本語</button>
+  <span class="navs">
+    <a class="home" href="chinese_doushi.html">‹ <span class="zh">動詞變化</span><span class="ja">動詞の活用</span></a>
+    <a class="home" href="index.html">🏠 <span class="zh">首頁</span><span class="ja">トップ</span></a>
+  </span>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">中文 × 日本語 · 文型</div>
+  <h1><span class="zh">一個形，好多用法</span><span class="ja">一つの形に、たくさんの用法</span></h1>
+  <p class="sub">
+    <span class="zh">學識咗變形之後，真正嘅問題係：變咗出嚟，可以接乜？<br>
+      日文嘅文型唔係散嘅——佢哋係<strong>掛喺某一個形上面</strong>。所以按「形」嚟記，最有效率。</span>
+    <span class="ja">活用を覚えたあとの本題は、その形に何が続くかです。<br>
+      日本語の文型はばらばらではなく、<strong>ある形にぶら下がっています</strong>。だから「形」で整理するのが効率的です。</span>
+  </p>
+</header>
+
+<div class="callout">
+  <span class="zh"><b>睇法：</b>揀一個形，就會出晒接喺後面嘅用法。<br>
+    例如 <b>て形</b>：食べ<b>て</b> → 食べ<b>ています</b>／食べ<b>てください</b>／食べ<b>てから</b>…</span>
+  <span class="ja"><b>使い方：</b>形を選ぶと、その形に続く用法が並びます。<br>
+    たとえば <b>て形</b>：食べ<b>て</b> → 食べ<b>ています</b>／食べ<b>てください</b>／食べ<b>てから</b>…</span>
+</div>
+
+<div class="forms" id="forms"></div>
+<div class="fhead" id="fhead"></div>
+<div class="uses" id="uses"></div>
+
+<h2><span class="zh">試吓</span><span class="ja">試してみる</span></h2>
+<div class="quiz" id="quiz">
+  <div class="q-top"><span class="q-n" id="qn"></span><span class="q-sc" id="qsc"></span></div>
+  <div class="q-zh" id="qzh"></div>
+  <div class="q-s" id="qs"></div>
+  <div class="q-opts" id="qo"></div>
+  <div class="q-fb" id="qf"></div>
+  <button class="q-next" id="qnext" type="button"></button>
+</div>
+
+<a class="gamelink" href="chinese_keigo.html">
+  <span class="zh">▶ 日文敬語<small>尊敬語同謙讓語嘅方向、内外（ウチ・ソト）</small></span>
+  <span class="ja">▶ 日本語の敬語<small>尊敬語と謙譲語の方向、ウチとソト</small></span>
+</a>
+
+<footer>
+  <p><span class="zh">例句用簡單嘅日文，漢字用日本嘅新字體。程度標示係大概嘅參考。</span>
+     <span class="ja">例文はやさしい日本語で、漢字は日本の新字体です。レベル表示はおおよその目安です。</span></p>
+  <p>© 日本語の部屋</p>
+</footer>
+
+</div>
+
+<script>
+var LS='nnh_bunkei_lang';
+function setLang(l){
+  document.body.className='lang-'+l;
+  document.getElementById('bZh').classList.toggle('on',l==='zh');
+  document.getElementById('bJa').classList.toggle('on',l==='ja');
+  document.documentElement.lang=(l==='ja')?'ja':'zh-Hant';
+  try{localStorage.setItem(LS,l);}catch(e){}
+  draw(); if(QZ.q.length) drawQ();
+}
+function T(zh,ja){return document.body.className==='lang-ja'?ja:zh;}
+document.getElementById('bZh').onclick=function(){setLang('zh');};
+document.getElementById('bJa').onclick=function(){setLang('ja');};
+
+var FORMS=[
+{id:'te', zh:'て形', ja:'て形', mzh:'食べ<b>て</b>・書い<b>て</b>',
+ dzh:'最重要嘅一個。接得最多嘢。',dja:'最も重要。続く形が最も多い。'},
+{id:'nai',zh:'ない形',ja:'ない形',mzh:'食べ<b>ない</b>・書か<b>ない</b>',
+ dzh:'否定，同埋「唔好…」「一定要…」。',dja:'否定と、「〜しないで」「〜なければ」。'},
+{id:'ta', zh:'た形', ja:'た形', mzh:'食べ<b>た</b>・書い<b>た</b>',
+ dzh:'唔淨係過去。經驗、假設、列舉都用。',dja:'過去だけでなく、経験・仮定・列挙にも。'},
+{id:'dic',zh:'辭書形',ja:'辞書形',mzh:'食べ<b>る</b>・書<b>く</b>',
+ dzh:'字典入面嘅形。接名詞化同「之前」。',dja:'辞書の見出し形。名詞化や「前に」に。'},
+{id:'mas',zh:'ます形（去ます）',ja:'ます形（ますを取る）',mzh:'食べ・書き',
+ dzh:'去咗 ます 之後嘅部分。接「想」「一邊」等等。',dja:'ますを取った部分。「たい」「ながら」など。'}
+];
+
+var USES=[
+/* ── て形 ───────────────────────────────── */
+{f:'te',p:'〜ている',mzh:'進行／狀態',mja:'進行・状態',lv:'N5',
+ ex:'ごはんを 食べ<em>ています</em>',trzh:'食緊飯',trja:'食事中です',
+ czh:'亦可以表示狀態：結婚しています ＝ 已婚，唔係「正在結婚」。',
+ cja:'状態も表します。結婚しています＝既婚であって「結婚中」ではありません。'},
+{f:'te',p:'〜てください',mzh:'請…',mja:'〜してください',lv:'N5',
+ ex:'ちょっと 待っ<em>てください</em>',trzh:'請等一等',trja:'少し待ってください',czh:'',cja:''},
+{f:'te',p:'〜てもいい',mzh:'可以…（許可）',mja:'許可',lv:'N5',
+ ex:'写真を 撮っ<em>てもいい</em>ですか',trzh:'可唔可以影相？',trja:'写真を撮ってもいいですか',czh:'',cja:''},
+{f:'te',p:'〜てはいけない',mzh:'唔可以…（禁止）',mja:'禁止',lv:'N5',
+ ex:'ここで たばこを 吸っ<em>てはいけません</em>',trzh:'呢度唔可以食煙',trja:'ここでは喫煙禁止です',czh:'',cja:''},
+{f:'te',p:'〜てから',mzh:'做完A之後先B',mja:'Aしてから B',lv:'N5',
+ ex:'ごはんを 食べ<em>てから</em> 行きます',trzh:'食完飯先去',trja:'食事のあとで行きます',
+ czh:'中文「食咗飯先去」用「咗」，但係日文將來唔可以用 た。',
+ cja:'中国語は未来でも「了」が使えますが、日本語は た を使えません。'},
+{f:'te',p:'〜ておく',mzh:'事先做定',mja:'あらかじめしておく',lv:'N4',
+ ex:'ホテルを 予約し<em>ておきます</em>',trzh:'預先訂定酒店',trja:'前もって予約します',czh:'',cja:''},
+{f:'te',p:'〜てしまう',mzh:'做晒／唔小心做咗',mja:'完了・後悔',lv:'N4',
+ ex:'全部 食べ<em>てしまいました</em>',trzh:'全部食晒（有時帶「唔小心」嘅意思）',trja:'すべて食べてしまいました',
+ czh:'口語會縮做 〜ちゃう：食べちゃった。',cja:'話し言葉では 〜ちゃう になります。'},
+{f:'te',p:'〜てみる',mzh:'試吓',mja:'試しにする',lv:'N4',
+ ex:'この服を 着<em>てみます</em>',trzh:'試吓著呢件衫',trja:'この服を試着します',czh:'',cja:''},
+{f:'te',p:'〜てくれる／あげる／もらう',mzh:'授受（邊個為邊個做）',mja:'授受表現',lv:'N4',
+ ex:'先生が 教え<em>てくれました</em>',trzh:'老師教咗我（為我而做）',trja:'先生が教えてくれました',
+ czh:'中文唔使講明「為邊個」，日文要。呢個係中文母語者好易漏嘅。',
+ cja:'中国語では明示しませんが、日本語では誰のためかを示します。'},
+{f:'te',p:'〜てある',mzh:'（有人做咗，狀態留低）',mja:'誰かがした結果の状態',lv:'N4',
+ ex:'窓が 開け<em>てあります</em>',trzh:'窗開咗（有人開嘅）',trja:'窓が開けてあります',
+ czh:'開いています ＝ 自然開咗／開けてあります ＝ 有人特登開。',
+ cja:'開いています（状態）と 開けてあります（誰かがした結果）の違い。'},
+
+/* ── ない形 ─────────────────────────────── */
+{f:'nai',p:'〜ないでください',mzh:'請唔好…',mja:'〜しないでください',lv:'N5',
+ ex:'心配し<em>ないでください</em>',trzh:'唔好擔心',trja:'心配しないでください',czh:'',cja:''},
+{f:'nai',p:'〜なければならない',mzh:'一定要…',mja:'義務',lv:'N4',
+ ex:'あした 早く 起き<em>なければなりません</em>',trzh:'聽日一定要早起',trja:'明日は早く起きなければなりません',
+ czh:'口語會縮做 〜なきゃ：起きなきゃ。',cja:'話し言葉では 〜なきゃ。'},
+{f:'nai',p:'〜なくてもいい',mzh:'唔使…',mja:'しなくてよい',lv:'N4',
+ ex:'あした 来<em>なくてもいい</em>です',trzh:'聽日唔使嚟',trja:'明日は来なくてもいいです',czh:'',cja:''},
+{f:'nai',p:'〜ないほうがいい',mzh:'最好唔好…',mja:'しないほうがよい',lv:'N4',
+ ex:'無理し<em>ないほうがいい</em>です',trzh:'最好唔好勉強',trja:'無理しないほうがいいです',czh:'',cja:''},
+{f:'nai',p:'〜ないで',mzh:'唔…就…',mja:'〜せずに',lv:'N4',
+ ex:'朝ごはんを 食べ<em>ないで</em> 行きました',trzh:'冇食早餐就去咗',trja:'朝食をとらずに行きました',czh:'',cja:''},
+
+/* ── た形 ───────────────────────────────── */
+{f:'ta',p:'〜たことがある',mzh:'曾經…過',mja:'経験',lv:'N5',
+ ex:'日本へ 行っ<em>たことがあります</em>',trzh:'我去過日本',trja:'日本へ行ったことがあります',
+ czh:'中文用「過」。呢個對應得幾清楚。',cja:'中国語の「過」に近い言い方です。'},
+{f:'ta',p:'〜たあとで',mzh:'…之後',mja:'〜のあとで',lv:'N5',
+ ex:'仕事が 終わっ<em>たあとで</em> 会いましょう',trzh:'放咗工之後見',trja:'仕事のあとで会いましょう',czh:'',cja:''},
+{f:'ta',p:'〜たり〜たりする',mzh:'又…又…（舉例）',mja:'列挙',lv:'N5',
+ ex:'映画を 見<em>たり</em> 買い物し<em>たり</em> しました',trzh:'又睇戲又買嘢',trja:'映画を見たり買い物をしたりしました',
+ czh:'唔係全部列晒，係舉幾個例。',cja:'すべてではなく、いくつか例を挙げる言い方です。'},
+{f:'ta',p:'〜たほうがいい',mzh:'最好…',mja:'したほうがよい',lv:'N4',
+ ex:'早く 寝<em>たほうがいい</em>ですよ',trzh:'最好早啲瞓',trja:'早く寝たほうがいいですよ',czh:'',cja:''},
+{f:'ta',p:'〜たら',mzh:'如果…／…之後',mja:'条件・時',lv:'N4',
+ ex:'雨が 降っ<em>たら</em> 行きません',trzh:'如果落雨就唔去',trja:'雨が降ったら行きません',
+ czh:'た形雖然係過去形，但係 〜たら 講嘅係將來。',cja:'た形ですが、〜たら は未来のことを言います。'},
+
+/* ── 辞書形 ─────────────────────────────── */
+{f:'dic',p:'〜ことができる',mzh:'可以／識',mja:'可能',lv:'N5',
+ ex:'日本語を 話す<em>ことができます</em>',trzh:'識講日文',trja:'日本語が話せます',
+ czh:'短啲嘅講法係可能形：話せます。',cja:'短い言い方は可能形の 話せます。'},
+{f:'dic',p:'〜前に',mzh:'…之前',mja:'〜の前に',lv:'N5',
+ ex:'寝<em>る前に</em> 歯を みがきます',trzh:'瞓覺前刷牙',trja:'寝る前に歯をみがきます',
+ czh:'注意：「之後」用 た形（食べたあとで），「之前」用辭書形。',
+ cja:'「あとで」は た形、「前に」は辞書形です。'},
+{f:'dic',p:'〜つもりだ',mzh:'打算…',mja:'意志・予定',lv:'N4',
+ ex:'来年 日本へ 行く<em>つもりです</em>',trzh:'打算聽年去日本',trja:'来年日本へ行くつもりです',czh:'',cja:''},
+{f:'dic',p:'〜と',mzh:'一…就…（必然）',mja:'必然の結果',lv:'N4',
+ ex:'春に なる<em>と</em> 桜が 咲きます',trzh:'一到春天櫻花就開',trja:'春になると桜が咲きます',
+ czh:'講嘅係一定會發生嘅事，唔用嚟講自己嘅意志。',cja:'必ずそうなることに使い、自分の意志には使いません。'},
+{f:'dic',p:'〜ことにする',mzh:'決定…',mja:'自分で決める',lv:'N4',
+ ex:'毎日 走る<em>ことにしました</em>',trzh:'決定咗每日跑步',trja:'毎日走ることにしました',czh:'',cja:''},
+
+/* ── ます形 ─────────────────────────────── */
+{f:'mas',p:'〜たい',mzh:'想…',mja:'願望',lv:'N5',
+ ex:'すしが 食べ<em>たい</em>です',trzh:'想食壽司',trja:'すしが食べたいです',
+ czh:'只可以講自己。講第三者要用 〜たがっています。',
+ cja:'自分にだけ使い、第三者には 〜たがっている を使います。'},
+{f:'mas',p:'〜ながら',mzh:'一邊…一邊…',mja:'同時',lv:'N4',
+ ex:'音楽を 聞き<em>ながら</em> 勉強します',trzh:'一邊聽歌一邊讀書',trja:'音楽を聞きながら勉強します',
+ czh:'兩個動作要同一個人做。',cja:'二つの動作は同じ人が行います。'},
+{f:'mas',p:'〜ましょう／〜ませんか',mzh:'一齊…吖／唔一齊…咩',mja:'勧誘',lv:'N5',
+ ex:'いっしょに 行き<em>ませんか</em>',trzh:'一齊去唔去？',trja:'いっしょに行きませんか',
+ czh:'ませんか 比 ましょう 客氣，因為留返空間俾人拒絕。',
+ cja:'ませんか のほうが丁寧です。断る余地を残すからです。'},
+{f:'mas',p:'〜に行く／来る',mzh:'去／嚟做…',mja:'目的',lv:'N5',
+ ex:'映画を 見<em>に行きます</em>',trzh:'去睇戲',trja:'映画を見に行きます',czh:'',cja:''},
+{f:'mas',p:'〜やすい／〜にくい',mzh:'易…／難…',mja:'しやすい・しにくい',lv:'N4',
+ ex:'この本は 読み<em>やすい</em>です',trzh:'呢本書易睇',trja:'この本は読みやすいです',czh:'',cja:''},
+{f:'mas',p:'〜すぎる',mzh:'太過…',mja:'度をこえる',lv:'N4',
+ ex:'きのう 食べ<em>すぎました</em>',trzh:'尋日食得太多',trja:'昨日は食べすぎました',czh:'',cja:''}
+];
+
+var SEL='te';
+function draw(){
+  document.getElementById('forms').innerHTML=FORMS.map(function(f){
+    var n=USES.filter(function(u){return u.f===f.id;}).length;
+    return '<button class="fb'+(SEL===f.id?' on':'')+'" data-f="'+f.id+'" type="button">'+
+      T(f.zh,f.ja)+'<span class="cnt">'+n+'</span></button>';
+  }).join('');
+  document.querySelectorAll('#forms .fb').forEach(function(b){
+    b.onclick=function(){SEL=b.dataset.f;draw();};
+  });
+  var f=FORMS.filter(function(x){return x.id===SEL;})[0];
+  document.getElementById('fhead').className='fhead '+SEL;
+  document.getElementById('fhead').innerHTML=
+    '<div class="ft">'+T(f.zh,f.ja)+'　<span style="font-size:15px;font-weight:700;">'+f.mzh+'</span></div>'+
+    '<div class="fd">'+T(f.dzh,f.dja)+'</div>';
+  document.getElementById('uses').innerHTML=USES.filter(function(u){return u.f===SEL;})
+    .map(function(u){
+      var c=T(u.czh,u.cja);
+      return '<div class="u"><div class="u-h"><span class="u-p">'+u.p+'</span>'+
+        '<span class="u-m">'+T(u.mzh,u.mja)+'</span><span class="u-lv">'+u.lv+'</span></div>'+
+        '<div class="u-b"><div class="u-ex">'+u.ex+'</div>'+
+        '<div class="u-tr">'+T(u.trzh,u.trja)+'</div>'+
+        (c?'<div class="u-c">'+c+'</div>':'')+'</div></div>';
+    }).join('');
+}
+
+/* ---------- 練習 ---------- */
+var BANK=[
+{zh:'請等一等',ja:'少し待ってください',s:['ちょっと 待って',''],a:'ください',o:['ください','しまいます','おきます','みます'],
+ ezh:'請人做嘢，用 〜てください。',eja:'依頼は 〜てください。'},
+{zh:'我去過日本',ja:'日本へ行った経験がある',s:['日本へ 行った',''],a:'ことがあります',o:['ことがあります','ほうがいいです','つもりです','ながらです'],
+ ezh:'經驗用 た形 ＋ ことがある。',eja:'経験は た形＋ことがある。'},
+{zh:'食完飯先去',ja:'食事のあとで行く',s:['ごはんを 食べ','　行きます'],a:'てから',o:['てから','たから','ながら','ないで'],
+ ezh:'將來嘅「做完A先B」用 てから，唔可以用 た。',eja:'未来の「AしてからB」は てから。'},
+{zh:'想食壽司',ja:'すしが食べたい',s:['すしが 食べ','です'],a:'たい',o:['たい','ている','ておく','てある'],
+ ezh:'願望用 ます形 ＋ たい。',eja:'願望は ます形＋たい。'},
+{zh:'瞓覺前刷牙',ja:'寝る前に歯をみがく',s:['寝る','　歯を みがきます'],a:'前に',o:['前に','あとで','ながら','ために'],
+ ezh:'「之前」用辭書形 ＋ 前に。',eja:'「前に」は辞書形につきます。'},
+{zh:'唔好擔心',ja:'心配しないで',s:['心配し','ください'],a:'ないで',o:['ないで','なくて','ないと','ずに'],
+ ezh:'請人唔好做，用 ない形 ＋ でください。',eja:'禁止の依頼は ない形＋でください。'},
+{zh:'一邊聽歌一邊讀書',ja:'音楽を聞きながら勉強する',s:['音楽を 聞き','　勉強します'],a:'ながら',o:['ながら','てから','たり','ないで'],
+ ezh:'同時做兩件事，用 ます形 ＋ ながら。',eja:'同時進行は ます形＋ながら。'},
+{zh:'如果落雨就唔去',ja:'雨が降ったら行かない',s:['雨が 降っ','　行きません'],a:'たら',o:['たら','てから','ながら','ので'],
+ ezh:'假設用 た形 ＋ ら。雖然係 た形，但係講將來。',eja:'仮定は た形＋ら。た形ですが未来のことです。'},
+{zh:'預先訂定酒店',ja:'あらかじめ予約する',s:['ホテルを 予約し','ます'],a:'ておき',o:['ておき','てしまい','てみ','てあり'],
+ ezh:'事先做定，用 〜ておく。',eja:'あらかじめするのは 〜ておく。'},
+{zh:'最好早啲瞓',ja:'早く寝たほうがよい',s:['早く 寝','ですよ'],a:'たほうがいい',o:['たほうがいい','るつもり','ないで','ながら'],
+ ezh:'建議用 た形 ＋ ほうがいい。',eja:'助言は た形＋ほうがいい。'}
+];
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+var QZ={q:[],i:0,ok:0};
+function newRound(){QZ={q:shuffle(BANK.slice()).slice(0,8),i:0,ok:0};drawQ();}
+function drawQ(){
+  var q=QZ.q[QZ.i];
+  document.getElementById('qn').textContent=T('第 '+(QZ.i+1)+' / '+QZ.q.length+' 題','第 '+(QZ.i+1)+' / '+QZ.q.length+' 問');
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  document.getElementById('qzh').textContent=T(q.zh,q.ja);
+  document.getElementById('qs').innerHTML=q.s[0]+'<span class="blank">？</span>'+q.s[1];
+  var w=document.getElementById('qo'); w.innerHTML='';
+  shuffle(q.o.slice()).forEach(function(o){
+    var b=document.createElement('button'); b.type='button'; b.className='q-b'; b.textContent=o;
+    b.onclick=function(){ans(o,b);};
+    w.appendChild(b);
+  });
+  var f=document.getElementById('qf'); f.className='q-fb'; f.innerHTML='';
+  document.getElementById('qnext').className='q-next';
+}
+function ans(o,btn){
+  var q=QZ.q[QZ.i];
+  var bs=document.querySelectorAll('#qo .q-b');
+  for(var i=0;i<bs.length;i++){
+    if(bs[i].textContent===q.a) bs[i].className='q-b ok';
+    else if(bs[i]===btn) bs[i].className='q-b ng';
+    else bs[i].className='q-b dim';
+    bs[i].onclick=null;
+  }
+  if(o===q.a) QZ.ok++;
+  document.getElementById('qs').innerHTML=q.s[0]+'<span class="blank">'+q.a+'</span>'+q.s[1];
+  var f=document.getElementById('qf');
+  f.innerHTML=(o===q.a?'⭕ ':'❌ ')+T(q.ezh,q.eja);
+  f.className='q-fb show';
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  var n=document.getElementById('qnext');
+  n.textContent=(QZ.i>=QZ.q.length-1)?T('睇結果','結果を見る'):T('下一題 ›','つぎへ ›');
+  n.className='q-next show';
+}
+document.getElementById('qnext').onclick=function(){
+  if(QZ.i>=QZ.q.length-1){ done(); return; }
+  QZ.i++; drawQ();
+};
+function done(){
+  document.getElementById('qn').textContent=T('完成','おわり');
+  document.getElementById('qsc').textContent='';
+  document.getElementById('qzh').textContent='';
+  document.getElementById('qs').textContent=(QZ.ok>=7?'🎉':(QZ.ok>=5?'👍':'📚'));
+  document.getElementById('qo').innerHTML='';
+  var f=document.getElementById('qf');
+  f.innerHTML='<b>'+QZ.ok+' / '+QZ.q.length+'</b>　'+
+    (QZ.ok>=7?T('已經識得由「形」搵用法。','形から用法を引けています。')
+             :T('返上面揀返個形，睇多次。','上で形を選び直して、もう一度どうぞ。'));
+  f.className='q-fb show';
+  var n=document.getElementById('qnext');
+  n.textContent=T('再嚟一次','もう一度'); n.className='q-next show';
+  n.onclick=function(){newRound(); n.onclick=nextH;};
+}
+var nextH=document.getElementById('qnext').onclick;
+
+(function(){
+  var l='zh'; try{l=localStorage.getItem(LS)||'zh';}catch(e){}
+  newRound(); setLang(l);
+})();
+</script>
+</body>
+</html>

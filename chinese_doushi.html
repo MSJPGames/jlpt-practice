@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日文動詞變化 — 中文冇嘅嘢｜日本語の部屋</title>
+<meta name="description" content="中文動詞唔變形，日文一個動詞可以變十幾個樣。三類動詞點分、て形點砌，同埋中文母語者最容易錯嘅「ている」——結婚しています 唔係「正在結婚」。">
+<link rel="canonical" href="https://msjpgames.github.io/jlpt-practice/chinese_doushi.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="日本語の部屋 ・ Nihongo no Heya">
+<meta property="og:locale" content="zh_HK">
+<meta property="og:url" content="https://msjpgames.github.io/jlpt-practice/chinese_doushi.html">
+<meta property="og:title" content="日文動詞變化 — 中文冇嘅嘢">
+<meta property="og:description" content="三類動詞點分、て形點砌。仲有中文母語者最易錯嘅「ている」——結婚しています 唔係「正在結婚」，係「已婚」。">
+<meta property="og:image" content="https://msjpgames.github.io/jlpt-practice/og_doushi.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="日文動詞變化 — 中文冇嘅嘢">
+<meta name="twitter:description" content="三類動詞點分、て形點砌。「ている」唔係淨係「在」。">
+<meta name="twitter:image" content="https://msjpgames.github.io/jlpt-practice/og_doushi.png">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0;
+    --g1:#B5541F; --g1b:#FBEDE4; --g2:#2F5C8A; --g2b:#E6EEF6; --g3:#6B4A8B; --g3b:#F0EAF6;
+    --good:#3E6B2F; --good-bg:#EDF3E6; --bad:#A0392E; --bad-bg:#FBE9E4;
+    --warn:#8A6D00; --warn-bg:#FBF3D9;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"PingFang HK","Noto Sans HK","Noto Sans JP",sans-serif;
+    font-size:16px;line-height:1.85;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 90px;}
+
+  .langbar{position:sticky;top:0;z-index:40;background:rgba(247,245,240,.94);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:8px 0;}
+  .langbar-in{max-width:760px;margin:0 auto;padding:0 18px;display:flex;gap:6px;align-items:center;}
+  .lb{font-family:inherit;font-size:12px;font-weight:700;padding:5px 13px;border-radius:999px;
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
+  .lb.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .navs{margin-left:auto;display:flex;gap:10px;align-items:center;}
+  .home{font-size:12px;color:var(--hint);text-decoration:none;white-space:nowrap;}
+
+  header{padding:38px 0 22px;}
+  .kicker{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--hint);
+    text-transform:uppercase;margin-bottom:10px;}
+  h1{margin:0 0 14px;font-size:clamp(26px,6vw,38px);line-height:1.3;}
+  .sub{margin:0;font-size:16.5px;color:var(--muted);line-height:1.8;}
+  h2{margin:48px 0 14px;font-size:21px;line-height:1.45;padding-bottom:8px;border-bottom:2px solid var(--ink);}
+  h3{margin:30px 0 8px;font-size:17px;}
+  p{margin:0 0 15px;}
+  .lead{font-size:17px;}
+
+  .sent{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:15px 17px;margin:14px 0;}
+  .sent .zhline{font-size:17px;font-weight:700;color:var(--muted);}
+  .sent .jaline{font-size:20px;font-weight:800;line-height:1.7;margin-top:4px;}
+  .sent .jaline em{font-style:normal;color:var(--teal);background:var(--teal-bg);
+    padding:1px 6px;border-radius:6px;}
+  .sent .note{font-size:13px;color:var(--hint);margin-top:7px;line-height:1.7;}
+  .ok,.ng{display:flex;gap:10px;align-items:flex-start;font-size:17px;line-height:1.75;margin:6px 0;}
+  .ok .mk,.ng .mk{flex-shrink:0;font-weight:800;font-size:15px;width:22px;text-align:center;}
+  .ok .mk{color:var(--good);} .ng .mk{color:var(--bad);} .ng .tx{color:var(--bad);}
+
+  /* 三類 */
+  .grps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+  .gc{border-radius:12px;padding:14px 13px;border:1px solid;}
+  .gc .n{font-size:12px;font-weight:800;letter-spacing:.04em;}
+  .gc .v{font-size:20px;font-weight:800;margin-top:5px;line-height:1.45;}
+  .gc .d{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.6;}
+  .gc.a{background:var(--g1b);border-color:#EBD3C2;} .gc.a .n{color:var(--g1);}
+  .gc.b{background:var(--g2b);border-color:#C4D6E8;} .gc.b .n{color:var(--g2);}
+  .gc.c{background:var(--g3b);border-color:#DCCEE8;} .gc.c .n{color:var(--g3);}
+  @media(max-width:600px){.grps{grid-template-columns:1fr;}}
+
+  /* て形の規則 */
+  .rules{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:18px 0;}
+  .rrow{display:grid;grid-template-columns:104px 1fr;border-bottom:1px solid var(--line);}
+  .rrow:last-child{border-bottom:none;}
+  .rk{background:var(--bg);padding:12px;text-align:center;font-family:var(--mono);
+    font-size:17px;font-weight:800;color:var(--g1);border-right:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;}
+  .rb{padding:11px 14px;font-size:15.5px;line-height:1.75;}
+  .rb b{font-weight:800;color:var(--teal);}
+  .rb small{display:block;font-size:12.5px;color:var(--hint);margin-top:2px;}
+
+  /* 動詞表 */
+  .tw{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:auto;margin:18px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px;}
+  th,td{padding:9px 11px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;}
+  th{background:var(--bg);font-size:11.5px;letter-spacing:.04em;color:var(--muted);font-weight:800;
+    position:sticky;top:0;}
+  tr:last-child td{border-bottom:none;}
+  td.dic{font-weight:800;font-size:16px;}
+  td.g{font-size:11px;font-weight:800;}
+  td.g.a{color:var(--g1);} td.g.b{color:var(--g2);} td.g.c{color:var(--g3);}
+  td.zh{color:var(--muted);font-size:13px;}
+  .filt{display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap;}
+  .fb{font-family:inherit;font-size:12.5px;font-weight:700;padding:6px 13px;border-radius:999px;
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
+  .fb.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+
+  .callout{background:var(--teal-bg);border:1px solid #BFD9D7;border-left:4px solid var(--teal);
+    border-radius:10px;padding:15px 17px;margin:22px 0;font-size:15px;line-height:1.8;}
+  .callout b{color:var(--teal);}
+  .callout.b{background:var(--bad-bg);border-color:#F0D2C6;border-left-color:var(--bad);}
+  .callout.b b{color:var(--bad);}
+  .callout.w{background:var(--warn-bg);border-color:#E8DCAF;border-left-color:var(--warn);}
+  .callout.w b{color:var(--warn);}
+
+  .quiz{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:18px 18px 20px;margin:26px 0;}
+  .q-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .q-n{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--hint);}
+  .q-sc{font-size:12.5px;font-weight:800;color:var(--teal);}
+  .q-ask{text-align:center;font-size:13px;color:var(--hint);font-weight:700;margin-top:6px;}
+  .q-v{text-align:center;font-size:42px;font-weight:800;line-height:1.25;padding:6px 0 2px;}
+  .q-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;}
+  .q-b{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:14px 6px;
+    font-family:inherit;font-size:19px;font-weight:800;color:var(--ink);cursor:pointer;}
+  .q-b.ok{background:var(--good-bg);border-color:#CFE3B6;color:var(--good);}
+  .q-b.ng{background:var(--bad-bg);border-color:#F0D2C6;color:var(--bad);}
+  .q-b.dim{opacity:.4;}
+  .q-fb{margin-top:12px;font-size:14px;line-height:1.75;color:var(--muted);background:var(--bg);
+    border:1px solid var(--line);border-radius:10px;padding:11px 13px;display:none;}
+  .q-fb.show{display:block;}
+  .q-next{margin-top:11px;width:100%;border:none;background:var(--teal);color:#fff;font-family:inherit;
+    font-size:15px;font-weight:800;border-radius:10px;padding:12px;cursor:pointer;display:none;}
+  .q-next.show{display:block;}
+
+  .gamelink{display:block;background:var(--teal);color:#fff;text-align:center;text-decoration:none;
+    font-size:16px;font-weight:800;border-radius:12px;padding:15px;margin:30px 0 8px;}
+  .gamelink small{display:block;font-size:12px;font-weight:600;opacity:.85;margin-top:3px;}
+  footer{margin-top:50px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--hint);line-height:1.8;}
+  .ja,.zh{display:none;}
+  body.lang-zh .zh{display:revert;}
+  body.lang-ja .ja{display:revert;}
+</style>
+</head>
+<body class="lang-zh">
+
+<div class="langbar"><div class="langbar-in">
+  <button class="lb on" id="bZh" type="button">繁體中文</button>
+  <button class="lb" id="bJa" type="button">日本語</button>
+  <span class="navs">
+    <a class="home" href="chinese_start.html">‹ <span class="zh">中文入口</span><span class="ja">中国語の入口</span></a>
+    <a class="home" href="index.html">🏠 <span class="zh">首頁</span><span class="ja">トップ</span></a>
+  </span>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">中文 × 日本語 · 動詞</div>
+  <h1><span class="zh">日文動詞變化 — 中文冇嘅嘢</span><span class="ja">日本語の動詞活用 — 中国語にないもの</span></h1>
+  <p class="sub">
+    <span class="zh">中文動詞永遠唔變形。日文一個動詞可以變十幾個樣，而且個形本身就帶住意思。呢個要由零開始。</span>
+    <span class="ja">中国語の動詞は形を変えません。日本語は一つの動詞が十数通りに変化し、その形自体が意味を持ちます。ここはゼロから必要です。</span>
+  </p>
+</header>
+
+<h2><span class="zh">一、分別喺邊</span><span class="ja">一、違いはどこにあるか</span></h2>
+<div class="sent">
+  <div class="zhline">我 <b>食</b> 飯　／　我 <b>食</b>咗 飯　／　我 聽日 <b>食</b> 飯</div>
+  <div class="note"><span class="zh">個動詞「食」一直冇變過。變嘅係後面加咗「咗」，或者前面加咗時間詞。</span>
+       <span class="ja">動詞「食」は変わりません。変わるのは「咗」などの助詞や時間詞のほうです。</span></div>
+</div>
+<div class="sent">
+  <div class="jaline"><em>食べます</em>／<em>食べました</em>／<em>食べない</em>／<em>食べて</em>／<em>食べれば</em></div>
+  <div class="note"><span class="zh">日文係個動詞自己變。所以要記嘅唔係詞，係「點樣變」。</span>
+       <span class="ja">日本語は動詞そのものが変わります。覚えるのは語ではなく「変え方」です。</span></div>
+</div>
+<div class="callout">
+  <span class="zh"><b>好消息：</b>日文動詞唔使配合人稱。我、你、佢、我哋——全部一樣。呢點比英文、法文簡單好多。</span>
+  <span class="ja"><b>よい知らせ：</b>日本語の動詞は人称で変わりません。英語やフランス語よりずっと簡単です。</span>
+</div>
+
+<h2><span class="zh">二、三類動詞</span><span class="ja">二、三つのグループ</span></h2>
+<div class="grps">
+  <div class="gc a"><div class="n">I <span class="zh">類（五段）</span><span class="ja">グループ（五段）</span></div>
+    <div class="v">書く・話す・買う</div>
+    <div class="d"><span class="zh">最多。變化最複雜。</span><span class="ja">最も多く、変化も複雑。</span></div></div>
+  <div class="gc b"><div class="n">II <span class="zh">類（一段）</span><span class="ja">グループ（一段）</span></div>
+    <div class="v">食べる・見る</div>
+    <div class="d"><span class="zh">最易。去咗 る 就得。</span><span class="ja">最も簡単。る を取るだけ。</span></div></div>
+  <div class="gc c"><div class="n">III <span class="zh">類（不規則）</span><span class="ja">グループ（不規則）</span></div>
+    <div class="v">する・来る</div>
+    <div class="d"><span class="zh">只有兩個。硬記。</span><span class="ja">二つだけ。覚えるしかない。</span></div></div>
+</div>
+
+<h3><span class="zh">點樣分？</span><span class="ja">どう見分けるか</span></h3>
+<div class="rules">
+  <div class="rrow"><div class="rk">1</div><div class="rb">
+    <span class="zh">唔係 <b>る</b> 結尾 → 一定係 <b>I 類</b></span>
+    <span class="ja"><b>る</b> で終わらない → 必ず <b>I グループ</b></span>
+    <small>書く・話す・飲む・買う・待つ</small></div></div>
+  <div class="rrow"><div class="rk">2</div><div class="rb">
+    <span class="zh"><b>る</b> 前面係 <b>い / え</b> 音 → 多數係 <b>II 類</b></span>
+    <span class="ja"><b>る</b> の前が <b>い / え</b> 段 → たいてい <b>II グループ</b></span>
+    <small>食べ<b>る</b>・見<b>る</b>・起き<b>る</b>・寝<b>る</b></small></div></div>
+  <div class="rrow"><div class="rk">3</div><div class="rb">
+    <span class="zh"><b>る</b> 前面係 <b>あ / う / お</b> 音 → <b>I 類</b></span>
+    <span class="ja"><b>る</b> の前が <b>あ / う / お</b> 段 → <b>I グループ</b></span>
+    <small>作<b>る</b>・乗<b>る</b>・終わ<b>る</b></small></div></div>
+</div>
+<div class="callout w">
+  <span class="zh"><b>例外要記住：</b>帰る・入る・走る・切る・知る・要る 睇落好似 II 類，其實係 <b>I 類</b>。<br>
+    所以「帰ります」（唔係 帰います），「知りません」（唔係 知ません）。</span>
+  <span class="ja"><b>覚えるべき例外：</b>帰る・入る・走る・切る・知る・要る は II グループに見えて <b>I グループ</b>です。<br>
+    だから「帰ります」であって「帰います」ではありません。</span>
+</div>
+
+<h2><span class="zh">三、て形點砌</span><span class="ja">三、て形の作り方</span></h2>
+<p>
+  <span class="zh">て形係最重要嘅一個形。做唔到 て形，好多句型都用唔到（〜ています、〜てください、〜てもいい…）。</span>
+  <span class="ja">て形は最も重要な形です。これができないと多くの文型が使えません（〜ています、〜てください、〜てもいい…）。</span>
+</p>
+<div class="rules">
+  <div class="rrow"><div class="rk">く → いて</div><div class="rb">書く → 書<b>いて</b><small><span class="zh">例外：行く → 行<b>って</b></span><span class="ja">例外：行く → 行って</span></small></div></div>
+  <div class="rrow"><div class="rk">ぐ → いで</div><div class="rb">泳ぐ → 泳<b>いで</b></div></div>
+  <div class="rrow"><div class="rk">む ぶ ぬ<br>→ んで</div><div class="rb">読む → 読<b>んで</b>／遊ぶ → 遊<b>んで</b>／死ぬ → 死<b>んで</b></div></div>
+  <div class="rrow"><div class="rk">う つ る<br>→ って</div><div class="rb">買う → 買<b>って</b>／待つ → 待<b>って</b>／取る → 取<b>って</b></div></div>
+  <div class="rrow"><div class="rk">す → して</div><div class="rb">話す → 話<b>して</b></div></div>
+  <div class="rrow"><div class="rk">II 類</div><div class="rb"><span class="zh">去 る 加 て</span><span class="ja">る を取って て</span>：食べる → 食べ<b>て</b>／見る → 見<b>て</b></div></div>
+  <div class="rrow"><div class="rk">III 類</div><div class="rb">する → <b>して</b>／来る → <b>来て</b></div></div>
+</div>
+
+<h2><span class="zh">四、常用動詞表</span><span class="ja">四、よく使う動詞の表</span></h2>
+<div class="filt" id="filt"></div>
+<div class="tw"><table id="vtable"></table></div>
+
+<h2><span class="zh">五、中文母語者專屬嘅陷阱</span><span class="ja">五、中国語話者に特有の落とし穴</span></h2>
+
+<h3><span class="zh">① 「ている」唔係淨係「在」</span><span class="ja">①「ている」は「在」だけではない</span></h3>
+<p class="lead">
+  <span class="zh">呢個係最多人錯，而且錯咗都唔知。中文嘅「在」淨係表示<strong>進行緊</strong>。日文嘅「ている」除咗進行，仲可以表示<strong>狀態</strong>。</span>
+  <span class="ja">最も多く、しかも気づかれない誤りです。中国語の「在」は<strong>進行</strong>だけを表しますが、日本語の「ている」は<strong>状態</strong>も表します。</span>
+</p>
+<div class="sent">
+  <div class="ok"><span class="mk">○</span><span class="tx">ごはんを 食べ<b>ています</b>　<span style="color:var(--hint);font-size:14px;">＝ 食緊飯（進行）</span></span></div>
+  <div class="ok"><span class="mk">○</span><span class="tx">結婚し<b>ています</b>　<span style="color:var(--hint);font-size:14px;">＝ <b>已婚</b>（狀態）</span></span></div>
+  <div class="ng"><span class="mk">✕</span><span class="tx">結婚しています ＝ 正在結婚（婚禮進行中）</span></div>
+  <div class="note"><span class="zh">「結婚しています」係講你而家已婚。如果想講「而家喺度舉行緊婚禮」，係另一句。</span>
+       <span class="ja">「結婚しています」は今その状態にあることを指します。式の最中を言うなら別の表現になります。</span></div>
+</div>
+<div class="sent">
+  <div class="ok"><span class="mk">○</span><span class="tx">知っ<b>ています</b>　<span style="color:var(--hint);font-size:14px;">＝ 知道（狀態）</span></span></div>
+  <div class="ok"><span class="mk">○</span><span class="tx">持っ<b>ています</b>　<span style="color:var(--hint);font-size:14px;">＝ 有（狀態）</span></span></div>
+  <div class="ok"><span class="mk">○</span><span class="tx">住ん<b>でいます</b>　<span style="color:var(--hint);font-size:14px;">＝ 住喺度（狀態）</span></span></div>
+  <div class="note"><span class="zh">呢啲全部唔可以譯做「在」。「我知道」＝ 知っています，唔係 知ります。</span>
+       <span class="ja">いずれも「在」では訳せません。「知っている」であって「知る」ではありません。</span></div>
+</div>
+<div class="callout b">
+  <span class="zh"><b>順帶一提：</b>「知道」嘅否定唔係「知っていません」，係 <b>知りません</b>。呢個唔規則，要單獨記。</span>
+  <span class="ja"><b>あわせて：</b>「知っている」の否定は「知っていません」ではなく <b>知りません</b> です。ここは不規則なので個別に覚えます。</span>
+</div>
+
+<h3><span class="zh">② 「了」唔等於「た」</span><span class="ja">②「了」は「た」ではない</span></h3>
+<p><span class="zh">中文嘅「了」講嘅係「完成／變化」，可以用喺將來。日文嘅「た」係<strong>過去</strong>，唔可以用喺將來。</span>
+   <span class="ja">中国語の「了」は「完了・変化」を表し、未来にも使えます。日本語の「た」は<strong>過去</strong>で、未来には使えません。</span></p>
+<div class="sent">
+  <div class="zhline">聽日 食<b>咗</b> 飯 就 去</div>
+  <div class="ng"><span class="mk">✕</span><span class="tx">あした ごはんを 食べ<b>た</b> 行きます</span></div>
+  <div class="ok"><span class="mk">○</span><span class="tx">あした ごはんを 食べ<b>てから</b> 行きます</span></div>
+  <div class="note"><span class="zh">將來嘅「做完A先做B」，用 <b>てから</b>，唔係 た。</span>
+       <span class="ja">未来の「Aしてから B する」は <b>てから</b> を使います。</span></div>
+</div>
+
+<h3><span class="zh">③ 「會」要分開</span><span class="ja">③「會」は分かれる</span></h3>
+<p><span class="zh">中文一個「會」，日文要分兩樣：<strong>識唔識</strong>（能力）同<strong>將來</strong>。</span>
+   <span class="ja">中国語の「會」は、日本語では<strong>能力</strong>と<strong>未来</strong>に分かれます。</span></p>
+<div class="sent">
+  <div class="ok"><span class="mk">能力</span><span class="tx">我會游水 → 泳<b>げます</b>　<span style="color:var(--hint);font-size:14px;">（可能形）</span></span></div>
+  <div class="ok"><span class="mk">將來</span><span class="tx">我聽日會去 → あした 行<b>きます</b>　<span style="color:var(--hint);font-size:14px;">（ます形のまま）</span></span></div>
+  <div class="note"><span class="zh">日文冇「將來時」。ます形本身已經包括咗現在同將來。</span>
+       <span class="ja">日本語に未来形はありません。ます形が現在と未来の両方を担います。</span></div>
+</div>
+
+<h3><span class="zh">④ 冇人稱變化，但有「客氣程度」</span><span class="ja">④ 人称変化はないが、丁寧さの選択がある</span></h3>
+<p><span class="zh">中文唔使揀。日文每句都要揀：<b>食べます</b>（客氣）定 <b>食べる</b>（普通）。揀錯咗，唔係文法錯，係<strong>失禮</strong>。</span>
+   <span class="ja">中国語では選ぶ必要がありません。日本語は毎回選びます。<b>食べます</b>か<b>食べる</b>か。誤ると文法の誤りではなく<strong>失礼</strong>になります。</span></p>
+
+<h2><span class="zh">試吓</span><span class="ja">試してみる</span></h2>
+<div class="quiz" id="quiz">
+  <div class="q-top"><span class="q-n" id="qn"></span><span class="q-sc" id="qsc"></span></div>
+  <div class="q-v" id="qv"></div>
+  <div class="q-ask" id="qask"></div>
+  <div class="q-opts" id="qo"></div>
+  <div class="q-fb" id="qf"></div>
+  <button class="q-next" id="qnext" type="button"></button>
+</div>
+
+<a class="gamelink" href="chinese_joshi.html">
+  <span class="zh">▶ 下一課：日文助詞<small>は・が・を・に・で。中文母語者最難嘅一關</small></span>
+  <span class="ja">▶ つぎ：日本語の助詞<small>は・が・を・に・で</small></span>
+</a>
+
+<footer>
+  <p><span class="zh">例句用簡單嘅日文，漢字用日本嘅新字體。</span>
+     <span class="ja">例文はやさしい日本語で、漢字は日本の新字体です。</span></p>
+  <p>© 日本語の部屋</p>
+</footer>
+
+</div>
+
+<script>
+var LS='nnh_doushi_lang';
+function setLang(l){
+  document.body.className='lang-'+l;
+  document.getElementById('bZh').classList.toggle('on',l==='zh');
+  document.getElementById('bJa').classList.toggle('on',l==='ja');
+  document.documentElement.lang=(l==='ja')?'ja':'zh-Hant';
+  try{localStorage.setItem(LS,l);}catch(e){}
+  drawTable(); if(QZ.q.length) drawQ();
+}
+function T(zh,ja){return document.body.className==='lang-ja'?ja:zh;}
+document.getElementById('bZh').onclick=function(){setLang('zh');};
+document.getElementById('bJa').onclick=function(){setLang('ja');};
+
+/* dic 辞書形 / g グループ / mas ます形 / nai ない形 / ta た形 / te て形 */
+var VERBS=[
+{dic:'書く',g:1,mas:'書きます',nai:'書かない',ta:'書いた',te:'書いて',zh:'寫',ja:'かく'},
+{dic:'話す',g:1,mas:'話します',nai:'話さない',ta:'話した',te:'話して',zh:'講',ja:'はなす'},
+{dic:'読む',g:1,mas:'読みます',nai:'読まない',ta:'読んだ',te:'読んで',zh:'睇（書）',ja:'よむ'},
+{dic:'飲む',g:1,mas:'飲みます',nai:'飲まない',ta:'飲んだ',te:'飲んで',zh:'飲',ja:'のむ'},
+{dic:'買う',g:1,mas:'買います',nai:'買わない',ta:'買った',te:'買って',zh:'買',ja:'かう'},
+{dic:'待つ',g:1,mas:'待ちます',nai:'待たない',ta:'待った',te:'待って',zh:'等',ja:'まつ'},
+{dic:'泳ぐ',g:1,mas:'泳ぎます',nai:'泳がない',ta:'泳いだ',te:'泳いで',zh:'游水',ja:'およぐ'},
+{dic:'遊ぶ',g:1,mas:'遊びます',nai:'遊ばない',ta:'遊んだ',te:'遊んで',zh:'玩',ja:'あそぶ'},
+{dic:'行く',g:1,mas:'行きます',nai:'行かない',ta:'行った',te:'行って',zh:'去',ja:'いく',note:1},
+{dic:'帰る',g:1,mas:'帰ります',nai:'帰らない',ta:'帰った',te:'帰って',zh:'返屋企',ja:'かえる',note:2},
+{dic:'知る',g:1,mas:'知ります',nai:'知らない',ta:'知った',te:'知って',zh:'知道',ja:'しる',note:2},
+{dic:'作る',g:1,mas:'作ります',nai:'作らない',ta:'作った',te:'作って',zh:'整、做',ja:'つくる'},
+{dic:'食べる',g:2,mas:'食べます',nai:'食べない',ta:'食べた',te:'食べて',zh:'食',ja:'たべる'},
+{dic:'見る',g:2,mas:'見ます',nai:'見ない',ta:'見た',te:'見て',zh:'睇',ja:'みる'},
+{dic:'起きる',g:2,mas:'起きます',nai:'起きない',ta:'起きた',te:'起きて',zh:'起身',ja:'おきる'},
+{dic:'寝る',g:2,mas:'寝ます',nai:'寝ない',ta:'寝た',te:'寝て',zh:'瞓覺',ja:'ねる'},
+{dic:'教える',g:2,mas:'教えます',nai:'教えない',ta:'教えた',te:'教えて',zh:'教',ja:'おしえる'},
+{dic:'する',g:3,mas:'します',nai:'しない',ta:'した',te:'して',zh:'做',ja:'する'},
+{dic:'来る',g:3,mas:'来ます',nai:'来ない',ta:'来た',te:'来て',zh:'嚟',ja:'くる'}
+];
+var NOTES={1:{zh:'て形例外',ja:'て形が例外'},2:{zh:'睇落 II 類，其實 I 類',ja:'II 類に見えて I 類'}};
+var FILT=0;
+function drawTable(){
+  document.getElementById('filt').innerHTML=
+    [[0,T('全部','すべて')],[1,'I '+T('類','グループ')],[2,'II '+T('類','グループ')],[3,'III '+T('類','グループ')]]
+    .map(function(f){return '<button class="fb'+(FILT===f[0]?' on':'')+'" data-g="'+f[0]+'" type="button">'+f[1]+'</button>';}).join('');
+  document.querySelectorAll('#filt .fb').forEach(function(b){
+    b.onclick=function(){FILT=parseInt(b.dataset.g,10);drawTable();};
+  });
+  var rows=VERBS.filter(function(v){return !FILT||v.g===FILT;});
+  document.getElementById('vtable').innerHTML=
+    '<thead><tr><th>'+T('辭書形','辞書形')+'</th><th>'+T('類','類')+'</th><th>ます</th><th>ない</th><th>た</th><th>て</th><th>'+T('意思','意味')+'</th></tr></thead><tbody>'+
+    rows.map(function(v){
+      var cls=v.g===1?'a':(v.g===2?'b':'c');
+      var n=v.note?' <span style="font-size:10.5px;color:var(--hint);">'+T(NOTES[v.note].zh,NOTES[v.note].ja)+'</span>':'';
+      return '<tr><td class="dic">'+v.dic+'<div style="font-size:11px;color:var(--hint);font-weight:600;">'+v.ja+'</div></td>'+
+        '<td class="g '+cls+'">'+['','I','II','III'][v.g]+'</td>'+
+        '<td>'+v.mas+'</td><td>'+v.nai+'</td><td>'+v.ta+'</td><td>'+v.te+'</td>'+
+        '<td class="zh">'+T(v.zh,v.ja)+n+'</td></tr>';
+    }).join('')+'</tbody>';
+}
+
+/* ---------- 練習：て形を作る ---------- */
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+var QZ={q:[],i:0,ok:0};
+function newRound(){
+  QZ={q:shuffle(VERBS.slice()).slice(0,8),i:0,ok:0}; drawQ();
+}
+function drawQ(){
+  var v=QZ.q[QZ.i];
+  document.getElementById('qn').textContent=T('第 '+(QZ.i+1)+' / '+QZ.q.length+' 題','第 '+(QZ.i+1)+' / '+QZ.q.length+' 問');
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  document.getElementById('qv').textContent=v.dic;
+  document.getElementById('qask').textContent=T('個 て形 係？','て形は？');
+  var wrong=shuffle(VERBS.filter(function(x){return x.te!==v.te;})).slice(0,3).map(function(x){return x.te;});
+  var w=document.getElementById('qo'); w.innerHTML='';
+  shuffle([v.te].concat(wrong)).forEach(function(o){
+    var b=document.createElement('button'); b.type='button'; b.className='q-b'; b.textContent=o;
+    b.onclick=function(){ans(o,b);};
+    w.appendChild(b);
+  });
+  var f=document.getElementById('qf'); f.className='q-fb'; f.innerHTML='';
+  document.getElementById('qnext').className='q-next';
+}
+function ans(o,btn){
+  var v=QZ.q[QZ.i];
+  var bs=document.querySelectorAll('#qo .q-b');
+  for(var i=0;i<bs.length;i++){
+    if(bs[i].textContent===v.te) bs[i].className='q-b ok';
+    else if(bs[i]===btn) bs[i].className='q-b ng';
+    else bs[i].className='q-b dim';
+    bs[i].onclick=null;
+  }
+  if(o===v.te) QZ.ok++;
+  var f=document.getElementById('qf');
+  f.innerHTML=(o===v.te?'⭕ ':'❌ ')+'<b>'+v.dic+'</b>（'+['','I','II','III'][v.g]+T(' 類','グループ')+'）→ <b>'+v.te+'</b>'+
+    (v.note?'　<span style="color:var(--bad);">'+T(NOTES[v.note].zh,NOTES[v.note].ja)+'</span>':'');
+  f.className='q-fb show';
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  var n=document.getElementById('qnext');
+  n.textContent=(QZ.i>=QZ.q.length-1)?T('睇結果','結果を見る'):T('下一題 ›','つぎへ ›');
+  n.className='q-next show';
+}
+document.getElementById('qnext').onclick=function(){
+  if(QZ.i>=QZ.q.length-1){ done(); return; }
+  QZ.i++; drawQ();
+};
+function done(){
+  document.getElementById('qn').textContent=T('完成','おわり');
+  document.getElementById('qsc').textContent='';
+  document.getElementById('qv').textContent=(QZ.ok>=7?'🎉':(QZ.ok>=5?'👍':'📚'));
+  document.getElementById('qask').textContent='';
+  document.getElementById('qo').innerHTML='';
+  var f=document.getElementById('qf');
+  f.innerHTML='<b>'+QZ.ok+' / '+QZ.q.length+'</b>　'+
+    (QZ.ok>=7?T('て形已經上手。','て形はつかめています。'):T('返上面睇多次「て形點砌」。','上の「て形の作り方」をもう一度。'));
+  f.className='q-fb show';
+  var n=document.getElementById('qnext');
+  n.textContent=T('再嚟一次','もう一度'); n.className='q-next show';
+  n.onclick=function(){newRound(); n.onclick=nextH;};
+}
+var nextH=document.getElementById('qnext').onclick;
+
+(function(){
+  var l='zh'; try{l=localStorage.getItem(LS)||'zh';}catch(e){}
+  newRound(); setLang(l);
+})();
+</script>
+</body>
+</html>

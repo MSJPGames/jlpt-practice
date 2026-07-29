@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日文敬語 — 唔係「有禮貌」咁簡單｜日本語の部屋</title>
+<meta name="description" content="中文靠揀字（您、請），日文靠變動詞。仲有中文母語者最難接受嘅一點：對住外人，要將自己公司嘅社長「降低」。">
+<link rel="canonical" href="https://msjpgames.github.io/jlpt-practice/chinese_keigo.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="日本語の部屋 ・ Nihongo no Heya">
+<meta property="og:locale" content="zh_HK">
+<meta property="og:url" content="https://msjpgames.github.io/jlpt-practice/chinese_keigo.html">
+<meta property="og:title" content="日文敬語 — 唔係「有禮貌」咁簡單">
+<meta property="og:description" content="日文敬語唔係揀字，係換晒個動詞。而且對住外人，要將自己公司嘅社長降低——呢個中文冇。">
+<meta property="og:image" content="https://msjpgames.github.io/jlpt-practice/og_keigo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="日文敬語 — 唔係「有禮貌」咁簡單">
+<meta name="twitter:description" content="對住外人要將自己公司嘅社長降低。呢個發想中文冇。">
+<meta name="twitter:image" content="https://msjpgames.github.io/jlpt-practice/og_keigo.png">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0;
+    --up:#8A3A5B; --up-bg:#F6E5EE;      /* 尊敬 */
+    --down:#2F5C8A; --down-bg:#E6EEF6;  /* 謙譲 */
+    --flat:#3E6B2F; --flat-bg:#EDF3E6;  /* 丁寧 */
+    --bad:#A0392E; --bad-bg:#FBE9E4; --warn:#8A6D00; --warn-bg:#FBF3D9;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"PingFang HK","Noto Sans HK","Noto Sans JP",sans-serif;
+    font-size:16px;line-height:1.85;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 90px;}
+  .langbar{position:sticky;top:0;z-index:40;background:rgba(247,245,240,.94);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:8px 0;}
+  .langbar-in{max-width:760px;margin:0 auto;padding:0 18px;display:flex;gap:6px;align-items:center;}
+  .lb{font-family:inherit;font-size:12px;font-weight:700;padding:5px 13px;border-radius:999px;
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
+  .lb.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .navs{margin-left:auto;display:flex;gap:10px;align-items:center;}
+  .home{font-size:12px;color:var(--hint);text-decoration:none;white-space:nowrap;}
+
+  header{padding:38px 0 22px;}
+  .kicker{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--hint);
+    text-transform:uppercase;margin-bottom:10px;}
+  h1{margin:0 0 14px;font-size:clamp(25px,5.6vw,36px);line-height:1.32;}
+  .sub{margin:0;font-size:16.5px;color:var(--muted);line-height:1.8;}
+  h2{margin:48px 0 14px;font-size:21px;line-height:1.45;padding-bottom:8px;border-bottom:2px solid var(--ink);}
+  h3{margin:30px 0 8px;font-size:17px;}
+  p{margin:0 0 15px;}
+  .lead{font-size:17px;}
+
+  .sent{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:15px 17px;margin:14px 0;}
+  .sent .jaline{font-size:19.5px;font-weight:800;line-height:1.7;}
+  .sent .note{font-size:13px;color:var(--hint);margin-top:7px;line-height:1.7;}
+  .ok,.ng{display:flex;gap:10px;align-items:flex-start;font-size:17px;line-height:1.75;margin:6px 0;}
+  .ok .mk,.ng .mk{flex-shrink:0;font-weight:800;font-size:14px;width:26px;text-align:center;}
+  .ok .mk{color:var(--flat);} .ng .mk{color:var(--bad);} .ng .tx{color:var(--bad);}
+
+  /* 三種類 */
+  .kinds{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0;}
+  .kc{border-radius:12px;padding:14px 13px;border:1px solid;}
+  .kc .n{font-size:13px;font-weight:800;}
+  .kc .a{font-size:11.5px;font-weight:700;margin-top:2px;}
+  .kc .v{font-size:18px;font-weight:800;margin-top:7px;line-height:1.5;}
+  .kc .d{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.6;}
+  .kc.f{background:var(--flat-bg);border-color:#CFE3B6;} .kc.f .n,.kc.f .a{color:var(--flat);}
+  .kc.u{background:var(--up-bg);border-color:#E8CBDA;} .kc.u .n,.kc.u .a{color:var(--up);}
+  .kc.d2{background:var(--down-bg);border-color:#C4D6E8;} .kc.d2 .n,.kc.d2 .a{color:var(--down);}
+  @media(max-width:640px){.kinds{grid-template-columns:1fr;}}
+
+  /* ウチ・ソト 図 */
+  .uchi{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:20px 18px;margin:20px 0;}
+  .uchi-b{border:2px dashed var(--up);border-radius:14px;padding:15px 14px;background:var(--up-bg);}
+  .uchi-t{font-size:12px;font-weight:800;color:var(--up);letter-spacing:.06em;margin-bottom:8px;}
+  .uchi-m{display:flex;gap:10px;flex-wrap:wrap;}
+  .uchi-m span{background:#fff;border:1px solid #E8CBDA;border-radius:9px;padding:6px 12px;
+    font-size:14.5px;font-weight:700;}
+  .uchi-out{margin-top:14px;padding:13px 14px;border:2px solid var(--down);border-radius:14px;
+    background:var(--down-bg);}
+  .uchi-out .uchi-t{color:var(--down);}
+  .uchi-arrow{text-align:center;font-size:13px;color:var(--muted);margin:10px 0 2px;font-weight:700;}
+
+  /* 対応表 */
+  .tw{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:auto;margin:18px 0;}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px;}
+  th,td{padding:9px 11px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;}
+  th{background:var(--bg);font-size:11.5px;letter-spacing:.04em;color:var(--muted);font-weight:800;position:sticky;top:0;}
+  tr:last-child td{border-bottom:none;}
+  td.base{font-weight:800;font-size:15.5px;}
+  td.u{color:var(--up);font-weight:700;}
+  td.d{color:var(--down);font-weight:700;}
+  td.zh{color:var(--muted);font-size:13px;}
+
+  .callout{background:var(--teal-bg);border:1px solid #BFD9D7;border-left:4px solid var(--teal);
+    border-radius:10px;padding:15px 17px;margin:22px 0;font-size:15px;line-height:1.8;}
+  .callout b{color:var(--teal);}
+  .callout.b{background:var(--bad-bg);border-color:#F0D2C6;border-left-color:var(--bad);}
+  .callout.b b{color:var(--bad);}
+  .callout.w{background:var(--warn-bg);border-color:#E8DCAF;border-left-color:var(--warn);}
+  .callout.w b{color:var(--warn);}
+
+  .quiz{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:18px 18px 20px;margin:26px 0;}
+  .q-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .q-n{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--hint);}
+  .q-sc{font-size:12.5px;font-weight:800;color:var(--teal);}
+  .q-scene{font-size:13px;color:var(--hint);text-align:center;font-weight:700;}
+  .q-s{text-align:center;font-size:21px;font-weight:800;line-height:1.6;padding:8px 0 2px;}
+  .q-opts{display:grid;grid-template-columns:1fr;gap:8px;margin-top:14px;}
+  .q-b{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:13px 14px;
+    font-family:inherit;font-size:17px;font-weight:800;color:var(--ink);cursor:pointer;text-align:left;}
+  .q-b.ok{background:var(--flat-bg);border-color:#CFE3B6;color:var(--flat);}
+  .q-b.ng{background:var(--bad-bg);border-color:#F0D2C6;color:var(--bad);}
+  .q-b.dim{opacity:.4;}
+  .q-fb{margin-top:12px;font-size:14px;line-height:1.75;color:var(--muted);background:var(--bg);
+    border:1px solid var(--line);border-radius:10px;padding:11px 13px;display:none;}
+  .q-fb.show{display:block;}
+  .q-next{margin-top:11px;width:100%;border:none;background:var(--teal);color:#fff;font-family:inherit;
+    font-size:15px;font-weight:800;border-radius:10px;padding:12px;cursor:pointer;display:none;}
+  .q-next.show{display:block;}
+
+  .gamelink{display:block;background:var(--teal);color:#fff;text-align:center;text-decoration:none;
+    font-size:16px;font-weight:800;border-radius:12px;padding:15px;margin:30px 0 8px;}
+  .gamelink small{display:block;font-size:12px;font-weight:600;opacity:.85;margin-top:3px;}
+  footer{margin-top:50px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--hint);line-height:1.8;}
+  .ja,.zh{display:none;}
+  body.lang-zh .zh{display:revert;}
+  body.lang-ja .ja{display:revert;}
+</style>
+</head>
+<body class="lang-zh">
+
+<div class="langbar"><div class="langbar-in">
+  <button class="lb on" id="bZh" type="button">繁體中文</button>
+  <button class="lb" id="bJa" type="button">日本語</button>
+  <span class="navs">
+    <a class="home" href="chinese_start.html">‹ <span class="zh">中文入口</span><span class="ja">中国語の入口</span></a>
+    <a class="home" href="index.html">🏠 <span class="zh">首頁</span><span class="ja">トップ</span></a>
+  </span>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">中文 × 日本語 · 敬語</div>
+  <h1><span class="zh">日文敬語 — 唔係「有禮貌」咁簡單</span><span class="ja">日本語の敬語 —「丁寧」だけの話ではない</span></h1>
+  <p class="sub">
+    <span class="zh">中文都有客氣講法：您、請、貴姓。但係嗰啲係<strong>揀字</strong>。日文敬語係<strong>換晒個動詞</strong>，係一套文法。</span>
+    <span class="ja">中国語にも丁寧な言い方はあります（您・請・貴姓）。ただそれは<strong>語の選択</strong>です。日本語の敬語は<strong>動詞そのものが変わる</strong>文法体系です。</span>
+  </p>
+</header>
+
+<div class="sent">
+  <div class="jaline"><span class="zh">中文：您 <b>食</b>咗飯未？　／　你 <b>食</b>咗飯未？</span>
+    <span class="ja">中国語：您 <b>食</b>了吗？／ 你 <b>食</b>了吗？</span></div>
+  <div class="note"><span class="zh">個動詞「食」冇變。變嘅只係「你 → 您」。</span>
+       <span class="ja">動詞は変わらず、「你 → 您」だけが変わります。</span></div>
+</div>
+<div class="sent">
+  <div class="jaline">食べましたか　→　<b>召し上がりましたか</b></div>
+  <div class="note"><span class="zh">個動詞由 食べる 變成 召し上がる。完全另一個字。</span>
+       <span class="ja">動詞そのものが「食べる」から「召し上がる」に替わります。</span></div>
+</div>
+
+<h2><span class="zh">一、三種敬語</span><span class="ja">一、敬語の三種類</span></h2>
+<div class="kinds">
+  <div class="kc f"><div class="n"><span class="zh">丁寧語</span><span class="ja">丁寧語</span></div>
+    <div class="a">ていねいご</div>
+    <div class="v">です・ます</div>
+    <div class="d"><span class="zh">對住<b>聽嘅人</b>客氣。最基本。</span><span class="ja"><b>聞き手</b>への丁寧さ。基本。</span></div></div>
+  <div class="kc u"><div class="n"><span class="zh">尊敬語</span><span class="ja">尊敬語</span></div>
+    <div class="a">そんけいご</div>
+    <div class="v">召し上がる</div>
+    <div class="d"><span class="zh">將<b>對方</b>抬高。對方做嘅動作先用。</span><span class="ja"><b>相手</b>を高める。相手の動作に使う。</span></div></div>
+  <div class="kc d2"><div class="n"><span class="zh">謙讓語</span><span class="ja">謙譲語</span></div>
+    <div class="a">けんじょうご</div>
+    <div class="v">いただく</div>
+    <div class="d"><span class="zh">將<b>自己</b>降低。自己做嘅動作先用。</span><span class="ja"><b>自分</b>を低める。自分の動作に使う。</span></div></div>
+</div>
+<div class="callout">
+  <span class="zh"><b>最緊要記住：</b>尊敬語只用喺<b>對方</b>嘅動作，謙讓語只用喺<b>自己</b>嘅動作。用錯咗方向，係最尷尬嘅錯。</span>
+  <span class="ja"><b>要点：</b>尊敬語は<b>相手</b>の動作、謙譲語は<b>自分</b>の動作にだけ使います。方向を間違えるのが一番気まずい誤りです。</span>
+</div>
+<div class="sent">
+  <div class="ng"><span class="mk">✕</span><span class="tx">（自己）私が <b>召し上がります</b>　<span style="font-size:13.5px;">＝ 自己抬高自己</span></span></div>
+  <div class="ok"><span class="mk">○</span><span class="tx">（自己）私が <b>いただきます</b></span></div>
+  <div class="ok"><span class="mk">○</span><span class="tx">（對方）先生が <b>召し上がります</b></span></div>
+</div>
+
+<h2><span class="zh">二、中文母語者最難接受嘅一點</span><span class="ja">二、中国語話者が最も受け入れにくい点</span></h2>
+<p class="lead">
+  <span class="zh">日文將人分做「<strong>内（ウチ）</strong>」同「<strong>外（ソト）</strong>」。對住外人講嘢嗰陣，<strong>自己嗰邊嘅人——包括自己間公司嘅社長——都要降低</strong>。</span>
+  <span class="ja">日本語は人を「<strong>ウチ</strong>」と「<strong>ソト</strong>」に分けます。ソトの人に話すとき、<strong>ウチ側の人は——自分の会社の社長であっても——低めます</strong>。</span>
+</p>
+<div class="uchi">
+  <div class="uchi-b">
+    <div class="uchi-t"><span class="zh">内（ウチ）＝ 自己嗰邊</span><span class="ja">ウチ ＝ 自分の側</span></div>
+    <div class="uchi-m">
+      <span class="zh">我</span><span class="ja">わたし</span>
+      <span class="zh">我間公司</span><span class="ja">自分の会社</span>
+      <span class="zh">我上司・社長</span><span class="ja">上司・社長</span>
+      <span class="zh">我屋企人</span><span class="ja">家族</span>
+    </div>
+  </div>
+  <div class="uchi-arrow"><span class="zh">▼ 對住下面嘅人講嘢嗰陣，上面全部要「降低」</span>
+    <span class="ja">▼ 下の人に話すとき、上のすべてを「低める」</span></div>
+  <div class="uchi-out">
+    <div class="uchi-t"><span class="zh">外（ソト）＝ 客人・第二間公司</span><span class="ja">ソト ＝ 客・他社</span></div>
+    <div class="uchi-m">
+      <span class="zh">客人</span><span class="ja">お客様</span>
+      <span class="zh">第二間公司嘅人</span><span class="ja">他社の人</span>
+    </div>
+  </div>
+</div>
+<div class="sent">
+  <div class="note" style="margin-top:0;"><span class="zh">客人打電話嚟搵社長，但係社長唔喺度：</span>
+    <span class="ja">客から社長あてに電話。社長は不在：</span></div>
+  <div class="ng"><span class="mk">✕</span><span class="tx">社長は <b>いらっしゃいません</b>　<span style="font-size:13.5px;">＝ 抬高咗自己公司嘅社長</span></span></div>
+  <div class="ok"><span class="mk">○</span><span class="tx">社長の田中は <b>おりません</b></span></div>
+  <div class="note"><span class="zh">仲要連「さん」都唔加，直接叫個名。中文完全相反——對外提到自己老細，一定會加尊稱。</span>
+       <span class="ja">「さん」も付けず名前で呼びます。中国語とは逆で、外に対して自分の上司を高めません。</span></div>
+</div>
+<div class="callout w">
+  <span class="zh"><b>點解？</b>因為日文嘅敬語唔係量緊「呢個人幾大」，係量緊「<b>我同呢個人嘅距離</b>」。社長對我嚟講係上司，但係對客人嚟講，佢係「我哋嗰邊嘅人」。</span>
+  <span class="ja"><b>なぜか。</b>敬語は「その人が偉いか」ではなく「<b>自分とその人の距離</b>」を測っているからです。社長は自分にとっては上司でも、客から見れば「こちら側の人間」です。</span>
+</div>
+
+<h2><span class="zh">三、要記嘅對應表</span><span class="ja">三、覚える対応表</span></h2>
+<div class="tw"><table id="ktable"></table></div>
+<div class="callout">
+  <span class="zh"><b>記唔晒？</b>有規則版：<br>
+    尊敬 ＝ <b>お＋ます形＋になる</b>（お書きになる）<br>
+    謙讓 ＝ <b>お＋ます形＋する</b>（お待ちします）<br>
+    但係上面表入面嘅字係特別形，唔跟規則，要單獨記。</span>
+  <span class="ja"><b>覚えきれないときは。</b>規則的な作り方があります：<br>
+    尊敬 ＝ <b>お＋ます形＋になる</b>（お書きになる）<br>
+    謙譲 ＝ <b>お＋ます形＋する</b>（お待ちします）<br>
+    ただし上の表の語は特別な形で、規則に従いません。</span>
+</div>
+
+<h2><span class="zh">四、常見錯誤</span><span class="ja">四、よくある誤り</span></h2>
+
+<h3><span class="zh">① 用錯方向</span><span class="ja">① 方向を間違える</span></h3>
+<div class="sent">
+  <div class="ng"><span class="mk">✕</span><span class="tx">私が <b>おっしゃいます</b></span></div>
+  <div class="ok"><span class="mk">○</span><span class="tx">私が <b>申します</b></span></div>
+  <div class="note"><span class="zh">おっしゃる 係尊敬語，唔可以用喺自己。</span><span class="ja">おっしゃる は尊敬語なので自分には使えません。</span></div>
+</div>
+
+<h3><span class="zh">② 過度敬語（二重敬語）</span><span class="ja">② 二重敬語</span></h3>
+<div class="sent">
+  <div class="ng"><span class="mk">✕</span><span class="tx"><b>おっしゃられました</b>　<span style="font-size:13.5px;">（おっしゃる 已經係敬語，再加 られる）</span></span></div>
+  <div class="ok"><span class="mk">○</span><span class="tx"><b>おっしゃいました</b></span></div>
+  <div class="note"><span class="zh">諗住愈客氣愈好，反而錯。敬語加一次就夠。</span>
+       <span class="ja">丁寧にしすぎると誤りになります。敬語は一回で足ります。</span></div>
+</div>
+
+<h3><span class="zh">③ ご苦労さま 唔可以對上司講</span><span class="ja">③「ご苦労さま」は目上に使わない</span></h3>
+<div class="sent">
+  <div class="ng"><span class="mk">✕</span><span class="tx"><span class="zh">（對上司）</span><span class="ja">（上司に）</span><b>ご苦労さまです</b></span></div>
+  <div class="ok"><span class="mk">○</span><span class="tx"><b>お疲れさまです</b></span></div>
+  <div class="note"><span class="zh">ご苦労さま 係上面對下面講嘅。分唔清就一律用 お疲れさま，唔會錯。</span>
+       <span class="ja">ご苦労さま は上から下への言い方です。迷ったら お疲れさま で問題ありません。</span></div>
+</div>
+
+<h3><span class="zh">④ 以為 です・ます 就夠</span><span class="ja">④ です・ます で足りると思う</span></h3>
+<p><span class="zh">日常同朋友、同學，です・ます 已經好足夠。但係一入到<strong>公司、面試、對客人</strong>，淨係 です・ます 會俾人覺得「呢個人未學過」。</span>
+   <span class="ja">友人や同級生には です・ます で十分です。ただし<strong>会社・面接・接客</strong>では、です・ます だけだと「まだ学んでいない人」と受け取られます。</span></p>
+<div class="callout b">
+  <span class="zh"><b>如果你打算喺日本返工或者做工作假期，呢一版係你最需要嘅一版。</b>文法錯咗人哋會體諒，敬語用錯方向就會直接影響印象。</span>
+  <span class="ja"><b>日本で働く予定やワーキングホリデーを考えているなら、ここが最も必要な部分です。</b>文法の誤りは大目に見てもらえますが、敬語の方向の誤りは印象に直結します。</span>
+</div>
+
+<h2><span class="zh">試吓</span><span class="ja">試してみる</span></h2>
+<div class="quiz" id="quiz">
+  <div class="q-top"><span class="q-n" id="qn"></span><span class="q-sc" id="qsc"></span></div>
+  <div class="q-scene" id="qscene"></div>
+  <div class="q-s" id="qs"></div>
+  <div class="q-opts" id="qo"></div>
+  <div class="q-fb" id="qf"></div>
+  <button class="q-next" id="qnext" type="button"></button>
+</div>
+
+<a class="gamelink" href="chinese_start.html">
+  <span class="zh">‹ 返去「用中文底子學日文」<small>漢字、音讀、動詞、助詞</small></span>
+  <span class="ja">‹「中国語の下地で日本語を学ぶ」へ<small>漢字・音読み・動詞・助詞</small></span>
+</a>
+
+<footer>
+  <p><span class="zh">敬語嘅用法會因公司同地區而有差異。呢度講嘅係一般嘅標準。</span>
+     <span class="ja">敬語の運用は会社や地域で差があります。ここでは一般的な基準を示しています。</span></p>
+  <p>© 日本語の部屋</p>
+</footer>
+
+</div>
+
+<script>
+var LS='nnh_keigo_lang';
+function setLang(l){
+  document.body.className='lang-'+l;
+  document.getElementById('bZh').classList.toggle('on',l==='zh');
+  document.getElementById('bJa').classList.toggle('on',l==='ja');
+  document.documentElement.lang=(l==='ja')?'ja':'zh-Hant';
+  try{localStorage.setItem(LS,l);}catch(e){}
+  drawTable(); if(QZ.q.length) drawQ();
+}
+function T(zh,ja){return document.body.className==='lang-ja'?ja:zh;}
+document.getElementById('bZh').onclick=function(){setLang('zh');};
+document.getElementById('bJa').onclick=function(){setLang('ja');};
+
+var KEIGO=[
+{b:'いる',u:'いらっしゃる',d:'おる',zh:'喺',ja:'いる'},
+{b:'行く',u:'いらっしゃる',d:'まいる・伺う',zh:'去',ja:'いく'},
+{b:'来る',u:'いらっしゃる',d:'まいる',zh:'嚟',ja:'くる'},
+{b:'する',u:'なさる',d:'いたす',zh:'做',ja:'する'},
+{b:'言う',u:'おっしゃる',d:'申す・申し上げる',zh:'講',ja:'いう'},
+{b:'見る',u:'ご覧になる',d:'拝見する',zh:'睇',ja:'みる'},
+{b:'食べる',u:'召し上がる',d:'いただく',zh:'食',ja:'たべる'},
+{b:'飲む',u:'召し上がる',d:'いただく',zh:'飲',ja:'のむ'},
+{b:'聞く',u:'お聞きになる',d:'伺う',zh:'問、聽',ja:'きく'},
+{b:'会う',u:'お会いになる',d:'お目にかかる',zh:'見面',ja:'あう'},
+{b:'知っている',u:'ご存じだ',d:'存じております',zh:'知道',ja:'しっている'},
+{b:'くれる',u:'くださる',d:'—',zh:'俾（我）',ja:'くれる'},
+{b:'あげる',u:'—',d:'さしあげる',zh:'俾（人）',ja:'あげる'},
+{b:'もらう',u:'—',d:'いただく',zh:'收到',ja:'もらう'}
+];
+function drawTable(){
+  document.getElementById('ktable').innerHTML=
+    '<thead><tr><th>'+T('普通','ふつう')+'</th><th style="color:var(--up)">'+T('尊敬語（對方）','尊敬語（相手）')+'</th>'+
+    '<th style="color:var(--down)">'+T('謙讓語（自己）','謙譲語（自分）')+'</th><th>'+T('意思','意味')+'</th></tr></thead><tbody>'+
+    KEIGO.map(function(k){
+      return '<tr><td class="base">'+k.b+'</td><td class="u">'+k.u+'</td><td class="d">'+k.d+'</td>'+
+        '<td class="zh">'+T(k.zh,k.ja)+'</td></tr>';
+    }).join('')+'</tbody>';
+}
+
+/* ---------- 練習：場面に合うのはどれか ---------- */
+var BANK=[
+{scene_zh:'客人打電話嚟，社長唔喺度',scene_ja:'客からの電話。社長は不在',
+ s:'社長の田中は　？',a:'おりません',o:['おりません','いらっしゃいません'],
+ zh:'對住外人，自己公司嘅人要降低。用謙讓語 おる。',ja:'ソトの人に対しては、ウチの人を低めます。謙譲語の おる を使います。'},
+{scene_zh:'問客人食咗飯未',scene_ja:'客に食事を尋ねる',
+ s:'もう　？　か',a:'召し上がりました',o:['召し上がりました','いただきました'],
+ zh:'對方嘅動作，用尊敬語。',ja:'相手の動作なので尊敬語。'},
+{scene_zh:'自己講自己個名',scene_ja:'自分の名を名乗る',
+ s:'私は 田中と　？',a:'申します',o:['申します','おっしゃいます'],
+ zh:'自己嘅動作，用謙讓語。おっしゃる 係尊敬語。',ja:'自分の動作なので謙譲語。おっしゃる は尊敬語です。'},
+{scene_zh:'收到上司嘅文件，自己睇',scene_ja:'上司の書類を自分が見る',
+ s:'資料を　？',a:'拝見します',o:['拝見します','ご覧になります'],
+ zh:'自己睇，用謙讓語 拝見する。',ja:'自分が見るので謙譲語 拝見する。'},
+{scene_zh:'上司放工走',scene_ja:'上司が退勤する',
+ s:'？',a:'お疲れさまです',o:['お疲れさまです','ご苦労さまです'],
+ zh:'ご苦労さま 係對下面講嘅。',ja:'ご苦労さま は目下に使う言い方です。'},
+{scene_zh:'部長講咗嘢',scene_ja:'部長が話した',
+ s:'部長が　？',a:'おっしゃいました',o:['おっしゃいました','おっしゃられました'],
+ zh:'おっしゃる 已經係敬語，唔使再加 られる。',ja:'おっしゃる は既に敬語なので られる は不要。'},
+{scene_zh:'自己去客人公司',scene_ja:'自分が客先へ行く',
+ s:'明日　？',a:'伺います',o:['伺います','いらっしゃいます'],
+ zh:'自己去，用謙讓語 伺う。',ja:'自分が行くので謙譲語 伺う。'},
+{scene_zh:'問對方知唔知',scene_ja:'相手が知っているか尋ねる',
+ s:'この件を　？　ですか',a:'ご存じ',o:['ご存じ','存じております'],
+ zh:'對方知唔知，用尊敬語 ご存じ。',ja:'相手のことなので尊敬語 ご存じ。'}
+];
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+var QZ={q:[],i:0,ok:0};
+function newRound(){QZ={q:shuffle(BANK.slice()),i:0,ok:0};drawQ();}
+function drawQ(){
+  var q=QZ.q[QZ.i];
+  document.getElementById('qn').textContent=T('第 '+(QZ.i+1)+' / '+QZ.q.length+' 題','第 '+(QZ.i+1)+' / '+QZ.q.length+' 問');
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  document.getElementById('qscene').textContent=T(q.scene_zh,q.scene_ja);
+  document.getElementById('qs').textContent=q.s;
+  var w=document.getElementById('qo'); w.innerHTML='';
+  shuffle(q.o.slice()).forEach(function(o){
+    var b=document.createElement('button'); b.type='button'; b.className='q-b'; b.textContent=o;
+    b.onclick=function(){ans(o,b);};
+    w.appendChild(b);
+  });
+  var f=document.getElementById('qf'); f.className='q-fb'; f.innerHTML='';
+  document.getElementById('qnext').className='q-next';
+}
+function ans(o,btn){
+  var q=QZ.q[QZ.i];
+  var bs=document.querySelectorAll('#qo .q-b');
+  for(var i=0;i<bs.length;i++){
+    if(bs[i].textContent===q.a) bs[i].className='q-b ok';
+    else if(bs[i]===btn) bs[i].className='q-b ng';
+    else bs[i].className='q-b dim';
+    bs[i].onclick=null;
+  }
+  if(o===q.a) QZ.ok++;
+  document.getElementById('qs').textContent=q.s.replace('？',q.a);
+  var f=document.getElementById('qf');
+  f.innerHTML=(o===q.a?'⭕ ':'❌ ')+T(q.zh,q.ja);
+  f.className='q-fb show';
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  var n=document.getElementById('qnext');
+  n.textContent=(QZ.i>=QZ.q.length-1)?T('睇結果','結果を見る'):T('下一題 ›','つぎへ ›');
+  n.className='q-next show';
+}
+document.getElementById('qnext').onclick=function(){
+  if(QZ.i>=QZ.q.length-1){ done(); return; }
+  QZ.i++; drawQ();
+};
+function done(){
+  document.getElementById('qn').textContent=T('完成','おわり');
+  document.getElementById('qsc').textContent='';
+  document.getElementById('qscene').textContent='';
+  document.getElementById('qs').textContent=(QZ.ok>=7?'🎉':(QZ.ok>=5?'👍':'📚'));
+  document.getElementById('qo').innerHTML='';
+  var f=document.getElementById('qf');
+  f.innerHTML='<b>'+QZ.ok+' / '+QZ.q.length+'</b>　'+
+    (QZ.ok>=7?T('方向已經分得清。','方向の区別ができています。')
+             :T('記住：尊敬語 ＝ 對方，謙讓語 ＝ 自己。','尊敬語＝相手、謙譲語＝自分。'));
+  f.className='q-fb show';
+  var n=document.getElementById('qnext');
+  n.textContent=T('再嚟一次','もう一度'); n.className='q-next show';
+  n.onclick=function(){newRound(); n.onclick=nextH;};
+}
+var nextH=document.getElementById('qnext').onclick;
+
+(function(){
+  var l='zh'; try{l=localStorage.getItem(LS)||'zh';}catch(e){}
+  newRound(); setLang(l);
+})();
+</script>
+</body>
+</html>

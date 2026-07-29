@@ -1,168 +1,432 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>倉頡入力法 ・ 日本語の部屋</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>倉頡字根で日本の漢字を見る｜日本語の部屋</title>
+<link rel="canonical" href="https://msjpgames.github.io/jlpt-practice/cangjie.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="日本語の部屋 ・ Nihongo no Heya">
+<meta property="og:locale" content="zh_HK">
+<meta property="og:url" content="https://msjpgames.github.io/jlpt-practice/cangjie.html">
+<meta property="og:title" content="用倉頡字根睇日本漢字">
+<meta property="og:description" content="倉頡二十四字根，係香港人已經識咗嘅拆字方法。攞嚟睇日文漢字，仲可以睇埋繁體同新字體嘅分別。">
+<meta property="og:image" content="https://msjpgames.github.io/jlpt-practice/og_cangjie.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="用倉頡字根睇日本漢字">
+<meta name="twitter:description" content="倉頡二十四字根，係香港人已經識咗嘅拆字方法。攞嚟睇日文漢字，仲可以睇埋繁體同新字體嘅分別。">
+<meta name="twitter:image" content="https://msjpgames.github.io/jlpt-practice/og_cangjie.png">
+<meta name="description" content="倉頡輸入法の24字根は、香港人がすでに指で覚えている漢字の分解語彙。それを使って日本の漢字（新字体）の形を見る。">
 <style>
-  :root{ --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6; --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
-    --radius:14px; --accent:#B03A2E; --accent-bg:#F7E4E0; }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 1rem 3rem;line-height:1.75;-webkit-text-size-adjust:100%}
-  .container{max-width:540px;margin:0 auto}
-  .back{display:inline-flex;align-items:center;gap:5px;margin-top:1.25rem;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none}
-  .back:hover{color:var(--text)}
-  .app-header{text-align:center;padding:1.1rem 0 .6rem}
-  .app-logo{font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--text-hint);margin-bottom:8px}
-  .app-title{font-size:23px;font-weight:700}
-  .app-sub{font-size:12.5px;color:var(--text-muted);margin-top:6px}
-  .lead{font-size:13.5px;color:var(--text-muted);line-height:1.8;margin:.4rem 2px 1rem}
-  .sec-head{display:flex;align-items:center;gap:9px;margin:1.9rem 2px .8rem}
-  .sec-bar{width:4px;height:18px;border-radius:2px;background:var(--accent)}
-  .sec-title{font-size:15px;font-weight:700}
-  .sec-en{font-size:11px;font-weight:600;color:var(--text-hint)}
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 15px;margin-bottom:12px}
-  .note{background:#FAF6EE;border:1px solid #EBDFC7;border-radius:var(--radius);padding:12px 14px;font-size:12.5px;color:#6b5d40;line-height:1.7;margin-bottom:12px}
-  table.t{width:100%;border-collapse:collapse;font-size:12.5px}
-  table.t th,table.t td{border:1px solid var(--border);padding:8px 6px;text-align:center;vertical-align:middle}
-  table.t th{background:#FAF8F4;font-weight:700;color:var(--text-muted);font-size:11.5px}
-  table.t td.l{text-align:left}
-  .key{display:inline-block;min-width:22px;height:22px;line-height:22px;border-radius:5px;background:var(--accent);color:#fff;font-size:12px;font-weight:800;padding:0 4px}
-  .rad{font-size:20px;font-weight:800;color:var(--text)}
-  .grp{font-size:11px;font-weight:700;color:var(--accent);margin:2px 2px 6px;letter-spacing:.03em}
-  .kt{width:100%;border-collapse:collapse;font-size:12.5px}
-  .kt td{border:1px solid var(--border);padding:7px 4px;text-align:center}
-  .kt td .k{display:block;font-size:11px;font-weight:800;color:var(--accent)}
-  .kt td .r{display:block;font-size:19px;font-weight:700;margin-top:2px}
-  .decomp{font-size:13px;color:var(--text-muted);line-height:2}
-  .decomp b{color:var(--text)}
-  .play{border:0;border-radius:20px;padding:6px 11px;font-family:inherit;font-size:12px;font-weight:700;background:var(--accent-bg);color:var(--accent);cursor:pointer}
-  b.ac{color:var(--accent)}
-  .app-footer{text-align:center;font-size:11px;color:var(--text-hint);margin-top:2rem;line-height:1.8}
-  @media (min-width:700px){.container{zoom:1.3}}
-  @media (min-width:1100px){.container{zoom:1.5}}
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0;
+    --g1:#B5541F; --g1b:#FBEDE4;   /* 哲理類 */
+    --g2:#8A6D00; --g2b:#FBF3D9;   /* 筆畫類 */
+    --g3:#A0392E; --g3b:#FBE9E4;   /* 人體類 */
+    --g4:#2F5C8A; --g4b:#E6EEF6;   /* 字形類 */
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"PingFang HK","Noto Sans HK","Noto Sans JP",sans-serif;
+    font-size:16px;line-height:1.85;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 90px;}
+
+  .langbar{position:sticky;top:0;z-index:40;background:rgba(247,245,240,.94);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:8px 0;}
+  .langbar-in{max-width:760px;margin:0 auto;padding:0 18px;display:flex;gap:6px;align-items:center;}
+  .lb{font-family:inherit;font-size:12px;font-weight:700;padding:5px 13px;border-radius:999px;
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
+  .lb.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .navs{margin-left:auto;display:flex;gap:10px;align-items:center;}
+  .home{font-size:12px;color:var(--hint);text-decoration:none;white-space:nowrap;}
+  .home:hover{color:var(--teal);}
+
+  header{padding:38px 0 26px;}
+  .kicker{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--hint);
+    text-transform:uppercase;margin-bottom:10px;}
+  h1{margin:0 0 12px;font-size:clamp(25px,5.6vw,36px);line-height:1.3;}
+  .sub{margin:0;font-size:16px;color:var(--muted);line-height:1.8;}
+  h2{margin:46px 0 14px;font-size:21px;line-height:1.45;padding-bottom:8px;border-bottom:2px solid var(--ink);}
+  p{margin:0 0 15px;}
+  .lead{font-size:17px;}
+
+  /* 字根表 */
+  .grp{margin:20px 0 8px;font-size:13px;font-weight:800;letter-spacing:.05em;display:flex;
+    align-items:center;gap:8px;}
+  .grp .tag{font-size:10.5px;padding:2px 9px;border-radius:999px;border:1px solid;}
+  .t1 .tag{color:var(--g1);background:var(--g1b);border-color:#EBD3C2;}
+  .t2 .tag{color:var(--g2);background:var(--g2b);border-color:#E8DCAF;}
+  .t3 .tag{color:var(--g3);background:var(--g3b);border-color:#F0D2C6;}
+  .t4 .tag{color:var(--g4);background:var(--g4b);border-color:#C4D6E8;}
+  .keys{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px;}
+  .key{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:10px 9px;
+    text-align:center;cursor:pointer;font-family:inherit;color:var(--ink);}
+  .key:hover{border-color:var(--teal);}
+  .key.on{border-color:var(--teal);background:var(--teal-bg);}
+  .key .kk{font-family:var(--mono);font-size:12px;font-weight:800;color:var(--hint);}
+  .key .kc{font-size:27px;font-weight:800;line-height:1.25;}
+  .key .kj{font-family:var(--mono);font-size:11px;color:var(--hint);}
+  .key .kf{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.5;}
+  .k1{border-top:3px solid var(--g1);} .k2{border-top:3px solid var(--g2);}
+  .k3{border-top:3px solid var(--g3);} .k4{border-top:3px solid var(--g4);}
+
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:15px 17px;margin:16px 0 0;min-height:96px;}
+  .panel .ph{font-size:13px;font-weight:800;color:var(--hint);letter-spacing:.04em;}
+  .panel .pc{font-size:34px;font-weight:800;line-height:1.3;margin:4px 0;}
+  .panel .pl{font-size:14px;color:var(--muted);line-height:1.75;}
+  .panel .kanji{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px;}
+  .panel .kanji span{background:var(--bg);border:1px solid var(--line);border-radius:8px;
+    padding:4px 10px;font-size:20px;font-weight:800;}
+
+  .callout{background:var(--teal-bg);border:1px solid #BFD9D7;border-left:4px solid var(--teal);
+    border-radius:10px;padding:15px 17px;margin:22px 0;font-size:15px;line-height:1.8;}
+  .callout b{color:var(--teal);}
+  .warn{background:#FBF3D9;border-color:#E8DCAF;border-left-color:var(--g2);}
+  .warn b{color:var(--g2);}
+
+  table.plain{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;margin:18px 0;font-size:14px;}
+  table.plain th,table.plain td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;}
+  table.plain th{background:var(--bg);font-size:11.5px;letter-spacing:.05em;color:var(--muted);font-weight:800;}
+  table.plain tr:last-child td{border-bottom:none;}
+  table.plain td.big{font-size:24px;font-weight:800;line-height:1.3;}
+  table.plain td.code{font-family:var(--mono);font-weight:800;color:var(--teal);}
+
+  .quiz{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:18px 18px 20px;margin:26px 0;}
+  .q-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .q-n{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--hint);}
+  .q-sc{font-size:12.5px;font-weight:800;color:var(--teal);}
+  .q-c{text-align:center;font-size:62px;font-weight:800;line-height:1.15;padding:8px 0 2px;}
+  .q-ask{text-align:center;font-size:12.5px;color:var(--hint);font-weight:700;}
+  .q-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;}
+  .q-b{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:13px 8px;
+    font-family:inherit;font-size:20px;font-weight:800;color:var(--ink);cursor:pointer;}
+  .q-b.ok{background:#EDF3E6;border-color:#CFE3B6;color:#3E6B2F;}
+  .q-b.ng{background:var(--g3b);border-color:#F0D2C6;color:var(--g3);}
+  .q-b.dim{opacity:.45;}
+  .q-fb{margin-top:12px;font-size:14px;line-height:1.75;color:var(--muted);background:var(--bg);
+    border:1px solid var(--line);border-radius:10px;padding:11px 13px;display:none;}
+  .q-fb.show{display:block;}
+  .q-next{margin-top:11px;width:100%;border:none;background:var(--teal);color:#fff;font-family:inherit;
+    font-size:15px;font-weight:800;border-radius:10px;padding:12px;cursor:pointer;display:none;}
+  .q-next.show{display:block;}
+
+  .gamelink{display:block;background:var(--teal);color:#fff;text-align:center;text-decoration:none;
+    font-size:16px;font-weight:800;border-radius:12px;padding:15px;margin:30px 0 8px;}
+  .gamelink small{display:block;font-size:12px;font-weight:600;opacity:.85;margin-top:3px;}
+  footer{margin-top:50px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--hint);line-height:1.8;}
+  footer a{color:var(--teal);}
+  .ja,.zh{display:none;}
+  body.lang-zh .zh{display:revert;}
+  body.lang-ja .ja{display:revert;}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
 </style>
 </head>
-<body>
+<body class="lang-zh">
 
-<div class="container">
-  <a href="lang.html?code=yue" class="back">‹ 広東語にもどる</a><a href="index.html" class="back" style="margin-left:6px">🏠 トップ</a>
-  <div class="app-header">
-    <div class="app-logo">NIHONGO NO HEYA</div>
-    <div class="app-title">倉頡入力法</div>
-    <div class="app-sub">漢字を字形で打つ ・ Cangjie input method</div>
-  </div>
+<div class="langbar"><div class="langbar-in">
+  <button class="lb on" id="bZh" type="button">繁體中文</button>
+  <button class="lb" id="bJa" type="button">日本語</button>
+  <span class="navs">
+    <a class="home" href="lang.html?code=yue">‹ <span class="zh">廣東話</span><span class="ja">広東語</span></a>
+    <a class="home" href="index.html">🏠 <span class="zh">首頁</span><span class="ja">トップ</span></a>
+  </span>
+</div></div>
 
-  <div class="lead">
-    <b>倉頡入力法（そうけつにゅうりょくほう／Cangjie）</b>は、漢字を<b>字形（パーツ）</b>に分解してアルファベットのキーで打つ、香港・台湾で広く使われる漢字入力方式です。<b>朱邦復（しゅ・ほうふく）</b>が1976年に考案しました。発音を知らなくても字の形だけで打てるため、<b>読み方が地域でちがう繁体字圏</b>、とくに<b class="ac">香港（広東語）</b>で定番の入力法になっています。
-  </div>
+<div class="wrap">
 
-  <div class="note">キーボードの <b>A〜Y の25キー</b>にそれぞれ「字根（じこん）」＝基本パーツが割り当てられています。漢字を字根の並びに分解し、その字根のキーを順に打って入力します。</div>
+<header>
+  <div class="kicker">倉頡 · 字根 × 日本漢字</div>
+  <h1><span class="zh">用倉頡字根睇日本漢字</span><span class="ja">倉頡の字根で日本の漢字を見る</span></h1>
+  <p class="sub">
+    <span class="zh">你打咗咁多年倉頡，其實已經識咗一套拆字嘅方法。同一套字根，可以攞嚟睇日文漢字。</span>
+    <span class="ja">長年倉頡を打ってきた人は、すでに漢字を分解する方法を身につけています。その同じ字根で、日本語の漢字を見ることができます。</span>
+  </p>
+</header>
 
-  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">24の字根（キー配列）</span><span class="sec-en">The radicals</span></div>
+<p class="lead">
+  <span class="zh">日本人學漢字，通常一個一個記個形。香港人唔使——你手指已經記住咗二十四個字根，見到個字就自動拆開。呢個係現成嘅優勢。</span>
+  <span class="ja">日本語学習者は漢字の形を一つずつ覚えるのが普通です。香港の人はその必要がありません。指がすでに24の字根を覚えていて、字を見た瞬間に分解しています。これは最初から持っている強みです。</span>
+</p>
 
-  <div class="grp">■ 哲理類 A–G（自然）</div>
-  <div class="card" style="padding:10px 8px;margin-bottom:14px">
-    <table class="kt">
-      <tr>
-        <td><span class="k">A</span><span class="r">日</span></td>
-        <td><span class="k">B</span><span class="r">月</span></td>
-        <td><span class="k">C</span><span class="r">金</span></td>
-        <td><span class="k">D</span><span class="r">木</span></td>
-      </tr>
-      <tr>
-        <td><span class="k">E</span><span class="r">水</span></td>
-        <td><span class="k">F</span><span class="r">火</span></td>
-        <td><span class="k">G</span><span class="r">土</span></td>
-        <td style="background:#FAF8F4;color:var(--text-hint);font-size:11px">ひ・つき<br>きん・き…</td>
-      </tr>
-    </table>
-  </div>
+<h2><span class="zh">二十四個字根</span><span class="ja">二十四の字根</span></h2>
+<p><span class="zh">撳一下，睇下呢個形喺日文漢字入面點樣出現。</span><span class="ja">押すと、その形が日本語の漢字の中でどう現れるかが出ます。</span></p>
 
-  <div class="grp">■ 筆畫類 H–N（線・画）</div>
-  <div class="card" style="padding:10px 8px;margin-bottom:14px">
-    <table class="kt">
-      <tr>
-        <td><span class="k">H</span><span class="r">竹</span></td>
-        <td><span class="k">I</span><span class="r">戈</span></td>
-        <td><span class="k">J</span><span class="r">十</span></td>
-        <td><span class="k">K</span><span class="r">大</span></td>
-      </tr>
-      <tr>
-        <td><span class="k">L</span><span class="r">中</span></td>
-        <td><span class="k">M</span><span class="r">一</span></td>
-        <td><span class="k">N</span><span class="r">弓</span></td>
-        <td style="background:#FAF8F4;color:var(--text-hint);font-size:11px">たけ・ほこ<br>じゅう…</td>
-      </tr>
-    </table>
-  </div>
-
-  <div class="grp">■ 人體類 O–R（からだ）</div>
-  <div class="card" style="padding:10px 8px;margin-bottom:14px">
-    <table class="kt">
-      <tr>
-        <td><span class="k">O</span><span class="r">人</span></td>
-        <td><span class="k">P</span><span class="r">心</span></td>
-        <td><span class="k">Q</span><span class="r">手</span></td>
-        <td><span class="k">R</span><span class="r">口</span></td>
-      </tr>
-    </table>
-  </div>
-
-  <div class="grp">■ 字形類 S–Y（形）</div>
-  <div class="card" style="padding:10px 8px;margin-bottom:12px">
-    <table class="kt">
-      <tr>
-        <td><span class="k">S</span><span class="r">尸</span></td>
-        <td><span class="k">T</span><span class="r">廿</span></td>
-        <td><span class="k">U</span><span class="r">山</span></td>
-        <td><span class="k">V</span><span class="r">女</span></td>
-      </tr>
-      <tr>
-        <td><span class="k">W</span><span class="r">田</span></td>
-        <td><span class="k">X</span><span class="r" style="font-size:14px">難／重</span></td>
-        <td><span class="k">Y</span><span class="r">卜</span></td>
-        <td style="background:#FAF8F4;color:var(--text-hint);font-size:11px">X＝特殊<br>Z＝未使用</td>
-      </tr>
-    </table>
-  </div>
-  <div class="note">A〜Y の各キーは「代表字根」で覚えますが、実際には<b>形の似た複数のパーツ</b>を兼ねます（例：<b class="ac">D＝木</b>は「木」だけでなく偏の「⺘」なども含む）。<b>X</b>は分解しにくい特殊な字に、<b>Z</b>は原則使いません。</div>
-
-  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">分解のしくみ（例）</span><span class="sec-en">How to break a character</span></div>
-  <div class="card">
-    <div class="decomp">
-      ・<b class="ac" style="font-size:18px">明</b> ＝ 日＋月 ＝ <span class="key">A</span><span class="key">B</span><br>
-      ・<b class="ac" style="font-size:18px">林</b> ＝ 木＋木 ＝ <span class="key">D</span><span class="key">D</span><br>
-      ・<b class="ac" style="font-size:18px">好</b> ＝ 女＋子 ＝ <span class="key">V</span><span class="key">N</span><span class="key">D</span><br>
-      <span style="font-size:11.5px;color:var(--text-hint)">（「子」は字根で <b>弓＝N</b>＋<b>木＝D</b> に分解されます）</span><br>
-      ・<b class="ac" style="font-size:18px">田</b> ＝ 田 ＝ <span class="key">W</span>（そのまま1キー）
-    </div>
-  </div>
-  <div class="note">分解には規則があり、字の構造（左右・上下・囲みなど）に応じて<b>最大5キー</b>までに収めます。パーツが多い字は「最初のいくつか＋最後の1つ」だけを取ります。慣れるまでは字典やアプリの<b>倉頡コード表示</b>を見ながら覚えるのが近道です。</div>
-
-  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">速成（かんたん版）</span><span class="sec-en">Quick / Sucheng</span></div>
-  <div class="card" style="font-size:13px;color:var(--text-muted);line-height:1.85">
-    倉頡には簡易版の<b class="ac">速成（そくせい／簡易）</b>があり、スマホでよく使われます。フルの倉頡コードのうち<b>最初と最後の字根だけ</b>を打ち、あとは候補から選びます。<br>
-    例：<b>好</b>＝フル <span class="key">V</span><span class="key">N</span><span class="key">D</span> → 速成は <span class="key">V</span><span class="key">D</span>（女＋木）で候補表示。<br>
-    キー数が少なく覚えやすい反面、<b>同じコードの候補が増える</b>ので、正確さでは本来の倉頡が上です。
-  </div>
-
-  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">なぜ香港で使われる？</span><span class="sec-en">Why Hong Kong</span></div>
-  <div class="card" style="font-size:13px;color:var(--text-muted);line-height:1.85">
-    ・広東語には<b>発音入力の全国標準がない</b>（普通話のピンイン、台湾の注音のような統一規格が弱い）ため、<b>発音に依存しない字形入力</b>が好まれました。<br>
-    ・<b>繁体字を1文字ずつ確実に</b>打て、同音異字に強い。公的文書や専門用途でも安定します。<br>
-    ・台湾でも注音とならんで根強く使われ、繁体字圏共通の入力法として定着しています。
-  </div>
-
-  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">日本語話者へのヒント</span><span class="sec-en">Tips</span></div>
-  <div class="card" style="font-size:13px;color:var(--text-muted);line-height:1.85">
-    ・まず<b>24字根の代表字（日月金木水火土…）</b>とキー位置を丸暗記。ここが土台です。<br>
-    ・次に「よく使う偏や旁が、どの字根に含まれるか」を少しずつ覚えます。<br>
-    ・スマホなら<b>速成</b>から入り、候補選択に慣れてからフル倉頡へ進むと挫折しにくいです。<br>
-    ・漢字を「音」でなく<b>「形の部品」で見る</b>クセがつくので、繁体字の字形理解にも役立ちます。
-  </div>
-
-  <div class="app-footer">倉頡＝朱邦復（1976）考案。字根の割り当て・分解規則には版による差があります。<br>© 2025 日本語の部屋</div>
+<div id="keyboard"></div>
+<div class="panel" id="panel">
+  <div class="ph"><span class="zh">撳上面嘅字根</span><span class="ja">上の字根を押してください</span></div>
 </div>
+
+<h2><span class="zh">拆字嘅次序</span><span class="ja">分解の順序</span></h2>
+<table class="plain">
+  <tbody>
+    <tr><td class="code">1</td><td><span class="zh">由外到內</span><span class="ja">外から内へ</span></td>
+      <td class="big">國</td><td><span class="zh">先「囗」，再入面</span><span class="ja">まず「囗」、次に中身</span></td></tr>
+    <tr><td class="code">2</td><td><span class="zh">由上到下</span><span class="ja">上から下へ</span></td>
+      <td class="big">品</td><td><span class="zh">上面個口先</span><span class="ja">上の口が先</span></td></tr>
+    <tr><td class="code">3</td><td><span class="zh">由左到右</span><span class="ja">左から右へ</span></td>
+      <td class="big">明</td><td><span class="zh">日 → 月</span><span class="ja">日 → 月</span></td></tr>
+  </tbody>
+</table>
+<div class="callout">
+  <span class="zh"><b>最多五碼。</b>超過就取頭尾。<b>速成</b>就更簡單——只打<b>第一碼同最後一碼</b>。</span>
+  <span class="ja"><b>最大5コード。</b>超えるときは頭と尾を取ります。<b>速成（クイック）</b>はもっと簡単で、<b>最初と最後の1つずつ</b>だけを打ちます。</span>
+</div>
+
+<h2><span class="zh">簡單嘅例</span><span class="ja">やさしい例</span></h2>
+<table class="plain">
+  <thead><tr>
+    <th><span class="zh">字</span><span class="ja">字</span></th>
+    <th><span class="zh">拆開</span><span class="ja">分解</span></th>
+    <th><span class="zh">倉頡碼</span><span class="ja">倉頡コード</span></th>
+    <th><span class="zh">日文點讀</span><span class="ja">日本語の読み</span></th>
+  </tr></thead>
+  <tbody id="exTable"></tbody>
+</table>
+
+<h2><span class="zh">日本漢字唔同咗形</span><span class="ja">日本の漢字は形が変わっている</span></h2>
+<p>
+  <span class="zh">呢度先係最緊要。你識拆繁體字，但係日文用嘅係<strong>新字體</strong>——部件唔同咗，倉頡碼自然唔同。</span>
+  <span class="ja">ここが一番大事なところです。繁体字を分解できても、日本語で使うのは<strong>新字体</strong>で、部品が変わっているためコードも変わります。</span>
+</p>
+<table class="plain">
+  <thead><tr>
+    <th><span class="zh">繁體</span><span class="ja">繁体字</span></th>
+    <th><span class="zh">日本</span><span class="ja">日本</span></th>
+    <th><span class="zh">變咗邊度</span><span class="ja">どこが変わったか</span></th>
+  </tr></thead>
+  <tbody id="shinTable"></tbody>
+</table>
+<div class="callout warn">
+  <span class="zh"><b>要小心：</b>日本嘅新字體 <u>唔係</u> 大陸嘅簡體字。有啲啱啱一樣（國→国、萬→万），有啲完全唔同（發→<b>発</b>／大陸係 发　　廣→<b>広</b>／大陸係 广）。當成簡體字嚟估，就會錯。</span>
+  <span class="ja"><b>注意：</b>日本の新字体は中国の簡体字と<u>同じではありません</u>。一致するもの（國→国、萬→万）もあれば、まったく違うもの（發→<b>発</b>／中国は 发　　廣→<b>広</b>／中国は 广）もあります。簡体字だと思って推測すると外れます。</span>
+</div>
+
+<h2><span class="zh">試吓</span><span class="ja">試してみる</span></h2>
+<p><span class="zh">呢個日文漢字，係由邊兩個字根砌成？</span><span class="ja">この日本語の漢字は、どの字根でできていますか。</span></p>
+
+<div class="quiz" id="quiz">
+  <div class="q-top"><span class="q-n" id="qn"></span><span class="q-sc" id="qsc"></span></div>
+  <div class="q-c" id="qc"></div>
+  <div class="q-ask" id="qask"></div>
+  <div class="q-opts" id="qo"></div>
+  <div class="q-fb" id="qf"></div>
+  <button class="q-next" id="qnext" type="button"></button>
+</div>
+
+<a class="gamelink" href="onyomi_cantonese.html">
+  <span class="zh">▶ 用廣東話讀日文音讀<small>入聲 -p / -t / -k 同「っ」嘅關係</small></span>
+  <span class="ja">▶ 広東語で日本語の音読みを読む<small>入声 -p / -t / -k と「っ」の関係</small></span>
+</a>
+
+<footer>
+  <p>
+    <span class="zh">字根嘅粵音用粵拼（Jyutping）。倉頡碼只列出常見而確定嘅例，之後會慢慢加。</span>
+    <span class="ja">字根の広東語音は粤拼（Jyutping）表記。倉頡コードは確実な基本例のみを載せ、順次追加します。</span>
+  </p>
+  <p>© 日本語の部屋</p>
+</footer>
+
+</div>
+
+<script>
+/* ---------- 言語 ---------- */
+var LS='nnh_cangjie_lang';
+function setLang(l){
+  document.body.className='lang-'+l;
+  document.getElementById('bZh').classList.toggle('on',l==='zh');
+  document.getElementById('bJa').classList.toggle('on',l==='ja');
+  document.documentElement.lang=(l==='ja')?'ja':'zh-Hant';
+  try{localStorage.setItem(LS,l);}catch(e){}
+  drawKeys(); drawTables(); if(QZ) drawQ();
+  if(SEL) showKey(SEL); else resetPanel();
+}
+function T(zh,ja){return document.body.className==='lang-ja'?ja:zh;}
+document.getElementById('bZh').onclick=function(){setLang('zh');};
+document.getElementById('bJa').onclick=function(){setLang('ja');};
+
+/* ---------- 二十四字根 ----------
+   form … その字根が実際に字の中で取る形
+   jk   … その字根を含む日本語の漢字（部品として）  */
+var KEYS=[
+{g:1,k:'A',c:'日',j:'jat6',form:'日 曰',jk:['明','時','早','春','昼','曜']},
+{g:1,k:'B',c:'月',j:'jyut6',form:'月 肉 冂',jk:['明','朝','服','育','肉','有']},
+{g:1,k:'C',c:'金',j:'gam1',form:'金 丷',jk:['金','銀','鉄','針','鏡','銅']},
+{g:1,k:'D',c:'木',j:'muk6',form:'木 朩',jk:['林','森','村','校','橋','松']},
+{g:1,k:'E',c:'水',j:'seoi2',form:'水 氵',jk:['海','池','洗','漢','酒','泳']},
+{g:1,k:'F',c:'火',j:'fo2',form:'火 灬 ⺣',jk:['炎','焼','熱','点','無','照']},
+{g:1,k:'G',c:'土',j:'tou2',form:'土 士',jk:['地','場','坂','塩','城','均']},
+{g:2,k:'H',c:'竹',j:'zuk1',form:'⺮ 丿',jk:['答','筆','第','箱','算','笑']},
+{g:2,k:'I',c:'戈',j:'gwo1',form:'戈 丶 厶',jk:['成','我','戦','式','或','武']},
+{g:2,k:'J',c:'十',j:'sap6',form:'十 宀',jk:['家','安','字','室','客','守']},
+{g:2,k:'K',c:'大',j:'daai6',form:'大 犬 尢',jk:['大','天','太','奥','奇','犬']},
+{g:2,k:'L',c:'中',j:'zung1',form:'中 丨 衤',jk:['中','申','初','被','補']},
+{g:2,k:'M',c:'一',j:'jat1',form:'一 ⺈',jk:['本','三','正','平','言','面']},
+{g:2,k:'N',c:'弓',j:'gung1',form:'弓 亅',jk:['引','強','弱','弟','了','事']},
+{g:3,k:'O',c:'人',j:'jan4',form:'人 亻 彳',jk:['休','体','使','後','行','作']},
+{g:3,k:'P',c:'心',j:'sam1',form:'心 忄 匕',jk:['思','悲','情','化','北','急']},
+{g:3,k:'Q',c:'手',j:'sau2',form:'手 扌',jk:['持','拝','投','押','指','打']},
+{g:3,k:'R',c:'口',j:'hau2',form:'口',jk:['品','味','和','話','名','右']},
+{g:4,k:'S',c:'尸',j:'si1',form:'尸',jk:['屋','局','届','尾','層','展']},
+{g:4,k:'T',c:'廿',j:'jaa6',form:'廿 艹 䒑',jk:['草','花','薬','茶','英','苦']},
+{g:4,k:'U',c:'山',j:'saan1',form:'山 凵',jk:['山','岩','島','出','岸','崎']},
+{g:4,k:'V',c:'女',j:'neoi5',form:'女 糹 巛',jk:['好','姉','妹','紙','細','経']},
+{g:4,k:'W',c:'田',j:'tin4',form:'田 囗',jk:['男','町','画','国','園','細']},
+{g:4,k:'Y',c:'卜',j:'buk1',form:'卜 亠 辶',jk:['道','近','送','高','京','市']}
+];
+var GRP={1:{zh:'哲理類',ja:'哲理の類',keys:'A–G'},2:{zh:'筆畫類',ja:'筆画の類',keys:'H–N'},
+         3:{zh:'人體類',ja:'人体の類',keys:'O–R'},4:{zh:'字形類',ja:'字形の類',keys:'S–Y'}};
+
+/* 確実な基本例だけ（順次追加できる） */
+var EX=[
+{c:'明',parts:'日 ＋ 月',code:'AB',read:'めい・あかるい'},
+{c:'林',parts:'木 ＋ 木',code:'DD',read:'りん・はやし'},
+{c:'森',parts:'木 ＋ 木 ＋ 木',code:'DDD',read:'しん・もり'},
+{c:'炎',parts:'火 ＋ 火',code:'FF',read:'えん・ほのお'},
+{c:'品',parts:'口 ＋ 口 ＋ 口',code:'RRR',read:'ひん・しな'},
+{c:'本',parts:'木 ＋ 一',code:'DM',read:'ほん・もと'},
+{c:'東',parts:'木 ＋ 田',code:'DW',read:'とう・ひがし'},
+{c:'好',parts:'女 ＋ 子',code:'VND',read:'こう・すき'},
+{c:'男',parts:'田 ＋ 力',code:'WKS',read:'だん・おとこ'}
+];
+
+/* 繁体字 → 新字体 */
+var SHIN=[
+{t:'學',j:'学',zh:'上面拆晒，變咗三點加冖',ja:'上部が簡略化され、⺍＋冖に'},
+{t:'國',j:'国',zh:'入面「或」→「玉」（同大陸一樣）',ja:'中が「或」→「玉」（中国と同じ）'},
+{t:'發',j:'発',zh:'下面完全唔同（大陸係 发）',ja:'下部がまったく別（中国は 发）'},
+{t:'實',j:'実',zh:'下面「貫」→「大」',ja:'下が「貫」→「大」'},
+{t:'點',j:'点',zh:'「黑」→「⺊」加四點火',ja:'「黑」→「⺊」＋灬'},
+{t:'萬',j:'万',zh:'完全換咗（同大陸一樣）',ja:'まったく別字（中国と同じ）'},
+{t:'廣',j:'広',zh:'入面「黃」→「厶」（大陸係 广）',ja:'中の「黃」→「厶」（中国は 广）'},
+{t:'經',j:'経',zh:'右邊「巠」→「圣」',ja:'右の「巠」→「圣」'},
+{t:'藝',j:'芸',zh:'剩返草花頭加云',ja:'草冠＋云だけに'},
+{t:'邊',j:'辺',zh:'入面剩返「刀」',ja:'中が「刀」だけに'}
+];
+
+/* ---------- 描画 ---------- */
+var SEL=null;
+function drawKeys(){
+  var w=document.getElementById('keyboard'); w.innerHTML='';
+  [1,2,3,4].forEach(function(g){
+    var h=document.createElement('div'); h.className='grp t'+g;
+    h.innerHTML='<span class="tag">'+GRP[g].keys+'</span>'+T(GRP[g].zh,GRP[g].ja);
+    w.appendChild(h);
+    var box=document.createElement('div'); box.className='keys';
+    KEYS.filter(function(k){return k.g===g;}).forEach(function(k){
+      var b=document.createElement('button'); b.type='button';
+      b.className='key k'+g+(SEL&&SEL.k===k.k?' on':'');
+      b.innerHTML='<div class="kk">'+k.k+'</div><div class="kc">'+k.c+'</div>'+
+        '<div class="kj">'+k.j+'</div><div class="kf">'+k.form+'</div>';
+      b.onclick=function(){ SEL=k; drawKeys(); showKey(k); };
+      box.appendChild(b);
+    });
+    w.appendChild(box);
+  });
+}
+function resetPanel(){
+  document.getElementById('panel').innerHTML=
+    '<div class="ph">'+T('撳上面嘅字根','上の字根を押してください')+'</div>';
+}
+function showKey(k){
+  document.getElementById('panel').innerHTML=
+    '<div class="ph">'+k.k+'　'+k.j+'</div>'+
+    '<div class="pc">'+k.c+'　<span style="font-size:19px;color:var(--hint);font-weight:600;">'+k.form+'</span></div>'+
+    '<div class="pl">'+T('呢個形出現喺呢啲日文漢字：','この形をふくむ日本語の漢字：')+'</div>'+
+    '<div class="kanji">'+k.jk.map(function(x){return '<span>'+x+'</span>';}).join('')+'</div>';
+}
+function drawTables(){
+  document.getElementById('exTable').innerHTML=EX.map(function(e){
+    return '<tr><td class="big">'+e.c+'</td><td>'+e.parts+'</td>'+
+      '<td class="code">'+e.code+'</td><td>'+e.read+'</td></tr>';
+  }).join('');
+  document.getElementById('shinTable').innerHTML=SHIN.map(function(s){
+    return '<tr><td class="big">'+s.t+'</td><td class="big">'+s.j+'</td>'+
+      '<td>'+T(s.zh,s.ja)+'</td></tr>';
+  }).join('');
+}
+
+/* ---------- 練習：この漢字は何と何でできている ---------- */
+var BANK=[
+{c:'明',a:'日 ＋ 月'},{c:'林',a:'木 ＋ 木'},{c:'炎',a:'火 ＋ 火'},
+{c:'男',a:'田 ＋ 力'},{c:'好',a:'女 ＋ 子'},{c:'休',a:'人 ＋ 木'},
+{c:'岩',a:'山 ＋ 石'},{c:'思',a:'田 ＋ 心'},{c:'時',a:'日 ＋ 寺'},
+{c:'村',a:'木 ＋ 寸'},{c:'草',a:'艹 ＋ 早'},{c:'海',a:'氵 ＋ 毎'}
+];
+var DIST=['日 ＋ 火','木 ＋ 口','女 ＋ 女','土 ＋ 力','山 ＋ 口','人 ＋ 人',
+          '田 ＋ 口','水 ＋ 木','口 ＋ 心','竹 ＋ 十'];
+var QZ={q:[],i:0,ok:0};
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function newRound(){ QZ={q:shuffle(BANK.slice()).slice(0,8),i:0,ok:0}; drawQ(); }
+function drawQ(){
+  var q=QZ.q[QZ.i];
+  document.getElementById('qn').textContent=T('第 '+(QZ.i+1)+' / '+QZ.q.length+' 題','第 '+(QZ.i+1)+' / '+QZ.q.length+' 問');
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  document.getElementById('qc').textContent=q.c;
+  document.getElementById('qask').textContent=T('由邊兩個部件砌成？','どの部品でできている？');
+  var w=document.getElementById('qo'); w.innerHTML='';
+  var bad=shuffle(DIST.filter(function(d){return d!==q.a;})).slice(0,3);
+  shuffle([q.a].concat(bad)).forEach(function(o){
+    var b=document.createElement('button'); b.type='button'; b.className='q-b'; b.textContent=o;
+    b.onclick=function(){ answer(o,b); };
+    w.appendChild(b);
+  });
+  var f=document.getElementById('qf'); f.className='q-fb'; f.innerHTML='';
+  document.getElementById('qnext').className='q-next';
+}
+function answer(o,btn){
+  var q=QZ.q[QZ.i];
+  var bs=document.querySelectorAll('#qo .q-b');
+  for(var i=0;i<bs.length;i++){
+    if(bs[i].textContent===q.a) bs[i].className='q-b ok';
+    else if(bs[i]===btn) bs[i].className='q-b ng';
+    else bs[i].className='q-b dim';
+    bs[i].onclick=null;
+  }
+  if(o===q.a) QZ.ok++;
+  var f=document.getElementById('qf');
+  f.innerHTML=(o===q.a?'⭕ ':'❌ ')+'<b>'+q.c+'</b> ＝ '+q.a;
+  f.className='q-fb show';
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  var n=document.getElementById('qnext');
+  n.textContent=(QZ.i>=QZ.q.length-1)?T('睇結果','結果を見る'):T('下一題 ›','つぎへ ›');
+  n.className='q-next show';
+}
+document.getElementById('qnext').onclick=function(){
+  if(QZ.i>=QZ.q.length-1){ drawEnd(); return; }
+  QZ.i++; drawQ();
+};
+function drawEnd(){
+  document.getElementById('qn').textContent=T('完成','おわり');
+  document.getElementById('qsc').textContent='';
+  document.getElementById('qc').textContent=(QZ.ok>=7?'🎉':(QZ.ok>=5?'👍':'📚'));
+  document.getElementById('qask').textContent='';
+  document.getElementById('qo').innerHTML='';
+  var f=document.getElementById('qf');
+  f.innerHTML='<b>'+QZ.ok+' / '+QZ.q.length+'</b>　'+
+    T('拆字係你嘅強項，攞嚟記日文漢字啱啱好。','分解はあなたの得意分野です。日本語の漢字を覚えるのにそのまま使えます。');
+  f.className='q-fb show';
+  var n=document.getElementById('qnext');
+  n.textContent=T('再嚟一次','もう一度');
+  n.className='q-next show';
+  n.onclick=function(){ newRound(); n.onclick=nextH; };
+}
+var nextH=document.getElementById('qnext').onclick;
+
+/* 起動 */
+(function(){
+  var l='zh'; try{l=localStorage.getItem(LS)||'zh';}catch(e){}
+  drawKeys(); drawTables(); newRound(); setLang(l); resetPanel();
+})();
+</script>
 </body>
 </html>

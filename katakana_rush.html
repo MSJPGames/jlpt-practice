@@ -75,6 +75,8 @@
   .mode-ar { font-size: 22px; color: var(--text-hint); flex-shrink: 0; }
   .mode-card.word::before { background: var(--gold); }
   .mode-card.word .mode-ic { background: #FBF0D6; color: #8A6608; }
+  .mode-card.conv::before { background: #7A4FD0; }
+  .mode-card.conv .mode-ic { background: #EFE8FB; color: #6A3FC0; }
 
   /* 難易度カード */
   .diff-list { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; }
@@ -305,6 +307,14 @@
           </div>
           <div class="mode-ar">›</div>
         </button>
+        <button class="mode-card conv" id="modeConv" type="button">
+          <div class="mode-ic">あ</div>
+          <div class="mode-tx">
+            <div class="mode-nm">ひらがな → カタカナ</div>
+            <div class="mode-ds">ひらがなを見て、同じ音のカタカナをタップ</div>
+          </div>
+          <div class="mode-ar">›</div>
+        </button>
       </div>
       <div class="hint-row">考えるより、指で反応</div>
     </div>
@@ -483,8 +493,8 @@
 
   // ===== ベストスコア（モード/難易度別） =====
   const SCORE_BASE = KIND==='hira' ? 'hiragana_rush' : 'katakana_rush';
-  function scoreKey(){ return SCORE_BASE + (mode==='char' ? '_char' : '_word_'+level); }
-  function modeLabel(){ return mode==='char' ? '文字練習' : ('単語練習・'+({easy:'やさしい',normal:'ふつう',hard:'むずかしい'}[level])); }
+  function scoreKey(){ return SCORE_BASE + (mode==='char' ? '_char' : (mode==='conv' ? '_conv' : '_word_'+level)); }
+  function modeLabel(){ return mode==='char' ? '文字練習' : (mode==='conv' ? CONV_MODE_LABEL : ('単語練習・'+({easy:'やさしい',normal:'ふつう',hard:'むずかしい'}[level]))); }
   let storageOK=true, memScores={};
   try { localStorage.setItem('__t','1'); localStorage.removeItem('__t'); } catch(e){ storageOK=false; }
   function loadScores(){ if(!storageOK) return (memScores[scoreKey()]||[]).slice();
@@ -503,11 +513,23 @@
   function rand(n){ return Math.floor(Math.random()*n); }
   function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=rand(i+1);[a[i],a[j]]=[a[j],a[i]];} return a; }
 
+  // ===== かな変換（文字→文字モード用） =====
+  const CONV_LABEL = KIND==='hira' ? '同じ音のひらがなは？' : '同じ音のカタカナは？';
+  const CONV_MODE_LABEL = KIND==='hira' ? 'カタカナ→ひらがな' : 'ひらがな→カタカナ';
+  function toKata(t){ return t.replace(/[\u3041-\u3096]/g,c=>String.fromCharCode(c.charCodeAt(0)+0x60)); }
+  function toHira(t){ return t.replace(/[\u30A1-\u30F6]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60)); }
+  function oppositeChar(ch){ return KIND==='hira' ? toKata(ch) : toHira(ch); }
+
   // ===================== 文字練習 =====================
   function newCharRound(){
     target = KANA[rand(KANA.length)];
-    promptLabel.textContent='この音は？';
-    promptTarget.textContent=target[1];
+    if(mode==='conv'){
+      promptLabel.textContent=CONV_LABEL;
+      promptTarget.textContent=oppositeChar(target[0]);
+    } else {
+      promptLabel.textContent='この音は？';
+      promptTarget.textContent=target[1];
+    }
     promptEn.textContent=''; promptSound.classList.add('hidden');
     promptZone.classList.remove('pop'); void promptZone.offsetWidth; promptZone.classList.add('pop');
     const pool = shuffle(KANA.filter(k=>k[0]!==target[0])).slice(0, CELLS-1);
@@ -722,6 +744,7 @@
 
   // ===== イベント =====
   $('modeChar').addEventListener('click', ()=>{ mode='char'; startGame(); });
+  $('modeConv').addEventListener('click', ()=>{ mode='conv'; startGame(); });
   $('modeWord').addEventListener('click', ()=>{ startScreen.classList.add('hidden'); diffScreen.classList.remove('hidden'); });
   $('diffBack').addEventListener('click', ()=>{ diffScreen.classList.add('hidden'); startScreen.classList.remove('hidden'); });
   document.querySelectorAll('.diff-card').forEach(c=>{

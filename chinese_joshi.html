@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日文助詞 — 中文母語者最難嘅一關｜日本語の部屋</title>
+<meta name="description" content="中文靠語序，日文靠助詞。は・が・を・に・で・と・の 點樣用？仲有中文母語者特有嘅陷阱：「的」唔等於「の」，「在」要分 に 同 で。">
+<link rel="canonical" href="https://msjpgames.github.io/jlpt-practice/chinese_joshi.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="日本語の部屋 ・ Nihongo no Heya">
+<meta property="og:locale" content="zh_HK">
+<meta property="og:url" content="https://msjpgames.github.io/jlpt-practice/chinese_joshi.html">
+<meta property="og:title" content="日文助詞 — 中文母語者最難嘅一關">
+<meta property="og:description" content="中文靠語序，日文靠助詞。仲有中文母語者特有嘅陷阱：「的」唔等於「の」，「在」要分 に 同 で。">
+<meta property="og:image" content="https://msjpgames.github.io/jlpt-practice/og_joshi.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="日文助詞 — 中文母語者最難嘅一關">
+<meta name="twitter:description" content="中文靠語序，日文靠助詞。「的」唔等於「の」，「在」要分 に 同 で。">
+<meta name="twitter:image" content="https://msjpgames.github.io/jlpt-practice/og_joshi.png">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0;
+    --good:#3E6B2F; --good-bg:#EDF3E6;
+    --bad:#A0392E; --bad-bg:#FBE9E4;
+    --warn:#8A6D00; --warn-bg:#FBF3D9;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"PingFang HK","Noto Sans HK","Noto Sans JP",sans-serif;
+    font-size:16px;line-height:1.85;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 90px;}
+
+  .langbar{position:sticky;top:0;z-index:40;background:rgba(247,245,240,.94);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:8px 0;}
+  .langbar-in{max-width:760px;margin:0 auto;padding:0 18px;display:flex;gap:6px;align-items:center;}
+  .lb{font-family:inherit;font-size:12px;font-weight:700;padding:5px 13px;border-radius:999px;
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;}
+  .lb.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .navs{margin-left:auto;display:flex;gap:10px;align-items:center;}
+  .home{font-size:12px;color:var(--hint);text-decoration:none;white-space:nowrap;}
+  .home:hover{color:var(--teal);}
+
+  header{padding:38px 0 22px;}
+  .kicker{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--hint);
+    text-transform:uppercase;margin-bottom:10px;}
+  h1{margin:0 0 14px;font-size:clamp(26px,6vw,38px);line-height:1.3;}
+  .sub{margin:0;font-size:16.5px;color:var(--muted);line-height:1.8;}
+  h2{margin:48px 0 14px;font-size:21px;line-height:1.45;padding-bottom:8px;border-bottom:2px solid var(--ink);}
+  h3{margin:30px 0 8px;font-size:17px;}
+  p{margin:0 0 15px;}
+  .lead{font-size:17px;}
+
+  /* 対訳の文 */
+  .sent{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:15px 17px;margin:14px 0;}
+  .sent .zhline{font-size:17px;font-weight:700;color:var(--muted);}
+  .sent .jaline{font-size:21px;font-weight:800;line-height:1.65;margin-top:6px;}
+  .sent .jaline em{font-style:normal;color:var(--teal);background:var(--teal-bg);
+    padding:1px 6px;border-radius:6px;margin:0 1px;}
+  .sent .note{font-size:13px;color:var(--hint);margin-top:7px;line-height:1.7;}
+
+  /* 正誤 */
+  .ok,.ng{display:flex;gap:10px;align-items:flex-start;font-size:17px;line-height:1.7;margin:7px 0;}
+  .ok .mk,.ng .mk{flex-shrink:0;font-weight:800;font-size:15px;width:22px;text-align:center;}
+  .ok .mk{color:var(--good);} .ng .mk{color:var(--bad);}
+  .ng .tx{color:var(--bad);}
+  .ok b,.ng b{font-weight:800;}
+
+  /* 助詞カード */
+  .plist{display:flex;flex-direction:column;gap:10px;margin:18px 0;}
+  .p{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .p-h{display:flex;align-items:center;gap:12px;padding:12px 15px;background:var(--bg);
+    border-bottom:1px solid var(--line);}
+  .p-k{font-size:29px;font-weight:800;line-height:1;color:var(--teal);min-width:44px;text-align:center;}
+  .p-m{font-size:14.5px;font-weight:800;}
+  .p-m small{display:block;font-size:12px;font-weight:600;color:var(--hint);margin-top:2px;}
+  .p-b{padding:12px 15px;font-size:14.5px;line-height:1.8;}
+  .p-b .ex{font-size:17px;font-weight:700;margin-bottom:3px;}
+  .p-b .ex em{font-style:normal;color:var(--teal);}
+  .p-b .tr{font-size:13.5px;color:var(--muted);}
+  .p-b .cau{margin-top:9px;padding:9px 11px;border-radius:9px;background:var(--warn-bg);
+    border:1px solid #E8DCAF;font-size:13px;color:#6B5400;line-height:1.7;}
+
+  .callout{background:var(--teal-bg);border:1px solid #BFD9D7;border-left:4px solid var(--teal);
+    border-radius:10px;padding:15px 17px;margin:22px 0;font-size:15px;line-height:1.8;}
+  .callout b{color:var(--teal);}
+  .callout.b{background:var(--bad-bg);border-color:#F0D2C6;border-left-color:var(--bad);}
+  .callout.b b{color:var(--bad);}
+
+  /* 練習 */
+  .quiz{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:18px 18px 20px;margin:26px 0;}
+  .q-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;}
+  .q-n{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--hint);}
+  .q-sc{font-size:12.5px;font-weight:800;color:var(--teal);}
+  .q-s{text-align:center;font-size:23px;font-weight:800;line-height:1.6;padding:10px 0 2px;}
+  .q-s .blank{display:inline-block;min-width:52px;border-bottom:3px solid var(--teal);
+    color:var(--teal);}
+  .q-t{text-align:center;font-size:13.5px;color:var(--hint);margin-top:4px;}
+  .q-opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px;}
+  .q-b{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:14px 4px;
+    font-family:inherit;font-size:21px;font-weight:800;color:var(--ink);cursor:pointer;}
+  .q-b.ok{background:var(--good-bg);border-color:#CFE3B6;color:var(--good);}
+  .q-b.ng{background:var(--bad-bg);border-color:#F0D2C6;color:var(--bad);}
+  .q-b.dim{opacity:.4;}
+  .q-fb{margin-top:12px;font-size:14px;line-height:1.75;color:var(--muted);background:var(--bg);
+    border:1px solid var(--line);border-radius:10px;padding:11px 13px;display:none;}
+  .q-fb.show{display:block;}
+  .q-next{margin-top:11px;width:100%;border:none;background:var(--teal);color:#fff;font-family:inherit;
+    font-size:15px;font-weight:800;border-radius:10px;padding:12px;cursor:pointer;display:none;}
+  .q-next.show{display:block;}
+
+  .gamelink{display:block;background:var(--teal);color:#fff;text-align:center;text-decoration:none;
+    font-size:16px;font-weight:800;border-radius:12px;padding:15px;margin:30px 0 8px;}
+  .gamelink small{display:block;font-size:12px;font-weight:600;opacity:.85;margin-top:3px;}
+  footer{margin-top:50px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--hint);line-height:1.8;}
+  .ja,.zh{display:none;}
+  body.lang-zh .zh{display:revert;}
+  body.lang-ja .ja{display:revert;}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body class="lang-zh">
+
+<div class="langbar"><div class="langbar-in">
+  <button class="lb on" id="bZh" type="button">繁體中文</button>
+  <button class="lb" id="bJa" type="button">日本語</button>
+  <span class="navs">
+    <a class="home" href="chinese_start.html">‹ <span class="zh">中文入口</span><span class="ja">中国語の入口</span></a>
+    <a class="home" href="index.html">🏠 <span class="zh">首頁</span><span class="ja">トップ</span></a>
+  </span>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">中文 × 日本語 · 助詞</div>
+  <h1><span class="zh">日文助詞 — 中文母語者最難嘅一關</span><span class="ja">日本語の助詞 — 中国語話者の最難関</span></h1>
+  <p class="sub">
+    <span class="zh">漢字幫到你，音讀幫到你，但係一去到助詞，中文完全幫唔到手。因為兩種語言用完全唔同嘅方法去講「邊個做乜嘢」。</span>
+    <span class="ja">漢字も音読みも助けになりますが、助詞になると中国語はまったく力を貸してくれません。「誰が何をするか」を示す方法が、根本から違うためです。</span>
+  </p>
+</header>
+
+<h2><span class="zh">一、分別喺邊</span><span class="ja">一、違いはどこにあるか</span></h2>
+<p>
+  <span class="zh">中文靠<strong>語序</strong>。邊個字排喺邊度，就決定咗佢係主語定係賓語。</span>
+  <span class="ja">中国語は<strong>語順</strong>で決まります。どの語がどこに置かれるかで、主語か目的語かが決まります。</span>
+</p>
+<div class="sent">
+  <div class="zhline">我 食 飯　／　飯 食 我</div>
+  <div class="note"><span class="zh">調轉個位，意思就變晒。</span><span class="ja">位置を入れかえると意味が変わります。</span></div>
+</div>
+<p>
+  <span class="zh">日文靠<strong>助詞</strong>。每個詞後面跟住嘅助詞，已經話咗你佢係咩角色。所以次序可以郁。</span>
+  <span class="ja">日本語は<strong>助詞</strong>で決まります。語の後ろにつく助詞が役割を示すので、順序を動かせます。</span>
+</p>
+<div class="sent">
+  <div class="jaline">わたし<em>は</em> ごはん<em>を</em> 食べます</div>
+  <div class="jaline">ごはん<em>を</em> わたし<em>は</em> 食べます</div>
+  <div class="note"><span class="zh">兩句都啱，意思一樣。因為 は 同 を 已經標示咗角色。</span>
+       <span class="ja">どちらも正しく、意味も同じです。は と を が役割を示しているからです。</span></div>
+</div>
+<div class="callout">
+  <span class="zh"><b>一句講晒：</b>中文靠位置，日文靠標籤。學助詞唔係背表，係換一種思考方式。</span>
+  <span class="ja"><b>要点：</b>中国語は位置で示し、日本語はラベルで示します。助詞の学習は暗記ではなく、考え方の切りかえです。</span>
+</div>
+
+<h2><span class="zh">二、基本嘅七個</span><span class="ja">二、基本の七つ</span></h2>
+<div class="plist" id="plist"></div>
+
+<h2><span class="zh">三、は 同 が</span><span class="ja">三、は と が</span></h2>
+<p>
+  <span class="zh">呢個係最多人問，亦最多人講唔清嘅。有一個好簡單嘅入手方法：<strong>睇「新資料」喺邊邊</strong>。</span>
+  <span class="ja">最も多く質問され、最も説明しにくいところです。入口としては簡単な見方があります。<strong>新しい情報がどちら側にあるかを見る</strong>ことです。</span>
+</p>
+<div class="sent">
+  <div class="jaline">わたし<em>は</em> 学生です</div>
+  <div class="note"><span class="zh">「我」係已知（大家知道講緊我），「學生」先係新資料。は 後面係重點。</span>
+       <span class="ja">「わたし」は既知で、「学生」が新しい情報。は の後ろが焦点です。</span></div>
+</div>
+<div class="sent">
+  <div class="jaline">わたし<em>が</em> 学生です</div>
+  <div class="note"><span class="zh">「邊個係學生？」——「我」先係新資料。が 前面係重點。中文會講「係我」。</span>
+       <span class="ja">「誰が学生か」に対して「わたし」が新しい情報。が の前が焦点です。中国語なら「係我／是我」。</span></div>
+</div>
+<div class="callout">
+  <span class="zh"><b>記住：</b>は 之後係重點，が 之前係重點。<br>問「係咩嚟？」用 は，問「邊個？」用 が。</span>
+  <span class="ja"><b>覚え方：</b>は は後ろが焦点、が は前が焦点。<br>「何ですか」なら は、「誰ですか」なら が。</span>
+</div>
+
+<h2><span class="zh">四、中文母語者專屬嘅陷阱</span><span class="ja">四、中国語話者に特有の落とし穴</span></h2>
+<p class="lead">
+  <span class="zh">呢一段係普通嘅日文教科書冇寫嘅，因為佢哋唔係寫俾中文母語者睇。</span>
+  <span class="ja">この節は普通の教科書には書かれていません。中国語話者に向けて書かれていないからです。</span>
+</p>
+
+<h3><span class="zh">① 「的」唔等於「の」</span><span class="ja">①「的」は「の」ではない</span></h3>
+<p><span class="zh">中文嘅「的」乜都駁得到：我的書、紅色的車、漂亮的花。所以好多人會將「の」當成「的」咁用。<strong>錯得最多就係呢個。</strong></span>
+   <span class="ja">中国語の「的」は何にでもつきます。だから「の」を「的」と同じように使ってしまう。<strong>最も多い誤りです。</strong></span></p>
+<div class="sent">
+  <div class="ok"><span class="mk">○</span><span class="tx">わたし<b>の</b> 本　<span style="color:var(--hint);font-size:14px;">（我的書）</span></span></div>
+  <div class="ng"><span class="mk">✕</span><span class="tx">赤い<b>の</b> 車　<span style="font-size:14px;">（紅色的車）</span></span></div>
+  <div class="ok"><span class="mk">○</span><span class="tx">赤い 車</span></div>
+  <div class="ng"><span class="mk">✕</span><span class="tx">きれい<b>の</b> 花　<span style="font-size:14px;">（漂亮的花）</span></span></div>
+  <div class="ok"><span class="mk">○</span><span class="tx">きれい<b>な</b> 花</span></div>
+  <div class="note"><span class="zh">の 只用喺「名詞 ＋ 名詞」。形容詞唔使加 の——い形容詞直接駁，な形容詞用 な。</span>
+       <span class="ja">の は「名詞＋名詞」のときだけ。形容詞には不要で、い形容詞はそのまま、な形容詞は な を使います。</span></div>
+</div>
+
+<h3><span class="zh">② 「在」要分開 に 同 で</span><span class="ja">②「在」は に と で に分かれる</span></h3>
+<p><span class="zh">中文一個「在」搞掂晒，日文要分兩個：<strong>有冇動作</strong>。</span>
+   <span class="ja">中国語は「在」一つで足りますが、日本語は二つに分かれます。<strong>動きがあるかどうか</strong>です。</span></p>
+<div class="sent">
+  <div class="ok"><span class="mk">に</span><span class="tx">教室<b>に</b> います　<span style="color:var(--hint);font-size:14px;">（在課室）＝ 存在、唔郁</span></span></div>
+  <div class="ok"><span class="mk">で</span><span class="tx">教室<b>で</b> 勉強します　<span style="color:var(--hint);font-size:14px;">（在課室讀書）＝ 做緊嘢</span></span></div>
+  <div class="note"><span class="zh">淨係「喺嗰度」＝ に。「喺嗰度做緊嘢」＝ で。</span>
+       <span class="ja">ただ「そこにある・いる」なら に、「そこで何かをする」なら で。</span></div>
+</div>
+
+<h3><span class="zh">③ は 唔係「是」</span><span class="ja">③ は は「是」ではない</span></h3>
+<p><span class="zh">「わたしは学生です」睇落好似「我<u>是</u>學生」，所以好多人以為 は ＝ 是。<strong>唔係。</strong>「です」先係「是」。は 只係話你知「呢個係話題」。</span>
+   <span class="ja">「わたしは学生です」が「我是学生」に見えるので、は ＝ 是 と思われがちです。<strong>違います。</strong>「です」が「是」にあたり、は は「これが話題です」と示すだけです。</span></p>
+<div class="sent">
+  <div class="jaline">きょう<em>は</em> 雨です</div>
+  <div class="note"><span class="zh">「今日是雨」講唔通。は 只係標示話題：「講今日嘅話，落雨」。</span>
+       <span class="ja">「今日＝雨」ではありません。は は話題を示すだけで、「今日について言えば、雨だ」という形です。</span></div>
+</div>
+
+<h3><span class="zh">④ 「和」唔一定係 と</span><span class="ja">④「和」は と とは限らない</span></h3>
+<div class="sent">
+  <div class="ok"><span class="mk">と</span><span class="tx">パン<b>と</b> たまご　<span style="color:var(--hint);font-size:14px;">＝ 就係呢兩樣，冇第三樣</span></span></div>
+  <div class="ok"><span class="mk">や</span><span class="tx">パン<b>や</b> たまご　<span style="color:var(--hint);font-size:14px;">＝ 麵包啊蛋啊，仲有其他</span></span></div>
+  <div class="note"><span class="zh">中文「和」冇分呢兩種。日文分得好清楚。</span>
+       <span class="ja">中国語の「和」にはこの区別がありません。日本語ははっきり分けます。</span></div>
+</div>
+
+<h3><span class="zh">⑤ 唔好漏咗助詞</span><span class="ja">⑤ 助詞を落とさない</span></h3>
+<p><span class="zh">中文冇助詞，所以講得快嗰陣好容易漏。但係漏咗，日本人聽落會好怪——就好似中文講「我飯食」咁。</span>
+   <span class="ja">中国語に助詞がないため、急ぐと落としがちです。ただ落とすと不自然に聞こえます。中国語で「我飯食」と言うようなものです。</span></p>
+<div class="callout b">
+  <span class="zh"><b>日常會話係會省略助詞，但係要先識晒先可以省。</b>初學階段全部講出嚟，反而快啲入腦。</span>
+  <span class="ja"><b>日常会話では省略もありますが、省けるのは分かった後の話です。</b>初めのうちは全部言うほうが、結果的に早く身につきます。</span>
+</div>
+
+<h2><span class="zh">試吓</span><span class="ja">試してみる</span></h2>
+<p><span class="zh">揀啱嘅助詞。</span><span class="ja">正しい助詞を選んでください。</span></p>
+<div class="quiz" id="quiz">
+  <div class="q-top"><span class="q-n" id="qn"></span><span class="q-sc" id="qsc"></span></div>
+  <div class="q-s" id="qs"></div>
+  <div class="q-t" id="qt"></div>
+  <div class="q-opts" id="qo"></div>
+  <div class="q-fb" id="qf"></div>
+  <button class="q-next" id="qnext" type="button"></button>
+</div>
+
+<a class="gamelink" href="chinese_start.html">
+  <span class="zh">‹ 返去「用中文底子學日文」<small>漢字、音讀、同形異義詞</small></span>
+  <span class="ja">‹「中国語の下地で日本語を学ぶ」へ<small>漢字・音読み・同形異義語</small></span>
+</a>
+
+<footer>
+  <p><span class="zh">例句用簡單嘅日文寫，漢字用日本嘅新字體（学、図 等），同繁體寫法唔同，要留意。</span>
+     <span class="ja">例文はやさしい日本語で、漢字は日本の新字体を使っています。</span></p>
+  <p>© 日本語の部屋</p>
+</footer>
+
+</div>
+
+<script>
+var LS='nnh_joshi_lang';
+function setLang(l){
+  document.body.className='lang-'+l;
+  document.getElementById('bZh').classList.toggle('on',l==='zh');
+  document.getElementById('bJa').classList.toggle('on',l==='ja');
+  document.documentElement.lang=(l==='ja')?'ja':'zh-Hant';
+  try{localStorage.setItem(LS,l);}catch(e){}
+  drawP(); if(QZ.q.length) drawQ();
+}
+function T(zh,ja){return document.body.className==='lang-ja'?ja:zh;}
+document.getElementById('bZh').onclick=function(){setLang('zh');};
+document.getElementById('bJa').onclick=function(){setLang('ja');};
+
+var PARTS=[
+{k:'は',mzh:'話題標示',mja:'話題を示す',subzh:'「講開…嘅話」',subja:'「〜については」',
+ ex:'わたし<em>は</em> 香港人です',trzh:'我係香港人',trja:'わたしは香港人です',
+ cauzh:'唔係「是」。「です」先係「是」。',cauja:'「是」ではありません。「です」が「是」にあたります。'},
+{k:'が',mzh:'主語（新資料）',mja:'主語（新情報）',subzh:'答「邊個？」',subja:'「誰が」に答える',
+ ex:'わたし<em>が</em> 行きます',trzh:'（係）我去',trja:'行くのはわたしです',
+ cauzh:'が 之前係重點；は 之後先係重點。',cauja:'が は前が焦点、は は後ろが焦点。'},
+{k:'を',mzh:'賓語',mja:'目的語',subzh:'動作嘅對象',subja:'動作の対象',
+ ex:'ごはん<em>を</em> 食べます',trzh:'食飯',trja:'ごはんを食べます',
+ cauzh:'',cauja:''},
+{k:'に',mzh:'到達點・時間・存在',mja:'到達点・時間・存在',subzh:'唔郁嘅位置',subja:'動きのない位置',
+ ex:'学校<em>に</em> 行きます／七時<em>に</em> 起きます',trzh:'去學校／七點起身',trja:'学校へ行く／七時に起きる',
+ cauzh:'同 で 嘅分別：に 係「喺嗰度存在／去到嗰度」。',cauja:'で との違い：に は「そこに存在する／そこへ着く」。'},
+{k:'で',mzh:'動作嘅地點・工具',mja:'動作の場所・手段',subzh:'喺嗰度做嘢',subja:'そこで何かをする',
+ ex:'図書館<em>で</em> 勉強します／バス<em>で</em> 行きます',trzh:'喺圖書館讀書／搭巴士去',trja:'図書館で勉強する／バスで行く',
+ cauzh:'中文一個「在」，日文要分 に 同 で。',cauja:'中国語の「在」が に と で に分かれます。'},
+{k:'と',mzh:'和（完全列舉）',mja:'と（全部を挙げる）',subzh:'就係呢啲，冇其他',subja:'これで全部',
+ ex:'パン<em>と</em> たまご',trzh:'麵包同蛋',trja:'パンとたまご',
+ cauzh:'如果仲有其他，用 や。',cauja:'ほかにもあるなら や を使います。'},
+{k:'の',mzh:'名詞 ＋ 名詞',mja:'名詞＋名詞',subzh:'唔係萬能嘅「的」',subja:'万能の「的」ではない',
+ ex:'わたし<em>の</em> 本／日本語<em>の</em> 本',trzh:'我的書／日文的書',trja:'わたしの本／日本語の本',
+ cauzh:'形容詞唔加 の。赤い車（○）／赤いの車（✕）',cauja:'形容詞には付けません。赤い車（○）／赤いの車（✕）'}
+];
+function drawP(){
+  document.getElementById('plist').innerHTML=PARTS.map(function(p){
+    return '<div class="p"><div class="p-h"><div class="p-k">'+p.k+'</div>'+
+      '<div class="p-m">'+T(p.mzh,p.mja)+'<small>'+T(p.subzh,p.subja)+'</small></div></div>'+
+      '<div class="p-b"><div class="ex">'+p.ex+'</div>'+
+      '<div class="tr">'+T(p.trzh,p.trja)+'</div>'+
+      (T(p.cauzh,p.cauja)?'<div class="cau">'+T(p.cauzh,p.cauja)+'</div>':'')+
+      '</div></div>';
+  }).join('');
+}
+
+/* ---------- 練習 ---------- */
+var BANK=[
+{s:['わたし','　学生です'],a:'は',o:['は','が','を','の'],
+ zh:'「我係學生」——講開我嘅話。は 標示話題。',ja:'「わたしについて言えば学生だ」。は は話題を示します。'},
+{s:['ごはん','　食べます'],a:'を',o:['を','に','で','は'],
+ zh:'「食飯」——飯係動作嘅對象，用 を。',ja:'ごはんは動作の対象なので を。'},
+{s:['図書館','　勉強します'],a:'で',o:['で','に','を','と'],
+ zh:'喺圖書館「做緊嘢」，所以用 で。',ja:'そこで動作をするので で。'},
+{s:['教室','　います'],a:'に',o:['に','で','を','の'],
+ zh:'淨係「喺嗰度」，冇動作，用 に。',ja:'存在だけなので に。'},
+{s:['わたし','　本'],a:'の',o:['の','な','は','が'],
+ zh:'名詞 ＋ 名詞，用 の。',ja:'名詞＋名詞なので の。'},
+{s:['きれい','　花'],a:'な',o:['な','の','は','を'],
+ zh:'きれい 係 な形容詞。唔係 の。',ja:'きれい は な形容詞なので な。'},
+{s:['七時','　起きます'],a:'に',o:['に','で','を','と'],
+ zh:'時間點用 に。',ja:'時刻には に。'},
+{s:['バス','　行きます'],a:'で',o:['で','に','を','の'],
+ zh:'交通工具＝手段，用 で。',ja:'手段なので で。'},
+{s:['パン','　たまごを 買います'],a:'と',o:['と','や','に','で'],
+ zh:'剛好呢兩樣，用 と。',ja:'これで全部なら と。'},
+{s:['だれ','　行きますか'],a:'が',o:['が','は','を','に'],
+ zh:'問「邊個」，用 が。は 唔可以同疑問詞一齊用。',ja:'「だれ」と問うので が。疑問詞に は は使えません。'}
+];
+var QZ={q:[],i:0,ok:0};
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function newRound(){QZ={q:shuffle(BANK.slice()).slice(0,8),i:0,ok:0};drawQ();}
+function drawQ(){
+  var q=QZ.q[QZ.i];
+  document.getElementById('qn').textContent=T('第 '+(QZ.i+1)+' / '+QZ.q.length+' 題','第 '+(QZ.i+1)+' / '+QZ.q.length+' 問');
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  document.getElementById('qs').innerHTML=q.s[0]+'<span class="blank">　？　</span>'+q.s[1];
+  document.getElementById('qt').textContent='';
+  var w=document.getElementById('qo'); w.innerHTML='';
+  shuffle(q.o.slice()).forEach(function(o){
+    var b=document.createElement('button'); b.type='button'; b.className='q-b'; b.textContent=o;
+    b.onclick=function(){ans(o,b);};
+    w.appendChild(b);
+  });
+  var f=document.getElementById('qf'); f.className='q-fb'; f.innerHTML='';
+  document.getElementById('qnext').className='q-next';
+}
+function ans(o,btn){
+  var q=QZ.q[QZ.i];
+  var bs=document.querySelectorAll('#qo .q-b');
+  for(var i=0;i<bs.length;i++){
+    if(bs[i].textContent===q.a) bs[i].className='q-b ok';
+    else if(bs[i]===btn) bs[i].className='q-b ng';
+    else bs[i].className='q-b dim';
+    bs[i].onclick=null;
+  }
+  if(o===q.a) QZ.ok++;
+  document.getElementById('qs').innerHTML=q.s[0]+'<span class="blank">'+q.a+'</span>'+q.s[1];
+  var f=document.getElementById('qf');
+  f.innerHTML=(o===q.a?'⭕ ':'❌ ')+T(q.zh,q.ja);
+  f.className='q-fb show';
+  document.getElementById('qsc').textContent=T('答啱 '+QZ.ok,'正解 '+QZ.ok);
+  var n=document.getElementById('qnext');
+  n.textContent=(QZ.i>=QZ.q.length-1)?T('睇結果','結果を見る'):T('下一題 ›','つぎへ ›');
+  n.className='q-next show';
+}
+document.getElementById('qnext').onclick=function(){
+  if(QZ.i>=QZ.q.length-1){ done(); return; }
+  QZ.i++; drawQ();
+};
+function done(){
+  document.getElementById('qn').textContent=T('完成','おわり');
+  document.getElementById('qsc').textContent='';
+  document.getElementById('qs').textContent=(QZ.ok>=7?'🎉':(QZ.ok>=5?'👍':'📚'));
+  document.getElementById('qo').innerHTML='';
+  var f=document.getElementById('qf');
+  f.innerHTML='<b>'+QZ.ok+' / '+QZ.q.length+'</b>　'+
+    (QZ.ok>=7?T('助詞已經上手，繼續落去。','助詞はつかめています。この調子で。')
+             :T('返上面睇多次「陷阱」嗰段。','上の「落とし穴」の節をもう一度どうぞ。'));
+  f.className='q-fb show';
+  var n=document.getElementById('qnext');
+  n.textContent=T('再嚟一次','もう一度'); n.className='q-next show';
+  n.onclick=function(){newRound(); n.onclick=nextH;};
+}
+var nextH=document.getElementById('qnext').onclick;
+
+(function(){
+  var l='zh'; try{l=localStorage.getItem(LS)||'zh';}catch(e){}
+  drawP(); newRound(); setLang(l);
+})();
+</script>
+</body>
+</html>

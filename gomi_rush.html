@@ -809,6 +809,9 @@ function startGame(city,mode,diff){
      queue:[],qi:0,correct:0,answered:false,prepOpen:false,prepped:false,seq:null};
   layoutBins();
   hideQfb(); closePrep();
+  pendingDanger=null;
+  var _dn=document.getElementById('dangerNote'); if(_dn)_dn.classList.remove('show');
+  var _rs=document.getElementById('ovResult'); if(_rs)_rs.classList.remove('show');
   document.getElementById('hudCity').textContent=city.emoji+' '+city.name+'・'+d.name;
   setLifeUI(mode==='rush');
   if(mode==='rush'){ startLifeSetup(city,diff); return; }
@@ -946,11 +949,27 @@ function choosePrep(o){
   stage.classList.add('shake'); setTimeout(()=>stage.classList.remove('shake'),300);
   G.selected=null; G.prepped=false; stage.classList.remove('has-sel'); renderTray();
   /* 命にかかわるまちがいは、どのモードでも理由を見せる（安全を流れより優先） */
-  if(o.warn) showDangerNote(it.name+' を「'+o.t+'」はいけません。', o.why);
-  addMiss();
+  if(o.warn) dangerMiss(it.name+' を「'+o.t+'」はいけません。', o.why);
+  else addMiss();
 }
 
-/* rush / life モードでも、危険なまちがいのときだけ止めて説明を出す */
+/* 生活型でも、危険なまちがいのときだけ止めて説明を出す。
+   ★ ただし、それが最後のミス（ゲームオーバー）だったときは
+     結果画面が上に重なってパネルが隠れてしまうので、結果画面の中に出す。 */
+var pendingDanger=null;
+function dangerMiss(title, why){
+  pendingDanger={title:title, why:why};
+  const over = addMiss();          /* 先に数える。true ならゲームオーバー */
+  if(over) return;                 /* → missGameOver が結果画面に載せる */
+  pendingDanger=null;
+  showDangerNote(title, why);
+}
+function dangerHtml(title, why){
+  return '<div class="lesson" style="border-color:#F0D2C6;background:#FBE9E4;">'+
+    '<div class="lh" style="color:var(--danger);">🔥 あぶない！</div>'+
+    '<b>'+title+'</b><br>'+why+
+    '<div class="qfb-warn" style="margin-top:8px;">⚠️ '+DANGER_WARN+'</div></div>';
+}
 function showDangerNote(title, why){
   const el=document.getElementById('dangerNote');
   if(!el) return;
@@ -1066,7 +1085,10 @@ function dropToBin(idx,e){
       G.combo=0;
       popup(bin._el.offsetLeft+bin._el.offsetWidth/2,it.danger?'🔥 火が出る！':'✗ 分別ミス','ng');
       stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);
-      addMiss();
+      if(it.danger){
+        const why=(ITEM_WHY&&ITEM_WHY[key])||(MAT_WHY&&MAT_WHY[it.mat])||'';
+        dangerMiss(it.name+' は「'+bin.label+'」ではありません。', why);
+      }else addMiss();
     }
     return;
   }
@@ -1289,7 +1311,10 @@ function missGameOver(){
   document.getElementById('rEmoji').textContent='😵';
   document.getElementById('rTitle').textContent='ミスが多すぎた…';
   document.getElementById('rStats').innerHTML='<b>'+G.daysSurv+'</b>日間 生活できた<br>スコア '+G.score+'　／　ベスト '+best+'日';
-  document.getElementById('rLesson').innerHTML='<div class="lesson"><div class="lh">📗 ヒント</div>取り逃し・分別ミスが5回になりました。流れてくるゴミは早めにタップして、正しい袋へ入れよう。</div>';
+  document.getElementById('rLesson').innerHTML=
+    (pendingDanger?dangerHtml(pendingDanger.title,pendingDanger.why):'')+
+    '<div class="lesson"><div class="lh">📗 ヒント</div>取り逃し・分別ミスが5回になりました。流れてくるゴミは早めにタップして、正しい袋へ入れよう。</div>';
+  pendingDanger=null;
   document.getElementById('rRetry').onclick=()=>{document.getElementById('ovResult').classList.remove('show');startGame(G.city,'rush',G.diff);};
   document.getElementById('ovResult').classList.add('show');
 }

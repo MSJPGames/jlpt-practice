@@ -682,6 +682,7 @@ function buildReadQs(city){
   return shuffle(qs);
 }
 let RQ={qs:[],i:0,ok:0,city:null};
+var cameFromResult=false;   /* 結果画面から各シートを開いたか */
 function openSign(city){
   RQ={qs:buildReadQs(city),i:0,ok:0,city:city};
   document.getElementById('signBox').innerHTML=buildSign(city);
@@ -734,17 +735,27 @@ function openWords(){
   });
   document.getElementById('ovWords').classList.add('show');
 }
+/* ことば画面の閉じるボタンからも結果画面に戻す */
+(function(){
+  var wc=document.getElementById('wordsClose');
+  if(wc){ var prev=wc.onclick;
+    wc.onclick=function(){ if(prev)prev.call(this); backToResult(); }; }
+})();
 document.getElementById('signClose').onclick=function(){
   document.getElementById('ovSign').classList.remove('show');
+  backToResult();
 };
-/* 同じ理由で、ことば・出典・危険の各シートも背景を押したら閉じられるようにする */
+/* 背景を押しても閉じられるようにする。閉じたら結果画面へ戻す。 */
 ['ovSign','ovWords','ovSrc','ovLang'].forEach(function(id){
   var el=document.getElementById(id); if(!el) return;
-  el.addEventListener('click',function(e){ if(e.target===el) el.classList.remove('show'); });
+  el.addEventListener('click',function(e){
+    if(e.target===el){ el.classList.remove('show'); backToResult(); }
+  });
 });
 document.getElementById('dnClose').onclick=function(){ closeDangerNote(); };
 document.getElementById('srcClose').onclick=function(){
   document.getElementById('ovSrc').classList.remove('show');
+  backToResult();
 };
 function openSrcSheet(){
   document.getElementById('srcList2').innerHTML=(TR.sources||[])
@@ -821,7 +832,7 @@ function startGame(city,mode,diff){
      queue:[],qi:0,correct:0,answered:false,prepOpen:false,prepped:false,seq:null};
   layoutBins();
   hideQfb(); closePrep();
-  pendingDanger=null;
+  pendingDanger=null; cameFromResult=false;
   var _dn=document.getElementById('dangerNote'); if(_dn)_dn.classList.remove('show');
   var _rs=document.getElementById('ovResult'); if(_rs)_rs.classList.remove('show');
   document.getElementById('hudCity').textContent=city.emoji+' '+city.name+'・'+d.name;
@@ -1182,13 +1193,30 @@ function quizResult(){
   document.getElementById('rStats').innerHTML='正解 <b>'+G.correct+'</b> ／ '+G.queue.length+'　（'+pct+'%）';
   showResultLesson();
   document.getElementById('rRetry').onclick=()=>{document.getElementById('ovResult').classList.remove('show');startGame(G.city,'quiz',G.diff);};
+  /* ★ 貼り紙を閉じたときに戻る先が要るので、結果画面を「開いた状態」にしておく。
+     以前は結果画面を出さずに貼り紙だけ開いていたため、
+     閉じると操作できない画面が残っていた。 */
+  document.getElementById('ovResult').classList.add('show');
+  cameFromResult=true;
   openSign(G.city);   /* 分別のあとに、掲示を読む */
 }
 function showResultLesson(){
   document.getElementById('rLesson').innerHTML='<div class="lesson"><div class="lh">📗 '+G.city.name+'のポイント</div>'+G.city.lesson+'</div>';
 }
-document.getElementById('rSrc').onclick=function(){ openSrcSheet(); };
+/* 結果画面から開いたシートは、閉じたら結果画面に戻す。
+   戻り先を消したまま閉じると、操作できない画面が残ってしまうため。 */
+function backToResult(){
+  if(!cameFromResult) return;
+  cameFromResult=false;
+  document.getElementById('ovResult').classList.add('show');
+}
+document.getElementById('rSrc').onclick=function(){
+  cameFromResult=true;
+  document.getElementById('ovResult').classList.remove('show');
+  openSrcSheet();
+};
 document.getElementById('rSign').onclick=function(){
+  cameFromResult=true;
   document.getElementById('ovResult').classList.remove('show');
   openSign(G.city);
 };

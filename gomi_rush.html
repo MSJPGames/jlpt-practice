@@ -462,6 +462,7 @@
       <div class="rq-fb" id="rqFb"></div>
       <button class="btn btn-primary" id="rqNext" style="margin-top:10px;display:none;">つぎへ ›</button>
     </div>
+    <button class="btn btn-ghost" id="signClose" style="margin-top:10px;">とじる</button>
   </div>
 </div>
 
@@ -733,6 +734,14 @@ function openWords(){
   });
   document.getElementById('ovWords').classList.add('show');
 }
+document.getElementById('signClose').onclick=function(){
+  document.getElementById('ovSign').classList.remove('show');
+};
+/* 同じ理由で、ことば・出典・危険の各シートも背景を押したら閉じられるようにする */
+['ovSign','ovWords','ovSrc','ovLang'].forEach(function(id){
+  var el=document.getElementById(id); if(!el) return;
+  el.addEventListener('click',function(e){ if(e.target===el) el.classList.remove('show'); });
+});
 document.getElementById('dnClose').onclick=function(){ closeDangerNote(); };
 document.getElementById('srcClose').onclick=function(){
   document.getElementById('ovSrc').classList.remove('show');

@@ -79,6 +79,7 @@ const SPECIAL_BINS=[
   {id:'pc',label:'メーカーに連絡',cls:'c-pc',ex:'パソコン本体・モニター。メーカーが回収（無料のことも）',lv:3}
 ];
 const MAT_WHY={
+  broken:'割れたガラス・われた食器・刃物は、あつい紙につつんで、ふくろに「キケン」と書いてから出します。そうしないと、ごみを集める人が手をけがします。（出す区分は街によってちがいます）',
   bulky:'大きな家具や、家電4品目・パソコン以外の電化製品は「粗大ごみ」。役所に連絡して、有料で出します。',
   kaden:'テレビ・冷蔵庫・洗濯機・エアコンの4品目は、買ったお店や買いかえるお店に連絡して引き取ってもらいます（有料）。',
   pc:'パソコン本体とモニターは、メーカーに連絡して回収してもらいます（無料のことも）。プリンターは対象外で粗大ごみへ。',
@@ -249,9 +250,9 @@ const TR={
    "label": "English"
   },
   {
-  "id": "zh",
-  "label": "简体中文"
- },
+   "id": "zh",
+   "label": "简体中文"
+  },
   {
    "id": "vi",
    "label": "Tiếng Việt"
@@ -279,11 +280,15 @@ const TR={
   {
    "id": "zhHant",
    "label": "繁體中文"
+  },
+  {
+   "id": "ne",
+   "label": "नेपाली"
   }
  ],
  "bins": {
   "可燃": {
-   "en": "Burnable garbage",
+   "en": "Household waste",
    "zh": "可燃垃圾",
    "vi": "Rác cháy được",
    "ko": "타는 쓰레기",
@@ -291,10 +296,11 @@ const TR={
    "tl": "Nasusunog na basura",
    "es": "Basura quemable",
    "id": "Sampah yang bisa dibakar",
-   "zhHant": "可燃垃圾"
+   "zhHant": "可燃垃圾",
+   "ne": "जल्ने फोहोर"
   },
   "燃える": {
-   "en": "Burnable garbage",
+   "en": "Household waste",
    "zh": "可燃垃圾",
    "vi": "Rác cháy được",
    "ko": "타는 쓰레기",
@@ -302,10 +308,11 @@ const TR={
    "tl": "Nasusunog na basura",
    "es": "Basura quemable",
    "id": "Sampah yang bisa dibakar",
-   "zhHant": "可燃垃圾"
+   "zhHant": "可燃垃圾",
+   "ne": "जल्ने फोहोर"
   },
   "燃やせる": {
-   "en": "Burnable garbage",
+   "en": "Household waste",
    "zh": "可燃垃圾",
    "vi": "Rác cháy được",
    "ko": "타는 쓰레기",
@@ -313,18 +320,20 @@ const TR={
    "tl": "Nasusunog na basura",
    "es": "Basura quemable",
    "id": "Sampah yang bisa dibakar",
-   "zhHant": "可燃垃圾"
+   "zhHant": "可燃垃圾",
+   "ne": "जल्ने फोहोर"
   },
   "普通ごみ": {
-   "en": "Burnable garbage",
-   "zh": "可燃垃圾",
-   "vi": "Rác cháy được",
-   "ko": "타는 쓰레기",
-   "pt": "Lixo combustível",
-   "tl": "Nasusunog na basura",
-   "es": "Basura quemable",
-   "id": "Sampah yang bisa dibakar",
-   "zhHant": "可燃垃圾"
+   "en": "Household waste",
+   "zh": "一般垃圾",
+   "vi": "Rác thông thường",
+   "ko": "일반 쓰레기",
+   "pt": "Lixo comum",
+   "tl": "Karaniwang basura",
+   "es": "Basura común",
+   "id": "Sampah biasa",
+   "zhHant": "一般垃圾",
+   "ne": "सामान्य फोहोर"
   },
   "不燃": {
    "en": "Non-burnable garbage",
@@ -335,7 +344,8 @@ const TR={
    "tl": "Hindi nasusunog na basura",
    "es": "Basura no quemable",
    "id": "Sampah yang tidak bisa dibakar",
-   "zhHant": "不可燃垃圾"
+   "zhHant": "不可燃垃圾",
+   "ne": "नजल्ने फोहोर"
   },
   "燃えない": {
    "en": "Non-burnable garbage",
@@ -346,7 +356,8 @@ const TR={
    "tl": "Hindi nasusunog na basura",
    "es": "Basura no quemable",
    "id": "Sampah yang tidak bisa dibakar",
-   "zhHant": "不可燃垃圾"
+   "zhHant": "不可燃垃圾",
+   "ne": "नजल्ने फोहोर"
   },
   "燃やせない": {
    "en": "Non-burnable garbage",
@@ -357,139 +368,152 @@ const TR={
    "tl": "Hindi nasusunog na basura",
    "es": "Basura no quemable",
    "id": "Sampah yang tidak bisa dibakar",
-   "zhHant": "不可燃垃圾"
+   "zhHant": "不可燃垃圾",
+   "ne": "नजल्ने फोहोर"
   },
   "プラ資源": {
    "en": "Plastic recyclables",
-   "zh": "塑料制容器包装",
-   "vi": "Nhựa tái chế",
+   "zh": "塑料资源",
+   "vi": "Rác tài nguyên nhựa",
    "ko": "플라스틱 자원",
    "pt": "Plástico reciclável",
    "tl": "Mga recyclable na plastik",
    "es": "Plástico reciclable",
    "id": "Plastik daur ulang",
-   "zhHant": "塑膠回收物"
+   "zhHant": "塑膠回收物",
+   "ne": "प्लास्टिक स्रोत फोहोर"
   },
   "容器包装プラ": {
    "en": "Plastic containers and packaging",
-   "zh": "塑料制容器包装",
-   "vi": "Bao bì nhựa",
-   "ko": "용기포장 플라스틱",
+   "zh": "容器包装塑料",
+   "vi": "Bao bì/đồ đựng bằng nhựa",
+   "ko": "용기 포장 플라스틱",
    "pt": "Recipientes e embalagens de plástico",
    "tl": "Mga plastik na lalagyan at packaging",
    "es": "Envases de plástico",
    "id": "Wadah dan kemasan plastik",
-   "zhHant": "塑膠容器與包裝"
+   "zhHant": "塑膠容器與包裝",
+   "ne": "कन्टेनर र प्याकेजिङ प्लास्टिक"
   },
   "その他プラ": {
    "en": "Other plastics",
-   "zh": "其他塑料制品",
+   "zh": "其它塑料",
    "vi": "Nhựa khác",
    "ko": "기타 플라스틱",
    "pt": "Outros plásticos",
    "tl": "Ibang mga plastik",
    "es": "Otros plásticos",
    "id": "Plastik lainnya",
-   "zhHant": "其他塑膠製品"
+   "zhHant": "其他塑膠製品",
+   "ne": "अन्य प्लास्टिक"
   },
   "ペットボトル": {
    "en": "PET bottles",
-   "zh": "塑料瓶（PET）",
+   "zh": "PET塑料瓶",
    "vi": "Chai nhựa PET",
    "ko": "페트병",
    "pt": "Garrafas PET",
    "tl": "Mga PET bottle",
    "es": "Botellas PET",
    "id": "Botol PET",
-   "zhHant": "塑膠瓶"
+   "zhHant": "塑膠瓶",
+   "ne": "प्लास्टिक बोतल"
   },
   "びん・ペット": {
-   "en": "Bottles and PET bottles",
-   "zh": "空瓶・塑料瓶",
+   "en": "Used bottles and PET bottles",
+   "zh": "空瓶和PET塑料瓶",
    "vi": "Chai rỗng và chai nhựa PET",
    "ko": "빈 병·페트병",
    "pt": "Garrafas de vidro e PET",
    "tl": "Bote at PET bottle",
    "es": "Botellas de vidrio y PET",
    "id": "Botol kaca dan botol PET",
-   "zhHant": "玻璃瓶與塑膠瓶"
+   "zhHant": "玻璃瓶與塑膠瓶",
+   "ne": "बोतल र प्लास्टिकको बोतल"
   },
   "びん・缶類": {
-   "en": "Bottles and cans",
-   "zh": "空瓶・空罐",
-   "vi": "Chai rỗng và lon rỗng",
-   "ko": "빈 병·빈 캔",
+   "en": "Used cans and bottles",
+   "zh": "空罐和空瓶",
+   "vi": "Lon rỗng và chai rỗng",
+   "ko": "빈 캔·빈 병",
    "pt": "Garrafas de vidro e latas",
    "tl": "Bote at lata",
    "es": "Botellas y latas",
    "id": "Botol dan kaleng",
-   "zhHant": "玻璃瓶與鐵鋁罐"
+   "zhHant": "玻璃瓶與鐵鋁罐",
+   "ne": "बोतल र क्यान"
   },
   "びん缶ペット": {
-   "en": "Bottles, cans and PET bottles",
-   "zh": "空瓶・空罐・塑料瓶",
-   "vi": "Chai, lon và chai nhựa PET",
-   "ko": "병·캔·페트병",
+   "en": "Used cans, bottles and PET bottles",
+   "zh": "空罐、空瓶和PET塑料瓶",
+   "vi": "Lon rỗng, chai rỗng và chai nhựa PET",
+   "ko": "빈 캔·빈 병·페트병",
    "pt": "Vidro, latas e PET",
    "tl": "Bote, lata at PET bottle",
    "es": "Botellas, latas y PET",
    "id": "Botol, kaleng dan botol PET",
-   "zhHant": "玻璃瓶、鐵鋁罐與塑膠瓶"
+   "zhHant": "玻璃瓶、鐵鋁罐與塑膠瓶",
+   "ne": "बोतल, क्यान र प्लास्टिकको बोतल"
   },
   "缶びんペット": {
-   "en": "Cans, bottles and PET bottles",
-   "zh": "空罐・空瓶・塑料瓶",
-   "vi": "Lon, chai và chai nhựa PET",
-   "ko": "캔·병·페트병",
+   "en": "Used cans, bottles and PET bottles",
+   "zh": "空罐、空瓶和PET塑料瓶",
+   "vi": "Lon rỗng, chai rỗng và chai nhựa PET",
+   "ko": "빈 캔·빈 병·페트병",
    "pt": "Latas, vidro e PET",
    "tl": "Lata, bote at PET bottle",
    "es": "Latas, botellas y PET",
    "id": "Kaleng, botol dan botol PET",
-   "zhHant": "鐵鋁罐、玻璃瓶與塑膠瓶"
+   "zhHant": "鐵鋁罐、玻璃瓶與塑膠瓶",
+   "ne": "क्यान, बोतल र प्लास्टिकको बोतल"
   },
   "資源ごみ": {
-   "en": "Recyclables",
-   "zh": "资源类废弃物",
-   "vi": "Rác tái chế",
+   "en": "Recyclable waste",
+   "zh": "资源垃圾",
+   "vi": "Rác tài nguyên",
    "ko": "자원 쓰레기",
    "pt": "Lixo reciclável",
    "tl": "Mga recyclable na basura",
    "es": "Basura reciclable",
    "id": "Sampah daur ulang",
-   "zhHant": "資源回收物"
+   "zhHant": "資源回收物",
+   "ne": "पुनः प्रयोग योग्य फोहोर"
   },
   "古紙": {
-   "en": "Waste paper",
-   "zh": "纸类",
-   "vi": "Các loại giấy",
+   "en": "Used paper",
+   "zh": "废纸",
+   "vi": "Giấy đã qua sử dụng",
    "ko": "폐지",
    "pt": "Papéis",
    "tl": "Gamit na papel",
    "es": "Papel usado",
    "id": "Kertas bekas",
-   "zhHant": "廢紙"
+   "zhHant": "廢紙",
+   "ne": "पुराना कागज"
   },
   "古紙・衣類": {
-   "en": "Paper and cloth",
-   "zh": "纸类・布类",
-   "vi": "Các loại giấy và các loại vải",
+   "en": "Used paper and clothing",
+   "zh": "废纸及衣服类",
+   "vi": "Giấy và quần áo đã qua sử dụng",
    "ko": "폐지·의류",
-   "pt": "Papéis e tecidos",
+   "pt": "Papéis usados e roupas",
    "tl": "Gamit na papel at lumang damit",
    "es": "Papel usado y ropa",
    "id": "Kertas bekas dan pakaian",
-   "zhHant": "廢紙與舊衣物"
+   "zhHant": "廢紙與舊衣物",
+   "ne": "पुराना कागज तथा लुगा"
   },
   "紙・布": {
-   "en": "Paper and cloth",
-   "zh": "纸类・布类",
-   "vi": "Các loại giấy và các loại vải",
-   "ko": "폐지·의류",
+   "en": "Paper and textiles",
+   "zh": "纸类和布类",
+   "vi": "Giấy và các loại vải",
+   "ko": "종이·천",
    "pt": "Papéis e tecidos",
    "tl": "Papel at tela",
    "es": "Papel y tela",
    "id": "Kertas dan kain",
-   "zhHant": "紙類與布類"
+   "zhHant": "紙類與布類",
+   "ne": "कागज र कपडा"
   },
   "発火性危険": {
    "en": "Fire-hazard waste",
@@ -500,7 +524,8 @@ const TR={
    "tl": "Nasusunog na mapanganib na bagay",
    "es": "Materiales peligrosos inflamables",
    "id": "Barang berbahaya mudah terbakar",
-   "zhHant": "易燃危險垃圾"
+   "zhHant": "易燃危險垃圾",
+   "ne": "आगो लाग्न सक्ने खतरनाक फोहोर"
   },
   "処理困難物": {
    "en": "Hard-to-process waste",
@@ -511,7 +536,8 @@ const TR={
    "tl": "Mahirap iprosesong basura",
    "es": "Residuos difíciles de tratar",
    "id": "Sampah yang sulit diolah",
-   "zhHant": "難處理垃圾"
+   "zhHant": "難處理垃圾",
+   "ne": "प्रशोधन गर्न कठिन फोहोर"
   },
   "先に処理する": {
    "en": "Treat it first",
@@ -522,7 +548,8 @@ const TR={
    "tl": "Ihanda muna",
    "es": "Prepare primero",
    "id": "Olah dulu",
-   "zhHant": "先行處理"
+   "zhHant": "先行處理",
+   "ne": "पहिले तयार पार्नुहोस्"
   },
   "充電池の回収へ": {
    "en": "To rechargeable-battery collection",
@@ -533,7 +560,8 @@ const TR={
    "tl": "Sa koleksyon ng rechargeable battery",
    "es": "A la recogida de baterías recargables",
    "id": "Ke pengumpulan baterai isi ulang",
-   "zhHant": "送充電電池回收點"
+   "zhHant": "送充電電池回收點",
+   "ne": "रिचार्जेबल ब्याट्री सङ्कलनमा"
   },
   "回収ボックスへ": {
    "en": "To the collection box",
@@ -544,7 +572,8 @@ const TR={
    "tl": "Sa collection box",
    "es": "A la caja de recogida",
    "id": "Ke kotak pengumpulan",
-   "zhHant": "投入回收箱"
+   "zhHant": "投入回收箱",
+   "ne": "सङ्कलन बाकसमा"
   },
   "役所に連絡": {
    "en": "Contact the city office",
@@ -555,7 +584,8 @@ const TR={
    "tl": "Makipag-ugnayan sa city hall",
    "es": "Contacte al ayuntamiento",
    "id": "Hubungi kantor kota",
-   "zhHant": "聯絡市政府"
+   "zhHant": "聯絡市政府",
+   "ne": "वार्ड कार्यालयमा सम्पर्क गर्नुहोस्"
   },
   "お店に連絡": {
    "en": "Contact the shop",
@@ -566,7 +596,8 @@ const TR={
    "tl": "Makipag-ugnayan sa tindahan",
    "es": "Contacte a la tienda",
    "id": "Hubungi toko",
-   "zhHant": "聯絡購買的商店"
+   "zhHant": "聯絡購買的商店",
+   "ne": "पसलमा सम्पर्क गर्नुहोस्"
   },
   "メーカーに連絡": {
    "en": "Contact the maker",
@@ -577,262 +608,286 @@ const TR={
    "tl": "Makipag-ugnayan sa gumawa",
    "es": "Contacte al fabricante",
    "id": "Hubungi produsen",
-   "zhHant": "聯絡製造商"
+   "zhHant": "聯絡製造商",
+   "ne": "निर्माता कम्पनीमा सम्पर्क गर्नुहोस्"
   }
  },
  "items": {
   "nama": {
-   "en": "Food scraps (vegetable)",
-   "zh": "厨余垃圾（菜叶）",
-   "vi": "Rác thực phẩm (vỏ rau)",
-   "ko": "음식물 쓰레기(채소 찌꺼기)",
+   "en": "Kitchen garbage and food scraps",
+   "zh": "厨房垃圾和厨余垃圾",
+   "vi": "Rác nhà bếp và rác tươi sống",
+   "ko": "부엌 쓰레기·음식물 쓰레기",
    "pt": "Restos de comida (legumes)",
    "tl": "Mga tira ng pagkain",
    "es": "Restos de comida",
    "id": "Sisa makanan",
-   "zhHant": "廚餘（蔬菜碎屑）"
+   "zhHant": "廚餘（蔬菜碎屑）",
+   "ne": "भान्साको फोहोर / जैविक फोहोर"
   },
   "pet": {
    "en": "PET bottles",
-   "zh": "塑料瓶（PET）",
+   "zh": "PET塑料瓶",
    "vi": "Chai nhựa PET",
    "ko": "페트병",
    "pt": "Garrafas PET",
    "tl": "PET bottle",
    "es": "Botella PET",
    "id": "Botol PET",
-   "zhHant": "塑膠瓶"
+   "zhHant": "塑膠瓶",
+   "ne": "प्लास्टिक बोतल"
   },
   "can": {
-   "en": "Aluminium cans",
-   "zh": "铝罐",
-   "vi": "Lon nhôm",
-   "ko": "알루미늄 캔",
+   "en": "Used cans",
+   "zh": "空罐",
+   "vi": "Lon rỗng",
+   "ko": "빈 캔",
    "pt": "Latas de alumínio",
    "tl": "Latang aluminyo",
    "es": "Lata de aluminio",
    "id": "Kaleng aluminium",
-   "zhHant": "鋁罐"
+   "zhHant": "鋁罐",
+   "ne": "खाली क्यान"
   },
   "bine": {
-   "en": "Glass bottles",
+   "en": "Used bottles",
    "zh": "空瓶",
-   "vi": "Chai thủy tinh",
+   "vi": "Chai rỗng",
    "ko": "빈 병",
    "pt": "Garrafas de vidro",
    "tl": "Boteng salamin",
    "es": "Botella de vidrio",
    "id": "Botol kaca",
-   "zhHant": "玻璃瓶"
+   "zhHant": "玻璃瓶",
+   "ne": "खाली सिसाको बोतल"
   },
   "bento": {
-   "en": "Plastic bento tray",
+   "en": "Plastic lunch box container",
    "zh": "塑料便当盒",
-   "vi": "Hộp cơm nhựa",
+   "vi": "Hộp đựng cơm bằng nhựa",
    "ko": "플라스틱 도시락 용기",
    "pt": "Marmita de plástico",
    "tl": "Plastik na lalagyan ng pagkain",
    "es": "Envase de plástico para comida",
    "id": "Wadah bento plastik",
-   "zhHant": "塑膠便當盒"
+   "zhHant": "塑膠便當盒",
+   "ne": "प्लास्टिकको खानाको कन्टेनर"
   },
   "cap": {
-   "en": "Bottle cap",
-   "zh": "塑料瓶盖",
-   "vi": "Nắp chai nhựa",
+   "en": "PET bottle cap",
+   "zh": "PET塑料瓶的瓶盖",
+   "vi": "Nắp chai nhựa PET",
    "ko": "페트병 뚜껑",
    "pt": "Tampa de garrafa",
    "tl": "Takip ng bote",
    "es": "Tapa de botella",
    "id": "Tutup botol",
-   "zhHant": "瓶蓋"
+   "zhHant": "瓶蓋",
+   "ne": "प्लास्टिक बोतलको ढकनी"
   },
   "news": {
-   "en": "Newspaper",
-   "zh": "报纸",
-   "vi": "Báo",
-   "ko": "신문지",
+   "en": "Newspaper and ad inserts",
+   "zh": "报纸、夹入广告",
+   "vi": "Báo và tờ rơi gấp kèm",
+   "ko": "신문·전단지",
    "pt": "Jornais",
    "tl": "Diyaryo",
    "es": "Periódico",
    "id": "Koran",
-   "zhHant": "報紙"
+   "zhHant": "報紙",
+   "ne": "समाचारपत्र"
   },
   "cardb": {
    "en": "Cardboard",
-   "zh": "纸板",
+   "zh": "硬纸箱",
    "vi": "Thùng carton",
-   "ko": "골판지",
+   "ko": "종이 박스",
    "pt": "Papelão",
    "tl": "Karton",
    "es": "Cartón",
    "id": "Kardus",
-   "zhHant": "紙箱"
+   "zhHant": "紙箱",
+   "ne": "कार्टुन"
   },
   "zasshi": {
-   "en": "Magazines and misc. paper",
-   "zh": "杂志・杂纸",
-   "vi": "Tạp chí và giấy vụn",
-   "ko": "잡지·잡종이",
+   "en": "Magazines",
+   "zh": "杂志",
+   "vi": "Tạp chí",
+   "ko": "잡지",
    "pt": "Revistas e papéis diversos",
    "tl": "Magasin",
    "es": "Revista",
    "id": "Majalah",
-   "zhHant": "雜誌"
+   "zhHant": "雜誌",
+   "ne": "पत्रिका"
   },
   "milk": {
    "en": "Paper cartons",
-   "zh": "纸包装",
-   "vi": "Hộp giấy",
-   "ko": "종이팩",
+   "zh": "纸包装盒",
+   "vi": "Hộp bằng giấy",
+   "ko": "종이 팩",
    "pt": "Cartonados",
    "tl": "Karton ng gatas",
    "es": "Cartón de leche",
    "id": "Karton susu",
-   "zhHant": "紙盒包裝"
+   "zhHant": "紙盒包裝",
+   "ne": "कागजको प्याकेट"
   },
   "tray": {
-   "en": "Foam food tray",
-   "zh": "泡沫食品托盘",
-   "vi": "Khay xốp đựng thực phẩm",
-   "ko": "스티로폼 식품 트레이",
+   "en": "Styrofoam trays",
+   "zh": "泡沫塑料托盘",
+   "vi": "Các loại khay bằng xốp",
+   "ko": "발포 스티로폼 트레이",
    "pt": "Bandeja de isopor",
    "tl": "Tray na styrofoam",
    "es": "Bandeja de espuma",
    "id": "Nampan busa",
-   "zhHant": "發泡膠食品托盤"
+   "zhHant": "發泡膠食品托盤",
+   "ne": "फोम स्टाइरोफोमको ट्रे"
   },
   "cupmen": {
-   "en": "Instant noodle cup",
-   "zh": "泡面碗",
-   "vi": "Cốc mì ăn liền",
+   "en": "Instant noodle container",
+   "zh": "杯面容器",
+   "vi": "Cốc mì ly",
    "ko": "컵라면 용기",
    "pt": "Copo de macarrão instantâneo",
    "tl": "Lalagyan ng cup noodles",
    "es": "Vaso de fideos instantáneos",
    "id": "Wadah mi instan",
-   "zhHant": "杯麵容器"
+   "zhHant": "杯麵容器",
+   "ne": "कप नूडलको कन्टेनर"
   },
   "okashi": {
-   "en": "Snack bag",
-   "zh": "零食袋",
-   "vi": "Túi bánh kẹo",
-   "ko": "과자 봉지",
+   "en": "Snack bags",
+   "zh": "点心的塑料袋",
+   "vi": "Túi đựng bánh kẹo",
+   "ko": "과자 봉투",
    "pt": "Embalagem de salgadinho",
    "tl": "Supot ng meryenda",
    "es": "Bolsa de snacks",
    "id": "Bungkus makanan ringan",
-   "zhHant": "零食包裝袋"
+   "zhHant": "零食包裝袋",
+   "ne": "मिठाईको झोला"
   },
   "omutsu": {
-   "en": "Used diaper",
-   "zh": "用过的纸尿裤",
-   "vi": "Bỉm đã dùng",
-   "ko": "사용한 기저귀",
+   "en": "Disposable diapers",
+   "zh": "纸尿布",
+   "vi": "Tã giấy",
+   "ko": "일회용 기저귀",
    "pt": "Fralda usada",
    "tl": "Gamit na lampin",
    "es": "Pañal usado",
    "id": "Popok bekas",
-   "zhHant": "用過的紙尿褲"
+   "zhHant": "用過的紙尿褲",
+   "ne": "कागजको डाइपर"
   },
   "tissue": {
-   "en": "Used tissue",
-   "zh": "用过的纸巾",
-   "vi": "Giấy ăn đã dùng",
-   "ko": "사용한 휴지",
+   "en": "Used tissue paper",
+   "zh": "用过的面巾纸",
+   "vi": "Khăn giấy đã dùng",
+   "ko": "사용한 티슈",
    "pt": "Lenço de papel usado",
    "tl": "Gamit na tissue",
    "es": "Pañuelo de papel usado",
    "id": "Tisu bekas",
-   "zhHant": "用過的紙巾"
+   "zhHant": "用過的紙巾",
+   "ne": "प्रयोग गरिएको टिस्यु"
   },
   "glassbroken": {
    "en": "Broken glass cup",
-   "zh": "打碎的玻璃杯",
-   "vi": "Cốc thủy tinh vỡ",
+   "zh": "玻璃碎片",
+   "vi": "Mảnh vỡ thủy tinh",
    "ko": "깨진 유리컵",
    "pt": "Copo de vidro quebrado",
    "tl": "Basag na baso",
    "es": "Vaso de vidrio roto",
    "id": "Gelas kaca pecah",
-   "zhHant": "破掉的玻璃杯"
+   "zhHant": "破掉的玻璃杯",
+   "ne": "फुटेको गिलास"
   },
   "chawan": {
    "en": "Broken ceramic bowl",
-   "zh": "打碎的陶瓷碗",
-   "vi": "Bát sứ vỡ",
-   "ko": "깨진 도자기 그릇",
+   "zh": "破碎的陶瓷器",
+   "vi": "Đồ gốm sứ bị vỡ",
+   "ko": "깨진 도자기",
    "pt": "Tigela de cerâmica quebrada",
    "tl": "Basag na mangkok na seramika",
    "es": "Tazón de cerámica roto",
    "id": "Mangkuk keramik pecah",
-   "zhHant": "破掉的陶瓷碗"
+   "zhHant": "破掉的陶瓷碗",
+   "ne": "माटोका भाँडा"
   },
   "spray": {
-   "en": "Spray cans (empty)",
-   "zh": "喷雾罐（空）",
-   "vi": "Lon xịt (đã hết)",
-   "ko": "스프레이 캔(빈 것)",
+   "en": "Spray cans",
+   "zh": "喷雾罐",
+   "vi": "Bình xịt",
+   "ko": "스프레이 캔",
    "pt": "Latas de spray (vazias)",
    "tl": "Spray can (walang laman)",
    "es": "Lata de aerosol (vacía)",
    "id": "Kaleng semprot (kosong)",
-   "zhHant": "噴霧罐（已用完）"
+   "zhHant": "噴霧罐（已用完）",
+   "ne": "स्प्रे क्यान"
   },
   "spray_full": {
-   "en": "Spray can with contents left",
-   "zh": "还有残留的喷雾罐",
-   "vi": "Lon xịt còn chất bên trong",
+   "en": "Spray can with contents remaining",
+   "zh": "内装物未用完的喷雾罐",
+   "vi": "Bình xịt còn chất bên trong",
    "ko": "내용물이 남은 스프레이 캔",
    "pt": "Lata de spray com conteúdo",
    "tl": "Spray can na may laman pa",
    "es": "Lata de aerosol con contenido",
    "id": "Kaleng semprot yang masih berisi",
-   "zhHant": "仍有殘留的噴霧罐"
+   "zhHant": "仍有殘留的噴霧罐",
+   "ne": "भित्र ग्यास बाँकी रहेको स्प्रे क्यान"
   },
   "cloth": {
-   "en": "Fabric products",
-   "zh": "旧衣物",
-   "vi": "Các loại vải",
+   "en": "Clothing",
+   "zh": "衣服类",
+   "vi": "Quần áo",
    "ko": "의류",
    "pt": "Tecidos",
    "tl": "Lumang damit",
    "es": "Ropa usada",
    "id": "Pakaian bekas",
-   "zhHant": "舊衣物"
+   "zhHant": "舊衣物",
+   "ne": "कपडा"
   },
   "frypan": {
-   "en": "Worn-out frying pan",
-   "zh": "用旧的平底锅",
-   "vi": "Chảo cũ",
-   "ko": "낡은 프라이팬",
+   "en": "Frying pan",
+   "zh": "平底锅",
+   "vi": "Chảo",
+   "ko": "프라이팬",
    "pt": "Frigideira velha",
    "tl": "Lumang kawali",
    "es": "Sartén viejo",
    "id": "Wajan lama",
-   "zhHant": "用舊的平底鍋"
+   "zhHant": "用舊的平底鍋",
+   "ne": "फ्राइप्यान"
   },
   "bucket": {
    "en": "Plastic bucket",
    "zh": "塑料水桶",
-   "vi": "Xô nhựa",
+   "vi": "Xô bằng nhựa",
    "ko": "플라스틱 양동이",
    "pt": "Balde de plástico",
    "tl": "Plastik na balde",
    "es": "Cubo de plástico",
    "id": "Ember plastik",
-   "zhHant": "塑膠水桶"
+   "zhHant": "塑膠水桶",
+   "ne": "प्लास्टिकको भाँडो"
   },
   "toy": {
-   "en": "Broken toy car",
-   "zh": "坏掉的玩具车",
-   "vi": "Ô tô đồ chơi hỏng",
-   "ko": "고장난 장난감 자동차",
+   "en": "Broken toy",
+   "zh": "坏掉的玩具",
+   "vi": "Đồ chơi bị hỏng",
+   "ko": "고장난 장난감",
    "pt": "Carrinho de brinquedo quebrado",
    "tl": "Sirang laruang kotse",
    "es": "Coche de juguete roto",
    "id": "Mobil mainan rusak",
-   "zhHant": "壞掉的玩具車"
+   "zhHant": "壞掉的玩具車",
+   "ne": "बिग्रेको खेलौना कार"
   },
   "habrush": {
    "en": "Toothbrush",
@@ -843,32 +898,35 @@ const TR={
    "tl": "Sipilyo",
    "es": "Cepillo de dientes",
    "id": "Sikat gigi",
-   "zhHant": "牙刷"
+   "zhHant": "牙刷",
+   "ne": "टुथब्रश"
   },
   "cd": {
-   "en": "Unwanted CD or DVD",
-   "zh": "不要的CD・DVD",
-   "vi": "Đĩa CD hoặc DVD không dùng",
-   "ko": "필요 없는 CD·DVD",
+   "en": "Videotapes, CDs and DVDs",
+   "zh": "录像带・CD・DVD",
+   "vi": "Băng video・CD・DVD",
+   "ko": "비디오테이프·CD·DVD",
    "pt": "CD ou DVD sem uso",
    "tl": "CD o DVD",
    "es": "CD o DVD",
    "id": "CD atau DVD",
-   "zhHant": "不要的CD・DVD"
+   "zhHant": "不要的CD・DVD",
+   "ne": "भिडियो टेप・सीडी・डीभीडी"
   },
   "mirror": {
    "en": "Broken mirror",
-   "zh": "打碎的镜子",
-   "vi": "Gương vỡ",
+   "zh": "破碎的镜子",
+   "vi": "Gương bị vỡ",
    "ko": "깨진 거울",
    "pt": "Espelho quebrado",
    "tl": "Basag na salamin",
    "es": "Espejo roto",
    "id": "Cermin pecah",
-   "zhHant": "破掉的鏡子"
+   "zhHant": "破掉的鏡子",
+   "ne": "फुटेको ऐना"
   },
   "waribashi": {
-   "en": "Used disposable chopsticks",
+   "en": "Used wooden chopsticks",
    "zh": "用过的一次性筷子",
    "vi": "Đũa dùng một lần đã dùng",
    "ko": "사용한 나무젓가락",
@@ -876,106 +934,116 @@ const TR={
    "tl": "Gamit na disposable chopsticks",
    "es": "Palillos desechables usados",
    "id": "Sumpit sekali pakai bekas",
-   "zhHant": "用過的免洗筷"
+   "zhHant": "用過的免洗筷",
+   "ne": "प्रयोग गरिएको काठको चपस्टिक"
   },
   "pizzabox": {
-   "en": "Greasy pizza box",
+   "en": "Pizza box stained with oil",
    "zh": "沾油的披萨盒",
    "vi": "Hộp pizza dính dầu mỡ",
-   "ko": "기름 묻은 피자 상자",
+   "ko": "기름이 묻은 피자 상자",
    "pt": "Caixa de pizza engordurada",
    "tl": "Kahon ng pizza na may mantika",
    "es": "Caja de pizza con grasa",
    "id": "Kotak pizza berminyak",
-   "zhHant": "沾油的薄餅盒"
+   "zhHant": "沾油的薄餅盒",
+   "ne": "तेल लागेको पिज्जाको बाकस"
   },
   "receipt": {
-   "en": "Receipt (thermal paper)",
-   "zh": "收据（热敏纸）",
+   "en": "Receipts",
+   "zh": "收银票",
    "vi": "Hóa đơn (giấy nhiệt)",
-   "ko": "영수증(감열지)",
+   "ko": "영수증",
    "pt": "Recibo (papel térmico)",
    "tl": "Resibo",
    "es": "Recibo",
    "id": "Struk belanja",
-   "zhHant": "收據（熱感應紙）"
+   "zhHant": "收據（熱感應紙）",
+   "ne": "रसिद"
   },
   "shoes": {
-   "en": "Worn-out shoes",
-   "zh": "穿旧的鞋",
+   "en": "Old shoes",
+   "zh": "旧鞋",
    "vi": "Giày cũ",
    "ko": "낡은 신발",
    "pt": "Sapatos velhos",
    "tl": "Lumang sapatos",
    "es": "Zapatos viejos",
    "id": "Sepatu lama",
-   "zhHant": "穿舊的鞋"
+   "zhHant": "穿舊的鞋",
+   "ne": "पुराना जुत्ता"
   },
   "nuigurumi": {
-   "en": "Broken stuffed toy",
-   "zh": "破损的毛绒玩具",
+   "en": "Old stuffed toy",
+   "zh": "坏掉的毛绒玩具",
    "vi": "Thú nhồi bông hỏng",
-   "ko": "망가진 인형",
+   "ko": "낡은 봉제 인형",
    "pt": "Bicho de pelúcia estragado",
    "tl": "Sirang stuffed toy",
    "es": "Peluche roto",
    "id": "Boneka rusak",
-   "zhHant": "破損的毛公仔"
+   "zhHant": "破損的毛公仔",
+   "ne": "बिग्रेको भरिएको खेलौना"
   },
   "tv": {
-   "en": "Broken TV",
-   "zh": "坏掉的电视",
-   "vi": "Tivi hỏng",
-   "ko": "고장난 TV",
+   "en": "TVs",
+   "zh": "电视机",
+   "vi": "Ti vi",
+   "ko": "텔레비전",
    "pt": "TV quebrada",
    "tl": "Sirang telebisyon",
    "es": "Televisor roto",
    "id": "Televisi rusak",
-   "zhHant": "壞掉的電視"
+   "zhHant": "壞掉的電視",
+   "ne": "बिग्रेको टिभी"
   },
   "fridge": {
-   "en": "Old refrigerator",
-   "zh": "旧冰箱",
-   "vi": "Tủ lạnh cũ",
-   "ko": "오래된 냉장고",
+   "en": "Refrigerators",
+   "zh": "冰箱",
+   "vi": "Tủ lạnh",
+   "ko": "냉장고",
    "pt": "Geladeira velha",
    "tl": "Lumang refrigerator",
    "es": "Refrigerador viejo",
    "id": "Kulkas lama",
-   "zhHant": "舊雪櫃"
+   "zhHant": "舊雪櫃",
+   "ne": "पुरानो फ्रिज"
   },
   "washer": {
-   "en": "Broken washing machine",
-   "zh": "坏掉的洗衣机",
-   "vi": "Máy giặt hỏng",
-   "ko": "고장난 세탁기",
+   "en": "Washing machines",
+   "zh": "洗衣机",
+   "vi": "Máy giặt",
+   "ko": "세탁기",
    "pt": "Máquina de lavar quebrada",
    "tl": "Sirang washing machine",
    "es": "Lavadora rota",
    "id": "Mesin cuci rusak",
-   "zhHant": "壞掉的洗衣機"
+   "zhHant": "壞掉的洗衣機",
+   "ne": "बिग्रेको वाशिंग मेसिन"
   },
   "aircon": {
-   "en": "Old air conditioner",
-   "zh": "旧空调",
-   "vi": "Điều hòa cũ",
-   "ko": "오래된 에어컨",
+   "en": "Air conditioners",
+   "zh": "空调",
+   "vi": "Máy điều hòa",
+   "ko": "에어컨",
    "pt": "Ar-condicionado velho",
    "tl": "Lumang aircon",
    "es": "Aire acondicionado viejo",
    "id": "AC lama",
-   "zhHant": "舊冷氣機"
+   "zhHant": "舊冷氣機",
+   "ne": "पुरानो एयर कन्डिसनर"
   },
   "futon": {
-   "en": "Old futon bedding",
+   "en": "Old bedding",
    "zh": "旧被褥",
    "vi": "Chăn đệm cũ",
-   "ko": "오래된 이불",
+   "ko": "낡은 이불",
    "pt": "Futon velho",
    "tl": "Lumang futon",
    "es": "Futón viejo",
    "id": "Futon lama",
-   "zhHant": "舊棉被"
+   "zhHant": "舊棉被",
+   "ne": "पुरानो डसना"
   },
   "bicycle": {
    "en": "Broken bicycle",
@@ -986,7 +1054,8 @@ const TR={
    "tl": "Sirang bisikleta",
    "es": "Bicicleta rota",
    "id": "Sepeda rusak",
-   "zhHant": "壞掉的單車"
+   "zhHant": "壞掉的單車",
+   "ne": "बिग्रेको साइकल"
   },
   "chair": {
    "en": "Broken chair",
@@ -997,117 +1066,128 @@ const TR={
    "tl": "Sirang upuan",
    "es": "Silla rota",
    "id": "Kursi rusak",
-   "zhHant": "壞掉的椅子"
+   "zhHant": "壞掉的椅子",
+   "ne": "भाँचिएको कुर्सी"
   },
   "suitcase": {
    "en": "Broken suitcase",
    "zh": "坏掉的行李箱",
    "vi": "Vali hỏng",
-   "ko": "망가진 여행가방",
+   "ko": "고장난 여행 가방",
    "pt": "Mala quebrada",
    "tl": "Sirang maleta",
    "es": "Maleta rota",
    "id": "Koper rusak",
-   "zhHant": "壞掉的行李箱"
+   "zhHant": "壞掉的行李箱",
+   "ne": "बिग्रेको सुटकेस"
   },
   "battery": {
-   "en": "Used dry-cell battery",
-   "zh": "用完的干电池",
-   "vi": "Pin đã dùng hết",
-   "ko": "다 쓴 건전지",
+   "en": "Dry cell batteries",
+   "zh": "干电池",
+   "vi": "Pin khô",
+   "ko": "건전지",
    "pt": "Pilha usada",
    "tl": "Gamit na baterya",
    "es": "Pila usada",
    "id": "Baterai bekas",
-   "zhHant": "用完的乾電池"
+   "zhHant": "用完的乾電池",
+   "ne": "सुक्खा ब्याट्री"
   },
   "lighter": {
-   "en": "Disposable lighter",
-   "zh": "一次性打火机",
-   "vi": "Bật lửa dùng một lần",
-   "ko": "일회용 라이터",
+   "en": "Lighters",
+   "zh": "打火机",
+   "vi": "Bật lửa",
+   "ko": "라이터",
    "pt": "Isqueiro descartável",
    "tl": "Disposable na lighter",
    "es": "Encendedor desechable",
    "id": "Korek api sekali pakai",
-   "zhHant": "即棄打火機"
+   "zhHant": "即棄打火機",
+   "ne": "लाइटर"
   },
   "fluor": {
-   "en": "Burnt-out fluorescent tube",
-   "zh": "坏掉的荧光灯管",
-   "vi": "Bóng đèn huỳnh quang cháy",
-   "ko": "다 된 형광등",
+   "en": "Fluorescent lamps",
+   "zh": "荧光灯",
+   "vi": "Đèn huỳnh quang",
+   "ko": "형광등",
    "pt": "Lâmpada fluorescente queimada",
    "tl": "Sirang fluorescent lamp",
    "es": "Tubo fluorescente fundido",
    "id": "Lampu neon mati",
-   "zhHant": "壞掉的光管"
+   "zhHant": "壞掉的光管",
+   "ne": "फ्लोरेसेन्ट लाइट"
   },
   "pc": {
-   "en": "Broken laptop",
-   "zh": "坏掉的笔记本电脑",
-   "vi": "Laptop hỏng",
-   "ko": "고장난 노트북",
+   "en": "Used laptop computer",
+   "zh": "废弃的笔记本电脑",
+   "vi": "Máy tính cá nhân đã qua sử dụng",
+   "ko": "다 쓴 노트북 컴퓨터",
    "pt": "Notebook quebrado",
    "tl": "Sirang laptop",
    "es": "Portátil roto",
    "id": "Laptop rusak",
-   "zhHant": "壞掉的手提電腦"
+   "zhHant": "壞掉的手提電腦",
+   "ne": "प्रयोग भएको ल्यापटप कम्प्युटर"
   },
   "desktop": {
    "en": "Desktop computer",
    "zh": "台式电脑",
    "vi": "Máy tính để bàn",
-   "ko": "데스크톱 PC",
+   "ko": "데스크톱 컴퓨터",
    "pt": "Computador de mesa",
    "tl": "Desktop computer",
    "es": "Computadora de escritorio",
    "id": "Komputer desktop",
-   "zhHant": "桌上電腦"
+   "zhHant": "桌上電腦",
+   "ne": "डेस्कटप कम्प्युटर"
   },
   "printer": {
    "en": "Broken printer",
    "zh": "坏掉的打印机",
-   "vi": "Máy in hỏng",
+   "vi": "Máy in bị hỏng",
    "ko": "고장난 프린터",
    "pt": "Impressora quebrada",
    "tl": "Sirang printer",
    "es": "Impresora rota",
    "id": "Printer rusak",
-   "zhHant": "壞掉的打印機"
+   "zhHant": "壞掉的打印機",
+   "ne": "बिग्रेको प्रिन्टर"
   },
   "fan": {
-   "en": "Broken electric fan",
-   "zh": "坏掉的电风扇",
-   "vi": "Quạt điện hỏng",
-   "ko": "고장난 선풍기",
+   "en": "Small electric fan",
+   "zh": "迷你风扇",
+   "vi": "Quạt mini",
+   "ko": "미니 선풍기",
    "pt": "Ventilador quebrado",
    "tl": "Sirang electric fan",
    "es": "Ventilador roto",
    "id": "Kipas angin rusak",
-   "zhHant": "壞掉的風扇"
+   "zhHant": "壞掉的風扇",
+   "ne": "बिग्रेको पंखा"
   },
   "gamem": {
-   "en": "Broken game console",
-   "zh": "坏掉的游戏机",
-   "vi": "Máy chơi game hỏng",
-   "ko": "고장난 게임기",
+   "en": "Gaming machine",
+   "zh": "游戏机",
+   "vi": "Máy chơi game",
+   "ko": "게임기",
    "pt": "Videogame quebrado",
    "tl": "Sirang game console",
    "es": "Consola de videojuegos rota",
    "id": "Konsol game rusak",
-   "zhHant": "壞掉的遊戲機"
+   "zhHant": "壞掉的遊戲機",
+   "ne": "बिग्रेको गेम मेसिन"
   },
   "abura_raw": {
    "en": "Used cooking oil",
-   "zh": "用过的食用油",
+   "zh": "食用油",
    "vi": "Dầu ăn đã qua sử dụng",
-   "ko": "사용한 튀김 기름",
+   "ko": "다 쓴 식용유",
    "pt": "Óleo de fritura usado",
    "tl": "Gamit na mantika sa pagluluto",
    "es": "Aceite de cocina usado",
    "id": "Minyak goreng bekas",
-   "zhHant": "用過的食油"
+   "zhHant": "用過的食油",
+   "ne": "खाने तेल"
   },
   "abura_katameta": {
    "en": "Solidified oil",
@@ -1118,7 +1198,8 @@ const TR={
    "tl": "Pinatigas na mantika",
    "es": "Aceite solidificado",
    "id": "Minyak yang dipadatkan",
-   "zhHant": "凝固後的油"
+   "zhHant": "凝固後的油",
+   "ne": "जमाएको तेल"
   },
   "abura_kami": {
    "en": "Oil soaked into newspaper",
@@ -1129,7 +1210,8 @@ const TR={
    "tl": "Mantikang sinipsip ng diyaryo",
    "es": "Aceite absorbido en periódico",
    "id": "Minyak yang diserap koran",
-   "zhHant": "用報紙吸乾的油"
+   "zhHant": "用報紙吸乾的油",
+   "ne": "पत्रिकाले सोसेको तेल"
   },
   "abura_pan": {
    "en": "A little oil left in the pan",
@@ -1140,18 +1222,20 @@ const TR={
    "tl": "Kaunting mantika sa kawali",
    "es": "Poco aceite en la sartén",
    "id": "Sedikit minyak di wajan",
-   "zhHant": "平底鍋裡剩下的少量油"
+   "zhHant": "平底鍋裡剩下的少量油",
+   "ne": "फ्राइ प्यानमा बाँकी थोरै तेल"
   },
   "mobilebatt": {
-   "en": "Power bank",
+   "en": "Mobile batteries",
    "zh": "移动电源",
    "vi": "Pin sạc dự phòng",
-   "ko": "보조배터리",
+   "ko": "보조 배터리",
    "pt": "Power bank",
    "tl": "Power bank",
    "es": "Batería portátil",
    "id": "Power bank",
-   "zhHant": "外置充電器"
+   "zhHant": "外置充電器",
+   "ne": "मोबाइल ब्याट्री"
   },
   "handyfan": {
    "en": "Rechargeable handheld fan",
@@ -1162,21 +1246,23 @@ const TR={
    "tl": "Rechargeable na handy fan",
    "es": "Ventilador de mano recargable",
    "id": "Kipas tangan isi ulang",
-   "zhHant": "充電式手提風扇"
+   "zhHant": "充電式手提風扇",
+   "ne": "रिचार्जेबल हातको पंखा"
   },
   "heattobacco": {
-   "en": "Heated tobacco device",
+   "en": "Heat-not-burn cigarette device",
    "zh": "加热式电子烟",
-   "vi": "Thiết bị thuốc lá nung nóng",
+   "vi": "Thuốc lá điện tử có hệ thống làm nóng",
    "ko": "가열식 담배",
    "pt": "Dispositivo de tabaco aquecido",
    "tl": "Heated tobacco device",
    "es": "Dispositivo de tabaco calentado",
    "id": "Perangkat tembakau panas",
-   "zhHant": "加熱煙"
+   "zhHant": "加熱煙",
+   "ne": "तताउने चुरोट उपकरण"
   },
   "earphone": {
-   "en": "Wireless earbuds",
+   "en": "Wireless earphones",
    "zh": "无线耳机",
    "vi": "Tai nghe không dây",
    "ko": "무선 이어폰",
@@ -1184,64 +1270,70 @@ const TR={
    "tl": "Wireless earphone",
    "es": "Auriculares inalámbricos",
    "id": "Earphone nirkabel",
-   "zhHant": "無線耳機"
+   "zhHant": "無線耳機",
+   "ne": "वायरलेस इयरफोन"
   },
   "smartphone": {
-   "en": "Broken smartphone (small appliance)",
-   "zh": "坏掉的智能手机（小型家电）",
-   "vi": "Điện thoại hỏng (đồ điện gia dụng cỡ nhỏ)",
-   "ko": "고장난 스마트폰(소형가전)",
+   "en": "Cell phone (including smartphones)",
+   "zh": "手机（包括智能手机）",
+   "vi": "Điện thoại thông minh",
+   "ko": "휴대전화 단말(스마트폰 포함)",
    "pt": "Smartphone quebrado (eletrodoméstico de pequeno porte)",
    "tl": "Sirang smartphone",
    "es": "Teléfono inteligente roto",
    "id": "Ponsel pintar rusak",
-   "zhHant": "壞掉的智能電話"
+   "zhHant": "壞掉的智能電話",
+   "ne": "मोबाइल फोन (स्मार्टफोन समावेश)"
   }
  },
  "safety": {
   "libatt": {
-   "en": "This contains a lithium-ion battery. If it is crushed it can catch fire violently. It is the most common cause of fires in garbage trucks and waste plants. Never put it in normal household waste.",
-   "zh": "内含锂离子电池。一旦被压坏就会剧烈起火，是垃圾车和垃圾处理厂火灾最常见的原因。绝对不要丢进普通垃圾。",
-   "vi": "Bên trong có pin lithium-ion. Nếu bị bóp méo, nó có thể bốc cháy dữ dội. Đây là nguyên nhân cháy phổ biến nhất ở xe rác và nhà máy xử lý rác. Tuyệt đối không bỏ vào rác thường.",
-   "ko": "리튬이온 배터리가 들어 있습니다. 눌리면 격렬하게 발화하며, 쓰레기차와 처리장 화재의 가장 큰 원인입니다. 절대로 일반 쓰레기에 넣지 마세요.",
+   "en": "Small rechargeable batteries such as lithium-ion batteries, electronic devices (those with built-in lithium-ion batteries, mobile batteries, etc.), lighters, and cassette cylinders have been found in household waste, and fires have occurred in waste collection vehicles and waste disposal facilities. Please do not dispose of lithium-ion batteries in household waste collection.",
+   "zh": "家庭垃圾中若混入锂离子电池等小型充电电池、电子设备（如内置锂离子电池等的设备、移动电源）、打火机、卡式气瓶等物体，可能会导致垃圾回收车或垃圾处理站发生火灾。锂离子电池等不应作为一般垃圾丢弃。",
+   "vi": "Việc lẫn các vật như pin sạc nhỏ như pin lithium-ion, thiết bị điện tử (có pin lithium-ion bên trong, pin sạc dự phòng, v.v.), bật lửa và bình ga mini trong rác sinh hoạt sẽ gây ra các vụ cháy tại xe thu gom rác và cơ sở xử lý rác. Pin lithium-ion không vứt như rác thải thông thường.",
+   "ko": "가정에서 배출하는 쓰레기 중에 리튬이온 전지 등의 소형 충전식 전지와 전자기기(리튬이온 전지 등이 내장된 것, 보조 배터리 등), 라이터, 부탄가스 등이 혼입되는 경우가 있어 쓰레기 수거 차량과 쓰레기 처리 시설에서 화재가 발생합니다. 리튬이온 전지 등은 일반 쓰레기로 배출하지 마십시오.",
    "pt": "Contém uma bateria de íon-lítio. Se for amassada, pode pegar fogo violentamente. É a causa mais comum de incêndios em caminhões e usinas de lixo. Nunca coloque no lixo comum.",
    "tl": "May lithium-ion battery ito. Kapag nadurog, maaari itong mag-apoy nang malakas. Ito ang pinakakaraniwang sanhi ng sunog sa mga trak ng basura at pasilidad ng basura. Huwag na huwag itong ilagay sa karaniwang basura.",
    "es": "Contiene una batería de iones de litio. Si se aplasta, puede incendiarse con violencia. Es la causa más común de incendios en camiones y plantas de basura. Nunca la ponga en la basura común.",
    "id": "Ini berisi baterai lithium-ion. Jika penyok, baterai dapat terbakar hebat. Ini penyebab kebakaran paling umum pada truk sampah dan fasilitas pengolahan sampah. Jangan pernah membuangnya ke sampah biasa.",
-   "zhHant": "內含鋰離子電池。一旦被壓毀就會劇烈起火，是垃圾車和垃圾處理廠火災最常見的原因。絕對不要丟進普通垃圾。"
+   "zhHant": "內含鋰離子電池。一旦被壓毀就會劇烈起火，是垃圾車和垃圾處理廠火災最常見的原因。絕對不要丟進普通垃圾。",
+   "ne": "घरायसी फोहोरमा लिथियम आयन ब्याट्री जस्ता साना चार्ज गर्न मिल्ने ब्याट्रीहरू, इलेक्ट्रोनिक उपकरणहरू, मोबाइल ब्याट्रीहरू आदि मिसिन सक्छन्, जसले फोहोर संकलन गाडी र फोहोर प्रशोधन स्थलहरूमा आगो लाग्न सक्छ। लिथियम आयन ब्याट्रीलाई साधारण फोहोरमा नहाल्नुहोस्।"
   },
   "oil": {
-   "en": "Never pour cooking oil down the sink: it clogs the pipes and burdens the sewage system. Let it cool, then solidify it or soak it into newspaper or old cloth, tie the bag shut, and put it in burnable waste.",
-   "zh": "不要把食用油倒进水槽，会堵塞排水管，也会加重污水处理的负担。请先放凉，用凝固剂使其凝固，或用报纸、旧布吸干，把袋口扎紧后作为可燃垃圾丢弃。",
-   "vi": "Không đổ dầu ăn xuống bồn rửa: dầu làm tắc đường ống và gây tải nặng cho hệ thống nước thải. Hãy để nguội, làm đông bằng chất làm đông hoặc thấm vào giấy báo, vải cũ, buộc kín miệng túi rồi bỏ vào rác cháy được.",
-   "ko": "식용유를 싱크대에 버리지 마세요. 배관이 막히고 하수 처리에도 큰 부담이 됩니다. 식힌 뒤 응고제로 굳히거나 신문지·헌 천에 흡수시키고, 봉지 입구를 묶어서 타는 쓰레기로 버립니다.",
+   "en": "Cooking oil or the like must be soaked up into paper or cloth, or coagulated, before being put into a waste bag. Do not pour it down the sink — it clogs the pipes and burdens sewage treatment.",
+   "zh": "食用油等请采取用纸或布吸收，或凝固后排放。请勿倒入水槽——会堵塞管道，也会加重污水处理的负担。",
+   "vi": "Đối với dầu ăn, vui lòng cho thấm vào giấy, vải hoặc làm cho đông lại rồi mới vứt. Không đổ xuống bồn rửa — sẽ làm tắc ống và gây gánh nặng cho việc xử lý nước thải.",
+   "ko": "식용유 등은 종이나 천으로 흡수시키거나, 굳혀서 배출하십시오. 싱크대에 버리지 마십시오 — 배관이 막히고 하수 처리에도 부담이 됩니다.",
    "pt": "Nunca jogue óleo de cozinha na pia: entope os canos e sobrecarrega o sistema de esgoto. Deixe esfriar, solidifique com produto próprio ou absorva em jornal ou pano velho, feche bem o saco e descarte no lixo queimável.",
    "tl": "Huwag ibuhos ang mantika sa lababo: bumabara ang tubo at nabibigatan ang sistema ng dumi. Palamigin muna, patigasin gamit ang produkto o ipasipsip sa diyaryo o lumang tela, itali ang supot, at itapon sa nasusunog na basura.",
    "es": "No vierta el aceite en el fregadero: obstruye las tuberías y sobrecarga el alcantarillado. Déjelo enfriar, solidifíquelo o absórbalo con periódico o un paño viejo, cierre bien la bolsa y tírelo con la basura quemable.",
    "id": "Jangan buang minyak ke wastafel: pipa akan tersumbat dan membebani sistem air limbah. Dinginkan dulu, padatkan atau serap dengan koran atau kain bekas, ikat kantongnya, lalu buang ke sampah yang bisa dibakar.",
-   "zhHant": "不要把食油倒進洗手盆，會堵塞排水管，也會加重污水處理的負擔。請先放涼，用凝固劑使其凝固，或用報紙、舊布吸乾，把袋口紮緊後當作可燃垃圾丟棄。"
+   "zhHant": "不要把食油倒進洗手盆，會堵塞排水管，也會加重污水處理的負擔。請先放涼，用凝固劑使其凝固，或用報紙、舊布吸乾，把袋口紮緊後當作可燃垃圾丟棄。",
+   "ne": "खाने तेल जस्ता तरल पदार्थहरूलाई कागज वा कपडामा सोसाएर वा जमाएर फाल्नुहोस्। सिंकमा नफाल्नुहोस् — पाइप बन्द हुन्छ र ढल प्रशोधनमा पनि भार पर्छ।"
   },
   "spray": {
-   "en": "Use the can up completely before throwing it away. If contents are left inside, it can explode in the garbage truck and start a fire. Whether you should pierce a hole depends on your city, so follow the local instructions.",
-   "zh": "丢弃前请把罐内的东西全部用完。如果还有残留，可能在垃圾车内爆炸引起火灾。是否需要扎孔各市规定不同，请按当地的说明处理。",
-   "vi": "Hãy dùng hết bình trước khi bỏ. Nếu còn chất bên trong, bình có thể phát nổ trong xe rác và gây cháy. Việc có nên chọc lỗ hay không tùy theo từng thành phố, hãy làm theo hướng dẫn của địa phương.",
-   "ko": "버리기 전에 내용물을 끝까지 다 사용하세요. 남아 있으면 쓰레기차 안에서 폭발해 화재가 날 수 있습니다. 구멍을 뚫어야 하는지는 시마다 다르므로 지역 안내에 따르세요.",
+   "en": "Make sure to fully use up the contents of spray cans and gas canisters before disposal. If contents remain, a fire may occur inside the collection vehicle. Whether or not to puncture them differs by city (in Osaka, be careful NOT to puncture the items). Please follow your local instructions.",
+   "zh": "喷雾罐、卡式气瓶必须将内装物用完后再丢弃。若瓶内残留气体，可能在垃圾回收车内起火。是否需要钻孔因城市而异（大阪市为不需钻孔），请遵照当地的指示。",
+   "vi": "Bình xịt và bình ga mini phải sử dụng hết chất bên trong trước khi vứt. Nếu còn ga bên trong có thể gây cháy nổ trong xe thu gom rác. Việc có cần đục lỗ hay không khác nhau tùy thành phố (tại Osaka thì không cần đục lỗ), vui lòng làm theo hướng dẫn của địa phương.",
+   "ko": "스프레이 캔과 부탄가스는 반드시 내용물을 완전히 사용한 후에 배출하십시오. 내용물이 남아 있으면 수거 차량 안에서 화재가 발생할 수 있습니다. 구멍을 뚫는지 여부는 지자체마다 다릅니다(오사카시는 구멍을 뚫지 않습니다). 거주 지역의 안내를 따라 주십시오.",
    "pt": "Use todo o conteúdo antes de descartar. Se sobrar produto dentro, a lata pode explodir no caminhão de lixo e causar incêndio. Se deve ou não furar a lata depende da cidade; siga as orientações locais.",
    "tl": "Ubusin muna ang laman bago itapon. Kung may natitirang laman, maaari itong sumabog sa loob ng trak ng basura at magdulot ng sunog. Ang pagbutas ay nag-iiba depende sa lungsod, kaya sundin ang lokal na patakaran.",
    "es": "Use todo el contenido antes de tirarla. Si queda producto dentro, puede explotar en el camión de basura y provocar un incendio. Si hay que perforarla depende de la ciudad; siga las indicaciones locales.",
    "id": "Habiskan isinya sebelum dibuang. Jika masih ada isinya, kaleng dapat meledak di dalam truk sampah dan menyebabkan kebakaran. Perlu dilubangi atau tidak berbeda tiap kota, ikuti petunjuk setempat.",
-   "zhHant": "丟棄前請把罐內的東西全部用完。如果還有殘留，可能在垃圾車內爆炸引起火災。是否需要刺孔各市規定不同，請按當地的說明處理。"
+   "zhHant": "丟棄前請把罐內的東西全部用完。如果還有殘留，可能在垃圾車內爆炸引起火災。是否需要刺孔各市規定不同，請按當地的說明處理。",
+   "ne": "स्प्रे क्यान, क्यासेट सिलिन्डर आदि भित्रको सामग्री पूरै प्रयोग समाप्त गरी सकेपछि मात्र फाल्नुहोस्। भित्र ग्यास बाँकी रहेमा फोहोर संकलन गाडीभित्र आगो लाग्न सक्छ। प्वाल पार्नुपर्ने वा नपर्ने सहर अनुसार फरक हुन्छ (ओसाकामा प्वाल नपारी फाल्नुहोस्), स्थानीय निर्देशन पालना गर्नुहोस्।"
   },
   "broken": {
-   "en": "Wrap broken glass, mirrors, and blades in thick paper and write キケン (danger) on the outside. Otherwise the collection workers can be injured.",
-   "zh": "碎玻璃、镜子和刀刃请用厚纸包好，并在外面写上「キケン」（危险）。否则收垃圾的工作人员会受伤。",
-   "vi": "Hãy bọc thủy tinh vỡ, gương và lưỡi dao bằng giấy dày và ghi キケン (nguy hiểm) ở bên ngoài. Nếu không, người thu gom rác có thể bị thương.",
-   "ko": "깨진 유리, 거울, 칼날은 두꺼운 종이에 싸고 겉에 キケン(위험)이라고 쓰세요. 그렇지 않으면 수거하는 분이 다칩니다.",
+   "en": "Wrap dangerous items, such as bamboo skewers, glass fragments, and razor blades in thick paper or the like, and attach a label saying “キケン (Danger)” to the waste bag containing such items, before taking the bag to the waste collection spot. Otherwise the collection workers may be injured.",
+   "zh": "竹签、玻璃碎片、剃须刀片等物品请使用厚纸包裹，并在垃圾袋上标示“キケン（危险）”后排放。否则回收人员可能受伤。",
+   "vi": "Đối với các vật như xiên tre, mảnh vỡ thủy tinh, lưỡi dao cạo, vui lòng bọc lại bằng giấy dày và dán nhãn “キケン” (nguy hiểm) lên túi trước khi vứt. Nếu không, nhân viên thu gom có thể bị thương.",
+   "ko": "꼬치, 유리 파편, 면도날 등은 두꺼운 종이 등에 싸서 봉투에 “キケン”(위험)이라고 표시하여 배출하십시오. 그렇지 않으면 쓰레기를 수거하는 분이 다칠 수 있습니다.",
    "pt": "Embrulhe vidros quebrados, espelhos e lâminas em papel grosso e escreva キケン (perigo) do lado de fora. Caso contrário, os coletores podem se ferir.",
    "tl": "Balutin ang basag na salamin, salaming pansalamin, at talim sa makapal na papel at isulat sa labas ang キケン (mapanganib). Kung hindi, maaaring masugatan ang mga nangongolekta ng basura.",
    "es": "Envuelva los vidrios rotos, espejos y hojas afiladas en papel grueso y escriba キケン (peligro) por fuera. De lo contrario, los recolectores pueden lastimarse.",
    "id": "Bungkus kaca pecah, cermin, dan benda tajam dengan kertas tebal dan tulis キケン (berbahaya) di luarnya. Jika tidak, petugas pengumpul sampah bisa terluka.",
-   "zhHant": "碎玻璃、鏡子和刀刃請用厚紙包好，並在外面寫上「キケン」（危險）。否則收垃圾的工作人員會受傷。"
+   "zhHant": "碎玻璃、鏡子和刀刃請用厚紙包好，並在外面寫上「キケン」（危險）。否則收垃圾的工作人員會受傷。",
+   "ne": "बाँसको काँटी, सिसाका टुक्रा, रेजर ब्लेड जस्ता धारिलो वस्तुहरूलाई बाक्लो कागजले बेरेर, झोलामा “खतरा” भनेर लेखी फाल्नुहोस्। नत्र फोहोर संकलन गर्ने कर्मचारी घाइते हुन सक्छन्।"
   },
   "vary": {
    "en": "Sorting rules are different in every city and ward. Always check the rules where you live.",
@@ -1252,7 +1344,8 @@ const TR={
    "tl": "Nag-iiba ang patakaran sa paghihiwalay ng basura sa bawat lungsod at distrito. Laging tingnan ang patakaran sa lugar na tinitirhan mo.",
    "es": "Las reglas de separación cambian en cada ciudad y distrito. Consulte siempre las reglas del lugar donde vive.",
    "id": "Aturan pemilahan sampah berbeda di tiap kota dan distrik. Selalu periksa aturan di tempat Anda tinggal.",
-   "zhHant": "垃圾分類的規定每個市區町村都不一樣。請務必確認您居住地的規定。"
+   "zhHant": "垃圾分類的規定每個市區町村都不一樣。請務必確認您居住地的規定。",
+   "ne": "फोहोर छुट्याउने नियम प्रत्येक सहर र वार्डमा फरक हुन्छ। तपाईं बस्ने ठाउँको नियम अवश्य जाँच्नुहोस्।"
   },
   "night": {
    "en": "Do not put your garbage out the night before. Put it out on the morning of collection day, by the stated time.",
@@ -1263,7 +1356,8 @@ const TR={
    "tl": "Huwag ilabas ang basura sa gabi bago ang araw ng koleksyon. Ilabas ito sa umaga ng araw ng koleksyon, bago ang nakatakdang oras.",
    "es": "No saque la basura la noche anterior. Sáquela la mañana del día de recolección, antes de la hora indicada.",
    "id": "Jangan keluarkan sampah pada malam sebelumnya. Keluarkan pada pagi hari di hari pengumpulan, sebelum waktu yang ditentukan.",
-   "zhHant": "請不要在前一天晚上把垃圾拿出去。請在收集日當天早上，在規定時間之前拿出去。"
+   "zhHant": "請不要在前一天晚上把垃圾拿出去。請在收集日當天早上，在規定時間之前拿出去。",
+   "ne": "अघिल्लो दिन बेलुका फोहोर बाहिर नराख्नुहोस्। संकलन गर्ने दिन बिहान, तोकिएको समयभित्र राख्नुहोस्।"
   }
  },
  "steps": {
@@ -1276,18 +1370,20 @@ const TR={
    "tl": "Palamigin",
    "es": "Deje enfriar",
    "id": "Dinginkan",
-   "zhHant": "放涼"
+   "zhHant": "放涼",
+   "ne": "चिसो बनाउनुहोस्"
   },
   "新聞紙に吸わせる": {
-   "en": "Soak it into newspaper",
-   "zh": "用报纸吸掉",
-   "vi": "Thấm vào giấy báo",
-   "ko": "신문지에 흡수시키기",
+   "en": "Soak it up into paper",
+   "zh": "用纸吸收",
+   "vi": "Cho thấm vào giấy",
+   "ko": "종이에 흡수시키기",
    "pt": "Absorva em jornal",
    "tl": "Ipasipsip sa diyaryo",
    "es": "Absorba con periódico",
    "id": "Serap dengan koran",
-   "zhHant": "用報紙吸乾"
+   "zhHant": "用報紙吸乾",
+   "ne": "पत्रिकामा सोसाउनुहोस्"
   },
   "薬品で固める": {
    "en": "Solidify it with a product",
@@ -1298,29 +1394,32 @@ const TR={
    "tl": "Patigasin gamit ang produkto",
    "es": "Solidifique con producto",
    "id": "Padatkan dengan bahan",
-   "zhHant": "用凝固劑凝固"
+   "zhHant": "用凝固劑凝固",
+   "ne": "जमाउने पाउडरले जमाउनुहोस्"
   },
   "袋の口をしばる": {
-   "en": "Tie the bag shut",
-   "zh": "扎紧袋口",
-   "vi": "Buộc kín miệng túi",
-   "ko": "봉지 입구를 묶기",
+   "en": "Close the bag securely",
+   "zh": "系紧垃圾袋口",
+   "vi": "Buộc chặt miệng túi",
+   "ko": "봉투 입구를 묶기",
    "pt": "Feche bem o saco",
    "tl": "Itali ang supot",
    "es": "Cierre la bolsa",
    "id": "Ikat kantongnya",
-   "zhHant": "紮緊袋口"
+   "zhHant": "紮緊袋口",
+   "ne": "झोलाको मुख बाँध्नुहोस्"
   },
   "中を 水で洗う": {
    "en": "Rinse the inside with water",
    "zh": "用水冲洗内部",
-   "vi": "Rửa bên trong bằng nước",
-   "ko": "안을 물로 씻기",
+   "vi": "Rửa sạch bên trong bằng nước",
+   "ko": "안을 물로 헹구기",
    "pt": "Enxágue por dentro",
    "tl": "Hugasan ang loob ng tubig",
    "es": "Enjuague por dentro",
    "id": "Cuci bagian dalam",
-   "zhHant": "用水沖洗內部"
+   "zhHant": "用水沖洗內部",
+   "ne": "भित्र पानीले धुनुहोस्"
   },
   "切って ひらく": {
    "en": "Cut it open and flatten it",
@@ -1331,7 +1430,8 @@ const TR={
    "tl": "Gupitin at buksan",
    "es": "Corte y abra",
    "id": "Potong dan buka",
-   "zhHant": "剪開攤平"
+   "zhHant": "剪開攤平",
+   "ne": "काटेर खोल्नुहोस्"
   },
   "かわかす": {
    "en": "Let it dry",
@@ -1342,145 +1442,177 @@ const TR={
    "tl": "Patuyuin",
    "es": "Deje secar",
    "id": "Keringkan",
-   "zhHant": "晾乾"
+   "zhHant": "晾乾",
+   "ne": "सुकाउनुहोस्"
   },
   "最後まで使い切る": {
-   "en": "Use it up completely",
-   "zh": "全部用完",
-   "vi": "Dùng hết hoàn toàn",
-   "ko": "끝까지 다 쓰기",
+   "en": "Fully use up the contents",
+   "zh": "将内装物完全用完",
+   "vi": "Sử dụng hết chất bên trong",
+   "ko": "내용물을 완전히 사용하기",
    "pt": "Use até o fim",
    "tl": "Ubusin ang laman",
    "es": "Use todo el contenido",
    "id": "Habiskan isinya",
-   "zhHant": "全部用完"
+   "zhHant": "全部用完",
+   "ne": "पूरै प्रयोग गरी सक्नुहोस्"
   },
   "紙に包んで「キケン」と書く": {
-   "en": "Wrap in paper and write DANGER",
-   "zh": "用纸包好写上「危险」",
-   "vi": "Bọc giấy và ghi NGUY HIỂM",
-   "ko": "종이에 싸고 위험이라고 쓰기",
+   "en": "Wrap in thick paper and attach a label saying “キケン (Danger)”",
+   "zh": "使用厚纸包裹并标示“キケン（危险）”",
+   "vi": "Bọc bằng giấy dày và dán nhãn “キケン” (nguy hiểm)",
+   "ko": "두꺼운 종이에 싸서 “キケン”(위험)이라고 표시",
    "pt": "Embrulhe e escreva PERIGO",
    "tl": "Balutin at isulat ang PELIGRO",
    "es": "Envuelva y escriba PELIGRO",
    "id": "Bungkus dan tulis BAHAYA",
-   "zhHant": "用紙包好寫上「危險」"
+   "zhHant": "用紙包好寫上「危險」",
+   "ne": "कागजमा बेरेर खतरनाक लेख्नुहोस्"
   },
   "かるく洗って乾かす": {
    "en": "Rinse lightly and dry",
-   "zh": "轻轻冲洗后晾干",
-   "vi": "Rửa nhẹ rồi phơi khô",
-   "ko": "살짝 씻어 말리기",
+   "zh": "稍微冲洗后晾干",
+   "vi": "Rửa sơ với nước rồi để ráo",
+   "ko": "살짝 헹궈 말리기",
    "pt": "Enxágue e deixe secar",
    "tl": "Banlawan at patuyuin",
    "es": "Enjuague y seque",
    "id": "Bilas dan keringkan",
-   "zhHant": "輕輕沖洗後晾乾"
+   "zhHant": "輕輕沖洗後晾乾",
+   "ne": "हल्का धोएर सुकाउनुहोस्"
   }
  },
  "signw": {
   "収集日": {
-   "zh": "收集日",
-   "vi": "ngày thu gom",
+   "zh": "回收日",
+   "vi": "Ngày thu gom",
    "ko": "수거일",
    "pt": "dia da coleta",
    "tl": "Araw ng pagkolekta",
    "es": "Día de recolección",
    "id": "Hari pengumpulan",
-   "zhHant": "收集日"
+   "zhHant": "收集日",
+   "ne": "संकलन गर्ने दिन",
+   "en": "Collection date"
   },
   "指定袋": {
    "zh": "指定垃圾袋",
-   "vi": "túi chỉ định",
-   "ko": "지정봉투",
+   "vi": "Túi rác chỉ định",
+   "ko": "지정 봉투",
    "pt": "saco estabelecido",
    "tl": "Itinalagang supot",
    "es": "Bolsa designada",
    "id": "Kantong yang ditentukan",
-   "zhHant": "指定垃圾袋"
+   "zhHant": "指定垃圾袋",
+   "ne": "तोकिएको झोला",
+   "en": "Designated waste bag"
   },
   "資源": {
-   "zh": "资源类废弃物",
-   "vi": "rác tái chế",
-   "ko": "자원",
+   "zh": "资源垃圾",
+   "vi": "Rác tài nguyên",
+   "ko": "자원 쓰레기",
    "pt": "lixo reciclável",
    "tl": "Recyclable",
    "es": "Reciclable",
    "id": "Bahan daur ulang",
-   "zhHant": "資源回收物"
+   "zhHant": "資源回收物",
+   "ne": "पुन:प्रयोग योग्य",
+   "en": "Recyclable waste"
   },
   "粗大ごみ": {
    "zh": "大件垃圾",
-   "vi": "rác cỡ lớn",
+   "vi": "Rác cồng kềnh",
    "ko": "대형 쓰레기",
    "pt": "lixo volumoso",
    "tl": "Malalaking basura",
    "es": "Basura voluminosa",
    "id": "Sampah besar",
-   "zhHant": "大型垃圾"
+   "zhHant": "大型垃圾",
+   "ne": "ठूलो फोहोर",
+   "en": "Bulky waste"
   },
   "申し込み": {
-   "zh": "预约申请",
-   "vi": "Đăng ký trước",
-   "ko": "사전 신청",
+   "zh": "申请",
+   "vi": "Đăng ký",
+   "ko": "접수·신청",
    "pt": "Solicitação prévia",
    "tl": "Paunang aplikasyon",
    "es": "Solicitud previa",
    "id": "Pendaftaran awal",
-   "zhHant": "預約申請"
+   "zhHant": "預約申請",
+   "ne": "बुकिङ",
+   "en": "Application"
   },
   "手数料": {
    "zh": "手续费",
-   "vi": "Phí xử lý",
+   "vi": "Lệ phí",
    "ko": "수수료",
    "pt": "Taxa",
    "tl": "Bayad",
    "es": "Tarifa",
    "id": "Biaya",
-   "zhHant": "手續費"
+   "zhHant": "手續費",
+   "ne": "शुल्क",
+   "en": "Disposal charge"
   },
   "回収できません": {
-   "zh": "无法回收",
-   "vi": "Không thể thu gom",
+   "zh": "不予回收",
+   "vi": "Không được thu gom",
    "ko": "수거할 수 없습니다",
    "pt": "Não pode ser coletado",
    "tl": "Hindi makokolekta",
    "es": "No se puede recoger",
    "id": "Tidak dapat dikumpulkan",
-   "zhHant": "無法回收"
+   "zhHant": "無法回收",
+   "ne": "सङ्कलन गरिँदैन",
+   "en": "Cannot be collected"
   },
   "持ち帰り": {
-   "zh": "带回自己家",
+   "zh": "请带回",
    "vi": "Mang về nhà",
    "ko": "가지고 돌아가기",
    "pt": "Leve de volta",
    "tl": "Iuwi",
    "es": "Llévelo de vuelta",
    "id": "Bawa pulang",
-   "zhHant": "帶回家"
+   "zhHant": "帶回家",
+   "ne": "फिर्ता लैजानुहोस्",
+   "en": "Take it back home"
   },
   "厳守": {
    "zh": "必须遵守",
    "vi": "Tuân thủ nghiêm ngặt",
-   "ko": "엄수",
+   "ko": "반드시 지켜 주십시오",
    "pt": "Cumprir rigorosamente",
    "tl": "Mahigpit na sundin",
    "es": "Cumplir estrictamente",
    "id": "Patuhi dengan ketat",
-   "zhHant": "必須遵守"
+   "zhHant": "必須遵守",
+   "ne": "अवश्य पालना गर्नुहोस्",
+   "en": "Must be observed"
   },
   "ご協力ください": {
    "zh": "请配合",
    "vi": "Mong bạn hợp tác",
-   "ko": "협조해 주세요",
+   "ko": "협력해 주십시오",
    "pt": "Contamos com sua colaboração",
    "tl": "Salamat sa inyong pakikiisa",
    "es": "Gracias por su colaboración",
    "id": "Mohon kerja samanya",
-   "zhHant": "請合作"
+   "zhHant": "請合作",
+   "ne": "सहयोगको लागि धन्यवाद",
+   "en": "Your cooperation is appreciated"
   }
  },
  "sources": [
+  {
+   "name": "大阪市「ごみのマナーABC」英語版・ネパール語版・ベトナム語版・韓国朝鮮語版（2025年4月 改訂版）／CC BY 4.0",
+   "url": "https://www.city.osaka.lg.jp/kankyo/page/0000524768.html"
+  },
+  {
+   "name": "大阪市ホームページ 著作権・免責（公共データ利用規約に準拠。翻訳・翻案・商用可）",
+   "url": "https://www.city.osaka.lg.jp/main/site_policy/0000000124.html"
+  },
   {
    "name": "西尾市 家庭用ごみ収集カレンダー（英・葡・中・越）",
    "url": "https://www.city.nishio.aichi.jp/"
@@ -1512,6 +1644,10 @@ const TR={
   {
    "name": "繁體中文は香港での一般的な書き方に合わせ、簡体字からの変換ではなく語彙を置きかえた",
    "url": "（紙箱／塑膠／廚餘／光管／雪櫃 など）"
+  },
+  {
+   "name": "広島市 環境局「家庭ごみの正しい出し方」ネパール語版（区分名・品目名の表記の基準）",
+   "url": "https://www.city.hiroshima.lg.jp/"
   }
  ]
 };

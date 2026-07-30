@@ -472,6 +472,22 @@
   </div>
 </div>
 
+<div class="overlay" id="ovSrc">
+  <div class="sheet">
+    <div class="sheet-grip"></div>
+    <div class="sheet-title">📚 このゲームの もとにした しりょう</div>
+    <div class="sheet-sub">ごみの 区分名や 品目名の 訳は、自治体が じっさいに 出している 多言語の ごみ案内の 表記に あわせています。</div>
+    <div id="srcList2" style="font-size:12.5px;line-height:1.9;color:var(--text-muted);"></div>
+    <div style="font-size:11.5px;line-height:1.8;color:var(--text-hint);margin-top:12px;
+      border-top:1px solid var(--border);padding-top:11px;">
+      用語（単語）は 標準的な ことばとして 使っています。説明の 文は すべて 当サイトで 書いたものです。<br>
+      広島市の 資料は「広島市オープンデータ利用規約」（CC BY 4.0）にもとづく 場合が あります。<br>
+      曜日の 並びは 練習用の 例で、じっさいの 収集日では ありません。
+    </div>
+    <button class="btn btn-primary" id="srcClose" style="margin-top:14px;">とじる</button>
+  </div>
+</div>
+
 <div class="overlay" id="ovWords">
   <div class="sheet">
     <div class="sheet-grip"></div>
@@ -490,6 +506,7 @@
     <div id="rLesson"></div>
     <button class="btn btn-primary" id="rRetry">🔁 もう一度</button>
     <button class="btn btn-ghost" id="rSign" style="margin-top:8px;">🧾 貼り紙を もう一度 読む</button>
+    <button class="btn btn-ghost" id="rSrc" style="margin-top:8px;">📚 もとにした しりょう</button>
     <button class="btn btn-ghost" onclick="toCity()" style="margin-top:8px;">🗺️ 別の街をえらぶ</button>
   </div>
 </div>
@@ -683,6 +700,15 @@ function openWords(){
     w.appendChild(d);
   });
   document.getElementById('ovWords').classList.add('show');
+}
+document.getElementById('srcClose').onclick=function(){
+  document.getElementById('ovSrc').classList.remove('show');
+};
+function openSrcSheet(){
+  document.getElementById('srcList2').innerHTML=(TR.sources||[])
+    .map(function(s,i){return (i+1)+'. '+s.name+'<br>　<span style="color:var(--text-hint)">'+s.url+'</span>';})
+    .join('<br>');
+  document.getElementById('ovSrc').classList.add('show');
 }
 document.getElementById('wordsClose').onclick=function(){
   document.getElementById('ovWords').classList.remove('show');
@@ -1081,6 +1107,7 @@ function quizResult(){
 function showResultLesson(){
   document.getElementById('rLesson').innerHTML='<div class="lesson"><div class="lh">📗 '+G.city.name+'のポイント</div>'+G.city.lesson+'</div>';
 }
+document.getElementById('rSrc').onclick=function(){ openSrcSheet(); };
 document.getElementById('rSign').onclick=function(){
   document.getElementById('ovResult').classList.remove('show');
   openSign(G.city);

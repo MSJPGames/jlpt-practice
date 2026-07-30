@@ -289,7 +289,7 @@ const TR={
  "bins": {
   "可燃": {
    "en": "Household waste",
-   "zh": "可燃垃圾",
+   "zh": "一般垃圾",
    "vi": "Rác cháy được",
    "ko": "타는 쓰레기",
    "pt": "Lixo combustível",
@@ -301,7 +301,7 @@ const TR={
   },
   "燃える": {
    "en": "Household waste",
-   "zh": "可燃垃圾",
+   "zh": "一般垃圾",
    "vi": "Rác cháy được",
    "ko": "타는 쓰레기",
    "pt": "Lixo combustível",
@@ -313,7 +313,7 @@ const TR={
   },
   "燃やせる": {
    "en": "Household waste",
-   "zh": "可燃垃圾",
+   "zh": "一般垃圾",
    "vi": "Rác cháy được",
    "ko": "타는 쓰레기",
    "pt": "Lixo combustível",
@@ -397,7 +397,7 @@ const TR={
   },
   "その他プラ": {
    "en": "Other plastics",
-   "zh": "其它塑料",
+   "zh": "其他塑料",
    "vi": "Nhựa khác",
    "ko": "기타 플라스틱",
    "pt": "Outros plásticos",
@@ -433,7 +433,7 @@ const TR={
   },
   "びん・缶類": {
    "en": "Used cans and bottles",
-   "zh": "空罐和空瓶",
+   "zh": "空罐、空瓶",
    "vi": "Lon rỗng và chai rỗng",
    "ko": "빈 캔·빈 병",
    "pt": "Garrafas de vidro e latas",
@@ -759,7 +759,7 @@ const TR={
   },
   "okashi": {
    "en": "Snack bags",
-   "zh": "点心的塑料袋",
+   "zh": "零食袋",
    "vi": "Túi đựng bánh kẹo",
    "ko": "과자 봉투",
    "pt": "Embalagem de salgadinho",
@@ -795,7 +795,7 @@ const TR={
   },
   "glassbroken": {
    "en": "Broken glass cup",
-   "zh": "玻璃碎片",
+   "zh": "破碎的玻璃杯",
    "vi": "Mảnh vỡ thủy tinh",
    "ko": "깨진 유리컵",
    "pt": "Copo de vidro quebrado",
@@ -807,7 +807,7 @@ const TR={
   },
   "chawan": {
    "en": "Broken ceramic bowl",
-   "zh": "破碎的陶瓷器",
+   "zh": "破碎的陶瓷碗",
    "vi": "Đồ gốm sứ bị vỡ",
    "ko": "깨진 도자기",
    "pt": "Tigela de cerâmica quebrada",
@@ -939,7 +939,7 @@ const TR={
   },
   "pizzabox": {
    "en": "Pizza box stained with oil",
-   "zh": "沾油的披萨盒",
+   "zh": "沾有油渍的披萨盒",
    "vi": "Hộp pizza dính dầu mỡ",
    "ko": "기름이 묻은 피자 상자",
    "pt": "Caixa de pizza engordurada",
@@ -975,7 +975,7 @@ const TR={
   },
   "nuigurumi": {
    "en": "Old stuffed toy",
-   "zh": "坏掉的毛绒玩具",
+   "zh": "旧毛绒玩具",
    "vi": "Thú nhồi bông hỏng",
    "ko": "낡은 봉제 인형",
    "pt": "Bicho de pelúcia estragado",
@@ -1119,7 +1119,7 @@ const TR={
   },
   "pc": {
    "en": "Used laptop computer",
-   "zh": "废弃的笔记本电脑",
+   "zh": "废旧笔记本电脑",
    "vi": "Máy tính cá nhân đã qua sử dụng",
    "ko": "다 쓴 노트북 컴퓨터",
    "pt": "Notebook quebrado",
@@ -1179,7 +1179,7 @@ const TR={
   },
   "abura_raw": {
    "en": "Used cooking oil",
-   "zh": "食用油",
+   "zh": "用过的食用油",
    "vi": "Dầu ăn đã qua sử dụng",
    "ko": "다 쓴 식용유",
    "pt": "Óleo de fritura usado",
@@ -1313,7 +1313,7 @@ const TR={
   },
   "spray": {
    "en": "Make sure to fully use up the contents of spray cans and gas canisters before disposal. If contents remain, a fire may occur inside the collection vehicle. Whether or not to puncture them differs by city (in Osaka, be careful NOT to puncture the items). Please follow your local instructions.",
-   "zh": "喷雾罐、卡式气瓶必须将内装物用完后再丢弃。若瓶内残留气体，可能在垃圾回收车内起火。是否需要钻孔因城市而异（大阪市为不需钻孔），请遵照当地的指示。",
+   "zh": "喷雾罐、卡式气瓶必须将内装物完全用完后再丢弃。若内部残留气体，可能在垃圾回收车内引发火灾。是否需要钻孔因城市而异（大阪市不需钻孔），请遵守当地的规定。",
    "vi": "Bình xịt và bình ga mini phải sử dụng hết chất bên trong trước khi vứt. Nếu còn ga bên trong có thể gây cháy nổ trong xe thu gom rác. Việc có cần đục lỗ hay không khác nhau tùy thành phố (tại Osaka thì không cần đục lỗ), vui lòng làm theo hướng dẫn của địa phương.",
    "ko": "스프레이 캔과 부탄가스는 반드시 내용물을 완전히 사용한 후에 배출하십시오. 내용물이 남아 있으면 수거 차량 안에서 화재가 발생할 수 있습니다. 구멍을 뚫는지 여부는 지자체마다 다릅니다(오사카시는 구멍을 뚫지 않습니다). 거주 지역의 안내를 따라 주십시오.",
    "pt": "Use todo o conteúdo antes de descartar. Se sobrar produto dentro, a lata pode explodir no caminhão de lixo e causar incêndio. Se deve ou não furar a lata depende da cidade; siga as orientações locais.",
@@ -1325,7 +1325,7 @@ const TR={
   },
   "broken": {
    "en": "Wrap dangerous items, such as bamboo skewers, glass fragments, and razor blades in thick paper or the like, and attach a label saying “キケン (Danger)” to the waste bag containing such items, before taking the bag to the waste collection spot. Otherwise the collection workers may be injured.",
-   "zh": "竹签、玻璃碎片、剃须刀片等物品请使用厚纸包裹，并在垃圾袋上标示“キケン（危险）”后排放。否则回收人员可能受伤。",
+   "zh": "竹签、玻璃碎片、剃须刀片等物品请使用厚纸包裹，并在垃圾袋上标示“キケン（危险）”后排放。否则回收人员可能会受伤。",
    "vi": "Đối với các vật như xiên tre, mảnh vỡ thủy tinh, lưỡi dao cạo, vui lòng bọc lại bằng giấy dày và dán nhãn “キケン” (nguy hiểm) lên túi trước khi vứt. Nếu không, nhân viên thu gom có thể bị thương.",
    "ko": "꼬치, 유리 파편, 면도날 등은 두꺼운 종이 등에 싸서 봉투에 “キケン”(위험)이라고 표시하여 배출하십시오. 그렇지 않으면 쓰레기를 수거하는 분이 다칠 수 있습니다.",
    "pt": "Embrulhe vidros quebrados, espelhos e lâminas em papel grosso e escreva キケン (perigo) do lado de fora. Caso contrário, os coletores podem se ferir.",
@@ -1459,7 +1459,7 @@ const TR={
   },
   "紙に包んで「キケン」と書く": {
    "en": "Wrap in thick paper and attach a label saying “キケン (Danger)”",
-   "zh": "使用厚纸包裹并标示“キケン（危险）”",
+   "zh": "用厚纸包裹并标示“キケン（危险）”",
    "vi": "Bọc bằng giấy dày và dán nhãn “キケン” (nguy hiểm)",
    "ko": "두꺼운 종이에 싸서 “キケン”(위험)이라고 표시",
    "pt": "Embrulhe e escreva PERIGO",
@@ -1580,7 +1580,7 @@ const TR={
    "en": "Take it back home"
   },
   "厳守": {
-   "zh": "必须遵守",
+   "zh": "请务必遵守",
    "vi": "Tuân thủ nghiêm ngặt",
    "ko": "반드시 지켜 주십시오",
    "pt": "Cumprir rigorosamente",
@@ -1592,7 +1592,7 @@ const TR={
    "en": "Must be observed"
   },
   "ご協力ください": {
-   "zh": "请配合",
+   "zh": "敬请配合",
    "vi": "Mong bạn hợp tác",
    "ko": "협력해 주십시오",
    "pt": "Contamos com sua colaboração",
@@ -1606,7 +1606,7 @@ const TR={
  },
  "sources": [
   {
-   "name": "大阪市「ごみのマナーABC」英語版・ネパール語版・ベトナム語版・韓国朝鮮語版（2025年4月 改訂版）／CC BY 4.0",
+   "name": "大阪市「ごみのマナーABC」英語版・簡体中文版・韓国朝鮮語版・ベトナム語版・ネパール語版（2025年4月 改訂版）／CC BY 4.0",
    "url": "https://www.city.osaka.lg.jp/kankyo/page/0000524768.html"
   },
   {
@@ -1826,7 +1826,7 @@ const TR={
   "head": {
    "ja": "ごみ収集の お知らせ",
    "en": "Waste collection notice",
-   "zh": "垃圾收集通知",
+   "zh": "垃圾回收通知",
    "zhHant": "垃圾收集通知",
    "ko": "쓰레기 수거 안내",
    "pt": "Aviso de coleta de lixo",
@@ -1839,7 +1839,7 @@ const TR={
   "night": {
    "ja": "前の日の夜に 出さないで ください。",
    "en": "Do not put out waste the night before.",
-   "zh": "请不要在前一天晚上拿出垃圾。",
+   "zh": "请不要在前一天晚上排放垃圾。",
    "zhHant": "唔好喺前一晚攞出嚟。",
    "ko": "전날 밤에 배출하지 마십시오.",
    "pt": "Não coloque o lixo na noite anterior.",
@@ -1852,7 +1852,7 @@ const TR={
   "net": {
    "ja": "かならず ネットを かけて ください。",
    "en": "Always cover the waste with the crow net.",
-   "zh": "请务必盖上防鸟网。",
+   "zh": "请务必盖上防鸦网（防鸟网）。",
    "zhHant": "記住要冚防雀網。",
    "ko": "반드시 그물(방조망)을 씌워 주십시오.",
    "pt": "Cubra sempre com a rede contra corvos.",
@@ -1865,7 +1865,7 @@ const TR={
   "bulky": {
    "ja": "粗大ごみは 申し込みが 必要です（手数料が かかります）。",
    "en": "Bulky waste requires an application and a disposal charge.",
-   "zh": "大件垃圾需要预约申请并支付手续费。",
+   "zh": "大件垃圾需要提前申请并支付手续费。",
    "zhHant": "大件垃圾要預約同畀手續費。",
    "ko": "대형 쓰레기는 사전 신청과 수수료가 필요합니다.",
    "pt": "O lixo volumoso exige solicitação prévia e taxa.",
@@ -1878,7 +1878,7 @@ const TR={
   "sorted": {
    "ja": "分けていない ごみは 回収できません。ご協力 ください。",
    "en": "Waste that is not properly separated cannot be collected. Your cooperation is appreciated.",
-   "zh": "未分类的垃圾无法收集。敬请配合。",
+   "zh": "未按规定分类的垃圾不予回收。敬请配合。",
    "zhHant": "冇分類嘅垃圾唔會收。唔該合作。",
    "ko": "분리하지 않은 쓰레기는 수거할 수 없습니다. 협력해 주십시오.",
    "pt": "Lixo não separado não será coletado. Agradecemos sua cooperação.",
@@ -1891,7 +1891,7 @@ const TR={
   "morning": {
    "ja": "朝8時までに 出してください",
    "en": "Put out waste by 8 a.m.",
-   "zh": "请在早上8点前拿出垃圾。",
+   "zh": "请在上午8点前排放。",
    "zhHant": "請喺朝早8點前攞出嚟。",
    "ko": "오전 8시까지 배출해 주십시오.",
    "pt": "Coloque o lixo até as 8h.",
@@ -1904,7 +1904,7 @@ const TR={
   "night_out": {
    "ja": "日がしずんでから 夜12時までに 出してください",
    "en": "Put out waste after sunset and before midnight.",
-   "zh": "请在日落后至午夜12点前拿出垃圾。",
+   "zh": "请在日落之后至夜间12点前排放。",
    "zhHant": "請喺日落之後、夜晚12點前攞出嚟。",
    "ko": "해가 진 후 밤 12시까지 배출해 주십시오.",
    "pt": "Coloque o lixo após o pôr do sol e antes da meia-noite.",
@@ -1917,7 +1917,7 @@ const TR={
   "rest": {
    "ja": "お休み",
    "en": "No collection",
-   "zh": "休息（不收集）",
+   "zh": "休息（不回收）",
    "zhHant": "休息（唔收）",
    "ko": "수거 없음",
    "pt": "Sem coleta",

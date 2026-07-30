@@ -1649,7 +1649,285 @@ const TR={
    "name": "広島市 環境局「家庭ごみの正しい出し方」ネパール語版（区分名・品目名の表記の基準）",
    "url": "https://www.city.hiroshima.lg.jp/"
   }
- ]
+ ],
+ "days": {
+  "月": {
+   "en": "Mon",
+   "zh": "周一",
+   "zhHant": "星期一",
+   "ko": "월",
+   "pt": "Seg",
+   "es": "Lun",
+   "id": "Sen",
+   "vi": "T2",
+   "tl": "Lun",
+   "ne": "सोम"
+  },
+  "火": {
+   "en": "Tue",
+   "zh": "周二",
+   "zhHant": "星期二",
+   "ko": "화",
+   "pt": "Ter",
+   "es": "Mar",
+   "id": "Sel",
+   "vi": "T3",
+   "tl": "Mar",
+   "ne": "मंगल"
+  },
+  "水": {
+   "en": "Wed",
+   "zh": "周三",
+   "zhHant": "星期三",
+   "ko": "수",
+   "pt": "Qua",
+   "es": "Mié",
+   "id": "Rab",
+   "vi": "T4",
+   "tl": "Miy",
+   "ne": "बुध"
+  },
+  "木": {
+   "en": "Thu",
+   "zh": "周四",
+   "zhHant": "星期四",
+   "ko": "목",
+   "pt": "Qui",
+   "es": "Jue",
+   "id": "Kam",
+   "vi": "T5",
+   "tl": "Huw",
+   "ne": "बिहि"
+  },
+  "金": {
+   "en": "Fri",
+   "zh": "周五",
+   "zhHant": "星期五",
+   "ko": "금",
+   "pt": "Sex",
+   "es": "Vie",
+   "id": "Jum",
+   "vi": "T6",
+   "tl": "Biy",
+   "ne": "शुक्र"
+  },
+  "土": {
+   "en": "Sat",
+   "zh": "周六",
+   "zhHant": "星期六",
+   "ko": "토",
+   "pt": "Sáb",
+   "es": "Sáb",
+   "id": "Sab",
+   "vi": "T7",
+   "tl": "Sab",
+   "ne": "शनि"
+  },
+  "日": {
+   "en": "Sun",
+   "zh": "周日",
+   "zhHant": "星期日",
+   "ko": "일",
+   "pt": "Dom",
+   "es": "Dom",
+   "id": "Min",
+   "vi": "CN",
+   "tl": "Lin",
+   "ne": "आइत"
+  }
+ },
+ "bags": {
+  "赤い袋": {
+   "en": "red bag",
+   "zh": "红色袋",
+   "zhHant": "紅色袋",
+   "ko": "빨간 봉투",
+   "pt": "saco vermelho",
+   "es": "bolsa roja",
+   "id": "kantong merah",
+   "vi": "túi đỏ",
+   "tl": "pulang supot",
+   "ne": "रातो झोला"
+  },
+  "緑の袋": {
+   "en": "green bag",
+   "zh": "绿色袋",
+   "zhHant": "綠色袋",
+   "ko": "초록 봉투",
+   "pt": "saco verde",
+   "es": "bolsa verde",
+   "id": "kantong hijau",
+   "vi": "túi xanh lá",
+   "tl": "berdeng supot",
+   "ne": "हरियो झोला"
+  },
+  "青い袋": {
+   "en": "blue bag",
+   "zh": "蓝色袋",
+   "zhHant": "藍色袋",
+   "ko": "파란 봉투",
+   "pt": "saco azul",
+   "es": "bolsa azul",
+   "id": "kantong biru",
+   "vi": "túi xanh dương",
+   "tl": "asul na supot",
+   "ne": "निलो झोला"
+  },
+  "黄色い袋": {
+   "en": "yellow bag",
+   "zh": "黄色袋",
+   "zhHant": "黃色袋",
+   "ko": "노란 봉투",
+   "pt": "saco amarelo",
+   "es": "bolsa amarilla",
+   "id": "kantong kuning",
+   "vi": "túi vàng",
+   "tl": "dilaw na supot",
+   "ne": "पहेंलो झोला"
+  },
+  "オレンジの袋": {
+   "en": "orange bag",
+   "zh": "橙色袋",
+   "zhHant": "橙色袋",
+   "ko": "주황 봉투",
+   "pt": "saco laranja",
+   "es": "bolsa naranja",
+   "id": "kantong oranye",
+   "vi": "túi cam",
+   "tl": "kahel na supot",
+   "ne": "सुन्तला रंगको झोला"
+  },
+  "とうめい・半とうめいの袋": {
+   "en": "transparent or semi-transparent bag",
+   "zh": "透明或半透明的袋子",
+   "zhHant": "透明或半透明嘅袋",
+   "ko": "투명 또는 반투명 봉투",
+   "pt": "saco transparente ou semitransparente",
+   "es": "bolsa transparente o semitransparente",
+   "id": "kantong bening atau semi bening",
+   "vi": "túi trong suốt hoặc trong mờ",
+   "tl": "malinaw o semi-malinaw na supot",
+   "ne": "पारदर्शी वा अर्धपारदर्शी झोला"
+  },
+  "ひもで しばる": {
+   "en": "tie up with string",
+   "zh": "用绳子捆好",
+   "zhHant": "用繩綁好",
+   "ko": "끈으로 묶기",
+   "pt": "amarrar com barbante",
+   "es": "atar con cuerda",
+   "id": "ikat dengan tali",
+   "vi": "buộc lại bằng dây",
+   "tl": "itali gamit ang tali",
+   "ne": "डोरीले बाँध्नुहोस्"
+  }
+ },
+ "signnote": {
+  "head": {
+   "ja": "ごみ収集の お知らせ",
+   "en": "Waste collection notice",
+   "zh": "垃圾收集通知",
+   "zhHant": "垃圾收集通知",
+   "ko": "쓰레기 수거 안내",
+   "pt": "Aviso de coleta de lixo",
+   "es": "Aviso de recogida de basura",
+   "id": "Pengumuman pengumpulan sampah",
+   "vi": "Thông báo thu gom rác",
+   "tl": "Paunawa sa pagkolekta ng basura",
+   "ne": "फोहोर संकलनको सूचना"
+  },
+  "night": {
+   "ja": "前の日の夜に 出さないで ください。",
+   "en": "Do not put out waste the night before.",
+   "zh": "请不要在前一天晚上拿出垃圾。",
+   "zhHant": "唔好喺前一晚攞出嚟。",
+   "ko": "전날 밤에 배출하지 마십시오.",
+   "pt": "Não coloque o lixo na noite anterior.",
+   "es": "No saque la basura la noche anterior.",
+   "id": "Jangan keluarkan sampah pada malam sebelumnya.",
+   "vi": "Không vứt rác vào tối hôm trước.",
+   "tl": "Huwag ilabas ang basura kagabi bago ang araw ng koleksyon.",
+   "ne": "अघिल्लो दिन बेलुका फोहोर बाहिर नराख्नुहोस्।"
+  },
+  "net": {
+   "ja": "かならず ネットを かけて ください。",
+   "en": "Always cover the waste with the crow net.",
+   "zh": "请务必盖上防鸟网。",
+   "zhHant": "記住要冚防雀網。",
+   "ko": "반드시 그물(방조망)을 씌워 주십시오.",
+   "pt": "Cubra sempre com a rede contra corvos.",
+   "es": "Cubra siempre con la red antipájaros.",
+   "id": "Selalu tutup dengan jaring anti burung.",
+   "vi": "Hãy luôn phủ lưới chống quạ.",
+   "tl": "Palaging takpan ng crow net.",
+   "ne": "अवश्य जाली छोप्नुहोस्।"
+  },
+  "bulky": {
+   "ja": "粗大ごみは 申し込みが 必要です（手数料が かかります）。",
+   "en": "Bulky waste requires an application and a disposal charge.",
+   "zh": "大件垃圾需要预约申请并支付手续费。",
+   "zhHant": "大件垃圾要預約同畀手續費。",
+   "ko": "대형 쓰레기는 사전 신청과 수수료가 필요합니다.",
+   "pt": "O lixo volumoso exige solicitação prévia e taxa.",
+   "es": "Los residuos voluminosos requieren solicitud previa y tarifa.",
+   "id": "Sampah besar memerlukan pendaftaran dan biaya.",
+   "vi": "Rác cồng kềnh cần đăng ký trước và có tính phí.",
+   "tl": "Ang bulky waste ay nangangailangan ng aplikasyon at bayad.",
+   "ne": "ठूलो फोहोरका लागि अग्रिम आवेदन र शुल्क आवश्यक छ।"
+  },
+  "sorted": {
+   "ja": "分けていない ごみは 回収できません。ご協力 ください。",
+   "en": "Waste that is not properly separated cannot be collected. Your cooperation is appreciated.",
+   "zh": "未分类的垃圾无法收集。敬请配合。",
+   "zhHant": "冇分類嘅垃圾唔會收。唔該合作。",
+   "ko": "분리하지 않은 쓰레기는 수거할 수 없습니다. 협력해 주십시오.",
+   "pt": "Lixo não separado não será coletado. Agradecemos sua cooperação.",
+   "es": "La basura no separada no se recogerá. Gracias por su cooperación.",
+   "id": "Sampah yang tidak dipilah tidak akan diambil. Mohon kerja samanya.",
+   "vi": "Rác không được phân loại sẽ không được thu gom. Mong nhận được sự hợp tác.",
+   "tl": "Hindi kokolektahin ang basurang hindi pinaghiwalay. Salamat sa inyong kooperasyon.",
+   "ne": "वर्गीकरण नगरेको फोहोर सङ्कलन गरिँदैन। सहयोगको अपेक्षा गरिन्छ।"
+  },
+  "morning": {
+   "ja": "朝8時までに 出してください",
+   "en": "Put out waste by 8 a.m.",
+   "zh": "请在早上8点前拿出垃圾。",
+   "zhHant": "請喺朝早8點前攞出嚟。",
+   "ko": "오전 8시까지 배출해 주십시오.",
+   "pt": "Coloque o lixo até as 8h.",
+   "es": "Saque la basura antes de las 8:00.",
+   "id": "Keluarkan sampah sebelum pukul 8 pagi.",
+   "vi": "Hãy vứt rác trước 8 giờ sáng.",
+   "tl": "Ilabas ang basura bago mag-8 a.m.",
+   "ne": "बिहान ८ बजेसम्म फोहोर बाहिर राख्नुहोस्।"
+  },
+  "night_out": {
+   "ja": "日がしずんでから 夜12時までに 出してください",
+   "en": "Put out waste after sunset and before midnight.",
+   "zh": "请在日落后至午夜12点前拿出垃圾。",
+   "zhHant": "請喺日落之後、夜晚12點前攞出嚟。",
+   "ko": "해가 진 후 밤 12시까지 배출해 주십시오.",
+   "pt": "Coloque o lixo após o pôr do sol e antes da meia-noite.",
+   "es": "Saque la basura después del atardecer y antes de medianoche.",
+   "id": "Keluarkan sampah setelah matahari terbenam sebelum pukul 12 malam.",
+   "vi": "Hãy vứt rác sau khi mặt trời lặn và trước 12 giờ đêm.",
+   "tl": "Ilabas ang basura pagkalubog ng araw at bago mag-hatinggabi.",
+   "ne": "सूर्यास्तपछि राति १२ बजेसम्म फोहोर बाहिर राख्नुहोस्।"
+  },
+  "rest": {
+   "ja": "お休み",
+   "en": "No collection",
+   "zh": "休息（不收集）",
+   "zhHant": "休息（唔收）",
+   "ko": "수거 없음",
+   "pt": "Sem coleta",
+   "es": "Sin recogida",
+   "id": "Tidak ada pengumpulan",
+   "vi": "Không thu gom",
+   "tl": "Walang koleksyon",
+   "ne": "संकलन छैन"
+  }
+ }
 };
 
 const BAGJA={red:'赤い袋',green:'緑の袋',blue:'青い袋',yellow:'黄色い袋',orange:'オレンジの袋',

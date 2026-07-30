@@ -163,6 +163,9 @@
   .sign-v{flex:1;line-height:1.5;}
   .sign-v .bag{display:inline-block;font-size:10px;font-weight:700;padding:0 5px;border-radius:9px;
     border:1px solid var(--border);margin-left:5px;vertical-align:1px;}
+  .sign-dtr{display:block;font-size:9.5px;font-weight:600;color:var(--accent);line-height:1.3;margin-top:1px;}
+  .sign-ntr{display:block;font-size:11px;font-weight:600;color:var(--accent);line-height:1.5;
+    margin:1px 0 4px 12px;}
   .sign-note{margin-top:9px;padding-top:8px;border-top:2px solid #C9BE94;font-size:12px;line-height:1.75;color:var(--text-muted);}
   .sign-note b{color:var(--red);}
   /* 読み取り問題 */
@@ -472,6 +475,16 @@
   </div>
 </div>
 
+<div class="overlay" id="dangerNote">
+  <div class="sheet">
+    <div class="sheet-grip"></div>
+    <div class="sheet-title" style="color:var(--danger);">🔥 あぶない！</div>
+    <div class="dn-t" style="font-size:15px;font-weight:800;margin-bottom:6px;"></div>
+    <div class="dn-b" style="font-size:14px;line-height:1.9;color:var(--text-muted);"></div>
+    <button class="btn btn-primary" id="dnClose" style="margin-top:14px;">わかった</button>
+  </div>
+</div>
+
 <div class="overlay" id="ovSrc">
   <div class="sheet">
     <div class="sheet-grip"></div>
@@ -569,6 +582,10 @@ function tr(group,key){
   const e=g[key]; if(!e)return '';
   return e[LANG]||e.en||'';   /* 未整備の言語は英語で代替 */
 }
+function trSign(key){
+  if(!LANG||typeof TR==='undefined'||!TR.signnote) return '';
+  const e=TR.signnote[key]; return (e&&e[LANG])||'';
+}
 function trTag(group,key){
   const t=tr(group,key);
   return t?'<span class="tr">'+t+'</span>':'';
@@ -603,8 +620,8 @@ function cityBins(city){return city.bins.slice();}
 function citySchedule(city){return makeSchedule(cityBins(city));}
 function timeLine(city){
   return cityWindow(city)==='night'
-    ? {t:'日がしずんでから 夜12時までに 出してください',ans:'夜12時までに'}
-    : {t:'朝8時までに 出してください',ans:'朝8時までに'};
+    ? {t:'日がしずんでから 夜12時までに 出してください',ans:'夜12時までに',key:'night_out'}
+    : {t:'朝8時までに 出してください',ans:'朝8時までに',key:'morning'};
 }
 function buildSign(city){
   const sc=citySchedule(city), bins=cityBins(city), tl=timeLine(city);
@@ -613,14 +630,23 @@ function buildSign(city){
     const todays=bins.filter(b=>sc[b.id].indexOf(d)>=0);
     const v = todays.length
       ? todays.map(b=>{const c=(BAGCOLORS[city.id]||{})[b.id];
-          return b.label+trTag('bins',b.label)+(c?'<span class="bag">'+BAGJA[c]+'</span>':'');}).join('　')
-      : '<span style="color:#9E9890;">— お休み —</span>';
-    rows+='<div class="sign-row"><div class="sign-d">'+dn+'</div><div class="sign-v">'+v+'</div></div>';
+          return b.label+trTag('bins',b.label)+
+            (c?'<span class="bag">'+BAGJA[c]+trTag('bags',BAGJA[c])+'</span>':'');}).join('　')
+      : '<span style="color:#9E9890;">— お休み —'+
+        (trSign('rest')?'<span class="sign-ntr" style="margin-left:0;display:inline;"> '+trSign('rest')+'</span>':'')+'</span>';
+    rows+='<div class="sign-row"><div class="sign-d">'+dn+
+      (tr('days',dn)?'<span class="sign-dtr">'+tr('days',dn)+'</span>':'')+
+      '</div><div class="sign-v">'+v+'</div></div>';
   });
-  return '<div class="sign"><div class="sign-h">ごみ収集の お知らせ<small>'+city.name+'</small></div>'+rows+
-    '<div class="sign-note">・'+tl.t+'<br>・<b>前の日の夜に 出さないで ください。</b><br>'+
-    '・かならず ネットを かけて ください。<br>・粗大ごみは 申し込みが 必要です（手数料が かかります）。<br>'+
-    '・分けていない ごみは <b>回収できません</b>。ご協力 ください。</div></div>';
+  const sn=k=>{const t=trSign(k); return t?'<span class="sign-ntr">'+t+'</span>':'';};
+  return '<div class="sign"><div class="sign-h">ごみ収集の お知らせ'+sn('head')+
+    '<small>'+city.name+'</small></div>'+rows+
+    '<div class="sign-note">・'+tl.t+
+      (trSign(tl.key)?'<span class="sign-ntr">'+trSign(tl.key)+'</span>':'')+'<br>'+
+    '・<b>前の日の夜に 出さないで ください。</b>'+sn('night')+'<br>'+
+    '・かならず ネットを かけて ください。'+sn('net')+'<br>'+
+    '・粗大ごみは 申し込みが 必要です（手数料が かかります）。'+sn('bulky')+'<br>'+
+    '・分けていない ごみは <b>回収できません</b>。ご協力 ください。'+sn('sorted')+'</div></div>';
 }
 /* 掲示から読み取る問題を作る */
 function buildReadQs(city){
@@ -704,6 +730,7 @@ function openWords(){
   });
   document.getElementById('ovWords').classList.add('show');
 }
+document.getElementById('dnClose').onclick=function(){ closeDangerNote(); };
 document.getElementById('srcClose').onclick=function(){
   document.getElementById('ovSrc').classList.remove('show');
 };
@@ -918,9 +945,25 @@ function choosePrep(o){
   popup(stage.clientWidth/2, o.warn?'🔥 あぶない処理！':'✗ 処理ミス','ng');
   stage.classList.add('shake'); setTimeout(()=>stage.classList.remove('shake'),300);
   G.selected=null; G.prepped=false; stage.classList.remove('has-sel'); renderTray();
+  /* 命にかかわるまちがいは、どのモードでも理由を見せる（安全を流れより優先） */
+  if(o.warn) showDangerNote(it.name+' を「'+o.t+'」はいけません。', o.why);
   addMiss();
 }
 
+/* rush / life モードでも、危険なまちがいのときだけ止めて説明を出す */
+function showDangerNote(title, why){
+  const el=document.getElementById('dangerNote');
+  if(!el) return;
+  if(G) G.paused=true;
+  el.querySelector('.dn-t').textContent=title;
+  el.querySelector('.dn-b').innerHTML=why+'<div class="qfb-warn" style="margin-top:8px;">⚠️ '+DANGER_WARN+'</div>';
+  el.classList.add('show');
+}
+function closeDangerNote(){
+  const el=document.getElementById('dangerNote');
+  if(el) el.classList.remove('show');
+  if(G) G.paused=false;
+}
 function renderTray(){
   const t=document.getElementById('tray');
   if(G&&G.selected){

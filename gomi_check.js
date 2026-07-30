@@ -15,7 +15,23 @@ const labs=new Set(); CITIES.forEach(c=>c.bins.forEach(b=>labs.add(b.label))); S
 chk('bins', [...labs], '区分');
 chk('safety', Object.keys(TR.safety), '安全');
 chk('steps', Object.keys(TR.steps), '手順');
-chk('signw', SIGN_WORDS.map(w=>w.ja), '掲示');   /* ← 今まで見ていなかった */
+chk('signw', SIGN_WORDS.map(w=>w.ja), '掲示のことば一覧');
+/* ★ 貼り紙そのものに出る文字（曜日・袋の名前・注意文）。
+   「ことば一覧」とは別画面なので、別に確かめる必要がある。 */
+if(TR.days)  chk('days',  Object.keys(TR.days),  '貼り紙の曜日');
+if(TR.bags)  chk('bags',  Object.keys(TR.bags),  '貼り紙の袋の名前');
+else bad.push('貼り紙の袋の名前 TR.bags が無い');
+if(TR.signnote){
+  Object.keys(TR.signnote).forEach(k=>L.forEach(l=>{
+    if(!TR.signnote[k][l]) bad.push('貼り紙の注意文 '+k+' → '+l+' が空');
+  }));
+} else bad.push('貼り紙の注意文 TR.signnote が無い');
+/* BAGJA の値がすべて TR.bags にあるか（画面に出るのは BAGJA の値） */
+if(globalThis.BAGJA && TR.bags){
+  Object.values(globalThis.BAGJA).forEach(v=>{
+    if(!TR.bags[v]) bad.push('袋の名前が未登録: '+v);
+  });
+}
 /* 行き先が解決するか（SPECIAL_MATS は配列。特別区分は全都市共通） */
 const SP=new Set(SPECIAL_MATS);
 Object.keys(ITEMS).forEach(id=>{

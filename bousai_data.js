@@ -223,3 +223,455 @@ const WORDS = [
 const BOUSAI_NOTE =
  "この内容は、内閣府・気象庁の 公開している じょうほうを もとに つくりました。" +
  "じっさいの さいがいのときは、住んでいる 市区町村の しじに したがってください。";
+
+
+/* ============ 多言語（気象庁の多言語辞書より） ============
+ * 出典：気象庁ホームページ https://www.data.jma.go.jp/developer/multilingual.html
+ *       「多言語辞書」（2026年3月26日更新）を加工して作成
+ *       公共データ利用規約（第1.0版）に準拠
+ * ※ 避難所・給水・断水・炊き出し等の 生活のことばは この辞書に無いため、
+ *    まだ日本語と英語だけです。内閣府・消防庁の多言語資料が次の候補。
+ */
+const TR = {
+ "langs": [
+  {
+   "id": "en",
+   "label": "English"
+  },
+  {
+   "id": "zh",
+   "label": "简体中文"
+  },
+  {
+   "id": "zhHant",
+   "label": "繁體中文"
+  },
+  {
+   "id": "ko",
+   "label": "한국어"
+  },
+  {
+   "id": "pt",
+   "label": "Português"
+  },
+  {
+   "id": "es",
+   "label": "Español"
+  },
+  {
+   "id": "id",
+   "label": "Bahasa Indonesia"
+  },
+  {
+   "id": "vi",
+   "label": "Tiếng Việt"
+  },
+  {
+   "id": "tl",
+   "label": "Tagalog"
+  },
+  {
+   "id": "th",
+   "label": "ไทย"
+  },
+  {
+   "id": "ne",
+   "label": "नेपाली"
+  },
+  {
+   "id": "km",
+   "label": "ខ្មែរ"
+  },
+  {
+   "id": "my",
+   "label": "မြန်မာ"
+  },
+  {
+   "id": "mn",
+   "label": "Монгол"
+  }
+ ],
+ "levels": {
+  "1": {
+   "en": "Alert level 1",
+   "zh": "警戒等级1",
+   "zhHant": "警戒等級1",
+   "ko": "경계 레벨 1",
+   "pt": "Nível de alerta 1",
+   "es": "Nivel de alerta 1",
+   "id": "tingkat peringatan 1",
+   "vi": "Cấp độ cảnh giác 1",
+   "tl": "Antas 1 na babala sa pag-ingat",
+   "th": "เตรียมรับมือระดับ 1",
+   "ne": "सतर्क श्रेणी १",
+   "km": "ការប្រកាសព្រមានកំរិត 1",
+   "my": "ဘေးအန္တရာယ် သတိပေးချက် အဆင့် ၁",
+   "mn": "Сануулах төвшин 1"
+  },
+  "2": {
+   "en": "Alert level 2",
+   "zh": "警戒等级2",
+   "zhHant": "警戒等級2",
+   "ko": "경계 레벨 2",
+   "pt": "Nível de alerta 2",
+   "es": "Nivel de alerta 2",
+   "id": "tingkat peringatan 2",
+   "vi": "Cấp độ cảnh giác 2",
+   "tl": "Antas 2 na babala sa pag-ingat",
+   "th": "เตรียมรับมือระดับ 2",
+   "ne": "सतर्क श्रेणी २",
+   "km": "ការប្រកាសព្រមានកំរិត 2",
+   "my": "ဘေးအန္တရာယ် သတိပေးချက် အဆင့် ၂",
+   "mn": "Сануулах төвшин 2"
+  },
+  "3": {
+   "en": "Alert level 3",
+   "zh": "警戒等级3",
+   "zhHant": "警戒等級3",
+   "ko": "경계 레벨 3",
+   "pt": "Nível de alerta 3",
+   "es": "Nivel de alerta 3",
+   "id": "tingkat peringatan 3",
+   "vi": "Cấp độ cảnh giác 3",
+   "tl": "Antas 3 na babala sa pag-ingat",
+   "th": "เตรียมรับมือระดับ 3",
+   "ne": "सतर्क श्रेणी ३",
+   "km": "ការប្រកាសព្រមានកំរិត 3",
+   "my": "ဘေးအန္တရာယ် သတိပေးချက် အဆင့် ၃",
+   "mn": "Сануулах төвшин 3"
+  },
+  "4": {
+   "en": "Alert level 4",
+   "zh": "警戒等级4",
+   "zhHant": "警戒等級4",
+   "ko": "경보 레벨 4",
+   "pt": "Nível de alerta 4",
+   "es": "Nivel de alerta 4",
+   "id": "tingkat peringatan 4",
+   "vi": "Cấp độ cảnh giác 4",
+   "tl": "Antas 4 na babala sa pag-ingat",
+   "th": "เตรียมรับมือระดับ 4",
+   "ne": "सतर्क श्रेणी ४",
+   "km": "ការប្រកាសព្រមានកំរិត 4",
+   "my": "ဘေးအန္တရာယ် သတိပေးချက် အဆင့် ၄",
+   "mn": "Сануулах төвшин 4"
+  },
+  "5": {
+   "en": "Alert level 5",
+   "zh": "警戒等级5",
+   "zhHant": "警戒等級5",
+   "ko": "경보 레벨 5",
+   "pt": "Nível de alerta 5",
+   "es": "Nivel de alerta 5",
+   "id": "tingkat peringatan 5",
+   "vi": "Cấp độ cảnh giác 5",
+   "tl": "Antas 5 na babala sa pag-ingat",
+   "th": "เตรียมรับมือระดับ 5",
+   "ne": "सतर्क श्रेणी ५",
+   "km": "ការប្រកាសព្រមានកំរិត 5",
+   "my": "ဘေးအန္တရာယ် သတိပေးချက် အဆင့် ၅",
+   "mn": "Сануулах төвшин 5"
+  }
+ },
+ "words": {
+  "避難": {
+   "en": "Evacuation",
+   "zh": "避难",
+   "zhHant": "避難",
+   "ko": "피난",
+   "pt": "Evacuação",
+   "es": "Evacuar",
+   "id": "pengungsian",
+   "vi": "Lánh nạn",
+   "tl": "Lumisan",
+   "th": "อพยพ",
+   "ne": "सुरक्षित ठाउँमा जाने",
+   "km": "ការជម្លៀសខ្លួន",
+   "my": "ရွှေ့ပြောင်းပါ",
+   "mn": "Нүүлгэн шилжүүлэлт"
+  },
+  "警戒レベル": {
+   "en": "Alert level",
+   "zh": "警戒水准",
+   "zhHant": "警戒水準",
+   "ko": "경계 수준",
+   "pt": "Nível de alerta",
+   "es": "Nivel de alerta",
+   "id": "tingkat peringatan",
+   "vi": "Mức độ cảnh giác",
+   "tl": "Antas ng pag-iingat",
+   "th": "ระดับการเตรียมรับมือ",
+   "ne": "सतर्कतापूर्वक अवलोकन गर्नुपर्ने स्तर",
+   "km": "កំរិតនៃការប្រកាសព្រមាន",
+   "my": "ဘေးအန္တရာယ် သတိပေးချက် အဆင့်",
+   "mn": "Сануулах төвшин"
+  },
+  "高齢者等避難": {
+   "en": "Evacuation of the elderly, etc.",
+   "zh": "老年人等进行避难",
+   "zhHant": "老年人等疏散",
+   "ko": "고령자 등의 대피",
+   "pt": "Evacuação de Idosos e outros grupos",
+   "es": "Evacuación de personas mayores, etc.",
+   "id": "Proses Evakuasi Lansia, dll.",
+   "vi": "Sơ tán người cao tuổi, v.v…",
+   "tl": "Lumisan ang mga matatanda atbp.",
+   "th": "การหลบภัยของผู้สูงอายุ ฯลฯ",
+   "ne": "वृद्धवृद्धा आदिलाई सुरक्षित स्थानमा लैजाने कार्य",
+   "km": "ការភៀសខ្លួនមនុស្សចាស់។ល។",
+   "my": "သက်ကြီးရွယ်အို စသည်တို့ ခိုလှုံခြင်း",
+   "mn": "Өндөр настан зэрэг хүмүүс аюулгүй газарт хоргодох"
+  },
+  "津波警報": {
+   "en": "Tsunami Warning",
+   "zh": "海啸警报",
+   "zhHant": "海嘯警報",
+   "ko": "지진해일 경보",
+   "pt": "Alerta de Tsunami",
+   "es": "Alerta de Tsunami",
+   "id": "peringatan bahaya tsunami skala kecil",
+   "vi": "Cảnh báo sóng thần",
+   "tl": "Babala ng tsunami.",
+   "th": "เตือนภัยสึนามิ",
+   "ne": "सुनामी चेतावनी",
+   "km": "ការប្រកាសអាសន្នអំពីរលកស៊ូណាមិ",
+   "my": "ဆူနာမီ ဘေးအန္တရာယ် သတိပေးချက်",
+   "mn": "Цунамигийн сэрэмжлүүлэг"
+  },
+  "大津波警報": {
+   "en": "Major Tsunami Warning",
+   "zh": "大海啸警报",
+   "zhHant": "大海嘯警報",
+   "ko": "대형 지진해일 경보",
+   "pt": "Alerta de Mega Tsunami",
+   "es": "Alerta de Mega Tsunami",
+   "id": "peringatan bahaya tsunami skala besar",
+   "vi": "Cảnh báo sóng thần lớn",
+   "tl": "Babala ng malaking tsunami.",
+   "th": "เตือนภัยสึนามิใหญ่",
+   "ne": "ठूलो सुनामी चेतावनी",
+   "km": "ការប្រកាសអាសន្នអំពីរលកយក្សស៊ូណាមិ",
+   "my": "အပြင်းစား ဆူနာမီ ဘေးအန္တရာယ် သတိပေးချက်",
+   "mn": "Томоохон цунамигийн сэрэмжлүүлэг"
+  },
+  "津波注意報": {
+   "en": "Tsunami Advisory",
+   "zh": "海啸注意警报",
+   "zhHant": "海嘯注意警報",
+   "ko": "지진해일 주의보",
+   "pt": "Alerta Preventivo de Tsunami",
+   "es": "Advertencia de Tsunami",
+   "id": "pemberitahuan tsunami",
+   "vi": "Thông tin lưu ý sóng thần",
+   "tl": "Payo na mag-ingat sa tsunami.",
+   "th": "เฝ้าระวังสึนามิ",
+   "ne": "सुनामी सावधानी",
+   "km": "ការព្រមានជាមុនអំពីរលកស៊ូណាមិ",
+   "my": "ဆူနာမီ သတိပေးချက်",
+   "mn": "Цунамигийн анхааруулга"
+  },
+  "緊急地震速報": {
+   "en": "Earthquake Early Warning (EEW)",
+   "zh": "紧急地震警报",
+   "zhHant": "緊急地震警報",
+   "ko": "긴급 지진 속보",
+   "pt": "Alerta Urgente de Terremoto",
+   "es": "Alerta Temprana de Terremoto",
+   "id": "peringatan dini gempa bumi",
+   "vi": "Tin nhanh về động đất khẩn cấp",
+   "tl": "Kagyat na Babala sa Lindol",
+   "th": "แจ้งด่วนเตือนแผ่นดินไหว",
+   "ne": "भर्खरै प्राप्त भूकम्प आपत्कालिन जानकारी",
+   "km": "ព័ត៌មានអាសន្នទាន់ហេតុការណ៍អំពីការរញ្ជួយដី",
+   "my": "အရေးပေါ် ငလျင် သတိပေးချက်",
+   "mn": "Газар хөдлөлтийн шуурхай мэдээ"
+  },
+  "土砂災害": {
+   "en": "Landslide",
+   "zh": "土石流",
+   "zhHant": "土石流",
+   "ko": "토사 재해",
+   "pt": "Deslizamento de terra",
+   "es": "Desastre por deslizamiento de tierra",
+   "id": "tanah longsor",
+   "vi": "Tai họa sạt lở đất",
+   "tl": "Sakuna ng pagguho ng lupa",
+   "th": "ดินถล่ม",
+   "ne": "पहिरो विपद्",
+   "km": "គ្រោះមហន្តរាយបាក់ដី",
+   "my": "မြေပြိုခြင်း",
+   "mn": "Хөрсний нуралтын гамшиг"
+  },
+  "土砂災害警戒情報": {
+   "en": "Landslide Alert Information",
+   "zh": "土石流灾害警戒通知",
+   "zhHant": "土石流災害警戒通知",
+   "ko": "산사태 경계 정보",
+   "pt": "Informação de alerta de desmoronamento.",
+   "es": "Información de alerta de deslizamiento de tierra",
+   "id": "informasi tentang kewaspadaan tanah longsor",
+   "vi": "Thông tin cảnh giác tai họa sạt lở đất",
+   "tl": "Impormasyon sa pag-iingat sa guho",
+   "th": "ข้อมูลเตรียมรับมือภัยดินโคลนถล่ม",
+   "ne": "पहिरो विपद् सतर्कतापूर्वक अवोलकन जानकारी",
+   "km": "ព័ត៌មានអំពីការប្រកាសព្រមានគ្រោះមហន្តរាយបាក់ដី",
+   "my": "မြေပြိုမှု ဘေးအန္တရာယ် သတိပေးချက် ထုတ်ပြန်ခြင်း",
+   "mn": "Хөрс нурах гамшгийг сануулах мэдээ"
+  },
+  "高潮": {
+   "en": "Storm surge",
+   "zh": "暴潮",
+   "zhHant": "暴潮",
+   "ko": "고조<바다의 물이 늘어남>",
+   "pt": "Maré alta",
+   "es": "Marea alta",
+   "id": "Gelombang pasang",
+   "vi": "Triều cường",
+   "tl": "Daluyong o pagtaas ng tubig sa dagat",
+   "th": "น้ำทะเลหนุนสูง",
+   "ne": "उच्च समुन्द्र सतह",
+   "km": "ទឹកឡើងខ្ពស់",
+   "my": "မုန်တိုင်းကြောင့် ပို၍ မြင့်တက်လာသော ရေလှိုင်း",
+   "mn": "Тэнгисийн түлхэлт"
+  },
+  "大雨": {
+   "en": "Heavy rain",
+   "zh": "大雨",
+   "zhHant": "大雨",
+   "ko": "폭우",
+   "pt": "Chuva forte",
+   "es": "Lluvia torrencial",
+   "id": "hujan deras",
+   "vi": "Mưa to",
+   "tl": "Malakas na ulan",
+   "th": "ฝนตกหนัก",
+   "ne": "ठूलो वर्षा",
+   "km": "ភ្លៀងធ្លាក់ខ្លាំង",
+   "my": "မိုးသည်းထန်စွာရွာခြင်း",
+   "mn": "Аадар бороо"
+  },
+  "大雨注意報": {
+   "en": "Heavy Rain Advisory",
+   "zh": "大雨注意报",
+   "zhHant": "大雨注意報",
+   "ko": "호우 주의보",
+   "pt": "Aviso de atenção para chuvas fortes",
+   "es": "Advertencia de lluvia torrencial",
+   "id": "pemberitahuan hujan lebat",
+   "vi": "Thông tin lưu ý mưa to",
+   "tl": "Payo na mag-ingat sa malakas na ulan",
+   "th": "ประกาศระวังภัยฝนตกหนัก",
+   "ne": "ठूलो वर्षा सावधानी",
+   "km": "ការប្រកាសព្រមានជាមុនអំពីភ្លៀងធ្លាក់ខ្លាំង",
+   "my": "မိုးသည်းထန်စွာရွာမှု သတိပေးချက်",
+   "mn": "Аадар борооны анхааруулга"
+  },
+  "地震情報": {
+   "en": "Earthquake information",
+   "zh": "地震信息",
+   "zhHant": "地震資訊",
+   "ko": "지진 정보",
+   "pt": "Informações de terremoto",
+   "es": "Información de terremoto",
+   "id": "informasi gempa bumi",
+   "vi": "Thông tin động đất",
+   "tl": "Impormasyon sa lindol",
+   "th": "ข้อมูลแผ่นดินไหว",
+   "ne": "भूकम्पको जानकारी",
+   "km": "ព័ត៌មានអំពីការរញ្ជួយដី",
+   "my": "ငလျင်သတင်း",
+   "mn": "Газар хөдлөлтийн мэдээ"
+  },
+  "台風情報": {
+   "en": "Tropical Cyclone Information",
+   "zh": "台风情报",
+   "zhHant": "颱風情報",
+   "ko": "태풍 정보",
+   "pt": "Informação sobre o tufão",
+   "es": "Información de Tifón",
+   "id": "informasi angin topan",
+   "vi": "Thông tin bão",
+   "tl": "Impormasyon sa Bagyo",
+   "th": "ข้อมูลพายุไต้ฝุ่น",
+   "ne": "ताइफुन जानकारी",
+   "km": "ព័ត៌មានអំពីព្យុះទីហ្វុង",
+   "my": "တိုင်ဖုန်းမုန်တိုင်း နှင့်ပက်သက်သော သတင်းအချက်အလက်",
+   "mn": "Хар салхины талаарх мэдээ"
+  }
+ },
+ "newnames": {
+  "レベル２高潮注意報": {
+   "en": "Level 2 Advisory (Storm Surge)",
+   "zh": "等级2 暴潮注意报",
+   "zhHant": "2級暴潮注意報",
+   "ko": "레벨 2 폭풍 해일 주의보",
+   "pt": "Alerta preventivo de nível 2 (maré alta)",
+   "es": "Advertencia de nivel 2 (marejada)",
+   "id": "Pemberitahuan Gelombang Pasang Tingkat 2",
+   "vi": "Thông tin lưu ý triều cường cấp độ 2",
+   "tl": "Antas 2 Payo na mag-ingat sa daluyong o pagtaas ng tubig sa dagat",
+   "th": "ประกาศเฝ้าระวังคลื่นพายุซัดฝั่งระดับ 2",
+   "ne": "श्रेणी २ उच्च समुद्र सतह सावधानी",
+   "km": "ការប្រកាសប្រុងប្រយ័ត្នជាមុនអំពីទឹកឡើងខ្ពស់កម្រិត 2",
+   "my": "အဆင့် ၂ ဒီရေလှိုင်းကြီးလာမှု သတိပေးချက်",
+   "mn": "2-р түвшний далайн түлхэлтийн анхааруулга"
+  },
+  "レベル３高潮警報": {
+   "en": "Level 3 Warning (Storm Surge)",
+   "zh": "等级3 暴潮警报",
+   "zhHant": "3級暴潮警報",
+   "ko": "레벨 3 폭풍 해일 경보",
+   "pt": "Alerta de nível 3 (maré alta)",
+   "es": "Alerta de nivel 3 (marejada)",
+   "id": "Peringatan Gelombang Pasang Tingkat 3",
+   "vi": "Cảnh báo triều cường cấp độ 3",
+   "tl": "Antas 3 Babala ng daluyong o pagtaas ng tubig sa dagat",
+   "th": "ประกาศเตือนภัยคลื่นพายุซัดฝั่งระดับ 3",
+   "ne": "श्रेणी ३ उच्च समुद्र सतह चेतावनी",
+   "km": "ការប្រកាសអាសន្នអំពីទឹកឡើងខ្ពស់កម្រិត 3",
+   "my": "အဆင့် ၃ ဒီရေလှိုင်းကြီးလာမှုသတိပေးချက်",
+   "mn": "3-р түвшний далайн түлхэлтийн сэрэмжлүүлэг"
+  },
+  "レベル４高潮危険警報": {
+   "en": "Level 4 Urgent Warning (Storm Surge)",
+   "zh": "等级4 暴潮危险警报",
+   "zhHant": "4級暴潮危險警報",
+   "ko": "레벨 4 폭풍 해일 위험 경보",
+   "pt": "Alerta Urgente de Nível 4 (Maré Alta)",
+   "es": "Alerta urgente de nivel 4 (marejada)",
+   "id": "Peringatan Darurat Gelombang Pasang Tingkat 4",
+   "vi": "Cảnh báo khẩn cấp triều cường cấp độ 4",
+   "tl": "Antas 4 Apurahang babala ng panganib ng daluyong o pagtaas ng tubig sa dagat",
+   "th": "ประกาศเตือนภัยฉุกเฉินน้ำทะเลหนุนสูงระดับ 4",
+   "ne": "श्रेणी ४ उच्च समुद्र सतह जोखिम चेतावनी",
+   "km": "ការប្រកាសអាសន្នគ្រោះថ្នាក់អំពីទឹកសមុទ្រឡើងខ្ពស់កម្រិត 4",
+   "my": "အဆင့် ၄ ဒီရေလှိုင်းကြီးလာမှု အန္တရာယ်သတိပေးချက်",
+   "mn": "4-р түвшний далайн түлхэлтийн яаралтай сэрэмжлүүлэг"
+  },
+  "レベル５高潮特別警報": {
+   "en": "Level 5 Emergency Warning (Storm Surge)",
+   "zh": "等级5 暴潮特别警报",
+   "zhHant": "5級暴潮特別警報",
+   "ko": "레벨 5 폭풍 해일 특별 경보",
+   "pt": "Alerta especial de nível 5 (maré alta)",
+   "es": "Alerta especial de nivel 5 (marejada)",
+   "id": "Peringatan Khusus Gelombang Pasang Tingkat 5",
+   "vi": "Cảnh báo đặc biệt triều cường cấp độ 5",
+   "tl": "Antas 5 Malubhang babala ng daluyong o pagtaas ng tubig sa dagat",
+   "th": "ประกาศเตือนภัยพิเศษคลื่นพายุซัดฝั่งระดับ 5",
+   "ne": "श्रेणी ५ उच्च समुद्र सतह ओभरफ्लो चेतावनी",
+   "km": "ការប្រកាសអាសន្នពិសេសអំពីទឹកឡើងខ្ពស់កម្រិត 5",
+   "my": "အဆင့် ၅ ဒီရေလှိုင်းကြီးလာမှု အရေးပေါ်သတိပေးချက်",
+   "mn": "5-р түвшний далайн түлхэлтийн тусгай сэрэмжлүүлэг"
+  }
+ },
+ "sources": [
+  {
+   "name": "気象庁「多言語辞書」（2026年3月26日更新）",
+   "url": "https://www.data.jma.go.jp/developer/multilingual.html",
+   "note": "公共データ利用規約（第1.0版）に準拠。出典表示のうえ利用。"
+  }
+ ],
+ "note_ja": "◯印のことばは 気象庁の 多言語辞書の 訳です。印の ないものは まだ 訳が ありません。",
+ "note_en": "Terms marked ◯ are official translations from the Japan Meteorological Agency multilingual dictionary."
+};

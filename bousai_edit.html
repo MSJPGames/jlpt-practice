@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ぼうさいクイズ データ編集｜日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0; --red:#A0392E; --red-bg:#FBE9E4;
+    --green:#3E6B2F; --green-bg:#EDF3E6; --amber:#8A6D00; --amber-bg:#FBF3D9;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Noto Sans Mono CJK JP",monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    font-size:14px;line-height:1.6;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 14px 80px;}
+  header{padding:20px 0 12px;border-bottom:1px solid var(--line);}
+  h1{margin:0;font-size:19px;}
+  h1 span{display:block;font-size:11px;font-weight:700;color:var(--hint);
+    letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;}
+  .lead{margin:6px 0 0;font-size:12.5px;color:var(--muted);}
+  .lead code{font-family:var(--mono);font-size:11.5px;background:var(--surface);
+    border:1px solid var(--line);border-radius:4px;padding:1px 5px;}
+  .warnbar{margin-top:10px;font-size:12.5px;background:var(--red-bg);border:1px solid #F0D2C6;
+    border-left:4px solid var(--red);border-radius:8px;padding:10px 12px;line-height:1.75;color:#7A2B20;}
+
+  .check{position:sticky;top:0;z-index:50;background:var(--bg);
+    border-bottom:1px solid var(--line);padding:9px 0;margin-bottom:14px;}
+  .check-in{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;
+    padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);}
+  .chip b{font-family:var(--mono);font-size:13px;}
+  .chip.ok{background:var(--green-bg);border-color:#CFE3B6;color:var(--green);}
+  .chip.ng{background:var(--red-bg);border-color:#F0D2C6;color:var(--red);}
+  .chip.dirty{background:var(--teal-bg);border-color:#BFD9D7;color:var(--teal);}
+  .spacer{flex:1;}
+
+  nav.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px;}
+  .tab{border:1px solid var(--line);background:var(--surface);border-radius:8px 8px 0 0;
+    padding:8px 14px;font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;}
+  .tab.on{color:var(--teal);border-color:var(--teal);background:var(--teal-bg);}
+  section.pane{display:none;} section.pane.on{display:block;}
+
+  .tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px;}
+  input[type=text],input[type=search],select,textarea{font-family:inherit;font-size:13px;
+    border:1px solid var(--line);border-radius:7px;padding:7px 9px;background:var(--surface);color:var(--ink);}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--teal);outline-offset:1px;}
+  textarea{width:100%;resize:vertical;line-height:1.7;}
+  .btn{font-family:inherit;font-size:13px;font-weight:700;border-radius:8px;padding:8px 14px;
+    border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;}
+  .btn.primary{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .btn.danger{color:var(--red);border-color:#F0D2C6;background:var(--red-bg);}
+
+  /* 問題カード（表より編集しやすい） */
+  .qs{display:flex;flex-direction:column;gap:11px;}
+  .qc{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:13px 15px;}
+  .qc.bad{border-color:#F0D2C6;background:var(--red-bg);}
+  .qc .row{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-bottom:8px;}
+  .qc .no{font-family:var(--mono);font-size:11.5px;color:var(--hint);min-width:26px;}
+  .qc label{font-size:11.5px;font-weight:700;color:var(--muted);}
+  .qc .full{width:100%;}
+  .qc .opt{display:flex;gap:8px;align-items:center;margin-bottom:5px;}
+  .qc .opt input[type=radio]{flex-shrink:0;}
+  .qc .opt input[type=text]{flex:1;}
+  .qc .opt .mk{font-size:11px;font-weight:800;color:var(--green);min-width:30px;}
+  .flag{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:999px;
+    background:var(--red-bg);color:var(--red);border:1px solid #F0D2C6;}
+  .dz{font-size:11.5px;font-weight:800;color:var(--red);}
+
+  .issue{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;margin-bottom:9px;}
+  .issue h3{margin:0 0 6px;font-size:13.5px;}
+  .issue ul{margin:0;padding-left:18px;font-size:12.5px;color:var(--muted);}
+  .issue.clear{background:var(--green-bg);border-color:#CFE3B6;}
+  .issue.clear h3{color:var(--green);}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;margin-bottom:12px;}
+  .card h3{margin:0 0 6px;font-size:14px;}
+  .card p{margin:0 0 10px;font-size:12.5px;color:var(--muted);}
+  .steps{counter-reset:s;margin:0;padding:0;list-style:none;}
+  .steps li{counter-increment:s;position:relative;padding-left:26px;margin-bottom:5px;
+    font-size:12.5px;color:var(--muted);}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:18px;height:18px;
+    border-radius:50%;background:var(--line);font-size:10.5px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;}
+  table{border-collapse:collapse;width:100%;font-size:13px;}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{background:var(--bg);font-size:11px;letter-spacing:.06em;color:var(--muted);font-weight:700;}
+  .tablewrap{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:auto;max-height:70vh;}
+  td input[type=text]{width:100%;}
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);
+    color:#fff;font-size:13px;font-weight:700;padding:10px 18px;border-radius:999px;
+    opacity:0;pointer-events:none;transition:opacity .2s;z-index:99;}
+  .toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1><span>Bousai quiz · data editor</span>ぼうさいクイズ データ編集</h1>
+  <p class="lead">直したら「書き出し」タブで <code>bousai_data.js</code> をダウンロードし、サイトの同じファイルを置きかえます。ゲーム本体（<code>bousai_game.html</code>）は触りません。</p>
+  <div class="warnbar"><b>このデータは命に関わります。</b>事実を直すときは、内閣府・気象庁・住んでいる市区町村の公開情報を確認してから書きかえてください。とくに警戒レベルの名前と数字は、2021年と2026年に変わっています。</div>
+</header>
+
+<div class="check"><div class="check-in" id="checkBar"></div></div>
+
+<nav class="tabs">
+  <button class="tab on" data-p="qs">問題</button>
+  <button class="tab" data-p="lv">警戒レベル</button>
+  <button class="tab" data-p="words">ことば</button>
+  <button class="tab" data-p="issues">検証</button>
+  <button class="tab" data-p="io">書き出し・読みこみ</button>
+</nav>
+
+<section class="pane on" id="p-qs">
+  <div class="tools">
+    <input type="search" id="q" placeholder="場面・問い・解説でさがす" style="min-width:230px;">
+    <select id="fCat"><option value="">分野：すべて</option></select>
+    <label style="font-size:12.5px;"><input type="checkbox" id="fDz"> 命に関わるものだけ</label>
+    <span class="spacer"></span>
+    <button class="btn" id="addQ">＋ 問題を足す</button>
+  </div>
+  <div class="qs" id="qsList"></div>
+</section>
+
+<section class="pane" id="p-lv">
+  <p class="lead" style="margin-bottom:10px;">2021年5月の法改正で「避難勧告」は廃止され「避難指示」に一本化されました。2026年5月29日から気象庁の情報名称にレベルの数字が付きます。</p>
+  <div class="tablewrap"><table id="tLv"></table></div>
+</section>
+
+<section class="pane" id="p-words">
+  <div class="tools"><input type="search" id="qw" placeholder="ことばでさがす" style="min-width:200px;">
+    <span class="spacer"></span><button class="btn" id="addW">＋ ことばを足す</button></div>
+  <div class="tablewrap"><table id="tW"></table></div>
+</section>
+
+<section class="pane" id="p-issues"><div id="issueList"></div></section>
+
+<section class="pane" id="p-io">
+  <div class="card">
+    <h3>bousai_data.js を書き出す</h3>
+    <p>編集した内容を、そのままサイトに置けるファイルにします。</p>
+    <ol class="steps">
+      <li>下のボタンでダウンロードする</li>
+      <li>サイトの <code>bousai_data.js</code> を置きかえる</li>
+      <li>ブラウザで Ctrl+F5（強制再読みこみ）</li>
+    </ol>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn primary" id="dlJs">bousai_data.js をダウンロード</button>
+      <button class="btn" id="prevJs">中身を見る</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>エクセルで直す</h3>
+    <p>問題の一覧をCSVで出し入れできます。<b>番号の列は変えないでください。</b>照合に使います。</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn" id="dlCsv">問題CSVを書き出す</button>
+      <label class="btn" style="cursor:pointer;">問題CSVを読みこむ<input type="file" id="upCsv" accept=".csv,text/csv" hidden></label>
+    </div>
+    <p style="font-size:11.5px;color:var(--hint);margin-top:9px;">BOM付きで書き出すので文字化けしません。保存は「CSV UTF-8」で。</p>
+  </div>
+  <div class="card">
+    <h3>やり直す</h3>
+    <p>編集はこのブラウザに自動保存されます。最初の状態に戻すこともできます。</p>
+    <button class="btn danger" id="reset">編集を捨てて読みこみ直す</button>
+  </div>
+  <div class="card" id="prevCard" style="display:none;">
+    <h3>書き出される中身</h3>
+    <textarea id="prevBox" rows="16" spellcheck="false" style="font-family:var(--mono);font-size:11.5px;"></textarea>
+  </div>
+</section>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="bousai_data.js" charset="UTF-8"></script>
+<script>
+var SAVEKEY='nnh_bousai_edit_draft';
+var D=null, ORIG=null, dirty=false;
+function clone(o){return JSON.parse(JSON.stringify(o));}
+function collect(){return {CATS:clone(CATS),LEVELS:clone(LEVELS),QS:clone(QS),WORDS:clone(WORDS),NOTE:BOUSAI_NOTE};}
+function boot(){
+  ORIG=collect();
+  var sv=null; try{var r=localStorage.getItem(SAVEKEY); if(r)sv=JSON.parse(r);}catch(e){}
+  D=sv||clone(ORIG); dirty=!!sv;
+}
+function save(){dirty=true;try{localStorage.setItem(SAVEKEY,JSON.stringify(D));}catch(e){}refreshCheck();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.className='toast show';
+  clearTimeout(toast._t);toast._t=setTimeout(function(){t.className='toast';},1800);}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+/* ---------- 検証 ---------- */
+function qBad(q){
+  if(!q.sit||!q.q||!q.why) return true;
+  if(!D.CATS[q.c]) return true;
+  if(!Array.isArray(q.opts)||q.opts.length<2) return true;
+  if(q.opts.some(function(o){return !String(o).trim();})) return true;
+  if(new Set(q.opts).size!==q.opts.length) return true;
+  if(!(q.a>=0&&q.a<q.opts.length)) return true;
+  if(q.danger&&!q.warn) return true;
+  return false;
+}
+function validate(){
+  var v={core:[],dz:[],words:[]};
+  D.QS.forEach(function(q,i){
+    var n='問'+(i+1)+'「'+String(q.sit||'（空）').slice(0,16)+'」';
+    if(!q.sit||!q.q||!q.why) v.core.push(n+'：場面・問い・解説のどれかが空です');
+    if(!D.CATS[q.c]) v.core.push(n+'：分野「'+q.c+'」がありません');
+    if(!Array.isArray(q.opts)||q.opts.length<2) v.core.push(n+'：選択肢が2つ未満です');
+    else{
+      if(q.opts.some(function(o){return !String(o).trim();})) v.core.push(n+'：空の選択肢があります');
+      if(new Set(q.opts).size!==q.opts.length) v.core.push(n+'：選択肢が重複しています');
+      if(!(q.a>=0&&q.a<q.opts.length)) v.core.push(n+'：正解が選ばれていません');
+    }
+    if(q.danger&&!q.warn) v.dz.push(n+'：命に関わる問題なのに、警告の文がありません');
+  });
+  D.WORDS.forEach(function(w,i){
+    if(!w.ja||!w.easy) v.words.push('ことば'+(i+1)+'：語かやさしい説明が空です');
+  });
+  return v;
+}
+function refreshCheck(){
+  var v=validate(), n=v.core.length+v.dz.length+v.words.length;
+  document.getElementById('checkBar').innerHTML=
+    '<span class="chip '+(n?'ng':'ok')+'">まちがい <b>'+(n?n:'OK')+'</b></span>'+
+    '<span class="chip">問題 <b>'+D.QS.length+'</b></span>'+
+    '<span class="chip">うち命に関わる <b>'+D.QS.filter(function(q){return q.danger;}).length+'</b></span>'+
+    '<span class="chip">ことば <b>'+D.WORDS.length+'</b></span>'+
+    '<span class="spacer"></span>'+
+    (dirty?'<span class="chip dirty">編集あり・自動保存ずみ</span>':'<span class="chip">編集なし</span>');
+  return v;
+}
+
+/* ---------- 問題 ---------- */
+function drawQs(){
+  var kw=document.getElementById('q').value.trim();
+  var fc=document.getElementById('fCat').value, fd=document.getElementById('fDz').checked;
+  var w=document.getElementById('qsList'); w.innerHTML='';
+  var cats=Object.keys(D.CATS);
+  D.QS.forEach(function(q,idx){
+    if(kw && ((q.sit||'')+(q.q||'')+(q.why||'')+(q.opts||[]).join('')).indexOf(kw)<0) return;
+    if(fc && q.c!==fc) return;
+    if(fd && !q.danger) return;
+    var bad=qBad(q);
+    var d=document.createElement('div'); d.className='qc'+(bad?' bad':'');
+    var catOpts=cats.map(function(k){
+      return '<option value="'+k+'"'+(k===q.c?' selected':'')+'>'+D.CATS[k].emoji+' '+D.CATS[k].label+'</option>';}).join('');
+    d.innerHTML=
+      '<div class="row"><span class="no">'+(idx+1)+'</span>'+
+        '<select data-f="c">'+catOpts+'</select>'+
+        '<select data-f="lv"><option value="1"'+(q.lv==1?' selected':'')+'>1 まず</option>'+
+          '<option value="2"'+(q.lv==2?' selected':'')+'>2 つぎ</option>'+
+          '<option value="3"'+(q.lv==3?' selected':'')+'>3 くわしく</option></select>'+
+        '<label class="dz"><input type="checkbox" data-f="danger"'+(q.danger?' checked':'')+'> 命に関わる</label>'+
+        (bad?'<span class="flag">要確認</span>':'')+
+        '<span class="spacer" style="flex:1"></span>'+
+        '<button class="btn danger" data-del="1" style="padding:3px 9px;font-size:11px;">削除</button></div>'+
+      '<div class="row"><label style="min-width:44px;">場面</label>'+
+        '<input type="text" class="full" data-f="sit" value="'+esc(q.sit)+'" style="flex:1"></div>'+
+      '<div class="row"><label style="min-width:44px;">問い</label>'+
+        '<input type="text" data-f="q" value="'+esc(q.q)+'" style="flex:1"></div>'+
+      '<div style="margin:6px 0 8px;">'+
+        (q.opts||[]).map(function(o,i){
+          return '<div class="opt"><input type="radio" name="a'+idx+'" data-a="'+i+'"'+(q.a===i?' checked':'')+'>'+
+            '<span class="mk">'+(q.a===i?'正解':'')+'</span>'+
+            '<input type="text" data-o="'+i+'" value="'+esc(o)+'"></div>';
+        }).join('')+'</div>'+
+      '<div class="row"><label style="min-width:44px;">解説</label>'+
+        '<textarea data-f="why" rows="2">'+esc(q.why)+'</textarea></div>'+
+      '<div class="row"><label style="min-width:44px;">警告</label>'+
+        '<textarea data-f="warn" rows="2" placeholder="命に関わるときは必ず書く">'+esc(q.warn)+'</textarea></div>';
+
+    d.querySelectorAll('[data-f]').forEach(function(el){
+      el.addEventListener('change',function(){
+        var f=el.dataset.f;
+        if(f==='danger'){ if(el.checked)q.danger=true; else delete q.danger; }
+        else if(f==='lv'){ q.lv=parseInt(el.value,10); }
+        else if(f==='warn'){ if(el.value.trim())q.warn=el.value.trim(); else delete q.warn; }
+        else q[f]=el.value.trim();
+        save(); drawQs();
+      });
+    });
+    d.querySelectorAll('[data-o]').forEach(function(el){
+      el.addEventListener('change',function(){ q.opts[parseInt(el.dataset.o,10)]=el.value; save(); drawQs(); });
+    });
+    d.querySelectorAll('[data-a]').forEach(function(el){
+      el.addEventListener('change',function(){ q.a=parseInt(el.dataset.a,10); save(); drawQs(); });
+    });
+    d.querySelector('[data-del]').addEventListener('click',function(){
+      if(!confirm('この問題を消します。よろしいですか。\n\n'+(q.sit||'')))return;
+      D.QS.splice(D.QS.indexOf(q),1); save(); drawQs(); toast('削除しました');
+    });
+    w.appendChild(d);
+  });
+  if(!w.children.length) w.innerHTML='<p style="color:var(--hint);font-size:13px;">見つかりません。</p>';
+}
+function initFilters(){
+  document.getElementById('fCat').innerHTML='<option value="">分野：すべて</option>'+
+    Object.keys(D.CATS).map(function(k){return '<option value="'+k+'">'+D.CATS[k].emoji+' '+D.CATS[k].label+'</option>';}).join('');
+}
+
+/* ---------- 警戒レベル ---------- */
+function drawLv(){
+  document.getElementById('tLv').innerHTML=
+    '<thead><tr><th style="width:46px;">レベル</th><th style="width:150px;">名前</th>'+
+    '<th style="width:150px;">やさしい言いかえ</th><th style="width:78px;">出すところ</th>'+
+    '<th>すること</th><th style="width:200px;">気象庁の情報</th></tr></thead><tbody>'+
+    D.LEVELS.map(function(l,i){
+      return '<tr><td style="font-weight:800;color:'+l.color+'">'+l.n+'</td>'+
+        '<td><input type="text" data-i="'+i+'" data-f="name" value="'+esc(l.name)+'"></td>'+
+        '<td><input type="text" data-i="'+i+'" data-f="easy" value="'+esc(l.easy)+'"></td>'+
+        '<td><input type="text" data-i="'+i+'" data-f="who" value="'+esc(l.who)+'"></td>'+
+        '<td><input type="text" data-i="'+i+'" data-f="act" value="'+esc(l.act)+'"></td>'+
+        '<td><input type="text" data-i="'+i+'" data-f="jma" value="'+esc(l.jma)+'"></td></tr>';
+    }).join('')+'</tbody>';
+  document.querySelectorAll('#tLv [data-f]').forEach(function(el){
+    el.addEventListener('change',function(){
+      D.LEVELS[parseInt(el.dataset.i,10)][el.dataset.f]=el.value; save();
+    });
+  });
+}
+/* ---------- ことば ---------- */
+function drawW(){
+  var kw=document.getElementById('qw').value.trim();
+  document.getElementById('tW').innerHTML=
+    '<thead><tr><th style="width:120px;">ことば</th><th style="width:130px;">よみ</th>'+
+    '<th>やさしい言いかえ</th><th style="width:180px;">英語</th><th style="width:52px;"></th></tr></thead><tbody>'+
+    D.WORDS.map(function(w,i){
+      if(kw && (w.ja+w.yomi+w.easy).indexOf(kw)<0) return '';
+      return '<tr><td><input type="text" data-i="'+i+'" data-f="ja" value="'+esc(w.ja)+'"></td>'+
+        '<td><input type="text" data-i="'+i+'" data-f="yomi" value="'+esc(w.yomi)+'"></td>'+
+        '<td><input type="text" data-i="'+i+'" data-f="easy" value="'+esc(w.easy)+'"></td>'+
+        '<td><input type="text" data-i="'+i+'" data-f="en" value="'+esc(w.en)+'"></td>'+
+        '<td><button class="btn danger" data-dw="'+i+'" style="padding:3px 8px;font-size:11px;">削除</button></td></tr>';
+    }).join('')+'</tbody>';
+  document.querySelectorAll('#tW [data-f]').forEach(function(el){
+    el.addEventListener('change',function(){
+      D.WORDS[parseInt(el.dataset.i,10)][el.dataset.f]=el.value; save();
+    });
+  });
+  document.querySelectorAll('#tW [data-dw]').forEach(function(el){
+    el.addEventListener('click',function(){
+      var i=parseInt(el.dataset.dw,10);
+      if(!confirm('「'+D.WORDS[i].ja+'」を消します。'))return;
+      D.WORDS.splice(i,1); save(); drawW(); toast('削除しました');
+    });
+  });
+}
+
+/* ---------- 検証タブ ---------- */
+function drawIssues(){
+  var v=refreshCheck();
+  var gs=[
+    ['命に関わる問題の警告文', v.dz, 'danger を付けた問題には、まちがえたときに出す警告の文が必要です。ここが空だと、危険さが伝わりません。'],
+    ['問題の作り', v.core, '正解が選ばれていない、選択肢が重複している、分野が存在しない等。これがあるとゲームが正しく動きません。'],
+    ['ことば', v.words, '語かやさしい言いかえが空です。']
+  ];
+  document.getElementById('issueList').innerHTML=gs.map(function(g){
+    if(!g[1].length) return '<div class="issue clear"><h3>✔ '+g[0]+'：問題なし</h3></div>';
+    return '<div class="issue"><h3>'+g[0]+'：'+g[1].length+'件</h3><p style="font-size:12px;color:var(--hint);margin:0 0 6px;">'+g[2]+'</p><ul>'+
+      g[1].slice(0,80).map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div>';
+  }).join('');
+}
+
+/* ---------- 書き出し ---------- */
+function buildJs(){
+  var st=new Date().toISOString().slice(0,16).replace('T',' ');
+  return '/* bousai_data.js — 防災ゲームのデータ\n'+
+   ' * bousai_edit.html で書き出したファイルです。最終更新：'+st+'\n'+
+   ' * ★命に関わる内容です。事実は内閣府・気象庁・各市区町村の公開情報で確認してください。\n'+
+   ' *   警戒レベル：レベル3 高齢者等避難／レベル4 避難指示／レベル5 緊急安全確保\n'+
+   ' *   （2021年5月の法改正で「避難勧告」は廃止）\n'+
+   ' *   新しい防災気象情報：2026年5月29日運用開始。名称にレベルの数字が付く。\n'+
+   ' */\n\n'+
+   'const CATS = '+JSON.stringify(D.CATS,null,2)+';\n\n'+
+   'const LEVELS = '+JSON.stringify(D.LEVELS,null,2)+';\n\n'+
+   'const QS = '+JSON.stringify(D.QS,null,2)+';\n\n'+
+   'const WORDS = '+JSON.stringify(D.WORDS,null,2)+';\n\n'+
+   'const BOUSAI_NOTE = '+JSON.stringify(D.NOTE)+';\n';
+}
+function download(name,text,mime){
+  var b=new Blob([text],{type:(mime||'text/plain')+';charset=utf-8'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=name;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},400);
+}
+function csvCell(v){v=(v==null)?'':String(v);return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
+function toCsv(rows){return '\ufeff'+rows.map(function(r){return r.map(csvCell).join(',');}).join('\r\n');}
+function parseCsv(t){
+  if(t.charCodeAt(0)===0xFEFF)t=t.slice(1);
+  var rows=[],row=[],cell='',q=false,i=0;
+  while(i<t.length){var ch=t[i];
+    if(q){ if(ch==='"'){ if(t[i+1]==='"'){cell+='"';i+=2;continue;} q=false;i++;continue;} cell+=ch;i++;continue;}
+    if(ch==='"'){q=true;i++;continue;}
+    if(ch===','){row.push(cell);cell='';i++;continue;}
+    if(ch==='\r'){i++;continue;}
+    if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell='';i++;continue;}
+    cell+=ch;i++;}
+  if(cell.length||row.length){row.push(cell);rows.push(row);}
+  return rows.filter(function(r){return r.some(function(c){return c!=='';});});
+}
+var COLS=['番号','分野','レベル','命に関わる','場面','問い','選択肢1','選択肢2','選択肢3','選択肢4','正解の番号','解説','警告'];
+function qsCsv(){
+  var rows=[COLS];
+  D.QS.forEach(function(q,i){
+    var o=q.opts.slice(); while(o.length<4)o.push('');
+    rows.push([i+1,q.c,q.lv,q.danger?'1':'',q.sit,q.q,o[0],o[1],o[2],o[3],q.a+1,q.why,q.warn||'']);
+  });
+  return toCsv(rows);
+}
+function readCsv(t){
+  var rows=parseCsv(t); if(!rows.length) return '読めませんでした。';
+  var ix={}; rows[0].forEach(function(h,i){ix[h.trim()]=i;});
+  if(ix['番号']===undefined) return '「番号」の列が見つかりません。書き出したCSVの1行目はそのままにしてください。';
+  var n=0,skip=0;
+  rows.slice(1).forEach(function(r){
+    var no=parseInt(r[ix['番号']],10);
+    if(!no||!D.QS[no-1]){skip++;return;}
+    var q=D.QS[no-1];
+    if(ix['分野']!==undefined && D.CATS[(r[ix['分野']]||'').trim()]) q.c=r[ix['分野']].trim();
+    if(ix['レベル']!==undefined && (r[ix['レベル']]||'').trim()) q.lv=parseInt(r[ix['レベル']],10)||q.lv;
+    if(ix['命に関わる']!==undefined){var d=(r[ix['命に関わる']]||'').trim(); if(d&&d!=='0')q.danger=true; else delete q.danger;}
+    if(ix['場面']!==undefined && (r[ix['場面']]||'').trim()) q.sit=r[ix['場面']].trim();
+    if(ix['問い']!==undefined && (r[ix['問い']]||'').trim()) q.q=r[ix['問い']].trim();
+    var o=[];
+    for(var k=1;k<=4;k++){ var c=ix['選択肢'+k]; if(c!==undefined && (r[c]||'').trim()) o.push(r[c].trim()); }
+    if(o.length>=2) q.opts=o;
+    if(ix['正解の番号']!==undefined){var a=parseInt(r[ix['正解の番号']],10); if(a>=1&&a<=q.opts.length) q.a=a-1;}
+    if(ix['解説']!==undefined && (r[ix['解説']]||'').trim()) q.why=r[ix['解説']].trim();
+    if(ix['警告']!==undefined){var wv=(r[ix['警告']]||'').trim(); if(wv)q.warn=wv; else delete q.warn;}
+    n++;
+  });
+  save(); return n+'件を反映しました。'+(skip?'（'+skip+'行は番号が合わないので飛ばしました）':'');
+}
+
+/* ---------- 配線 ---------- */
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on'); document.getElementById('p-'+t.dataset.p).classList.add('on');
+    if(t.dataset.p==='issues')drawIssues();
+    if(t.dataset.p==='lv')drawLv();
+    if(t.dataset.p==='words')drawW();
+  });
+});
+['q','fCat','fDz'].forEach(function(id){
+  document.getElementById(id).addEventListener('input',drawQs);
+  document.getElementById(id).addEventListener('change',drawQs);
+});
+document.getElementById('qw').addEventListener('input',drawW);
+document.getElementById('addQ').addEventListener('click',function(){
+  D.QS.push({c:Object.keys(D.CATS)[0],lv:1,sit:'（場面を書く）',q:'どうしますか。',
+    opts:['（正しい行動）','（まちがい）','（まちがい）','（まちがい）'],a:0,why:'（なぜそうするか）'});
+  save(); document.getElementById('q').value=''; drawQs();
+  window.scrollTo(0,document.body.scrollHeight);
+  toast('足しました。いちばん下にあります');
+});
+document.getElementById('addW').addEventListener('click',function(){
+  var ja=prompt('足すことば（日本語）'); if(!ja)return;
+  D.WORDS.push({ja:ja.trim(),yomi:'',easy:'',en:''}); save(); drawW(); toast('足しました');
+});
+document.getElementById('dlJs').addEventListener('click',function(){
+  download('bousai_data.js',buildJs(),'application/javascript'); toast('書き出しました');
+});
+document.getElementById('prevJs').addEventListener('click',function(){
+  document.getElementById('prevCard').style.display='block';
+  document.getElementById('prevBox').value=buildJs();
+});
+document.getElementById('dlCsv').addEventListener('click',function(){download('bousai_qs.csv',qsCsv(),'text/csv');toast('書き出しました');});
+document.getElementById('upCsv').addEventListener('change',function(e){
+  var f=e.target.files[0]; if(!f)return; var rd=new FileReader();
+  rd.onload=function(){var m=readCsv(rd.result);drawQs();alert(m);};
+  rd.readAsText(f,'utf-8'); e.target.value='';
+});
+document.getElementById('reset').addEventListener('click',function(){
+  if(!confirm('いまの編集を全部捨てて、読みこんだ bousai_data.js の状態に戻します。'))return;
+  try{localStorage.removeItem(SAVEKEY);}catch(e){}
+  D=clone(ORIG); dirty=false; initFilters(); drawQs(); drawLv(); drawW(); drawIssues(); toast('読みこみ直しました');
+});
+window.addEventListener('beforeunload',function(e){ if(dirty){e.preventDefault();e.returnValue='';} });
+
+if(typeof QS==='undefined'){
+  document.querySelector('.wrap').innerHTML='<header><h1>データが読みこめません</h1></header>'+
+    '<div class="card" style="margin-top:14px;">このページと同じ場所に <code>bousai_data.js</code> を置いてください。</div>';
+}else{
+  boot(); initFilters(); drawQs(); refreshCheck();
+}
+</script>
+</body>
+</html>

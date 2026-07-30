@@ -135,12 +135,37 @@
   .wr .ez{font-size:14px;color:var(--muted);margin-top:2px;}
   .wr .en{font-size:11.5px;color:var(--hint);margin-top:1px;}
 
+  .tr{display:block;font-size:13px;color:var(--teal);font-weight:700;margin-top:3px;line-height:1.6;}
+  .lvb .tr{font-size:13.5px;}
+  .src{font-size:11.5px;color:var(--hint);line-height:1.75;margin-top:10px;}
+  .langbtn{position:fixed;top:9px;right:14px;z-index:9999;font-family:inherit;font-size:11.5px;
+    font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid var(--line);
+    background:rgba(255,255,255,.94);color:var(--ink);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08);}
+  .langsheet{position:fixed;inset:0;z-index:10000;background:rgba(28,28,28,.45);display:none;
+    align-items:flex-end;justify-content:center;}
+  .langsheet.show{display:flex;}
+  .langsheet .in{background:var(--surface);border-radius:16px 16px 0 0;padding:18px 16px 26px;
+    width:100%;max-width:560px;max-height:82vh;overflow:auto;}
+  .langsheet h3{margin:0 0 4px;font-size:16px;}
+  .langsheet p{margin:0 0 12px;font-size:12.5px;color:var(--muted);line-height:1.7;}
+  .langlist{display:flex;flex-direction:column;gap:7px;}
+  .li{border:1px solid var(--line);background:var(--bg);border-radius:11px;padding:12px 14px;
+    font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);text-align:left;cursor:pointer;}
+  .li.on{border-color:var(--teal);background:var(--teal-bg);color:var(--teal);}
   footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);
     font-size:12px;color:var(--hint);line-height:1.85;}
   .hidden{display:none!important;}
 </style>
 </head>
 <body>
+
+<button class="langbtn" id="langBtn" type="button">🌐</button>
+<div class="langsheet" id="langSheet"><div class="in">
+  <h3>🌐 ことばの いみを 見る</h3>
+  <p>日本語は そのまま のこります。下に あなたの ことばで いみが 出ます。<br>
+    ◯印は 気象庁の 多言語辞書の 訳です。</p>
+  <div class="langlist" id="langList"></div>
+</div></div>
 
 <div class="topbar"><div class="topbar-in">
   <a class="nav" href="games.html">‹ あそび場へ</a>
@@ -184,6 +209,7 @@
   <p style="font-size:14px;color:var(--muted);margin:0 0 4px;">
     ひなんじょの かべや、テレビ・ラジオで 出てきます。</p>
   <div class="wl" id="wList"></div>
+  <div class="src" id="wSrc"></div>
   <button class="ghost" id="wBack" type="button">もどる</button>
 </section>
 
@@ -218,6 +244,44 @@
 
 <script src="bousai_data.js" charset="UTF-8"></script>
 <script>
+/* ---------- 多言語 ---------- */
+var LS='nnh_bousai_lang', LANG='';
+try{LANG=localStorage.getItem(LS)||'';}catch(e){}
+function tr(group,key){
+  if(!LANG||typeof TR==='undefined') return '';
+  var g=TR[group]; if(!g) return '';
+  var e=g[key]; if(!e) return '';
+  return e[LANG]||'';
+}
+function trTag(group,key){
+  var t=tr(group,key);
+  return t? '<span class="tr">◯ '+t+'</span>' : '';
+}
+function setLang(id){
+  LANG=id||'';
+  try{localStorage.setItem(LS,LANG);}catch(e){}
+  var cur=(typeof TR!=='undefined')? TR.langs.filter(function(x){return x.id===LANG;})[0] : null;
+  document.getElementById('langBtn').textContent='🌐 '+(cur?cur.label:'日本語');
+  drawLangList(); drawLevels(); drawWords();
+}
+function drawLangList(){
+  var w=document.getElementById('langList'); if(!w||typeof TR==='undefined')return;
+  var opts=[{id:'',label:'日本語だけ'}].concat(TR.langs);
+  w.innerHTML='';
+  opts.forEach(function(o){
+    var b=document.createElement('button'); b.type='button';
+    b.className='li'+(LANG===o.id?' on':''); b.textContent=o.label;
+    b.onclick=function(){ setLang(o.id); document.getElementById('langSheet').classList.remove('show'); };
+    w.appendChild(b);
+  });
+}
+document.getElementById('langBtn').onclick=function(){
+  drawLangList(); document.getElementById('langSheet').classList.add('show');
+};
+document.getElementById('langSheet').onclick=function(e){
+  if(e.target===this) this.classList.remove('show');
+};
+
 function show(id){
   ['menu','levels','words','play','done'].forEach(function(x){
     document.getElementById(x).classList.toggle('hidden', x!==id);
@@ -255,15 +319,25 @@ function drawLevels(){
       '<div class="lvn" style="background:'+l.color+'">'+l.n+'</div>'+
       '<div class="lvb"><div class="who">'+l.who+'</div>'+
       '<div class="nm">'+l.name+'</div><div class="ez">'+l.easy+'</div>'+
+      trTag('levels',String(l.n))+
       '<div class="ac">'+l.act+'</div>'+
       (l.jma?'<div class="jm">気象庁の じょうほう：'+l.jma+'</div>':'')+
       '</div></div>';
   }).join('');
 }
 function drawWords(){
+  if(typeof TR!=='undefined' && TR.sources){
+    document.getElementById('wSrc').innerHTML=
+      '◯印の訳の出典：'+TR.sources.map(function(s){
+        return s.name+'（<a href="'+s.url+'" target="_blank" rel="noopener" style="color:var(--teal)">'+s.url+'</a>）'+
+        '<br>'+s.note+'　気象庁の資料を加工して作成しています。';
+      }).join('<br>')+
+      '<br><br>避難所・給水・断水・炊き出しなど 生活の ことばは この辞書に ないので、まだ 日本語と 英語だけです。';
+  }
   document.getElementById('wList').innerHTML=WORDS.map(function(w){
     return '<div class="wr"><div><span class="ja">'+w.ja+'</span><span class="yo">'+w.yomi+'</span></div>'+
-      '<div class="ez">'+w.easy+'</div><div class="en">'+w.en+'</div></div>';
+      '<div class="ez">'+w.easy+'</div><div class="en">'+w.en+'</div>'+
+      trTag('words',w.ja)+'</div>';
   }).join('');
 }
 
@@ -352,7 +426,7 @@ function finish(){
     document.querySelector('.wrap').innerHTML='<p style="margin-top:40px">データ（bousai_data.js）が 読みこめません。同じ場所に おいてください。</p>';
     return;
   }
-  drawMenu(); show('menu');
+  drawMenu(); setLang(LANG); show('menu');
 })();
 </script>
 </body>

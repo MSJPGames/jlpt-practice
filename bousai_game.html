@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ぼうさいクイズ｜日本語の部屋</title>
+<meta name="description" content="地震・大雨・避難・そなえ。やさしい日本語で、日本に住む人が知っておきたい防災を練習します。警戒レベル（2026年の新しい名前つき）も見られます。">
+<link rel="canonical" href="https://msjpgames.github.io/jlpt-practice/bousai_game.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="日本語の部屋 ・ Nihongo no Heya">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://msjpgames.github.io/jlpt-practice/bousai_game.html">
+<meta property="og:title" content="ぼうさいクイズ｜やさしい日本語で防災を練習する">
+<meta property="og:description" content="地震・大雨・避難・そなえ。警戒レベル5段階と、2026年5月からの新しい「危険警報」も。">
+<meta property="og:image" content="https://msjpgames.github.io/jlpt-practice/og_bousai.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ぼうさいクイズ｜やさしい日本語で防災を練習する">
+<meta name="twitter:description" content="地震・大雨・避難・そなえ。警戒レベルと新しい「危険警報」も。">
+<meta name="twitter:image" content="https://msjpgames.github.io/jlpt-practice/og_bousai.png">
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --ink:#1C1C1C; --muted:#5C5750; --hint:#9E9890;
+    --line:#E2DDD6; --teal:#1F6F6B; --teal-bg:#E8F1F0;
+    --q:#8A5A1F; --q-bg:#FBF0E2;
+    --r:#2F5C8A; --r-bg:#E6EEF6;
+    --e:#3E6B2F; --e-bg:#EDF3E6;
+    --p:#6B4A8B; --p-bg:#F0EAF6;
+    --danger:#A0392E; --danger-bg:#FBE9E4;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    font-size:16px;line-height:1.9;-webkit-tap-highlight-color:transparent;}
+  .wrap{max-width:560px;margin:0 auto;padding:0 16px 80px;}
+
+  .topbar{position:sticky;top:0;z-index:40;background:rgba(247,245,240,.95);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:8px 0;}
+  .topbar-in{max-width:560px;margin:0 auto;padding:0 16px;display:flex;gap:10px;align-items:center;}
+  .nav{font-size:12px;color:var(--hint);text-decoration:none;white-space:nowrap;}
+  .nav:hover{color:var(--teal);}
+  .sp{flex:1;}
+
+  header{padding:26px 0 6px;text-align:center;}
+  .kicker{font-size:10.5px;font-weight:800;letter-spacing:.18em;color:var(--hint);text-transform:uppercase;}
+  h1{margin:7px 0 6px;font-size:27px;line-height:1.35;}
+  .sub{margin:0;font-size:14px;color:var(--muted);line-height:1.8;}
+
+  .note{font-size:12.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);
+    border-left:4px solid var(--teal);border-radius:10px;padding:11px 13px;line-height:1.8;margin:16px 0;}
+
+  /* 分野えらび */
+  .cats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 10px;}
+  .cat{border-radius:13px;padding:15px 13px;border:1px solid;font-family:inherit;cursor:pointer;text-align:left;}
+  .cat .ic{font-size:26px;line-height:1;}
+  .cat .n{font-size:17px;font-weight:800;margin-top:6px;}
+  .cat .s{font-size:12px;color:var(--muted);margin-top:2px;}
+  .cat.q{background:var(--q-bg);border-color:#EBD9C2;} .cat.q .n{color:var(--q);}
+  .cat.r{background:var(--r-bg);border-color:#C4D6E8;} .cat.r .n{color:var(--r);}
+  .cat.e{background:var(--e-bg);border-color:#CFE3B6;} .cat.e .n{color:var(--e);}
+  .cat.p{background:var(--p-bg);border-color:#DCCEE8;} .cat.p .n{color:var(--p);}
+  .allbtn{width:100%;margin-top:2px;border:none;background:var(--teal);color:#fff;font-family:inherit;
+    font-size:16px;font-weight:800;border-radius:12px;padding:14px;cursor:pointer;}
+  .subbtn{width:100%;margin-top:9px;border:1px solid var(--line);background:var(--surface);
+    color:var(--muted);font-family:inherit;font-size:14px;font-weight:700;border-radius:12px;
+    padding:12px;cursor:pointer;}
+
+  /* 警戒レベル表 */
+  .lv{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:14px 0;}
+  .lvr{display:grid;grid-template-columns:56px 1fr;border-bottom:1px solid var(--line);}
+  .lvr:last-child{border-bottom:none;}
+  .lvn{color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;
+    font-size:19px;font-family:var(--mono);}
+  .lvb{padding:11px 13px;}
+  .lvb .nm{font-size:16px;font-weight:800;}
+  .lvb .ez{font-size:13.5px;color:var(--muted);margin-top:1px;}
+  .lvb .ac{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.75;}
+  .lvb .jm{font-size:11.5px;color:var(--hint);margin-top:5px;font-family:var(--mono);line-height:1.6;}
+  .lvb .who{font-size:10.5px;font-weight:800;color:var(--hint);letter-spacing:.04em;}
+  .lvr.key .lvb{background:var(--danger-bg);}
+  .lvr.key .nm{color:var(--danger);}
+
+  /* ゲーム */
+  .hud{display:flex;justify-content:space-between;align-items:center;font-size:12px;
+    font-weight:700;color:var(--hint);margin:14px 0 8px;letter-spacing:.04em;}
+  .hud .sc{color:var(--teal);}
+  .bar{height:4px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:14px;}
+  .bar i{display:block;height:100%;background:var(--teal);width:0;transition:width .3s;}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 17px;}
+  .card .tag{font-size:10.5px;font-weight:800;letter-spacing:.06em;padding:3px 10px;border-radius:999px;
+    display:inline-block;}
+  .card .sit{font-size:18px;font-weight:800;line-height:1.75;margin:10px 0 4px;}
+  .card .qq{font-size:15px;color:var(--muted);font-weight:700;}
+  .opts{display:flex;flex-direction:column;gap:9px;margin-top:14px;}
+  .ob{border:1px solid var(--line);background:var(--surface);border-radius:11px;padding:14px 15px;
+    font-family:inherit;font-size:16.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;
+    line-height:1.65;}
+  .ob:active{transform:scale(.99);}
+  .ob.ok{background:var(--e-bg);border-color:#CFE3B6;color:var(--e);}
+  .ob.ng{background:var(--danger-bg);border-color:#F0D2C6;color:var(--danger);}
+  .ob.dim{opacity:.42;}
+  .fb{margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:14px 15px;display:none;}
+  .fb.show{display:block;}
+  .fb.bad{background:var(--danger-bg);border-color:#F0D2C6;}
+  .fb .h{font-weight:800;margin-bottom:5px;font-size:16px;}
+  .fb .h.o{color:var(--e);} .fb .h.x{color:var(--danger);}
+  .fb .t{font-size:15px;line-height:1.85;color:var(--muted);}
+  .fb .w{margin-top:9px;padding:10px 12px;border-radius:9px;background:#FFE3D8;
+    border:1px solid #E8B9A6;font-size:14.5px;line-height:1.8;color:#7A2B20;font-weight:700;}
+  .next{margin-top:11px;width:100%;border:none;background:var(--teal);color:#fff;font-family:inherit;
+    font-size:16px;font-weight:800;border-radius:11px;padding:14px;cursor:pointer;display:none;}
+  .next.show{display:block;}
+  .ghost{margin-top:9px;width:100%;border:1px solid var(--line);background:var(--surface);
+    color:var(--muted);font-family:inherit;font-size:13.5px;font-weight:700;border-radius:11px;
+    padding:11px;cursor:pointer;}
+
+  .result{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:24px 20px;text-align:center;}
+  .result .big{font-size:42px;font-weight:800;}
+  .result .msg{font-size:15px;color:var(--muted);margin-top:6px;line-height:1.8;}
+  .weak{margin-top:14px;text-align:left;font-size:14px;color:var(--muted);background:var(--bg);
+    border:1px solid var(--line);border-radius:11px;padding:12px 13px;line-height:1.8;}
+  .weak b{color:var(--danger);}
+
+  /* ことば */
+  .wl{display:flex;flex-direction:column;gap:7px;margin:14px 0;}
+  .wr{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:10px 13px;}
+  .wr .ja{font-size:17px;font-weight:800;}
+  .wr .yo{font-size:11.5px;color:var(--hint);font-family:var(--mono);margin-left:6px;}
+  .wr .ez{font-size:14px;color:var(--muted);margin-top:2px;}
+  .wr .en{font-size:11.5px;color:var(--hint);margin-top:1px;}
+
+  footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--hint);line-height:1.85;}
+  .hidden{display:none!important;}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="topbar-in">
+  <a class="nav" href="games.html">‹ あそび場へ</a>
+  <span class="sp"></span>
+  <a class="nav" href="index.html">🏠 トップ</a>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">BOUSAI · やさしい日本語</div>
+  <h1>ぼうさいクイズ</h1>
+  <p class="sub">じしん・おおあめ・ひなん・そなえ。<br>日本に すんでいる人が しっておきたい ことを れんしゅうします。</p>
+</header>
+
+<!-- 選択 -->
+<section id="menu">
+  <div class="note" id="noteBox"></div>
+  <div class="cats" id="cats"></div>
+  <button class="allbtn" id="allBtn" type="button">▶ ぜんぶ から 出す（10問）</button>
+  <button class="subbtn" id="lvBtn" type="button">📶 けいかいレベル（5だんかい）を 見る</button>
+  <button class="subbtn" id="wBtn" type="button">📖 ぼうさいの ことば（18語）を 見る</button>
+</section>
+
+<!-- 警戒レベル -->
+<section id="levels" class="hidden">
+  <h2 style="font-size:20px;margin:18px 0 4px;">けいかいレベル</h2>
+  <p style="font-size:14px;color:var(--muted);margin:0 0 4px;">
+    数字が 大きいほど あぶないです。<b>レベル4で みんな にげます。</b></p>
+  <div class="lv" id="lvList"></div>
+  <p style="font-size:12.5px;color:var(--hint);line-height:1.8;">
+    2026年5月29日から、気象庁の じょうほうの 名前に レベルの数字が つくように なりました。
+    「危険警報（きけんけいほう）」は レベル4です。<br>
+    ※ 河川氾濫・大雨・土砂災害・高潮 いがいの 警報には レベルの数字は つきません。</p>
+  <button class="ghost" id="lvBack" type="button">もどる</button>
+</section>
+
+<!-- ことば -->
+<section id="words" class="hidden">
+  <h2 style="font-size:20px;margin:18px 0 4px;">ぼうさいの ことば</h2>
+  <p style="font-size:14px;color:var(--muted);margin:0 0 4px;">
+    ひなんじょの かべや、テレビ・ラジオで 出てきます。</p>
+  <div class="wl" id="wList"></div>
+  <button class="ghost" id="wBack" type="button">もどる</button>
+</section>
+
+<!-- ゲーム -->
+<section id="play" class="hidden">
+  <div class="hud"><span id="hn"></span><span class="sc" id="hs"></span></div>
+  <div class="bar"><i id="hb"></i></div>
+  <div class="card" id="card"></div>
+  <div class="opts" id="opts"></div>
+  <div class="fb" id="fb"></div>
+  <button class="next" id="next" type="button"></button>
+  <button class="ghost" id="quit" type="button">やめる</button>
+</section>
+
+<!-- 結果 -->
+<section id="done" class="hidden">
+  <div class="result">
+    <div class="big" id="rb"></div>
+    <div class="msg" id="rm"></div>
+    <div class="weak hidden" id="rw"></div>
+  </div>
+  <button class="next show" id="again" type="button">もう一度</button>
+  <button class="ghost" id="tomenu" type="button">えらびなおす</button>
+</section>
+
+<footer>
+  <p id="footNote"></p>
+  <p>© 日本語の部屋</p>
+</footer>
+
+</div>
+
+<script src="bousai_data.js" charset="UTF-8"></script>
+<script>
+function show(id){
+  ['menu','levels','words','play','done'].forEach(function(x){
+    document.getElementById(x).classList.toggle('hidden', x!==id);
+  });
+  window.scrollTo(0,0);
+}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+/* ---------- メニュー ---------- */
+function drawMenu(){
+  document.getElementById('noteBox').textContent=BOUSAI_NOTE;
+  document.getElementById('footNote').textContent=BOUSAI_NOTE;
+  var w=document.getElementById('cats'); w.innerHTML='';
+  Object.keys(CATS).forEach(function(k){
+    var c=CATS[k], n=QS.filter(function(q){return q.c===k;}).length;
+    var b=document.createElement('button'); b.type='button'; b.className='cat '+c.color;
+    b.innerHTML='<div class="ic">'+c.emoji+'</div><div class="n">'+c.label+'</div>'+
+      '<div class="s">'+c.ja+'　'+n+'問</div>';
+    b.onclick=function(){ start(k); };
+    w.appendChild(b);
+  });
+}
+document.getElementById('allBtn').onclick=function(){ start(null); };
+document.getElementById('lvBtn').onclick=function(){ drawLevels(); show('levels'); };
+document.getElementById('wBtn').onclick=function(){ drawWords(); show('words'); };
+document.getElementById('lvBack').onclick=function(){ show('menu'); };
+document.getElementById('wBack').onclick=function(){ show('menu'); };
+document.getElementById('quit').onclick=function(){ G=null; show('menu'); };
+document.getElementById('tomenu').onclick=function(){ G=null; show('menu'); };
+document.getElementById('again').onclick=function(){ start(G?G.cat:null); };
+
+function drawLevels(){
+  document.getElementById('lvList').innerHTML=LEVELS.map(function(l){
+    return '<div class="lvr'+(l.key?' key':'')+'">'+
+      '<div class="lvn" style="background:'+l.color+'">'+l.n+'</div>'+
+      '<div class="lvb"><div class="who">'+l.who+'</div>'+
+      '<div class="nm">'+l.name+'</div><div class="ez">'+l.easy+'</div>'+
+      '<div class="ac">'+l.act+'</div>'+
+      (l.jma?'<div class="jm">気象庁の じょうほう：'+l.jma+'</div>':'')+
+      '</div></div>';
+  }).join('');
+}
+function drawWords(){
+  document.getElementById('wList').innerHTML=WORDS.map(function(w){
+    return '<div class="wr"><div><span class="ja">'+w.ja+'</span><span class="yo">'+w.yomi+'</span></div>'+
+      '<div class="ez">'+w.easy+'</div><div class="en">'+w.en+'</div></div>';
+  }).join('');
+}
+
+/* ---------- ゲーム ---------- */
+var N=10, G=null;
+function start(cat){
+  var pool=cat? QS.filter(function(q){return q.c===cat;}) : QS.slice();
+  /* 命に関わるものを必ず入れる */
+  var dz=shuffle(pool.filter(function(q){return q.danger;})).slice(0,3);
+  var rest=shuffle(pool.filter(function(q){return dz.indexOf(q)<0;}));
+  var q=shuffle(dz.concat(rest).slice(0, Math.min(N,pool.length)));
+  G={cat:cat, q:q, i:0, ok:0, ans:false, miss:[]};
+  show('play'); draw();
+}
+function draw(){
+  var q=G.q[G.i], c=CATS[q.c];
+  document.getElementById('hn').textContent='第 '+(G.i+1)+' / '+G.q.length+' 問';
+  document.getElementById('hs').textContent='正かい '+G.ok;
+  document.getElementById('hb').style.width=Math.round(G.i/G.q.length*100)+'%';
+  document.getElementById('card').innerHTML=
+    '<span class="tag" style="background:var(--'+c.color+'-bg);color:var(--'+c.color+')">'+c.emoji+' '+c.label+'</span>'+
+    '<div class="sit">'+q.sit+'</div><div class="qq">'+q.q+'</div>';
+  var w=document.getElementById('opts'); w.innerHTML='';
+  var idx=shuffle(q.opts.map(function(_,i){return i;}));
+  idx.forEach(function(i){
+    var b=document.createElement('button'); b.type='button'; b.className='ob';
+    b.textContent=q.opts[i];
+    b.onclick=function(){ pick(i,b); };
+    w.appendChild(b);
+  });
+  var f=document.getElementById('fb'); f.className='fb'; f.innerHTML='';
+  document.getElementById('next').className='next';
+  G.ans=false;
+}
+function pick(i,btn){
+  if(G.ans) return; G.ans=true;
+  var q=G.q[G.i], good=(i===q.a);
+  var bs=document.querySelectorAll('#opts .ob');
+  for(var k=0;k<bs.length;k++){
+    if(bs[k].textContent===q.opts[q.a]) bs[k].className='ob ok';
+    else if(bs[k]===btn) bs[k].className='ob ng';
+    else bs[k].className='ob dim';
+  }
+  if(good) G.ok++; else G.miss.push(q);
+  var f=document.getElementById('fb');
+  var showWarn = q.warn && (!good || q.danger);
+  f.className='fb show'+((!good && q.danger)?' bad':'');
+  f.innerHTML='<div class="h '+(good?'o':'x')+'">'+
+      (good ? (q.danger?'⭕ そうです（たいせつな ところ）':'⭕ そうです') : (q.danger?'🚨 あぶない！':'❌ ちがいます'))+'</div>'+
+    '<div class="t">'+(good?'':'こたえは「'+q.opts[q.a]+'」。<br>')+q.why+'</div>'+
+    (showWarn?'<div class="w">⚠️ '+q.warn+'</div>':'');
+  document.getElementById('hs').textContent='正かい '+G.ok;
+  var n=document.getElementById('next');
+  n.textContent=(G.i>=G.q.length-1)?'けっかを 見る':'つぎへ ›';
+  n.className='next show';
+}
+document.getElementById('next').onclick=function(){
+  if(G.i>=G.q.length-1){ finish(); return; }
+  G.i++; draw();
+};
+function finish(){
+  show('done');
+  var pct=Math.round(G.ok/G.q.length*100);
+  document.getElementById('rb').textContent=G.ok+' / '+G.q.length;
+  document.getElementById('rm').textContent = pct>=80
+    ? 'よく できました。いざというとき、まよわずに 動けます。'
+    : (pct>=50 ? 'まちがえた ところを もう一度 見てください。'
+               : 'いちど「けいかいレベル」と「ことば」を 見てから、もう一度 どうぞ。');
+  var w=document.getElementById('rw');
+  var dz=G.miss.filter(function(q){return q.danger;});
+  if(dz.length){
+    w.innerHTML='<b>ここは いのちに かかわります。もう一度 読んでください。</b><br><br>'+
+      dz.map(function(q){return '・'+q.sit+'<br>　→ '+q.opts[q.a];}).join('<br><br>');
+    w.classList.remove('hidden');
+  }else if(G.miss.length){
+    w.innerHTML='まちがえた ところ：<br>'+G.miss.map(function(q){return '・'+q.sit;}).join('<br>');
+    w.classList.remove('hidden');
+  }else{
+    w.classList.add('hidden');
+  }
+}
+
+/* 起動 */
+(function(){
+  if(typeof QS==='undefined'){
+    document.querySelector('.wrap').innerHTML='<p style="margin-top:40px">データ（bousai_data.js）が 読みこめません。同じ場所に おいてください。</p>';
+    return;
+  }
+  drawMenu(); show('menu');
+})();
+</script>
+</body>
+</html>

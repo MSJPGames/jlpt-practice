@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+<title>ゆれるまえに｜日本語の部屋</title>
+<meta name="description" content="速報が鳴ったら、机の下へ。落ちてくる物をよけて、身を守る。ゆれが止まったら、火を消して、ガラスを片づける。余震に注意。">
+<link rel="canonical" href="https://msjpgames.github.io/jlpt-practice/yureru_game.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="日本語の部屋 ・ Nihongo no Heya">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://msjpgames.github.io/jlpt-practice/yureru_game.html">
+<meta property="og:title" content="ゆれるまえに｜隠れて、守って、片づける">
+<meta property="og:description" content="速報が鳴ったら机の下へ。落ちてくる物をよけろ。止まったら火を消して、ガラスを片づける。">
+<style>
+  :root{
+    --bg:#12151C; --room:#1E232D; --floor:#2A303B; --line:#39414F;
+    --ink:#F2F4F7; --muted:#8E99AA; --alert:#E5484D; --ok:#3FB950; --warn:#D29922;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none;}
+  body{background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    user-select:none;touch-action:none;}
+  #app{position:relative;height:100dvh;max-width:560px;margin:0 auto;overflow:hidden;}
+
+  /* 上バー */
+  .hud{position:absolute;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;gap:10px;
+    padding:9px 13px;font-size:12px;font-weight:800;}
+  .hud .sc{font-family:var(--mono);font-size:16px;}
+  .hud .lv{margin-left:auto;font-size:14px;letter-spacing:1px;}
+
+  /* 部屋 */
+  #stage{position:absolute;inset:0;will-change:transform;}
+  #room{position:absolute;left:0;right:0;top:44px;bottom:0;background:var(--room);overflow:hidden;}
+  #floor{position:absolute;left:0;right:0;bottom:0;height:26%;background:var(--floor);
+    border-top:2px solid var(--line);}
+  @keyframes qk{
+    0%{transform:translate(0,0)}   12%{transform:translate(-1em,.45em)}
+    25%{transform:translate(.9em,-.55em)} 37%{transform:translate(-.8em,-.35em)}
+    50%{transform:translate(.75em,.6em)} 62%{transform:translate(-.85em,.25em)}
+    75%{transform:translate(.7em,-.45em)} 87%{transform:translate(-.5em,.4em)}
+    100%{transform:translate(0,0)}
+  }
+  .shaking{animation:qk .3s linear infinite;}
+
+  /* 家具 */
+  .f{position:absolute;display:flex;align-items:center;justify-content:center;
+    font-size:34px;line-height:1;}
+  .f.desk{background:#4A3A2A;border:2px solid #6B563E;border-radius:6px;}
+  .f.shelf{background:#3A3020;border:2px solid #5A4A30;border-radius:4px;}
+  .f.win{background:rgba(120,170,220,.16);border:2px solid rgba(140,190,240,.5);border-radius:3px;}
+  .f.kit{background:#3A2A2A;border:2px solid #5A4040;border-radius:4px;}
+  .safe-hint{position:absolute;border:2px dashed rgba(63,185,80,.55);border-radius:8px;
+    pointer-events:none;opacity:0;transition:opacity .2s;}
+  .safe-hint.on{opacity:1;}
+  .safe-hint::after{content:'ここ';position:absolute;top:-19px;left:50%;transform:translateX(-50%);
+    font-size:11px;font-weight:800;color:var(--ok);}
+
+  /* 人 */
+  #me{position:absolute;font-size:32px;line-height:1;z-index:12;
+    transition:transform .05s linear;filter:drop-shadow(0 3px 6px rgba(0,0,0,.6));}
+  #me.hurt{animation:hb .3s;}
+  @keyframes hb{0%,100%{filter:none}50%{filter:brightness(3) sepia(1) hue-rotate(-40deg) saturate(6)}}
+
+  /* 落下物 */
+  .drop{position:absolute;z-index:11;font-size:26px;line-height:1;pointer-events:none;}
+  .brk{position:absolute;z-index:9;font-size:20px;line-height:1;opacity:.9;}
+  .task{position:absolute;z-index:14;display:flex;align-items:center;justify-content:center;
+    width:56px;height:56px;border-radius:50%;font-size:28px;cursor:pointer;
+    background:rgba(229,72,77,.18);border:2px solid var(--alert);}
+  @keyframes pl{0%,100%{transform:scale(1);}50%{transform:scale(1.12);}}
+  .task{animation:pl 1s ease-in-out infinite;}
+  .task.done{background:rgba(63,185,80,.18);border-color:var(--ok);animation:none;opacity:.5;}
+  .task .lb{position:absolute;bottom:-20px;font-size:11px;font-weight:800;white-space:nowrap;color:var(--ink);}
+
+  /* 速報 */
+  .eew{position:absolute;top:44px;left:0;right:0;z-index:25;background:var(--alert);
+    padding:9px 13px 11px;transform:translateY(-140%);transition:transform .15s;}
+  .eew.on{transform:translateY(0);animation:fl .45s linear infinite;}
+  @keyframes fl{0%,100%{opacity:1}50%{opacity:.6}}
+  .eew .t{font-size:12.5px;font-weight:800;letter-spacing:.1em;}
+  .eew .m{font-size:17px;font-weight:800;}
+  .eew .bar{height:5px;background:rgba(255,255,255,.3);border-radius:99px;margin-top:6px;overflow:hidden;}
+  .eew .bar i{display:block;height:100%;background:#fff;width:100%;}
+
+  /* 指示 */
+  .order{position:absolute;left:0;right:0;top:44px;z-index:24;text-align:center;
+    padding:10px;font-size:21px;font-weight:800;pointer-events:none;
+    text-shadow:0 2px 10px rgba(0,0,0,.9);opacity:0;transition:opacity .15s;}
+  .order.on{opacity:1;}
+  .order.g{color:var(--ok);} .order.r{color:var(--alert);} .order.y{color:var(--warn);}
+  .timer{position:absolute;left:0;right:0;bottom:0;height:6px;background:rgba(255,255,255,.1);z-index:26;}
+  .timer i{display:block;height:100%;background:var(--warn);width:100%;}
+
+  .pop{position:absolute;z-index:40;font-size:17px;font-weight:800;pointer-events:none;
+    animation:pu .8s ease-out forwards;}
+  @keyframes pu{to{transform:translateY(-46px);opacity:0;}}
+
+  /* 画面 */
+  .panel{position:absolute;inset:0;z-index:60;display:none;flex-direction:column;
+    align-items:center;justify-content:center;padding:26px 22px;text-align:center;background:var(--bg);}
+  .panel.on{display:flex;}
+  .panel h1{font-size:32px;margin:0;}
+  .panel .sub{font-size:14px;color:var(--muted);margin-top:10px;line-height:2;max-width:400px;}
+  .btn{font-family:inherit;font-size:18px;font-weight:800;border:none;border-radius:13px;
+    padding:15px 30px;background:var(--alert);color:#fff;cursor:pointer;margin-top:18px;}
+  .btn.s{background:transparent;border:1.5px solid var(--line);color:var(--muted);
+    font-size:13.5px;padding:11px 20px;margin-top:9px;}
+  .res-n{font-family:var(--mono);font-size:56px;font-weight:800;line-height:1;}
+  .res-l{font-size:12px;color:var(--muted);letter-spacing:.1em;}
+  .learn{margin-top:16px;background:var(--room);border:1px solid var(--line);border-radius:12px;
+    padding:13px 15px;font-size:13.5px;line-height:1.95;text-align:left;max-width:420px;color:var(--muted);}
+  .learn b{color:var(--ink);}
+  .top-links{position:absolute;top:8px;right:11px;z-index:70;display:flex;gap:7px;}
+  .tl{font-size:11px;color:var(--muted);text-decoration:none;background:rgba(30,35,45,.9);
+    border:1px solid var(--line);border-radius:99px;padding:4px 10px;}
+  .snd{font-size:12px;background:transparent;border:1px solid var(--line);color:var(--muted);
+    border-radius:99px;padding:4px 10px;cursor:pointer;font-family:inherit;}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="top-links">
+    <button class="snd" id="sndBtn" type="button">🔊</button>
+    <a class="tl" href="games.html">‹ あそび場</a>
+  </div>
+
+  <div class="hud" id="hud" style="display:none;">
+    <span class="sc" id="hSc">0</span>
+    <span id="hWave" style="color:var(--muted);"></span>
+    <span class="lv" id="hLife">❤️❤️❤️</span>
+  </div>
+
+  <div id="stage">
+    <div id="room">
+      <div id="floor"></div>
+      <div class="safe-hint" id="hint"></div>
+      <div id="me">🧍</div>
+    </div>
+  </div>
+
+  <div class="eew" id="eew">
+    <div class="t">きんきゅうじしんそくほう</div>
+    <div class="m" id="eewM">つよい ゆれが きます</div>
+    <div class="bar"><i id="eewBar"></i></div>
+  </div>
+
+  <div class="order" id="order"></div>
+  <div class="timer" id="timerWrap" style="display:none;"><i id="timerBar"></i></div>
+
+  <div class="panel on" id="pTitle">
+    <h1>ゆれるまえに</h1>
+    <div class="sub">
+      そくほうが なったら <b>つくえの下</b>へ。<br>
+      おちてくる 物を よける。<br>
+      ゆれが 止まったら <b>火を けす・ガラスを かたづける</b>。<br>
+      <span style="color:var(--warn);font-weight:800;">よしんに 気をつけて。</span>
+    </div>
+    <div class="sub" style="font-size:12.5px;margin-top:14px;">
+      画面を <b>おした ところ</b>へ 歩きます。
+    </div>
+    <button class="btn" id="btnStart" type="button">▶ はじめる</button>
+    <button class="btn s" id="btnNote" type="button">出典</button>
+  </div>
+
+  <div class="panel" id="pNote">
+    <h1 style="font-size:20px;">出典</h1>
+    <div class="sub" id="noteBody" style="font-size:12.5px;"></div>
+    <button class="btn s" id="btnBack" type="button">もどる</button>
+  </div>
+
+  <div class="panel" id="pOver">
+    <div class="res-l">スコア</div>
+    <div class="res-n" id="oSc">0</div>
+    <div class="sub" id="oBest" style="margin-top:4px;"></div>
+    <div class="learn" id="oLearn"></div>
+    <button class="btn" id="btnAgain" type="button">▶ もう一度</button>
+    <button class="btn s" id="btnTop" type="button">タイトルへ</button>
+  </div>
+
+</div>
+
+<script>
+/* ================= 音（当サイトで作った音。実際の速報チャイムではありません） ================= */
+var AC=null, SND=true;
+try{ SND=(localStorage.getItem('nnh_yureru_snd')||'1')==='1'; }catch(e){}
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} } return AC; }
+function tone(f,d,t,v){ if(!SND)return; var c=ac(); if(!c)return;
+  var o=c.createOscillator(),g=c.createGain(); o.type=t||'sine'; o.frequency.value=f;
+  g.gain.setValueAtTime(0,c.currentTime); g.gain.linearRampToValueAtTime(v||.15,c.currentTime+.01);
+  g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+d);
+  o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime+d+.02); }
+function alarm(){ tone(880,.15,'square',.15); setTimeout(function(){tone(660,.2,'square',.15);},160); }
+function rumble(sec){ if(!SND)return; var c=ac(); if(!c)return;
+  var o=c.createOscillator(),g=c.createGain(); o.type='sawtooth'; o.frequency.value=40;
+  g.gain.setValueAtTime(.001,c.currentTime); g.gain.linearRampToValueAtTime(.09,c.currentTime+.35);
+  g.gain.linearRampToValueAtTime(.001,c.currentTime+sec);
+  o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime+sec+.1); }
+document.getElementById('sndBtn').onclick=function(){ SND=!SND; this.textContent=SND?'🔊':'🔇';
+  try{localStorage.setItem('nnh_yureru_snd',SND?'1':'0');}catch(e){} };
+document.getElementById('sndBtn').textContent=SND?'🔊':'🔇';
+
+/* ================= 部屋 ================= */
+/* 座標は % */
+var ROOM=[
+  {cls:'shelf', x:4,  y:18, w:16, h:40, e:'📚', drop:true },
+  {cls:'win',   x:38, y:14, w:24, h:26, e:'',   glass:true },
+  {cls:'shelf', x:80, y:22, w:16, h:34, e:'🏺', drop:true },
+  {cls:'kit',   x:64, y:56, w:24, h:14, e:'🔥', fire:true },
+  {cls:'desk',  x:26, y:56, w:30, h:12, e:'',   safe:true }
+];
+var SAFE={x:26,y:56,w:30,h:12};      /* 机の下 */
+var DROPS=['📕','🖼️','🏺','🪴','💡','🍽️','🧸','📦','🕰️','🪞'];
+
+var el=function(id){return document.getElementById(id);};
+var room=el('room'), me=el('me'), stage=el('stage');
+var G=null, raf=null, drops=[], tasks=[], last=0;
+var BEST=0; try{BEST=parseInt(localStorage.getItem('nnh_yureru_best')||'0',10)||0;}catch(e){}
+
+el('noteBody').innerHTML =
+ 'この ゲームの 内容は 気象庁・内閣府・消防庁の 公開している じょうほうを もとに つくりました。'+
+ '<br><br>・緊急地震速報は 最大震度5弱以上と 予想されたときに 発表されます<br>'+
+ '・じしんの けがの 多くは <b>おちてきた物・たおれた家具</b>が げんいんです<br>'+
+ '・ゆれている間は 動かず、まず 頭を まもります<br>'+
+ '・ゆれが 止まってから 火の しまつ、ガラスの かたづけを します<br>'+
+ '・<b>よしん</b>が くることが あります<br><br>'+
+ '※ じっさいの 緊急地震速報の チャイム音は つかっていません（著作物のため）。'+
+ 'この ゲームの 音は 当サイトで つくった 別の音です。';
+
+/* ================= 部屋を組む ================= */
+function buildRoom(){
+  [].slice.call(room.querySelectorAll('.f,.drop,.brk,.task')).forEach(function(n){n.remove();});
+  ROOM.forEach(function(f){
+    var d=document.createElement('div');
+    d.className='f '+f.cls;
+    d.style.left=f.x+'%'; d.style.top=f.y+'%';
+    d.style.width=f.w+'%'; d.style.height=f.h+'%';
+    d.textContent=f.e||'';
+    room.appendChild(d);
+    f._el=d;
+  });
+  var h=el('hint');
+  h.style.left=SAFE.x+'%'; h.style.top=SAFE.y+'%';
+  h.style.width=SAFE.w+'%'; h.style.height=SAFE.h+'%';
+}
+
+/* ================= 移動 ================= */
+var pos={x:50,y:78}, target={x:50,y:78};
+function setMe(){
+  me.style.left=pos.x+'%'; me.style.top=pos.y+'%';
+  me.style.transform='translate(-50%,-50%)';
+}
+function moveTo(clientX,clientY){
+  var r=room.getBoundingClientRect();
+  var x=(clientX-r.left)/r.width*100, y=(clientY-r.top)/r.height*100;
+  target.x=Math.max(4,Math.min(96,x));
+  target.y=Math.max(30,Math.min(94,y));
+}
+function onDown(e){
+  if(!G||!G.playing) return;
+  var t=e.touches?e.touches[0]:e;
+  /* タスクを押したときは移動しない */
+  if(e.target && e.target.classList && e.target.classList.contains('task')) return;
+  moveTo(t.clientX,t.clientY);
+}
+room.addEventListener('mousedown',onDown);
+room.addEventListener('mousemove',function(e){ if(e.buttons) onDown(e); });
+room.addEventListener('touchstart',function(e){ onDown(e); },{passive:true});
+room.addEventListener('touchmove',function(e){ onDown(e); },{passive:true});
+
+function inSafe(){
+  return pos.x>SAFE.x+2 && pos.x<SAFE.x+SAFE.w-2 &&
+         pos.y>SAFE.y-2 && pos.y<SAFE.y+SAFE.h+10;
+}
+
+/* ================= ゲーム ================= */
+function start(){
+  cancelAnimationFrame(raf);
+  G={score:0,life:3,wave:0,playing:true,phase:'calm',t:0,learned:{}};
+  drops=[]; tasks=[];
+  pos={x:50,y:80}; target={x:50,y:80}; setMe();
+  buildRoom();
+  el('hud').style.display='flex';
+  ['pTitle','pNote','pOver'].forEach(function(x){el(x).classList.remove('on');});
+  paint();
+  nextWave();
+  last=performance.now();
+  raf=requestAnimationFrame(loop);
+}
+function paint(){
+  el('hSc').textContent=G.score;
+  el('hWave').textContent=G.wave?('だい'+G.wave+'かい'):'';
+  el('hLife').textContent='❤️'.repeat(Math.max(0,G.life))+'🖤'.repeat(Math.max(0,3-G.life));
+}
+function order(txt,cls){
+  var o=el('order'); o.textContent=txt;
+  o.className='order on '+(cls||''); 
+  if(!txt) o.className='order';
+}
+function pop(txt,color,x,y){
+  var d=document.createElement('div'); d.className='pop'; d.textContent=txt;
+  d.style.color=color||'#fff'; d.style.left=(x||50)+'%'; d.style.top=(y||50)+'%';
+  room.appendChild(d); setTimeout(function(){d.remove();},820);
+}
+
+function nextWave(){
+  if(!G) return;
+  G.wave++;
+  G.phase='calm';
+  G.calmT=1.5+Math.random()*4.5;
+  el('eew').classList.remove('on');
+  el('timerWrap').style.display='none';
+  el('hint').classList.remove('on');
+  order('','');
+  paint();
+}
+
+function fireEEW(){
+  G.phase='eew';
+  G.eewT = Math.max(1.6, 4.2 - G.wave*0.28);   /* 回を追うごとに短く */
+  G.eewMax=G.eewT;
+  el('eewM').textContent='つよい ゆれが きます';
+  el('eew').classList.add('on');
+  el('eewBar').style.width='100%';
+  el('hint').classList.add('on');
+  order('つくえの下へ！','r');
+  alarm();
+}
+
+function startQuake(){
+  G.phase='quake';
+  G.qT = 5 + Math.min(4, G.wave*0.4);
+  G.qMax=G.qT;
+  G.shakeLv = Math.min(1.6, .7 + G.wave*0.1);
+  el('eew').classList.remove('on');
+  el('hint').classList.remove('on');
+  stage.style.fontSize=(G.shakeLv*4)+'px';
+  stage.classList.add('shaking');
+  order('うごかない！','r');
+  rumble(G.qT);
+  G.dropT=0;
+  /* 隠れられたか判定 */
+  if(inSafe()){ G.score+=20; pop('+20 かくれた！','#3FB950',pos.x,pos.y); G.learned.hide=true; }
+  else { hurt('にげおくれ'); }
+}
+
+function hurt(msg){
+  if(!G||G.hurtCool>0) return;
+  G.life--; G.hurtCool=1.0;
+  me.classList.remove('hurt'); void me.offsetWidth; me.classList.add('hurt');
+  tone(150,.28,'sawtooth',.16);
+  pop(msg||'いたい！','#E5484D',pos.x,pos.y);
+  paint();
+  if(G.life<=0) gameOver();
+}
+
+function spawnDrop(){
+  var src=ROOM.filter(function(f){return f.drop;});
+  var f=src[Math.floor(Math.random()*src.length)];
+  var d={x:f.x+Math.random()*f.w, y:f.y+f.h, vy:22+Math.random()*22,
+         e:DROPS[Math.floor(Math.random()*DROPS.length)], el:null};
+  var n=document.createElement('div'); n.className='drop'; n.textContent=d.e;
+  n.style.left=d.x+'%'; n.style.top=d.y+'%'; n.style.transform='translate(-50%,-50%)';
+  room.appendChild(n); d.el=n; drops.push(d);
+}
+
+function endQuake(){
+  stage.classList.remove('shaking');
+  drops.forEach(function(d){ if(d.el) d.el.remove(); }); drops=[];
+  G.phase='clean';
+  makeTasks();
+  G.cleanT = 9;
+  G.cleanMax=9;
+  el('timerWrap').style.display='block';
+  order('かたづけよう','y');
+  /* 余震（3回目以降、3割） */
+  G.aftershock = (G.wave>=3 && Math.random()<0.35);
+}
+
+function makeTasks(){
+  tasks.forEach(function(t){ if(t.el) t.el.remove(); }); tasks=[];
+  var list=[
+    {k:'fire',  e:'🔥', lb:'火を けす',       x:70, y:52, pt:25, tip:'ゆれが 止まってから 火を けします'},
+    {k:'glass', e:'🪟', lb:'ガラスを かたづける', x:48, y:44, pt:20, tip:'われた ガラスは くつを はいて かたづけます'},
+    {k:'door',  e:'🚪', lb:'ドアを あける',   x:12, y:62, pt:15, tip:'ドアを あけて 出口を つくります'}
+  ];
+  /* 割れたガラスを床にまく（演出） */
+  for(var i=0;i<7;i++){
+    var b=document.createElement('div'); b.className='brk'; b.textContent='✨';
+    b.style.left=(38+Math.random()*26)+'%'; b.style.top=(74+Math.random()*16)+'%';
+    room.appendChild(b); tasks.push({deco:true, el:b});
+  }
+  list.forEach(function(t){
+    var n=document.createElement('div'); n.className='task';
+    n.innerHTML=t.e+'<span class="lb">'+t.lb+'</span>';
+    n.style.left=t.x+'%'; n.style.top=t.y+'%'; n.style.transform='translate(-50%,-50%)';
+    n.onclick=function(ev){ ev.stopPropagation(); doTask(t,n); };
+    room.appendChild(n); t.el=n; t.done=false; tasks.push(t);
+  });
+}
+function doTask(t,n){
+  if(!G||G.phase!=='clean'||t.done) return;
+  /* 近づかないと できない */
+  var dx=pos.x-t.x, dy=pos.y-t.y;
+  if(Math.sqrt(dx*dx+dy*dy)>18){ pop('ちかづいて','#D29922',pos.x,pos.y); return; }
+  t.done=true; n.className='task done';
+  G.score+=t.pt; G.learned[t.k]=true;
+  pop('+'+t.pt+' '+t.lb,'#3FB950',t.x,t.y);
+  tone(880,.1,'sine',.13); setTimeout(function(){tone(1320,.12,'sine',.13);},80);
+  paint();
+  if(tasks.filter(function(x){return !x.deco&&!x.done;}).length===0){
+    G.score+=30; pop('+30 ぜんぶ できた！','#3FB950',50,50);
+    G.cleanT=Math.min(G.cleanT,0.7);
+  }
+}
+
+function endClean(){
+  tasks.forEach(function(t){ if(t.el) t.el.remove(); }); tasks=[];
+  el('timerWrap').style.display='none';
+  if(G.aftershock){
+    G.phase='after_eew';
+    G.eewT=1.4; G.eewMax=1.4;
+    el('eewM').textContent='よしんです！';
+    el('eew').classList.add('on');
+    el('eewBar').style.width='100%';
+    el('hint').classList.add('on');
+    order('また ゆれる！','r'); alarm();
+    G.aftershock=false; G.learned.after=true;
+    return;
+  }
+  nextWave();
+}
+
+/* ================= ループ ================= */
+function loop(now){
+  if(!G||!G.playing) return;
+  var dt=Math.min(.05,(now-last)/1000); last=now;
+
+  /* 移動 */
+  var sp = (G.phase==='quake') ? 26 : 46;   /* ゆれている間は動きにくい */
+  var dx=target.x-pos.x, dy=target.y-pos.y;
+  var d=Math.sqrt(dx*dx+dy*dy);
+  if(d>0.6){ pos.x+=dx/d*sp*dt; pos.y+=dy/d*sp*dt; setMe(); }
+  if(G.hurtCool>0) G.hurtCool-=dt;
+
+  if(G.phase==='calm'){
+    G.calmT-=dt;
+    me.textContent='🧍';
+    if(G.calmT<=0) fireEEW();
+  }
+  else if(G.phase==='eew'||G.phase==='after_eew'){
+    G.eewT-=dt;
+    el('eewBar').style.width=Math.max(0,G.eewT/G.eewMax*100)+'%';
+    if(G.eewT<=0) startQuake();
+  }
+  else if(G.phase==='quake'){
+    G.qT-=dt;
+    me.textContent = inSafe() ? '🧎' : '🧍';
+    /* 落下 */
+    G.dropT-=dt;
+    if(G.dropT<=0){ spawnDrop(); G.dropT=Math.max(.12,.42-G.wave*.03); }
+    for(var i=drops.length-1;i>=0;i--){
+      var dd=drops[i]; dd.y+=dd.vy*dt;
+      if(dd.el){ dd.el.style.top=dd.y+'%'; }
+      /* 当たり判定 */
+      if(!inSafe() && Math.abs(dd.x-pos.x)<7 && Math.abs(dd.y-pos.y)<7){
+        hurt('あたった！'); if(dd.el)dd.el.remove(); drops.splice(i,1); continue;
+      }
+      if(dd.y>100){ if(dd.el)dd.el.remove(); drops.splice(i,1); }
+    }
+    if(G.qT<=0) endQuake();
+  }
+  else if(G.phase==='clean'){
+    G.cleanT-=dt;
+    me.textContent='🧍';
+    el('timerBar').style.width=Math.max(0,G.cleanT/G.cleanMax*100)+'%';
+    if(G.cleanT<=0) endClean();
+  }
+  raf=requestAnimationFrame(loop);
+}
+
+/* ================= おわり ================= */
+function gameOver(){
+  G.playing=false;
+  cancelAnimationFrame(raf);
+  stage.classList.remove('shaking');
+  drops.forEach(function(d){if(d.el)d.el.remove();}); drops=[];
+  tasks.forEach(function(t){if(t.el)t.el.remove();}); tasks=[];
+  el('eew').classList.remove('on'); el('timerWrap').style.display='none';
+  el('hint').classList.remove('on'); order('','');
+  el('hud').style.display='none';
+  el('oSc').textContent=G.score;
+  if(G.score>BEST){ BEST=G.score; try{localStorage.setItem('nnh_yureru_best',String(BEST));}catch(e){}
+    el('oBest').textContent='さいこう スコア こうしん！'; }
+  else el('oBest').textContent='さいこう スコア '+BEST;
+  var L=[];
+  L.push((G.learned.hide?'✅':'▫️')+' そくほうが なったら <b>つくえの下</b>へ');
+  L.push((G.learned.fire?'✅':'▫️')+' ゆれが 止まってから <b>火を けす</b>');
+  L.push((G.learned.glass?'✅':'▫️')+' われた ガラスは <b>くつを はいて</b> かたづける');
+  L.push((G.learned.door?'✅':'▫️')+' <b>ドアを あけて</b> 出口を つくる');
+  L.push((G.learned.after?'✅':'▫️')+' <b>よしん</b>が くる');
+  el('oLearn').innerHTML=L.join('<br>');
+  el('pOver').classList.add('on');
+}
+
+/* ================= 配線 ================= */
+el('btnStart').onclick=function(){ ac(); start(); };
+el('btnAgain').onclick=function(){ start(); };
+el('btnTop').onclick=function(){ cancelAnimationFrame(raf); G=null;
+  el('hud').style.display='none'; el('pOver').classList.remove('on'); el('pTitle').classList.add('on'); };
+el('btnNote').onclick=function(){ el('pTitle').classList.remove('on'); el('pNote').classList.add('on'); };
+el('btnBack').onclick=function(){ el('pNote').classList.remove('on'); el('pTitle').classList.add('on'); };
+
+buildRoom(); setMe();
+</script>
+</body>
+</html>

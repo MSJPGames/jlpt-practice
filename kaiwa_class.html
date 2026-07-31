@@ -1162,8 +1162,12 @@
   if(!VOICE_INPUT_OK){
     micBtn.textContent="🎤 このブラウザは録音非対応（文字入力をどうぞ）"; micBtn.disabled=true;
   }
-  function defaultStt(base){ base=(base||"").toLowerCase(); if(base.indexOf("groq")>=0) return "whisper-large-v3"; if(base.indexOf("openai.com")>=0) return "whisper-1"; return "whisper-1"; }
-  function transcribeAudioOpenAI(dataUrl, cb){
+  function sttCandidates(base){ base=(base||"").toLowerCase();
+    if(base.indexOf("openai.com")>=0) return ["whisper-1"];
+    if(base.indexOf("groq")>=0) return ["whisper-large-v3"];
+    return ["whisper-large-v3","whisper-1"];  // 中継Worker・その他は Groq系を優先して自動で試す
+  }
+  function transcribeAudioOpenAI(dataUrl, cb, _tried){
     var m=/^data:([^;]+);base64,([\s\S]*)$/.exec(dataUrl||"");
     if(!m){ cb(null,"録音が取得できませんでした"); return; }
     var mime=m[1], b64=m[2];
@@ -1174,13 +1178,28 @@
     var key=keyEl.value.trim();
     if(!base){ cb(null,"ベースURLが未設定です"); return; }
     if(!key){ cb(null,"APIキーが未設定です"); return; }
-    var sttModel=(sttModelEl&&sttModelEl.value.trim())||defaultStt(base);
+    _tried=_tried||[];
+    var userModel=(sttModelEl&&sttModelEl.value.trim())||"";
+    var sttModel=userModel;
+    if(!sttModel){
+      var cands=sttCandidates(base).filter(function(x){ return _tried.indexOf(x)<0; });
+      if(!cands.length){ cb(null,"音声認識モデルが見つかりませんでした。設定の「音声認識モデル」欄にモデル名（例: whisper-large-v3）を入れてください。"); return; }
+      sttModel=cands[0];
+    }
+    _tried.push(sttModel);
     var ext=(mime.indexOf("webm")>=0)?"webm":(mime.indexOf("mp4")>=0?"mp4":(mime.indexOf("ogg")>=0?"ogg":(mime.indexOf("wav")>=0?"wav":"webm")));
     var fd=new FormData(); fd.append("file", blob, "audio."+ext); fd.append("model", sttModel);
     fetch(base+"/audio/transcriptions",{ method:"POST", headers:{"Authorization":"Bearer "+key}, body:fd })
       .then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }).catch(function(){ return {ok:res.ok,data:{}}; }); })
       .then(function(r){
-        if(!r.ok){ var em=(r.data&&r.data.error&&(r.data.error.message||r.data.error))||"認識に失敗しました"; if(typeof em!=="string") em=JSON.stringify(em); cb(null,em); return; }
+        if(!r.ok){
+          var em=(r.data&&r.data.error&&(r.data.error.message||r.data.error))||"認識に失敗しました"; if(typeof em!=="string") em=JSON.stringify(em);
+          if(!userModel && /does not exist|do not have access|no such model|not found|invalid model|unknown model/i.test(em)){
+            var rest=sttCandidates(base).filter(function(x){ return _tried.indexOf(x)<0; });
+            if(rest.length){ transcribeAudioOpenAI(dataUrl, cb, _tried); return; }
+          }
+          cb(null,em); return;
+        }
         var t=(r.data&&(r.data.text||r.data.transcript))||""; cb((t||"").trim(),null);
       }).catch(function(){ cb(null,"通信に失敗しました"); });
   }

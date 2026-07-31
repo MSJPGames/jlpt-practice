@@ -103,6 +103,10 @@
         <label for="modelName">モデル名</label>
         <input type="text" id="modelName" placeholder="例: deepseek-chat" autocomplete="off">
       </div>
+      <div id="sttRow" style="margin-top:6px;display:none">
+        <label for="sttModel">音声認識モデル（🎤音声入力に使用・任意）</label>
+        <input type="text" id="sttModel" placeholder="例: whisper-1 / whisper-large-v3（空欄なら自動）" autocomplete="off">
+      </div>
     </div>
     <label for="key" style="margin-top:12px;display:block">APIキー</label>
     <input type="password" id="key" placeholder="ここにキーを貼り付け" autocomplete="off">
@@ -377,6 +381,7 @@
   };
   function curProv(){ var pp=store.get("llm_provider")||"gemini"; return PROVIDERS[pp]?pp:"gemini"; }
   var provSel=$("provider"), customBox=$("customBox"), baseRow=$("baseRow"), modelRow=$("modelRow"), baseUrlEl=$("baseUrl"), modelNameEl=$("modelName"), providerHintEl=$("providerHint");
+  var sttRow=$("sttRow"), sttModelEl=$("sttModel");
   if(store.get("gemini_key") && !store.get("key_gemini")){ store.set("key_gemini", store.get("gemini_key")); }
   var PROV_HINT = {
     gemini:'キーは<strong>この端末の中だけ</strong>に保存されます。取り方: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> でログイン→「Create API key」→貼り付け（無料）。<br><b>※香港・中国本土では取得できません</b>。その場合は上で OpenRouter か OpenAI互換 を選んでください。',
@@ -389,6 +394,7 @@
     customBox.style.display = isGem ? "none" : "block";
     baseRow.style.display = isCustom ? "block" : "none";
     modelRow.style.display = isGem ? "none" : "block";
+    if(sttRow) sttRow.style.display = isCustom ? "block" : "none";
     var gemOpt = engineSelect.querySelector('option[value="gemini"]'); if(gemOpt) gemOpt.disabled = !isGem;
     if(!isGem && engineSelect.value==="gemini"){ engineSelect.value="browser"; store.set("voice_engine","browser"); try{updateEngineUI();}catch(e){} }
     updateProviderHint();
@@ -398,16 +404,18 @@
     keyEl.value = store.get("key_"+pp) || "";
     baseUrlEl.value = store.get("custom_base") || "";
     modelNameEl.value = (pp==="openrouter") ? (store.get("or_model")||PROVIDERS.openrouter.model) : (store.get("custom_model")||"");
+    if(sttModelEl) sttModelEl.value = store.get("custom_stt")||"";
     updateProviderUI();
   }
   provSel.addEventListener("change", function(){
     var prev=curProv(); store.set("key_"+prev, keyEl.value.trim());
-    if(prev==="custom"){ store.set("custom_base",baseUrlEl.value.trim()); store.set("custom_model",modelNameEl.value.trim()); }
+    if(prev==="custom"){ store.set("custom_base",baseUrlEl.value.trim()); store.set("custom_model",modelNameEl.value.trim()); if(sttModelEl) store.set("custom_stt",sttModelEl.value.trim()); }
     if(prev==="openrouter"){ store.set("or_model",modelNameEl.value.trim()); }
     store.set("llm_provider", provSel.value);
     keyEl.value = store.get("key_"+provSel.value) || "";
     baseUrlEl.value = store.get("custom_base") || "";
     modelNameEl.value = (provSel.value==="openrouter") ? (store.get("or_model")||PROVIDERS.openrouter.model) : (store.get("custom_model")||"");
+    if(sttModelEl) sttModelEl.value = store.get("custom_stt")||"";
     updateProviderUI();
   });
   loadProviderFields();
@@ -1154,10 +1162,35 @@
   if(!VOICE_INPUT_OK){
     micBtn.textContent="🎤 このブラウザは録音非対応（文字入力をどうぞ）"; micBtn.disabled=true;
   }
+  function defaultStt(base){ base=(base||"").toLowerCase(); if(base.indexOf("groq")>=0) return "whisper-large-v3"; if(base.indexOf("openai.com")>=0) return "whisper-1"; return "whisper-1"; }
+  function transcribeAudioOpenAI(dataUrl, cb){
+    var m=/^data:([^;]+);base64,([\s\S]*)$/.exec(dataUrl||"");
+    if(!m){ cb(null,"録音が取得できませんでした"); return; }
+    var mime=m[1], b64=m[2];
+    var bin; try{ bin=atob(b64); }catch(e){ cb(null,"録音の変換に失敗しました"); return; }
+    var len=bin.length, arr=new Uint8Array(len); for(var i=0;i<len;i++) arr[i]=bin.charCodeAt(i);
+    var blob=new Blob([arr],{type:mime});
+    var base=baseUrlEl.value.trim().replace(/\/+$/,"");
+    var key=keyEl.value.trim();
+    if(!base){ cb(null,"ベースURLが未設定です"); return; }
+    if(!key){ cb(null,"APIキーが未設定です"); return; }
+    var sttModel=(sttModelEl&&sttModelEl.value.trim())||defaultStt(base);
+    var ext=(mime.indexOf("webm")>=0)?"webm":(mime.indexOf("mp4")>=0?"mp4":(mime.indexOf("ogg")>=0?"ogg":(mime.indexOf("wav")>=0?"wav":"webm")));
+    var fd=new FormData(); fd.append("file", blob, "audio."+ext); fd.append("model", sttModel);
+    fetch(base+"/audio/transcriptions",{ method:"POST", headers:{"Authorization":"Bearer "+key}, body:fd })
+      .then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }).catch(function(){ return {ok:res.ok,data:{}}; }); })
+      .then(function(r){
+        if(!r.ok){ var em=(r.data&&r.data.error&&(r.data.error.message||r.data.error))||"認識に失敗しました"; if(typeof em!=="string") em=JSON.stringify(em); cb(null,em); return; }
+        var t=(r.data&&(r.data.text||r.data.transcript))||""; cb((t||"").trim(),null);
+      }).catch(function(){ cb(null,"通信に失敗しました"); });
+  }
   function transcribeAudio(dataUrl, cb){
     var m=/^data:([^;]+);base64,([\s\S]*)$/.exec(dataUrl||"");
     if(!m){ cb(null,"録音が取得できませんでした"); return; }
-    if(curProv()!=="gemini"){ cb(null,"この提供元では音声入力（自動文字起こし）は使えません。下の入力欄に文字で送ってください。"); return; }
+    if(curProv()!=="gemini"){
+      if(curProv()==="openrouter"){ cb(null,"OpenRouterは音声入力（自動文字起こし）に対応していません。下の入力欄に文字で送ってください。"); return; }
+      transcribeAudioOpenAI(dataUrl, cb); return;
+    }
     var key=keyEl.value.trim();
     if(!key){ cb(null,"APIキーが未設定です"); return; }
     var body={ contents:[{ parts:[
@@ -1204,7 +1237,7 @@
     var key=keyEl.value.trim();
     if(!key){ setupStatus.textContent="⚠ まずAPIキーを入力してください。"; return; }
     store.set("key_"+curProv(),key);
-    if(curProv()==="custom"){ store.set("custom_base",baseUrlEl.value.trim()); store.set("custom_model",modelNameEl.value.trim()); }
+    if(curProv()==="custom"){ store.set("custom_base",baseUrlEl.value.trim()); store.set("custom_model",modelNameEl.value.trim()); if(sttModelEl) store.set("custom_stt",sttModelEl.value.trim()); }
     if(curProv()==="openrouter"){ store.set("or_model",modelNameEl.value.trim()); }
     store.set("llm_provider",provSel.value);
     store.set("voice_engine",engineSelect.value); store.set("gemini_voice",gVoice.value);

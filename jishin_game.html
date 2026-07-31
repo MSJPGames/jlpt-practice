@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>じしんラッシュ｜日本語の部屋</title>
+<meta name="description" content="緊急地震速報が鳴ってから、ゆれが来るまでの数秒。場所によって正しい行動はちがいます。秒で判断する、地震のゲーム。">
+<link rel="canonical" href="https://msjpgames.github.io/jlpt-practice/jishin_game.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="日本語の部屋 ・ Nihongo no Heya">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://msjpgames.github.io/jlpt-practice/jishin_game.html">
+<meta property="og:title" content="じしんラッシュ｜速報が鳴ってから、ゆれが来るまで">
+<meta property="og:description" content="いつ来るかわからない。場所によって正しい行動はちがう。秒で判断する地震のゲーム。">
+<style>
+  :root{
+    --bg:#0E1116; --panel:#161B22; --line:#2A313B; --ink:#F2F4F7; --muted:#9BA5B4;
+    --alert:#E5484D; --alert2:#FF6B6B; --ok:#3FB950; --warn:#D29922; --info:#4A9EFF;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;overflow:hidden;}
+  body{background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    line-height:1.6;user-select:none;}
+  #app{position:relative;height:100dvh;max-width:520px;margin:0 auto;overflow:hidden;}
+
+  /* ゆれ */
+  #shaker{position:absolute;inset:0;will-change:transform;}
+  @keyframes qk{
+    0%{transform:translate(0,0) rotate(0)}   10%{transform:translate(-1em,.5em) rotate(-.5deg)}
+    20%{transform:translate(.9em,-.6em) rotate(.4deg)} 30%{transform:translate(-.8em,-.4em) rotate(-.35deg)}
+    40%{transform:translate(.7em,.7em) rotate(.45deg)} 50%{transform:translate(-.9em,.3em) rotate(-.4deg)}
+    60%{transform:translate(.8em,-.5em) rotate(.3deg)} 70%{transform:translate(-.6em,.6em) rotate(-.3deg)}
+    80%{transform:translate(.5em,-.3em) rotate(.25deg)} 90%{transform:translate(-.4em,.2em) rotate(-.2deg)}
+    100%{transform:translate(0,0) rotate(0)}
+  }
+  .shaking{animation:qk .32s linear infinite;}
+
+  /* 上バー */
+  .hud{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;
+    padding:10px 14px;font-size:12px;font-weight:800;letter-spacing:.04em;}
+  .hud .sc{font-family:var(--mono);font-size:17px;}
+  .hud .cb{color:var(--warn);}
+  .hud .lv{margin-left:auto;font-size:15px;letter-spacing:2px;}
+  .hud .best{color:var(--muted);font-size:11px;}
+
+  /* 場面 */
+  .scene{position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;padding:56px 18px 18px;text-align:center;}
+  .place-em{font-size:78px;line-height:1;filter:drop-shadow(0 6px 18px rgba(0,0,0,.6));}
+  .place-nm{font-size:27px;font-weight:800;margin-top:10px;}
+  .place-sb{font-size:14px;color:var(--muted);margin-top:2px;}
+  .calm{font-size:12.5px;color:var(--muted);margin-top:22px;letter-spacing:.1em;}
+
+  /* 速報バナー */
+  .eew{position:absolute;top:0;left:0;right:0;z-index:30;background:var(--alert);
+    padding:12px 14px 14px;transform:translateY(-130%);transition:transform .18s;}
+  .eew.on{transform:translateY(0);}
+  .eew .t{font-size:14px;font-weight:800;letter-spacing:.12em;}
+  .eew .m{font-size:20px;font-weight:800;margin-top:2px;}
+  .eew .c{font-family:var(--mono);font-size:44px;font-weight:800;line-height:1;margin-top:4px;}
+  .eew .bar{height:5px;background:rgba(255,255,255,.28);border-radius:99px;margin-top:8px;overflow:hidden;}
+  .eew .bar i{display:block;height:100%;background:#fff;width:100%;}
+  @keyframes fl{0%,100%{opacity:1}50%{opacity:.55}}
+  .eew.on{animation:fl .5s linear infinite;}
+  .eew.chokka{background:#7A1418;}
+
+  /* 選択肢 */
+  .acts{position:absolute;left:0;right:0;bottom:0;z-index:25;padding:12px;
+    display:flex;flex-direction:column;gap:9px;
+    transform:translateY(115%);transition:transform .16s;}
+  .acts.on{transform:translateY(0);}
+  .act{display:flex;align-items:center;gap:12px;background:var(--panel);
+    border:1.5px solid var(--line);border-radius:14px;padding:15px 16px;
+    font-family:inherit;font-size:18px;font-weight:800;color:var(--ink);text-align:left;cursor:pointer;}
+  .act .ic{font-size:28px;line-height:1;flex-shrink:0;}
+  .act:active{transform:scale(.985);}
+  .act.ok{border-color:var(--ok);background:#0E2A14;color:var(--ok);}
+  .act.ng{border-color:var(--alert);background:#2A0E10;color:var(--alert2);}
+  .act.dim{opacity:.32;}
+
+  /* 落下物 */
+  .fall{position:absolute;z-index:15;font-size:34px;pointer-events:none;
+    animation:fd linear forwards;}
+  @keyframes fd{to{transform:translateY(115vh) rotate(320deg);opacity:.15;}}
+
+  /* 判定 */
+  .verdict{position:absolute;inset:0;z-index:40;display:none;
+    flex-direction:column;align-items:center;justify-content:center;
+    padding:24px;text-align:center;background:rgba(14,17,22,.93);}
+  .verdict.on{display:flex;}
+  .verdict .big{font-size:52px;line-height:1;}
+  .verdict .h{font-size:24px;font-weight:800;margin-top:10px;}
+  .verdict .h.o{color:var(--ok);} .verdict .h.x{color:var(--alert2);}
+  .verdict .ans{font-size:19px;font-weight:800;margin-top:12px;}
+  .verdict .why{font-size:15.5px;color:var(--muted);margin-top:8px;line-height:1.85;max-width:400px;}
+  .verdict .pt{font-family:var(--mono);font-size:15px;color:var(--warn);margin-top:10px;font-weight:800;}
+
+  /* 画面 */
+  .panel{position:absolute;inset:0;z-index:50;display:none;flex-direction:column;
+    align-items:center;justify-content:center;padding:26px 20px;text-align:center;background:var(--bg);}
+  .panel.on{display:flex;}
+  .panel h1{font-size:34px;margin:0;letter-spacing:-.02em;}
+  .panel .sub{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.9;}
+  .btn{font-family:inherit;font-size:18px;font-weight:800;border:none;border-radius:14px;
+    padding:16px 30px;background:var(--alert);color:#fff;cursor:pointer;margin-top:20px;}
+  .btn.sub2{background:transparent;border:1.5px solid var(--line);color:var(--muted);
+    font-size:14px;padding:12px 22px;margin-top:10px;}
+  .res-n{font-family:var(--mono);font-size:60px;font-weight:800;line-height:1;}
+  .res-l{font-size:13px;color:var(--muted);letter-spacing:.1em;}
+  .miss{margin-top:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:14px 16px;font-size:14px;line-height:1.9;text-align:left;max-width:420px;}
+  .miss b{color:var(--alert2);}
+  .note{font-size:11px;color:#6C7684;line-height:1.8;margin-top:20px;max-width:420px;}
+  .top-links{position:absolute;top:10px;right:12px;z-index:60;display:flex;gap:8px;}
+  .tl{font-size:11.5px;color:var(--muted);text-decoration:none;background:rgba(22,27,34,.85);
+    border:1px solid var(--line);border-radius:99px;padding:5px 11px;}
+  .snd{font-size:13px;background:transparent;border:1px solid var(--line);color:var(--muted);
+    border-radius:99px;padding:5px 11px;cursor:pointer;font-family:inherit;}
+  .streak{font-size:13px;color:var(--warn);margin-top:6px;font-weight:800;}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="top-links">
+    <button class="snd" id="sndBtn" type="button">🔊</button>
+    <a class="tl" href="games.html">‹ あそび場</a>
+  </div>
+
+  <div id="shaker">
+    <div class="scene" id="scene">
+      <div class="place-em" id="pEm">🛋️</div>
+      <div class="place-nm" id="pNm">へや</div>
+      <div class="place-sb" id="pSb">つくえが ある</div>
+      <div class="calm" id="calm">…</div>
+    </div>
+  </div>
+
+  <div class="hud" id="hud" style="display:none;">
+    <span class="sc" id="hScore">0</span>
+    <span class="cb" id="hCombo"></span>
+    <span class="lv" id="hLife">❤️❤️❤️</span>
+  </div>
+
+  <div class="eew" id="eew">
+    <div class="t" id="eewT">きんきゅうじしんそくほう</div>
+    <div class="m" id="eewM">つよい ゆれが きます</div>
+    <div class="c" id="eewC">5</div>
+    <div class="bar"><i id="eewBar"></i></div>
+  </div>
+
+  <div class="acts" id="acts"></div>
+
+  <div class="verdict" id="verdict">
+    <div class="big" id="vBig">⭕</div>
+    <div class="h" id="vH">せいかい</div>
+    <div class="ans" id="vAns"></div>
+    <div class="why" id="vWhy"></div>
+    <div class="pt" id="vPt"></div>
+  </div>
+
+  <!-- タイトル -->
+  <div class="panel on" id="pTitle">
+    <h1>じしんラッシュ</h1>
+    <div class="sub">
+      きんきゅうじしんそくほうが なります。<br>
+      ゆれが くるまでの <b>数びょう</b>で、<br>
+      いまいる ばしょに あった 行動を えらんでください。<br><br>
+      <span style="color:var(--alert2);font-weight:800;">ばしょが ちがえば、正かいも ちがいます。</span>
+    </div>
+    <div class="streak" id="streakT"></div>
+    <button class="btn" id="btnStart" type="button">▶ はじめる</button>
+    <button class="btn sub2" id="btnHow" type="button">あそび方・出典</button>
+  </div>
+
+  <!-- 説明 -->
+  <div class="panel" id="pHow">
+    <h1 style="font-size:24px;">あそび方</h1>
+    <div class="sub" style="text-align:left;max-width:420px;">
+      ① ばしょが 出ます。<b>どうするか 考えておきます。</b><br>
+      ② いつ くるかは わかりません。<br>
+      ③ そくほうが なったら、ゆれるまでに えらびます。<br>
+      ④ <b>ちょっか型</b>は そくほうが 間に あいません。<br><br>
+      ・まちがえると ❤️が へります。3つで おわり。<br>
+      ・つづけて 正かいすると てんすうが ふえます。<br>
+      ・しんどが 大きいほど 時間が みじかく、てんすうは 高いです。
+    </div>
+    <div class="note" id="howNote"></div>
+    <button class="btn sub2" id="btnBack" type="button">もどる</button>
+  </div>
+
+  <!-- 結果 -->
+  <div class="panel" id="pOver">
+    <div class="res-l">スコア</div>
+    <div class="res-n" id="oScore">0</div>
+    <div class="streak" id="oBest"></div>
+    <div class="miss" id="oMiss" style="display:none;"></div>
+    <button class="btn" id="btnAgain" type="button">▶ もう一度</button>
+    <button class="btn sub2" id="btnTop" type="button">タイトルへ</button>
+  </div>
+
+</div>
+
+<script src="jishin_data.js" charset="UTF-8"></script>
+<script>
+/* ---------- 音（当サイトで作った音。実際の速報チャイムではありません） ---------- */
+var AC=null, SND=true;
+try{ SND = (localStorage.getItem('nnh_jishin_snd')||'1')==='1'; }catch(e){}
+function ac(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } return AC; }
+function beep(f,dur,type,vol){
+  if(!SND) return; var c=ac(); if(!c) return;
+  var o=c.createOscillator(), g=c.createGain();
+  o.type=type||'sine'; o.frequency.value=f;
+  g.gain.setValueAtTime(0,c.currentTime);
+  g.gain.linearRampToValueAtTime(vol||.18,c.currentTime+.01);
+  g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+dur);
+  o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime+dur+.02);
+}
+function alarm(){ beep(880,.16,'square',.16); setTimeout(function(){beep(660,.22,'square',.16);},170); }
+function rumble(){ if(!SND) return; var c=ac(); if(!c) return;
+  var o=c.createOscillator(), g=c.createGain();
+  o.type='sawtooth'; o.frequency.value=42;
+  g.gain.setValueAtTime(.001,c.currentTime);
+  g.gain.linearRampToValueAtTime(.10,c.currentTime+.3);
+  g.gain.linearRampToValueAtTime(.001,c.currentTime+2.4);
+  o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime+2.5);
+}
+document.getElementById('sndBtn').onclick=function(){
+  SND=!SND; this.textContent=SND?'🔊':'🔇';
+  try{localStorage.setItem('nnh_jishin_snd',SND?'1':'0');}catch(e){}
+};
+document.getElementById('sndBtn').textContent=SND?'🔊':'🔇';
+
+/* ---------- 状態 ---------- */
+var G=null, T=[];
+function clearT(){ T.forEach(clearTimeout); T=[]; }
+function later(f,ms){ var id=setTimeout(f,ms); T.push(id); return id; }
+function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function show(id){
+  ['pTitle','pHow','pOver'].forEach(function(x){
+    document.getElementById(x).classList.toggle('on', x===id);
+  });
+}
+function el(id){ return document.getElementById(id); }
+
+var BEST=0; try{ BEST=parseInt(localStorage.getItem('nnh_jishin_best')||'0',10)||0; }catch(e){}
+function showBest(){
+  el('streakT').textContent = BEST? ('さいこう スコア '+BEST) : '';
+}
+showBest();
+el('howNote').textContent = JISHIN_NOTE;
+
+/* ---------- 開始 ---------- */
+function start(){
+  clearT();
+  G={score:0,combo:0,life:3,round:0,misses:[],busy:false};
+  show(null);
+  el('hud').style.display='flex';
+  paintHud();
+  nextRound();
+}
+function paintHud(){
+  el('hScore').textContent=G.score;
+  el('hCombo').textContent=G.combo>1?('🔥'+G.combo):'';
+  el('hLife').textContent='❤️'.repeat(Math.max(0,G.life))+'🖤'.repeat(Math.max(0,3-G.life));
+}
+
+/* ---------- 1ラウンド ---------- */
+function nextRound(){
+  if(G.life<=0){ return gameOver(); }
+  G.round++;
+  G.busy=false;
+  el('verdict').classList.remove('on');
+  el('acts').classList.remove('on');
+  el('eew').classList.remove('on','chokka');
+  el('shaker').classList.remove('shaking');
+
+  /* 5ラウンドに1回、ゆれが止まったあとの問題 */
+  var after = (G.round%4===0);
+  if(after) return afterRound();
+
+  var p = rnd(PLACES);
+  var q = rnd(QUAKES);
+  G.cur={p:p,q:q,after:false};
+
+  el('pEm').textContent=p.emoji;
+  el('pNm').textContent=p.name;
+  el('pSb').textContent=p.sub;
+  el('calm').textContent='…';
+
+  /* いつ来るかわからない（2〜7秒） */
+  var wait = 2000 + Math.random()*5000;
+  later(function(){ fireEEW(p,q); }, wait);
+}
+
+function fireEEW(p,q){
+  if(!G) return;
+  var e=el('eew');
+  e.classList.add('on');
+  if(q.chokka){
+    e.classList.add('chokka');
+    el('eewT').textContent='ちょっか型';
+    el('eewM').textContent='そくほうが 間に あいません';
+    el('eewC').textContent='!!';
+    el('eewBar').style.transition='none';
+    el('eewBar').style.width='0%';
+    alarm();
+    showActs(p,q,0);
+    quakeStart(q);
+    return;
+  }
+  el('eewT').textContent='きんきゅうじしんそくほう';
+  el('eewM').textContent=q.label+' の ゆれが きます';
+  alarm();
+  var sec=q.wait;
+  el('eewC').textContent=Math.ceil(sec);
+  el('eewBar').style.transition='none';
+  el('eewBar').style.width='100%';
+  requestAnimationFrame(function(){
+    el('eewBar').style.transition='width '+sec+'s linear';
+    el('eewBar').style.width='0%';
+  });
+  showActs(p,q,sec);
+  var t0=Date.now();
+  var iv=setInterval(function(){
+    if(!G||G.busy){ clearInterval(iv); return; }
+    var left=sec-(Date.now()-t0)/1000;
+    el('eewC').textContent=Math.max(0,Math.ceil(left));
+    if(left<=1.6 && left>1.4) beep(1046,.09,'square',.13);
+    if(left<=0){ clearInterval(iv); quakeStart(q); }
+  },80);
+  G.iv=iv;
+}
+
+function showActs(p,q,sec){
+  var w=el('acts'); w.innerHTML='';
+  shuffle(p.acts.slice()).forEach(function(a){
+    var b=document.createElement('button'); b.type='button'; b.className='act';
+    b.innerHTML='<span class="ic">'+a.i+'</span><span>'+a.t+'</span>';
+    b.onclick=function(){ answer(a,p,b); };
+    w.appendChild(b);
+  });
+  w.classList.add('on');
+}
+
+function quakeStart(q){
+  if(!G||G.busy) return;
+  var s=el('shaker');
+  s.style.fontSize=(q.shake*4)+'px';   /* em 基準で揺れ幅を変える */
+  s.classList.add('shaking');
+  rumble();
+  dropStuff(q);
+  el('eewM').textContent='ゆれています';
+  el('eewC').textContent='!!';
+  /* 揺れている間に選ばなければ、間に合わなかった扱い */
+  later(function(){
+    if(G && !G.busy) answer(null, G.cur.p, null);
+  }, Math.min(2600, q.dur*380));
+}
+
+function dropStuff(q){
+  var n=Math.round(3+q.shake*5);
+  for(var i=0;i<n;i++){
+    (function(k){
+      later(function(){
+        if(!G) return;
+        var d=document.createElement('div');
+        d.className='fall'; d.textContent=rnd(FALLS);
+        d.style.left=(6+Math.random()*84)+'%';
+        d.style.top='-8%';
+        d.style.animationDuration=(1.1+Math.random()*.9)+'s';
+        el('app').appendChild(d);
+        setTimeout(function(){ d.remove(); },2200);
+      }, k*180+Math.random()*200);
+    })(i);
+  }
+}
+
+/* ---------- ゆれが止まったあと ---------- */
+function afterRound(){
+  var a = rnd(AFTER);
+  G.cur={p:{name:'ゆれの あと',acts:a.acts,emoji:'🏚️',sub:''},q:{pt:12},after:true};
+  el('pEm').textContent='🏚️';
+  el('pNm').textContent='ゆれが 止まりました';
+  el('pSb').textContent='';
+  el('calm').textContent='';
+  var e=el('eew');
+  e.classList.add('on'); e.classList.remove('chokka');
+  el('eewT').textContent='つぎに することは？';
+  el('eewM').textContent=a.q;
+  el('eewC').textContent='';
+  el('eewBar').style.transition='none'; el('eewBar').style.width='0%';
+  showActs(G.cur.p,{},0);
+}
+
+/* ---------- 判定 ---------- */
+function answer(a,p,btn){
+  if(!G||G.busy) return;
+  G.busy=true;
+  if(G.iv){ clearInterval(G.iv); G.iv=null; }
+  clearT();
+  el('shaker').classList.remove('shaking');
+
+  var correct = p.acts.filter(function(x){return x.ok;})[0];
+  var good = a && a.ok;
+
+  document.querySelectorAll('#acts .act').forEach(function(b){
+    var label=b.textContent.replace(/^.*?(\S)/,'$1');
+    if(b.querySelector('span:last-child').textContent===correct.t) b.className='act ok';
+    else if(b===btn) b.className='act ng';
+    else b.className='act dim';
+    b.onclick=null;
+  });
+
+  var pt=0;
+  if(good){
+    G.combo++;
+    pt=(G.cur.q.pt||10)+Math.min(20,(G.combo-1)*3);
+    G.score+=pt;
+    beep(880,.1,'sine',.14); later(function(){beep(1320,.14,'sine',.14);},90);
+  }else{
+    G.combo=0; G.life--;
+    beep(180,.3,'sawtooth',.16);
+    G.misses.push({p:p.name, ans:correct.t, why:a?a.why:'時間内に えらべませんでした', fatal:a&&a.fatal});
+  }
+  paintHud();
+
+  el('vBig').textContent = good?'⭕':(a&&a.fatal?'💀':'❌');
+  el('vH').className='h '+(good?'o':'x');
+  el('vH').textContent = good ? (G.combo>1?('せいかい　🔥'+G.combo):'せいかい') : (a&&a.fatal?'とても あぶない！':'ちがいます');
+  el('vAns').textContent = '正かい：'+correct.t;
+  el('vWhy').textContent = good ? '' : (a ? (a.why||'') : 'ゆれる まえに えらんで ください。');
+  el('vPt').textContent = good ? ('＋'+pt) : '';
+  el('verdict').classList.add('on');
+
+  later(function(){
+    el('verdict').classList.remove('on');
+    later(nextRound, 180);
+  }, good?900:2100);
+}
+
+/* ---------- おわり ---------- */
+function gameOver(){
+  clearT();
+  el('hud').style.display='none';
+  el('acts').classList.remove('on');
+  el('eew').classList.remove('on');
+  el('shaker').classList.remove('shaking');
+  el('oScore').textContent=G.score;
+  if(G.score>BEST){ BEST=G.score; try{localStorage.setItem('nnh_jishin_best',String(BEST));}catch(e){}
+    el('oBest').textContent='さいこう スコア こうしん！'; }
+  else el('oBest').textContent='さいこう スコア '+BEST;
+  var dz=G.misses.filter(function(m){return m.fatal;});
+  var list=dz.length?dz:G.misses.slice(-2);
+  if(list.length){
+    el('oMiss').innerHTML=(dz.length?'<b>ここは とくに あぶないです</b><br><br>':'')+
+      list.map(function(m){return '<b>'+m.p+'</b><br>→ '+m.ans+(m.why?'<br><span style="color:var(--muted)">'+m.why+'</span>':'');}).join('<br><br>');
+    el('oMiss').style.display='block';
+  } else el('oMiss').style.display='none';
+  showBest();
+  show('pOver');
+}
+
+/* ---------- 配線 ---------- */
+el('btnStart').onclick=function(){ ac(); start(); };
+el('btnAgain').onclick=function(){ start(); };
+el('btnTop').onclick=function(){ clearT(); el('hud').style.display='none'; show('pTitle'); };
+el('btnHow').onclick=function(){ show('pHow'); };
+el('btnBack').onclick=function(){ show('pTitle'); };
+
+if(typeof PLACES==='undefined'){
+  document.getElementById('app').innerHTML='<div class="panel on"><h1 style="font-size:20px;">データが 読みこめません</h1><div class="sub">jishin_data.js を 同じ場所に おいてください。</div></div>';
+}
+</script>
+</body>
+</html>

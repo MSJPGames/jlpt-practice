@@ -80,6 +80,12 @@
   .bk-ex-en { font-size: 12px; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
   .bk-note { font-size: 11.5px; color: var(--text-hint); margin-top: 10px; line-height: 1.55; }
   .bk-note b { color: var(--text-muted); }
+  .bk-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .bk-kuwashiku { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; font-size: 12.5px; font-weight: 700;
+    color: #3C3489; background: #EEEDFE; border: 1px solid #CFCBEF; border-radius: 20px; padding: 7px 14px;
+    text-decoration: none; -webkit-tap-highlight-color: transparent; transition: background .15s, transform .1s; }
+  .bk-kuwashiku:hover { background: #E4E1FA; }
+  .bk-kuwashiku:active { transform: scale(.98); }
   .bk-kaiwa { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; font-size: 12.5px; font-weight: 700;
     color: #4A5DB0; background: #ECEEF9; border: 1px solid #C9CEF0; border-radius: 20px; padding: 7px 14px;
     text-decoration: none; -webkit-tap-highlight-color: transparent; transition: background .15s, transform .1s; }
@@ -318,16 +324,16 @@ const D=[
   // 文型 ・ は と が（現象文／判断文）
   {cat:'文型',form:'は と が',id:'ha-ga-genshou',p:'〜が…〈現象文〉／〜は…〈判断文〉',lvl:'N4',en:'GA for observed events; WA for topic/judgment',setu:'新しく気づいた出来事は「が」、話題・既知のことは「は」',ex:[['あっ、雨が降ってきた。','Oh, it has started to rain.'],['山田さんは医者です。','Mr. Yamada is a doctor.']],note:'現象文＝目の前の出来事をそのまま描写（が）。判断文＝ある主題について述べる（は）。'},
   // ===== JLPT N3〜N1 文型 追加分 =====
-  {"cat": "文型", "form": "動詞辞書形", "id": "n3-01", "p": "〜ように", "lvl": "N3", "en": "so that ~ / in order that ~", "setu": "辞書形・ない形 ＋ ように", "ex": [["わすれないように、メモしておきます。", "I make a note so that I won’t forget."]], "note": "無意志的な目的。意志動詞の目的は「ために」。"},
+  {"cat": "文型", "form": "動詞辞書形", "id": "n3-01", "k": "youni", "p": "〜ように", "lvl": "N3", "en": "so that ~ / in order that ~", "setu": "辞書形・ない形 ＋ ように", "ex": [["わすれないように、メモしておきます。", "I make a note so that I won’t forget."]], "note": "無意志的な目的。意志動詞の目的は「ために」。"},
   {"cat": "文型", "form": "動詞辞書形", "id": "n3-02", "p": "〜ようにする", "lvl": "N3", "en": "try to ~ / make a habit of ~", "setu": "辞書形・ない形 ＋ ようにする", "ex": [["毎日野菜を食べるようにしています。", "I try to eat vegetables every day."]], "note": "努力・心がけを表す。"},
   {"cat": "文型", "form": "名詞", "id": "n3-03", "p": "〜おかげで", "lvl": "N3", "en": "thanks to ~ / owing to ~", "setu": "普通形（な形＋な・名詞＋の）＋ おかげで", "ex": [["先生のおかげで合格できました。", "Thanks to my teacher, I was able to pass."]], "note": "よい結果の原因。悪い結果は「せいで」。"},
   {"cat": "文型", "form": "名詞", "id": "n3-04", "p": "〜せいで", "lvl": "N3", "en": "because of ~ (blame)", "setu": "普通形（な形＋な・名詞＋の）＋ せいで", "ex": [["雨のせいで試合が中止になった。", "The match was canceled because of the rain."]], "note": "悪い結果の原因。「せいか」は推量。"},
   {"cat": "文型", "form": "名詞", "id": "n3-05", "p": "〜として", "lvl": "N3", "en": "as ~ / in the capacity of ~", "setu": "名詞 ＋ として", "ex": [["留学生として日本に来ました。", "I came to Japan as an exchange student."]], "note": "立場・資格・役割を表す。"},
   {"cat": "文型", "form": "名詞", "id": "n3-06", "p": "〜にとって", "lvl": "N3", "en": "for ~ / to ~ (from the viewpoint of)", "setu": "名詞 ＋ にとって", "ex": [["私にとって家族が一番大切です。", "For me, family is the most important thing."]], "note": "評価・判断の主体を示す。"},
-  {"cat": "文型", "form": "名詞", "id": "n3-07", "p": "〜に対して", "lvl": "N3", "en": "toward ~ / in contrast to ~", "setu": "名詞 ＋ に対して", "ex": [["お客様に対して、ていねいに話します。", "I speak politely toward customers."]], "note": "対象・対比を表す。"},
-  {"cat": "文型", "form": "名詞", "id": "n3-08", "p": "〜について", "lvl": "N3", "en": "about ~ / concerning ~", "setu": "名詞 ＋ について", "ex": [["日本の文化について研究しています。", "I am researching Japanese culture."]], "note": "話題・テーマを示す。"},
-  {"cat": "文型", "form": "名詞", "id": "n3-09", "p": "〜によって", "lvl": "N3", "en": "depending on / by means of / due to ~", "setu": "名詞 ＋ によって", "ex": [["国によって習慣がちがいます。", "Customs differ depending on the country."]], "note": "受身の動作主にも使う（〜によって作られた）。"},
-  {"cat": "文型", "form": "名詞", "id": "n3-10", "p": "〜によると", "lvl": "N3", "en": "according to ~", "setu": "名詞 ＋ によると（文末は「そうだ」など）", "ex": [["天気予報によると、明日は雨だそうです。", "According to the forecast, it will rain tomorrow."]], "note": "情報源を示す。文末は伝聞。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-07", "k": "nitaishite", "p": "〜に対して", "lvl": "N3", "en": "toward ~ / in contrast to ~", "setu": "名詞 ＋ に対して", "ex": [["お客様に対して、ていねいに話します。", "I speak politely toward customers."]], "note": "対象・対比を表す。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-08", "k": "nitsuite", "p": "〜について", "lvl": "N3", "en": "about ~ / concerning ~", "setu": "名詞 ＋ について", "ex": [["日本の文化について研究しています。", "I am researching Japanese culture."]], "note": "話題・テーマを示す。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-09", "k": "niyotte", "p": "〜によって", "lvl": "N3", "en": "depending on / by means of / due to ~", "setu": "名詞 ＋ によって", "ex": [["国によって習慣がちがいます。", "Customs differ depending on the country."]], "note": "受身の動作主にも使う（〜によって作られた）。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-10", "k": "niyoruto", "p": "〜によると", "lvl": "N3", "en": "according to ~", "setu": "名詞 ＋ によると（文末は「そうだ」など）", "ex": [["天気予報によると、明日は雨だそうです。", "According to the forecast, it will rain tomorrow."]], "note": "情報源を示す。文末は伝聞。"},
   {"cat": "文型", "form": "名詞", "id": "n3-11", "p": "〜代わりに", "lvl": "N3", "en": "instead of ~ / in exchange for ~", "setu": "辞書形・名詞＋の ＋ 代わりに", "ex": [["社長の代わりに、私が会議に出ます。", "I will attend the meeting instead of the president."]], "note": "代理・交換・埋め合わせ。"},
   {"cat": "文型", "form": "動詞辞書形", "id": "n3-12", "p": "〜たびに", "lvl": "N3", "en": "every time ~ / whenever ~", "setu": "辞書形・名詞＋の ＋ たびに", "ex": [["この写真を見るたびに、旅行を思い出します。", "Every time I see this photo, I remember the trip."]], "note": "反復的な出来事。"},
   {"cat": "文型", "form": "動詞辞書形", "id": "n3-13", "p": "〜ついでに", "lvl": "N3", "en": "while (you’re at it) ~", "setu": "辞書形・た形・名詞＋の ＋ ついでに", "ex": [["買い物のついでに、郵便局に寄りました。", "While out shopping, I stopped by the post office."]], "note": "ある行動のついでに別のことをする。"},
@@ -335,7 +341,7 @@ const D=[
   {"cat": "文型", "form": "動詞た形", "id": "n3-15", "p": "〜たとたん", "lvl": "N3", "en": "the moment ~ / just as ~", "setu": "た形 ＋ とたん（に）", "ex": [["ドアを開けたとたん、猫が飛び出した。", "The moment I opened the door, the cat leapt out."]], "note": "直後に予想外のことが起こる。"},
   {"cat": "文型", "form": "名詞", "id": "n3-16", "p": "〜最中に", "lvl": "N3", "en": "in the middle of ~", "setu": "〜ている・名詞＋の ＋ 最中に", "ex": [["会議の最中に、電話が鳴りました。", "The phone rang in the middle of the meeting."]], "note": "まさに進行中のとき。"},
   {"cat": "文型", "form": "名詞", "id": "n3-17", "p": "〜際に", "lvl": "N3", "en": "on the occasion of ~ / when ~", "setu": "辞書形・た形・名詞＋の ＋ 際（に）", "ex": [["お帰りの際に、鍵をお返しください。", "Please return the key when you leave."]], "note": "あらたまった場面の「とき」。"},
-  {"cat": "文型", "form": "名詞", "id": "n3-18", "p": "〜向け", "lvl": "N3", "en": "intended for ~ / aimed at ~", "setu": "名詞 ＋ 向け", "ex": [["これは子ども向けの番組です。", "This is a program aimed at children."]], "note": "対象を限定。「向き」は適性（子ども向き）。"},
+  {"cat": "文型", "form": "名詞", "id": "n3-18", "k": "muke", "p": "〜向け", "lvl": "N3", "en": "intended for ~ / aimed at ~", "setu": "名詞 ＋ 向け", "ex": [["これは子ども向けの番組です。", "This is a program aimed at children."]], "note": "対象を限定。「向き」は適性（子ども向き）。"},
   {"cat": "文型", "form": "動詞辞書形", "id": "n3-19", "p": "〜一方だ", "lvl": "N3", "en": "keep ~ing / more and more ~", "setu": "辞書形 ＋ 一方だ", "ex": [["物価は上がる一方だ。", "Prices just keep rising."]], "note": "一方向に変化し続ける。"},
   {"cat": "文型", "form": "動詞辞書形", "id": "n3-20", "p": "〜ほど", "lvl": "N3", "en": "to the extent that ~", "setu": "辞書形・い形・名詞 ＋ ほど", "ex": [["立てないほど疲れました。", "I was so tired I couldn’t stand."]], "note": "程度を表す。"},
   {"cat": "文型", "form": "動詞辞書形", "id": "n3-21", "p": "〜くらい／ぐらい", "lvl": "N3", "en": "about ~ / to the extent that ~", "setu": "辞書形・い形・名詞 ＋ くらい", "ex": [["泣きたいくらいうれしかった。", "I was so happy I could have cried."]], "note": "程度・軽視（〜くらいできる）。"},
@@ -396,7 +402,7 @@ const D=[
   {"cat": "文型", "form": "名詞", "id": "n2-30", "p": "〜に基づいて", "lvl": "N2", "en": "based on ~", "setu": "名詞 ＋ に基づいて", "ex": [["事実に基づいて記事を書く。", "I write the article based on the facts."]], "note": "根拠・基準。"},
   {"cat": "文型", "form": "名詞", "id": "n2-31", "p": "〜にこたえて", "lvl": "N2", "en": "in response to ~", "setu": "名詞 ＋ にこたえて", "ex": [["ファンの期待にこたえて、優勝した。", "Responding to the fans’ hopes, they won."]], "note": "要望・期待に応じる。"},
   {"cat": "文型", "form": "名詞", "id": "n2-32", "p": "〜をめぐって", "lvl": "N2", "en": "concerning ~ / over ~ (dispute)", "setu": "名詞 ＋ をめぐって", "ex": [["新しい制度をめぐって、議論が続いている。", "Debate continues over the new system."]], "note": "ある事柄を中心に争う・論じる。"},
-  {"cat": "文型", "form": "名詞", "id": "n2-33", "p": "〜を通じて／を通して", "lvl": "N2", "en": "through ~ / throughout ~", "setu": "名詞 ＋ を通じて", "ex": [["インターネットを通じて世界とつながる。", "We connect with the world through the internet."]], "note": "手段・媒介、または期間全体。"},
+  {"cat": "文型", "form": "名詞", "id": "n2-33", "k": "wotsuujite", "p": "〜を通じて／を通して", "lvl": "N3", "en": "through ~ / throughout ~", "setu": "名詞 ＋ を通じて", "ex": [["インターネットを通じて世界とつながる。", "We connect with the world through the internet."]], "note": "手段・媒介、または期間全体。"},
   {"cat": "文型", "form": "名詞", "id": "n2-34", "p": "〜を込めて", "lvl": "N2", "en": "with (feeling) ~ / full of ~", "setu": "名詞 ＋ を込めて", "ex": [["心を込めて手紙を書いた。", "I wrote the letter with all my heart."]], "note": "感情・思いを込める。"},
   {"cat": "文型", "form": "名詞", "id": "n2-35", "p": "〜をもとに", "lvl": "N2", "en": "based on ~ / drawing on ~", "setu": "名詞 ＋ をもとに", "ex": [["実話をもとに映画が作られた。", "The film was made based on a true story."]], "note": "素材・土台にする。"},
   {"cat": "文型", "form": "動詞普通形", "id": "n2-36", "p": "〜ものだ", "lvl": "N2", "en": "how ~! / used to ~ / should ~", "setu": "普通形（な形＋な）＋ ものだ", "ex": [["月日がたつのは早いものだ。", "How quickly time passes!"]], "note": "感嘆・回想・一般的真理。"},
@@ -467,9 +473,11 @@ const D=[
   {"cat": "文型", "form": "動詞普通形", "id": "n1-48", "p": "〜ないともかぎらない", "lvl": "N1", "en": "it’s not impossible that ~", "setu": "ない形 ＋ とも限らない", "ex": [["事故が起きないとも限らない。", "It’s not impossible that an accident could happen."]], "note": "可能性を否定できない。"},
   {"cat": "文型", "form": "動詞辞書形", "id": "n1-49", "p": "〜ないではおかない／ずにはおかない", "lvl": "N1", "en": "will surely ~ / won’t leave it undone", "setu": "ない形 ＋ ではおかない（〜ず＋にはおかない）", "ex": [["この事件は社会に影響を与えずにはおかない。", "This affair will surely affect society."]], "note": "必然的にそうなる／させる。"},
   {"cat": "文型", "form": "動詞ます形", "id": "n2-nagaramo", "p": "〜ながら（も）", "lvl": "N2", "en": "although ~ / even though ~ (concessive)", "setu": "ます形（語幹）・い形・な形（語幹）・名詞 ＋ ながら（も）", "ex": [["体に悪いと知りながらも、たばこをやめられない。", "Even though I know it’s bad for me, I can’t quit smoking."], ["狭いながらも、楽しいわが家です。", "Cramped though it is, it’s my happy home."]], "note": "逆接・譲歩を表す。同時進行の「〜ながら」（N4）とは別。名詞・形容詞にも付く（子どもながら・残念ながら）。"},
-  {"cat": "文型", "form": "動詞ます形", "id": "n4-nagara-shukan", "p": "〜ながら（習慣行為）", "lvl": "N4", "en": "while ~ing (two ongoing activities in parallel)", "setu": "ます形（語幹）＋ ながら", "ska": 11, "ex": [["彼は働きながら大学に通っています。", "He goes to university while working."], ["子育てをしながら、仕事を続けています。", "She keeps working while raising her children."]], "note": "一時的な同時動作（音楽を聞きながら勉強する）ではなく、二つの動作・状態を長期にわたり並行して続けることを表す。"}
+  {"cat": "文型", "form": "動詞ます形", "id": "n4-nagara-shukan", "p": "〜ながら（習慣行為）", "lvl": "N4", "en": "while ~ing (two ongoing activities in parallel)", "setu": "ます形（語幹）＋ ながら", "ska": 11, "ex": [["彼は働きながら大学に通っています。", "He goes to university while working."], ["子育てをしながら、仕事を続けています。", "She keeps working while raising her children."]], "note": "一時的な同時動作（音楽を聞きながら勉強する）ではなく、二つの動作・状態を長期にわたり並行して続けることを表す。"},
+  {"cat": "文型", "form": "名詞", "id": "muki", "k": "muki", "p": "〜向き", "lvl": "N3", "en": "suitable for ~ / suited to ~", "setu": "名詞 ＋ 向きだ／向きの＋名詞", "ex": [["この道はゆるやかなので、初心者向きだ。", "This path is gentle, so it is suitable for beginners."]], "note": "性質が合っていること。意図して作った場合は「向け」。"},
+  {"cat": "文型", "form": "名詞", "id": "karanikakete", "k": "karanikakete", "p": "〜から〜にかけて", "lvl": "N3", "en": "from ~ through ~ (approximate range)", "setu": "名詞A（時間・場所）＋ から ＋ 名詞B ＋ にかけて", "ex": [["今夜からあすの朝にかけて、雪が降るでしょう。", "It will likely snow from tonight through tomorrow morning."]], "note": "起点と終点があいまいな範囲。一回だけの出来事には使わない。"},
+  {"cat": "文型", "form": "動詞可能形", "id": "dake", "k": "dake", "p": "〜だけ・〜だけの（限界）", "lvl": "N3", "en": "as much as ~ / to the limit of ~", "setu": "可能形 ＋ だけ ＋ 同じ動詞／〜たい・好きな ＋ だけ", "ex": [["荷物は持てるだけ持っていってください。", "Please take as much luggage as you can carry."]], "note": "できる範囲すべて。数量を限る「だけ（N5）」とは別。"}
 ];
-
 /* === みんなの日本語 初級 課タグ（解説カードのid → 課番号） ===
    ここに無い解説カードは初級の範囲外（N2/N1など）。初級ⅠとⅡは統合して「みんなの日本語 初級」として扱う。 */
 const MINNA_KA = {
@@ -1373,7 +1381,7 @@ function renderKaisetsu(){
       <div class="bk-ex">${ex}</div>
       ${d.note?`<div class="bk-note">${d.note}</div>`:''}
       ${tag}
-      <div><a class="bk-kaiwa" href="kaiwa.html?g=${encodeURIComponent(d.p)}&lv=${encodeURIComponent(d.lvl)}&ex=${encodeURIComponent(d.ex&&d.ex[0]?d.ex[0][0]:'')}">🗣️ この文法で会話練習</a></div>
+      <div class="bk-actions">${d.k?`<a class="bk-kuwashiku" href="bunkei/${d.k}.html">📘 くわしい解説</a>`:''}<a class="bk-kaiwa" href="kaiwa.html?g=${encodeURIComponent(d.p)}&lv=${encodeURIComponent(d.lvl)}&ex=${encodeURIComponent(d.ex&&d.ex[0]?d.ex[0][0]:'')}">🗣️ この文法で会話練習</a></div>
     </div>`;
   });
   list.innerHTML=html;

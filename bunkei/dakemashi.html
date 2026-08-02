@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜だけまし（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜だけまし」の意味・接続・例文。悪い状況でもまだいい点があると妥協する使い方と、「〜くらいなら」「〜だけあって」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜だけまし</div>
+    <div class="p-en">at least ~ (it could be worse)</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">消極的肯定</span>
+      <span class="badge sub">妥協</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">消極的肯定</span>「〜という点があるだけ、まだいい」</div>
+    <div class="desc">よくない状況の中で、<b>もっと悪い場合とくらべれば、まだこのほうがいい</b>と自分に言いきかせる言い方です。不満はあるけれど<b>受け入れる</b>という気持ちを表します。「〜だけまだましだ」「〜だけでもましだ」の形もよく使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="もっと悪い場合とくらべればまだよいと考えることを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><line x1="26" y1="150" x2="434" y2="150" stroke="#E2DDD6" stroke-width="2"/><rect x="30" y="92" width="178" height="50" rx="12" fill="#FAECE7" stroke="#A0392E" stroke-width="1.7"/><text x="119.0" y="122.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A0392E" font-family="sans-serif">もっと悪い状況</text><rect x="250" y="52" width="184" height="50" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="342.0" y="72.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">今の状況</text><text x="342.0" y="89.0" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">まだましだ</text><path d="M214 112 L246 92" fill="none" stroke="#854F0B" stroke-width="2.4" marker-end="url(#ar)"/><text x="119" y="176" text-anchor="middle" font-size="11" font-weight="700" fill="#A0392E" font-family="sans-serif">これよりは上</text><text x="230" y="30" text-anchor="middle" font-size="11.5" font-weight="700" fill="#854F0B" font-family="sans-serif">よくはないが、受け入れる</text></svg>
+    <div class="zu-note">「まし」は<b>「どちらかといえば、ほかよりいい」</b>という意味の形容動詞です。「いい」と言い切っているわけではありません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［連体形（な形 な・名詞 である）］</span>＋ だけましだ<br>「〜だけまだましだ」「〜だけでもましだ」の形も使う</div>
+    <div class="setsu-note">話しことばでも書きことばでも使えます。前には今ある「よい点」が来ます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う語</div>
+      <div class="chips"><span class="chip">まだ</span><span class="chip">でも</span><span class="chip">それでも</span><span class="chip">命がある</span><span class="chip">仕事がある</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">だけましだ</span>
+        <div class="ex-ja">家は流されたが、家族が無事だった<b>だけましだ</b>。<button class="say" data-say="家は流されたが、家族が無事だっただけましだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The house was washed away, but at least the family is safe.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">だけましだ</span>
+        <div class="ex-ja">給料は安いが、仕事がある<b>だけましだ</b>と思っている。<button class="say" data-say="給料は安いが、仕事があるだけましだと思っている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The pay is low, but I tell myself at least I have a job.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">だけまだましだ</span>
+        <div class="ex-ja">電車は遅れたが、動いている<b>だけまだましだ</b>。<button class="say" data-say="電車は遅れたが、動いているだけまだましだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The trains are late, but at least they are running.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">だけでもましだ</span>
+        <div class="ex-ja">部屋はせまいが、駅に近い<b>だけでもましだ</b>。<button class="say" data-say="部屋はせまいが、駅に近いだけでもましだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The room is small, but at least it is near the station.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">だけましだ</span>
+        <div class="ex-ja">雨がふっているが、風がない<b>だけましだ</b>ね。<button class="say" data-say="雨がふっているが、風がないだけましだね。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It is raining, but at least there is no wind.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜くらいなら</div>
+      <div class="vs-lead">「だけまし」は<b>今の状態</b>を受け入れる言い方、「くらいなら」は<b>ふたつを比べて選ぶ</b>言い方です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜だけまし</th><th>〜くらいなら</th></tr>
+        <tr><td class="k">対象</td><td>今ある状況</td><td>これから選ぶこと</td></tr>
+        <tr><td class="k">気持ち</td><td>妥協・受け入れ</td><td>強い拒否</td></tr>
+        <tr><td class="k">後ろ</td><td>ましだ</td><td>ほうがましだ</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 座れる<b>だけましだ</b>。<span class="memo">　→ 今を受け入れる</span><br>
+        <span class="ok">○</span> 立って行く<b>くらいなら</b>歩く。<span class="memo">　→ 選ぶ</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜だけあって</div>
+      <div class="vs-lead">「だけあって」は<b>プラスの評価</b>で、「〜なのだから当然だ」と感心する言い方です。「だけまし」はマイナスの状況で使います。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 高い<b>だけあって</b>よく切れる。<span class="memo">　→ 感心</span><br>
+        <span class="ok">○</span> 安い<b>だけましだ</b>。<span class="memo">　→ 妥協</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Says a bad situation is at least better than it might have been.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">幸好還有……；至少……算好的了</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A0%E3%81%91%E3%81%BE%E3%81%97&amp;lv=N2&amp;ex=%E5%AE%B6%E3%81%AF%E6%B5%81%E3%81%95%E3%82%8C%E3%81%9F%E3%81%8C%E3%80%81%E5%AE%B6%E6%97%8F%E3%81%8C%E7%84%A1%E4%BA%8B%E3%81%A0%E3%81%A3%E3%81%9F%E3%81%A0%E3%81%91%E3%81%BE%E3%81%97%E3%81%A0%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="kurainara.html">🔁 〜くらいならとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#dakemashi">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

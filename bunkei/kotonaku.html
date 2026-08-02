@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ことなく（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ことなく」の意味・接続・例文。ふつうならすることをしないまま後ろのことが起こると述べる使い方と、「〜ないで」「〜ずに」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ことなく</div>
+    <div class="p-en">without ~ing</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">否定</span>
+      <span class="badge sub">書きことば</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">否定</span>「ふつうは〜するのに、〜しないで…する」</div>
+    <div class="desc">ふつうならすること、あるいは起こるはずのことが<b>起こらないまま</b>、後ろのことが行われることを表します。<b>かたい書きことば</b>で、客観的な描写によく使われます。日常のことがらには「〜ないで」「〜ずに」を使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 175" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ふつうする行為が起こらないまま後件が起こることを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="24" y="60" width="160" height="56" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8" stroke-dasharray="6 4"/><text x="104.0" y="82.4" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">ふつうする行為</text><text x="104.0" y="101.44" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">起こらない</text><path d="M174 52 L194 72 M194 52 L174 72" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><path d="M196 88 L240 88" fill="none" stroke="#854F0B" stroke-width="2.6" marker-end="url(#ar)"/><rect x="248" y="60" width="188" height="56" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="342.0" y="82.4" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">後ろのこと</text><text x="342.0" y="101.44" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">そのまま起こる</text><text x="230" y="36" text-anchor="middle" font-size="11.5" font-weight="700" fill="#854F0B" font-family="sans-serif">ふつうならすることをしないまま</text><text x="230" y="148" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">上陸することなく去った</text></svg>
+    <div class="zu-note">「〜ないで」との差は<b>場面のかたさ</b>です。「手を洗うことなく食べる」は不自然で、日常の話には「手を洗わないで」を使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［動詞 辞書形］</span>＋ ことなく</div>
+    <div class="setsu-note">「〜ことなしに」より広く使えます。「〜ことなしには…ない」は必要条件を表す別の言い方です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う動詞</div>
+      <div class="chips"><span class="chip">途切れる</span><span class="chip">あきらめる</span><span class="chip">変える</span><span class="chip">休む</span><span class="chip">知る</span><span class="chip">気づく</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">ことなく</span>
+        <div class="ex-ja">その技術は、途切れる<b>ことなく</b>今日まで受けつがれてきた。<button class="say" data-say="その技術は、途切れることなく今日まで受けつがれてきた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The technique has been handed down to this day without interruption.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ことなく</span>
+        <div class="ex-ja">台風は上陸する<b>ことなく</b>、東の海上へ去った。<button class="say" data-say="台風は上陸することなく、東の海上へ去った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The typhoon passed away to the east without making landfall.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ことなく</span>
+        <div class="ex-ja">だれもあきらめる<b>ことなく</b>、全員が完走した。<button class="say" data-say="だれもあきらめることなく、全員が完走した。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Not one of them gave up, and all finished the race.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ことなく</span>
+        <div class="ex-ja">彼女は最後まで表情を変える<b>ことなく</b>話し続けた。<button class="say" data-say="彼女は最後まで表情を変えることなく話し続けた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">She went on speaking to the end without changing her expression.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ことなく</span>
+        <div class="ex-ja">工事は事故を起こす<b>ことなく</b>、無事に終わった。<button class="say" data-say="工事は事故を起こすことなく、無事に終わった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The construction work was completed safely, without a single accident.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ないで・〜ずに</div>
+      <div class="vs-lead">意味は近いのですが、「ないで」「ずに」には<b>そうしない選択をした</b>というひびきがあります。「ことなく」は<b>客観的な描写</b>で、かたい場面に使います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ことなく</th><th>〜ないで・〜ずに</th></tr>
+        <tr><td class="k">文体</td><td>かたい書きことば</td><td>ふつう・会話も</td></tr>
+        <tr><td class="k">選択のひびき</td><td>ない</td><td>ある</td></tr>
+        <tr><td class="k">日常のことがら</td><td>使いにくい</td><td>使える</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 手を洗わ<b>ないで</b>食べてはいけません。<span class="memo">　→ 日常</span><br>
+        <span class="tri">△</span> 手を洗う<b>ことなく</b>食べてはいけません。<span class="memo">　→ かたすぎる</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜もしない</div>
+      <div class="vs-lead">「もしない」は<b>不満や批判</b>をこめた話しことばです。「ことなく」は気持ちを出さずに事実を述べます。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 休む<b>ことなく</b>働き続けた。<span class="memo">　→ 客観的</span><br>
+        <span class="ok">○</span> あやまり<b>もしない</b>。<span class="memo">　→ 不満</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>States, in a formal register, that something proceeded without a normally expected action occurring.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">沒有……（就）……；不曾……</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%93%E3%81%A8%E3%81%AA%E3%81%8F&amp;lv=N2&amp;ex=%E3%81%9D%E3%81%AE%E6%8A%80%E8%A1%93%E3%81%AF%E3%80%81%E9%80%94%E5%88%87%E3%82%8C%E3%82%8B%E3%81%93%E3%81%A8%E3%81%AA%E3%81%8F%E4%BB%8A%E6%97%A5%E3%81%BE%E3%81%A7%E5%8F%97%E3%81%91%E3%81%A4%E3%81%8C%E3%82%8C%E3%81%A6%E3%81%8D%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="moshinai.html">🔁 〜もしないとくらべる<span class="ar">›</span></a>
+      <a href="zujimai.html">🔁 〜ずじまいとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#kotonaku">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

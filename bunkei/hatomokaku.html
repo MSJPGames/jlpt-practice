@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜はともかく（として）（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜はともかく（として）」の意味・接続・例文。いったん脇に置いて別のことを優先する使い方と、「〜はぬきにして」「〜は別として」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜はともかく（として）</div>
+    <div class="p-en">setting ~ aside / ~ aside, ...</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">優先順位</span>
+      <span class="badge sub">対比</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">優先順位</span>「〜は別として、まず…」</div>
+    <div class="desc">あることを<b>いったん脇に置いて</b>、いま話すべき別のことを取り上げる言い方です。脇に置くほうは<b>今は重要ではない</b>、または<b>あまりよくないので触れない</b>という気持ちがこもり、やわらかく否定するときにも使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="一方を脇に置いてもう一方を取り上げることを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="26" y="36" width="178" height="56" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="115.0" y="58.400000000000006" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">A</text><text x="115.0" y="77.44" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">今は置いておく</text><path d="M115 98 L115 124" fill="none" stroke="#9E9890" stroke-width="1.7" stroke-dasharray="6 4" marker-end="url(#ar2)"/><rect x="26" y="130" width="178" height="40" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="115.0" y="155.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">いったん脇へ</text><path d="M212 64 L258 64" fill="none" stroke="#854F0B" stroke-width="2.6" marker-end="url(#ar)"/><rect x="264" y="36" width="170" height="56" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="349.0" y="58.400000000000006" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">B</text><text x="349.0" y="77.44" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">こちらを話す</text><text x="349" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#854F0B" font-family="sans-serif">優先する</text><text x="230" y="190" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">値段はともかく、この料理はおいしい</text></svg>
+    <div class="zu-note">脇に置くほうを<b>まったく無視する</b>わけではありません。「今は言わない」だけです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［名詞・名詞句］</span>＋ はともかく／はともかくとして<br>※「〜はさておき」もほぼ同じ意味</div>
+    <div class="setsu-note">前に来るのは名詞です。会話でも書きことばでも使えます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る語</div>
+      <div class="chips"><span class="chip">値段</span><span class="chip">外見</span><span class="chip">結果</span><span class="chip">理由</span><span class="chip">好き嫌い</span><span class="chip">将来のこと</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">はともかく</span>
+        <div class="ex-ja">値段<b>はともかく</b>、この料理は本当においしい。<button class="say" data-say="値段はともかく、この料理は本当においしい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Price aside, this dish is truly delicious.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">はともかく</span>
+        <div class="ex-ja">外見<b>はともかく</b>、彼はとてもやさしい人だ。<button class="say" data-say="外見はともかく、彼はとてもやさしい人だ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Whatever you think of his looks, he is a very kind person.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">はともかくとして</span>
+        <div class="ex-ja">結果<b>はともかくとして</b>、まず挑戦することが大切だ。<button class="say" data-say="結果はともかくとして、まず挑戦することが大切だ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Whatever the result, what matters is taking on the challenge.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">はともかく</span>
+        <div class="ex-ja">将来の夢<b>はともかく</b>、大学くらいは出ておいたほうがいい。<button class="say" data-say="将来の夢はともかく、大学くらいは出ておいたほうがいい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Dreams for the future aside, you should at least finish university.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">はともかく</span>
+        <div class="ex-ja">理由<b>はともかく</b>、遅刻したことはあやまるべきだ。<button class="say" data-say="理由はともかく、遅刻したことはあやまるべきだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Whatever the reason, you should apologize for being late.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜はぬきにして</div>
+      <div class="vs-lead">「はぬきにして」は<b>最初から入れない</b>と決めることで、あいさつや前置きを省く場面によく使います。「はともかく」は<b>今は触れない</b>だけです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜はともかく</th><th>〜はぬきにして</th></tr>
+        <tr><td class="k">扱い</td><td>今は脇に置く</td><td>省いて進める</td></tr>
+        <tr><td class="k">前に来ること</td><td>評価が分かれること</td><td>当然含まれるもの</td></tr>
+        <tr><td class="k">場面</td><td>対比・優先順位</td><td>本題に入るとき</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 味<b>はともかく</b>、量は多い。<span class="memo">　→ 脇に置く</span><br>
+        <span class="ok">○</span> あいさつ<b>はぬきにして</b>始めよう。<span class="memo">　→ 省く</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜は別として</div>
+      <div class="vs-lead">ほとんど同じ意味です。「は別として」は<b>例外を示す</b>使い方（子どもは別として）もでき、そこがちがいます。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 子ども<b>は別として</b>、大人は有料です。<span class="memo">　→ 例外</span><br>
+        <span class="tri">△</span> 子ども<b>はともかく</b>、大人は有料です。<span class="memo">　→ 例外には使いにくい</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Sets one thing aside in order to take up another.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">……姑且不論；先不說……</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AF%E3%81%A8%E3%82%82%E3%81%8B%E3%81%8F%EF%BC%88%E3%81%A8%E3%81%97%E3%81%A6%EF%BC%89&amp;lv=N2&amp;ex=%E5%80%A4%E6%AE%B5%E3%81%AF%E3%81%A8%E3%82%82%E3%81%8B%E3%81%8F%E3%80%81%E3%81%93%E3%81%AE%E6%96%99%E7%90%86%E3%81%AF%E6%9C%AC%E5%BD%93%E3%81%AB%E3%81%8A%E3%81%84%E3%81%97%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="wonukinishite.html">🔁 〜はぬきにしてとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#hatomokaku">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

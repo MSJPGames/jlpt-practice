@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜かねる・〜かねない（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜かねる・〜かねない」の意味・接続・例文。ビジネスでやわらかく断る使い方と、形は否定でも意味が肯定になる「〜かねない」を、「〜おそれがある」とのちがいとあわせて図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜かねる・〜かねない</div>
+    <div class="p-en">be unable to ~ (polite refusal) / might well ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">婉曲な不可</span>
+      <span class="badge sub">悪い可能性</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">婉曲な不可</span>「〜したいが、〜できない」</div>
+    <div class="lead"><span class="imi-tag">悪い可能性</span>「〜かねない＝〜しそうだ」</div>
+    <div class="desc">①条件や立場がそろわないために、その行為ができないことを表します。「できません」と言いきらない<b>やわらかい断り方</b>として、ビジネスや接客でよく使われます。②否定の形「〜かねない」は<b>形は否定でも意味は肯定</b>で、「最悪の場合〜してしまいそうだ」という<b>よくない見通し</b>を表します。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 〜かねる（立場・状況でできない）</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="立場や状況のためにその行為ができないことを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="24" y="54" width="160" height="58" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="104.0" y="77.2" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">要望・依頼</text><text x="104.0" y="96.92" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">こうしてほしい</text><path d="M190 83 L204 83" fill="none" stroke="#854F0B" stroke-width="2.4" marker-end="url(#ar)"/><line x1="212" y1="38" x2="212" y2="146" stroke="#A0392E" stroke-width="4" stroke-dasharray="8 5"/><text x="212" y="28" text-anchor="middle" font-size="11" font-weight="700" fill="#A0392E" font-family="sans-serif">立場・状況</text><path d="M216 73 L236 93 M236 73 L216 93" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><rect x="244" y="54" width="192" height="58" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="340.0" y="77.2" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">その行為</text><text x="340.0" y="96.92" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">できない</text><text x="230" y="172" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">はっきり断らずに、ていねいに伝える</text></svg>
+    <div class="zu-cap">② 〜かねない（悪い可能性）</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="今の状態から最悪の結果が起こりうることを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="26" y="48" width="172" height="58" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="112.0" y="71.2" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">いまの状態</text><text x="112.0" y="90.92" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">無理を続けている</text><path d="M204 77 L250 77" fill="none" stroke="#854F0B" stroke-width="3.0" marker-end="url(#ar)"/><rect x="258" y="40" width="178" height="74" rx="12" fill="#FAECE7" stroke="#A0392E" stroke-width="1.7"/><text x="347.0" y="69.6" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A0392E" font-family="sans-serif">最悪の結果</text><text x="347.0" y="94.75999999999999" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">起こる可能性がある</text><text x="230" y="150" text-anchor="middle" font-size="11.5" font-weight="700" fill="#854F0B" font-family="sans-serif">形は否定でも、意味は「〜しそうだ」</text><text x="230" y="172" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">事故を起こしかねない</text></svg>
+    <div class="zu-note">①と②は<b>反対の意味ではありません</b>。①は「できない」、②は「起きてしまいそうだ」で、どちらも話し手が<b>よくないと感じている</b>点が共通です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［動詞 ます形（語幹）］</span>＋ かねる<br><span class="n">［動詞 ます形（語幹）］</span>＋ かねない</div>
+    <div class="setsu-note">①はていねい形「〜かねます」で使うことが多く、②は「〜かねません」になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">①でよく使う動詞</div>
+      <div class="chips"><span class="chip">わかり</span><span class="chip">お答えし</span><span class="chip">いたし</span><span class="chip">決め</span><span class="chip">量り</span><span class="chip">見</span><span class="chip">耐え</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">②でよく来る内容</div>
+      <div class="chips"><span class="chip">事故</span><span class="chip">失敗</span><span class="chip">けが</span><span class="chip">誤解</span><span class="chip">大問題</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">① かねる</span>
+        <div class="ex-ja">申し訳ございませんが、そのご要望にはお応えし<b>かねます</b>。<button class="say" data-say="申し訳ございませんが、そのご要望にはお応えしかねます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I am very sorry, but we are unable to meet that request.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">① かねる</span>
+        <div class="ex-ja">個人情報については、こちらではお答えし<b>かねます</b>。<button class="say" data-say="個人情報については、こちらではお答えしかねます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">We are not in a position to answer questions about personal data.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">① かねる</span>
+        <div class="ex-ja">両案とも長所があり、どちらがよいか決め<b>かねて</b>いる。<button class="say" data-say="両案とも長所があり、どちらがよいか決めかねている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Both plans have their merits, and I cannot decide between them.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">① かねる</span>
+        <div class="ex-ja">一人で荷物を運ぶ姿を見<b>かねて</b>、手を貸した。<button class="say" data-say="一人で荷物を運ぶ姿を見かねて、手を貸した。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Unable to just watch him carry it all alone, I lent a hand.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">② かねない</span>
+        <div class="ex-ja">そんな運転をしていると、事故を起こし<b>かねない</b>。<button class="say" data-say="そんな運転をしていると、事故を起こしかねない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you drive like that, you could well cause an accident.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">② かねない</span>
+        <div class="ex-ja">あいまいな説明は、誤解を招き<b>かねません</b>。<button class="say" data-say="あいまいな説明は、誤解を招きかねません。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">A vague explanation could easily lead to misunderstanding.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">慣用</span>決まった形でよく使う</div>
+      <div class="use-d">「見かねる」「耐えかねる」は、そのまま覚えて使う形です。「〜かねて」の形で文をつなぎます。</div>
+      <div class="use-e">あまりのひどさに<b>耐えかねて</b>、席を立った。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">注意</span>基本はよくないことに使う</div>
+      <div class="use-d">②の「かねない」は、話し手がよくないと考えていることに使うのがふつうです。ただし、わざと皮肉やユーモアとして、望んでいる結果に使うこともあります。</div>
+      <div class="use-e">このまま勝ち続ければ、優勝し<b>かねない</b>。<span class="memo">　→ 皮肉</span></div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>過去の事実にも使える</div>
+      <div class="use-d">すでに起きたことについて「あの人ならやりそうだ」と納得する言い方でも使います。</div>
+      <div class="use-e">あいつなら、やり<b>かねない</b>な。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜おそれがある</div>
+      <div class="vs-lead">どちらも悪い可能性ですが、「おそれがある」は<b>ニュースや発表</b>のかたい表現で、「かねない」は<b>いまの様子から見て</b>そうなりそうだ、という話し手の判断です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜かねない</th><th>〜おそれがある</th></tr>
+        <tr><td class="k">何にもとづくか</td><td>今の様子・性格</td><td>客観的な条件</td></tr>
+        <tr><td class="k">使う場面</td><td>会話・意見</td><td>報道・発表</td></tr>
+        <tr><td class="k">前に来る語</td><td>動詞ます形</td><td>動詞辞書形・名詞の</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 無理をすると倒れ<b>かねない</b>。<span class="memo">　→ 判断</span><br>
+        <span class="ok">○</span> 大雨で川が増水する<b>おそれがある</b>。<span class="memo">　→ 報道</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ことができない</div>
+      <div class="vs-lead">意味は近いのですが、「かねます」は<b>相手への配慮</b>があり、断るときの言い方としてやわらかく響きます。</div>
+      <div class="vs-ex">
+        <span class="tri">△</span> それはでき<b>ません</b>。<span class="memo">　→ 直接的</span><br>
+        <span class="ok">○</span> それはいたし<b>かねます</b>。<span class="memo">　→ ていねい</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Softly says one cannot do something; in the negative form, that something bad may well happen.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">難以……、恕難……；（かねない）很可能會……</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%8B%E3%81%AD%E3%82%8B%E3%83%BB%E3%80%9C%E3%81%8B%E3%81%AD%E3%81%AA%E3%81%84&amp;lv=N2&amp;ex=%E7%94%B3%E3%81%97%E8%A8%B3%E3%81%94%E3%81%96%E3%81%84%E3%81%BE%E3%81%9B%E3%82%93%E3%81%8C%E3%80%81%E3%81%9D%E3%81%AE%E3%81%94%E8%A6%81%E6%9C%9B%E3%81%AB%E3%81%AF%E3%81%8A%E5%BF%9C%E3%81%88%E3%81%97%E3%81%8B%E3%81%AD%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="gatai.html">🔁 〜がたいとくらべる<span class="ar">›</span></a>
+      <a href="uru.html">🔁 〜得る・〜得ないとくらべる<span class="ar">›</span></a>
+      <a href="osoregaaru.html">🔁 〜おそれがあるとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-07">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

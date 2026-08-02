@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜た上で（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜た上で」の意味・接続・例文。前の行為の結果をふまえて次に進む使い方と、「〜てから」「〜上で（観点）」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜た上で</div>
+    <div class="p-en">after doing ~ (and on that basis)</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">前提</span>
+      <span class="badge sub">手順</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">前提・手順</span>「きちんと〜たあとで」</div>
+    <div class="desc">次の行為をする前に、<b>前提としてしておかなければならないこと</b>を表します。ただ順番に並べるのではなく、<b>前の結果をふまえてはじめて次の判断ができる</b>という関係が必要です。前後には意志動詞が来て、主語は同じことが多く、改まった場面で使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="前の行為の結果をふまえて次の行為が可能になることを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><line x1="26" y1="126" x2="418" y2="126" stroke="#E2DDD6" stroke-width="2"/><path d="M414 126 L434 126" fill="none" stroke="#854F0B" stroke-width="2.0" marker-end="url(#ar)"/><rect x="36" y="46" width="168" height="52" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="120.0" y="66.8" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">前提となる行為</text><text x="120.0" y="84.47999999999999" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">確認する・調べる</text><path d="M210 72 L258 72" fill="none" stroke="#854F0B" stroke-width="2.4" marker-end="url(#ar)"/><rect x="264" y="46" width="160" height="52" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="344.0" y="66.8" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">次の行為</text><text x="344.0" y="84.47999999999999" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">決める・進める</text><line x1="206" y1="108" x2="206" y2="144" stroke="#854F0B" stroke-width="3"/><text x="230" y="168" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">前の結果が分かって、はじめて次に進める</text></svg>
+    <div class="zu-note">「〜てから」との差は、<b>前の結果が次の判断の材料になっている</b>かどうかです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［動詞 た形］</span>＋ 上で<br><span class="n">［動作を表す名詞］</span>＋ の ＋ 上で<br>名詞につなぐときは <span class="n">〜た上での</span>＋名詞</div>
+    <div class="setsu-note">読みは「うえで」。辞書形につく「〜上で」（〜する場面で）とは別の文型です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る語</div>
+      <div class="chips"><span class="chip">よく考え</span><span class="chip">確認し</span><span class="chip">相談し</span><span class="chip">調べ</span><span class="chip">話し合っ</span><span class="chip">承知</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">た上で</span>
+        <div class="ex-ja">家族とよく相談し<b>た上で</b>、お返事いたします。<button class="say" data-say="家族とよく相談した上で、お返事いたします。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I will give you my answer after discussing it properly with my family.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">た上で</span>
+        <div class="ex-ja">内容を確認し<b>た上で</b>、書類にサインしてください。<button class="say" data-say="内容を確認した上で、書類にサインしてください。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Please sign the document after checking its contents.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名詞＋の上で</span>
+        <div class="ex-ja">ご予約<b>の上で</b>、ご来店くださいますようお願いします。<button class="say" data-say="ご予約の上で、ご来店くださいますようお願いします。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">We ask that you visit the store after making a reservation.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">た上での＋名詞</span>
+        <div class="ex-ja">これはよく調べ<b>た上での</b>結論です。<button class="say" data-say="これはよく調べた上での結論です。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This is a conclusion reached after thorough investigation.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">承知の上で</span>
+        <div class="ex-ja">危険は承知<b>の上で</b>、彼は山に登った。<button class="say" data-say="危険は承知の上で、彼は山に登った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">He climbed the mountain fully aware of the danger.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜てから</div>
+      <div class="vs-lead">「てから」はただの<b>時間の順番</b>ですが、「た上で」は前のことが<b>次の判断の材料</b>になっている必要があります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜た上で</th><th>〜てから</th></tr>
+        <tr><td class="k">関係</td><td>前提 → 判断</td><td>順番だけ</td></tr>
+        <tr><td class="k">文体</td><td>かたい・改まった場面</td><td>ふつう</td></tr>
+        <tr><td class="k">例</td><td>確認した上で決める</td><td>手を洗ってから食べる</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 見学し<b>た上で</b>決めます。<span class="memo">　→ 見学が判断材料</span><br>
+        <span class="ng">×</span> 手を洗っ<b>た上で</b>食べる。<span class="memo">　→ ただの順番なので「てから」</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜上で（辞書形）</div>
+      <div class="vs-lead">形が似ていますが、<b>前が辞書形なら「〜する場面で」</b>という別の意味になります。前が た形 か 辞書形 かで見分けます。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 相談し<b>た上で</b>決める。<span class="memo">　→ 手順</span><br>
+        <span class="ok">○</span> 生活する<b>上で</b>大切だ。<span class="memo">　→ 観点</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Says you do something first, and act on that result.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">在……之後（以此為前提）再……</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%9F%E4%B8%8A%E3%81%A7&amp;lv=N2&amp;ex=%E5%AE%B6%E6%97%8F%E3%81%A8%E3%82%88%E3%81%8F%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E4%B8%8A%E3%81%A7%E3%80%81%E3%81%8A%E8%BF%94%E4%BA%8B%E3%81%84%E3%81%9F%E3%81%97%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="uede.html">🔁 〜上で（観点）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-02">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜を問わず・〜は問わず（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜を問わず・〜は問わず」の意味・接続・例文。条件を問題にしないことを表す使い方と、「〜にかかわらず」「〜もかまわず」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜を問わず・〜は問わず</div>
+    <div class="p-en">regardless of ~ / irrespective of ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">無関係</span>
+      <span class="badge sub">募集文</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">無視</span>「〜を問題にしないで」</div>
+    <div class="desc">ある資格や条件を<b>問題にしない・区別しない</b>ことを表します。前には「年齢・性別・経験」や、「男女・昼夜・大小」のような<b>対になる語</b>がよく来ます。求人広告や案内文で「不問」を示す言い方としてよく使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="条件を問題にせずに事態が成り立つことを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="26" y="40" width="118" height="44" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="85.0" y="67.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">条件 A</text><rect x="154" y="40" width="118" height="44" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="213.0" y="67.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">条件 B</text><rect x="282" y="40" width="118" height="44" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="341.0" y="67.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">条件 C</text><path d="M73 50 L97 74 M97 50 L73 74" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><path d="M201 50 L225 74 M225 50 L201 74" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><path d="M329 50 L353 74 M353 50 L329 74" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><path d="M230 96 L230 124" fill="none" stroke="#854F0B" stroke-width="2.6" marker-end="url(#ar)"/><rect x="110" y="130" width="240" height="46" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="230.0" y="158.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">同じように成り立つ</text><text x="230" y="192" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">年齢を問わず／昼夜を問わず</text></svg>
+    <div class="zu-note">どの条件でも<b>結果は変わらない</b>という点が中心です。条件そのものを消してしまうイメージです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［名詞］</span>＋ を問わず／は問わず<br>※対になる語（男女・昼夜・大小）とよく使う</div>
+    <div class="setsu-note">かたい書きことばです。求人や募集の文では「経験不問」のように「問わず」がよく使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る語</div>
+      <div class="chips"><span class="chip">年齢</span><span class="chip">性別</span><span class="chip">経験</span><span class="chip">男女</span><span class="chip">昼夜</span><span class="chip">季節</span><span class="chip">国内外</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">を問わず</span>
+        <div class="ex-ja">この仕事は経験<b>を問わず</b>、どなたでも応募できます。<button class="say" data-say="この仕事は経験を問わず、どなたでも応募できます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Anyone can apply for this job regardless of experience.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">を問わず</span>
+        <div class="ex-ja">この町は昼夜<b>を問わず</b>、いつもにぎやかだ。<button class="say" data-say="この町は昼夜を問わず、いつもにぎやかだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This town is lively at all hours, day or night.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">を問わず</span>
+        <div class="ex-ja">最近は年齢<b>を問わず</b>着られるデザインが人気だ。<button class="say" data-say="最近は年齢を問わず着られるデザインが人気だ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Designs that can be worn regardless of age are popular these days.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">を問わず</span>
+        <div class="ex-ja">映画は時代<b>を問わず</b>愛されてきた娯楽のひとつだ。<button class="say" data-say="映画は時代を問わず愛されてきた娯楽のひとつだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Film has been a beloved form of entertainment in every era.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">は問わず</span>
+        <div class="ex-ja">国籍<b>は問わず</b>、日本語ができる方を歓迎します。<button class="say" data-say="国籍は問わず、日本語ができる方を歓迎します。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Nationality is not an issue; we welcome anyone who speaks Japanese.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜にかかわらず</div>
+      <div class="vs-lead">ほとんど同じ意味で入れかえられますが、<b>募集や案内文で「不問」を示す</b>場面では「を問わず」のほうがよく使われます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜を問わず</th><th>〜にかかわらず</th></tr>
+        <tr><td class="k">よく使う場面</td><td>求人・募集・案内</td><td>規則・説明</td></tr>
+        <tr><td class="k">前に来る語</td><td>名詞（対の語が多い）</td><td>名詞・肯定と否定の並列</td></tr>
+        <tr><td class="k">例</td><td>経験を問わず</td><td>合否にかかわらず</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 男女<b>を問わず</b>募集します。<span class="memo">　→ 募集文</span><br>
+        <span class="ok">○</span> 参加する<b>かしないかにかかわらず</b>連絡してください。<span class="memo">　→ 並列の形</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜もかまわず</div>
+      <div class="vs-lead">「もかまわず」は<b>気にすべきことを気にしない</b>という意味で、批判的なひびきがあります。「を問わず」は中立的です。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 服がぬれるの<b>もかまわず</b>走った。<span class="memo">　→ 気にしない</span><br>
+        <span class="ok">○</span> 天候<b>を問わず</b>開催します。<span class="memo">　→ 区別しない</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Says a condition is not taken into account at all.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">不論……；不分……；不問……</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%82%92%E5%95%8F%E3%82%8F%E3%81%9A%E3%83%BB%E3%80%9C%E3%81%AF%E5%95%8F%E3%82%8F%E3%81%9A&amp;lv=N2&amp;ex=%E3%81%93%E3%81%AE%E4%BB%95%E4%BA%8B%E3%81%AF%E7%B5%8C%E9%A8%93%E3%82%92%E5%95%8F%E3%82%8F%E3%81%9A%E3%80%81%E3%81%A9%E3%81%AA%E3%81%9F%E3%81%A7%E3%82%82%E5%BF%9C%E5%8B%9F%E3%81%A7%E3%81%8D%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nikakawarazu.html">🔁 〜にかかわらずとくらべる<span class="ar">›</span></a>
+      <a href="mokamawazu.html">🔁 〜もかまわずとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#wotowazu">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

@@ -22,7 +22,7 @@ window.LANGS = [
     tips:['漢字の知識は大きな武器。ただし簡体字と日本の字体の違いに注意。','声調（4声）と、日中で意味がずれる漢語（例：手紙＝トイレットペーパー）に注意。']
   },
   {
-    code:'ko', grammar:'grammar.html?code=ko', grammarTitle:'📖 TOPIKレベル別の文法を見る', grammarDesc:'TOPIK1〜6級の文法を、例文つきでレベル別に', extras:[{href:'korean_consonants.html',title:'🔊 平音・激音・濃音',desc:'3つの子音系列を聞き分け・出し分け'},{href:'korean_keigo.html',title:'🙇 待遇表現（丁寧さ・敬語）',desc:'반말/해요体/합니다体と尊敬・謙譲'}], jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
+    code:'ko', grammar:'grammar.html?code=ko', grammarTitle:'📖 TOPIKレベル別の文法を見る', grammarDesc:'TOPIK1〜6級の文法を、例文つきでレベル別に', extras:[{href:'ko_moji.html',title:'🔤 文字と発音（ハングル）',desc:'字母・音節の組み立て・パッチム・発音の変化・漢字音の日韓対応'},{href:'ko_hinshi.html',title:'🧩 品詞と表現',desc:'9品詞の分類から助詞・活用・敬語・数詞まで。日本語との対照つき'},{href:'korean_consonants.html',title:'🔊 平音・激音・濃音',desc:'3つの子音系列を聞き分け・出し分け'},{href:'korean_keigo.html',title:'🙇 待遇表現（丁寧さ・敬語）',desc:'반말/해요体/합니다体と尊敬・謙譲'}], jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
     region:'韓国・北朝鮮', script:'ハングル', family:'朝鮮語族（系統は諸説）', order:'SOV（日本語型）',
     tts:'ko-KR', resRank:'3位', learnRank:'3位', core:true, resident:true, learner:true, sov:true,
     accent:'#185FA5', bg:'#E6F1FB',

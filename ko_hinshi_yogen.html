@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用言（용언）— 動詞・形容詞 ｜ 韓国語の品詞 ・ 日本語の部屋</title>
+<meta name="description" content="韓国語の用言（동사・형용사）の解説。動詞と形容詞の見分け方、補助用言と日本語の「〜て＋動詞」の対応、不規則活用、이다・아니다。">
+<style>
+  :root {
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --accent:#185FA5; --accent-bg:#E3EDF7; --accent-dark:#12467A;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    font-family:'Noto Sans JP','Noto Sans KR','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo','Malgun Gothic',sans-serif;
+    background:var(--bg); color:var(--text); min-height:100vh; padding:0 1rem 3rem; line-height:1.7;
+  }
+  .container { max-width:520px; margin:0 auto; }
+  .topbar { display:flex; align-items:center; gap:8px; padding:14px 0 2px; }
+  .back-link { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-weight:700;
+    color:var(--text-muted); text-decoration:none; padding:6px 13px 6px 9px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface);
+    -webkit-tap-highlight-color:transparent; transition:transform .12s; }
+  .back-link:active { transform:scale(0.97); }
+  .back-arrow { font-size:16px; line-height:1; }
+  .home-link { margin-left:auto; font-size:15px; text-decoration:none; padding:6px 11px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface); }
+  .page-header { text-align:center; padding:1.3rem 0 .3rem; }
+  .ph-eyebrow { font-size:11px; font-weight:700; letter-spacing:.14em; color:var(--accent); margin-bottom:8px; }
+  .ph-title { font-size:24px; font-weight:700; letter-spacing:.02em; }
+  .ph-han { font-size:15px; color:var(--accent); font-weight:700; margin-top:4px; }
+  .ph-sub { font-size:13px; color:var(--text-muted); margin-top:6px; line-height:1.6; }
+  .note { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:12px 15px; font-size:12.5px; color:var(--text-muted); line-height:1.75; margin-top:1.1rem; }
+  .note b { color:var(--text); font-weight:700; }
+  .sec-head { display:flex; align-items:center; gap:9px; margin:2rem 0 .7rem; }
+  .sec-bar { width:4px; height:18px; border-radius:2px; background:var(--accent); }
+  .sec-title { font-size:15px; font-weight:700; }
+  .sec-en { font-size:10px; font-weight:700; letter-spacing:.1em; color:var(--text-hint); text-transform:uppercase; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px 15px; margin-bottom:12px; }
+  .card p { font-size:13px; line-height:1.85; }
+  .card p + p { margin-top:9px; }
+  .lead { font-size:13px; color:var(--text-muted); line-height:1.8; margin-bottom:11px; }
+  .sub-h { font-size:12.5px; font-weight:700; color:var(--accent-dark); margin:15px 0 7px;
+    padding-left:8px; border-left:3px solid var(--accent); }
+  .card > .sub-h:first-child { margin-top:0; }
+  .scrollx { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 -3px; }
+  table.tbl { border-collapse:collapse; width:100%; font-size:12.5px; }
+  table.tbl th, table.tbl td { border:1px solid var(--border); padding:6px 8px; text-align:center; vertical-align:middle; }
+  table.tbl th { background:var(--accent-bg); color:var(--accent-dark); font-weight:700; font-size:11.5px; white-space:nowrap; }
+  table.tbl td.l { text-align:left; }
+  table.tbl .ko { font-weight:700; }
+  table.tbl .ipa { color:var(--text-muted); font-size:11px; }
+  table.tbl tr:nth-child(even) td { background:#FBFAF8; }
+  .say { display:inline-block; cursor:pointer; border:1px solid var(--border); background:var(--surface);
+    border-radius:8px; padding:5px 10px; font:inherit; font-size:13px; line-height:1.5; text-align:left;
+    -webkit-tap-highlight-color:transparent; transition:transform .1s, background .1s; }
+  .say:active { transform:scale(.97); }
+  .say:hover { background:var(--accent-bg); }
+  .say:not(.big) { position:relative; padding-right:27px; }
+  .say:not(.big)::after { content:"🔊"; position:absolute; right:9px; top:50%; transform:translateY(-50%);
+    font-size:11px; opacity:.5; }
+  .say .k { display:block; font-weight:700; }
+  .say .j { display:block; font-size:11px; color:var(--text-muted); margin-top:1px; }
+  /* 例文で注目する部分 */
+  .hl { color:#B23B3B; font-weight:700; border-bottom:2px solid currentColor; padding-bottom:1px; }
+  .say .j .hl { color:#B23B3B; }
+  .exlist { display:flex; flex-direction:column; gap:7px; margin-top:9px; }
+  /* 助詞ごとの項目 */
+  .pitem { border-top:1px solid var(--border); padding-top:12px; margin-top:12px; }
+  .pitem:first-child { border-top:none; padding-top:0; margin-top:0; }
+  .pi-h { display:flex; align-items:baseline; gap:9px; flex-wrap:wrap; }
+  .pi-ko { font-size:16px; font-weight:700; color:var(--accent-dark); }
+  .pi-ja { font-size:11.5px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:2px 9px; }
+  .pi-use { font-size:12.5px; color:var(--text-muted); line-height:1.7; margin-top:5px; }
+  ul.pl { margin:6px 0 0 1.15em; font-size:13px; line-height:1.85; }
+  ul.pl li { margin-bottom:5px; }
+  ul.pl li b { color:var(--accent-dark); }
+  .pt { background:var(--accent-bg); border-radius:var(--radius-sm); padding:10px 12px; font-size:12.5px; line-height:1.75; margin-top:11px; }
+  .pt b { color:var(--accent-dark); }
+  .warn { background:#FCF3EC; border-radius:var(--radius-sm); padding:10px 12px; font-size:12.5px;
+    line-height:1.75; margin-top:11px; border-left:3px solid #B0642A; }
+  .warn b { color:#8A4A18; }
+  .teach { background:#F1F5EC; border-radius:var(--radius-sm); padding:10px 12px; font-size:12.5px;
+    line-height:1.75; margin-top:11px; border-left:3px solid #4D7C4A; }
+  .teach b { color:#3B6339; }
+  .xlink { display:block; text-decoration:none; color:inherit; background:var(--surface);
+    border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:12px;
+    padding:12px 14px; margin-bottom:10px; }
+  .xlink b { display:block; font-size:13.5px; font-weight:700; color:var(--accent-dark); }
+  .xlink span { display:block; font-size:12px; color:var(--text-muted); margin-top:3px; line-height:1.6; }
+  /* 音声つき（点線＝タップで読み上げ） */
+  .sp { cursor:pointer; -webkit-tap-highlight-color:transparent;
+        text-decoration:underline dotted rgba(0,0,0,.30); text-underline-offset:3px; }
+  table.tbl td.sp:hover, table.tbl td.sp:active { background:var(--accent-bg); }
+  .app-footer { text-align:center; font-size:11px; color:var(--text-hint); margin-top:2.4rem; line-height:1.8; }
+  @media (min-width:700px)  { .container { zoom:1.3; } }
+  @media (min-width:1100px) { .container { zoom:1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="ko_hinshi.html" class="back-link"><span class="back-arrow">‹</span>品詞と表現にもどる</a>
+    <a href="index.html" class="home-link" title="ホーム">🏠</a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">YONGEON ・ PREDICATES</div>
+    <div class="ph-title">用言</div>
+    <div class="ph-han">용언 — 동사・형용사</div>
+    <div class="ph-sub">活用する語。<br>韓国語では形容詞も動詞と同じように活用します。</div>
+  </div>
+
+  <div class="note">
+    <b>동사（動詞）</b>と<b>형용사（形容詞）</b>をまとめて<b>용언（用言）</b>と呼びます。語幹に語尾を付けて形を変える点は日本語と同じですが、<b>形容詞がそのまま述語になる</b>ところが日本語と大きく違います。
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">1. 用言とは</span><span class="sec-en">Overview</span></div>
+  <div class="card">
+    <p>用言は<b>活用する語</b>で、動詞（동사）と形容詞（형용사）の2つです。どちらも辞書形は <b>-다</b> で終わり、<b>-다</b> を取った部分が語幹、そこに語尾が付きます。</p>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>品詞</th><th>表すもの</th><th>例</th></tr>
+        <tr><td class="ko">동사<br><span style="font-weight:400;font-size:11px;color:#6B6560;">［動詞］</span></td><td class="l">動作・作用</td><td class="l sp" data-say="가다 먹다 보다">가다・먹다・보다</td></tr>
+        <tr><td class="ko">형용사<br><span style="font-weight:400;font-size:11px;color:#6B6560;">［形容詞］</span></td><td class="l">性質・状態</td><td class="l sp" data-say="좋다 예쁘다 조용하다">좋다・예쁘다・조용하다</td></tr>
+      </table>
+    </div>
+    <div class="warn"><b>日本語との最大の違い：</b>韓国語の形容詞は<b>動詞とまったく同じように活用し、そのまま述語になります</b>。「〜だ・です」にあたる語を足す必要がありません。日本語のイ形容詞にもナ形容詞にもあたる語が、韓国語ではすべて「形容詞」1つに収まります。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">2. 動詞と形容詞の見分け方</span><span class="sec-en">How to Tell</span></div>
+  <div class="card">
+    <div class="lead">形が同じなので、次の3つのテストで見分けます。学習者に説明するときにも使えます。</div>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>テスト</th><th>動詞</th><th>形容詞</th></tr>
+        <tr><td class="l">現在の連体形 <b>-는</b></td><td class="sp" data-say="먹는 사람">먹는 ○</td><td>좋는 ×（좋은）</td></tr>
+        <tr><td class="l">叙述形 <b>-ㄴ다/는다</b></td><td class="sp" data-say="먹는다">먹는다 ○</td><td>좋는다 ×（좋다）</td></tr>
+        <tr><td class="l">命令・勧誘</td><td class="sp" data-say="먹어라 먹자">먹어라・먹자 ○</td><td>좋아라 ×</td></tr>
+      </table>
+    </div>
+    <div class="teach"><b>教える側のメモ：</b>日本語でも「動詞は命令形を持つが形容詞は持たない」という同じ性質があります（「食べろ」○／「高かれ」×）。<b>母語のテストがそのまま日本語にも使える</b>ことを示すと、品詞の感覚が移りやすくなります。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">3. 補助用言（보조용언）</span><span class="sec-en">Auxiliary Verbs</span></div>
+  <div class="card">
+    <p>本動詞のあとに置いて意味を添える用言です。<b>日本語の「〜て＋動詞」とほぼ一対一で対応します。</b>ここは対照表を渡すだけで理解が進む部分です。</p>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>韓国語</th><th>日本語</th><th>例</th></tr>
+        <tr><td class="ko sp" data-say="고 있다">-고 있다</td><td>〜ている（進行）</td><td class="l sp" data-say="먹고 있어요">먹<span class="hl">고 있어요</span></td></tr>
+        <tr><td class="ko sp" data-say="아 있다">-아/어 있다</td><td>〜ている（結果の状態）</td><td class="l sp" data-say="앉아 있어요">앉<span class="hl">아 있어요</span></td></tr>
+        <tr><td class="ko sp" data-say="아 주다">-아/어 주다</td><td>〜てあげる・〜てくれる</td><td class="l sp" data-say="가르쳐 주세요">가르쳐 <span class="hl">주세요</span></td></tr>
+        <tr><td class="ko sp" data-say="아 보다">-아/어 보다</td><td>〜てみる</td><td class="l sp" data-say="먹어 보세요">먹<span class="hl">어 보세요</span></td></tr>
+        <tr><td class="ko sp" data-say="아 버리다">-아/어 버리다</td><td>〜てしまう</td><td class="l sp" data-say="잊어버렸어요">잊<span class="hl">어버렸어요</span></td></tr>
+        <tr><td class="ko sp" data-say="고 싶다">-고 싶다</td><td>〜たい</td><td class="l sp" data-say="가고 싶어요">가<span class="hl">고 싶어요</span></td></tr>
+        <tr><td class="ko sp" data-say="아야 하다">-아/어야 하다</td><td>〜なければならない</td><td class="l sp" data-say="가야 해요">가<span class="hl">야 해요</span></td></tr>
+      </table>
+    </div>
+    <div class="warn"><b>「〜ている」が難所になる理由：</b>韓国語は<b>進行（-고 있다）と結果の状態（-아/어 있다）を形で区別します</b>が、日本語はどちらも「〜ている」です。逆に日本語では「知っている・住んでいる」のように状態を表す用法もあり、対応が一対一になりません。中級で時間をかけて扱う価値があります。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">4. 不規則活用（불규칙 활용）</span><span class="sec-en">Irregular</span></div>
+  <div class="card">
+    <div class="lead">語幹の最後の子音によって、活用の形が変わるものがあります。日本語の五段・一段の区別にあたる部分です。</div>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>種類</th><th>辞書形</th><th>해요体</th><th>変化</th></tr>
+        <tr><td class="ko">ㅂ 不規則</td><td class="ko sp" data-say="춥다">춥다（寒い）</td><td class="ko sp" data-say="추워요">추워요</td><td>ㅂ → 우</td></tr>
+        <tr><td class="ko">ㄷ 不規則</td><td class="ko sp" data-say="듣다">듣다（聞く）</td><td class="ko sp" data-say="들어요">들어요</td><td>ㄷ → ㄹ</td></tr>
+        <tr><td class="ko">ㅅ 不規則</td><td class="ko sp" data-say="짓다">짓다（建てる）</td><td class="ko sp" data-say="지어요">지어요</td><td>ㅅ が落ちる</td></tr>
+        <tr><td class="ko">르 不規則</td><td class="ko sp" data-say="모르다">모르다（知らない）</td><td class="ko sp" data-say="몰라요">몰라요</td><td>ㄹ が重なる</td></tr>
+        <tr><td class="ko">ㅡ 脱落</td><td class="ko sp" data-say="바쁘다">바쁘다（忙しい）</td><td class="ko sp" data-say="바빠요">바빠요</td><td>ㅡ が落ちる</td></tr>
+        <tr><td class="ko">ㅎ 不規則</td><td class="ko sp" data-say="빨갛다">빨갛다（赤い）</td><td class="ko sp" data-say="빨개요">빨개요</td><td>ㅎ が落ちる</td></tr>
+      </table>
+    </div>
+    <div class="pt">不規則といっても<b>語幹の末尾の音で決まる規則的な現象</b>です。日本語の音便（書く→書いて、読む→読んで）と同じく、発音のしやすさによる変化と説明できます。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">5. 이다 と 아니다</span><span class="sec-en">Copula</span></div>
+  <div class="card">
+    <p>名詞に直接ついて「〜だ」を表すのが <b><span class="sp" data-say="이다">이다</span></b> です。学校文法では「叙述格助詞」に分類されますが、<b>用言と同じように活用する</b>点が特徴です。</p>
+    <div class="exlist">
+      <button class="say" data-say="저는 일본어 교사입니다"><span class="k">저는 일본어 교사<span class="hl">입니다</span></span><span class="j">わたしは日本語教師<span class="hl">です</span>。</span></button>
+      <button class="say" data-say="이것은 제 책이에요"><span class="k">이것은 제 책<span class="hl">이에요</span></span><span class="j">これはわたしの本<span class="hl">です</span>。</span></button>
+    </div>
+    <div class="pt">否定は <b><span class="sp" data-say="아니다">아니다</span></b> で、こちらは形容詞です。前の名詞には <b>이/가</b> がつきます（<span class="sp" data-say="학생이 아니에요">학생이 아니에요</span>＝学生ではありません）。日本語の「〜ではありません」に「が」が現れないため、<b>「学生がありません」型の誤用</b>が出ることがあります。</div>
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">関連ページ</span><span class="sec-en">Related</span></div>
+  <a class="xlink" href="ko_hinshi_taigen.html"><b>体言（체언）— 名詞・代名詞・数詞 ›</b><span>活用しない語。依存名詞とコソアドの対応。</span></a>
+  <a class="xlink" href="ko_hinshi_shushoku.html"><b>修飾言（수식언）— 冠形詞・副詞 ›</b><span>連体詞にあたる語と、接続詞を含む副詞。</span></a>
+  <a class="xlink" href="ko_hinshi.html"><b>韓国語の品詞と表現（もくじ）›</b><span>9品詞の一覧・助詞・活用・敬語・数詞・場面別表現。</span></a>
+
+  <div class="app-footer">© 2025 日本語の部屋</div>
+</div>
+
+<script>
+(function(){
+  function speak(text){
+    if (!('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ko-KR'; u.rate = 0.85;
+      var vs = window.speechSynthesis.getVoices() || [];
+      for (var i = 0; i < vs.length; i++) {
+        if (vs[i].lang && vs[i].lang.replace('_','-').toLowerCase().indexOf('ko') === 0) { u.voice = vs[i]; break; }
+      }
+      window.speechSynthesis.speak(u);
+    } catch(e) {}
+  }
+  if ('speechSynthesis' in window) { window.speechSynthesis.getVoices(); }
+  document.addEventListener('click', function(e){
+    var t = e.target.closest ? e.target.closest('[data-say]') : null;
+    if (!t) return;
+    speak(t.getAttribute('data-say'));
+  });
+})();
+</script>
+</body>
+</html>

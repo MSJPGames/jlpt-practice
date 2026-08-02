@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>韓国語の文字と発音 — ハングル ・ 日本語の部屋</title>
+<meta name="description" content="ハングルの成り立ち、母音字・子音字（平音・激音・濃音）、音節の組み立て、パッチム、発音の変化、漢字音の日韓対応、日本語のかな→ハングル表記。日本語教員と学習者のための韓国語入門。">
+<style>
+  :root {
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --accent:#185FA5; --accent-bg:#E3EDF7; --accent-dark:#12467A;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    font-family:'Noto Sans JP','Noto Sans KR','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo','Malgun Gothic',sans-serif;
+    background:var(--bg); color:var(--text); min-height:100vh; padding:0 1rem 3rem; line-height:1.7;
+  }
+  .container { max-width:520px; margin:0 auto; }
+
+  .topbar { display:flex; align-items:center; gap:8px; padding:14px 0 2px; }
+  .back-link {
+    display:inline-flex; align-items:center; gap:5px; font-size:13px; font-weight:700;
+    color:var(--text-muted); text-decoration:none; padding:6px 13px 6px 9px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface);
+    -webkit-tap-highlight-color:transparent; transition:transform .12s;
+  }
+  .back-link:active { transform:scale(0.97); }
+  .back-arrow { font-size:16px; line-height:1; }
+  .home-link { margin-left:auto; font-size:15px; text-decoration:none; padding:6px 11px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface); }
+
+  .page-header { text-align:center; padding:1.3rem 0 .3rem; }
+  .ph-eyebrow { font-size:11px; font-weight:700; letter-spacing:.14em; color:var(--accent); margin-bottom:8px; }
+  .ph-title { font-size:24px; font-weight:700; letter-spacing:.02em; }
+  .ph-han { font-size:15px; color:var(--accent); font-weight:700; margin-top:4px; }
+  .ph-sub { font-size:13px; color:var(--text-muted); margin-top:6px; line-height:1.6; }
+
+  .note {
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:12px 15px; font-size:12.5px; color:var(--text-muted); line-height:1.75; margin-top:1.1rem;
+  }
+  .note b { color:var(--text); font-weight:700; }
+
+  .sec-head { display:flex; align-items:center; gap:9px; margin:2rem 0 .7rem; }
+  .sec-bar { width:4px; height:18px; border-radius:2px; background:var(--accent); }
+  .sec-title { font-size:15px; font-weight:700; }
+  .sec-en { font-size:10px; font-weight:700; letter-spacing:.1em; color:var(--text-hint); text-transform:uppercase; }
+
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px 15px; margin-bottom:12px; }
+  .card + .card { margin-top:0; }
+  .card p { font-size:13px; line-height:1.85; }
+  .card p + p { margin-top:9px; }
+  .lead { font-size:13px; color:var(--text-muted); line-height:1.8; margin-bottom:11px; }
+
+  .sub-h { font-size:12.5px; font-weight:700; color:var(--accent-dark); margin:14px 0 7px;
+    padding-left:8px; border-left:3px solid var(--accent); }
+  .card > .sub-h:first-child { margin-top:0; }
+
+  .scrollx { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 -3px; }
+  table.tbl { border-collapse:collapse; width:100%; font-size:12.5px; }
+  table.tbl th, table.tbl td { border:1px solid var(--border); padding:6px 7px; text-align:center; vertical-align:middle; }
+  table.tbl th { background:var(--accent-bg); color:var(--accent-dark); font-weight:700; font-size:11.5px; white-space:nowrap; }
+  table.tbl td.l { text-align:left; }
+  table.tbl .ko { font-size:16px; font-weight:700; }
+  table.tbl .ipa { color:var(--text-muted); font-size:11px; }
+  table.tbl tr:nth-child(even) td { background:#FBFAF8; }
+
+  .say { display:inline-block; cursor:pointer; border:1px solid var(--border); background:var(--surface);
+    border-radius:8px; padding:4px 9px; font:inherit; font-size:13px; line-height:1.4;
+    -webkit-tap-highlight-color:transparent; transition:transform .1s, background .1s; }
+  .say:active { transform:scale(.95); }
+  .say:hover { background:var(--accent-bg); }
+  .say:not(.big) { position:relative; padding-right:27px; }
+  .say:not(.big)::after { content:"🔊"; position:absolute; right:9px; top:50%; transform:translateY(-50%);
+    font-size:11px; opacity:.5; }
+  .say.big { font-size:19px; font-weight:700; padding:6px 10px; min-width:40px; }
+  .say .r { display:block; font-size:10.5px; font-weight:400; color:var(--text-muted); margin-top:1px; }
+
+  .banjeol { display:grid; grid-template-columns:repeat(11,minmax(30px,1fr)); gap:3px; font-size:14px; }
+  .banjeol .hd { background:var(--accent-bg); color:var(--accent-dark); font-weight:700; font-size:11px;
+    display:flex; align-items:center; justify-content:center; border-radius:6px; padding:4px 0; }
+  .banjeol .cell { background:var(--surface); border:1px solid var(--border); border-radius:6px;
+    padding:5px 0; text-align:center; cursor:pointer; font-weight:700; -webkit-tap-highlight-color:transparent; }
+  .banjeol .cell:active { background:var(--accent-bg); }
+
+  .blk { display:flex; gap:9px; flex-wrap:wrap; margin:10px 0 4px; }
+  .blk-item { flex:1 1 110px; border:1px solid var(--border); border-radius:var(--radius-sm); background:#FBFAF8; padding:9px 10px; text-align:center; }
+  .blk-form { font-size:11px; font-weight:700; color:var(--accent-dark); margin-bottom:4px; }
+  .blk-ex { font-size:24px; font-weight:700; }
+  .blk-note { font-size:11px; color:var(--text-muted); margin-top:3px; line-height:1.5; }
+
+  ul.pl { margin:6px 0 0 1.15em; font-size:13px; line-height:1.85; }
+  ul.pl li { margin-bottom:4px; }
+  ul.pl li b { color:var(--accent-dark); }
+
+  .pt { background:var(--accent-bg); border-radius:var(--radius-sm); padding:10px 12px; font-size:12.5px;
+    line-height:1.75; color:var(--text); margin-top:11px; }
+  .pt b { color:var(--accent-dark); }
+  .warn { background:#FCF3EC; border-radius:var(--radius-sm); padding:10px 12px; font-size:12.5px;
+    line-height:1.75; margin-top:11px; border-left:3px solid #B0642A; }
+  .warn b { color:#8A4A18; }
+
+  .xlink { display:block; text-decoration:none; color:inherit; background:var(--surface);
+    border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:12px;
+    padding:12px 14px; margin-bottom:10px; }
+  .xlink b { display:block; font-size:13.5px; font-weight:700; color:var(--accent-dark); }
+  .xlink span { display:block; font-size:12px; color:var(--text-muted); margin-top:3px; line-height:1.6; }
+
+  /* 音声つき（点線＝タップで読み上げ） */
+  .sp { cursor:pointer; -webkit-tap-highlight-color:transparent;
+        text-decoration:underline dotted rgba(0,0,0,.30); text-underline-offset:3px; }
+  table.tbl td.sp:hover, table.tbl td.sp:active { background:var(--accent-bg); }
+  .app-footer { text-align:center; font-size:11px; color:var(--text-hint); margin-top:2.4rem; line-height:1.8; }
+
+  @media (min-width:700px)  { .container { zoom:1.3; } }
+  @media (min-width:1100px) { .container { zoom:1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="lang.html?code=ko" class="back-link" id="backLink"><span class="back-arrow">‹</span>韓国語にもどる</a>
+    <a href="index.html" class="home-link" title="ホーム">🏠</a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">HANGEUL ・ LETTERS &amp; SOUNDS</div>
+    <div class="ph-title">文字と発音</div>
+    <div class="ph-han">한글 — 훈민정음</div>
+    <div class="ph-sub">ハングルの成り立ち・字母・音節の組み立て・パッチム・発音の変化。<br>日本語との対照点をあわせて示します。</div>
+  </div>
+
+  <div class="note">
+    ハングルは <b>音素文字</b>（1字＝1音）でありながら、<b>音節ごとにまとめて組む</b> 点に特徴があります。字母の数は子音19・母音21で、組み合わせの規則さえ覚えれば、意味がわからなくても読み上げられます。
+  </div>
+
+  <!-- 1 -->
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">1. ハングルの成り立ち</span><span class="sec-en">Origin</span></div>
+  <div class="card">
+    <p>朝鮮王朝第4代の世宗（세종）のもとで作られ、<b>1443年に完成、1446年に『訓民正音』として公布</b>されました。それ以前、朝鮮語は漢字で書かれており、漢文の素養がない人には読み書きが困難でした。ハングルは、話しことばの音をそのまま写すための文字として設計されています。</p>
+    <div class="sub-h">子音字は発音器官の形をかたどる</div>
+    <p>『訓民正音解例本』の説明によれば、基本となる5つの子音字は、その音を出すときの器官の形に由来します。</p>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>字</th><th>かたどったもの</th><th>加画による派生</th></tr>
+        <tr><td class="ko">ㄱ</td><td class="l">舌の根が喉をふさぐ形</td><td class="l">ㄱ → ㅋ（→ㄲ）</td></tr>
+        <tr><td class="ko">ㄴ</td><td class="l">舌先が上の歯ぐきにつく形</td><td class="l">ㄴ → ㄷ → ㅌ（→ㄸ）</td></tr>
+        <tr><td class="ko">ㅁ</td><td class="l">口の形</td><td class="l">ㅁ → ㅂ → ㅍ（→ㅃ）</td></tr>
+        <tr><td class="ko">ㅅ</td><td class="l">歯の形</td><td class="l">ㅅ → ㅈ → ㅊ（→ㅆ・ㅉ）</td></tr>
+        <tr><td class="ko">ㅇ</td><td class="l">喉の形</td><td class="l">ㅇ → ㅎ</td></tr>
+      </table>
+    </div>
+    <div class="pt"><b>ポイント：</b>画を1本足すと、より強い息をともなう音（激音）になります。同じ字を2つ重ねると、のどを緊張させる音（濃音）になります。<b>形の似た字は、音も近い</b>という設計です。</div>
+    <div class="sub-h">母音字は「天・地・人」</div>
+    <p>母音字の素材は3つだけです。<b>・</b>（天＝丸）、<b>ㅡ</b>（地＝水平線）、<b>ㅣ</b>（人＝垂直線）。この3つを組み合わせて、ㅏ・ㅓ・ㅗ・ㅜ などが作られました（現在「・」は単独では使われません）。</p>
+    <div class="pt">明治期以前の日本で五十音図が悉曇学（梵字の音韻分析）の影響を受けたように、ハングルも当時の中国音韻学の枠組み（初声・中声・終声）を下敷きにしています。→ 読みもの「東洋の言語観」もあわせてどうぞ。</div>
+  </div>
+
+  <!-- 2 -->
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">2. 母音字（모음）</span><span class="sec-en">Vowels</span></div>
+  <div class="card">
+    <div class="lead">基本10字。カナは近い音の目安で、正確な音ではありません。</div>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>字</th><th>音</th><th>目安</th><th>字</th><th>音</th><th>目安</th></tr>
+        <tr>
+          <td><button class="say big" data-say="아">ㅏ</button></td><td class="ipa">[a]</td><td>ア</td>
+          <td><button class="say big" data-say="야">ㅑ</button></td><td class="ipa">[ja]</td><td>ヤ</td>
+        </tr>
+        <tr>
+          <td><button class="say big" data-say="어">ㅓ</button></td><td class="ipa">[ʌ]</td><td>口を開けたオ</td>
+          <td><button class="say big" data-say="여">ㅕ</button></td><td class="ipa">[jʌ]</td><td>ヨ（開）</td>
+        </tr>
+        <tr>
+          <td><button class="say big" data-say="오">ㅗ</button></td><td class="ipa">[o]</td><td>唇を丸めたオ</td>
+          <td><button class="say big" data-say="요">ㅛ</button></td><td class="ipa">[jo]</td><td>ヨ（丸）</td>
+        </tr>
+        <tr>
+          <td><button class="say big" data-say="우">ㅜ</button></td><td class="ipa">[u]</td><td>唇を丸めたウ</td>
+          <td><button class="say big" data-say="유">ㅠ</button></td><td class="ipa">[ju]</td><td>ユ</td>
+        </tr>
+        <tr>
+          <td><button class="say big" data-say="으">ㅡ</button></td><td class="ipa">[ɯ]</td><td>唇を平らにしたウ</td>
+          <td><button class="say big" data-say="이">ㅣ</button></td><td class="ipa">[i]</td><td>イ</td>
+        </tr>
+      </table>
+    </div>
+    <div class="warn"><b>日本語話者の注意：</b>日本語の母音は5つですが、韓国語では <b>ㅓ と ㅗ</b>（どちらもカナでは「オ」）、<b>ㅡ と ㅜ</b>（どちらも「ウ」）を区別します。ㅗ・ㅜ は唇を丸め、ㅓ・ㅡ は丸めません。「어」と「오」、「으」と「우」を続けて聞き比べてください。
+      <div style="margin-top:7px;display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="say" data-say="어 오">어 / 오</button>
+        <button class="say" data-say="으 우">으 / 우</button>
+        <button class="say" data-say="거리 고리">거리 / 고리</button>
+      </div>
+    </div>
+    <div class="sub-h">合成母音（11字）</div>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>字</th><th>成り立ち</th><th>音</th><th>字</th><th>成り立ち</th><th>音</th></tr>
+        <tr><td class="ko sp" data-say="애">ㅐ</td><td>ㅏ+ㅣ</td><td class="ipa">[ɛ]</td><td class="ko sp" data-say="에">ㅔ</td><td>ㅓ+ㅣ</td><td class="ipa">[e]</td></tr>
+        <tr><td class="ko sp" data-say="얘">ㅒ</td><td>ㅑ+ㅣ</td><td class="ipa">[jɛ]</td><td class="ko sp" data-say="예">ㅖ</td><td>ㅕ+ㅣ</td><td class="ipa">[je]</td></tr>
+        <tr><td class="ko sp" data-say="와">ㅘ</td><td>ㅗ+ㅏ</td><td class="ipa">[wa]</td><td class="ko sp" data-say="워">ㅝ</td><td>ㅜ+ㅓ</td><td class="ipa">[wʌ]</td></tr>
+        <tr><td class="ko sp" data-say="왜">ㅙ</td><td>ㅗ+ㅐ</td><td class="ipa">[wɛ]</td><td class="ko sp" data-say="웨">ㅞ</td><td>ㅜ+ㅔ</td><td class="ipa">[we]</td></tr>
+        <tr><td class="ko sp" data-say="외">ㅚ</td><td>ㅗ+ㅣ</td><td class="ipa">[ø]/[we]</td><td class="ko sp" data-say="위">ㅟ</td><td>ㅜ+ㅣ</td><td class="ipa">[y]/[wi]</td></tr>
+        <tr><td class="ko sp" data-say="의">ㅢ</td><td>ㅡ+ㅣ</td><td class="ipa">[ɰi]</td><td colspan="3" class="l ipa">語中・助詞の「の」では [i] [e] で発音されることが多い</td></tr>
+      </table>
+    </div>
+    <div class="pt">現代のソウルのことばでは <b>ㅐ と ㅔ の区別は失われつつあり</b>、どちらも「エ」に近く発音されます。綴りの上では区別が必要です。ㅚ・ㅟ も、単母音ではなく [we] [wi] と発音されることが一般的です。</div>
+  </div>
+
+  <!-- 3 -->
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">3. 子音字（자음）— 平音・激音・濃音</span><span class="sec-en">Consonants</span></div>
+  <div class="card">
+    <div class="lead">韓国語の子音でもっとも重要なのが、<b>平音・激音・濃音</b>の3系列です。日本語の「清音・濁音」とは分け方が違います。</div>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>系列</th><th>k系</th><th>t系</th><th>p系</th><th>ch系</th><th>s系</th></tr>
+        <tr>
+          <th>平音<br><span style="font-weight:400;font-size:10px;">息が弱い</span></th>
+          <td><button class="say big" data-say="가">ㄱ<span class="r">가</span></button></td>
+          <td><button class="say big" data-say="다">ㄷ<span class="r">다</span></button></td>
+          <td><button class="say big" data-say="바">ㅂ<span class="r">바</span></button></td>
+          <td><button class="say big" data-say="자">ㅈ<span class="r">자</span></button></td>
+          <td><button class="say big" data-say="사">ㅅ<span class="r">사</span></button></td>
+        </tr>
+        <tr>
+          <th>激音<br><span style="font-weight:400;font-size:10px;">息を強く出す</span></th>
+          <td><button class="say big" data-say="카">ㅋ<span class="r">카</span></button></td>
+          <td><button class="say big" data-say="타">ㅌ<span class="r">타</span></button></td>
+          <td><button class="say big" data-say="파">ㅍ<span class="r">파</span></button></td>
+          <td><button class="say big" data-say="차">ㅊ<span class="r">차</span></button></td>
+          <td><span class="ipa">—</span></td>
+        </tr>
+        <tr>
+          <th>濃音<br><span style="font-weight:400;font-size:10px;">のどを緊張</span></th>
+          <td><button class="say big" data-say="까">ㄲ<span class="r">까</span></button></td>
+          <td><button class="say big" data-say="따">ㄸ<span class="r">따</span></button></td>
+          <td><button class="say big" data-say="빠">ㅃ<span class="r">빠</span></button></td>
+          <td><button class="say big" data-say="짜">ㅉ<span class="r">짜</span></button></td>
+          <td><button class="say big" data-say="싸">ㅆ<span class="r">싸</span></button></td>
+        </tr>
+      </table>
+    </div>
+    <div class="sub-h">その他の子音</div>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>字</th><th>初声での音</th><th>終声での音</th><th>例</th></tr>
+        <tr><td class="ko">ㄴ</td><td>[n]</td><td>[n]</td><td><button class="say" data-say="나라">나라（国）</button></td></tr>
+        <tr><td class="ko">ㅁ</td><td>[m]</td><td>[m]</td><td><button class="say" data-say="마음">마음（心）</button></td></tr>
+        <tr><td class="ko">ㄹ</td><td>[ɾ] はじき音</td><td>[l] 舌側音</td><td><button class="say" data-say="라디오">라디오（ラジオ）</button></td></tr>
+        <tr><td class="ko">ㅇ</td><td>音なし（母音の台）</td><td>[ŋ]</td><td><button class="say" data-say="아이">아이（子ども）</button></td></tr>
+        <tr><td class="ko">ㅎ</td><td>[h]</td><td>ほぼ発音されない</td><td><button class="say" data-say="하나">하나（ひとつ）</button></td></tr>
+      </table>
+    </div>
+    <div class="warn"><b>日本語話者の最大の難所：平音の有声化</b><br>
+      平音 ㄱㄷㅂㅈ は、<b>語頭では濁らず、語中（母音や ㄴㅁㅇㄹ にはさまれた位置）では濁って</b>聞こえます。同じ字なのに音が変わるのは、韓国語では「濁るか濁らないか」が意味の区別に使われていないためです。
+      <div style="margin-top:7px;display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="say" data-say="부부">부부 → プブ（夫婦）</button>
+        <button class="say" data-say="고기">고기 → コギ（肉）</button>
+        <button class="say" data-say="아버지">아버지 → アボジ（父）</button>
+      </div>
+      <div style="margin-top:7px;">逆に日本語では、濁るかどうかが意味を分けます（「かさ／かざ」）。この違いが、韓国語話者の日本語で <b>語頭の濁音がうまく出ない</b>（「だいがく」→「たいがく」）という現象につながります。
+      </div>
+    </div>
+    <div class="pt"><b>濃音のつかみ方：</b>日本語の促音のあとの音が近い目安になります。「あっさり」の「さ」＝ㅆ、「あっか」の「か」＝ㄲ。息をためて、のどを固くして出します。</div>
+  </div>
+
+  <!-- 4 -->
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">4. 音節の組み立て</span><span class="sec-en">Syllable Blocks</span></div>
+  <div class="card">
+    <div class="lead">ハングルは <b>初声（子音）＋中声（母音）＋終声（子音・任意）</b> を1つの四角にまとめて書きます。母音字の形によって、右に置くか下に置くかが決まります。</div>
+    <div class="blk">
+      <div class="blk-item"><div class="blk-form">縦長の母音 → 右</div><div class="blk-ex">가</div><div class="blk-note">ㄱ＋ㅏ<br>ㅏㅑㅓㅕㅣ など</div></div>
+      <div class="blk-item"><div class="blk-form">横長の母音 → 下</div><div class="blk-ex">고</div><div class="blk-note">ㄱ＋ㅗ<br>ㅗㅛㅜㅠㅡ など</div></div>
+    </div>
+    <div class="blk">
+      <div class="blk-item"><div class="blk-form">＋終声</div><div class="blk-ex">간</div><div class="blk-note">ㄱ＋ㅏ＋ㄴ</div></div>
+      <div class="blk-item"><div class="blk-form">＋終声</div><div class="blk-ex">공</div><div class="blk-note">ㄱ＋ㅗ＋ㅇ</div></div>
+    </div>
+    <div class="pt">母音で始まる音節は、初声の位置に <b>ㅇ</b> を置きます。この ㅇ は音を持たない「台」です（아＝ア、오＝オ）。ただし<b>終声</b>の ㅇ は [ŋ]（ング）の音を持ちます。</div>
+    <div class="sub-h">組み合わせ表（반절표）</div>
+    <div class="lead" style="margin-bottom:8px;">基本子音14 × 基本母音10。</div>
+    <div class="scrollx"><div class="banjeol" id="banjeol"></div></div>
+  </div>
+
+  <!-- 5 -->
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">5. パッチム（받침）＝終声</span><span class="sec-en">Final Consonants</span></div>
+  <div class="card">
+    <p>音節の下に置く子音字を<b>パッチム</b>といいます。書ける字は27種類ありますが、<b>実際に発音される音は7つだけ</b>です。終声では息を出しきらず、口の形を作ったところで止めます。</p>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>代表音</th><th>書かれる字</th><th>例</th></tr>
+        <tr><td class="ko">ㄱ</td><td>ㄱ ㅋ ㄲ ㄳ ㄺ</td><td><button class="say" data-say="책">책（本）</button></td></tr>
+        <tr><td class="ko">ㄴ</td><td>ㄴ ㄵ ㄶ</td><td><button class="say" data-say="산">산（山）</button></td></tr>
+        <tr><td class="ko">ㄷ</td><td>ㄷ ㅅ ㅆ ㅈ ㅊ ㅌ ㅎ</td><td><button class="say" data-say="옷">옷（服）</button></td></tr>
+        <tr><td class="ko">ㄹ</td><td>ㄹ ㄼ ㄽ ㄾ ㅀ</td><td><button class="say" data-say="말">말（ことば）</button></td></tr>
+        <tr><td class="ko">ㅁ</td><td>ㅁ ㄻ</td><td><button class="say" data-say="밤">밤（夜）</button></td></tr>
+        <tr><td class="ko">ㅂ</td><td>ㅂ ㅍ ㄿ ㅄ</td><td><button class="say" data-say="밥">밥（ごはん）</button></td></tr>
+        <tr><td class="ko">ㅇ</td><td>ㅇ</td><td><button class="say" data-say="강">강（川）</button></td></tr>
+      </table>
+    </div>
+    <div class="warn"><b>日本語話者の注意：</b>日本語は原則として<b>開音節</b>（子音＋母音で終わる）なので、パッチムのあとに母音を足してしまいがちです。<b class="sp" data-say="밥">밥</b> を「パプ<u>ゥ</u>」、<b class="sp" data-say="책">책</b> を「チェク<u>ゥ</u>」と言わないよう、唇や舌を閉じたところで止めます。この「閉じて止める音」は、日本語の「あっ<b>ぱ</b>れ」の「っ」の部分に近いものです。</div>
+  </div>
+
+  <!-- 6 -->
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">6. 発音の変化</span><span class="sec-en">Sound Change</span></div>
+  <div class="card">
+    <div class="lead">韓国語は、綴りと実際の発音がずれることがあります。ずれ方には規則があり、代表的なものは次の6つです。</div>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>名前</th><th>しくみ</th><th>例（綴り → 発音）</th></tr>
+        <tr>
+          <td class="l"><b>連音化</b><br><span class="ipa">연음</span></td>
+          <td class="l">パッチム＋母音（ㅇ）→ パッチムが次の音節へ移る</td>
+          <td class="l">한국어 → [한구거]<br><button class="say" data-say="한국어">한국어（韓国語）</button></td>
+        </tr>
+        <tr>
+          <td class="l"><b>鼻音化</b><br><span class="ipa">비음화</span></td>
+          <td class="l">ㄱㄷㅂ＋ㄴㅁ → ㅇㄴㅁ に変わる</td>
+          <td class="l">입니다 → [임니다]<br><button class="say" data-say="입니다">입니다（です）</button></td>
+        </tr>
+        <tr>
+          <td class="l"><b>流音化</b><br><span class="ipa">유음화</span></td>
+          <td class="l">ㄴ と ㄹ が隣り合うと ㄹㄹ に</td>
+          <td class="l">신라 → [실라]<br><button class="say" data-say="신라">신라（新羅）</button></td>
+        </tr>
+        <tr>
+          <td class="l"><b>激音化</b><br><span class="ipa">격음화</span></td>
+          <td class="l">ㅎ と ㄱㄷㅂㅈ が出会うと激音に</td>
+          <td class="l">축하 → [추카]<br><button class="say" data-say="축하">축하（祝賀）</button></td>
+        </tr>
+        <tr>
+          <td class="l"><b>濃音化</b><br><span class="ipa">경음화</span></td>
+          <td class="l">ㄱㄷㅂ のあとの平音が濃音に</td>
+          <td class="l">학교 → [학꾜]<br><button class="say" data-say="학교">학교（学校）</button></td>
+        </tr>
+        <tr>
+          <td class="l"><b>口蓋音化</b><br><span class="ipa">구개음화</span></td>
+          <td class="l">パッチム ㄷㅌ ＋ 이 → 지·치 に</td>
+          <td class="l">같이 → [가치]<br><button class="say" data-say="같이">같이（一緒に）</button></td>
+        </tr>
+      </table>
+    </div>
+    <div class="pt">日本語にも同じ種類の現象があります。連濁（やま＋かわ→やまがわ）、音便（読みて→読んで）、連声（因縁 いん＋えん→いんねん）。<b>語がつながるときに音が変わるのは、どの言語にも起きること</b>だと示すと、学習者の抵抗が減ります。</div>
+  </div>
+
+  <!-- 7 -->
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">7. 漢字音の対応 — 日本語と韓国語</span><span class="sec-en">Sino-Xenic</span></div>
+  <div class="card">
+    <p>日本語の音読みと韓国語の漢字音は、どちらも古い中国語の音を借りたものです。そのため、<b>両者のあいだには規則的な対応</b>が見られます。とくに、中国中古音の <b>入声</b>（-k・-t・-p で終わる音）の行方がわかりやすい手がかりです。</p>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>中古音の末尾</th><th>韓国語</th><th>日本語の音読み</th><th>例</th></tr>
+        <tr><td>-k</td><td class="ko">ㄱ</td><td>ク・キ</td><td class="l">学 <b class="sp" data-say="학">학</b>／が<b>く</b>　石 <b class="sp" data-say="석">석</b>／せ<b>き</b></td></tr>
+        <tr><td>-t</td><td class="ko">ㄹ</td><td>ツ・チ</td><td class="l">一 <b class="sp" data-say="일">일</b>／い<b>ち</b>　発 <b class="sp" data-say="발">발</b>／は<b>つ</b></td></tr>
+        <tr><td>-p</td><td class="ko">ㅂ</td><td>ウ（古くはフ）</td><td class="l">十 <b class="sp" data-say="십">십</b>／じゅ<b>う</b>（じ<b>ふ</b>）</td></tr>
+        <tr><td>-m</td><td class="ko">ㅁ</td><td>ン</td><td class="l">心 <b class="sp" data-say="심">심</b>／し<b>ん</b>　三 <b class="sp" data-say="삼">삼</b>／さ<b>ん</b></td></tr>
+        <tr><td>-n</td><td class="ko">ㄴ</td><td>ン</td><td class="l">山 <b class="sp" data-say="산">산</b>／さ<b>ん</b>　新 <b class="sp" data-say="신">신</b>／し<b>ん</b></td></tr>
+        <tr><td>-ng</td><td class="ko">ㅇ</td><td>ウ・イ</td><td class="l">東 <b class="sp" data-say="동">동</b>／と<b>う</b>　生 <b class="sp" data-say="생">생</b>／せ<b>い</b></td></tr>
+      </table>
+    </div>
+    <div class="pt"><b>日本語は -m と -n を「ン」に合流させた</b>のに対し、<b>韓国語は ㅁ と ㄴ を今も区別しています</b>。「三（삼）」と「山（산）」は韓国語では別の音です。日本語で「さんぽ（三歩）」が「サンポ」ではなく「サンポ＝サmポ」と唇を閉じて発音されるのは、-m だった名残です。</div>
+    <div class="sub-h">似ている語彙</div>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>漢字語</th><th>韓国語</th><th>日本語</th><th>漢字語</th><th>韓国語</th><th>日本語</th></tr>
+        <tr><td>家族</td><td><button class="say" data-say="가족">가족</button></td><td>かぞく</td><td>約束</td><td><button class="say" data-say="약속">약속</button></td><td>やくそく</td></tr>
+        <tr><td>無理</td><td><button class="say" data-say="무리">무리</button></td><td>むり</td><td>記憶</td><td><button class="say" data-say="기억">기억</button></td><td>きおく</td></tr>
+        <tr><td>三角</td><td><button class="say" data-say="삼각">삼각</button></td><td>さんかく</td><td>温度</td><td><button class="say" data-say="온도">온도</button></td><td>おんど</td></tr>
+      </table>
+    </div>
+    <div class="warn"><b>教える際の注意：</b>漢字語の一致は学習の助けになりますが、<b>意味がずれる語</b>もあります。例：<b>애인（愛人）</b>は韓国語では「恋人」で否定的な意味を持ちません。<b>공부（工夫）</b>は「勉強」の意味です。一致を強調しすぎると、こうした語で誤用を招きます。</div>
+  </div>
+
+  <!-- 8 -->
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">8. 日本語をハングルで書く</span><span class="sec-en">Kana → Hangeul</span></div>
+  <div class="card">
+    <div class="lead">韓国で用いられている外来語表記の原則です。学習者の名前や地名を板書するときに使えます。</div>
+    <ul class="pl">
+      <li><b>カ行・タ行は位置で変わる</b>：語頭は平音（ㄱ・ㄷ）、語中・語末は激音（ㅋ・ㅌ）。→ 京都 <b class="sp" data-say="교토">교토</b>、高田 <b class="sp" data-say="다카다">다카다</b>。</li>
+      <li><b>長音は書かない</b>：東京 <b class="sp" data-say="도쿄">도쿄</b>（도오쿄오 とはしない）、大阪 <b class="sp" data-say="오사카">오사카</b>。</li>
+      <li><b>促音は ㅅ パッチム</b>：札幌 <b class="sp" data-say="삿포로">삿포로</b>、北海道 <b class="sp" data-say="홋카이도">홋카이도</b>。</li>
+      <li><b>撥音は ㄴ パッチム</b>：本田 <b class="sp" data-say="혼다">혼다</b>、群馬 <b class="sp" data-say="군마">군마</b>。</li>
+      <li><b>「つ」は 쓰</b>：津 <b class="sp" data-say="쓰">쓰</b>、松本 <b class="sp" data-say="마쓰모토">마쓰모토</b>。</li>
+    </ul>
+    <div class="pt">この規則の裏返しとして、<b>韓国語話者の日本語では長音と促音が落ちやすい</b>という予測が立ちます（「おばあさん」→「おばさん」、「きって」→「きて」）。母語の表記習慣が影響する典型例です。</div>
+  </div>
+
+  <!-- 関連 -->
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">関連ページ</span><span class="sec-en">Related</span></div>
+  <a class="xlink" href="ko_hinshi.html"><b>韓国語の品詞と表現 ›</b><span>助詞・用言の活用・敬語・数詞。日本語との対照表つき。</span></a>
+  <a class="xlink" href="gengogaku_toyo.html"><b>東洋の言語観 — インドと中国の伝統的な言語学 ›</b><span>初声・中声・終声という枠組みの出どころ。四声・入声・反切。</span></a>
+  <a class="xlink" href="lang.html?code=ko" id="backLink2"><b>韓国語のページへ ›</b><span>あいさつ・数字・自己紹介（音声つき）と支援リンク。</span></a>
+
+  <div class="app-footer">© 2025 日本語の部屋</div>
+</div>
+
+<script>
+/* もどる先：?from=xx があればそれを使う（既定 ko） */
+(function(){
+  var p = new URLSearchParams(location.search);
+  var code = p.get('from') || 'ko';
+  var a1 = document.getElementById('backLink');
+  var a2 = document.getElementById('backLink2');
+  if (a1) a1.href = 'lang.html?code=' + code;
+  if (a2) a2.href = 'lang.html?code=' + code;
+})();
+
+/* 反切表（14子音 × 10母音） */
+(function(){
+  var CON = ['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+  var CIDX = [0,2,3,5,6,7,9,11,12,14,15,16,17,18]; /* ハングル音節の初声インデックス */
+  var VOW = ['ㅏ','ㅑ','ㅓ','ㅕ','ㅗ','ㅛ','ㅜ','ㅠ','ㅡ','ㅣ'];
+  var VIDX = [0,2,4,6,8,12,13,17,18,20];           /* 中声インデックス */
+  var out = ['<div class="hd"></div>'];
+  for (var v = 0; v < VOW.length; v++) out.push('<div class="hd">' + VOW[v] + '</div>');
+  for (var c = 0; c < CON.length; c++) {
+    out.push('<div class="hd">' + CON[c] + '</div>');
+    for (var w = 0; w < VOW.length; w++) {
+      var ch = String.fromCharCode(0xAC00 + CIDX[c] * 588 + VIDX[w] * 28);
+      out.push('<div class="cell" data-say="' + ch + '">' + ch + '</div>');
+    }
+  }
+  document.getElementById('banjeol').innerHTML = out.join('');
+})();
+
+/* 端末TTS（韓国語） */
+(function(){
+  function speak(text, lang){
+    if (!('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = lang || 'ko-KR';
+      u.rate = 0.85;
+      var vs = window.speechSynthesis.getVoices() || [];
+      for (var i = 0; i < vs.length; i++) {
+        if (vs[i].lang && vs[i].lang.replace('_','-').toLowerCase().indexOf('ko') === 0) { u.voice = vs[i]; break; }
+      }
+      window.speechSynthesis.speak(u);
+    } catch(e) {}
+  }
+  if ('speechSynthesis' in window) { window.speechSynthesis.getVoices(); }
+  document.addEventListener('click', function(e){
+    var t = e.target.closest ? e.target.closest('[data-say]') : null;
+    if (!t) return;
+    speak(t.getAttribute('data-say'), t.getAttribute('data-lang'));
+  });
+})();
+</script>
+</body>
+</html>

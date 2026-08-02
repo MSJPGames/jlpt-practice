@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>関係言（관계언）— 助詞 ｜ 韓国語の品詞 ・ 日本語の部屋</title>
+<meta name="description" content="韓国語の助詞（조사）の全体像。格助詞・接続助詞・補助詞の分類、パッチムによる異形態、日本語の接続助詞・終助詞との扱いの違い。">
+<style>
+  :root {
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --accent:#185FA5; --accent-bg:#E3EDF7; --accent-dark:#12467A;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    font-family:'Noto Sans JP','Noto Sans KR','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo','Malgun Gothic',sans-serif;
+    background:var(--bg); color:var(--text); min-height:100vh; padding:0 1rem 3rem; line-height:1.7;
+  }
+  .container { max-width:520px; margin:0 auto; }
+  .topbar { display:flex; align-items:center; gap:8px; padding:14px 0 2px; }
+  .back-link { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-weight:700;
+    color:var(--text-muted); text-decoration:none; padding:6px 13px 6px 9px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface);
+    -webkit-tap-highlight-color:transparent; transition:transform .12s; }
+  .back-link:active { transform:scale(0.97); }
+  .back-arrow { font-size:16px; line-height:1; }
+  .home-link { margin-left:auto; font-size:15px; text-decoration:none; padding:6px 11px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface); }
+  .page-header { text-align:center; padding:1.3rem 0 .3rem; }
+  .ph-eyebrow { font-size:11px; font-weight:700; letter-spacing:.14em; color:var(--accent); margin-bottom:8px; }
+  .ph-title { font-size:24px; font-weight:700; letter-spacing:.02em; }
+  .ph-han { font-size:15px; color:var(--accent); font-weight:700; margin-top:4px; }
+  .ph-sub { font-size:13px; color:var(--text-muted); margin-top:6px; line-height:1.6; }
+  .note { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:12px 15px; font-size:12.5px; color:var(--text-muted); line-height:1.75; margin-top:1.1rem; }
+  .note b { color:var(--text); font-weight:700; }
+  .sec-head { display:flex; align-items:center; gap:9px; margin:2rem 0 .7rem; }
+  .sec-bar { width:4px; height:18px; border-radius:2px; background:var(--accent); }
+  .sec-title { font-size:15px; font-weight:700; }
+  .sec-en { font-size:10px; font-weight:700; letter-spacing:.1em; color:var(--text-hint); text-transform:uppercase; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px 15px; margin-bottom:12px; }
+  .card p { font-size:13px; line-height:1.85; }
+  .card p + p { margin-top:9px; }
+  .lead { font-size:13px; color:var(--text-muted); line-height:1.8; margin-bottom:11px; }
+  .sub-h { font-size:12.5px; font-weight:700; color:var(--accent-dark); margin:15px 0 7px;
+    padding-left:8px; border-left:3px solid var(--accent); }
+  .card > .sub-h:first-child { margin-top:0; }
+  .scrollx { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 -3px; }
+  table.tbl { border-collapse:collapse; width:100%; font-size:12.5px; }
+  table.tbl th, table.tbl td { border:1px solid var(--border); padding:6px 8px; text-align:center; vertical-align:middle; }
+  table.tbl th { background:var(--accent-bg); color:var(--accent-dark); font-weight:700; font-size:11.5px; white-space:nowrap; }
+  table.tbl td.l { text-align:left; }
+  table.tbl .ko { font-weight:700; }
+  table.tbl .ipa { color:var(--text-muted); font-size:11px; }
+  table.tbl tr:nth-child(even) td { background:#FBFAF8; }
+  .say { display:inline-block; cursor:pointer; border:1px solid var(--border); background:var(--surface);
+    border-radius:8px; padding:5px 10px; font:inherit; font-size:13px; line-height:1.5; text-align:left;
+    -webkit-tap-highlight-color:transparent; transition:transform .1s, background .1s; }
+  .say:active { transform:scale(.97); }
+  .say:hover { background:var(--accent-bg); }
+  .say:not(.big) { position:relative; padding-right:27px; }
+  .say:not(.big)::after { content:"🔊"; position:absolute; right:9px; top:50%; transform:translateY(-50%);
+    font-size:11px; opacity:.5; }
+  .say .k { display:block; font-weight:700; }
+  .say .j { display:block; font-size:11px; color:var(--text-muted); margin-top:1px; }
+  /* 例文で注目する部分 */
+  .hl { color:#B23B3B; font-weight:700; border-bottom:2px solid currentColor; padding-bottom:1px; }
+  .say .j .hl { color:#B23B3B; }
+  .exlist { display:flex; flex-direction:column; gap:7px; margin-top:9px; }
+  /* 助詞ごとの項目 */
+  .pitem { border-top:1px solid var(--border); padding-top:12px; margin-top:12px; }
+  .pitem:first-child { border-top:none; padding-top:0; margin-top:0; }
+  .pi-h { display:flex; align-items:baseline; gap:9px; flex-wrap:wrap; }
+  .pi-ko { font-size:16px; font-weight:700; color:var(--accent-dark); }
+  .pi-ja { font-size:11.5px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:2px 9px; }
+  .pi-use { font-size:12.5px; color:var(--text-muted); line-height:1.7; margin-top:5px; }
+  ul.pl { margin:6px 0 0 1.15em; font-size:13px; line-height:1.85; }
+  ul.pl li { margin-bottom:5px; }
+  ul.pl li b { color:var(--accent-dark); }
+  .pt { background:var(--accent-bg); border-radius:var(--radius-sm); padding:10px 12px; font-size:12.5px; line-height:1.75; margin-top:11px; }
+  .pt b { color:var(--accent-dark); }
+  .warn { background:#FCF3EC; border-radius:var(--radius-sm); padding:10px 12px; font-size:12.5px;
+    line-height:1.75; margin-top:11px; border-left:3px solid #B0642A; }
+  .warn b { color:#8A4A18; }
+  .teach { background:#F1F5EC; border-radius:var(--radius-sm); padding:10px 12px; font-size:12.5px;
+    line-height:1.75; margin-top:11px; border-left:3px solid #4D7C4A; }
+  .teach b { color:#3B6339; }
+  .xlink { display:block; text-decoration:none; color:inherit; background:var(--surface);
+    border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:12px;
+    padding:12px 14px; margin-bottom:10px; }
+  .xlink b { display:block; font-size:13.5px; font-weight:700; color:var(--accent-dark); }
+  .xlink span { display:block; font-size:12px; color:var(--text-muted); margin-top:3px; line-height:1.6; }
+  /* 音声つき（点線＝タップで読み上げ） */
+  .sp { cursor:pointer; -webkit-tap-highlight-color:transparent;
+        text-decoration:underline dotted rgba(0,0,0,.30); text-underline-offset:3px; }
+  table.tbl td.sp:hover, table.tbl td.sp:active { background:var(--accent-bg); }
+  .app-footer { text-align:center; font-size:11px; color:var(--text-hint); margin-top:2.4rem; line-height:1.8; }
+  @media (min-width:700px)  { .container { zoom:1.3; } }
+  @media (min-width:1100px) { .container { zoom:1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="ko_hinshi.html" class="back-link"><span class="back-arrow">‹</span>品詞と表現にもどる</a>
+    <a href="index.html" class="home-link" title="ホーム">🏠</a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">GWANGYEEON ・ PARTICLES</div>
+    <div class="ph-title">関係言</div>
+    <div class="ph-han">관계언 — 조사</div>
+    <div class="ph-sub">語と語の関係を示す助詞。<br>韓国語と日本語がもっとも似ているところです。</div>
+  </div>
+
+  <div class="note">
+    <b>조사（助詞）</b>だけからなるグループを<b>관계언（関係言）</b>と呼びます。助詞の存在そのものは日本語と共通なので説明が要りませんが、<b>個々の助詞の守備範囲がずれる</b>ところが誤用の原因になります。
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">1. 関係言とは</span><span class="sec-en">Overview</span></div>
+  <div class="card">
+    <p>関係言は<b>조사（助詞）</b>だけからなるグループです。体言などについて、その語が文の中で果たす役割を示したり、意味を添えたりします。<b>韓国語も日本語も、助詞によって文法関係を示す言語</b>です。</p>
+    <div class="pt"><b>直前の語にパッチムがあるかどうかで形が変わります。</b><br>
+      パッチム無 → <span class="sp" data-say="가">가</span>・<span class="sp" data-say="를">를</span>・<span class="sp" data-say="는">는</span>　／　パッチム有 → <span class="sp" data-say="이">이</span>・<span class="sp" data-say="을">을</span>・<span class="sp" data-say="은">은</span>。日本語にはない仕組みなので、学習の初期に必ず扱います。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">2. 格助詞（격조사）</span><span class="sec-en">Case Particles</span></div>
+  <div class="card">
+    <div class="lead">前の体言が、文の中でどんな資格を持つかを示します。</div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="이">이</span> / <span class="sp" data-say="가">가</span></span><span class="pi-ja">主格 ・ 〜が</span></div>
+      <div class="pi-use">ものごとの主体を示す。前にパッチムが<b>あれば 이</b>、<b>なければ 가</b>。</div>
+      <div class="exlist"><button class="say" data-say="눈이 와요."><span class="k">눈<span class="hl">이</span> 와요.</span><span class="j"><b style="color:var(--accent-dark)">이</b>　雪<span class="hl">が</span>降ります。</span></button><button class="say" data-say="비가 와요."><span class="k">비<span class="hl">가</span> 와요.</span><span class="j"><b style="color:var(--accent-dark)">가</b>　雨<span class="hl">が</span>降ります。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="께서">께서</span></span><span class="pi-ja">主格（尊敬） ・ 〜が</span></div>
+      <div class="pi-use">主語を高めるときの 이/가。述語にも -시- がつく。</div>
+      <div class="exlist"><button class="say" data-say="선생님께서 오셨어요."><span class="k">선생님<span class="hl">께서</span> 오셨어요.</span><span class="j">先生<span class="hl">が</span>いらっしゃいました。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="을">을</span> / <span class="sp" data-say="를">를</span></span><span class="pi-ja">目的格 ・ 〜を</span></div>
+      <div class="pi-use">動作の対象を示す。パッチム<b>有＝을</b>、<b>無＝를</b>。</div>
+      <div class="exlist"><button class="say" data-say="매일 신문을 읽어요."><span class="k">매일 신문<span class="hl">을</span> 읽어요.</span><span class="j"><b style="color:var(--accent-dark)">을</b>　毎日新聞<span class="hl">を</span>読みます。</span></button><button class="say" data-say="저는 커피를 마셔요."><span class="k">저는 커피<span class="hl">를</span> 마셔요.</span><span class="j"><b style="color:var(--accent-dark)">를</b>　わたしはコーヒー<span class="hl">を</span>飲みます。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="이">이</span> / <span class="sp" data-say="가">가</span><span style="font-size:11.5px;color:#6B6560;font-weight:400;">（補格）</span></span><span class="pi-ja">補格 ・ 〜に・〜では</span></div>
+      <div class="pi-use">되다（なる）・아니다（〜でない）の前に立つ。日本語とは助詞がずれる。</div>
+      <div class="exlist"><button class="say" data-say="저는 학생이 아니에요."><span class="k">저는 학생<span class="hl">이</span> 아니에요.</span><span class="j"><b style="color:var(--accent-dark)">이</b>　わたしは学生<span class="hl">では</span>ありません。</span></button><button class="say" data-say="언니는 간호사가 되었어요."><span class="k">언니는 간호사<span class="hl">가</span> 되었어요.</span><span class="j"><b style="color:var(--accent-dark)">가</b>　姉は看護師<span class="hl">に</span>なりました。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="의">의</span></span><span class="pi-ja">連体格 ・ 〜の</span></div>
+      <div class="pi-use">所有・所属を示す。話しことばでは省略されることが多く、発音は [에]。</div>
+      <div class="exlist"><button class="say" data-say="이건 동생의 가방이에요."><span class="k">이건 동생<span class="hl">의</span> 가방이에요.</span><span class="j">これは弟<span class="hl">の</span>カバンです。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="에">에</span></span><span class="pi-ja">副詞格 ・ 〜に・〜へ</span></div>
+      <div class="pi-use">存在の場所・時間・到達点。<b>動作をする場所には使わない</b>（そちらは 에서）。</div>
+      <div class="exlist"><button class="say" data-say="아침 일곱 시에 일어나요."><span class="k">아침 일곱 시<span class="hl">에</span> 일어나요.</span><span class="j">朝7時<span class="hl">に</span>起きます。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="에서">에서</span></span><span class="pi-ja">副詞格 ・ 〜で・〜から</span></div>
+      <div class="pi-use">動作が行われる場所と、移動の出発点。</div>
+      <div class="exlist"><button class="say" data-say="도서관에서 공부해요."><span class="k">도서관<span class="hl">에서</span> 공부해요.</span><span class="j">図書館<span class="hl">で</span>勉強します。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="에게">에게</span> / <span class="sp" data-say="한테">한테</span></span><span class="pi-ja">副詞格 ・ 〜に（人）</span></div>
+      <div class="pi-use">人や動物を受け手とする。意味は同じで、<b>에게は書きことば</b>、<b>한테は話しことば</b>。</div>
+      <div class="exlist"><button class="say" data-say="친구에게 편지를 썼어요."><span class="k">친구<span class="hl">에게</span> 편지를 썼어요.</span><span class="j"><b style="color:var(--accent-dark)">에게</b>　友だち<span class="hl">に</span>手紙を書きました。</span></button><button class="say" data-say="동생한테 물어봤어요."><span class="k">동생<span class="hl">한테</span> 물어봤어요.</span><span class="j"><b style="color:var(--accent-dark)">한테</b>　弟<span class="hl">に</span>聞いてみました。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="께">께</span></span><span class="pi-ja">副詞格（尊敬） ・ 〜に</span></div>
+      <div class="pi-use">에게 の尊敬形。目上の人が受け手のとき。</div>
+      <div class="exlist"><button class="say" data-say="선생님께 이메일을 보냈어요."><span class="k">선생님<span class="hl">께</span> 이메일을 보냈어요.</span><span class="j">先生<span class="hl">に</span>メールを送りました。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="로">로</span> / <span class="sp" data-say="으로">으로</span></span><span class="pi-ja">副詞格 ・ 〜で・〜へ</span></div>
+      <div class="pi-use">手段・道具・方向・材料。<b>パッチム無とㄹの後は 로</b>、<b>それ以外は 으로</b>。</div>
+      <div class="exlist"><button class="say" data-say="지하철로 갈까요?"><span class="k">지하철<span class="hl">로</span> 갈까요?</span><span class="j"><b style="color:var(--accent-dark)">로</b>　地下鉄<span class="hl">で</span>行きましょうか。</span></button><button class="say" data-say="볼펜으로 쓰세요."><span class="k">볼펜<span class="hl">으로</span> 쓰세요.</span><span class="j"><b style="color:var(--accent-dark)">으로</b>　ボールペン<span class="hl">で</span>書いてください。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="와">와</span> / <span class="sp" data-say="과">과</span></span><span class="pi-ja">副詞格・接続 ・ 〜と</span></div>
+      <div class="pi-use">いっしょに動作をする相手、または並列。パッチム<b>無＝와</b>、<b>有＝과</b>。</div>
+      <div class="exlist"><button class="say" data-say="친구와 영화를 봤어요."><span class="k">친구<span class="hl">와</span> 영화를 봤어요.</span><span class="j"><b style="color:var(--accent-dark)">와</b>　友だち<span class="hl">と</span>映画を見ました。</span></button><button class="say" data-say="빵과 우유를 샀어요."><span class="k">빵<span class="hl">과</span> 우유를 샀어요.</span><span class="j"><b style="color:var(--accent-dark)">과</b>　パン<span class="hl">と</span>牛乳を買いました。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="처럼">처럼</span></span><span class="pi-ja">副詞格 ・ 〜のように</span></div>
+      <div class="pi-use">たとえの基準を示す。</div>
+      <div class="exlist"><button class="say" data-say="그 사람은 배우처럼 멋있어요."><span class="k">그 사람은 배우<span class="hl">처럼</span> 멋있어요.</span><span class="j">あの人は俳優<span class="hl">のように</span>すてきです。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="보다">보다</span></span><span class="pi-ja">副詞格 ・ 〜より</span></div>
+      <div class="pi-use">比較の基準を示す。</div>
+      <div class="exlist"><button class="say" data-say="오늘이 어제보다 더워요."><span class="k">오늘이 어제<span class="hl">보다</span> 더워요.</span><span class="j">今日は昨日<span class="hl">より</span>暑いです。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="아">아</span> / <span class="sp" data-say="야">야</span></span><span class="pi-ja">呼格 ・ （呼びかけ）</span></div>
+      <div class="pi-use">親しい相手や目下を名前で呼ぶとき。パッチム<b>有＝아</b>、<b>無＝야</b>。目上には使わない。</div>
+      <div class="exlist"><button class="say" data-say="지원아, 어디 가?"><span class="k">지원<span class="hl">아</span>, 어디 가?</span><span class="j"><b style="color:var(--accent-dark)">아</b>　チウォン、どこ行くの。</span></button><button class="say" data-say="민수야, 같이 가자."><span class="k">민수<span class="hl">야</span>, 같이 가자.</span><span class="j"><b style="color:var(--accent-dark)">야</b>　ミンス、いっしょに行こう。</span></button></div>
+    </div>
+    <div class="pitem">
+      <div class="pi-h"><span class="pi-ko"><span class="sp" data-say="이다">이다</span></span><span class="pi-ja">叙述格 ・ 〜だ・です</span></div>
+      <div class="pi-use">名詞に直接ついて述語をつくる。助詞に分類されるが用言のように活用する（해요体はパッチム有＝이에요、無＝예요）。</div>
+      <div class="exlist"><button class="say" data-say="제 취미는 여행이에요."><span class="k">제 취미는 여행<span class="hl">이에요</span>.</span><span class="j">わたしの趣味は旅行<span class="hl">です</span>。</span></button></div>
+    </div>
+    <div class="warn"><b>「〜になる」に注意：</b>되다（なる）・아니다（〜でない）の前は<b>補格の 이/가</b> です。日本語は「教師<u>に</u>なる」「学生<u>では</u>ない」なので、<b>「教師がなりたいです」型の誤用</b>が出ます。同じ理由で「〜を好きだ」「〜を会う」「〜を乗る」も起こります。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">3. 接続助詞（접속조사）</span><span class="sec-en">Conjunctive</span></div>
+  <div class="card">
+    <p>体言と体言をつなぎます。日本語の「と」「や」にあたります。</p>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>韓国語</th><th>文体</th><th>例</th></tr>
+        <tr><td class="ko sp" data-say="와 과">와/과</td><td>書きことば寄り</td><td class="l sp" data-say="빵과 우유">빵<span class="hl">과</span> 우유</td></tr>
+        <tr><td class="ko sp" data-say="하고">하고</td><td>話しことば</td><td class="l sp" data-say="빵하고 우유">빵<span class="hl">하고</span> 우유</td></tr>
+        <tr><td class="ko sp" data-say="이랑">(이)랑</td><td>くだけた話しことば</td><td class="l sp" data-say="빵이랑 우유">빵<span class="hl">이랑</span> 우유</td></tr>
+      </table>
+    </div>
+    <div class="pt">日本語の「と」に文体差はほとんどありませんが、韓国語では<b>3つの形が文体で使い分けられます</b>。作文指導のときに、話しことばの形が書きことばに混ざる現象として現れることがあります。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">4. 補助詞（보조사）</span><span class="sec-en">Auxiliary Particles</span></div>
+  <div class="card">
+    <div class="lead">格とは別に、限定・追加・対比などの意味を添えます。日本語の副助詞・係助詞にあたります。</div>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>韓国語</th><th>日本語</th><th>例</th></tr>
+        <tr><td class="ko sp" data-say="은 는">은/는</td><td>は（主題・対比）</td><td class="l sp" data-say="저는 학생이에요">저<span class="hl">는</span> 학생이에요</td></tr>
+        <tr><td class="ko sp" data-say="도">도</td><td>も</td><td class="l sp" data-say="저도 가요">저<span class="hl">도</span> 가요</td></tr>
+        <tr><td class="ko sp" data-say="만">만</td><td>だけ</td><td class="l sp" data-say="이것만 주세요">이것<span class="hl">만</span> 주세요</td></tr>
+        <tr><td class="ko sp" data-say="부터 까지">부터・까지</td><td>から・まで</td><td class="l sp" data-say="아침부터 밤까지">아침<span class="hl">부터</span> 밤<span class="hl">까지</span></td></tr>
+        <tr><td class="ko sp" data-say="밖에">밖에</td><td>しか（〜ない）</td><td class="l sp" data-say="하나밖에 없어요">하나<span class="hl">밖에</span> 없어요</td></tr>
+        <tr><td class="ko sp" data-say="조차 마저">조차・마저</td><td>さえ・まで</td><td class="l sp" data-say="물조차 없어요">물<span class="hl">조차</span> 없어요</td></tr>
+      </table>
+    </div>
+    <div class="pt"><b>助詞は重ねられます。</b><span class="sp" data-say="학교에서는">학교에서는</span>（学校では）、<span class="sp" data-say="친구에게도">친구에게도</span>（友だちにも）。日本語の「では」「にも」とまったく同じ組み立て方です。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">5. 日本語の助詞との違い</span><span class="sec-en">Comparison</span></div>
+  <div class="card">
+    <div class="warn"><b>日本語の接続助詞は、韓国語では助詞ではありません。</b><br>
+      日本語で「〜が（けれど）」「〜ので」「〜ても」は接続助詞とされますが、韓国語で対応するのは <b>-지만・-(으)니까・-아도/어도</b> という<b>語尾（어미）</b>です。語尾は単語として数えないため、韓国語の品詞に「接続助詞」は現れません。</div>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>日本語の助詞</th><th>韓国語での扱い</th></tr>
+        <tr><td class="l">格助詞（が・を・に・で）</td><td class="l">격조사＝ほぼ一致</td></tr>
+        <tr><td class="l">副助詞・係助詞（は・も・だけ）</td><td class="l">보조사＝ほぼ一致</td></tr>
+        <tr><td class="l">接続助詞（〜が・〜ので）</td><td class="l">語尾（어미）＝品詞に入らない</td></tr>
+        <tr><td class="l">終助詞（ね・よ・か）</td><td class="l">語尾（-네요・-지요・-까）が担う</td></tr>
+      </table>
+    </div>
+    <div class="teach"><b>教える側のメモ：</b>日本語の学校文法では助動詞を1つの品詞として立てますが（10品詞）、韓国語では活用語尾を単語と数えません（9品詞）。<b>品詞の数の違いは、言語のしくみの違いというより「単語をどこで区切るか」の違い</b>です。学習者が「品詞が合わない」と感じたときの説明として使えます。</div>
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">関連ページ</span><span class="sec-en">Related</span></div>
+  <a class="xlink" href="ko_hinshi_taigen.html"><b>体言（체언）— 名詞・代名詞・数詞 ›</b><span>助詞がつく相手のほうを確認する。</span></a>
+  <a class="xlink" href="ko_hinshi_yogen.html"><b>用言（용언）— 動詞・形容詞 ›</b><span>語尾（어미）による活用のしくみ。</span></a>
+  <a class="xlink" href="ko_hinshi.html"><b>韓国語の品詞と表現（もくじ）›</b><span>9品詞の一覧・助詞・活用・敬語・数詞・場面別表現。</span></a>
+
+  <div class="app-footer">© 2025 日本語の部屋</div>
+</div>
+
+<script>
+(function(){
+  function speak(text){
+    if (!('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ko-KR'; u.rate = 0.85;
+      var vs = window.speechSynthesis.getVoices() || [];
+      for (var i = 0; i < vs.length; i++) {
+        if (vs[i].lang && vs[i].lang.replace('_','-').toLowerCase().indexOf('ko') === 0) { u.voice = vs[i]; break; }
+      }
+      window.speechSynthesis.speak(u);
+    } catch(e) {}
+  }
+  if ('speechSynthesis' in window) { window.speechSynthesis.getVoices(); }
+  document.addEventListener('click', function(e){
+    var t = e.target.closest ? e.target.closest('[data-say]') : null;
+    if (!t) return;
+    speak(t.getAttribute('data-say'));
+  });
+})();
+</script>
+</body>
+</html>

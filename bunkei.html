@@ -170,6 +170,11 @@
   .ka-link { font-size: 12px; font-weight: 700; color: var(--n5); background: var(--n5-bg); padding: 3px 10px; border-radius: 999px; text-decoration: none; cursor: pointer; border: none; font-family: inherit; }
   .ka-link:hover { filter: brightness(0.97); }
   mark { background: #FBE7C2; color: inherit; border-radius: 3px; padding: 0 1px; }
+  .scope-more { margin-top: 12px; font-size: 12.5px; font-weight: 700; color: var(--accent);
+    background: var(--accent-bg); border: none; border-radius: 999px; padding: 7px 15px;
+    cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent; }
+  .scope-more:hover { filter: brightness(0.97); }
+  #scope { margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -190,8 +195,13 @@
 
   <div class="search-wrap">
     <span class="s-ico">🔍</span>
-    <input id="search" type="search" inputmode="search" autocomplete="off" placeholder="文型・タグでさがす（例：たい・N5・15課）">
+    <input id="search" type="search" inputmode="search" autocomplete="off" placeholder="文型名でさがす（例：たい・ところ・ずくめ）">
     <button id="sClear" class="s-clear" type="button" aria-label="消す">×</button>
+  </div>
+
+  <div class="filter" id="scope">
+    <button data-sc="title" class="on">文型名だけ</button>
+    <button data-sc="all">解説・例文もふくむ</button>
   </div>
 
   <div class="filter" id="filter">
@@ -502,7 +512,7 @@ const D=[
   {"cat": "文型", "form": "名詞", "id": "koso", "k": "koso", "p": "〜こそ", "lvl": "N3", "en": "it is precisely ~ that ...", "setu": "名詞 ＋ こそ／て形 ＋ こそ", "ex": [["今年こそ日本語能力試験に合格したい。", "This year for sure I want to pass the JLPT."]], "note": "ほかを打ち消して強調。マイナスの内容には使わない。"},
   {"cat": "文型", "form": "名詞", "id": "made", "k": "made", "p": "〜まで（極限・意外）", "lvl": "N3", "en": "even ~ (to that extent)", "setu": "名詞（＋助詞） ＋ まで", "ex": [["台風で電車だけでなく、飛行機まで止まった。", "The typhoon stopped not only the trains but even the flights."]], "note": "想定をこえた極端なものにまで及ぶ。おどろきをともなう。"},
   {"cat": "文型", "form": "名詞", "id": "nado", "k": "nado", "p": "〜など・〜なんか・〜なんて", "lvl": "N3", "en": "things like ~ / (dismissively) ~", "setu": "名詞 ＋ など／なんか／なんて", "ex": [["コーラなんて飲みたくない。", "I do not want to drink cola of all things."]], "note": "例示・提案／検討外／軽視・謙遜の三用法。"},
-  {"cat": "文型", "form": "名詞", "id": "toiunoha", "k": "toiunoha", "p": "〜というのは・〜とは", "lvl": "N3", "en": "~ means ...", "setu": "名詞 ＋ というのは／とは", "ex": [["「敷金」というのは、部屋を借りるときに預けるお金のことです。", "A shikikin is money you deposit when renting a room."]], "note": "知らないことを主題にして定義・説明する。"},
+  {"cat": "文型", "form": "名詞", "id": "toiunoha", "k": "toiunoha", "p": "〜というのは・〜とは（定義）", "lvl": "N3", "en": "~ means ...", "setu": "名詞 ＋ というのは／とは", "ex": [["「敷金」というのは、部屋を借りるときに預けるお金のことです。", "A shikikin is money you deposit when renting a room."]], "note": "知らないことを主題にして定義・説明する。"},
   {"cat": "文型", "form": "動詞普通形", "id": "toittemo", "k": "toittemo", "p": "〜といっても", "lvl": "N3", "en": "although I say ~, actually ...", "setu": "普通形 ＋ といっても", "ex": [["この服、安いといっても一万円はする。", "It may be cheap, but it still costs ten thousand yen."]], "note": "事実だが、相手が想像するほどではないと補足する。"},
   {"cat": "文型", "form": "動詞普通形", "id": "karaniha", "k": "karaniha", "p": "〜からには・〜からは", "lvl": "N3", "en": "now that ~ / since ~", "setu": "普通形 ＋ からには／からは", "ex": [["一度やると言ったからには、最後までやり通すつもりだ。", "Now that I have said I will do it, I intend to see it through."]], "note": "うしろは決意・義務・希望・働きかけ。"},
   {"cat": "文型", "form": "動詞普通形", "id": "karakoso", "k": "karakoso", "p": "〜からこそ", "lvl": "N3", "en": "precisely because ~", "setu": "普通形 ＋ からこそ", "ex": [["あのとき苦労したからこそ、今の幸せがあるのです。", "It is precisely because of that hardship that I am happy now."]], "note": "ほかの理由を打ち消して強調。文末は「〜のだ」。"},
@@ -702,6 +712,9 @@ const D=[
   {cat:'文型',form:'動詞ない形',id:'zunihasumanai',p:'〜ないではすまない・〜ずにはすまない',lvl:'N1',en:"cannot get away without doing ~",setu:'ない形 ＋ ではすまない／ずにはすまない',ex:[['部下が迷惑をかけた以上、上司が謝罪せずにはすまない。',"Now that a subordinate has caused trouble, the manager cannot avoid apologising."]],note:'社会のきまりから、しないままでは許されない。',k:'zunihasumanai'},
   {cat:'文型',form:'名詞',id:'woyoginakusareru',p:'〜を余儀なくされる・〜を余儀なくさせる',lvl:'N1',en:"be forced to ~ / force someone into ~",setu:'動作を表す名詞 ＋ を余儀なくされる／を余儀なくさせる',ex:[['地震の影響で、多くの人が避難生活を余儀なくされた。',"Because of the earthquake, many people were forced to live as evacuees."]],note:'外からの強い力で選択肢がなくなる。報道に多い。',k:'woyoginakusareru'},
   {cat:'文型',form:'動詞辞書形',id:'bekarazu',p:'〜べからず・〜べからざる',lvl:'N1',en:"must not ~ / unforgivable ~",setu:'辞書形 ＋ べからず／べからざる＋名詞',ex:[['立て札に「ここにごみを捨てるべからず」と書いてある。',"The sign reads “No dumping of rubbish here”."]],note:'古い書きことば。看板・掲示・ことわざが中心。',k:'bekarazu'},
+  {cat:'文型',form:'動詞ば形',id:'basoremadeda',p:'〜ばそれまでだ・〜たらそれまでだ',lvl:'N1',en:"if ~ happens, that’s the end of it",setu:'ば形／た形＋ら ＋ それまでだ',ex:[['どんなに準備しても、当日ねぼうすればそれまでだ。',"However much you prepare, if you oversleep on the day, that is the end of it."]],note:'そうなったら全部おしまい。「〜までだ」とは意味が正反対。',k:'basoremadeda'},
+  {cat:'文型',form:'動詞辞書形',id:'niwaataranai',p:'〜に（は）当たらない',lvl:'N1',en:"there is no need to ~ / it is not worth ~",setu:'辞書形・名詞 ＋ に（は）当たらない',ex:[['毎日練習しているのだから、彼が優勝しても驚くには当たらない。',"He practises every day, so his winning is nothing to be surprised at."]],note:'そこまでの値打ちがないという客観的な判断。個人の好みには使えない。',k:'niwaataranai'},
+  {cat:'文型',form:'動詞普通形',id:'toha',p:'〜とは（意外・感慨）',lvl:'N1',en:"to think that ~ !",setu:'普通形 ＋ とは',ex:[['まさかあのチームに勝つとは。',"To think that we beat that team of all teams…"]],note:'予想外の事実への驚き。「〜とは。」で言いさせる。口語は「なんて」。',k:'toha'},
 ];
 /* === みんなの日本語 初級 課タグ（解説カードのid → 課番号） ===
    ここに無い解説カードは初級の範囲外（N2/N1など）。初級ⅠとⅡは統合して「みんなの日本語 初級」として扱う。 */
@@ -1571,8 +1584,10 @@ const CATSHORT={'動詞':'動詞','い形容詞':'い形容詞','な形容詞':'
 const SORTED=[...D].map(d=>({...d,_key:yomiKey(d.p)}))
   .sort((a,b)=> a._key<b._key?-1 : a._key>b._key?1 : 0);
 
+function titleHay(d){ return toHira(d.p+' '+d._key).toLowerCase(); }
 function matches(d,q){
   if(!q) return true;
+  if(curScope==='title') return titleHay(d).indexOf(q)>=0;
   const bkStr = (d.ka!=null) ? ('みんなの日本語 初級 第2版 みん日 第'+d.ka+'課 '+d.ka+'課') : '';
   const gkStr = (d.gka!=null) ? ('げんき 第3版 第'+d.gka+'課 '+d.gka+'課') : '';
   const tkStr = (d.tka!=null) ? ('つなぐ日本語 初級 初版 つなぐ 第'+d.tka+'課 '+d.tka+'課') : '';
@@ -1584,7 +1599,7 @@ function matches(d,q){
   return hay.indexOf(q)>=0;
 }
 
-let curLevel='all', curQuery='', mode='kaisetsu', curBook='all';
+let curLevel='all', curQuery='', mode='kaisetsu', curBook='all', curScope='title';
 
 /* ---- ハイライト（toHiraは文字数を変えないので元文字列にそのまま対応） ---- */
 function esc(s){ return s.replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
@@ -1600,7 +1615,13 @@ function renderKaisetsu(){
   const list=document.getElementById('list');
   const rows=SORTED.filter(d=>(curLevel==='all'||d.lvl===curLevel)&&matches(d,curQuery));
   document.getElementById('meta').textContent = rows.length+' 件'+(curLevel!=='all'?' ・ '+curLevel:'');
-  if(!rows.length){ list.innerHTML='<div class="no-result">見つかりませんでした。<br>ことばを変えてさがしてみてください。</div>'; return; }
+  if(!rows.length){
+    const more = (curScope==='title' && curQuery)
+      ? '<br><button type="button" class="scope-more" id="scopeMore">解説・例文もふくめてさがす</button>' : '';
+    list.innerHTML='<div class="no-result">見つかりませんでした。<br>ことばを変えてさがしてみてください。'+more+'</div>';
+    const bm=document.getElementById('scopeMore');
+    if(bm) bm.addEventListener('click',()=>setScope('all'));
+    return; }
   let html='', curRow='';
   rows.forEach(d=>{
     const rl=rowLabel(d._key);
@@ -1675,6 +1696,7 @@ function render(){ if(mode==='book') renderBooks(); else renderKaisetsu(); }
 function swapFilters(){
   document.getElementById('filter').style.display = 'flex'; // レベルフィルタは両モードで使う
   document.getElementById('filterBook').style.display = (mode==='book') ? 'flex' : 'none';
+  document.getElementById('scope').style.display = (mode==='book') ? 'none' : 'flex';
 }
 function setModeButtons(){ document.querySelectorAll('#mode button').forEach(b=>b.classList.toggle('on',b.dataset.mode===mode)); }
 
@@ -1758,6 +1780,19 @@ sIn.addEventListener('input',()=>{
   render();
 });
 sClear.addEventListener('click',()=>{ sIn.value=''; curQuery=''; sClear.classList.remove('show'); render(); sIn.focus(); });
+
+// 検索の対象を切りかえる（解説モードのみ）
+function setScope(sc){
+  curScope=sc;
+  document.querySelectorAll('#scope button').forEach(x=>x.classList.toggle('on',x.dataset.sc===sc));
+  sIn.placeholder = (sc==='title')
+    ? '文型名でさがす（例：たい・ところ・ずくめ）'
+    : '解説・例文・課からさがす（例：N5・15課・even）';
+  render();
+}
+document.getElementById('scope').querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>setScope(b.dataset.sc);
+});
 
 // ハッシュがあれば解説モードでその文型へスクロール
 if(location.hash){ const el=document.getElementById(location.hash.slice(1)); if(el){ el.scrollIntoView(); } }

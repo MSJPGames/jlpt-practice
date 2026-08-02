@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜くらい・〜くらいの・〜くらいだ（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜くらい・〜くらいだ」の意味・接続・例文。おおよその数量と、程度を具体例で示す使い方、軽く見る言い方を「〜ほど」とのちがいとあわせて解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DDD9F6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DDD9F6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜くらい・〜くらいの・〜くらいだ</div>
+    <div class="p-en">about ~ / (only) as much as ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">程度</span>
+      <span class="badge sub">話しことば</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">おおよその数量</span>「だいたい〜」</div>
+    <div class="lead"><span class="imi-tag">程度</span>「〜と同じくらい…」</div>
+    <div class="lead"><span class="imi-tag">軽視・最低限</span>「〜など」「せめて〜は」</div>
+    <div class="desc">用法①は、数量を表す語について<b>だいたいの数</b>を表します。<br>用法②は、程度がどれくらいかを<b>分かりやすい例</b>で説明します。<br>用法③は、それを<b>たいしたことではない</b>と軽く見る言い方です。「せめてこれだけは」という最低限の意味にもなります。「ぐらい」とも言い、話しことばでよく使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 205" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="主題の状態がどれくらいかを身近な例で説明することを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><circle cx="66" cy="92" r="42" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.6"/><text x="66" y="98" text-anchor="middle" font-size="14" font-weight="700" fill="#3C3489" font-family="sans-serif">主題</text><polygon points="118,74 258,74 258,66 288,92.0 258,118 258,110 118,110" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="188.0" y="97.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif"></text><rect x="300" y="50" width="140" height="84" rx="11" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="370" y="88" text-anchor="middle" font-size="15" font-weight="700" fill="#1C1C1C" font-family="sans-serif">状態</text><text x="370" y="108" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">どんなようすか</text><path d="M370 140 L370 158" fill="none" stroke="#3C3489" stroke-width="1.4"/><rect x="150" y="152" width="122" height="38" rx="10" fill="#FFFFFF" stroke="#3C3489" stroke-width="1.5"/><text x="211" y="176" text-anchor="middle" font-size="13" font-weight="700" fill="#3C3489" font-family="sans-serif">程度</text><text x="288" y="177" text-anchor="middle" font-size="15" font-weight="700" fill="#6B6560" font-family="sans-serif">＝</text><rect x="306" y="152" width="128" height="38" rx="10" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="370" y="170" text-anchor="middle" font-size="10.5" font-weight="700" fill="#3C3489" font-family="sans-serif">だいたいの数量</text><text x="370" y="184" text-anchor="middle" font-size="10.5" font-weight="700" fill="#3C3489" font-family="sans-serif">身近な具体例</text></svg>
+    <div class="zu-cap">③ 軽視・最低限 ＝ たいしたことではないと見る</div>
+    <svg class="zu" viewBox="0 0 460 185" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="それをたいしたことではないと軽く見ることを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><line x1="30" y1="132" x2="430" y2="132" stroke="#E2DDD6" stroke-width="2"/><circle cx="104" cy="98" r="38" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="104" y="104" text-anchor="middle" font-size="13" font-weight="700" fill="#3C3489" font-family="sans-serif">それ</text><text x="104" y="158" text-anchor="middle" font-size="11" font-weight="700" fill="#3C3489" font-family="sans-serif">軽い・小さい</text><path d="M156 98 L262 98" fill="none" stroke="#9E9890" stroke-width="1.6" stroke-dasharray="6 4"/><circle cx="332" cy="98" r="52" fill="#F1EEE8" stroke="#E2DDD6" stroke-width="1.6"/><text x="332" y="94" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9E9890" font-family="sans-serif">ほかのこと</text><text x="332" y="112" text-anchor="middle" font-size="10" font-weight="400" fill="#9E9890" font-family="sans-serif">重い・大きい</text><text x="332" y="158" text-anchor="middle" font-size="11" font-weight="400" fill="#9E9890" font-family="sans-serif">それに比べれば</text><text x="212" y="42" text-anchor="middle" font-size="12" font-weight="700" fill="#3C3489" font-family="sans-serif">これぐらいは たいしたことではない</text></svg>
+    <div class="zu-note">「ほど」より<b>やわらかく、軽い</b>言い方です。だから「一杯くらい」のような小さい量にも使えます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">①　<span class="n">［数量詞］</span>＋ くらい／ぐらい<br>②　<span class="n">［連体形（名詞 だ）］</span>＋ くらい／くらいの＋名詞／くらいだ</div>
+    <div class="setsu-note">「くらい」と「ぐらい」に意味の差はありません。話しことばでは「ぐらい」が多く使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う言い方</div>
+      <div class="chips"><span class="chip">一杯くらい</span><span class="chip">五分くらい</span><span class="chip">これくらい</span><span class="chip">同じくらい</span><span class="chip">目玉が飛び出るくらい</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">①数量</span>
+        <div class="ex-ja">一杯<b>ぐらい</b>飲んで帰りましょう。<button class="say" data-say="一杯ぐらい飲んで帰りましょう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Let us have just one drink before heading home.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">①数量</span>
+        <div class="ex-ja">この馬は大きいから、二人<b>ぐらい</b>乗れそうだ。<button class="say" data-say="この馬は大きいから、二人ぐらい乗れそうだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This horse is big, so it looks as if two people could ride it.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">②程度</span>
+        <div class="ex-ja">ここは北海道と同じ<b>くらい</b>寒いですね。<button class="say" data-say="ここは北海道と同じくらい寒いですね。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It is about as cold here as in Hokkaido.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">②程度</span>
+        <div class="ex-ja">あの先生は、学生がびっくりする<b>くらい</b>大きな声で話す。<button class="say" data-say="あの先生は、学生がびっくりするくらい大きな声で話す。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">That teacher speaks so loudly it startles the students.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">②くらいだ</span>
+        <div class="ex-ja">このカレーなら辛くない。わたしにも食べられる<b>くらいだ</b>。<button class="say" data-say="このカレーなら辛くない。わたしにも食べられるくらいだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This curry is not spicy — even I can eat it.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">③軽視</span>
+        <div class="ex-ja">そんなに重くないんだから、傘<b>くらい</b>持っていったら？<button class="say" data-say="そんなに重くないんだから、傘くらい持っていったら？" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It is not heavy, so why not at least take an umbrella?</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">③最低限</span>
+        <div class="ex-ja">忙しくても、あいさつ<b>ぐらい</b>はしたほうがいい。<button class="say" data-say="忙しくても、あいさつぐらいはしたほうがいい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Busy or not, you should at least say hello.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ほど</div>
+      <div class="vs-lead">大きな程度を言うときはどちらも使えますが、<b>小さい・軽い程度</b>には「くらい」しか使えません。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜くらい</th><th>〜ほど</th></tr>
+        <tr><td class="k">文体</td><td>話しことば寄り</td><td>ややかたい</td></tr>
+        <tr><td class="k">軽い程度</td><td>○ 使える</td><td>× 使いにくい</td></tr>
+        <tr><td class="k">大げさな比喩</td><td>○ 使える</td><td>○ よく使う</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 掃除<b>くらい</b>自分でしなさい。<span class="memo">　→ 簡単なこと、と軽く見る</span><br>
+        <span class="ng">×</span> 掃除<b>ほど</b>自分でしなさい。<br>
+        <span class="ok">○</span> 目玉が飛び出る<b>くらい</b>高い。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜など・〜なんか（軽視）</div>
+      <div class="vs-lead">用法③は「など・なんか」と近い意味になります。ただし「くらい」には<b>「せめてこれだけは」</b>という最低限の意味もあります。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 皿を洗う<b>くらい</b>、手伝ってよ。<span class="memo">　→ せめてこれだけは</span><br>
+        <span class="ok">○</span> 皿洗い<b>なんか</b>したくない。<span class="memo">　→ 嫌だという気持ち</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ごろ</div>
+      <div class="vs-lead">数量には「くらい」、<b>時刻や時期</b>には「ごろ」を使います。まちがえやすい組み合わせです。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 三時<b>ごろ</b>に会いましょう。<span class="memo">　→ 時刻</span><br>
+        <span class="ok">○</span> 三時間<b>くらい</b>かかります。<span class="memo">　→ 長さ</span><br>
+        <span class="ng">×</span> 三時<b>くらい</b>に会いましょう。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Shows an approximate amount, or how great (or how slight) a degree is.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">大約……；……得（那麼）……；不過是……</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%8F%E3%82%89%E3%81%84%E3%83%BB%E3%80%9C%E3%81%8F%E3%82%89%E3%81%84%E3%81%AE%E3%83%BB%E3%80%9C%E3%81%8F%E3%82%89%E3%81%84%E3%81%A0&amp;lv=N3&amp;ex=%E4%B8%80%E6%9D%AF%E3%81%90%E3%82%89%E3%81%84%E9%A3%B2%E3%82%93%E3%81%A7%E5%B8%B0%E3%82%8A%E3%81%BE%E3%81%97%E3%82%87%E3%81%86%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="hodo.html">🔁 〜ほどとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-21">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

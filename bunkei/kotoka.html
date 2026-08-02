@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ことか・〜ことだろう（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ことか・〜ことだろう」の意味・接続・例文。程度がふつうではないと感情をこめて言う使い方と、「〜ものだ」「〜だろう」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ことか・〜ことだろう</div>
+    <div class="p-en">how ~ it is! (exclamation)</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">感嘆・詠嘆</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">感嘆・詠嘆</span>「どんなに〜だろう」</div>
+    <div class="desc">ことばでは言い表せないほど<b>程度がふつうではない</b>という気持ちを、感情をこめて述べる言い方です。「どんなに」「どれほど」「なんと」などの<b>疑問詞や感動のことば</b>といっしょに使います。「ことか」は書きことば、「ことだろう」「ことでしょう」は話しことばでよく使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="現実とはちがう状況を思いえがいて、強い感慨を表すことを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="26" y="34" width="186" height="80" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6" stroke-dasharray="7 5"/><text x="119.0" y="66.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">思いえがく状況</text><text x="119.0" y="93.2" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">回想・仮定・推測</text><path d="M218 74 L258 74" fill="none" stroke="#854F0B" stroke-width="2.2" marker-end="url(#ar)"/><rect x="264" y="34" width="170" height="80" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="349.0" y="66.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">どんなに〜ことか</text><text x="349.0" y="93.2" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">強い感慨</text><line x1="26" y1="152" x2="434" y2="152" stroke="#E2DDD6" stroke-width="2"/><line x1="300" y1="132" x2="300" y2="172" stroke="#A0392E" stroke-width="3" stroke-dasharray="6 4"/><text x="296" y="126" text-anchor="end" font-size="11" font-weight="700" fill="#A0392E" font-family="sans-serif">ふつうの程度</text><path d="M300 152 L424 152" fill="none" stroke="#854F0B" stroke-width="2.4" marker-end="url(#ar)"/><text x="230" y="196" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">ことばにできないほど程度が大きい</text></svg>
+    <div class="zu-note">事実を伝えるのではなく、<b>気持ちの大きさ</b>を伝える文型です。文末が疑問文の形でも、答えを求めてはいません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［普通形（連体形）］</span>＋ ことか<br><span class="n">［な形 な ／ 動詞・い形 普通形］</span>＋ ことだろう<br>※前に「どんなに・どれほど・なんと」などをおく</div>
+    <div class="setsu-note">名詞にはつきません。「なんと〜だろう」の形なら名詞文にも使えます（なんという偶然だろう）。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う語</div>
+      <div class="chips"><span class="chip">どんなに</span><span class="chip">どれほど</span><span class="chip">なんと</span><span class="chip">なんて</span><span class="chip">何度</span><span class="chip">〜たら</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">ことか</span>
+        <div class="ex-ja">合格の知らせを聞いて、母が<b>どんなに喜んだことか</b>。<button class="say" data-say="合格の知らせを聞いて、母がどんなに喜んだことか。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">How overjoyed my mother was when she heard I had passed.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ことか</span>
+        <div class="ex-ja">この日を<b>どれほど待っていたことか</b>。<button class="say" data-say="この日をどれほど待っていたことか。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">How long I had been waiting for this day.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ことだろう</span>
+        <div class="ex-ja">ひとりで暮らす祖母は、<b>どんなにさびしいことだろう</b>。<button class="say" data-say="ひとりで暮らす祖母は、どんなにさびしいことだろう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">How lonely my grandmother living alone must be.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ことか（頻度）</span>
+        <div class="ex-ja">あの子には<b>何度注意したことか</b>。<button class="say" data-say="あの子には何度注意したことか。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">How many times have I warned that child!</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">なんと〜だろう</span>
+        <div class="ex-ja">山の上から見る朝日は、<b>なんと美しいことだろう</b>。<button class="say" data-say="山の上から見る朝日は、なんと美しいことだろう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">How beautiful the sunrise looks from the mountaintop.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜だろう（推量）</div>
+      <div class="vs-lead">形は同じでも、<b>疑問詞といっしょに使うか</b>で意味が変わります。ただの「だろう」は推量ですが、「どんなに〜ことだろう」は感嘆です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ことか・ことだろう</th><th>〜だろう</th></tr>
+        <tr><td class="k">はたらき</td><td>感情を表す</td><td>推量する</td></tr>
+        <tr><td class="k">前の語</td><td>どんなに・どれほど</td><td>たぶん・きっと</td></tr>
+        <tr><td class="k">答え</td><td>求めていない</td><td>当たり外れがある</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> <b>どんなにうれしかったことか</b>。<span class="memo">　→ 感嘆</span><br>
+        <span class="ok">○</span> あしたは<b>雨が降るだろう</b>。<span class="memo">　→ 推量</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ものだ（感嘆）</div>
+      <div class="vs-lead">「ものだ」も感嘆に使いますが、<b>しみじみとした納得</b>のひびきです。「ことか」のほうが感情の高まりが強く、書きことば的です。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 月日がたつのは早い<b>ものだ</b>。<span class="memo">　→ しみじみ</span><br>
+        <span class="ok">○</span> あのころは<b>どんなに楽しかったことか</b>。<span class="memo">　→ 強い感慨</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Expresses strong emotion about how extreme something is.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">多麼……啊；不知有多……</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%93%E3%81%A8%E3%81%8B%E3%83%BB%E3%80%9C%E3%81%93%E3%81%A8%E3%81%A0%E3%82%8D%E3%81%86&amp;lv=N2&amp;ex=%E5%90%88%E6%A0%BC%E3%81%AE%E7%9F%A5%E3%82%89%E3%81%9B%E3%82%92%E8%81%9E%E3%81%84%E3%81%A6%E3%80%81%E6%AF%8D%E3%81%8C%E3%81%A9%E3%82%93%E3%81%AA%E3%81%AB%E5%96%9C%E3%82%93%E3%81%A0%E3%81%93%E3%81%A8%E3%81%8B%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="monodakangai.html">🔁 〜ものだ（感慨・回想）とくらべる<span class="ar">›</span></a>
+      <a href="nantekotoda.html">🔁 〜ことだ（感嘆）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#kotoka">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

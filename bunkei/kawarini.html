@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜かわりに（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜かわりに」の意味・接続・例文。代理・代替・引き換え・代償の四つの用法と、「〜にかわって」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DDD9F6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DDD9F6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜かわりに</div>
+    <div class="p-en">instead of ~ / in exchange for ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">用法が4つ</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">代理・代替</span>「〜ではなく、別のもの／人が」</div>
+    <div class="lead"><span class="imi-tag">引き換え・代償</span>「〜と引き換えに」</div>
+    <div class="desc">もともと予想されていた人やものではなく、<b>別の人・別のもの</b>がその役をすることを表します（①②）。また、あることと<b>引き換えに</b>反対の面があることや、何かを得るかわりに何かを失うことも表します（③④）。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="最初に想定されていたものの代わりに別のものが立つことを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><rect x="24" y="52" width="132" height="94" rx="11" fill="#F1EEE8" stroke="#E2DDD6" stroke-width="1.5"/><text x="90" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#9E9890" font-family="sans-serif">もの・行動</text><text x="90" y="112" text-anchor="middle" font-size="13" font-weight="700" fill="#9E9890" font-family="sans-serif">状態 A</text><path d="M40 62 L142 136 M142 62 L40 136" stroke="#A0392E" stroke-width="4" stroke-linecap="round"/><text x="90" y="178" text-anchor="middle" font-size="11.5" font-weight="700" fill="#A0392E" font-family="sans-serif">最初の想定</text><polygon points="172,80 273.4,80 273.4,72 302,99.0 273.4,126 273.4,118 172,118" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="222.7" y="104.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">そのかわりに</text><rect x="312" y="52" width="132" height="94" rx="11" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.6"/><text x="378" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#3C3489" font-family="sans-serif">もの・行動</text><text x="378" y="112" text-anchor="middle" font-size="13" font-weight="700" fill="#3C3489" font-family="sans-serif">状態 B</text></svg>
+    <div class="zu-note">Aに<b>×がつく</b>のがこの文型の形です。Aは実現せず、そのかわりにBがあります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［動詞 連体形］</span>＋ かわりに<br><span class="n">［名詞 の］</span>＋ かわりに<br><span class="n">［い形・な形 な］</span>＋ かわりに</div>
+    <div class="setsu-note">「代わりに」と漢字で書くこともあります。③④では前後が対照的な内容になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う場面</div>
+      <div class="chips"><span class="chip">出席する</span><span class="chip">支払う</span><span class="chip">送る</span><span class="chip">家賃が安い</span><span class="chip">不便だ</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">①代理（人）</span>
+        <div class="ex-ja">部長<b>のかわりに</b>、課長が会議に出席しました。<button class="say" data-say="部長のかわりに、課長が会議に出席しました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The section chief attended the meeting in place of the department head.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">②代替（もの・行動）</span>
+        <div class="ex-ja">今日はご飯<b>のかわりに</b>、パスタを主食にした。<button class="say" data-say="今日はご飯のかわりに、パスタを主食にした。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Today I had pasta instead of rice as my staple.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">②代替（行動）</span>
+        <div class="ex-ja">メールで送る<b>かわりに</b>、直接持っていきます。<button class="say" data-say="メールで送るかわりに、直接持っていきます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Instead of emailing it, I will take it there myself.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">③引き換え</span>
+        <div class="ex-ja">この部屋は駅から遠い<b>かわりに</b>、家賃が安い。<button class="say" data-say="この部屋は駅から遠いかわりに、家賃が安い。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This flat is far from the station, but in exchange the rent is low.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">④代償</span>
+        <div class="ex-ja">残業を重ねて昇進した<b>かわりに</b>、家族との時間を失った。<button class="say" data-say="残業を重ねて昇進したかわりに、家族との時間を失った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I got promoted through overtime, but at the cost of time with my family.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜にかわって</div>
+      <div class="vs-lead">「にかわって」は<b>名詞にしかつかず</b>、代理・代替の意味だけです。引き換えや代償には使えません。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜かわりに</th><th>〜にかわって</th></tr>
+        <tr><td class="k">接続</td><td>動詞・形容詞・名詞の</td><td>名詞のみ</td></tr>
+        <tr><td class="k">代理・代替</td><td>○</td><td>○</td></tr>
+        <tr><td class="k">引き換え・代償</td><td>○</td><td>× 使えない</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 母<b>のかわりに</b>弟が出席した。<br>
+        <span class="ok">○</span> 母<b>にかわって</b>弟が出席した。<br>
+        <span class="ng">×</span> 交通の便が悪い<b>にかわって</b>、家賃が安い。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ではなく</div>
+      <div class="vs-lead">「ではなく」はただの否定です。「かわりに」には<b>役目を引き受ける</b>という意味があります。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> バス<b>ではなく</b>、電車で行った。<span class="memo">　→ 選ばなかっただけ</span><br>
+        <span class="ok">○</span> バス<b>のかわりに</b>、電車で行った。<span class="memo">　→ バスの役目を電車が果たした</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Says that something or someone takes the place of another, or that one thing comes in exchange for another.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">代替……；作為交換……</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%8B%E3%82%8F%E3%82%8A%E3%81%AB&amp;lv=N3&amp;ex=%E9%83%A8%E9%95%B7%E3%81%AE%E3%81%8B%E3%82%8F%E3%82%8A%E3%81%AB%E3%80%81%E8%AA%B2%E9%95%B7%E3%81%8C%E4%BC%9A%E8%AD%B0%E3%81%AB%E5%87%BA%E5%B8%AD%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nikawatte.html">🔁 〜にかわってとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-11">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

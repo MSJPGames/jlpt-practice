@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜としたら・〜とすれば・〜とすると（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜としたら・〜とすれば・〜とすると」の意味・接続・例文。仮定を置いて判断を述べる使い方と、三つの形の使い分けを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DDD9F6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DDD9F6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜としたら・〜とすれば・〜とすると</div>
+    <div class="p-en">if we suppose that ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">仮定条件</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">仮定条件</span>「もし〜と考えたら」</div>
+    <div class="desc">事実かどうか分からないことを<b>仮に成り立つと考えて</b>、そのときどうなるかを述べます。うしろには<b>判断・推量・質問</b>が来ることが多い文型です。三つの形は、かたさと使う場面が少しずつちがいます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="仮定を置いてそこから判断を導くことを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><rect x="20" y="52" width="152" height="92" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6" stroke-dasharray="6 4"/><text x="96" y="88" text-anchor="middle" font-size="11.5" font-weight="700" fill="#6B6560" font-family="sans-serif">まだ分からない</text><text x="96" y="112" text-anchor="middle" font-size="11.5" font-weight="700" fill="#6B6560" font-family="sans-serif">こと</text><text x="96" y="34" text-anchor="middle" font-size="11" font-weight="700" fill="#3C3489" font-family="sans-serif">仮に成り立つとする</text><polygon points="194,80 279.8,80 279.8,72 304,98.0 279.8,124 279.8,116 194,116" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="236.9" y="103.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">そうなら</text><rect x="316" y="52" width="128" height="92" rx="12" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="380" y="90" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">判断・推量</text><text x="380" y="112" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">質問</text><text x="230" y="182" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">事実かどうかは問題にしない</text></svg>
+    <div class="zu-note">左が<b>点線の箱</b>なのがポイントです。本当かどうかは分からないまま、話を進めます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［普通形］</span>＋ としたら<br><span class="n">［普通形］</span>＋ とすれば<br><span class="n">［普通形］</span>＋ とすると</div>
+    <div class="setsu-note">「〜とした場合」「〜と仮定すると」も同じ意味です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る形</div>
+      <div class="chips"><span class="chip">〜だろう</span><span class="chip">〜はずだ</span><span class="chip">〜かもしれない</span><span class="chip">〜ますか</span><span class="chip">〜べきだ</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">としたら</span>
+        <div class="ex-ja">彼が知らない<b>としたら</b>、だれも連絡しなかったのだろう。<button class="say" data-say="彼が知らないとしたら、だれも連絡しなかったのだろう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If he does not know, then presumably nobody contacted him.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">としたら</span>
+        <div class="ex-ja">一億円もらえる<b>としたら</b>、何に使いますか。<button class="say" data-say="一億円もらえるとしたら、何に使いますか。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you were given a hundred million yen, what would you spend it on?</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">とすれば</span>
+        <div class="ex-ja">この計画を実行する<b>とすれば</b>、予算が足りない。<button class="say" data-say="この計画を実行するとすれば、予算が足りない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If we are to carry out this plan, the budget is insufficient.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">とすると</span>
+        <div class="ex-ja">あと三十分かかる<b>とすると</b>、開演には間に合わないな。<button class="say" data-say="あと三十分かかるとすると、開演には間に合わないな。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If it takes another thirty minutes, we will not make the start.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">とすれば</span>
+        <div class="ex-ja">この資料が正しい<b>とすれば</b>、結論は変わってくる。<button class="say" data-say="この資料が正しいとすれば、結論は変わってくる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If these materials are correct, the conclusion changes.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">三つの形の使い分け</div>
+      <div class="vs-lead">意味はほぼ同じですが、<b>文体と使う場面</b>が少しずつちがいます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜としたら</th><th>〜とすれば／とすると</th></tr>
+        <tr><td class="k">文体</td><td>話しことば</td><td>とすれば＝書きことば寄り</td></tr>
+        <tr><td class="k">使う場面</td><td>特定の場面の仮定</td><td>とすれば＝一般的な仮定</td></tr>
+        <tr><td class="k">感じ</td><td>想像・空想にも</td><td>とすると＝当然の帰結</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 生まれ変われる<b>としたら</b>、何になりたい？<span class="memo">　→ 空想</span><br>
+        <span class="ok">○</span> 需要が伸びる<b>とすれば</b>、増産が必要だ。<span class="memo">　→ 一般的な議論</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜たら・〜なら</div>
+      <div class="vs-lead">「たら」「なら」も仮定ですが、「としたら」は<b>仮定であることをはっきり示す</b>点がちがいます。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 雨が降っ<b>たら</b>、中止します。<span class="memo">　→ ふつうの条件</span><br>
+        <span class="ok">○</span> 雨が降る<b>としたら</b>、午後でしょう。<span class="memo">　→ 仮に考えると</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Supposes something to be true and states what would follow.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">假如……的話；如果……</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A8%E3%81%97%E3%81%9F%E3%82%89%E3%83%BB%E3%80%9C%E3%81%A8%E3%81%99%E3%82%8C%E3%81%B0%E3%83%BB%E3%80%9C%E3%81%A8%E3%81%99%E3%82%8B%E3%81%A8&amp;lv=N3&amp;ex=%E5%BD%BC%E3%81%8C%E7%9F%A5%E3%82%89%E3%81%AA%E3%81%84%E3%81%A8%E3%81%97%E3%81%9F%E3%82%89%E3%80%81%E3%81%A0%E3%82%8C%E3%82%82%E9%80%A3%E7%B5%A1%E3%81%97%E3%81%AA%E3%81%8B%E3%81%A3%E3%81%9F%E3%81%AE%E3%81%A0%E3%82%8D%E3%81%86%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="../bunkei.html#toshitara">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

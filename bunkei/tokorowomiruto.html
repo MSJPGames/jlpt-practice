@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ところをみると（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ところをみると」の意味・接続・例文。目の前の様子を根拠に推量する使い方と、「〜のことだから」「〜からすると」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ところをみると</div>
+    <div class="p-en">judging from the fact that ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">推量の根拠</span>
+      <span class="badge sub">目に見える状況</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">推量の根拠</span>「〜という状況から判断すると…」</div>
+    <div class="desc"><b>目の前で見えている状況</b>を取り上げ、それを根拠にして推測を述べる言い方です。後ろには「〜らしい」「〜ようだ」「〜だろう」「〜かもしれない」など、<b>推量の表現</b>が必ず来ます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="目の前の状況を根拠にして推測することを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="26" y="40" width="186" height="58" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="119.0" y="63.2" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">見えている状況</text><text x="119.0" y="82.92" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">みんな傘をさしている</text><path d="M218 69 L262 69" fill="none" stroke="#854F0B" stroke-width="2.8" marker-end="url(#ar)"/><rect x="268" y="40" width="166" height="58" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="351.0" y="63.2" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">推測</text><text x="351.0" y="82.92" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">雨らしい</text><rect x="26" y="128" width="408" height="34" rx="17" fill="#F1EEE8" stroke="#E2DDD6" stroke-width="1.5"/><text x="230" y="150" text-anchor="middle" font-size="11" font-weight="700" fill="#6B6560" font-family="sans-serif">根拠は「今、目に見えること」</text><text x="230" y="186" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">後ろには必ず推量の表現が来る</text></svg>
+    <div class="zu-note">根拠は<b>見た情報</b>です。聞いた話や知識から推測するときには使いにくい表現です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［連体形］</span>＋ ところをみると<br>※漢字では「〜ところを見ると」</div>
+    <div class="setsu-note">後ろには推量の表現が必要です。断定の文は続きません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">後ろによく来る語</div>
+      <div class="chips"><span class="chip">らしい</span><span class="chip">ようだ</span><span class="chip">だろう</span><span class="chip">かもしれない</span><span class="chip">にちがいない</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">ところをみると</span>
+        <div class="ex-ja">みんなが傘をさしている<b>ところをみると</b>、雨が降っているらしい。<button class="say" data-say="みんなが傘をさしているところをみると、雨が降っているらしい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Judging from the fact that everyone has an umbrella up, it seems to be raining.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ところをみると</span>
+        <div class="ex-ja">彼が暗い顔をしている<b>ところをみると</b>、試験に落ちたようだ。<button class="say" data-say="彼が暗い顔をしているところをみると、試験に落ちたようだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Judging by his gloomy face, it looks like he failed the exam.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ところをみると</span>
+        <div class="ex-ja">電気がついていない<b>ところをみると</b>、まだ帰っていないのだろう。<button class="say" data-say="電気がついていないところをみると、まだ帰っていないのだろう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Judging from the fact that the lights are off, he is probably not home yet.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ところをみると</span>
+        <div class="ex-ja">まだ寝ている<b>ところをみると</b>、ゆうべはおそくまで起きていたのだろう。<button class="say" data-say="まだ寝ているところをみると、ゆうべはおそくまで起きていたのだろう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Judging from the fact that he is still asleep, he must have stayed up late last night.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ところをみると</span>
+        <div class="ex-ja">二人が笑っている<b>ところをみると</b>、うまくいったのかもしれない。<button class="say" data-say="二人が笑っているところをみると、うまくいったのかもしれない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Judging from the two of them laughing, it may have gone well.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜のことだから</div>
+      <div class="vs-lead">「のことだから」は<b>ふだんの性格</b>が根拠、「ところをみると」は<b>今見えている様子</b>が根拠です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ところをみると</th><th>〜のことだから</th></tr>
+        <tr><td class="k">根拠</td><td>目の前の状況</td><td>ふだんの性格</td></tr>
+        <tr><td class="k">前に来る語</td><td>動詞・形容詞の連体形</td><td>人を表す名詞</td></tr>
+        <tr><td class="k">後ろ</td><td>推量</td><td>推量</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 荷物がある<b>ところをみると</b>、来ているようだ。<span class="memo">　→ 今の様子</span><br>
+        <span class="ok">○</span> 彼<b>のことだから</b>、来ているだろう。<span class="memo">　→ 性格</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜からすると</div>
+      <div class="vs-lead">「からすると」は<b>名詞</b>につき、事実だけでなく立場も示せます。「ところをみると」は<b>文</b>につき、見た状況にかぎられます。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 様子<b>からすると</b>、疲れているようだ。<span class="memo">　→ 名詞につく</span><br>
+        <span class="ok">○</span> 休んでいる<b>ところをみると</b>、疲れているようだ。<span class="memo">　→ 文につく</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Infers something from a situation that is visible right now.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">從……的情形來看（大概……）</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A8%E3%81%93%E3%82%8D%E3%82%92%E3%81%BF%E3%82%8B%E3%81%A8&amp;lv=N2&amp;ex=%E3%81%BF%E3%82%93%E3%81%AA%E3%81%8C%E5%82%98%E3%82%92%E3%81%95%E3%81%97%E3%81%A6%E3%81%84%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%82%92%E3%81%BF%E3%82%8B%E3%81%A8%E3%80%81%E9%9B%A8%E3%81%8C%E9%99%8D%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%82%89%E3%81%97%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nokotodakara.html">🔁 〜のことだからとくらべる<span class="ar">›</span></a>
+      <a href="karasuruto.html">🔁 〜からするととくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#tokorowomiruto">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

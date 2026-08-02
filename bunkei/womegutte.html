@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜をめぐって・〜をめぐる（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜をめぐって・〜をめぐる」の意味・接続・例文。ある事がらを中心に議論や対立が起こることを表す使い方と、「〜について」「〜に関して」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜をめぐって・〜をめぐる</div>
+    <div class="p-en">over ~ / concerning ~ (dispute)</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">論点</span>
+      <span class="badge sub">対立・議論</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">論点</span>「〜を中心に…が起こる」</div>
+    <div class="desc">ある事がらを<b>中心（論点）</b>として、そのまわりで議論・対立・うわさ・争いなど、<b>いろいろな立場からの動き</b>が起きていることを表します。後ろには一人ではできないこと（議論する・対立する・争う）が来るのが特徴です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ひとつの論点を中心に、さまざまな立場から議論や対立が起こることを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><circle cx="230" cy="120" r="54" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="230" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#854F0B" font-family="sans-serif">論点</text><text x="230" y="136" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">〜をめぐって</text><rect x="24" y="26" width="140" height="42" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="94.0" y="52.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">賛成の意見</text><rect x="296" y="26" width="140" height="42" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="366.0" y="52.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">反対の意見</text><rect x="24" y="174" width="140" height="42" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="94.0" y="200.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">関係者の争い</text><rect x="296" y="174" width="140" height="42" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="366.0" y="200.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">報道・うわさ</text><path d="M120 70 L186 100" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><path d="M340 70 L274 100" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><path d="M120 172 L186 142" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><path d="M340 172 L274 142" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/></svg>
+    <div class="zu-note"><b>ひとりではできないこと</b>が後ろに来ます。「わたしはそれをめぐって考えた」のようには使いません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［名詞］</span>＋ をめぐって／をめぐり<br><span class="n">［名詞A］</span>＋ をめぐる ＋<span class="n">［名詞B］</span></div>
+    <div class="setsu-note">「をめぐり」は新聞やニュースで使われるかたい形です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">後ろによく来る語</div>
+      <div class="chips"><span class="chip">議論</span><span class="chip">対立</span><span class="chip">争う</span><span class="chip">討論</span><span class="chip">協議</span><span class="chip">もめる</span><span class="chip">批判</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">をめぐって</span>
+        <div class="ex-ja">新しい校則<b>をめぐって</b>、生徒と先生の意見が分かれている。<button class="say" data-say="新しい校則をめぐって、生徒と先生の意見が分かれている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Opinions are divided between students and teachers over the new school rules.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">をめぐって</span>
+        <div class="ex-ja">土地の使い方<b>をめぐって</b>、住民が長く争ってきた。<button class="say" data-say="土地の使い方をめぐって、住民が長く争ってきた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Residents have long been in dispute over how the land should be used.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">をめぐる＋名詞</span>
+        <div class="ex-ja">遺産<b>をめぐる</b>争いが、家族の関係をこわした。<button class="say" data-say="遺産をめぐる争いが、家族の関係をこわした。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The dispute over the inheritance destroyed the family’s relationships.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">をめぐり</span>
+        <div class="ex-ja">新工場の建設<b>をめぐり</b>、市議会で議論が続いている。<button class="say" data-say="新工場の建設をめぐり、市議会で議論が続いている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Debate continues in the city assembly over the construction of the new factory.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">をめぐって</span>
+        <div class="ex-ja">あの選手の移籍<b>をめぐって</b>、さまざまなうわさが流れた。<button class="say" data-say="あの選手の移籍をめぐって、さまざまなうわさが流れた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">All sorts of rumors went around concerning that player’s transfer.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜について・〜に関して</div>
+      <div class="vs-lead">「について」「に関して」はただ<b>対象を示す</b>だけですが、「をめぐって」は、それを中心に<b>複数の立場がぶつかっている</b>ことまで表します。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜をめぐって</th><th>〜について・に関して</th></tr>
+        <tr><td class="k">表すもの</td><td>対立・議論のある論点</td><td>行為の対象</td></tr>
+        <tr><td class="k">後ろの動詞</td><td>議論する・争う・もめる</td><td>話す・調べる・書く</td></tr>
+        <tr><td class="k">人数</td><td>複数の立場が必要</td><td>ひとりでもよい</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 予算<b>をめぐって</b>もめている。<span class="memo">　→ 対立あり</span><br>
+        <span class="ng">×</span> 日本文化<b>をめぐって</b>レポートを書いた。<span class="memo">　→「について」が自然</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜に対して</div>
+      <div class="vs-lead">「に対して」は<b>働きかけの向かう相手</b>を示します。「をめぐって」のように、まわりで議論が起きている感じはありません。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 会社の説明<b>に対して</b>反論した。<span class="memo">　→ 相手に向かって</span><br>
+        <span class="ok">○</span> 会社の説明<b>をめぐって</b>議論が起きた。<span class="memo">　→ 中心の話題</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Marks the point at issue around which debate or conflict arises.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">圍繞……；就……（發生爭論）</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%82%92%E3%82%81%E3%81%90%E3%81%A3%E3%81%A6%E3%83%BB%E3%80%9C%E3%82%92%E3%82%81%E3%81%90%E3%82%8B&amp;lv=N2&amp;ex=%E6%96%B0%E3%81%97%E3%81%84%E6%A0%A1%E5%89%87%E3%82%92%E3%82%81%E3%81%90%E3%81%A3%E3%81%A6%E3%80%81%E7%94%9F%E5%BE%92%E3%81%A8%E5%85%88%E7%94%9F%E3%81%AE%E6%84%8F%E8%A6%8B%E3%81%8C%E5%88%86%E3%81%8B%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nikanshite.html">🔁 〜に関してとくらべる<span class="ar">›</span></a>
+      <a href="nitaishite.html">🔁 〜に対してとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-32">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

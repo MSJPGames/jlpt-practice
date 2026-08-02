@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜として〜ない（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜として〜ない」の意味・接続・例文。「一人として」「一日として」のように最小の単位を否定して全面否定を表す使い方を図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜として〜ない</div>
+    <div class="p-en">not a single ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">全面否定</span>
+      <span class="badge sub">強調</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">全面否定</span>「ひとつも〜ない」</div>
+    <div class="desc">「一人」「一日」「一度」など<b>いちばん小さい単位</b>を取り上げ、それを否定することで<b>まったくない</b>ことを強く表します。「何一つとして」「誰一人として」のように疑問詞をつけた形もよく使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="最小の単位を否定することで全面否定を表すことを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="26" y="40" width="88" height="44" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="70.0" y="67.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">一人</text><rect x="122" y="40" width="88" height="44" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="166.0" y="67.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">一日</text><rect x="218" y="40" width="88" height="44" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="262.0" y="67.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">一度</text><rect x="314" y="40" width="88" height="44" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="358.0" y="67.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">一つ</text><path d="M59 51 L81 73 M81 51 L59 73" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><path d="M155 51 L177 73 M177 51 L155 73" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><path d="M251 51 L273 73 M273 51 L251 73" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><path d="M347 51 L369 73 M369 51 L347 73" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><path d="M230 96 L230 122" fill="none" stroke="#854F0B" stroke-width="2.6" marker-end="url(#ar)"/><rect x="96" y="128" width="268" height="46" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="230.0" y="156.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">まったく・ひとつもない</text><text x="230" y="192" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">いちばん小さい単位さえ否定する</text></svg>
+    <div class="zu-note">「ひとつもない」を<b>いちばん強く言う</b>形です。書きことばや改まった話し方で使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［一 ＋ 助数詞］</span>＋ として ＋<span class="n">［否定］</span><br><span class="n">［疑問詞 ＋ 一 ＋ 助数詞］</span>＋ として ＋<span class="n">［否定］</span></div>
+    <div class="setsu-note">後ろは必ず否定になります。「一つとしてある」のようには使いません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う形</div>
+      <div class="chips"><span class="chip">一人として</span><span class="chip">一日として</span><span class="chip">一度として</span><span class="chip">何一つとして</span><span class="chip">誰一人として</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">一人として</span>
+        <div class="ex-ja">会場を去ろうという人は、<b>誰一人としていなかった</b>。<button class="say" data-say="会場を去ろうという人は、誰一人としていなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Not a single person made to leave the hall.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">一日として</span>
+        <div class="ex-ja">君のことを、<b>一日として忘れたことはない</b>。<button class="say" data-say="君のことを、一日として忘れたことはない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">There has not been a single day when I forgot about you.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">何一つとして</span>
+        <div class="ex-ja">この部屋に、愛着のないものなど<b>何一つとしてない</b>。<button class="say" data-say="この部屋に、愛着のないものなど何一つとしてない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">There is not one thing in this room I am not attached to.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">一度として</span>
+        <div class="ex-ja">彼はこれまで、<b>一度として約束を破ったことがない</b>。<button class="say" data-say="彼はこれまで、一度として約束を破ったことがない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">He has never once broken a promise.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">一つとして</span>
+        <div class="ex-ja">同じ形の葉は、<b>一つとして存在しない</b>。<button class="say" data-say="同じ形の葉は、一つとして存在しない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">No two leaves are exactly the same shape.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜も〜ない</div>
+      <div class="vs-lead">「一人もいない」も全面否定ですが、「として」を入れると<b>さらに強調</b>されます。改まった場面で使われます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜として〜ない</th><th>〜も〜ない</th></tr>
+        <tr><td class="k">強さ</td><td>とても強い</td><td>ふつう</td></tr>
+        <tr><td class="k">文体</td><td>書きことば・改まった</td><td>会話でも</td></tr>
+        <tr><td class="k">例</td><td>誰一人として来なかった</td><td>誰も来なかった</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 一人<b>も</b>来<b>なかった</b>。<span class="memo">　→ ふつうの否定</span><br>
+        <span class="ok">○</span> 誰一人<b>として</b>来<b>なかった</b>。<span class="memo">　→ 強い否定</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜など〜ない</div>
+      <div class="vs-lead">「など」は<b>軽く見る</b>気持ちを添えます。「として」は<b>数の上でひとつもない</b>ことを強調します。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 文句<b>など</b>言わ<b>ない</b>。<span class="memo">　→ 軽視</span><br>
+        <span class="ok">○</span> 一度<b>として</b>言わ<b>なかった</b>。<span class="memo">　→ 回数の否定</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Denies even the smallest unit, giving a very strong total negation.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">沒有一個……；一次也沒……</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A8%E3%81%97%E3%81%A6%E3%80%9C%E3%81%AA%E3%81%84&amp;lv=N2&amp;ex=%E4%BC%9A%E5%A0%B4%E3%82%92%E5%8E%BB%E3%82%8D%E3%81%86%E3%81%A8%E3%81%84%E3%81%86%E4%BA%BA%E3%81%AF%E3%80%81%E8%AA%B0%E4%B8%80%E4%BA%BA%E3%81%A8%E3%81%97%E3%81%A6%E3%81%84%E3%81%AA%E3%81%8B%E3%81%A3%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="../bunkei.html#toshitenai">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

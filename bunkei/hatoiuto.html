@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜はというと（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜はというと」の意味・接続・例文。前に出た話と対比して別の面を述べる使い方と、「〜といえば」「〜は〜が」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜はというと</div>
+    <div class="p-en">as for ~ / as far as ~ is concerned</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">対比</span>
+      <span class="badge sub">話題の転換</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">対比</span>「（Aは…だが）Bのほうは…だ」</div>
+    <div class="desc">前に出た話を受けて、それと<b>対比的なことがら</b>を新しい話題として取り上げる言い方です。「Aはこうだが、Bのほうは…」という形になり、前と後ろには<b>対立する内容</b>が来ます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="前に出た話と対比して別のことがらを取り上げることを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="26" y="40" width="186" height="56" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="119.0" y="62.400000000000006" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">前に出た話 A</text><text x="119.0" y="81.44" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">こうだった</text><line x1="230" y1="30" x2="230" y2="110" stroke="#9E9890" stroke-width="2" stroke-dasharray="6 4"/><rect x="248" y="40" width="186" height="56" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="341.0" y="62.400000000000006" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">B はというと</text><text x="341.0" y="81.44" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">こちらは…</text><rect x="26" y="126" width="408" height="34" rx="17" fill="#F1EEE8" stroke="#E2DDD6" stroke-width="1.5"/><text x="230" y="148" text-anchor="middle" font-size="11" font-weight="700" fill="#6B6560" font-family="sans-serif">前後に対立する内容が来る</text><text x="230" y="186" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">去年は行けなかったが、今年はというと…</text></svg>
+    <div class="zu-note">ただの話題の切り出しではなく、<b>前の話と比べる</b>気持ちが入るのが特徴です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［名詞］</span>＋ はというと<br>※「〜はといえば」の形も使われる</div>
+    <div class="setsu-note">前の文に「〜が」「〜けれど」があると、対比の関係がはっきりします。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う語</div>
+      <div class="chips"><span class="chip">一方</span><span class="chip">〜が</span><span class="chip">それに対して</span><span class="chip">ところが</span><span class="chip">今年</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">はというと</span>
+        <div class="ex-ja">去年は忙しくてどこにも行けなかったが、今年<b>はというと</b>、家族で海外旅行をした。<button class="say" data-say="去年は忙しくてどこにも行けなかったが、今年はというと、家族で海外旅行をした。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Last year I was too busy to go anywhere, but this year, as it happens, we took a family trip abroad.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">はというと</span>
+        <div class="ex-ja">彼は成績優秀な学生だが、運動<b>はというと</b>、あまり得意ではないらしい。<button class="say" data-say="彼は成績優秀な学生だが、運動はというと、あまり得意ではないらしい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">He is an excellent student, but as for sports, he does not seem very good.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">はというと</span>
+        <div class="ex-ja">世の中はクリスマス一色だが、我が家<b>はというと</b>、いつもどおりだ。<button class="say" data-say="世の中はクリスマス一色だが、我が家はというと、いつもどおりだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The world is all Christmas, but at our house it is business as usual.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">はというと</span>
+        <div class="ex-ja">姉は早くに家を出た。妹<b>はというと</b>、今も実家に住んでいる。<button class="say" data-say="姉は早くに家を出た。妹はというと、今も実家に住んでいる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My older sister left home early. My younger sister, on the other hand, still lives at home.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">はというと</span>
+        <div class="ex-ja">値段は安くなった。品質<b>はというと</b>、以前より落ちている。<button class="say" data-say="値段は安くなった。品質はというと、以前より落ちている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The price has come down. As for the quality, it has dropped from before.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜といえば</div>
+      <div class="vs-lead">「といえば」は<b>連想</b>して話を広げますが、「はというと」は<b>前の話と比べて</b>別の面を出します。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜はというと</th><th>〜といえば</th></tr>
+        <tr><td class="k">はたらき</td><td>対比</td><td>連想</td></tr>
+        <tr><td class="k">前後の関係</td><td>対立する内容</td><td>関連する内容</td></tr>
+        <tr><td class="k">例</td><td>兄は医者、弟はというと…</td><td>医者といえば白衣</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 今年<b>はというと</b>、雨が多い。<span class="memo">　→ 去年と比べて</span><br>
+        <span class="ok">○</span> 雨<b>といえば</b>、傘を買わないと。<span class="memo">　→ 連想</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜は〜が、〜は</div>
+      <div class="vs-lead">ふつうの「は」でも対比は表せますが、「はというと」を使うと<b>そちらに注目を移す</b>感じが強くなります。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 兄は医者だが、弟<b>は</b>学生だ。<span class="memo">　→ ふつうの対比</span><br>
+        <span class="ok">○</span> 弟<b>はというと</b>、まだ学生だ。<span class="memo">　→ 注目を移す</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Takes up a contrasting topic in relation to what was just said.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">至於……；說到……（相對地）</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AF%E3%81%A8%E3%81%84%E3%81%86%E3%81%A8&amp;lv=N2&amp;ex=%E5%8E%BB%E5%B9%B4%E3%81%AF%E5%BF%99%E3%81%97%E3%81%8F%E3%81%A6%E3%81%A9%E3%81%93%E3%81%AB%E3%82%82%E8%A1%8C%E3%81%91%E3%81%AA%E3%81%8B%E3%81%A3%E3%81%9F%E3%81%8C%E3%80%81%E4%BB%8A%E5%B9%B4%E3%81%AF%E3%81%A8%E3%81%84%E3%81%86%E3%81%A8%E3%80%81%E5%AE%B6%E6%97%8F%E3%81%A7%E6%B5%B7%E5%A4%96%E6%97%85%E8%A1%8C%E3%82%92%E3%81%97%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="toieba.html">🔁 〜といえば・〜というととくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#hatoiuto">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

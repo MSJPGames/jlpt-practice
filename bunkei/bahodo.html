@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ば〜ほど・〜なら〜ほど（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ば〜ほど・〜なら〜ほど」の意味・接続・例文。程度が変わると他方も変わる比例変化の表し方と、「〜につれて」とのちがいをグラフつきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DDD9F6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DDD9F6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ば〜ほど・〜なら〜ほど</div>
+    <div class="p-en">the more ~, the more ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">条件形に付く</span>
+      <span class="badge sub">比例変化</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">比例変化</span>「〜すればするほど、いっそう…」</div>
+    <div class="desc">前の程度が変わると、それに応じてもう一方も変わることを表します。予想どおりの変化にも、<b>予想と逆の変化</b>にも使えるのが特徴です。話しことばでは前の「〜ば」を省くこともあります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="働く時間が増えるほど給料も増えることを示す折れ線グラフ"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><path d="M64 30 L64 158" fill="none" stroke="#9E9890" stroke-width="1.4"/><path d="M64 158 L432 158" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><text x="64" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#6B6560" font-family="sans-serif">給料</text><text x="430" y="182" text-anchor="end" font-size="12" font-weight="700" fill="#6B6560" font-family="sans-serif">働いた時間</text><line x1="58" y1="136" x2="70" y2="136" stroke="#9E9890" stroke-width="1.2"/><text x="54" y="140" text-anchor="end" font-size="9.5" font-weight="400" fill="#9E9890" font-family="sans-serif">4,000円</text><line x1="58" y1="112" x2="70" y2="112" stroke="#9E9890" stroke-width="1.2"/><text x="54" y="116" text-anchor="end" font-size="9.5" font-weight="400" fill="#9E9890" font-family="sans-serif">3,000円</text><line x1="58" y1="88" x2="70" y2="88" stroke="#9E9890" stroke-width="1.2"/><text x="54" y="92" text-anchor="end" font-size="9.5" font-weight="400" fill="#9E9890" font-family="sans-serif">2,000円</text><line x1="58" y1="64" x2="70" y2="64" stroke="#9E9890" stroke-width="1.2"/><text x="54" y="68" text-anchor="end" font-size="9.5" font-weight="400" fill="#9E9890" font-family="sans-serif">1,000円</text><polyline points="124,136 204,112 284,88 364,64" fill="none" stroke="#3C3489" stroke-width="2.2"/><circle cx="124" cy="136" r="6" fill="#3C3489"/><circle cx="204" cy="112" r="6" fill="#3C3489"/><circle cx="284" cy="88" r="6" fill="#3C3489"/><circle cx="364" cy="64" r="6" fill="#3C3489"/><circle cx="124" cy="176" r="12" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.3"/><text x="124" y="180" text-anchor="middle" font-size="11" font-weight="700" fill="#3C3489" font-family="sans-serif">1</text><circle cx="204" cy="176" r="12" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.3"/><text x="204" y="180" text-anchor="middle" font-size="11" font-weight="700" fill="#3C3489" font-family="sans-serif">2</text><circle cx="284" cy="176" r="12" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.3"/><text x="284" y="180" text-anchor="middle" font-size="11" font-weight="700" fill="#3C3489" font-family="sans-serif">3</text><circle cx="364" cy="176" r="12" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.3"/><text x="364" y="180" text-anchor="middle" font-size="11" font-weight="700" fill="#3C3489" font-family="sans-serif">4</text><text x="230" y="208" text-anchor="middle" font-size="11" font-weight="400" fill="#9E9890" font-family="sans-serif">一方が変われば、もう一方も一緒に変わる</text></svg>
+    <div class="zu-note">グラフのように、<b>一方が増えればもう一方も動く</b>という関係を表します。動く向きは下がる方向でもかまいません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［動詞 ば形］</span>＋<span class="n">［動詞 辞書形］</span>＋ ほど<br><span class="n">［い形 ければ］</span>＋<span class="n">［い形］</span>＋ ほど<br><span class="n">［な形 なら］</span>＋<span class="n">［な形 な］</span>＋ ほど</div>
+    <div class="setsu-note">同じ語をくり返すのが基本の形です。「〜ば」の部分は省略できます（考えるほど…）。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う語</div>
+      <div class="chips"><span class="chip">働く</span><span class="chip">考える</span><span class="chip">知る</span><span class="chip">練習する</span><span class="chip">使う</span><span class="chip">安い</span><span class="chip">静かな</span><span class="chip">簡単な</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">動詞</span>
+        <div class="ex-ja">時給制なので、働け<b>ば</b>働く<b>ほど</b>収入が増える。<button class="say" data-say="時給制なので、働けば働くほど収入が増える。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Since it is paid hourly, the more you work the more you earn.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">動詞（逆の変化）</span>
+        <div class="ex-ja">この問題は、考えれ<b>ば</b>考える<b>ほど</b>わからなくなる。<button class="say" data-say="この問題は、考えれば考えるほどわからなくなる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The more I think about this problem, the less I understand it.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">な形容詞</span>
+        <div class="ex-ja">部屋は静か<b>なら</b>静か<b>なほど</b>集中できる。<button class="say" data-say="部屋は静かなら静かなほど集中できる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The quieter the room, the better I can concentrate.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">い形容詞</span>
+        <div class="ex-ja">値段は安けれ<b>ば</b>安い<b>ほど</b>いい、というものでもない。<button class="say" data-say="値段は安ければ安いほどいい、というものでもない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It is not simply the case that the cheaper, the better.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">「ば」の省略</span>
+        <div class="ex-ja">いい道具は、使う<b>ほど</b>手になじんでくる。<button class="say" data-say="いい道具は、使うほど手になじんでくる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">A good tool fits your hand better the more you use it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜につれて</div>
+      <div class="vs-lead">「につれて」は<b>自然でゆるやかな変化</b>だけを表します。「ば〜ほど」は程度を強調し、予想外の変化にも使えます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ば〜ほど</th><th>〜につれて</th></tr>
+        <tr><td class="k">表すもの</td><td>程度の強調</td><td>自然な変化の並行</td></tr>
+        <tr><td class="k">予想外の変化</td><td>○ 使える</td><td>× 使いにくい</td></tr>
+        <tr><td class="k">うしろの意志表現</td><td>使えることもある</td><td>使えない</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 考えれ<b>ば</b>考える<b>ほど</b>わからなくなる。<br>
+        <span class="tri">△</span> 考える<b>につれて</b>わからなくなる。<br>
+        <span class="ok">○</span> 年をとる<b>につれて</b>、体力が落ちてきた。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ば〜だけ</div>
+      <div class="vs-lead">「だけ」は<b>予想どおりの結果</b>にしか使えません。因果関係がはっきりしているときの言い方です。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 品質がいいので、安けれ<b>ば</b>安い<b>だけ</b>よく売れる。<br>
+        <span class="ng">×</span> 考えれ<b>ば</b>考える<b>だけ</b>わからなくなる。<br>
+        <span class="ok">○</span> 練習すれ<b>ば</b>した<b>だけ</b>、力がつく。<span class="memo">　→ 時間差があるときは「〜ただけ」</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Says that as one thing increases in degree, the other changes along with it.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">越……越……</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%B0%E3%80%9C%E3%81%BB%E3%81%A9%E3%83%BB%E3%80%9C%E3%81%AA%E3%82%89%E3%80%9C%E3%81%BB%E3%81%A9&amp;lv=N3&amp;ex=%E6%99%82%E7%B5%A6%E5%88%B6%E3%81%AA%E3%81%AE%E3%81%A7%E3%80%81%E5%83%8D%E3%81%91%E3%81%B0%E5%83%8D%E3%81%8F%E3%81%BB%E3%81%A9%E5%8F%8E%E5%85%A5%E3%81%8C%E5%A2%97%E3%81%88%E3%82%8B%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nitsurete.html">🔁 〜につれてとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#bahodo">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

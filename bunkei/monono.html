@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ものの・〜とはいうものの（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ものの・〜とはいうものの」の意味・接続・例文。事実を認めたうえで予想と異なる結果を述べる使い方と、「〜が」「〜のに」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ものの・〜とはいうものの</div>
+    <div class="p-en">although ~ / that said, ...</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">逆接</span>
+      <span class="badge sub">書きことば</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">逆接確定条件</span>「〜は事実だが、しかし…」</div>
+    <div class="desc">ある事実を<b>いったん認めたうえで</b>、そこから予想されることとはちがう結果になったことを述べます。後ろには話し手の<b>残念・不満・とまどい</b>などの気持ちが来ます。「とはいうものの」は文の頭に置いて、前の文全体を受ける形でも使えます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="事実を認めたうえで予想と異なる結果になることを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="26" y="34" width="176" height="56" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="114.0" y="56.400000000000006" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">事実（認める）</text><text x="114.0" y="75.44" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">薬は飲んでいる</text><path d="M114 96 L114 122" fill="none" stroke="#9E9890" stroke-width="1.7" stroke-dasharray="6 4" marker-end="url(#ar2)"/><rect x="26" y="128" width="176" height="44" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="114.0" y="155.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">予想される結果</text><path d="M210 150 L250 96" fill="none" stroke="#854F0B" stroke-width="2.4" marker-end="url(#ar)"/><rect x="256" y="40" width="178" height="60" rx="12" fill="#FAECE7" stroke="#A0392E" stroke-width="1.7"/><text x="345.0" y="64.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A0392E" font-family="sans-serif">実際は ちがう</text><text x="345.0" y="84.4" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">まだ治らない</text><path d="M103 167 L125 189 M125 167 L103 189" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><text x="230" y="198" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">事実は事実として、結果は予想外</text></svg>
+    <div class="zu-note">前の事実を<b>否定していません</b>。「たしかにそうだが、しかし」という形です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［連体形（な形 な・名詞 である）］</span>＋ ものの<br><span class="n">［普通形］</span>＋ とはいうものの<br>※「とはいうものの」は文頭にも置ける</div>
+    <div class="setsu-note">かたい書きことば寄りの表現です。後ろに意志・依頼・命令の文は来にくくなります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う語</div>
+      <div class="chips"><span class="chip">たしかに</span><span class="chip">一応</span><span class="chip">まだ</span><span class="chip">やはり</span><span class="chip">思ったほど</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">ものの</span>
+        <div class="ex-ja">毎日薬は飲んでいる<b>ものの</b>、病気はまだ治らない。<button class="say" data-say="毎日薬は飲んでいるものの、病気はまだ治らない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I take the medicine every day, but the illness still has not cleared up.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ものの</span>
+        <div class="ex-ja">申しこみはした<b>ものの</b>、行けるかどうかはまだ分からない。<button class="say" data-say="申しこみはしたものの、行けるかどうかはまだ分からない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I did apply, though whether I can actually go is still unclear.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ものの</span>
+        <div class="ex-ja">この機械は便利な<b>ものの</b>、値段が高すぎる。<button class="say" data-say="この機械は便利なものの、値段が高すぎる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Convenient though this machine is, it is far too expensive.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">とはいうものの</span>
+        <div class="ex-ja">今は春だ<b>とはいうものの</b>、天候不順でまだ寒い。<button class="say" data-say="今は春だとはいうものの、天候不順でまだ寒い。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It is spring, they say, but the weather is unsettled and it is still cold.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ものの</span>
+        <div class="ex-ja">無事だったからよかった<b>ものの</b>、もう二度としないでほしい。<button class="say" data-say="無事だったからよかったものの、もう二度としないでほしい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It turned out all right, but please never do that again.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜が・〜けれど</div>
+      <div class="vs-lead">意味は近いのですが、「ものの」は<b>かたい書きことば</b>で、後ろに意志や依頼の文が来にくいという制限があります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ものの</th><th>〜が・〜けれど</th></tr>
+        <tr><td class="k">文体</td><td>かたい書きことば</td><td>ふつう・会話も</td></tr>
+        <tr><td class="k">後ろ</td><td>意志・依頼は来にくい</td><td>制限なし</td></tr>
+        <tr><td class="k">例</td><td>申しこんだものの、不安だ</td><td>申しこんだが、行きますか</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 高い<b>が</b>、買ってください。<span class="memo">　→ 依頼</span><br>
+        <span class="ng">×</span> 高い<b>ものの</b>、買ってください。<span class="memo">　→ 依頼は来ない</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜のに</div>
+      <div class="vs-lead">「のに」は<b>不満や意外さ</b>が強く出ます。「ものの」は<b>事実を認めたうえで</b>冷静に述べるひびきです。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 練習した<b>のに</b>、負けた。<span class="memo">　→ 悔しさ</span><br>
+        <span class="ok">○</span> 練習した<b>ものの</b>、勝てなかった。<span class="memo">　→ 冷静な報告</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Accepts a fact but states an outcome that runs against expectation.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">雖然……但是……；話雖如此</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%82%82%E3%81%AE%E3%81%AE%E3%83%BB%E3%80%9C%E3%81%A8%E3%81%AF%E3%81%84%E3%81%86%E3%82%82%E3%81%AE%E3%81%AE&amp;lv=N2&amp;ex=%E6%AF%8E%E6%97%A5%E8%96%AC%E3%81%AF%E9%A3%B2%E3%82%93%E3%81%A7%E3%81%84%E3%82%8B%E3%82%82%E3%81%AE%E3%81%AE%E3%80%81%E7%97%85%E6%B0%97%E3%81%AF%E3%81%BE%E3%81%A0%E6%B2%BB%E3%82%89%E3%81%AA%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nimokakawarazu.html">🔁 〜にもかかわらずとくらべる<span class="ar">›</span></a>
+      <a href="nagaramo.html">🔁 〜ながら（も）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-38">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

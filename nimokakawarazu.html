@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜にもかかわらず（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜にもかかわらず」の意味・接続・例文。その状況の影響を受けずに予想外の結果になることを表す使い方と、「〜にかかわらず」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜にもかかわらず</div>
+    <div class="p-en">in spite of ~ / despite ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">逆接</span>
+      <span class="badge sub">かたい表現</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">逆接確定条件</span>「〜なのに（予想外の結果になる）」</div>
+    <div class="desc">ある事態や状況をあげ、その<b>影響を受けずに</b>、予想される結果とは反対の結果になることを表します。話し手の<b>驚き・意外・不満・非難</b>の気持ちがこもることが多く、かたい書きことばで使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ある状況の影響を受けずに予想外の結果になることを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="26" y="36" width="176" height="56" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="114.0" y="58.400000000000006" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">事態・状況</text><text x="114.0" y="77.44" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">大雨・約束</text><path d="M114 98 L114 124" fill="none" stroke="#9E9890" stroke-width="1.7" stroke-dasharray="6 4" marker-end="url(#ar2)"/><rect x="26" y="130" width="176" height="44" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="114.0" y="157.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">予想される結果</text><path d="M103 141 L125 163 M125 141 L103 163" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><path d="M210 64 L252 64" fill="none" stroke="#854F0B" stroke-width="2.6" marker-end="url(#ar)"/><rect x="258" y="36" width="176" height="56" rx="12" fill="#FAECE7" stroke="#A0392E" stroke-width="1.7"/><text x="346.0" y="58.400000000000006" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A0392E" font-family="sans-serif">実際は反対</text><text x="346.0" y="77.44" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">影響を受けない</text><text x="230" y="196" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">大雨にもかかわらず、試合は行われた</text></svg>
+    <div class="zu-note">「にかかわらず」（〜に関係なく）と<b>一字ちがいで意味が別</b>です。「も」があれば逆接になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［普通形］</span>＋ にもかかわらず<br><span class="n">［名詞］</span>＋ にもかかわらず<br>※文の頭に置いて「にもかかわらず、…」の形でも使う</div>
+    <div class="setsu-note">かたい書きことばです。会話では「〜のに」を使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う語</div>
+      <div class="chips"><span class="chip">あれほど</span><span class="chip">これほど</span><span class="chip">大雨</span><span class="chip">努力した</span><span class="chip">予想</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">にもかかわらず</span>
+        <div class="ex-ja">大雨<b>にもかかわらず</b>、試合は予定どおり行われた。<button class="say" data-say="大雨にもかかわらず、試合は予定どおり行われた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">In spite of the heavy rain, the match went ahead as planned.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">にもかかわらず</span>
+        <div class="ex-ja">あれほど固く約束した<b>にもかかわらず</b>、彼は姿を見せなかった。<button class="say" data-say="あれほど固く約束したにもかかわらず、彼は姿を見せなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Despite such a firm promise, he never showed up.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">にもかかわらず</span>
+        <div class="ex-ja">何度も注意した<b>にもかかわらず</b>、同じ失敗をくり返している。<button class="say" data-say="何度も注意したにもかかわらず、同じ失敗をくり返している。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Despite repeated warnings, he keeps making the same mistake.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">にもかかわらず</span>
+        <div class="ex-ja">平日<b>にもかかわらず</b>、会場は満員だった。<button class="say" data-say="平日にもかかわらず、会場は満員だった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even though it was a weekday, the hall was packed.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">にもかかわらず（文頭）</span>
+        <div class="ex-ja">十分に準備した。<b>にもかかわらず</b>、結果は思わしくなかった。<button class="say" data-say="十分に準備した。にもかかわらず、結果は思わしくなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">We prepared thoroughly. Nevertheless, the result was disappointing.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜にかかわらず</div>
+      <div class="vs-lead"><b>「も」があるかないか</b>で意味が変わります。「にもかかわらず」は逆接、「にかかわらず」は「〜に関係なく」です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜にもかかわらず</th><th>〜にかかわらず</th></tr>
+        <tr><td class="k">意味</td><td>〜なのに（逆接）</td><td>〜に関係なく</td></tr>
+        <tr><td class="k">前に来る語</td><td>事実（起きたこと）</td><td>対になる語・条件</td></tr>
+        <tr><td class="k">例</td><td>大雨にもかかわらず行った</td><td>天候にかかわらず行う</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 大雨<b>にもかかわらず</b>行った。<span class="memo">　→ 大雨なのに</span><br>
+        <span class="ok">○</span> 天候<b>にかかわらず</b>行う。<span class="memo">　→ 天気は関係ない</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜のに</div>
+      <div class="vs-lead">意味はほぼ同じですが、「のに」は<b>会話でふつうに使う</b>言い方で、感情が直接出ます。「にもかかわらず」は改まった文章向きです。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 約束した<b>のに</b>、来なかった。<span class="memo">　→ 会話</span><br>
+        <span class="ok">○</span> 約束した<b>にもかかわらず</b>、来なかった。<span class="memo">　→ 報告文</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Says the result goes against what the situation would lead you to expect.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">儘管……卻……；雖然……但是……</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AB%E3%82%82%E3%81%8B%E3%81%8B%E3%82%8F%E3%82%89%E3%81%9A&amp;lv=N2&amp;ex=%E5%A4%A7%E9%9B%A8%E3%81%AB%E3%82%82%E3%81%8B%E3%81%8B%E3%82%8F%E3%82%89%E3%81%9A%E3%80%81%E8%A9%A6%E5%90%88%E3%81%AF%E4%BA%88%E5%AE%9A%E3%81%A9%E3%81%8A%E3%82%8A%E8%A1%8C%E3%82%8F%E3%82%8C%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nikakawarazu.html">🔁 〜にかかわらずとくらべる<span class="ar">›</span></a>
+      <a href="monono.html">🔁 〜もののとくらべる<span class="ar">›</span></a>
+      <a href="kuseni.html">🔁 〜くせにとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-51">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

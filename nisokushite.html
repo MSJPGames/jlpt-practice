@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜に即して・〜に則して（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜に即して・〜に則して」の意味・接続・例文。実情に合わせて対処することを表す使い方と、「〜に基づいて」とのちがい、二つの漢字の使い分けを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜に即して・〜に則して</div>
+    <div class="p-en">in line with ~ / in keeping with ~</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">基準</span>
+      <span class="badge sub">実情に合わせる</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">基準</span>「〜に合わせて、〜に反しないように」</div>
+    <div class="desc">実際の状況や事実に<b>合わせて</b>、柔軟に対処することを表します。<b>漢字が二つ</b>あり、実情・経験には「即して」、法律・規則には「則して」を使います。かたい書きことばで、報道や公的な文書によく出てきます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 195" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="実情に合わせて対応を選ぶことを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="32" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">その実情に合うように、対応を選ぶ</text><rect x="26" y="62" width="150" height="58" rx="12" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="101.0" y="85.2" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">実情・事実</text><text x="101.0" y="104.92" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">現実・法律</text><path d="M182 91 L224 91" fill="none" stroke="#993C1D" stroke-width="2.6" marker-end="url(#ar)"/><rect x="232" y="50" width="90" height="40" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6" stroke-dasharray="6 4"/><text x="277.0" y="75.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">対応 A</text><rect x="232" y="96" width="90" height="40" rx="12" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="277.0" y="121.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">対応 B</text><rect x="232" y="142" width="90" height="40" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6" stroke-dasharray="6 4"/><text x="277.0" y="167.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">対応 C</text><text x="390" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#993C1D" font-family="sans-serif">いちばん合う</text><text x="390" y="114" text-anchor="middle" font-size="11" font-weight="700" fill="#993C1D" font-family="sans-serif">ものを選ぶ</text></svg>
+    <div class="zu-note">あらかじめ決まった答えに従うのではなく、<b>その場の実情に合わせて選ぶ</b>のがこの文型です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［名詞（状況・経験・事実）］</span>＋ に即して<br><span class="n">［名詞（法律・規則）］</span>＋ に則して</div>
+    <div class="setsu-note">「〜に即した＋名詞」の形もよく使います。かなで「〜にそくして」と書くこともあります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">「即して」の前に来る語</div>
+      <div class="chips"><span class="chip">実情</span><span class="chip">現実</span><span class="chip">事実</span><span class="chip">経験</span><span class="chip">時代</span><span class="chip">実態</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">「則して」の前に来る語</div>
+      <div class="chips"><span class="chip">法律</span><span class="chip">規則</span><span class="chip">基準</span><span class="chip">前例</span><span class="chip">ルール</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">に即した</span>
+        <div class="ex-ja">事実<b>に即した</b>報道がされていない。<button class="say" data-say="事実に即した報道がされていない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The reporting is not in line with the facts.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">に即して</span>
+        <div class="ex-ja">もっと現実<b>に即して</b>改革を進めたほうがいい。<button class="say" data-say="もっと現実に即して改革を進めたほうがいい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The reforms should be carried out more in line with reality.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">に則して</span>
+        <div class="ex-ja">今回の件は、法律<b>に則して</b>処分された。<button class="say" data-say="今回の件は、法律に則して処分された。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This case was dealt with in accordance with the law.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">に即して</span>
+        <div class="ex-ja">学習者の実態<b>に即して</b>教材を作り直した。<button class="say" data-say="学習者の実態に即して教材を作り直した。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">We rewrote the materials to fit the actual situation of the learners.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">に即した</span>
+        <div class="ex-ja">時代<b>に即した</b>働き方が求められている。<button class="say" data-say="時代に即した働き方が求められている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Ways of working that suit the times are called for.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜に基づいて</div>
+      <div class="vs-lead">「に基づいて」は<b>それをもとにして</b>組み立てます。「に即して」は<b>それに合うように</b>調整する、という柔軟さがあります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜に即して</th><th>〜に基づいて</th></tr>
+        <tr><td class="k">関係</td><td>実情に合わせる</td><td>それをもとにする</td></tr>
+        <tr><td class="k">柔軟さ</td><td>状況に応じて変える</td><td>土台として動かさない</td></tr>
+        <tr><td class="k">例</td><td>現実に即した対策</td><td>データに基づく分析</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 事実<b>に基づいて</b>報告する。<span class="memo">　→ 土台にする</span><br>
+        <span class="ok">○</span> 現実<b>に即して</b>考える。<span class="memo">　→ 実情に合わせる</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜に沿って</div>
+      <div class="vs-lead">「に沿って」は<b>方針や流れから外れない</b>ように進めることです。「に即して」は<b>実際のようす</b>に合わせます。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 計画<b>に沿って</b>進める。<span class="memo">　→ 決めた線から外れない</span><br>
+        <span class="ok">○</span> 実情<b>に即して</b>決める。<span class="memo">　→ 現実に合わせる</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Says an action is adapted to fit the actual situation or the rules.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">依照……；按照……的實際情況</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AB%E5%8D%B3%E3%81%97%E3%81%A6%E3%83%BB%E3%80%9C%E3%81%AB%E5%89%87%E3%81%97%E3%81%A6&amp;lv=N1&amp;ex=%E4%BA%8B%E5%AE%9F%E3%81%AB%E5%8D%B3%E3%81%97%E3%81%9F%E5%A0%B1%E9%81%93%E3%81%8C%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%81%AA%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nimotozuite.html">🔁 〜に基づいてとくらべる<span class="ar">›</span></a>
+      <a href="wofumaete.html">🔁 〜を踏まえてとくらべる<span class="ar">›</span></a>
+      <a href="nisotte.html">🔁 〜に沿ってとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#nisokushite">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

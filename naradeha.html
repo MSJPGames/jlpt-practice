@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ならでは（の）（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ならでは（の）」の意味・接続・例文。そこにしかないよさをほめる使い方と、「ただ〜のみ」「〜をおいて」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ならでは（の）</div>
+    <div class="p-en">unique to ~ / only ~ can</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">限定</span>
+      <span class="badge sub">高い評価</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">限定・賛辞</span>「〜だけがもっている、〜にしかできない」</div>
+    <div class="desc">人・組織・場所などを取り上げ、<b>そこにしかない特徴やよさ</b>をほめる気持ちをこめて述べます。「〜ならではの＋名詞」の形が多く、広告や紹介文でよく使われます。<b>プラスの評価</b>専用の表現です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="他を除外してひとつだけに限定することを示す図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="32" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">ほかは当てはまらない。これだけ</text><rect x="30" y="56" width="108" height="50" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6" stroke-dasharray="6 4"/><text x="84.0" y="86.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">ほか B</text><path d="M74 118 L94 138 M94 118 L74 138" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><rect x="166" y="56" width="128" height="50" rx="12" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="230.0" y="76.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">この一つだけ A</text><text x="230.0" y="93.0" text-anchor="middle" font-size="10.5" font-weight="400" fill="#6B6560" font-family="sans-serif">日本・この店・あなた</text><circle cx="230" cy="128" r="9" fill="none" stroke="#993C1D" stroke-width="3"/><rect x="322" y="56" width="108" height="50" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6" stroke-dasharray="6 4"/><text x="376.0" y="86.0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">ほか C</text><path d="M366 118 L386 138 M386 118 L366 138" stroke="#A0392E" stroke-width="3" stroke-linecap="round"/><text x="230" y="168" text-anchor="middle" font-size="11.5" font-weight="400" fill="#6B6560" font-family="sans-serif">この店ならではの味 ＝ ここにしかない味</text></svg>
+    <div class="zu-note">ほかを除くところは「のみ」と同じですが、<b>ほめる気持ち</b>が入るのがこの文型の特徴です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">［名詞］</span>＋ ならではの ＋［名詞］<br><span class="n">［名詞］</span>＋ ならではだ<br><span class="n">［名詞］</span>＋ ならでは ＋［可能・否定の形］</div>
+    <div class="setsu-note">「〜ならでは味わえない」のように、うしろに可能や否定の形が来ることもあります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る語</div>
+      <div class="chips"><span class="chip">日本</span><span class="chip">この店</span><span class="chip">この土地</span><span class="chip">本場</span><span class="chip">プロ</span><span class="chip">あなた</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">ならではの</span>
+        <div class="ex-ja">ここでは日本<b>ならではの</b>伝統文化を体験できる。<button class="say" data-say="ここでは日本ならではの伝統文化を体験できる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Here you can experience traditional culture found only in Japan.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ならではだ</span>
+        <div class="ex-ja">この味を出せるのは、この土地<b>ならではだ</b>。<button class="say" data-say="この味を出せるのは、この土地ならではだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Only this region can produce a flavour like this.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ならではの</span>
+        <div class="ex-ja">生の演奏には、コンサート<b>ならではの</b>楽しみがある。<button class="say" data-say="生の演奏には、コンサートならではの楽しみがある。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Live music offers a pleasure you get only at a concert.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ならでは</span>
+        <div class="ex-ja">これは、あなた<b>ならでは</b>できないことだ。<button class="say" data-say="これは、あなたならではできないことだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This is something that only you could do.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ならではの</span>
+        <div class="ex-ja">職人<b>ならではの</b>細やかな仕事ぶりに感心した。<button class="say" data-say="職人ならではの細やかな仕事ぶりに感心した。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I was impressed by the fine workmanship that only a craftsman can achieve.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">ただ〜のみ</div>
+      <div class="vs-lead">「のみ」は<b>範囲を限る</b>だけです。「ならでは」は<b>それだけがもつよさ</b>をほめます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ならでは</th><th>ただ〜のみ</th></tr>
+        <tr><td class="k">評価</td><td>プラスの評価</td><td>評価は入らない</td></tr>
+        <tr><td class="k">うしろ</td><td>名詞が多い</td><td>名詞・こと</td></tr>
+        <tr><td class="k">例</td><td>この店ならではの味</td><td>残るは彼のみ</td></tr>
+      </table>
+      <div class="vs-ex">
+        <span class="ok">○</span> 出席は三名<b>のみ</b>だ。<span class="memo">　→ 数を限る</span><br>
+        <span class="ng">×</span> 出席は三名<b>ならでは</b>だ。<span class="memo">　→ ほめる話ではない</span>
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜をおいて</div>
+      <div class="vs-lead">「をおいて」は<b>ほかに適当なものがない</b>という判断です。「ならでは」は<b>その独自性</b>そのものをほめます。</div>
+      <div class="vs-ex">
+        <span class="ok">○</span> 適任者は彼<b>をおいて</b>いない。<span class="memo">　→ ほかにいない</span><br>
+        <span class="ok">○</span> 彼<b>ならではの</b>発想だ。<span class="memo">　→ 彼らしさをほめる</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>Praises something as being found only with this person, place or thing.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">只有……才有的；……特有的</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AA%E3%82%89%E3%81%A7%E3%81%AF%EF%BC%88%E3%81%AE%EF%BC%89&amp;lv=N1&amp;ex=%E3%81%93%E3%81%93%E3%81%A7%E3%81%AF%E6%97%A5%E6%9C%AC%E3%81%AA%E3%82%89%E3%81%A7%E3%81%AF%E3%81%AE%E4%BC%9D%E7%B5%B1%E6%96%87%E5%8C%96%E3%82%92%E4%BD%93%E9%A8%93%E3%81%A7%E3%81%8D%E3%82%8B%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="tadanomi.html">🔁 ただ〜のみとくらべる<span class="ar">›</span></a>
+      <a href="wooite.html">🔁 〜をおいてとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-20">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

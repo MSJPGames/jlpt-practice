@@ -22,7 +22,7 @@ window.LANGS = [
     tips:['漢字の知識は大きな武器。ただし簡体字と日本の字体の違いに注意。','声調（4声）と、日中で意味がずれる漢語（例：手紙＝トイレットペーパー）に注意。']
   },
   {
-    code:'ko', moji:false, extras:[{href:'ko_moji.html',title:'🔤 ハングルのしくみ',desc:'字母・音節・パッチム・発音の変化・平音激音濃音・なぞり書き'},{href:'ko_hinshi.html',g:'bunpou',title:'🧩 文法のしくみ',desc:'品詞・助詞・活用・敬語・数詞。あいさつや場面別の表現もここから'},{href:'ko_renshu.html',g:'renshu',title:'🎯 練習ページの入口',desc:'ことばクイズ・AIとの会話練習'}], jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
+    code:'ko', extras:[{href:'ko_moji.html',title:'🔤 ハングルのしくみ',desc:'字母・音節・パッチム・発音の変化・漢字音の日韓対応'},{href:'korean_consonants.html',title:'🔊 平音・激音・濃音',desc:'3つの子音系列を聞き分け・出し分け'},{href:'ko_hinshi.html',g:'bunpou',title:'🧩 文法のしくみ',desc:'品詞・助詞・活用・数詞。あいさつや場面別の表現もここから'},{href:'korean_keigo.html',g:'bunpou',title:'🙇 待遇表現（丁寧さ・敬語）',desc:'반말/해요体/합니다体と尊敬・謙譲'},{href:'ko_renshu.html',g:'renshu',title:'🎯 練習ページの入口',desc:'ことばクイズ・AIとの会話練習'}], jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
     region:'韓国・北朝鮮', script:'ハングル', family:'朝鮮語族（系統は諸説）', order:'SOV（日本語型）',
     tts:'ko-KR', resRank:'3位', learnRank:'3位', core:true, resident:true, learner:true, sov:true,
     accent:'#185FA5', bg:'#E6F1FB',

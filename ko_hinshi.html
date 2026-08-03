@@ -130,6 +130,15 @@
 
   @media (min-width:700px)  { .container { zoom:1.3; } }
   @media (min-width:1100px) { .container { zoom:1.5; } }
+
+  /* --- 読みやすさ（行の折り返し） --- */
+  body { line-break:strict; }
+  p, li, .lead, .pt, .warn, .teach, .note, .pi-use, .hc-desc, .say .j, .xlink span, .hint
+    { text-wrap:pretty; overflow-wrap:break-word; }
+  .ko, .say .k, .pi-ko, .p-native { word-break:keep-all; overflow-wrap:break-word; }
+  table.tbl td.exc { min-width:250px; }
+  table.tbl td .say { display:block; }
+  table.tbl th, table.tbl td { line-height:1.6; }
 </style>
 </head>
 <body>
@@ -188,7 +197,7 @@
       <table class="tbl">
         <tr><th>ものさし</th><th>分け方</th></tr>
         <tr><td class="l"><b>形態</b>（形が変わるか）</td><td class="l">불변어（不変語）／ 가변어（可変語）</td></tr>
-        <tr><td class="l"><b>機能</b>（文での役わり）</td><td class="l">체언・용언・수식언・관계언・독립언 の5つ</td></tr>
+        <tr><td class="l"><b>機能</b>（文での役わり）</td><td class="l">체언［体言］・용언［用言］・수식언［修飾言］・<br>관계언［関係言］・독립언［独立言］の5つ</td></tr>
         <tr><td class="l"><b>意味</b>（何を表すか）</td><td class="l">9品詞</td></tr>
       </table>
     </div>
@@ -232,16 +241,16 @@
     <div class="sub-h">9品詞の一覧</div>
     <div class="scrollx">
       <table class="tbl">
-        <tr><th>機能</th><th>韓国語</th><th>日本語の呼び名</th><th>例</th></tr>
-        <tr><td rowspan="3">체언</td><td class="sp ko" data-say="명사">명사<br><span class="hj">［名詞］</span></td><td class="l">名詞</td><td class="sp l" data-say="책 학교">책（本）・학교（学校）</td></tr>
-        <tr><td class="sp ko" data-say="대명사">대명사<br><span class="hj">［代名詞］</span></td><td class="l">代名詞</td><td class="sp l" data-say="저 나 이것">저・나（わたし）・이것（これ）</td></tr>
-        <tr><td class="sp ko" data-say="수사">수사<br><span class="hj">［数詞］</span></td><td class="l">数詞（日本語では名詞の一部）</td><td class="sp l" data-say="하나 일">하나・일</td></tr>
-        <tr><td rowspan="2">용언</td><td class="sp ko" data-say="동사">동사<br><span class="hj">［動詞］</span></td><td class="l">動詞</td><td class="sp l" data-say="가다 먹다">가다（行く）・먹다（食べる）</td></tr>
-        <tr><td class="sp ko" data-say="형용사">형용사<br><span class="hj">［形容詞］</span></td><td class="l">イ形容詞＋ナ形容詞</td><td class="sp l" data-say="좋다 조용하다">좋다（よい）・조용하다（静かだ）</td></tr>
-        <tr><td rowspan="2">수식언</td><td class="sp ko" data-say="관형사">관형사<br><span class="hj">［冠形詞］</span></td><td class="l">連体詞</td><td class="sp l" data-say="새 이 그 저">새（新しい）・이・그・저</td></tr>
-        <tr><td class="sp ko" data-say="부사">부사<br><span class="hj">［副詞］</span></td><td class="l">副詞＋接続詞</td><td class="sp l" data-say="아주 빨리">아주（とても）・빨리（速く）</td></tr>
-        <tr><td>관계언</td><td class="sp ko" data-say="조사">조사<br><span class="hj">［助詞］</span></td><td class="l">助詞</td><td class="sp l" data-say="은 는 이 가 을 를">은/는・이/가・을/를</td></tr>
-        <tr><td>독립언</td><td class="sp ko" data-say="감탄사">감탄사<br><span class="hj">［感嘆詞］</span></td><td class="l">感動詞</td><td class="sp l" data-say="아 네">아・네</td></tr>
+        <tr><th>機能</th><th>品詞</th><th>例文</th></tr>
+        <tr><td rowspan="3" class="sp ko" data-say="체언">체언<span class="hj">［体言］</span></td><td class="sp ko" data-say="명사">명사<span class="hj">［名詞］</span></td><td class="l exc"><button class="say" data-say="동생이 학교에서 책을 읽어요."><span class="k"><span class="hl">동생</span>이 <span class="hl">학교</span>에서 <span class="hl">책</span>을 읽어요.</span><span class="j"><span class="hl">弟</span>が<span class="hl">学校</span>で<span class="hl">本</span>を読みます。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="대명사">대명사<span class="hj">［代名詞］</span></td><td class="l exc"><button class="say" data-say="저는 이것을 여기에서 샀어요."><span class="k"><span class="hl">저</span>는 <span class="hl">이것</span>을 <span class="hl">여기</span>에서 샀어요.</span><span class="j"><span class="hl">わたし</span>は<span class="hl">これ</span>を<span class="hl">ここ</span>で買いました。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="수사">수사<span class="hj">［数詞］</span></td><td class="l exc"><button class="say" data-say="하나에 오백 원이에요."><span class="k"><span class="hl">하나</span>에 <span class="hl">오백</span> 원이에요.</span><span class="j"><span class="hl">ひとつ</span><span class="hl">500</span>ウォンです。</span></button></td></tr>
+        <tr><td rowspan="2" class="sp ko" data-say="용언">용언<span class="hj">［用言］</span></td><td class="sp ko" data-say="동사">동사<span class="hj">［動詞］</span></td><td class="l exc"><button class="say" data-say="저는 아침에 커피를 마셔요."><span class="k">저는 아침에 커피를 <span class="hl">마셔요</span>.</span><span class="j">わたしは朝コーヒーを<span class="hl">飲みます</span>。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="형용사">형용사<span class="hj">［形容詞］</span></td><td class="l exc"><button class="say" data-say="이 커피는 아주 뜨거워요."><span class="k">이 커피는 아주 <span class="hl">뜨거워요</span>.</span><span class="j">このコーヒーはとても<span class="hl">熱いです</span>。</span></button></td></tr>
+        <tr><td rowspan="2" class="sp ko" data-say="수식언">수식언<span class="hj">［修飾言］</span></td><td class="sp ko" data-say="관형사">관형사<span class="hj">［冠形詞］</span></td><td class="l exc"><button class="say" data-say="새 가방을 샀어요."><span class="k"><span class="hl">새</span> 가방을 샀어요.</span><span class="j"><span class="hl">新しい</span>かばんを買いました。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="부사">부사<span class="hj">［副詞］</span></td><td class="l exc"><button class="say" data-say="버스가 빨리 왔어요."><span class="k">버스가 <span class="hl">빨리</span> 왔어요.</span><span class="j">バスが<span class="hl">早く</span>来ました。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="관계언">관계언<span class="hj">［関係言］</span></td><td class="sp ko" data-say="조사">조사<span class="hj">［助詞］</span></td><td class="l exc"><button class="say" data-say="저는 한국어를 배웁니다."><span class="k">저<span class="hl">는</span> 한국어<span class="hl">를</span> 배웁니다.</span><span class="j">わたし<span class="hl">は</span>韓国語<span class="hl">を</span>学びます。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="독립언">독립언<span class="hj">［独立言］</span></td><td class="sp ko" data-say="감탄사">감탄사<span class="hj">［感嘆詞］</span></td><td class="l exc"><button class="say" data-say="아, 맞다! 열쇠를 놓고 왔어요."><span class="k"><span class="hl">아</span>, 맞다! 열쇠를 놓고 왔어요.</span><span class="j"><span class="hl">あ</span>、そうだ！鍵を置いてきました。</span></button></td></tr>
       </table>
     </div>
     <div class="warn"><b>いちばん大きな違い：形容詞</b><br>
@@ -275,19 +284,19 @@
     <div class="lead">直前の語にパッチムがあるかどうかで形が変わるものがあります（パッチム有／無）。</div>
     <div class="scrollx">
       <table class="tbl">
-        <tr><th>韓国語</th><th>日本語</th><th>はたらき</th><th>例</th></tr>
-        <tr><td class="sp ko" data-say="은 는">은 / 는</td><td>は</td><td class="l">主題・対比</td><td class="sp l" data-say="저는">저는（わたしは）</td></tr>
-        <tr><td class="sp ko" data-say="이 가">이 / 가</td><td>が</td><td class="l">主格</td><td class="sp l" data-say="책이">책이（本が）</td></tr>
-        <tr><td class="sp ko" data-say="을 를">을 / 를</td><td>を</td><td class="l">目的語</td><td class="sp l" data-say="밥을">밥을（ごはんを）</td></tr>
-        <tr><td class="sp ko" data-say="에">에</td><td>に・へ</td><td class="l">場所の存在・時間・方向</td><td class="sp l" data-say="학교에 가다">학교에 가다</td></tr>
-        <tr><td class="sp ko" data-say="에서">에서</td><td>で・から</td><td class="l">動作をする場所・起点</td><td class="sp l" data-say="학교에서 공부하다">학교에서 공부하다</td></tr>
-        <tr><td class="sp ko" data-say="에게 한테">에게 / 한테</td><td>に（人）</td><td class="l">受け手</td><td class="sp l" data-say="친구에게">친구에게</td></tr>
-        <tr><td class="sp ko" data-say="로">(으)로</td><td>で・へ</td><td class="l">手段・方向</td><td class="sp l" data-say="버스로">버스로（バスで）</td></tr>
-        <tr><td class="sp ko" data-say="와 과, 하고">와 / 과, 하고</td><td>と</td><td class="l">並列・共同</td><td class="sp l" data-say="친구와">친구와</td></tr>
-        <tr><td class="sp ko" data-say="의">의</td><td>の</td><td class="l">所有・所属</td><td class="sp l" data-say="저의 책">저의 책</td></tr>
-        <tr><td class="sp ko" data-say="도">도</td><td>も</td><td class="l">追加</td><td class="sp l" data-say="저도">저도</td></tr>
-        <tr><td class="sp ko" data-say="만">만</td><td>だけ</td><td class="l">限定</td><td class="sp l" data-say="이것만">이것만</td></tr>
-        <tr><td class="sp ko" data-say="부터 까지">부터 / 까지</td><td>から／まで</td><td class="l">範囲</td><td class="sp l" data-say="한 시부터 두 시까지">한 시부터 두 시까지</td></tr>
+        <tr><th>助詞</th><th>はたらき</th><th>例文</th></tr>
+        <tr><td class="sp ko" data-say="은 는">은 / 는</td><td class="l">は（主題・対比）</td><td class="l exc"><button class="say" data-say="저는 학생이에요."><span class="k">저<span class="hl">는</span> 학생이에요.</span><span class="j">わたし<span class="hl">は</span>学生です。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="이 가">이 / 가</td><td class="l">が（主格）</td><td class="l exc"><button class="say" data-say="비가 와요."><span class="k">비<span class="hl">가</span> 와요.</span><span class="j">雨<span class="hl">が</span>降ります。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="을 를">을 / 를</td><td class="l">を（目的語）</td><td class="l exc"><button class="say" data-say="저는 커피를 마셔요."><span class="k">저는 커피<span class="hl">를</span> 마셔요.</span><span class="j">わたしはコーヒー<span class="hl">を</span>飲みます。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="에">에</td><td class="l">に・へ（存在の場所・時間・方向）</td><td class="l exc"><button class="say" data-say="아침 일곱 시에 일어나요."><span class="k">아침 일곱 시<span class="hl">에</span> 일어나요.</span><span class="j">朝7時<span class="hl">に</span>起きます。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="에서">에서</td><td class="l">で・から（動作をする場所・起点）</td><td class="l exc"><button class="say" data-say="도서관에서 공부해요."><span class="k">도서관<span class="hl">에서</span> 공부해요.</span><span class="j">図書館<span class="hl">で</span>勉強します。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="에게 한테">에게 / 한테</td><td class="l">に（人が受け手）</td><td class="l exc"><button class="say" data-say="친구에게 편지를 썼어요."><span class="k">친구<span class="hl">에게</span> 편지를 썼어요.</span><span class="j">友だち<span class="hl">に</span>手紙を書きました。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="로">(으)로</td><td class="l">で・へ（手段・方向）</td><td class="l exc"><button class="say" data-say="지하철로 갈까요?"><span class="k">지하철<span class="hl">로</span> 갈까요?</span><span class="j">地下鉄<span class="hl">で</span>行きましょうか。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="와 과 하고">와 / 과, 하고</td><td class="l">と（並列・共同）</td><td class="l exc"><button class="say" data-say="친구와 영화를 봤어요."><span class="k">친구<span class="hl">와</span> 영화를 봤어요.</span><span class="j">友だち<span class="hl">と</span>映画を見ました。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="의">의</td><td class="l">の（所有・所属）</td><td class="l exc"><button class="say" data-say="이건 동생의 가방이에요."><span class="k">이건 동생<span class="hl">의</span> 가방이에요.</span><span class="j">これは弟<span class="hl">の</span>カバンです。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="도">도</td><td class="l">も（追加）</td><td class="l exc"><button class="say" data-say="저도 같이 갈게요."><span class="k">저<span class="hl">도</span> 같이 갈게요.</span><span class="j">わたし<span class="hl">も</span>いっしょに行きます。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="만">만</td><td class="l">だけ（限定）</td><td class="l exc"><button class="say" data-say="이것만 주세요."><span class="k">이것<span class="hl">만</span> 주세요.</span><span class="j">これ<span class="hl">だけ</span>ください。</span></button></td></tr>
+        <tr><td class="sp ko" data-say="부터 까지">부터 / 까지</td><td class="l">から・まで（範囲）</td><td class="l exc"><button class="say" data-say="아침부터 밤까지 일해요."><span class="k">아침<span class="hl">부터</span> 밤<span class="hl">까지</span> 일해요.</span><span class="j">朝<span class="hl">から</span>夜<span class="hl">まで</span>働きます。</span></button></td></tr>
       </table>
     </div>
     <div class="warn"><b>ずれる場所（ここが誤用になる）</b>

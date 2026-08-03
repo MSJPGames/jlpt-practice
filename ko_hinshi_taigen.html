@@ -320,7 +320,7 @@
       window.speechSynthesis.speak(u);
     } catch(e) {}
   }
-  if ('speechSynthesis' in window) { window.speechSynthesis.getVoices(); }
+  if (window.speechSynthesis) { window.speechSynthesis.getVoices(); }
   document.addEventListener('click', function(e){
     var t = e.target.closest ? e.target.closest('[data-say]') : null;
     if (!t) return;

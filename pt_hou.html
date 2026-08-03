@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ポルトガル語の法と動詞の活用 ・ 日本語の部屋</title>
+<meta name="description" content="ポルトガル語（Português）の法の解説。直説法・接続法・命令法・条件法の使い分けを例文つきで示し、動詞の活用表もまとめています。">
+<style>
+  :root {
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --accent:#185FA5; --accent-bg:#E6F1FB; --accent-dark:#12467A;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg); color:var(--text); min-height:100vh; padding:0 1rem 3rem; line-height:1.7;
+    line-break:strict;
+  }
+  .container { max-width:520px; margin:0 auto; }
+  .topbar { display:flex; align-items:center; gap:8px; padding:14px 0 2px; }
+  .back-link { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-weight:700;
+    color:var(--text-muted); text-decoration:none; padding:6px 13px 6px 9px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface);
+    -webkit-tap-highlight-color:transparent; transition:transform .12s; }
+  .back-link:active { transform:scale(0.97); }
+  .back-arrow { font-size:16px; line-height:1; }
+  .home-link { margin-left:auto; font-size:15px; text-decoration:none; padding:6px 11px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface); }
+  .page-header { text-align:center; padding:1.3rem 0 .3rem; }
+  .ph-eyebrow { font-size:11px; font-weight:700; letter-spacing:.14em; color:var(--accent); margin-bottom:8px; }
+  .ph-title { font-size:24px; font-weight:700; letter-spacing:.02em; }
+  .ph-han { font-size:15px; color:var(--accent); font-weight:700; margin-top:4px; }
+  .ph-sub { font-size:13px; color:var(--text-muted); margin-top:6px; line-height:1.6; }
+  .note { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:12px 15px; font-size:12.5px; color:var(--text-muted); line-height:1.75; margin-top:1.1rem; }
+  .note b { color:var(--text); font-weight:700; }
+  .sec-head { display:flex; align-items:center; gap:9px; margin:2rem 0 .7rem; }
+  .sec-bar { width:4px; height:18px; border-radius:2px; background:var(--accent); }
+  .sec-title { font-size:15px; font-weight:700; }
+  .sec-en { font-size:10px; font-weight:700; letter-spacing:.1em; color:var(--text-hint); text-transform:uppercase; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px 15px; margin-bottom:12px; }
+  .card p { font-size:13px; line-height:1.85; }
+  .card p + p { margin-top:9px; }
+  .lead { font-size:13px; color:var(--text-muted); line-height:1.8; margin-bottom:11px; }
+  .sub-h { font-size:12.5px; font-weight:700; color:var(--accent-dark); margin:15px 0 7px;
+    padding-left:8px; border-left:3px solid var(--accent); }
+  .card > .sub-h:first-child { margin-top:0; }
+  .scrollx { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 -3px; }
+  table.tbl { border-collapse:collapse; width:100%; font-size:12.5px; }
+  table.tbl th, table.tbl td { border:1px solid var(--border); padding:6px 8px; text-align:center;
+    vertical-align:middle; line-height:1.6; }
+  table.tbl th { background:var(--accent-bg); color:var(--accent-dark); font-weight:700; font-size:11.5px; white-space:nowrap; }
+  table.tbl td.l { text-align:left; }
+  table.tbl td.exc { min-width:250px; }
+  table.tbl td .say { display:block; }
+  table.tbl .ipa { color:var(--text-muted); font-size:11px; }
+  table.tbl .orig { display:block; font-size:11px; font-weight:400; color:var(--text-muted); margin-top:2px; }
+  table.tbl tr:nth-child(even) td { background:#FBFAF8; }
+  .say { display:inline-block; cursor:pointer; border:1px solid var(--border); background:var(--surface);
+    border-radius:8px; padding:5px 10px; font:inherit; font-size:13px; line-height:1.5; text-align:left;
+    position:relative; padding-right:27px;
+    -webkit-tap-highlight-color:transparent; transition:transform .1s, background .1s; }
+  .say::after { content:"🔊"; position:absolute; right:9px; top:50%; transform:translateY(-50%);
+    font-size:11px; opacity:.5; }
+  .say:active { transform:scale(.97); }
+  .say:hover { background:var(--accent-bg); }
+  .say .k { display:block; font-weight:700; }
+  .say .j { display:block; font-size:11px; color:var(--text-muted); margin-top:1px; }
+  .exlist { display:flex; flex-direction:column; gap:7px; margin-top:9px; }
+  .pitem { border-top:1px solid var(--border); padding-top:12px; margin-top:12px; }
+  .pitem:first-child { border-top:none; padding-top:0; margin-top:0; }
+  .pi-h { display:flex; align-items:baseline; gap:9px; flex-wrap:wrap; }
+  .pi-ko { font-size:16px; font-weight:700; color:var(--accent-dark); }
+  .pi-ja { font-size:11.5px; font-weight:700; color:#fff; background:var(--accent); border-radius:20px; padding:2px 9px; }
+  .pi-use { font-size:12.5px; color:var(--text-muted); line-height:1.7; margin-top:5px; }
+  ul.pl { margin:6px 0 0 1.15em; font-size:13px; line-height:1.85; }
+  ul.pl li { margin-bottom:5px; }
+  ul.pl li b { color:var(--accent-dark); }
+  .pt { background:var(--accent-bg); border-radius:var(--radius-sm); padding:10px 12px; font-size:12.5px; line-height:1.75; margin-top:11px; }
+  .pt b { color:var(--accent-dark); }
+  .warn { background:#FCF3EC; border-radius:var(--radius-sm); padding:10px 12px; font-size:12.5px;
+    line-height:1.75; margin-top:11px; border-left:3px solid #B0642A; }
+  .warn b { color:#8A4A18; }
+  .teach { background:#F1F5EC; border-radius:var(--radius-sm); padding:10px 12px; font-size:12.5px;
+    line-height:1.75; margin-top:11px; border-left:3px solid #4D7C4A; }
+  .teach b { color:#3B6339; }
+  .xlink { display:block; text-decoration:none; color:inherit; background:var(--surface);
+    border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:12px;
+    padding:12px 14px; margin-bottom:10px; }
+  .xlink b { display:block; font-size:13.5px; font-weight:700; color:var(--accent-dark); }
+  .xlink span { display:block; font-size:12px; color:var(--text-muted); margin-top:3px; line-height:1.6; }
+  .hl { color:#B23B3B; font-weight:700; border-bottom:2px solid currentColor; padding-bottom:1px; }
+  .say .j .hl { color:#B23B3B; }
+  .app-footer { text-align:center; font-size:11px; color:var(--text-hint); margin-top:2.4rem; line-height:1.8; }
+  p, li, .lead, .pt, .warn, .teach, .note, .pi-use, .say .j, .xlink span
+    { text-wrap:pretty; overflow-wrap:break-word; }
+  /* 活用表 */
+  .conj-sub{font-size:12px;font-weight:700;color:var(--text-muted);margin:16px 2px 5px;}
+  .conj-verb{margin-top:10px;}
+  .conj-h{display:flex;align-items:baseline;gap:8px;margin-bottom:4px;flex-wrap:wrap;}
+  .conj-inf{font-size:15px;font-weight:700;color:var(--accent);}
+  .conj-mean{font-size:12px;color:var(--text-muted);}
+  .conj-grp{font-size:10px;font-weight:700;color:var(--accent);background:var(--accent-bg);border-radius:6px;padding:1px 7px;}
+  .conj-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:10px;}
+  .conj-table{border-collapse:collapse;width:100%;min-width:360px;font-size:11.5px;}
+  .conj-table th,.conj-table td{padding:5px 8px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+  .conj-table thead th{background:var(--accent-bg);color:var(--accent);font-size:11px;font-weight:700;line-height:1.25;}
+  .conj-table thead .tn2{font-weight:400;font-size:9.5px;color:var(--text-muted);}
+  .conj-table tbody th{color:var(--text-hint);font-weight:600;font-size:11px;}
+  .conj-table tbody tr:last-child td,.conj-table tbody tr:last-child th{border-bottom:none;}
+  .conj-table td.cf{cursor:pointer;}
+  .conj-table td.cf:active{background:var(--accent-bg);}
+  .cj-tabs{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 7px;}
+  .cj-tab{font-family:inherit;font-size:11px;font-weight:700;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);border-radius:999px;padding:5px 11px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .1s;}
+  .cj-tab:active{transform:scale(.96);}
+  .cj-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .cj-view[hidden]{display:none;}
+  @media (min-width:700px)  { .container { zoom:1.3; } }
+  @media (min-width:1100px) { .container { zoom:1.5; } }
+</style>
+<script src="conjug.js"></script>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="lang.html?code=pt" class="back-link"><span class="back-arrow">‹</span>ポルトガル語にもどる</a>
+    <a href="index.html" class="home-link" title="ホーム">🏠</a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">MOODS &amp; CONJUGATION</div>
+    <div class="ph-title">法と活用</div>
+    <div class="ph-han">Português ・ Modos verbales</div>
+    <div class="ph-sub">事実として言うか、頭の中のこととして言うか。<br>動詞の活用表もこのページにあります。</div>
+  </div>
+
+  <div class="note">
+    Português の動詞は、<b>法</b>と<b>時制</b>と<b>人称</b>の3つで形が決まります。ここでは<b>法</b>（話し手の捉え方）を整理し、最後に活用表をまとめて置いています。
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">1. 法とは</span><span class="sec-en">Moods</span></div>
+  <div class="card">
+    <p><b>法（mood）</b>は、話し手がそのことがらを<b>どう捉えているか</b>を動詞の形で示すしくみです。同じ「来る」でも、事実として言うのか、願いとして言うのか、命令として言うのかで形が変わります。</p>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>法</th><th>話し手の捉え方</th></tr>
+        <tr><td class="ko">indicativo<span class="orig">直説法</span></td><td class="l">事実・確実なこととして述べる</td></tr>
+        <tr><td class="ko">subjuntivo<span class="orig">接続法</span></td><td class="l">事実かどうかを保留して、頭の中のこととして述べる</td></tr>
+        <tr><td class="ko">imperativo<span class="orig">命令法</span></td><td class="l">相手に直接はたらきかける</td></tr>
+        <tr><td class="ko">futuro do pretérito<span class="orig">過去未来（条件法）</span></td><td class="l">ある条件のもとでの結果や、ひかえめな言い方</td></tr>
+      </table>
+    </div>
+    <div class="pt">日本語には法による活用の区別がなく、<b>「〜だろう」「〜てほしい」「〜しなさい」などの語をあとに足して</b>同じことを表します。ロマンス諸語では<b>動詞そのものが形を変えます</b>。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">2. 直説法</span><span class="sec-en">Indicative</span></div>
+  <div class="card">
+    <p>もっともよく使う法です。<b>起きたこと・起きていること・起きるであろうこと</b>を、事実として述べます。ふつうの文はこの法で作ります。</p>
+    <div class="exlist"><button class="say" data-say="Hoje está muito calor."><span class="k">Hoje <span class="hl">está</span> muito calor.</span><span class="j">今日はとても暑い<span class="hl">です</span>。</span></button><button class="say" data-say="Meu irmão mora em São Paulo."><span class="k">Meu irmão <span class="hl">mora</span> em São Paulo.</span><span class="j">兄はサンパウロに<span class="hl">住んでいます</span>。</span></button></div>
+    <div class="pt">直説法の中で、現在・過去・未来などの<b>時制</b>が枝分かれします。時制ごとの形は、下の活用表で確かめられます。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">3. 接続法</span><span class="sec-en">Subjunctive</span></div>
+  <div class="card">
+    <p>事実として言い切らず、<b>頭の中のこと</b>として述べる法です。多くの場合、<b>主節のことばが引き金になって</b>従属節の動詞が接続法になります。自分で選ぶというより、<b>組み合わせで決まる</b>と考えるほうが実際に近いです。</p>
+    <div class="exlist"><button class="say" data-say="Espero que você venha amanhã."><span class="k">Espero que você <span class="hl">venha</span> amanhã.</span><span class="j">明日あなたが<span class="hl">来る</span>ことを願っています。</span></button><button class="say" data-say="É importante que você estude todos os dias."><span class="k">É importante que você <span class="hl">estude</span> todos os dias.</span><span class="j">毎日<span class="hl">勉強する</span>ことが大切です。</span></button><button class="say" data-say="Talvez ele esteja em casa."><span class="k">Talvez ele <span class="hl">esteja</span> em casa.</span><span class="j">彼は家に<span class="hl">いる</span>かもしれません。</span></button></div>
+    <div class="sub-h">接続法を呼ぶ主なことば</div>
+    <div class="scrollx">
+      <table class="tbl">
+        <tr><th>種類</th><th>引き金になる表現</th></tr>
+        <tr><td class="l">願望・依頼</td><td class="l">querer que, esperar que, pedir que</td></tr>
+        <tr><td class="l">感情</td><td class="l">ficar feliz que, sentir que</td></tr>
+        <tr><td class="l">疑い・可能性</td><td class="l">duvidar que, talvez</td></tr>
+        <tr><td class="l">価値づけ</td><td class="l">é importante que, é necessário que</td></tr>
+        <tr><td class="l">これからのこと</td><td class="l">quando, se, assim que（未来接続法）</td></tr>
+      </table>
+    </div>
+    <div class="warn"><b>「仮定法」という呼び名について：</b>英語文法では subjunctive を「仮定法」と訳しますが、Português の subjun… に対しては<b>「接続法」</b>と訳すのがふつうです。名前は似ていても、英語の仮定法は使う場面がかなり狭く、Português の接続法は<b>願望・感情・疑い・価値づけなど広い範囲</b>で日常的に使われます。「仮定」だけの形ではない、と押さえておくと混乱しません。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">4. 命令法</span><span class="sec-en">Imperative</span></div>
+  <div class="card">
+    <p>相手に直接はたらきかける形です。</p>
+    <div class="exlist"><button class="say" data-say="Fale mais devagar, por favor!"><span class="k"><span class="hl">Fale</span> mais devagar, por favor!</span><span class="j">もっとゆっくり<span class="hl">話して</span>ください。</span></button><button class="say" data-say="Não fale tão rápido."><span class="k">Não <span class="hl">fale</span> tão rápido.</span><span class="j">そんなに速く<span class="hl">話さないで</span>。</span></button></div>
+    <div class="pt">você に対する命令は<b>接続法現在の形</b>をそのまま使います。ブラジルの話しことばでは、親しい相手に直説法の形（Fala!）を使うこともあります。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">5. 過去未来（条件法）</span><span class="sec-en">Conditional</span></div>
+  <div class="card">
+    <p>ある条件のもとで成り立つことや、<b>ひかえめな言い方</b>に使います。依頼や希望をやわらげる働きがあり、日常会話でよく登場します。</p>
+    <div class="exlist"><button class="say" data-say="Eu gostaria de ir com você."><span class="k">Eu <span class="hl">gostaria</span> de ir com você.</span><span class="j">あなたといっしょに行き<span class="hl">たいのですが</span>。</span></button><button class="say" data-say="No seu lugar, eu não iria."><span class="k">No seu lugar, eu não <span class="hl">iria</span>.</span><span class="j">あなたなら、わたしは行か<span class="hl">ないでしょう</span>。</span></button></div>
+    <div class="pt">日本語の「〜のですが」「〜でしょう」にあたる、<b>言い切りを避けるための形</b>だと考えると使いどころがつかめます。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">6. se（もし）と quando（〜したら）の文</span><span class="sec-en">Conditions</span></div>
+  <div class="card">
+    <div class="exlist"><button class="say" data-say="Se eu tiver tempo, eu vou com você."><span class="k">Se eu <span class="hl">tiver</span> tempo, eu vou com você.</span><span class="j">時間が<span class="hl">あれば</span>、いっしょに行きます。</span></button><button class="say" data-say="Quando eu chegar, eu te ligo."><span class="k">Quando eu <span class="hl">chegar</span>, eu te ligo.</span><span class="j"><span class="hl">着いたら</span>、電話します。</span></button><button class="say" data-say="Se eu tivesse tempo, eu iria com você."><span class="k">Se eu <span class="hl">tivesse</span> tempo, eu <span class="hl">iria</span> com você.</span><span class="j">時間があれば、いっしょに行くのですが。</span></button></div>
+    <div class="pt">これから起きることを言う se・quando のあとには、<b>未来接続法</b>という専用の形を使います。日本語の「〜したら」にきれいに対応する形で、ほかのロマンス諸語ではほとんど失われています。</div>    <div class="sub-h">ポルトガル語だけの2つの形</div>
+    <p><b>未来接続法（futuro do subjuntivo）</b>は、これから起きる不確かなことを表します。スペイン語やフランス語では使われなくなった形が、ポルトガル語では日常的に生きています。</p>
+    <div class="exlist"><button class="say" data-say="Se você quiser, eu ajudo."><span class="k">Se você <span class="hl">quiser</span>, eu ajudo.</span><span class="j"><span class="hl">よければ</span>、手伝います。</span></button><button class="say" data-say="Assim que eu terminar, eu aviso."><span class="k">Assim que eu <span class="hl">terminar</span>, eu aviso.</span><span class="j"><span class="hl">終わりしだい</span>、知らせます。</span></button></div>
+    <p style="margin-top:11px;"><b>人称不定詞（infinitivo pessoal）</b>は、不定詞なのに人称語尾が付く形です。だれの動作かをはっきりさせながら、節を短くまとめられます。</p>
+    <div class="exlist"><button class="say" data-say="É importante estudarmos todos os dias."><span class="k">É importante <span class="hl">estudarmos</span> todos os dias.</span><span class="j"><span class="hl">わたしたちが</span>毎日勉強することが大切です。</span></button><button class="say" data-say="Antes de saírem, fechem as janelas."><span class="k">Antes de <span class="hl">saírem</span>, fechem as janelas.</span><span class="j"><span class="hl">あなたがたが出る</span>前に、窓を閉めてください。</span></button></div>
+    <div class="teach"><b>教える側のメモ：</b>この2つは、日本語の「〜したら」「〜することが」に対応づけると理解が早くなります。ポルトガル語母語話者は<b>条件・時の表現を形で区別する習慣</b>を持っているため、日本語の「〜たら／〜なら／〜と／〜ば」の使い分けにも比較的入りやすい傾向があります。</div>
+  </div>
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">7. 動詞の活用表</span><span class="sec-en">Conjugation</span></div>
+  <div class="card">
+    <p>規則活用と、よく使う不規則動詞です。法・時制はタブで切り替えます。活用形をタップすると読み上げます。</p>
+    <div id="conjBox"></div>
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">関連ページ</span><span class="sec-en">Related</span></div>
+  <a class="xlink" href="pt_hinshi.html"><b>ポルトガル語の品詞 ›</b><span>名詞・冠詞・形容詞・代名詞・動詞…を例文つきで。</span></a>
+  <a class="xlink" href="grammar.html?code=pt"><b>CEFRレベル別の文法 ›</b><span>A1〜C1の文法項目をレベル別に。</span></a>
+  <a class="xlink" href="lang.html?code=pt"><b>ポルトガル語のページ ›</b><span>あいさつ・数字・自己紹介と発音のページ。</span></a>
+
+  <div class="app-footer">© 2025 日本語の部屋</div>
+</div>
+
+<script>
+(function(){
+  var LANG = 'pt-BR';
+  function speak(text){
+    if (!('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = LANG; u.rate = 0.9;
+      var vs = window.speechSynthesis.getVoices() || [];
+      var pre = LANG.split('-')[0].toLowerCase();
+      for (var i = 0; i < vs.length; i++) {
+        if (vs[i].lang && vs[i].lang.replace('_','-').toLowerCase().indexOf(pre) === 0) { u.voice = vs[i]; break; }
+      }
+      window.speechSynthesis.speak(u);
+    } catch(e) {}
+  }
+  if (window.speechSynthesis) { window.speechSynthesis.getVoices(); }
+  document.addEventListener('click', function(e){
+    var t = e.target.closest ? e.target.closest('[data-say]') : null;
+    if (!t) return;
+    speak(t.getAttribute('data-say'));
+  });
+})();
+
+/* 活用表：conjug.js の window.CONJ から描画（lang.html と同じデータ・同じ見せ方） */
+(function(){
+  var code = 'pt';
+  var box = document.getElementById('conjBox');
+  var CJ = (window.CONJ || {})[code];
+  if (!box) return;
+  if (!CJ) { box.innerHTML = '<div class="note">活用データ（conjug.js）が読み込めませんでした。</div>'; return; }
+  var esc = function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+  var cjTbl = function(tenses, forms){
+    var head = '<tr><th></th>' + tenses.map(function(t){ return '<th>'+esc(t[0])+'<br><span class="tn2">'+esc(t[1])+'</span></th>'; }).join('') + '</tr>';
+    var body = CJ.persons.map(function(pn,pi){
+      return '<tr><th>'+esc(pn)+'</th>' + forms.map(function(row){ var f=row[pi]; var cl=(f&&f!=='—')?' class="cf" data-say="'+esc(f)+'"':''; return '<td'+cl+'>'+esc(f)+'</td>'; }).join('') + '</tr>';
+    }).join('');
+    return '<div class="conj-scroll"><table class="conj-table"><thead>'+head+'</thead><tbody>'+body+'</tbody></table></div>';
+  };
+  var balSplit = function(n){ var nv=Math.ceil(n/4), per=Math.ceil(n/nv), out=[]; for(var i=0;i<n;i+=per){ out.push([i, Math.min(i+per,n)]); } return out; };
+  var vtab = function(v){
+    var grp = v.group ? '<span class="conj-grp">'+esc(v.group)+'</span>' : '';
+    var views = [];
+    balSplit(CJ.tenses.length).forEach(function(rng,k,ar){
+      views.push({ label:(ar.length>1?'直説法 '+'①②③④'[k]:'直説法'), tenses:CJ.tenses.slice(rng[0],rng[1]), cols:v.forms.slice(rng[0],rng[1]) });
+    });
+    if(v.forms2 && CJ.tenses2){
+      balSplit(CJ.tenses2.length).forEach(function(rng,k,ar){
+        views.push({ label:(ar.length>1?'接続法・命令法 '+'①②③④'[k]:'接続法・命令法'), tenses:CJ.tenses2.slice(rng[0],rng[1]), cols:v.forms2.slice(rng[0],rng[1]) });
+      });
+    }
+    var tabs = views.map(function(vw,i){ return '<button type="button" class="cj-tab'+(i===0?' active':'')+'" data-v="'+i+'">'+esc(vw.label)+'</button>'; }).join('');
+    var bodies = views.map(function(vw,i){ return '<div class="cj-view" data-v="'+i+'"'+(i===0?'':' hidden')+'>'+cjTbl(vw.tenses, vw.cols)+'</div>'; }).join('');
+    return '<div class="conj-verb"><div class="conj-h"><span class="conj-inf">'+esc(v.inf)+'</span>'+grp+'<span class="conj-mean">'+esc(v.meaning)+'</span></div>'
+      + '<div class="cj-tabs">'+tabs+'</div>' + bodies + '</div>';
+  };
+  box.innerHTML =
+      '<div class="lead">' + (CJ.note ? esc(CJ.note) : '') + '時制はタブで切り替え、活用形をタップすると読み上げます。</div>'
+    + '<div class="conj-sub">規則活用 ・ Regular</div>' + CJ.regular.map(vtab).join('')
+    + '<div class="conj-sub">不規則活用 ・ Irregular</div>' + CJ.irregular.map(vtab).join('');
+  box.addEventListener('click', function(e){
+    var tab = e.target.closest ? e.target.closest('.cj-tab') : null;
+    if (!tab) return;
+    var verb = tab.closest('.conj-verb'), vv = tab.getAttribute('data-v');
+    var ts = verb.querySelectorAll('.cj-tab');
+    for (var i=0;i<ts.length;i++){ ts[i].className = 'cj-tab' + (ts[i]===tab ? ' active' : ''); }
+    var vs = verb.querySelectorAll('.cj-view');
+    for (var j=0;j<vs.length;j++){ vs[j].hidden = (vs[j].getAttribute('data-v') !== vv); }
+  });
+})();
+</script>
+</body>
+</html>

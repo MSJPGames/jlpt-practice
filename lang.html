@@ -382,7 +382,7 @@ if(!L){
   }
   var CJ = (window.CONJ||{})[code];
   var conjHtml = '';
-  if(CJ){
+  if(CJ && L.conj !== false){
     var cjTbl = function(tenses, forms){
       var head = '<tr><th></th>' + tenses.map(function(t){ return '<th>'+esc(t[0])+'<br><span class="tn2">'+esc(t[1])+'</span></th>'; }).join('') + '</tr>';
       var body = CJ.persons.map(function(pn,pi){

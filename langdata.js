@@ -151,7 +151,7 @@ window.LANGS = [
     tips:['SOV・後置詞（〜मा＝〜に、〜लाई＝〜を）で、日本語と語順がとても近い。','コピュラが2つ：हो（ho）＝「〜だ」（同定・性質）、छ（cha）＝「ある／いる・状態」（存在・状態・位置）。スペイン語の ser／estar に近い使い分け。','動詞は主語の人称・数・性・敬語レベルで変化する（主語と一致）。','敬語は3段階：तपाईं（尊敬）／तिमी（対等）／तँ（目下）。相手によって代名詞と動詞が変わる。','過去の他動詞では主語に 〜ले（le）が付く（能格的）。文字はヒンディー語と同じデーヴァナーガリーだが、語彙・発音は異なる。']
   },
   {
-    code:'pt', extras:[{href:'pt_pronunciation.html',title:'👃 鼻母音と発音',desc:'ão・sim…鼻に抜ける母音のコツ'}], grammar:'grammar.html?code=pt', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（Celpe-Bras）の文法を、例文つきでレベル別に', jp:'ポルトガル語', autonym:'Português', en:'Portuguese', chip:'Pt',
+    code:'pt', conj:false, extras:[{href:'pt_hinshi.html',g:'bunpou',title:'🧩 品詞のしくみ',desc:'名詞・冠詞・形容詞・数詞・代名詞・動詞…を例文つきで'},{href:'pt_hou.html',g:'bunpou',title:'🔀 法と動詞の活用',desc:'直説法・接続法・命令法・未来接続法・人称不定詞と、活用表'},{href:'pt_pronunciation.html',title:'👃 鼻母音と発音',desc:'ão・sim…鼻に抜ける母音のコツ'}], grammar:'grammar.html?code=pt', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（Celpe-Bras）の文法を、例文つきでレベル別に', jp:'ポルトガル語', autonym:'Português', en:'Portuguese', chip:'Pt',
     region:'ブラジル・ポルトガル ほか', script:'ラテン文字', family:'インド・ヨーロッパ語族', order:'SVO',
     tts:'pt-BR', resRank:'7位（ブラジル）', learnRank:null, core:false, resident:true, learner:false, sov:false,
     accent:'#185FA5', bg:'#E6F1FB',
@@ -241,7 +241,7 @@ window.LANGS = [
     tips:['声調が6つ（普通話は4つ）。漢字は繁体字。','語彙・文法も普通話と異なる。-p/-t/-k で終わる入声がある。読みは粵拼（ジュッピン）。']
   },
   {
-    code:'es', extras:[{href:'es_pronunciation.html',title:'🔊 発音とアクセント',desc:'母音・rr・j・ñ・強勢の規則'}], grammar:'grammar.html?code=es', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELE/SIELE）の文法を、例文つきでレベル別に', jp:'スペイン語', autonym:'Español', en:'Spanish', chip:'Es',
+    code:'es', conj:false, extras:[{href:'es_hinshi.html',g:'bunpou',title:'🧩 品詞のしくみ',desc:'名詞・冠詞・形容詞・代名詞・動詞…を例文つきで。性と数の一致、語順'},{href:'es_hou.html',g:'bunpou',title:'🔀 法と動詞の活用',desc:'直説法・接続法・命令法・過去未来の使い分けと、活用表'},{href:'es_pronunciation.html',title:'🔊 発音とアクセント',desc:'母音・rr・j・ñ・強勢の規則'}], grammar:'grammar.html?code=es', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELE/SIELE）の文法を、例文つきでレベル別に', jp:'スペイン語', autonym:'Español', en:'Spanish', chip:'Es',
     region:'スペイン・中南米', script:'ラテン文字', family:'インド・ヨーロッパ語族（ロマンス）', order:'SVO',
     tts:'es-ES', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#C25E00', bg:'#FBEBDD',
@@ -256,7 +256,7 @@ window.LANGS = [
     tips:['SVO。動詞は主語で活用し、名詞・形容詞に性・数がある。','つづりはほぼ表音的で読みやすい。疑問文・感嘆文は ¿ ? ・ ¡ ! で囲む。']
   },
   {
-    code:'fr', extras:[{href:'fr_nasal.html',title:'👃 鼻母音とリエゾン',desc:'an/on/in の鼻母音と、単語がつながる連音'}], grammar:'grammar.html?code=fr', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELF/DALF）の文法を、例文つきでレベル別に', jp:'フランス語', autonym:'Français', en:'French', chip:'Fr',
+    code:'fr', conj:false, extras:[{href:'fr_hinshi.html',g:'bunpou',title:'🧩 品詞のしくみ',desc:'名詞・冠詞・形容詞・代名詞・動詞…を例文つきで。性と数の一致、語順'},{href:'fr_hou.html',g:'bunpou',title:'🔀 法と動詞の活用',desc:'直説法・接続法・命令法・条件法の使い分けと、活用表'},{href:'fr_nasal.html',title:'👃 鼻母音とリエゾン',desc:'an/on/in の鼻母音と、単語がつながる連音'}], grammar:'grammar.html?code=fr', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELF/DALF）の文法を、例文つきでレベル別に', jp:'フランス語', autonym:'Français', en:'French', chip:'Fr',
     region:'フランス・カナダ・アフリカ他', script:'ラテン文字', family:'インド・ヨーロッパ語族（ロマンス）', order:'SVO',
     tts:'fr-FR', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#2E5AAC', bg:'#E5ECF7',

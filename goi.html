@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>基礎語彙 ・ 日本語の部屋</title>
+<meta name="description" content="外国語の基礎語彙をジャンル別にまとめたページ。あいさつ・人と家族・数と時・食べ物・からだ・家・まち・動詞・形容詞・色。読み方と音声つき。">
+<style>
+  :root {
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --accent:#7A6E60; --accent-bg:#EFEBE4; --accent-dark:#5A5045;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    font-family:'Noto Sans JP','Noto Sans KR','Noto Sans SC','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg); color:var(--text); min-height:100vh; padding:0 1rem 3rem; line-height:1.7;
+    line-break:strict;
+  }
+  .container { max-width:520px; margin:0 auto; }
+  .topbar { display:flex; align-items:center; gap:8px; padding:14px 0 2px; }
+  .back-link { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-weight:700;
+    color:var(--text-muted); text-decoration:none; padding:6px 13px 6px 9px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface);
+    -webkit-tap-highlight-color:transparent; }
+  .back-arrow { font-size:16px; line-height:1; }
+  .home-link { margin-left:auto; font-size:15px; text-decoration:none; padding:6px 11px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface); }
+  .page-header { text-align:center; padding:1.3rem 0 .3rem; }
+  .ph-eyebrow { font-size:11px; font-weight:700; letter-spacing:.14em; color:var(--accent); margin-bottom:8px; }
+  .ph-title { font-size:24px; font-weight:700; }
+  .ph-han { font-size:15px; color:var(--accent); font-weight:700; margin-top:4px; }
+  .ph-sub { font-size:13px; color:var(--text-muted); margin-top:6px; }
+  .note { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:12px 15px; font-size:12.5px; color:var(--text-muted); line-height:1.75; margin-top:1.1rem; }
+  .note b { color:var(--text); font-weight:700; }
+  .toolbar { display:flex; gap:8px; margin:1.1rem 0 .2rem; }
+  .search { flex:1; font:inherit; font-size:13px; padding:9px 12px; border:1px solid var(--border);
+    border-radius:999px; background:var(--surface); color:var(--text); }
+  .search:focus { outline:2px solid var(--accent-bg); }
+  .count { font-size:11.5px; color:var(--text-hint); align-self:center; white-space:nowrap; }
+  .cats { display:flex; flex-wrap:wrap; gap:5px; margin:10px 0 4px; }
+  .cat { font:inherit; font-size:11.5px; font-weight:700; border:1px solid var(--border);
+    background:var(--surface); color:var(--text-muted); border-radius:999px; padding:5px 11px;
+    cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .cat.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .sec-head { display:flex; align-items:center; gap:9px; margin:1.8rem 0 .6rem; }
+  .sec-bar { width:4px; height:18px; border-radius:2px; background:var(--accent); }
+  .sec-title { font-size:15px; font-weight:700; }
+  .sec-n { margin-left:auto; font-size:11px; color:var(--text-hint); }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .w { background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    padding:9px 11px; text-align:left; font:inherit; cursor:pointer; position:relative;
+    -webkit-tap-highlight-color:transparent; transition:transform .1s, background .1s; }
+  .w:active { transform:scale(.98); background:var(--accent-bg); }
+  .w-o { display:block; font-size:14.5px; font-weight:700; color:var(--accent-dark); line-height:1.4;
+    overflow-wrap:break-word; }
+  .w-r { display:block; font-size:11px; color:var(--accent); margin-top:2px; }
+  .w-j { display:block; font-size:11.5px; color:var(--text-muted); margin-top:2px; }
+  .w::after { content:"🔊"; position:absolute; right:8px; top:8px; font-size:10px; opacity:.4; }
+  .lv { position:absolute; right:8px; bottom:7px; font-size:9px; font-weight:700;
+    color:var(--accent); background:var(--accent-bg); border-radius:5px; padding:1px 5px; }
+  .w { padding-bottom:22px; }
+  .empty { font-size:13px; color:var(--text-muted); padding:14px 2px; }
+  .xlink { display:block; text-decoration:none; color:inherit; background:var(--surface);
+    border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:12px;
+    padding:12px 14px; margin-bottom:10px; }
+  .xlink b { display:block; font-size:13.5px; font-weight:700; color:var(--accent-dark); }
+  .xlink span { display:block; font-size:12px; color:var(--text-muted); margin-top:3px; line-height:1.6; }
+  .app-footer { text-align:center; font-size:11px; color:var(--text-hint); margin-top:2.4rem; line-height:1.8; }
+  @media (min-width:700px)  { .container { zoom:1.3; } }
+  @media (min-width:1100px) { .container { zoom:1.5; } }
+</style>
+<script src="langdata.js"></script>
+<script src="goidata.js"></script>
+</head>
+<body>
+<div class="container" id="app"></div>
+
+<script>
+(function(){
+  var esc = function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+  var code = (new URLSearchParams(location.search).get('code') || '').trim();
+  var LANGS = window.LANGS || [];
+  var L = null;
+  for (var i=0;i<LANGS.length;i++){ if (LANGS[i].code === code) { L = LANGS[i]; break; } }
+  var GOI = window.GOI || {cats:[], langs:{}};
+  var g = GOI.langs[code];
+  var app = document.getElementById('app');
+
+  if (!L || !g) {
+    app.innerHTML = '<div class="topbar"><a href="gaikokugo.html" class="back-link">'
+      + '<span class="back-arrow">‹</span>外国語のページへ</a>'
+      + '<a href="index.html" class="home-link" title="ホーム">🏠</a></div>'
+      + '<div class="note">この言語の語彙データはまだありません。</div>';
+    return;
+  }
+
+  document.documentElement.style.setProperty('--accent', L.accent || '#7A6E60');
+  document.documentElement.style.setProperty('--accent-bg', L.bg || '#EFEBE4');
+  document.documentElement.style.setProperty('--accent-dark', L.accent || '#5A5045');
+  document.title = L.jp + 'の基礎語彙 ・ 日本語の部屋';
+
+  var total = 0;
+  for (var c=0;c<g.data.length;c++){ total += g.data[c].length; }
+
+  var cats = ['すべて'].concat(GOI.cats);
+  app.innerHTML =
+      '<div class="topbar"><a href="lang.html?code=' + esc(code) + '" class="back-link">'
+    + '<span class="back-arrow">‹</span>' + esc(L.jp) + 'にもどる</a>'
+    + '<a href="index.html" class="home-link" title="ホーム">🏠</a></div>'
+    + '<div class="page-header"><div class="ph-eyebrow">BASIC VOCABULARY</div>'
+    + '<div class="ph-title">基礎語彙</div>'
+    + '<div class="ph-han">' + esc(L.autonym) + '</div>'
+    + '<div class="ph-sub">まず覚えたい ' + total + ' 語を、ジャンル別・レベル別に。</div></div>'
+    + '<div class="note">語をタップすると読み上げます。<b>' + esc(g.readingLabel)
+    + '</b>はおおよその目安で、正確な音とは違います。実際の音は発音のページで確かめてください。<br>'
+    + '<b>A1・A2</b>はCEFR（ヨーロッパ言語共通参照枠）の水準を目安にした<b>独自の選定</b>で、公開されている語彙リストを写したものではありません。</div>'
+    + '<div class="toolbar"><input class="search" id="q" type="search" placeholder="日本語・' + esc(L.jp) + 'どちらでも検索"></div>'
+    + '<div class="cats" id="cats">' + cats.map(function(c,i){
+        return '<button type="button" class="cat' + (i===0?' active':'') + '" data-c="' + (i-1) + '">' + esc(c) + '</button>';
+      }).join('') + '</div>'
+    + '<div class="cats" id="levels">'
+    + '<button type="button" class="cat active" data-l="">すべて</button>'
+    + (GOI.levels || []).map(function(lv){
+        return '<button type="button" class="cat" data-l="' + lv + '">' + lv + '</button>'; }).join('')
+    + '</div>'
+    + '<div id="list"></div>'
+    + '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">関連ページ</span></div>'
+    + '<a class="xlink" href="lang.html?code=' + esc(code) + '"><b>' + esc(L.jp) + 'のページ ›</b>'
+    + '<span>文字と発音・文法と表現・練習と会話。</span></a>'
+    + '<div class="app-footer">© 2025 日本語の部屋</div>';
+
+  var listEl = document.getElementById('list');
+  var qEl = document.getElementById('q');
+  var cur = -1;
+  var lv = '';
+
+  function render(){
+    var q = (qEl.value || '').trim().toLowerCase();
+    var html = '', shown = 0;
+    for (var ci=0; ci<g.data.length; ci++){
+      if (cur >= 0 && cur !== ci) continue;
+      var items = g.data[ci].filter(function(it){
+        if (lv && it[3] !== lv) return false;
+        if (!q) return true;
+        return (it[0]+' '+it[1]+' '+it[2]).toLowerCase().indexOf(q) >= 0;
+      });
+      if (!items.length) continue;
+      shown += items.length;
+      html += '<div class="sec-head"><div class="sec-bar"></div><span class="sec-title">'
+            + esc(GOI.cats[ci]) + '</span><span class="sec-n">' + items.length + '語</span></div>'
+            + '<div class="grid">'
+            + items.map(function(it){
+                return '<button type="button" class="w" data-say="' + esc(it[0]) + '">'
+                  + '<span class="w-o">' + esc(it[0]) + '</span>'
+                  + '<span class="w-r">' + esc(it[1]) + '</span>'
+                  + '<span class="w-j">' + esc(it[2]) + '</span>'
+                  + '<span class="lv">' + esc(it[3]) + '</span></button>';
+              }).join('')
+            + '</div>';
+    }
+    listEl.innerHTML = html || '<div class="empty">見つかりませんでした。</div>';
+  }
+
+  document.getElementById('cats').addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('.cat') : null;
+    if (!b) return;
+    cur = parseInt(b.getAttribute('data-c'), 10);
+    var bs = this.querySelectorAll('.cat');
+    for (var i=0;i<bs.length;i++){ bs[i].className = 'cat' + (bs[i]===b ? ' active' : ''); }
+    render();
+  });
+  document.getElementById('levels').addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('.cat') : null;
+    if (!b) return;
+    lv = b.getAttribute('data-l');
+    var bs = this.querySelectorAll('.cat');
+    for (var i=0;i<bs.length;i++){ bs[i].className = 'cat' + (bs[i]===b ? ' active' : ''); }
+    render();
+  });
+  qEl.addEventListener('input', render);
+  render();
+
+  /* 音声 */
+  function speak(text){
+    if (!window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = L.tts; u.rate = 0.9;
+      var vs = window.speechSynthesis.getVoices() || [];
+      var pre = String(L.tts).split('-')[0].toLowerCase();
+      for (var i=0;i<vs.length;i++){
+        if (vs[i].lang && vs[i].lang.replace('_','-').toLowerCase().indexOf(pre) === 0) { u.voice = vs[i]; break; }
+      }
+      window.speechSynthesis.speak(u);
+    } catch(e) {}
+  }
+  if (window.speechSynthesis) { window.speechSynthesis.getVoices(); }
+  document.addEventListener('click', function(e){
+    var t = e.target.closest ? e.target.closest('[data-say]') : null;
+    if (!t) return;
+    speak(t.getAttribute('data-say'));
+  });
+})();
+</script>
+</body>
+</html>

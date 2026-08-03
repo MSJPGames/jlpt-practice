@@ -7,7 +7,7 @@
    ========================================================================= */
 window.LANGS = [
   {
-    code:'zh', extras:[{href:'zh_tones.html',title:'🎵 声調（四声）',desc:'音の高さで意味が変わる。四声＋軽声・変調'},{href:'chinese_start.html',g:'bunpou',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'},{href:'chinese_joshi.html',g:'bunpou',title:'✍️ 日本語の助詞（中国語話者向け）',desc:'中国語話者に特有の間違いから助詞を整理する'},{href:'chinese_doushi.html',g:'bunpou',title:'🔄 日本語の動詞活用（中国語話者向け）',desc:'三グループとて形、「ている」が「在」ではない理由'},{href:'chinese_keigo.html',g:'bunpou',title:'🙇 日本語の敬語（中国語話者向け）',desc:'尊敬語と謙譲語の方向、ウチとソトの考え方'},{href:'chinese_bunkei.html',g:'bunpou',title:'🧩 各活用形の使い道（中国語話者向け）',desc:'て形・ない形・た形などに続く31の用法'},{href:'chinese_katakana.html',title:'🔤 カタカナ（中国語話者向け）',desc:'香港の音訳語との対照、和製英語、英語以外の外来語'}], jp:'中国語（普通話）', autonym:'中文 / 普通話', en:'Chinese (Mandarin)', chip:'中', group:'漢語',
+    code:'zh', extras:[{href:'goi.html?code=zh',g:'bunpou',title:'📚 基礎語彙',desc:'A1・A2相当の146語をジャンル別・レベル別に。ピンインと音声つき'},{href:'zh_tones.html',title:'🎵 声調（四声）',desc:'音の高さで意味が変わる。四声＋軽声・変調'},{href:'chinese_start.html',g:'bunpou',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'},{href:'chinese_joshi.html',g:'bunpou',title:'✍️ 日本語の助詞（中国語話者向け）',desc:'中国語話者に特有の間違いから助詞を整理する'},{href:'chinese_doushi.html',g:'bunpou',title:'🔄 日本語の動詞活用（中国語話者向け）',desc:'三グループとて形、「ている」が「在」ではない理由'},{href:'chinese_keigo.html',g:'bunpou',title:'🙇 日本語の敬語（中国語話者向け）',desc:'尊敬語と謙譲語の方向、ウチとソトの考え方'},{href:'chinese_bunkei.html',g:'bunpou',title:'🧩 各活用形の使い道（中国語話者向け）',desc:'て形・ない形・た形などに続く31の用法'},{href:'chinese_katakana.html',title:'🔤 カタカナ（中国語話者向け）',desc:'香港の音訳語との対照、和製英語、英語以外の外来語'}], jp:'中国語（普通話）', autonym:'中文 / 普通話', en:'Chinese (Mandarin)', chip:'中', group:'漢語',
     region:'中国・台湾・シンガポール ほか', script:'漢字（簡体字／繁体字）', family:'シナ・チベット語族', order:'SVO',
     tts:'zh-CN', resRank:'1位', learnRank:'1位', core:true, resident:true, learner:true, sov:false,
     accent:'#9A3D1C', bg:'#FAECE7', grammar:'grammar.html?code=zh', grammarTitle:'📖 HSKレベル別の文法を見る', grammarDesc:'新HSK1〜9級の文法を、例文つきでレベル別に',
@@ -22,7 +22,7 @@ window.LANGS = [
     tips:['漢字の知識は大きな武器。ただし簡体字と日本の字体の違いに注意。','声調（4声）と、日中で意味がずれる漢語（例：手紙＝トイレットペーパー）に注意。']
   },
   {
-    code:'ko', extras:[{href:'ko_moji.html',title:'🔤 ハングルのしくみ',desc:'字母・音節・パッチム・発音の変化・漢字音の日韓対応'},{href:'korean_consonants.html',title:'🔊 平音・激音・濃音',desc:'3つの子音系列を聞き分け・出し分け'},{href:'ko_hinshi.html',g:'bunpou',title:'🧩 文法のしくみ',desc:'品詞・助詞・活用・数詞。あいさつや場面別の表現もここから'},{href:'korean_keigo.html',g:'bunpou',title:'🙇 待遇表現（丁寧さ・敬語）',desc:'반말/해요体/합니다体と尊敬・謙譲'},{href:'ko_renshu.html',g:'renshu',title:'🎯 練習ページの入口',desc:'ことばクイズ・AIとの会話練習'}], jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
+    code:'ko', extras:[{href:'goi.html?code=ko',g:'bunpou',title:'📚 基礎語彙',desc:'A1・A2相当の146語をジャンル別・レベル別に。読み方と音声つき'},{href:'ko_moji.html',title:'🔤 ハングルのしくみ',desc:'字母・音節・パッチム・発音の変化・漢字音の日韓対応'},{href:'korean_consonants.html',title:'🔊 平音・激音・濃音',desc:'3つの子音系列を聞き分け・出し分け'},{href:'ko_hinshi.html',g:'bunpou',title:'🧩 文法のしくみ',desc:'品詞・助詞・活用・数詞。あいさつや場面別の表現もここから'},{href:'korean_keigo.html',g:'bunpou',title:'🙇 待遇表現（丁寧さ・敬語）',desc:'반말/해요体/합니다体と尊敬・謙譲'},{href:'ko_renshu.html',g:'renshu',title:'🎯 練習ページの入口',desc:'ことばクイズ・AIとの会話練習'}], jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
     region:'韓国・北朝鮮', script:'ハングル', family:'朝鮮語族（系統は諸説）', order:'SOV（日本語型）',
     tts:'ko-KR', resRank:'3位', learnRank:'3位', core:true, resident:true, learner:true, sov:true,
     accent:'#185FA5', bg:'#E6F1FB',
@@ -75,7 +75,7 @@ window.LANGS = [
     tips:['語順が日本語型（SOV）で文の組み立ては親しみやすい。','独特の文字と声調が難所。まずは文字と音から。']
   },
   {
-    code:'en', extras:[{href:'en_pronunciation.html',title:'🔊 発音のポイント',desc:'L/R・th・母音・強勢リズム'}], grammar:'grammar.html?code=en', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（英検・TOEIC）の文法を、例文つきでレベル別に', jp:'英語', autonym:'English', en:'English', chip:'En',
+    code:'en', extras:[{href:'goi.html?code=en',g:'bunpou',title:'📚 基礎語彙',desc:'A1・A2相当の146語をジャンル別・レベル別に。読み方と音声つき'},{href:'en_pronunciation.html',title:'🔊 発音のポイント',desc:'L/R・th・母音・強勢リズム'}], grammar:'grammar.html?code=en', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（英検・TOEIC）の文法を、例文つきでレベル別に', jp:'英語', autonym:'English', en:'English', chip:'En',
     region:'豪・米・比 ほか世界各地', script:'ラテン文字', family:'インド・ヨーロッパ語族', order:'SVO',
     tts:'en-US', resRank:null, learnRank:'豪4・米7位', core:false, resident:false, learner:true, sov:false,
     accent:'#3C3489', bg:'#EEEDFE',
@@ -151,7 +151,7 @@ window.LANGS = [
     tips:['SOV・後置詞（〜मा＝〜に、〜लाई＝〜を）で、日本語と語順がとても近い。','コピュラが2つ：हो（ho）＝「〜だ」（同定・性質）、छ（cha）＝「ある／いる・状態」（存在・状態・位置）。スペイン語の ser／estar に近い使い分け。','動詞は主語の人称・数・性・敬語レベルで変化する（主語と一致）。','敬語は3段階：तपाईं（尊敬）／तिमी（対等）／तँ（目下）。相手によって代名詞と動詞が変わる。','過去の他動詞では主語に 〜ले（le）が付く（能格的）。文字はヒンディー語と同じデーヴァナーガリーだが、語彙・発音は異なる。']
   },
   {
-    code:'pt', conj:false, extras:[{href:'pt_hinshi.html',g:'bunpou',title:'🧩 品詞のしくみ',desc:'名詞・冠詞・形容詞・数詞・代名詞・動詞…を例文つきで'},{href:'pt_hou.html',g:'bunpou',title:'🔀 法と動詞の活用',desc:'直説法・接続法・命令法・未来接続法・人称不定詞と、活用表'},{href:'pt_pronunciation.html',title:'👃 鼻母音と発音',desc:'ão・sim…鼻に抜ける母音のコツ'}], grammar:'grammar.html?code=pt', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（Celpe-Bras）の文法を、例文つきでレベル別に', jp:'ポルトガル語', autonym:'Português', en:'Portuguese', chip:'Pt',
+    code:'pt', conj:false, extras:[{href:'goi.html?code=pt',g:'bunpou',title:'📚 基礎語彙',desc:'A1・A2相当の146語をジャンル別・レベル別に。読み方と音声つき'},{href:'pt_hinshi.html',g:'bunpou',title:'🧩 品詞のしくみ',desc:'名詞・冠詞・形容詞・数詞・代名詞・動詞…を例文つきで'},{href:'pt_hou.html',g:'bunpou',title:'🔀 法と動詞の活用',desc:'直説法・接続法・命令法・未来接続法・人称不定詞と、活用表'},{href:'pt_pronunciation.html',title:'👃 鼻母音と発音',desc:'ão・sim…鼻に抜ける母音のコツ'}], grammar:'grammar.html?code=pt', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（Celpe-Bras）の文法を、例文つきでレベル別に', jp:'ポルトガル語', autonym:'Português', en:'Portuguese', chip:'Pt',
     region:'ブラジル・ポルトガル ほか', script:'ラテン文字', family:'インド・ヨーロッパ語族', order:'SVO',
     tts:'pt-BR', resRank:'7位（ブラジル）', learnRank:null, core:false, resident:true, learner:false, sov:false,
     accent:'#185FA5', bg:'#E6F1FB',
@@ -241,7 +241,7 @@ window.LANGS = [
     tips:['声調が6つ（普通話は4つ）。漢字は繁体字。','語彙・文法も普通話と異なる。-p/-t/-k で終わる入声がある。読みは粵拼（ジュッピン）。']
   },
   {
-    code:'es', conj:false, extras:[{href:'es_hinshi.html',g:'bunpou',title:'🧩 品詞のしくみ',desc:'名詞・冠詞・形容詞・代名詞・動詞…を例文つきで。性と数の一致、語順'},{href:'es_hou.html',g:'bunpou',title:'🔀 法と動詞の活用',desc:'直説法・接続法・命令法・過去未来の使い分けと、活用表'},{href:'es_pronunciation.html',title:'🔊 発音とアクセント',desc:'母音・rr・j・ñ・強勢の規則'}], grammar:'grammar.html?code=es', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELE/SIELE）の文法を、例文つきでレベル別に', jp:'スペイン語', autonym:'Español', en:'Spanish', chip:'Es',
+    code:'es', conj:false, extras:[{href:'goi.html?code=es',g:'bunpou',title:'📚 基礎語彙',desc:'A1・A2相当の146語をジャンル別・レベル別に。読み方と音声つき'},{href:'es_hinshi.html',g:'bunpou',title:'🧩 品詞のしくみ',desc:'名詞・冠詞・形容詞・代名詞・動詞…を例文つきで。性と数の一致、語順'},{href:'es_hou.html',g:'bunpou',title:'🔀 法と動詞の活用',desc:'直説法・接続法・命令法・過去未来の使い分けと、活用表'},{href:'es_pronunciation.html',title:'🔊 発音とアクセント',desc:'母音・rr・j・ñ・強勢の規則'}], grammar:'grammar.html?code=es', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELE/SIELE）の文法を、例文つきでレベル別に', jp:'スペイン語', autonym:'Español', en:'Spanish', chip:'Es',
     region:'スペイン・中南米', script:'ラテン文字', family:'インド・ヨーロッパ語族（ロマンス）', order:'SVO',
     tts:'es-ES', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#C25E00', bg:'#FBEBDD',
@@ -256,7 +256,7 @@ window.LANGS = [
     tips:['SVO。動詞は主語で活用し、名詞・形容詞に性・数がある。','つづりはほぼ表音的で読みやすい。疑問文・感嘆文は ¿ ? ・ ¡ ! で囲む。']
   },
   {
-    code:'fr', conj:false, extras:[{href:'fr_hinshi.html',g:'bunpou',title:'🧩 品詞のしくみ',desc:'名詞・冠詞・形容詞・代名詞・動詞…を例文つきで。性と数の一致、語順'},{href:'fr_hou.html',g:'bunpou',title:'🔀 法と動詞の活用',desc:'直説法・接続法・命令法・条件法の使い分けと、活用表'},{href:'fr_nasal.html',title:'👃 鼻母音とリエゾン',desc:'an/on/in の鼻母音と、単語がつながる連音'}], grammar:'grammar.html?code=fr', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELF/DALF）の文法を、例文つきでレベル別に', jp:'フランス語', autonym:'Français', en:'French', chip:'Fr',
+    code:'fr', conj:false, extras:[{href:'goi.html?code=fr',g:'bunpou',title:'📚 基礎語彙',desc:'A1・A2相当の146語をジャンル別・レベル別に。読み方と音声つき'},{href:'fr_hinshi.html',g:'bunpou',title:'🧩 品詞のしくみ',desc:'名詞・冠詞・形容詞・代名詞・動詞…を例文つきで。性と数の一致、語順'},{href:'fr_hou.html',g:'bunpou',title:'🔀 法と動詞の活用',desc:'直説法・接続法・命令法・条件法の使い分けと、活用表'},{href:'fr_nasal.html',title:'👃 鼻母音とリエゾン',desc:'an/on/in の鼻母音と、単語がつながる連音'}], grammar:'grammar.html?code=fr', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（DELF/DALF）の文法を、例文つきでレベル別に', jp:'フランス語', autonym:'Français', en:'French', chip:'Fr',
     region:'フランス・カナダ・アフリカ他', script:'ラテン文字', family:'インド・ヨーロッパ語族（ロマンス）', order:'SVO',
     tts:'fr-FR', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#2E5AAC', bg:'#E5ECF7',

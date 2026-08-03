@@ -7,7 +7,7 @@
    ========================================================================= */
 window.LANGS = [
   {
-    code:'zh', extras:[{href:'zh_tones.html',title:'🎵 声調（四声）',desc:'音の高さで意味が変わる。四声＋軽声・変調'},{href:'chinese_start.html',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'},{href:'chinese_joshi.html',title:'✍️ 日本語の助詞（中国語話者向け）',desc:'中国語話者に特有の間違いから助詞を整理する'},{href:'chinese_doushi.html',title:'🔄 日本語の動詞活用（中国語話者向け）',desc:'三グループとて形、「ている」が「在」ではない理由'},{href:'chinese_keigo.html',title:'🙇 日本語の敬語（中国語話者向け）',desc:'尊敬語と謙譲語の方向、ウチとソトの考え方'},{href:'chinese_bunkei.html',title:'🧩 各活用形の使い道（中国語話者向け）',desc:'て形・ない形・た形などに続く31の用法'},{href:'chinese_katakana.html',title:'🔤 カタカナ（中国語話者向け）',desc:'香港の音訳語との対照、和製英語、英語以外の外来語'}], jp:'中国語（普通話）', autonym:'中文 / 普通話', en:'Chinese (Mandarin)', chip:'中', group:'漢語',
+    code:'zh', extras:[{href:'zh_tones.html',title:'🎵 声調（四声）',desc:'音の高さで意味が変わる。四声＋軽声・変調'},{href:'chinese_start.html',g:'bunpou',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'},{href:'chinese_joshi.html',g:'bunpou',title:'✍️ 日本語の助詞（中国語話者向け）',desc:'中国語話者に特有の間違いから助詞を整理する'},{href:'chinese_doushi.html',g:'bunpou',title:'🔄 日本語の動詞活用（中国語話者向け）',desc:'三グループとて形、「ている」が「在」ではない理由'},{href:'chinese_keigo.html',g:'bunpou',title:'🙇 日本語の敬語（中国語話者向け）',desc:'尊敬語と謙譲語の方向、ウチとソトの考え方'},{href:'chinese_bunkei.html',g:'bunpou',title:'🧩 各活用形の使い道（中国語話者向け）',desc:'て形・ない形・た形などに続く31の用法'},{href:'chinese_katakana.html',title:'🔤 カタカナ（中国語話者向け）',desc:'香港の音訳語との対照、和製英語、英語以外の外来語'}], jp:'中国語（普通話）', autonym:'中文 / 普通話', en:'Chinese (Mandarin)', chip:'中', group:'漢語',
     region:'中国・台湾・シンガポール ほか', script:'漢字（簡体字／繁体字）', family:'シナ・チベット語族', order:'SVO',
     tts:'zh-CN', resRank:'1位', learnRank:'1位', core:true, resident:true, learner:true, sov:false,
     accent:'#9A3D1C', bg:'#FAECE7', grammar:'grammar.html?code=zh', grammarTitle:'📖 HSKレベル別の文法を見る', grammarDesc:'新HSK1〜9級の文法を、例文つきでレベル別に',
@@ -22,18 +22,11 @@ window.LANGS = [
     tips:['漢字の知識は大きな武器。ただし簡体字と日本の字体の違いに注意。','声調（4声）と、日中で意味がずれる漢語（例：手紙＝トイレットペーパー）に注意。']
   },
   {
-    code:'ko', grammar:'grammar.html?code=ko', grammarTitle:'📖 TOPIKレベル別の文法を見る', grammarDesc:'TOPIK1〜6級の文法を、例文つきでレベル別に', extras:[{href:'ko_moji.html',title:'🔤 文字と発音（ハングル）',desc:'字母・音節の組み立て・パッチム・発音の変化・漢字音の日韓対応'},{href:'ko_hinshi.html',title:'🧩 品詞と表現',desc:'9品詞の分類から助詞・活用・敬語・数詞まで。日本語との対照つき'},{href:'korean_consonants.html',title:'🔊 平音・激音・濃音',desc:'3つの子音系列を聞き分け・出し分け'},{href:'korean_keigo.html',title:'🙇 待遇表現（丁寧さ・敬語）',desc:'반말/해요体/합니다体と尊敬・謙譲'}], jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
+    code:'ko', moji:false, extras:[{href:'ko_moji.html',title:'🔤 ハングルのしくみ',desc:'字母・音節・パッチム・発音の変化・平音激音濃音・なぞり書き'},{href:'ko_hinshi.html',g:'bunpou',title:'🧩 文法のしくみ',desc:'品詞・助詞・活用・敬語・数詞。あいさつや場面別の表現もここから'},{href:'ko_renshu.html',g:'renshu',title:'🎯 練習ページの入口',desc:'ことばクイズ・AIとの会話練習'}], jp:'韓国語', autonym:'한국어', en:'Korean', chip:'한',
     region:'韓国・北朝鮮', script:'ハングル', family:'朝鮮語族（系統は諸説）', order:'SOV（日本語型）',
     tts:'ko-KR', resRank:'3位', learnRank:'3位', core:true, resident:true, learner:true, sov:true,
     accent:'#185FA5', bg:'#E6F1FB',
     note:'語順・助詞・敬語が日本語と対応しやすく、相互に学びやすい言語。',
-    phrases:[
-      ['こんにちは','안녕하세요','アンニョンハセヨ'],['ありがとう','감사합니다','カムサハムニダ'],
-      ['はい','네','ネ'],['いいえ','아니요','アニヨ'],
-      ['すみません','죄송합니다','チェソンハムニダ'],['さようなら','안녕히 가세요','アンニョンヒ ガセヨ']
-    ],
-    numbers:[['일','イル'],['이','イ'],['삼','サム'],['사','サ'],['오','オ'],['육','ユク'],['칠','チル'],['팔','パル'],['구','ク'],['십','シプ']],
-    selfintro:[['はじめまして','처음 뵙겠습니다','チョウム ペッケッスムニダ'],['私は〇〇です','저는 〇〇입니다','チョヌン 〇〇 イムニダ']],
     tips:['語順・助詞・敬語が日本語とよく対応し、相互に学びやすい。','漢字語の多くが日本語と共通。発音（パッチム）に慣れるのが鍵。']
   },
   {
@@ -52,7 +45,7 @@ window.LANGS = [
     tips:['6声調が最大の難関。まず音を正確に。','孤立語で語形変化が少なく、文法はシンプル。漢越語は日本語と対応することも。']
   },
   {
-    code:'id', extras:[{href:'id_grammar.html',title:'🧩 語形成（接辞と畳語）',desc:'me-/ber-…語根から語を作るしくみ'}], grammar:'grammar.html?code=id', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（BIPA/UKBI対応）の文法を例文つきで', jp:'インドネシア語', autonym:'Bahasa Indonesia', en:'Indonesian', chip:'Id',
+    code:'id', extras:[{href:'id_grammar.html',g:'bunpou',title:'🧩 語形成（接辞と畳語）',desc:'me-/ber-…語根から語を作るしくみ'}], grammar:'grammar.html?code=id', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2（BIPA/UKBI対応）の文法を例文つきで', jp:'インドネシア語', autonym:'Bahasa Indonesia', en:'Indonesian', chip:'Id',
     region:'インドネシア（共通語）', script:'ラテン文字', family:'オーストロネシア語族', order:'SVO',
     tts:'id-ID', resRank:'6位', learnRank:'2位', core:true, resident:true, learner:true, sov:false,
     accent:'#1F6F6B', bg:'#DFF0EE',
@@ -233,7 +226,7 @@ window.LANGS = [
     tips:['SOV・後置詞で日本語と語順が近い（ヒンディー語とほぼ同じ文法）。','文字はアラビア文字系で右から左へ。短母音は記号で表す。']
   },
   {
-    code:'yue', extras:[{href:'yue_tones.html',title:'🎵 声調（6声）',desc:'6つの声調。Jyutpingの数字で表す'},{href:'onyomi_cantonese.html',title:'🈯 広東語で日本語の音読み',desc:'入声（-p/-t/-k）から日本語の「っ・ん・長音」を予測する'},{href:'onyomi_game.html',title:'🎯 音読みあてゲーム',desc:'粵音を見て日本語の音読みを当てる。韻尾・音読み・促音の3種'},{href:'cangjie.html',title:'⌨️ 倉頡字根で日本の漢字',desc:'24字根で漢字を分解。繁体字と日本の新字体のちがいも'},{href:'chinese_start.html',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'},{href:'chinese_joshi.html',title:'✍️ 日本語の助詞（中国語話者向け）',desc:'中国語話者に特有の間違いから助詞を整理する'},{href:'chinese_doushi.html',title:'🔄 日本語の動詞活用（中国語話者向け）',desc:'三グループとて形、「ている」が「在」ではない理由'},{href:'chinese_keigo.html',title:'🙇 日本語の敬語（中国語話者向け）',desc:'尊敬語と謙譲語の方向、ウチとソトの考え方'},{href:'chinese_bunkei.html',title:'🧩 各活用形の使い道（中国語話者向け）',desc:'て形・ない形・た形などに続く31の用法'},{href:'chinese_katakana.html',title:'🔤 カタカナ（中国語話者向け）',desc:'香港の音訳語との対照、和製英語、英語以外の外来語'}], grammar:'grammar.html?code=yue', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、広東語の文法を例文つきで', jp:'広東語', autonym:'廣東話 / 粵語', en:'Cantonese', chip:'粵',
+    code:'yue', extras:[{href:'yue_tones.html',title:'🎵 声調（6声）',desc:'6つの声調。Jyutpingの数字で表す'},{href:'onyomi_cantonese.html',title:'🈯 広東語で日本語の音読み',desc:'入声（-p/-t/-k）から日本語の「っ・ん・長音」を予測する'},{href:'onyomi_game.html',g:'renshu',title:'🎯 音読みあてゲーム',desc:'粵音を見て日本語の音読みを当てる。韻尾・音読み・促音の3種'},{href:'cangjie.html',title:'⌨️ 倉頡字根で日本の漢字',desc:'24字根で漢字を分解。繁体字と日本の新字体のちがいも'},{href:'chinese_start.html',g:'bunpou',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'},{href:'chinese_joshi.html',g:'bunpou',title:'✍️ 日本語の助詞（中国語話者向け）',desc:'中国語話者に特有の間違いから助詞を整理する'},{href:'chinese_doushi.html',g:'bunpou',title:'🔄 日本語の動詞活用（中国語話者向け）',desc:'三グループとて形、「ている」が「在」ではない理由'},{href:'chinese_keigo.html',g:'bunpou',title:'🙇 日本語の敬語（中国語話者向け）',desc:'尊敬語と謙譲語の方向、ウチとソトの考え方'},{href:'chinese_bunkei.html',g:'bunpou',title:'🧩 各活用形の使い道（中国語話者向け）',desc:'て形・ない形・た形などに続く31の用法'},{href:'chinese_katakana.html',title:'🔤 カタカナ（中国語話者向け）',desc:'香港の音訳語との対照、和製英語、英語以外の外来語'}], grammar:'grammar.html?code=yue', grammarTitle:'📖 CEFRレベル別の文法を見る', grammarDesc:'A1〜C2の目安で、広東語の文法を例文つきで', jp:'広東語', autonym:'廣東話 / 粵語', en:'Cantonese', chip:'粵',
     region:'香港・マカオ・広東省', script:'漢字（繁体字）', family:'シナ・チベット語族', order:'SVO',
     tts:'zh-HK', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false, group:'漢語',
     accent:'#B03A2E', bg:'#F7E4E0',
@@ -293,7 +286,7 @@ window.LANGS = [
     tips:['SVO。名詞に性、動詞は主語で活用。','つづりと発音がほぼ規則的で読みやすい。']
   },
   {
-    code:'zhtw', extras:[{href:'chinese_start.html',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'},{href:'chinese_joshi.html',title:'✍️ 日本語の助詞（中国語話者向け）',desc:'中国語話者に特有の間違いから助詞を整理する'},{href:'chinese_doushi.html',title:'🔄 日本語の動詞活用（中国語話者向け）',desc:'三グループとて形、「ている」が「在」ではない理由'},{href:'chinese_keigo.html',title:'🙇 日本語の敬語（中国語話者向け）',desc:'尊敬語と謙譲語の方向、ウチとソトの考え方'},{href:'chinese_bunkei.html',title:'🧩 各活用形の使い道（中国語話者向け）',desc:'て形・ない形・た形などに続く31の用法'},{href:'chinese_katakana.html',title:'🔤 カタカナ（中国語話者向け）',desc:'香港の音訳語との対照、和製英語、英語以外の外来語'}], grammar:'grammar.html?code=zhtw', grammarTitle:'📖 TOCFLレベル別の文法を見る', grammarDesc:'TOCFL1〜6級（華語文能力測驗・繁体字）の文法を例文つきで', jp:'台湾華語', autonym:'臺灣華語 / 國語', en:'Taiwanese Mandarin', chip:'華', group:'漢語',
+    code:'zhtw', extras:[{href:'chinese_start.html',g:'bunpou',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'},{href:'chinese_joshi.html',g:'bunpou',title:'✍️ 日本語の助詞（中国語話者向け）',desc:'中国語話者に特有の間違いから助詞を整理する'},{href:'chinese_doushi.html',g:'bunpou',title:'🔄 日本語の動詞活用（中国語話者向け）',desc:'三グループとて形、「ている」が「在」ではない理由'},{href:'chinese_keigo.html',g:'bunpou',title:'🙇 日本語の敬語（中国語話者向け）',desc:'尊敬語と謙譲語の方向、ウチとソトの考え方'},{href:'chinese_bunkei.html',g:'bunpou',title:'🧩 各活用形の使い道（中国語話者向け）',desc:'て形・ない形・た形などに続く31の用法'},{href:'chinese_katakana.html',title:'🔤 カタカナ（中国語話者向け）',desc:'香港の音訳語との対照、和製英語、英語以外の外来語'}], grammar:'grammar.html?code=zhtw', grammarTitle:'📖 TOCFLレベル別の文法を見る', grammarDesc:'TOCFL1〜6級（華語文能力測驗・繁体字）の文法を例文つきで', jp:'台湾華語', autonym:'臺灣華語 / 國語', en:'Taiwanese Mandarin', chip:'華', group:'漢語',
     region:'台湾', script:'漢字（繁体字）・注音符号', family:'シナ・チベット語族', order:'SVO',
     tts:'zh-TW', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#B23B3B', bg:'#F8E6E3',
@@ -308,7 +301,7 @@ window.LANGS = [
     tips:['文法・語彙は普通話とほぼ共通だが、繁体字で書く。','発音表記は注音符号（ㄅㄆㄇㄈ）。一部の声調・語彙・発音が大陸と異なる。','検定試験は TOCFL（華語文能力測驗）。']
   },
   {
-    code:'nan', extras:[{href:'chinese_start.html',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'},{href:'chinese_joshi.html',title:'✍️ 日本語の助詞（中国語話者向け）',desc:'中国語話者に特有の間違いから助詞を整理する'},{href:'chinese_doushi.html',title:'🔄 日本語の動詞活用（中国語話者向け）',desc:'三グループとて形、「ている」が「在」ではない理由'},{href:'chinese_keigo.html',title:'🙇 日本語の敬語（中国語話者向け）',desc:'尊敬語と謙譲語の方向、ウチとソトの考え方'},{href:'chinese_bunkei.html',title:'🧩 各活用形の使い道（中国語話者向け）',desc:'て形・ない形・た形などに続く31の用法'},{href:'chinese_katakana.html',title:'🔤 カタカナ（中国語話者向け）',desc:'香港の音訳語との対照、和製英語、英語以外の外来語'}], grammar:'grammar.html?code=nan', grammarTitle:'📖 台語の文法をレベル別に見る', grammarDesc:'基礎〜上級の台語文法を、漢字＋台羅の例文つきで', jp:'台湾語（台語）', autonym:'臺語 / 臺灣話', en:'Taiwanese (Hokkien)', chip:'台', group:'漢語',
+    code:'nan', extras:[{href:'chinese_start.html',g:'bunpou',title:'🈶 中文底子で日本語を学ぶ',desc:'漢字・音読みの利点と、同形異義語の落とし穴'},{href:'chinese_joshi.html',g:'bunpou',title:'✍️ 日本語の助詞（中国語話者向け）',desc:'中国語話者に特有の間違いから助詞を整理する'},{href:'chinese_doushi.html',g:'bunpou',title:'🔄 日本語の動詞活用（中国語話者向け）',desc:'三グループとて形、「ている」が「在」ではない理由'},{href:'chinese_keigo.html',g:'bunpou',title:'🙇 日本語の敬語（中国語話者向け）',desc:'尊敬語と謙譲語の方向、ウチとソトの考え方'},{href:'chinese_bunkei.html',g:'bunpou',title:'🧩 各活用形の使い道（中国語話者向け）',desc:'て形・ない形・た形などに続く31の用法'},{href:'chinese_katakana.html',title:'🔤 カタカナ（中国語話者向け）',desc:'香港の音訳語との対照、和製英語、英語以外の外来語'}], grammar:'grammar.html?code=nan', grammarTitle:'📖 台語の文法をレベル別に見る', grammarDesc:'基礎〜上級の台語文法を、漢字＋台羅の例文つきで', jp:'台湾語（台語）', autonym:'臺語 / 臺灣話', en:'Taiwanese (Hokkien)', chip:'台', group:'漢語',
     region:'台湾', script:'漢字・台羅（ローマ字）', family:'シナ・チベット語族（閩南語）', order:'SVO',
     tts:'nan', resRank:null, learnRank:null, core:false, resident:false, learner:false, sov:false,
     accent:'#8A6D1B', bg:'#F5EFD8',

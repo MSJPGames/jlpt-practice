@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>韓国語の練習と会話 ・ 日本語の部屋</title>
+<meta name="description" content="韓国語の練習ページの入口。ハングルのなぞり書き、ことばクイズ、AIとの会話練習、TOPIKレベル別の文法。">
+<style>
+  :root {
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --accent:#185FA5; --accent-bg:#E3EDF7; --accent-dark:#12467A;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    font-family:'Noto Sans JP','Noto Sans KR','Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo','Malgun Gothic',sans-serif;
+    background:var(--bg); color:var(--text); min-height:100vh; padding:0 1rem 3rem; line-height:1.7;
+  }
+  .container { max-width:520px; margin:0 auto; }
+  .topbar { display:flex; align-items:center; gap:8px; padding:14px 0 2px; }
+  .back-link { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-weight:700;
+    color:var(--text-muted); text-decoration:none; padding:6px 13px 6px 9px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface);
+    -webkit-tap-highlight-color:transparent; transition:transform .12s; }
+  .back-link:active { transform:scale(0.97); }
+  .back-arrow { font-size:16px; line-height:1; }
+  .home-link { margin-left:auto; font-size:15px; text-decoration:none; padding:6px 11px;
+    border:1px solid var(--border); border-radius:999px; background:var(--surface); }
+  .page-header { text-align:center; padding:1.3rem 0 .3rem; }
+  .ph-eyebrow { font-size:11px; font-weight:700; letter-spacing:.14em; color:var(--accent); margin-bottom:8px; }
+  .ph-title { font-size:24px; font-weight:700; letter-spacing:.02em; }
+  .ph-han { font-size:15px; color:var(--accent); font-weight:700; margin-top:4px; }
+  .ph-sub { font-size:13px; color:var(--text-muted); margin-top:6px; line-height:1.6; }
+  .note { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:12px 15px; font-size:12.5px; color:var(--text-muted); line-height:1.75; margin-top:1.1rem; }
+  .note b { color:var(--text); font-weight:700; }
+  .sec-head { display:flex; align-items:center; gap:9px; margin:1.9rem 0 .7rem; }
+  .sec-bar { width:4px; height:18px; border-radius:2px; background:var(--accent); }
+  .sec-title { font-size:15px; font-weight:700; }
+  .sec-en { font-size:10px; font-weight:700; letter-spacing:.1em; color:var(--text-hint); text-transform:uppercase; }
+  .hcard { display:block; text-decoration:none; color:inherit; background:var(--surface);
+    border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:var(--radius);
+    padding:13px 15px; margin-bottom:10px; -webkit-tap-highlight-color:transparent;
+    transition:transform .12s, box-shadow .12s; }
+  .hcard:hover { box-shadow:0 4px 16px rgba(0,0,0,.07); }
+  .hcard:active { transform:scale(.99); }
+  .hc-top { display:flex; align-items:baseline; gap:8px; }
+  .hc-t { font-size:15px; font-weight:700; color:var(--accent-dark); }
+  .hc-go { margin-left:auto; color:var(--accent); font-size:20px; }
+  .hc-desc { font-size:12.5px; color:var(--text-muted); line-height:1.7; margin-top:5px; }
+  .hc-tag { display:inline-block; font-size:11px; font-weight:700; color:var(--accent);
+    background:var(--accent-bg); border-radius:20px; padding:3px 10px; margin-top:8px; }
+  .xlink { display:block; text-decoration:none; color:inherit; background:var(--surface);
+    border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:12px;
+    padding:12px 14px; margin-bottom:10px; }
+  .xlink b { display:block; font-size:13.5px; font-weight:700; color:var(--accent-dark); }
+  .xlink span { display:block; font-size:12px; color:var(--text-muted); margin-top:3px; line-height:1.6; }
+  .app-footer { text-align:center; font-size:11px; color:var(--text-hint); margin-top:2.4rem; line-height:1.8; }
+  @media (min-width:700px)  { .container { zoom:1.3; } }
+  @media (min-width:1100px) { .container { zoom:1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <a href="lang.html?code=ko" class="back-link"><span class="back-arrow">‹</span>韓国語にもどる</a>
+    <a href="index.html" class="home-link" title="ホーム">🏠</a>
+  </div>
+
+  <div class="page-header">
+    <div class="ph-eyebrow">PRACTICE &amp; CONVERSATION</div>
+    <div class="ph-title">練習と会話</div>
+    <div class="ph-han">연습과 회화</div>
+    <div class="ph-sub">覚えたことばを、答えて・話して確かめます。</div>
+  </div>
+
+  <div class="note">
+    読んで覚えたことを、ここで答えて・話して確かめます。登録は不要です。<br>字を書く練習（なぞり書き）は<a href="ko_moji.html" style="color:var(--accent-dark);font-weight:700;">文字と発音</a>にあります。
+  </div>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">語彙をためす</span><span class="sec-en">Quiz</span></div>
+  <a class="hcard" href="gaikokugo_game.html">
+    <div class="hc-top"><span class="hc-t">🎮 外国語ことばクイズ</span><span class="hc-go">›</span></div>
+    <div class="hc-desc">言語を「韓国語」に切り替えて、ジャンル別の語彙を四択で確認します。記録は端末に残ります。</div>
+    <div class="hc-tag">すきま時間に</div>
+  </a>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">話してみる</span><span class="sec-en">Conversation</span></div>
+  <a class="hcard" href="kaiwa_lang.html">
+    <div class="hc-top"><span class="hc-t">💬 AIと会話練習（多言語）</span><span class="hc-go">›</span></div>
+    <div class="hc-desc">場面を選んで、韓国語でやりとりします。言い方に迷ったところをその場で確かめられます。</div>
+    <div class="hc-tag">練習相手がいないとき</div>
+  </a>
+
+  <div class="sec-head"><div class="sec-bar"></div><span class="sec-title">関連ページ</span><span class="sec-en">Related</span></div>
+  <a class="xlink" href="ko_moji.html"><b>文字と発音 ›</b><span>ハングルの字母・音節の組み立て・パッチム・発音の変化。</span></a>
+  <a class="xlink" href="ko_hinshi.html"><b>文法と表現 ›</b><span>品詞・助詞・活用・敬語・数詞。TOPIK文法もここから。</span></a>
+  <a class="xlink" href="ko_hyougen.html"><b>表現 — あいさつ・自己紹介 ›</b><span>そのまま使える表現を、カナ読みと音声つきで。</span></a>
+
+  <div class="app-footer">© 2025 日本語の部屋</div>
+</div>
+</body>
+</html>

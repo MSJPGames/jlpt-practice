@@ -1,79 +1,34 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><title>更新ファイル 2026-08-03</title><style>body{font-family:"Yu Gothic","Meiryo",sans-serif;max-width:46em;margin:2em auto;padding:0 1em;line-height:1.8}pre{white-space:pre-wrap;font-family:inherit}</style></head><body><pre>「日本語の部屋」更新ファイル（2026-08-03）
-==========================================
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8">
+<title>N1 聴解 211問（2026-08-05）</title>
+<style>body{font-family:"Yu Gothic","Meiryo",sans-serif;max-width:44em;margin:2em auto;padding:0 1em;line-height:1.9;color:#222}
+h1{font-size:20px;border-bottom:2px solid #2D5A8E;padding-bottom:6px}h2{font-size:16px;margin-top:1.8em;color:#2D5A8E}
+table{border-collapse:collapse;margin:1em 0}td,th{border:1px solid #ccc;padding:4px 12px}
+code{background:#f2f4f7;padding:1px 5px;border-radius:3px}ol li{margin-bottom:.6em}
+.warn{background:#FFF6E5;border-left:4px solid #E8A33D;padding:10px 14px;margin:1em 0}
+.ok{background:#EAF4EC;border-left:4px solid #4A8C5E;padding:10px 14px;margin:1em 0}</style></head><body>
+<h1>JLPT N1 聴解 211問（2026-08-05）</h1>
+<div class="ok"><b>失われていた160問を、OneDrive のバージョン履歴から復元しました。</b>
+今日新しく作った51問と統合して、あわせて211問になっています。台本の重複はゼロでした。</div>
+<table><tr><th>大問</th><th>種類</th><th>問題数</th></tr><tr><td>問題1</td><td>課題理解</td><td style="text-align:right">40問</td></tr><tr><td>問題2</td><td>ポイント理解</td><td style="text-align:right">40問</td></tr><tr><td>問題3</td><td>概要理解</td><td style="text-align:right">40問</td></tr><tr><td>問題4</td><td>即時応答</td><td style="text-align:right">61問</td></tr><tr><td>問題5</td><td>統合理解</td><td style="text-align:right">30問</td></tr></table>
 
-この3つのファイルを、OneDrive の JLPT PRACTICE フォルダに
-そのまま上書きコピーしてください（すべてルート直下です）。
+<h2>やること</h2>
+<ol>
+<li><b>このZIPの中身を「JLPT PRACTICE」フォルダに展開</b>してください（<code>n1_quiz.html</code> は上書き）。</li>
+<li><b><code>make_n1_listening_audio.bat</code> をダブルクリック。</b><br>
+　すでにある154本はそのまま使い、<b>足りない57本だけ</b>を作ります。10分ほどで終わります。</li>
+<li><b>GitHub に上げるのは3つ。</b><code>n1_quiz.html</code> ／ <code>n1_listening_manifest.json</code> ／ <code>audio</code> フォルダ。</li>
+</ol>
+<p><b>sitemap の作り直しは不要です</b>（ページは増えていません。711 URL のまま）。</p>
 
-  langdata.js
-  games.html
-  hajimete.html
+<h2>音声ファイルの対応</h2>
+<p>復元した160問は<b>ファイル名をそのまま据え置き</b>にしたので、既存の音声154本がそのまま使えます。<br>
+今日の51問には <code>n1_q1_31.mp3</code> のように<b>続き番号を振り直し</b>ました。作り直しが必要なのは次の57本だけです。</p>
+<ul><li>今日の新規51本</li><li>前回作りきれていなかった統合理解の6本</li></ul>
 
-※ すでに Cowork から OneDrive に書き戻しずみです。
-　 これは念のための控え（同じ中身）です。
+<div class="warn"><b>要判断：もんだい4（即時応答）の選択肢の数がそろっていません。</b><br>
+復元した50問は<b>4択</b>、今日作った11問は<b>3択</b>です。本番のJLPTは3択ですが、前回は「サイトのUIに合わせて4択で統一」という方針でした。<br>
+どちらかにそろえたほうがよければ、お知らせください。61問すべてを3択（本番どおり）にするか、11問に選択肢を1つ足して4択にそろえます。そのままでも動作に支障はありません。</div>
 
-
-何を直したか
-------------
-
-1) langdata.js
-   注音符号のページ（zhuyin.html）が、どこからもリンクされて
-   いない状態になっていました。台湾華語（zhtw）と台湾語（nan）の
-   extras の先頭にリンクを戻しました。
-     zhtw → zhuyin.html
-     nan  → zhuyin.html?from=nan
-   zhuyin.html 側は元から ?from=nan で「もどる」先を切り替える
-   作りになっているので、ページ側の修正は不要でした。
-
-2) games.html
-   なぞり書き（nazori.html）も、どこからもリンクされていません
-   でした。「道案内ゲーム」の下にカードを追加しました。
-   CSS に .hero-nazori（ブルー #3D6FA8 / #27486E）を新設しています。
-
-3) hajimete.html
-   「発音・発声」のリンク先が learn/hatsuon_renshu.html でしたが、
-   このファイルは存在しません（リンク切れ）。
-   learn/hatsuon.html に向け直しました。
-   あわせて 6言語（ja/en/zh/vi/pt/tl）の説明文を、実際のページの
-   中身に合わせて書き換えています。
-     旧「お手本を聞き、自分の声を録音して聞き比べられます。」
-     新「口の形、リズム、アクセント、方言まで。図と例で確認できます。」
-   learn/hatsuon.html は解説ページで録音機能はありません。
-   今後「録音して聞き比べ」のページを作るなら、
-   learn/hatsuon_renshu.html という名前にすれば説明文を戻すだけで
-   済みます。
-
-
-このあとやること
-----------------
-
-1. 上書きコピー（すでに書き戻しずみなら不要）
-2. sitemap を作り直す
-     cd &quot;OneDrive\JLPT PRACTICE&quot;
-     python make_sitemap.py
-3. GitHub に上げる
-     langdata.js / games.html / hajimete.html / sitemap.xml
-
-
-手作業でお願いしたいこと（Cowork からはできません）
---------------------------------------------------
-
-次の2ファイルを _archive_古いファイル\ に移してください。
-どちらも新版に置きかわった旧版で、サイト内リンクは0件です。
-
-  zh_grammar.html    → 後継は grammar.html?code=zh
-  gomi_bunbetsu.html → 後継は gomi_rush.html
-                       （外部データ gomi_data.js・2モード・難易度3段階）
-
-移したあと make_sitemap.py を走らせれば、sitemap から自動で消えます。
-移したくない場合は、make_sitemap.py の EXCLUDE に足すだけでも
-検索エンジンには出なくなります。
-
-
-まだ残っている宿題
-------------------
-
-・kyoin_yogo_* 108件のうち39件が、ナビからたどれません。
-・learn/hiragana.html、learn/katakana.html、learn/hira_a.html に
-  旧 play/ フォルダへのリンクが残っています。play/ を消すときは
-  ここも直す必要があります。
-</pre></body></html>
+<h2>この先の注意</h2>
+<p>同じことが起きないよう、<b>作ったらその日のうちに GitHub まで上げてしまう</b>のが確実です。GitHub のコミット履歴だけが、確実な復元点になります。</p>
+</body></html>

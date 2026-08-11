@@ -12,6 +12,8 @@
     --danger: #B03A2E; --danger-light: #FDECEA;
     --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
     --radius: 12px; --radius-sm: 8px;
+    /* 編集画面などで使われていたが定義されていなかった別名 */
+    --card-bg: #FFFFFF; --text-main: #1C1C1C;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 1rem; }
@@ -346,6 +348,7 @@
         <option value="聴解/3">聴解 ＞ もんだい３ 概要理解</option>
         <option value="聴解/4">聴解 ＞ もんだい４ 即時応答</option>
         <option value="聴解/5">聴解 ＞ もんだい５ 統合理解</option>
+        <option value="聴解/6">聴解 ＞ 音声の特徴</option>
       </select>
     </div>
 
@@ -360,18 +363,56 @@
           <button onclick="closeEditModal()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-hint);line-height:1">✕</button>
         </div>
 
+        <div id="edit-listening-block" style="display:none;margin-bottom:12px;border:1px solid var(--border);border-radius:10px;padding:12px;background:var(--bg)">
+          <div style="font-size:12px;font-weight:700;color:#2D5A8E;margin-bottom:8px">🎧 音声のもと（この2つを直したら音声を作り直します）</div>
+          <div id="edit-audio-name" style="font-size:11px;color:var(--text-hint);margin-bottom:8px"></div>
+          <div style="margin-bottom:10px">
+            <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:4px">状況説明（音声の最初に読み上げられる文。もんだい4は空）</label>
+            <textarea id="edit-situation" rows="2" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit;resize:vertical"></textarea>
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:4px">台本（1行に1発話。「F：…」の形。話者は N F M F2 M2）</label>
+            <textarea id="edit-script" rows="8" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit;resize:vertical"></textarea>
+            <div style="font-size:11px;color:var(--text-hint);margin-top:4px">N＝ナレーター／F＝女／M＝男／F2 M2＝2人目</div>
+          </div>
+        </div>
+
         <div style="margin-bottom:12px">
-          <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:4px">問題文（設問の後の本文のみ。\\nで改行）</label>
+          <label id="edit-question-label" style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:4px">問題文</label>
           <textarea id="edit-question" rows="5" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit;resize:vertical"></textarea>
         </div>
 
         <div id="edit-choices-wrap" style="margin-bottom:12px">
-          <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:6px">選択肢（並べ替え問題は文中の順番通りに）</label>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <div><span style="font-size:11px;color:var(--text-hint)">①</span><input id="edit-c1" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit"></div>
-            <div><span style="font-size:11px;color:var(--text-hint)">②</span><input id="edit-c2" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit"></div>
-            <div><span style="font-size:11px;color:var(--text-hint)">③ ★正解</span><input id="edit-c3" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:2px solid #2D5A8E;background:#E8F0F8;color:var(--text-main);font-size:14px;font-family:inherit;font-weight:700"></div>
-            <div><span style="font-size:11px;color:var(--text-hint)">④</span><input id="edit-c4" style="width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit"></div>
+          <label style="font-size:12px;color:var(--text-hint);display:block;margin-bottom:6px">選択肢（左の丸で正解をえらぶ）</label>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div id="edit-row1" style="display:flex;align-items:center;gap:8px">
+              <label style="display:flex;align-items:center;gap:4px;flex-shrink:0;font-size:12px;color:var(--text-hint);cursor:pointer">
+                <input type="radio" name="edit-ans" id="edit-a1" value="0" style="width:16px;height:16px;accent-color:#2D5A8E;cursor:pointer">正解
+              </label>
+              <span style="font-size:11px;color:var(--text-hint);flex-shrink:0">①</span>
+              <input id="edit-c1" style="flex:1;min-width:0;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit">
+            </div>
+            <div id="edit-row2" style="display:flex;align-items:center;gap:8px">
+              <label style="display:flex;align-items:center;gap:4px;flex-shrink:0;font-size:12px;color:var(--text-hint);cursor:pointer">
+                <input type="radio" name="edit-ans" id="edit-a2" value="1" style="width:16px;height:16px;accent-color:#2D5A8E;cursor:pointer">正解
+              </label>
+              <span style="font-size:11px;color:var(--text-hint);flex-shrink:0">②</span>
+              <input id="edit-c2" style="flex:1;min-width:0;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit">
+            </div>
+            <div id="edit-row3" style="display:flex;align-items:center;gap:8px">
+              <label style="display:flex;align-items:center;gap:4px;flex-shrink:0;font-size:12px;color:var(--text-hint);cursor:pointer">
+                <input type="radio" name="edit-ans" id="edit-a3" value="2" style="width:16px;height:16px;accent-color:#2D5A8E;cursor:pointer">正解
+              </label>
+              <span style="font-size:11px;color:var(--text-hint);flex-shrink:0">③</span>
+              <input id="edit-c3" style="flex:1;min-width:0;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit">
+            </div>
+            <div id="edit-row4" style="display:flex;align-items:center;gap:8px">
+              <label style="display:flex;align-items:center;gap:4px;flex-shrink:0;font-size:12px;color:var(--text-hint);cursor:pointer">
+                <input type="radio" name="edit-ans" id="edit-a4" value="3" style="width:16px;height:16px;accent-color:#2D5A8E;cursor:pointer">正解
+              </label>
+              <span style="font-size:11px;color:var(--text-hint);flex-shrink:0">④</span>
+              <input id="edit-c4" style="flex:1;min-width:0;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-size:14px;font-family:inherit">
+            </div>
           </div>
           <div id="edit-answer-note" style="font-size:11px;color:var(--text-hint);margin-top:6px"></div>
         </div>
@@ -1109,6 +1150,15 @@ function toggleReviewed(catStr, idx) {
   loadEditorList();
 }
 
+function editStarPos(q) {
+  // 文の文法2：「★（３番目の□）」の数字を読み取る。読めなければ3。
+  var m = (q.question || '').match(/★（([一二三四１２３４1234])番目/);
+  if (!m) return 3;
+  return { '一': 1, '二': 2, '三': 3, '四': 4,
+           '１': 1, '２': 2, '３': 3, '４': 4,
+           '1': 1, '2': 2, '3': 3, '4': 4 }[m[1]] || 3;
+}
+
 function openEditModal(catStr, idx) {
   const { pool, key } = getEditorPool(catStr);
   const q = pool[idx];
@@ -1116,26 +1166,70 @@ function openEditModal(catStr, idx) {
   editingCat = catStr;
   editingKey = key;
   editingIdx = idx;
+  const cat = catStr.split('/')[0];
   const isG2 = (key === '文の文法2');
+  const isListening = (cat === '聴解');
+  const isReading = (cat === '読解');
 
-  const bodyLines = q.question.split('\n').slice(1);
-  document.getElementById('edit-question').value = bodyLines.join('\n');
-  document.getElementById('edit-c1').value = q.choices[0] || '';
-  document.getElementById('edit-c2').value = q.choices[1] || '';
-  document.getElementById('edit-c3').value = q.choices[2] || '';
-  document.getElementById('edit-c4').value = q.choices[3] || '';
+  // ── 問題文 ──
+  const label = document.getElementById('edit-question-label');
+  if (isListening) {
+    document.getElementById('edit-question').value = q.question || '';
+    label.textContent = '設問文（音声のあとに読み上げられる問い）';
+  } else if (isReading) {
+    document.getElementById('edit-question').value = q.question || '';
+    label.textContent = '本文と設問（本文のあと空行、〔問〕のあとに設問文）';
+  } else {
+    document.getElementById('edit-question').value = (q.question || '').split('\n').slice(1).join('\n');
+    label.textContent = '問題文（共通の指示文をのぞいた本文。空欄は（　　））';
+  }
+
+  // ── 聴解のブロック ──
+  const lb = document.getElementById('edit-listening-block');
+  if (isListening) {
+    lb.style.display = 'block';
+    document.getElementById('edit-audio-name').textContent = '音声ファイル：' + (q.audio || '（なし）');
+    document.getElementById('edit-situation').value = q.situation || '';
+    document.getElementById('edit-script').value =
+      (q.script || []).map(s => (s.speaker || 'F') + '：' + (s.text || '')).join('\n');
+  } else {
+    lb.style.display = 'none';
+  }
+
+  // ── 選択肢と正解 ──
+  const n = (q.choices || []).length || 4;
+  for (let i = 1; i <= 4; i++) {
+    const row = document.getElementById('edit-row' + i);
+    const ci = document.getElementById('edit-c' + i);
+    const ai = document.getElementById('edit-a' + i);
+    if (i <= n) {
+      row.style.display = 'flex';
+      ci.value = q.choices[i - 1] || '';
+      ai.disabled = isG2;
+      ai.checked = (q.choices[i - 1] === q.answer);
+    } else {
+      row.style.display = 'none';
+      ci.value = '';
+      ai.checked = false;
+    }
+  }
+  // 正解がどれとも一致しないとき（データの不整合）は何も選ばない
   document.getElementById('edit-explanation').value = q.explanation || '';
 
   const note = document.getElementById('edit-answer-note');
   if (isG2) {
-    note.textContent = '⚠ 並べ替え問題：③が★（正解）になります。文中の正しい語順通りに①②③④を入力してください。';
+    const p = editStarPos(q);
+    note.textContent = '⚠ 並べ替え：①②③④は文中の正しい順に入れてください。正解は自動で「' + p + '番目」＝' + '①②③④'.charAt(p - 1) + ' になります。';
     note.style.color = '#2D5A8E';
+  } else if (n === 3) {
+    note.textContent = '※ この大問は3択です。左の丸で正解をえらんでください。';
+    note.style.color = 'var(--text-hint)';
   } else {
-    note.textContent = '※ 正解は③の選択肢に自動設定されます。正解にしたい語を③に入力してください。';
+    note.textContent = '※ 左の丸で正解をえらんでください（いま選ばれているのが現在の正解です）。';
     note.style.color = 'var(--text-hint)';
   }
 
-  document.getElementById('edit-modal-title').textContent = `問${idx+1} を編集`;
+  document.getElementById('edit-modal-title').textContent = `問${idx + 1} を編集`;
   document.getElementById('edit-overlay').style.display = 'block';
 }
 
@@ -1144,25 +1238,76 @@ function closeEditModal() {
 }
 
 function saveEdit() {
-  const { pool } = getEditorPool(editingCat);
+  const { pool, key } = getEditorPool(editingCat);
   const q = pool[editingIdx];
   if (!q) return;
+  const cat = editingCat.split('/')[0];
+  const isG2 = (key === '文の文法2');
+  const isListening = (cat === '聴解');
+  const isReading = (cat === '読解');
 
-  const firstLine = q.question.split('\n')[0];
-  q.question    = firstLine + '\n' + document.getElementById('edit-question').value;
-  const c1 = document.getElementById('edit-c1').value.trim();
-  const c2 = document.getElementById('edit-c2').value.trim();
-  const c3 = document.getElementById('edit-c3').value.trim();
-  const c4 = document.getElementById('edit-c4').value.trim();
-  q.choices     = [c1, c2, c3, c4];
-  q.answer      = c3;
+  // ── 選択肢 ──
+  const n = (q.choices || []).length || 4;
+  const cs = [];
+  for (let i = 1; i <= n; i++) cs.push(document.getElementById('edit-c' + i).value.trim());
+  if (cs.some(c => !c)) { alert('選択肢が空になっています。' + n + 'つとも入れてください。'); return; }
+  if (new Set(cs).size !== cs.length) { alert('同じ選択肢が2つあります。'); return; }
+
+  // ── 正解 ──
+  let ans;
+  if (isG2) {
+    const p = editStarPos(q);
+    if (p > cs.length) { alert('★の位置が選択肢の数を超えています。'); return; }
+    ans = cs[p - 1];
+  } else {
+    let sel = -1;
+    for (let i = 1; i <= n; i++) if (document.getElementById('edit-a' + i).checked) sel = i - 1;
+    if (sel < 0) { alert('正解をえらんでください（選択肢の左の丸）。'); return; }
+    ans = cs[sel];
+  }
+
+  // ── 聴解の状況説明と台本 ──
+  let sit = null, sc = null;
+  if (isListening) {
+    sit = document.getElementById('edit-situation').value.trim();
+    const raw = document.getElementById('edit-script').value.split('\n').map(l => l.trim()).filter(l => l);
+    const OKSP = ['N', 'F', 'M', 'F2', 'M2'];
+    sc = [];
+    for (const line of raw) {
+      const m = line.match(/^(N|F2|M2|F|M)\s*[：:]\s*(.+)$/);
+      if (!m) { alert('台本のこの行が読み取れません。\n\n' + line + '\n\n「F：本文」の形にしてください（話者は N F M F2 M2）。'); return; }
+      sc.push({ speaker: m[1], text: m[2].trim() });
+    }
+    if (!sc.length) { alert('台本が空です。'); return; }
+  }
+
+  // ── 問題文 ──
+  const qv = document.getElementById('edit-question').value;
+  if (isListening || isReading) {
+    q.question = qv;
+  } else {
+    q.question = (q.question || '').split('\n')[0] + '\n' + qv;
+  }
+
+  q.choices = cs;
+  q.answer = ans;
   q.explanation = document.getElementById('edit-explanation').value.trim();
+  let audioChanged = false;
+  if (isListening) {
+    audioChanged = (q.situation !== sit) ||
+      (JSON.stringify(q.script || []) !== JSON.stringify(sc));
+    q.situation = sit;
+    q.script = sc;
+  }
 
   // 編集したら自動的に未確認に戻す
   setReviewed(editingCat, editingIdx, false);
 
   closeEditModal();
   loadEditorList();
+  if (audioChanged) {
+    alert('保存しました。\n\n★ 音声のもと（状況説明・台本）が変わりました。\nn1_listening_manifest.json も同じように直して、音声を作り直してください。\nそのままだと、画面の台本と流れる音声がずれます。');
+  }
 }
 
 function toggleHidden(catStr, idx) {

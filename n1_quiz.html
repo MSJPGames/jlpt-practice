@@ -195,7 +195,7 @@
       <button class="main-cat-btn" id="cat-vocab" onclick="toggleVocab()">
         <div class="cat-icon">📖</div>
         <div class="cat-name">文字・語彙</div>
-        <div class="cat-sub">4種類の問題形式</div>
+        <div class="cat-sub">4種類 ＋ まとめて</div>
         <div class="cat-count" id="vocab-total-count">計78問収録</div>
       </button>
       <button class="main-cat-btn" id="cat-grammar" onclick="toggleGrammar()">
@@ -237,6 +237,10 @@
         <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', '用法')">
           <span>問題４ 用法<br><span style="font-size:11px;color:var(--text-hint)">正しい使い方の文を選ぶ</span></span>
           <span class="tag" id="count-youhou">14問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('文字・語彙', 'まとめて')">
+          <span>まとめて<br><span style="font-size:11px;color:var(--text-hint)">本番と同じ配分（6：7：6：6）で出す</span></span>
+          <span class="tag" id="count-matome">0問</span>
         </button>
       </div>
     </div>
@@ -618,6 +622,66 @@ function toggleVocab() {
   }
 }
 
+// 本試験の文字・語彙の出題数。ここを変えれば配分が変わる。
+const VOCAB_MIX = { '漢字読み': 6, '文脈規定': 7, '言い換え類義': 6, '用法': 6 };
+
+function vocabMixPool() {
+  const keys = Object.keys(VOCAB_MIX);
+  const total = keys.reduce(function (s, k) { return s + VOCAB_MIX[k]; }, 0);
+
+  // 使える問題（非表示をのぞく）を種類ごとに並べ替えておく
+  const avail = {};
+  keys.forEach(function (k) {
+    avail[k] = shuffle(((typeof vocabQuestions !== 'undefined' && vocabQuestions[k]) || [])
+      .filter(function (q) { return !q.hidden; }));
+  });
+
+  // 比率どおりに割り当てる。端数は小数部の大きい種類から、同じなら無作為に配る
+  const exact = {}, quota = {};
+  let used = 0;
+  keys.forEach(function (k) {
+    exact[k] = TOTAL_Q * VOCAB_MIX[k] / total;
+    quota[k] = Math.floor(exact[k]);
+    used += quota[k];
+  });
+  // 端数は「小数部の大きさそのものを当たる確率にして」配る（系統抽出）。
+  // 順位で配ると、いつも同じ種類が1問多くなってしまい、平均が本番の比からずれる。
+  const order = shuffle(keys.slice());
+  const u = Math.random();
+  let cum = 0, prev = 0;
+  order.forEach(function (k) {
+    cum += exact[k] - quota[k];
+    const now = Math.floor(cum - u) + 1;
+    if (now > prev) { quota[k]++; used++; }
+    prev = now;
+  });
+  // 丸めのくるいで足りない・多いときの保険
+  while (used < TOTAL_Q) { quota[order[used % order.length]]++; used++; }
+  while (used > TOTAL_Q) {
+    for (let i = 0; i < order.length && used > TOTAL_Q; i++) {
+      if (quota[order[i]] > 0) { quota[order[i]]--; used--; }
+    }
+  }
+
+  // 足りない種類があれば、余っている種類から補う
+  keys.forEach(function (k) {
+    let lack = quota[k] - avail[k].length;
+    if (lack <= 0) return;
+    quota[k] = avail[k].length;
+    for (let i = 0; i < keys.length && lack > 0; i++) {
+      const o = keys[i];
+      const spare = avail[o].length - quota[o];
+      const add = Math.min(spare, lack);
+      quota[o] += add; lack -= add;
+    }
+  });
+
+  // 本番の順（問題1→2→3→4）に並べて返す
+  let out = [];
+  keys.forEach(function (k) { out = out.concat(avail[k].slice(0, quota[k])); });
+  return out;
+}
+
 function startQuiz(sec, sub) {
   section = sec;
   subtype = sub;
@@ -636,7 +700,9 @@ function startQuiz(sec, sub) {
   if (_lBtn) _lBtn.classList.remove('active');
 
   let sourcePool;
-  if (sec === '文字・語彙' && sub) {
+  if (sec === '文字・語彙' && sub === 'まとめて') {
+    sourcePool = vocabMixPool();
+  } else if (sec === '文字・語彙' && sub) {
     sourcePool = vocabQuestions[sub] || [];
   } else if (sec === '文法' && sub) {
     sourcePool = grammarQuestions[sub] || [];
@@ -678,6 +744,9 @@ function startQuiz(sec, sub) {
     for (let gi = 0; gi < groups.length && pool.length < TOTAL_Q; gi++) {
       pool = pool.concat(groups[gi]);
     }
+  } else if (sec === '文字・語彙' && sub === 'まとめて') {
+    // vocabMixPool が本番の順（漢字読み→文脈規定→言い換え類義→用法）で組んである
+    pool = sourcePool.slice(0, TOTAL_Q);
   } else {
     pool = shuffle(sourcePool).slice(0, TOTAL_Q);
     pool = spreadGroups(pool);
@@ -1439,6 +1508,7 @@ updateStatsBar();
         setText(vmap[k], n + '問');
       });
       setText('vocab-total-count', '計' + vtotal + '問収録');
+      setText('count-matome', vtotal + '問');
     }
     // 文法
     if (typeof grammarQuestions !== 'undefined') {

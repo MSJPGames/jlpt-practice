@@ -742,6 +742,16 @@ function renderChoices(q) {
   const labels = ['１', '２', '３', '４'];
   // ★本試験では、概要理解・発話表現・即時応答の選択肢は問題用紙に印刷されず、音声で読まれる。
   //   その大問は画面に番号だけを出し、並べ替えもしない（音声の読み上げ順と合わせるため）。
+  // ★ポイント理解：本試験は会話の前に20秒あり、その間に選択肢を読む。
+  //   このサイトは1問ずつ自分のペースで解くので20秒は入れないが、
+  //   「先に選択肢を読む」解き方は本試験で要る力なので、一言そえる。
+  if (q.type === 'ポイント理解') {
+    const note = document.createElement('div');
+    note.style.cssText = 'font-size:12px;color:var(--text-muted);margin-top:10px';
+    note.textContent = '音声を聞く前に、選択肢を読んでおきましょう。';
+    const card = document.getElementById('question-card');
+    if (card) card.appendChild(note);
+  }
   const readAloud = !!q.readChoices;
   if (readAloud) {
     // 注意書きは #choices の外（問題カードの中）に置く。

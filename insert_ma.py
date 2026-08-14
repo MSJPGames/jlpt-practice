@@ -25,7 +25,6 @@ def build(item, kind, tts):
        kind … 課題理解／ポイント理解／概要理解／発話表現／即時応答
        tts  … tts(role, text) -> AudioSegment  を返す関数（いまお使いのものを渡す）
     """
-    T = TIMING[kind]
     segs = item['segments']
     # choice付き（選択肢の読み上げ）かどうかで分ける
     body = [s for s in segs if not s.get('choice')]
@@ -33,18 +32,21 @@ def build(item, kind, tts):
 
     out = AudioSegment.empty()
 
-    # ── 共通：問番号（模擬試験のように通しで聞かせるときだけ。1問ずつなら省いてよい）──
-    # out += tts('N', '〇ばん') + ma(TIMING['共通']['問番号のあとの間'])
+    # ★このサイトは「サクッと毎日少しずつ」がコンセプトなので、
+    #   問題と問題の間の時間（解答の間・問番号・例題・ポイント理解の20秒）は入れません。
+    #   1問の中の短い間だけを入れます。ここを詰めると聞き取りにくくなるためです。
+    #   模擬試験モードを作るときは、n3_audio_timing.json の「本試験どおり」の値を使ってください。
 
     if kind in ('課題理解', 'ポイント理解'):
-        # 場面＋設問 → （ポイント理解だけ20秒）→ 会話 → 2.2秒 → 設問
-        out += tts(body[0]['role'], body[0]['text'])
-        out += ma(20.0 if kind == 'ポイント理解' else 2.0)     # ★ここが2つの大問のちがい
+        # 場面＋設問 → 2.0秒 → 会話 → 2.2秒 → 設問
+        # ★本試験のポイント理解はここが20秒（選択肢を読む時間）だが、
+        #   このサイトは1問ずつ自分のペースで解くので入れない。
+        #   かわりに画面に「音声を聞く前に、選択肢を読んでおきましょう。」と出している。
+        out += tts(body[0]['role'], body[0]['text']) + ma(2.0)
         for s in body[1:-1]:
             out += tts(s['role'], s['text'])
         out += ma(2.2)
         out += tts(body[-1]['role'], body[-1]['text'])         # 設問をもう一度
-        out += ma(T['解答の間'])
 
     elif kind == '概要理解':
         # 場面 → 2.1秒 → 話 → 2.0秒 → 設問 → 3.0秒ごとに選択肢4つ
@@ -54,7 +56,6 @@ def build(item, kind, tts):
         out += ma(2.0) + tts(body[-1]['role'], body[-1]['text'])
         for k, s in enumerate(choices):
             out += ma(2.0 if k == 0 else 3.0) + tts(s['role'], s['text'])
-        out += ma(T['解答の間'])
 
     else:  # 発話表現・即時応答
         # 場面＋設問（または発話）→ 2.0秒 → 2.1秒ごとに選択肢3つ
@@ -62,7 +63,6 @@ def build(item, kind, tts):
             out += tts(s['role'], s['text'])
         for k, s in enumerate(choices):
             out += ma(2.0 if k == 0 else 2.1) + tts(s['role'], s['text'])
-        out += ma(T['解答の間'])
 
     return out
 

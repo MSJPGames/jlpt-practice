@@ -238,8 +238,12 @@ def main(path, level):
                     if len(sg) != 3 or sg[1] in seen:
                         continue
                     seen.add(sg[1])
-                    ps = [re.sub(r'[\s　]', '', x) for x in sg[1].strip().split('\n')]
-                    ps = [x for x in ps if len(x) >= 20]   # ヘッダ・署名・記号行は段落に数えない
+                    ps = [x.strip() for x in sg[1].strip().split('\n') if x.strip()]
+                    # 本文の段落だけを数える。見出し・ラベル行（「日にち　9月2日」など）・
+                    # 注記（※）・署名は段落ではない
+                    ps = [x for x in ps
+                          if len(x) >= 20 and x.endswith(('。', '。」'))
+                          and not x.startswith('※') and '　' not in x]
                     if not ps:
                         continue
                     pn.append(len(ps)); pl += [len(x) for x in ps]
@@ -269,10 +273,14 @@ def main(path, level):
                 continue
             cs = [statistics.mean([len(x) for x in q['choices']]) for q in v]
             df = [max(len(x) for x in q['choices']) - min(len(x) for x in q['choices']) for q in v]
-            if isinstance(spec.get('選択肢字数'), list):
-                line('  選択肢字数', 0, spec['選択肢字数'], '字', sample=cs)
-            if isinstance(spec.get('肢の長短差'), list):
-                line('  肢の長短差', 0, spec['肢の長短差'], '字', sample=df)
+            # ★読解と同じように、資料が複数あるときは「採用平均_」で見る（2026-08-14）。
+            #   資料が1つ（公式だけ）のときは band() が公式の値を返すので、動きは変わらない。
+            if isinstance(band(spec, '選択肢字数')[0], list):
+                line('  選択肢字数', 0, *band(spec, '選択肢字数')[:1], '字',
+                     *band(spec, '選択肢字数')[1:], sample=cs)
+            if isinstance(band(spec, '肢の長短差')[0], list):
+                line('  肢の長短差', 0, *band(spec, '肢の長短差')[:1], '字',
+                     *band(spec, '肢の長短差')[1:], sample=df)
             if isinstance(spec.get('会話形式の割合'), list):
                 # 会話形式＝「　」のせりふか、話者名＋コロンで書かれている問
                 kw = [100.0 if re.search(r'[^\n]{1,8}[「『]|^\s*\S{1,6}\s*[：:]',

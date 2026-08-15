@@ -62,6 +62,14 @@ def se(sample):
         return 0.0
 
 
+# ★「上限だけを見張る」項目。
+#   最長肢正解率・最短肢正解率は、公式より**高い**と
+#   「迷ったら長いほう（短いほう）を選べば当たる」問題群になってしまう。
+#   逆に低いぶんには、長さから正解を当てられないということなので害はない。
+#   （決まりごと10。これまで両側で見ていたので、下に外れても×になっていた）
+UPPER_ONLY = ('最長肢正解率', '最短肢正解率')
+
+
 def line(name, val, spec, unit='', src='公式', judge=True, sample=None):
     """val は数（平均）。sample を渡すと、こちらの平均のブレ（標準誤差）だけ幅を広げて判定する。"""
     if isinstance(sample, (list, tuple)) and sample:
@@ -70,6 +78,10 @@ def line(name, val, spec, unit='', src='公式', judge=True, sample=None):
     if isinstance(spec, list) and len(spec) == 3:
         lo, hi = spec[1] - e, spec[2] + e
         inside = lo <= val <= hi
+        if name.strip() in UPPER_ONLY:
+            inside = val <= hi
+            if val < lo:
+                unit = unit + '（公式より低いが、長さで当てられないので問題なし）'
         w = f'±{e:.1f}' if e >= 0.05 else '    '
     if isinstance(spec, list) and len(spec) == 3 and judge:
         print(f'  {"◯" if inside else "×"} {name:16} {val:8.1f}{unit}   '

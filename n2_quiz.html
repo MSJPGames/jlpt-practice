@@ -206,7 +206,7 @@
         <div class="cat-icon">📄</div>
         <div class="cat-name">読解</div>
         <div class="cat-sub">5種類の問題形式</div>
-        <div class="cat-count">計126問収録</div>
+        <div class="cat-count">計150問収録</div>
       </button>
       <button class="main-cat-btn" id="cat-listening" onclick="toggleListening()">
         <div class="cat-icon">🎧</div>
@@ -286,7 +286,7 @@
         </button>
         <button class="vocab-sub-btn" onclick="startQuiz('読解', '情報検索')">
           <span>情報検索<br><span style="font-size:11px;color:var(--text-hint)">お知らせから必要な情報を探す</span></span>
-          <span class="tag">6問</span>
+          <span class="tag">30問</span>
         </button>
       </div>
     </div>
@@ -35826,82 +35826,394 @@ const readingQuestions = {
  ],
  "情報検索": [
   {
-   "question": "市外に住む70歳の田中さんは、金曜日の午後にプールを利用したい。田中さんが支払う料金はいくらか。",
+   "question": "となりの高木市に住み、みどりの丘市の会社に通う森さん（52歳）は、利用カードを持っている。この図書館にない本を3冊、ほかの館から取り寄せてもらいたい。森さんが払う料金はいくらか。",
    "choices": [
-    "250円",
-    "700円",
-    "500円",
-    "350円"
+    "会社に通っている方は無料になる",
+    "3冊で600円のほかに、1回500円が要る",
+    "市内に通っているので、3冊で600円",
+    "市外に住んでいるので、3冊で900円"
    ],
-   "answer": "250円",
-   "group": "みどり市民プールのご利用案内",
-   "explanation": "金曜は平日なので大人料金は500円。65歳以上は平日のみ半額になるため250円。市外在住なので市内在住割引（50円引き）は適用されない。",
-   "visual": "n2rd_0"
+   "answer": "市内に通っているので、3冊で600円",
+   "explanation": "取り寄せは1冊200円だが、市外に住む人は1冊300円になるという例外がある。さらにその例外にも続きがあり、市内に通勤・通学している人は市内の人と同じ1冊200円と書かれている。森さんは市内の会社に通っているので200円のほうが当てはまり、3冊で600円になる。500円は宅配の料金なので関係がない。",
+   "group": "みどりの丘市立図書館 特別貸出サービスのご案内",
+   "visual": "n2rd_J01"
   },
   {
-   "question": "水曜日の午前中に、6歳の子どもをプールで泳がせたい。この日、この時間に利用できるか。",
+   "question": "みどりの丘市に住む中村さん（78歳）は、足が悪くて図書館まで行けない。今月はすでに一度、家まで本を届けてもらった。今月中にもう一度、6冊届けてほしいと考えている。中村さんについて、正しいものはどれか。",
    "choices": [
-    "利用でき、料金は250円である",
-    "利用でき、料金は無料である",
-    "水曜は休館のため利用できない",
-    "利用でき、料金は350円である"
+    "6冊は多すぎるので、5冊にへらしてたのむ",
+    "65歳以上なので、料金はかからない",
+    "今月はもう届けてもらえない",
+    "もう一度たのめる。料金は500円かかる"
    ],
-   "answer": "水曜は休館のため利用できない",
-   "group": "みどり市民プールのご利用案内",
-   "explanation": "「毎週水曜は清掃のため休館します」とあるため、水曜は時間や年齢にかかわらず利用できない。",
-   "visual": "n2rd_0"
+   "answer": "もう一度たのめる。料金は500円かかる",
+   "explanation": "宅配は同じ月に2回まで使えると注記にあるので、今月あと一度たのめる。1回に運べるのは8冊までなので6冊は問題ない。料金は表のとおり1回500円で、無料になるのは65歳以上の人が使える長期貸出のほうであり、宅配の料金が無料になるとは書かれていない。",
+   "group": "みどりの丘市立図書館 特別貸出サービスのご案内",
+   "visual": "n2rd_J01"
   },
   {
-   "question": "区内に住む山田さんは、小学生の子ども2人と自分（保護者1名）の3人で全3回に参加したい。参加費の合計はいくらか。",
+   "question": "となりの町に住み、あさひ野市の高校に通う川口さん（16歳）は、④の電動アシスト自転車に申し込みたいと考えている。川口さんについて、正しいものはどれか。",
    "choices": [
-    "3,000円",
-    "2,800円",
-    "3,800円",
-    "2,000円"
+    "申し込めるが、値段は24,000円のまま",
+    "市外に住んでいるので申し込めない",
+    "申し込める。24,600円を用意する",
+    "保護者の名前で申し込む必要がある"
    ],
-   "answer": "2,800円",
-   "group": "さくら区民センター 春の親子料理講座 申込案内",
-   "explanation": "区内在住なので親子1組2,000円。子ども1人追加につき+800円で、子どもがもう1人いるため2,000+800=2,800円。区外料金3,000円は適用されない。",
-   "visual": "n2rd_1"
+   "answer": "申し込める。24,600円を用意する",
+   "explanation": "申し込めるのは市内に住む人だが、市外でも市内の学校に通っていれば申し込めるという例外があるので、川口さんは申し込める。電動アシストだけは防犯登録の書きかえに600円かかるので、表の24,000円と合わせて24,600円が要る。保護者の名前で申し込むのは子ども用のほうの決まりで、高校生には当てはまらない。",
+   "group": "あさひ野市 リサイクル自転車 展示販売会のお知らせ",
+   "visual": "n2rd_J02"
   },
   {
-   "question": "区外に住む鈴木さんが、子ども1人と参加を希望している。ただし5月17日は都合が悪く参加できない。鈴木さんはこの講座に申し込めるか。",
+   "question": "あさひ野市に住む佐野さんは、①の買い物用に当たったという知らせを9月25日に受け取った。しかし10月3日も4日も仕事があり、引き取りに行けない。佐野さんがしなければならないことは何か。",
    "choices": [
-    "申し込める。参加費は3,000円である",
-    "第1回と第3回だけ申し込める",
-    "申し込める。参加費は2,000円である",
-    "申し込めない"
+    "連絡はいらない。家まで届けてもらえる",
+    "10月10日までに電話をすればよい",
+    "9月30日までに電話で連絡する",
+    "代金の6,000円を先に送っておく"
    ],
-   "answer": "申し込めない",
-   "group": "さくら区民センター 春の親子料理講座 申込案内",
-   "explanation": "「3回すべてに参加できる方に限ります」とあり、第2回（5月17日）に参加できない鈴木さんは申し込めない。",
-   "visual": "n2rd_1"
+   "answer": "9月30日までに電話で連絡する",
+   "explanation": "引き取りの2日間に来られない場合は9月30日までに電話をすれば10月10日まで取り置きしてもらえる、という決まりである。10月10日は取り置きの終わる日であって連絡の期限ではない。代金は引き取りの日にその場で現金で払うことになっており、先に送るものではない。届けはしないとも書かれている。",
+   "group": "あさひ野市 リサイクル自転車 展示販売会のお知らせ",
+   "visual": "n2rd_J02"
   },
   {
-   "question": "17歳の高校生である佐藤さんは、平日の学校帰り（午後6時ごろ）にジムを利用したいと考えている。佐藤さんに必要な手続きや条件として正しいものはどれか。",
+   "question": "市外に住む相川さんは、Ｂの第二会議室を午後1時から午後4時まで借りて、マイクを2本使う予定である。相川さんが払う金額は全部でいくらか。",
    "choices": [
-    "デイタイム会員になり、保護者の同意書を出す",
-    "フルタイム会員になり、保護者の同意書を出す",
-    "デイタイム会員になれば、同意書は不要である",
-    "16歳未満なので利用できない"
+    "部屋代1,200円だけで、備品代は要らない",
+    "部屋代1,200円と備品代200円で1,400円",
+    "部屋代2,400円と備品代200円で2,600円",
+    "部屋代600円と備品代200円で800円"
    ],
-   "answer": "フルタイム会員になり、保護者の同意書を出す",
-   "group": "ひかりトレーニングジム 利用ルールのご案内",
-   "explanation": "午後6時はデイタイム会員の利用時間（平日17:00まで）を過ぎているためフルタイム会員が必要。また17歳は18歳未満なので保護者の同意書が必要。",
-   "visual": "n2rd_2"
+   "answer": "部屋代1,200円と備品代200円で1,400円",
+   "explanation": "第二会議室は1時間200円だが、市外の人は表の額の2倍という注記があるので1時間400円になる。午後1時から4時までの3時間で1,200円。マイクは1本100円なので2本で200円かかり、合わせて1,400円である。備品代が要らないというのは、無料なのが机といすだけであることに合わない。",
+   "group": "さかえ台公民館 会議室・和室のご利用案内",
+   "visual": "n2rd_J03"
   },
   {
-   "question": "フルタイム会員の中村さんが、室内用シューズを忘れてジムに来てしまった。タオルも持っていない。中村さんはどうなるか。",
+   "question": "市内の子ども会の代表の田口さんは、Ｅの調理室を3時間借りる約束をした。しかし、使う日の4日前に、取りやめることに決めた。田口さんが払う金額はいくらか。",
    "choices": [
-    "シューズがないため利用できない",
-    "シューズを借りれば利用でき、タオルは200円で借りられる",
-    "200円払えばシューズとタオルを借りて利用できる",
-    "フルタイム会員なので特別に利用できる"
+    "900円を全額払う",
+    "1,800円の半分の900円",
+    "7日前を過ぎているが無料",
+    "半額の450円を払う"
    ],
-   "answer": "シューズがないため利用できない",
-   "group": "ひかりトレーニングジム 利用ルールのご案内",
-   "explanation": "「室内用シューズを忘れた場合は利用できません（レンタルはありません）」とあるため、会員種別に関係なく利用できない。タオルは200円で貸出があるがシューズの貸出はない。",
-   "visual": "n2rd_2"
+   "answer": "半額の450円を払う",
+   "explanation": "調理室は1時間600円だが、市内の子ども会は表の額の半分なので1時間300円、3時間で900円になる。取りやめが6日前から前日までのあいだなら料金の半分なので、900円の半分の450円を払う。1,800円をもとにした計算は、子ども会の割引を入れていない点で合わない。",
+   "group": "さかえ台公民館 会議室・和室のご利用案内",
+   "visual": "n2rd_J03"
+  },
+  {
+   "question": "となり町に住み、さくら野市の会社に勤めている陳さんは、全5回とも受けたいと考えている。第2回のときだけ、1歳の子どもを預かってほしい。陳さんがすることとして正しいものはどれか。",
+   "choices": [
+    "1,500円を払い、9月2日までに電話で託児を頼む",
+    "1,500円と託児代を払い、当日会場で申し込む",
+    "1,500円を払えばよく、託児の連絡はいらない",
+    "3,000円を払い、9月2日までに電話で託児を頼む"
+   ],
+   "answer": "1,500円を払い、9月2日までに電話で託児を頼む",
+   "explanation": "受講料は全5回で3,000円だが、市内に住む人と市内に勤める人は1,500円になる。陳さんは市内の会社に勤めているので1,500円。託児は無料なので「託児代を払い」のほうは合わない。託児は希望する回の10日前までに電話が必要で、第2回は9月12日だから9月2日までに連絡する。当日の申し出は受けられない。",
+   "group": "さくら野市国際交流センター 外国人支援ボランティア養成講座の募集",
+   "visual": "n2rd_J04"
+  },
+  {
+   "question": "昨年この講座に申し込み、第4回だけ休んでしまった林さんは、今年こそ修了証を受け取りたいと考えている。林さんがすればよいことは何か。",
+   "choices": [
+    "今年も全5回をはじめから受け直す",
+    "10月3日の実習に出る",
+    "今年の9月26日の回に出席する",
+    "聴講で第4回だけを申し込む"
+   ],
+   "answer": "今年の9月26日の回に出席する",
+   "explanation": "休んだ回が1回だけの人は、次の年の同じ回に出れば修了証を受け取れる。林さんが休んだのは第4回で、日程表を見ると第4回は9月26日である。受け直しが必要なのは2回以上休んだ人。聴講では修了証が出ないので、聴講で申し込むという考え方も合わない。",
+   "group": "さくら野市国際交流センター 外国人支援ボランティア養成講座の募集",
+   "visual": "n2rd_J04"
+  },
+  {
+   "question": "68歳の会田さん（女性）は市民税を払っている。昨年、基本健診と胃の検査を受けた。今年は基本健診・胃の検査・骨の検査を受けたい。今年受けられる検査と、支払う額の組み合わせはどれか。",
+   "choices": [
+    "基本健診と骨の検査だが、無料になる",
+    "3つとも受けられ、2,900円",
+    "基本健診と胃の検査で、2,000円",
+    "基本健診と骨の検査で、1,700円"
+   ],
+   "answer": "基本健診と骨の検査で、1,700円",
+   "explanation": "胃の検査は2年に1回で、昨年受けた人は今年は受けられない。基本健診は毎年受けられ、骨の検査は20歳以上の女性が対象なので受けられる。無料になるのは70歳以上の人か市民税がかからない世帯の人で、会田さんはどちらにも当たらない。よって800円と900円を合わせて払う。",
+   "group": "みずほ市 けんこう診査のお知らせ",
+   "visual": "n2rd_J05"
+  },
+  {
+   "question": "72歳の森さんは、送られてきた受診券をなくしてしまった。10月20日に肺の検査を受けたいと思っている。森さんがしなければならないことは何か。",
+   "choices": [
+    "当日、市民健康センターの受付で受診券を出してもらい500円払う",
+    "10月17日までに予約すれば、受診券は当日もらえる",
+    "70歳以上なので受診券がなくても受けられる",
+    "10月13日までに予約し、17日までに窓口で作り直してもらう"
+   ],
+   "answer": "10月13日までに予約し、17日までに窓口で作り直してもらう",
+   "explanation": "予約は受ける日の7日前までなので、10月20日に受けるなら10月13日までに電話する。受診券は当日は作り直せず、受ける日の3日前までに健康課の窓口へ行く必要があるので10月17日まで。受診券がないと受けられないという決まりがあり、70歳以上でも同じ。70歳以上は費用が無料なので、500円を払うという説明も合わない。",
+   "group": "みずほ市 けんこう診査のお知らせ",
+   "visual": "n2rd_J05"
+  },
+  {
+   "question": "堀さんは、幅1.4メートルのつくえ1台と自転車1台を、自分の車でクリーンセンターへ運ぶつもりである。手数料の説明として正しいものはどれか。",
+   "choices": [
+    "持ち込みでも半額にはならない",
+    "つくえの幅は関係なく、700円になる",
+    "シール代は合わせて1,800円かかる",
+    "シール代は合わせて900円になる"
+   ],
+   "answer": "シール代は合わせて900円になる",
+   "explanation": "つくえは幅1.2メートル以上が1,000円、自転車は800円で、合わせて1,800円。自分でクリーンセンターへ運ぶと半額になるので900円である。つくえは幅で額が変わるので「幅は関係なく」のほうは合わない。",
+   "group": "ひばり市 粗大ごみの出し方の案内",
+   "visual": "n2rd_J06"
+  },
+  {
+   "question": "一人で暮らす70歳の水島さんは、体が不自由で重い物を外へ運べない。古いテレビ1台とふとん2枚を処分したい。水島さんについて正しいものはどれか。",
+   "choices": [
+    "ふとんだけ申し込み、玄関まで取りに来てもらう",
+    "2点とも申し込み、玄関まで取りに来てもらう",
+    "2点とも出せるが、シールは申し込みの前に買っておく",
+    "ふとんだけ申し込むが、外まで自分で運ぶ"
+   ],
+   "answer": "ふとんだけ申し込み、玄関まで取りに来てもらう",
+   "explanation": "テレビは粗大ごみに出せず、買った店に相談する物なので、申し込めるのはふとんだけである。一人で住む65歳以上の人と体の不自由な人は玄関の中まで取りに来てもらえるので、外まで自分で運ぶ必要はない。シールを申し込みの前に買うという説明も、決まりと合わない。",
+   "group": "ひばり市 粗大ごみの出し方の案内",
+   "visual": "n2rd_J06"
+  },
+  {
+   "question": "67歳の川口さんは、金曜日の午後6時に来て、常設展と企画展の両方を見るつもりだ。川口さんが払う金額は、いちばん安くていくらか。",
+   "choices": [
+    "1,600円。割引は重ねて使えない",
+    "900円。夜間券のほうが安い",
+    "1,100円。夜間券と共通券の差が出る",
+    "800円。共通券が半額になる"
+   ],
+   "answer": "800円。共通券が半額になる",
+   "explanation": "金曜日の午後6時なので夜間券が買え、両方見られて900円になる。しかし65歳以上の人は共通券が半額になるという決まりがあり、1,600円の半分で800円。こちらのほうが安い。「割引は重ねて使えない」のは半額と団体割引などを一緒に使えないという意味で、半額そのものが使えないわけではない。",
+   "group": "こもれび市立みなも美術館　入館のご案内",
+   "visual": "n2rd_J07"
+  },
+  {
+   "question": "大人22名の会で、金曜日の午後6時から常設展と企画展を見ることにした。いちばん安くなる買い方はどれか。",
+   "choices": [
+    "夜間券を1人700円ずつ買う",
+    "夜間券を1人900円ずつ買う",
+    "共通券を1人1,400円ずつ買う",
+    "22名は団体にならず1人1,600円かかる"
+   ],
+   "answer": "夜間券を1人900円ずつ買う",
+   "explanation": "20名以上なので団体になり、200円引きが使える。しかし団体割引が使えるのは常設券・企画券・共通券だけで、夜間券には使えない。共通券を団体で買うと1人1,400円、夜間券は割引なしの900円なので、夜間券のほうが安い。金曜日なので夜間券が買える。",
+   "group": "こもれび市立みなも美術館　入館のご案内",
+   "visual": "n2rd_J07"
+  },
+  {
+   "question": "小学2年生の妹と小学5年生の兄が、そろっておかし作りに申し込む。2人分の費用と、当日必要なことの組み合わせで正しいものはどれか。",
+   "choices": [
+    "3,060円で、妹には保護者の付き添いが要る",
+    "2,520円で、2人とも3割引きになる",
+    "3,060円で、付き添いはどちらも要らない",
+    "3,600円で、2人とも保護者の付き添いが要る"
+   ],
+   "answer": "3,060円で、妹には保護者の付き添いが要る",
+   "explanation": "おかし作りは1人1,800円。きょうだいで同じコースに申し込むと2人目から3割引きなので、1,800円と1,260円で合わせて3,060円になる。付き添いは小学3年生までが必要なので、小学2年生の妹だけに要る。1,800円の2人分そのままや、2人とも割引になるという計算は合わない。",
+   "group": "ひなた台子どもセンター　夏休み子ども教室のご案内",
+   "visual": "n2rd_J08"
+  },
+  {
+   "question": "小学4年生の林さんは、雨が降っても予定どおり行われるコースの中から、いちばん費用の安いものを選びたい。林さんが申し込むコースと、その持ち物はどれか。",
+   "choices": [
+    "かんたん木工で、軍手とエプロンを持つ",
+    "星の観察で、上着とふでばこを持つ",
+    "おかし作りで、エプロンと三角きんを持つ",
+    "絵本の読み合いで、ふでばことすいとうを持つ"
+   ],
+   "answer": "かんたん木工で、軍手とエプロンを持つ",
+   "explanation": "雨のときに中止して日を変えるのは川の生き物さがしと星の観察なので、この二つは外れる。残りのうち絵本の読み合いは小学3年生までが対象で、小学4年生の林さんは申し込めない。申し込めるのは900円のかんたん木工と1,800円のおかし作りで、安いほうを選ぶと持ち物は軍手とエプロンになる。",
+   "group": "ひなた台子どもセンター　夏休み子ども教室のご案内",
+   "visual": "n2rd_J08"
+  },
+  {
+   "question": "しらとり町から他の町へ引っ越す青木さんは、平日は仕事で休めないので、第2土曜日に役場へ行くつもりだ。青木さんがしなければならないことは何か。",
+   "choices": [
+    "第2土曜日は役場が閉まるので、平日に休みを取る",
+    "水道の手続きを先に郵便で済ませ、当日に転出届を出す",
+    "第2土曜日に水道の手続きと転出届の両方を窓口で済ませる",
+    "転出届を郵便で出し、水道は当日に窓口で申し込む"
+   ],
+   "answer": "水道の手続きを先に郵便で済ませ、当日に転出届を出す",
+   "explanation": "第2土曜日の午前中に開くのは住民課だけなので、水道係の窓口には行けない。町の外へ出る人は先に水道の停止を済ませてから転出届を出す決まりがあり、水道の手続きは郵便でも出せる。だから水道を郵便で先に済ませ、住民課で転出届を出すことになる。「役場が閉まる」わけではない。",
+   "group": "しらとり町役場　引っ越しのときの手続き一覧",
+   "visual": "n2rd_J09"
+  },
+  {
+   "question": "町の中で引っ越した水野さんに代わって、同じ家に住む妻が役場へ行き、転居届と児童手当の住所変更をする。妻が持っていく物はどれか。",
+   "choices": [
+    "本人確認書類と委任状と手当証書。通帳も持っていく",
+    "委任状と通帳だけでよい",
+    "本人確認書類と手当証書・通帳。委任状は要らない",
+    "転出証明書と委任状。通帳は要らない"
+   ],
+   "answer": "本人確認書類と手当証書・通帳。委任状は要らない",
+   "explanation": "転居届に要るのは本人確認書類、児童手当の住所変更に要るのは手当証書と通帳。代わりの人が来るときは委任状が要るが、同じ世帯の家族なら要らないという決まりがあるので、妻には委任状が要らない。転出証明書は町の中で移る人には要らない。",
+   "group": "しらとり町役場　引っ越しのときの手続き一覧",
+   "visual": "n2rd_J09"
+  },
+  {
+   "question": "金曜日の午後7時に、高校1年生のリンさんが一人で来た。大浴場とサウナに入りたいが、休憩室は使わない。バスタオルを1枚借り、料金はできるだけ安くしたい。リンさんが払う金額はいくらか。",
+   "choices": [
+    "いちにち券とバスタオル代で、合わせて1,500円",
+    "よる券とバスタオル代で、合わせて900円",
+    "よる券は使えないので、いちにち券で1,300円",
+    "よる券だけを買うので700円"
+   ],
+   "answer": "よる券とバスタオル代で、合わせて900円",
+   "explanation": "金曜日は混雑日ではないので、よる券が使える。午後7時は18時〜22時の中に入っていて、よる券で大浴場とサウナが使える。サウナは15歳以上だけだが、高校1年生なので入れる。タオルが無料になるのはゆったり券の方だけなので、バスタオル代200円が別にかかる。",
+   "group": "あおば湯　日帰り温泉のご利用案内",
+   "visual": "n2rd_J10"
+  },
+  {
+   "question": "かいすう券を持っているワンさんは、日曜日の午後2時に小学6年生の子どもと来て、二人で大浴場だけに入りたい。料金はできるだけ安くしたい。ワンさんがしなければならないことは何か。",
+   "choices": [
+    "自分はかいすう券を使い、子どもの分のひるま券を買う",
+    "受付でかいすう券をひるま券に取り替えてもらう",
+    "かいすう券が使えないので、ひるま券を二人分買う",
+    "かいすう券を使い、子どもは半額で入れてもらう"
+   ],
+   "answer": "かいすう券が使えないので、ひるま券を二人分買う",
+   "explanation": "日曜日は混雑日なので、かいすう券は使えず、受付でひるま券に取り替えることもできない。午後2時に大浴場に入るならひるま券になる。半額になるのはいちにち券とゆったり券だけなので、小学6年生の子どもも同じ料金のひるま券を買うことになる。",
+   "group": "あおば湯　日帰り温泉のご利用案内",
+   "visual": "n2rd_J10"
+  },
+  {
+   "question": "介護の仕事を探しているグエンさんは、ベトナム語の通訳をたのんでＢのブースで相談したい。相談会の2日前に気がついた。グエンさんがすることとして正しいものはどれか。",
+   "choices": [
+    "予約はいらないので、履歴書だけ持って行けばよい",
+    "前の日の午後5時までに予約し、写真をはった履歴書を持って行く",
+    "通訳を申し込んでから、会場で履歴書を印刷してもらう",
+    "3日前を過ぎているので、当日の受付でベトナム語の通訳を申し込む"
+   ],
+   "answer": "前の日の午後5時までに予約し、写真をはった履歴書を持って行く",
+   "explanation": "通訳は3日前までで、当日でも申し込めるのは英語だけなので、2日前に気づいたベトナム語の通訳はたのめない。Ｂは予約がいるブースで、予約は前の日の午後5時まで。持ち物は履歴書1枚で、写真をはった物を用意する。会場では印刷できない。",
+   "group": "みどり野市　しごと相談会　ブースのご案内",
+   "visual": "n2rd_J11"
+  },
+  {
+   "question": "アリさんは予約をしないで当日の午後1時に会場へ来た。情報・技術のＣと販売・接客のＤで相談したいと思っている。アリさんについて正しい説明はどれか。",
+   "choices": [
+    "Ｄでは相談できるが、Ｃでは相談できない",
+    "ＣもＤも当日の受付で相談できる",
+    "予約がないので、どちらのブースでも相談できない",
+    "Ｃでは相談できるが、Ｄは受付が終わっている"
+   ],
+   "answer": "Ｄでは相談できるが、Ｃでは相談できない",
+   "explanation": "Ｃは予約した人だけのブースで、当日の受付では相談できないと注記にある。Ｄは予約がいらず、受付が10時から17時までなので、午後1時に来たアリさんはまだ間に合う。一人2つのブースまで相談できるが、この日に相談できるのはＤだけになる。",
+   "group": "みどり野市　しごと相談会　ブースのご案内",
+   "visual": "n2rd_J11"
+  },
+  {
+   "question": "リーさんは今年4月に大学に入学した。前の年の成績は平均より下で、世帯の収入は基準より低い。リーさんが申し込めるものはどれか。",
+   "choices": [
+    "ＢとＣの二つに申し込める",
+    "ＡとＢの二つに申し込める",
+    "Ｂだけで、ほかは申し込めない",
+    "ＡとＣのどちらか一方と、Ｂに申し込める"
+   ],
+   "answer": "ＢとＣの二つに申し込める",
+   "explanation": "Ａは前の年の成績が平均以上の人だけなので、リーさんは申し込めない。今年4月に入学しているのでＢが使え、世帯の収入が基準より低いのでＣも使える。同時に受けられないのはＡとＣの組み合わせだけなので、ＢとＣはいっしょに申し込める。",
+   "group": "あかね市　学習支援金（給付・貸与）のご案内",
+   "visual": "n2rd_J12"
+  },
+  {
+   "question": "サリさんは6月20日の資格の試験を受けるのでＤに申し込みたい。また、急に収入が減ったのでＥも申し込みたい。サリさんについて正しい説明はどれか。",
+   "choices": [
+    "ＤとＥは同時に受けられないので、一方を選ぶ",
+    "Ｄは5月20日までに申し込み、Ｅは窓口に出す",
+    "ＤとＥのどちらも6月30日までに郵送すればよい",
+    "Ｅを受けるので、Ｄのお金も返すことになる"
+   ],
+   "answer": "Ｄは5月20日までに申し込み、Ｅは窓口に出す",
+   "explanation": "Ｄの締切は試験の1か月前なので、6月20日の試験なら5月20日までになる。Ｅは締切がいつでもよいが、郵送で出せず、必ず窓口に出さなければならない。同時に受けられないのはＡとＣだけなので、ＤとＥはいっしょに受けられる。返すことになるのは試験に落ちたときだけである。",
+   "group": "あかね市　学習支援金（給付・貸与）のご案内",
+   "visual": "n2rd_J12"
+  },
+  {
+   "question": "林さんは、大人5人と小学生の子ども2人でＢの区画に1泊し、電源を使って料理をしたいと考えている。林さんたちが払う金額はいくらか。",
+   "choices": [
+    "人数が定員を超えるので、Ｃの小屋にする",
+    "Ｂに泊まり、5,000円を払う",
+    "Ｂに泊まり、4,500円を払う",
+    "Ｂに泊まり、電源代をふくめて4,500円を払う"
+   ],
+   "answer": "Ｂに泊まり、5,000円を払う",
+   "explanation": "小学生以下は定員に数えず、1区画に2人までなので、大人5人と子ども2人はＢ（定員6人）に泊まれる。Ｂの1泊料金は4,500円で、電源は1泊500円が別にかかると注記にある。料金にふくまれるのはＥの区画だけなので、「電源代をふくめて4,500円」のほうは合わない。",
+   "group": "もりかぜ高原キャンプ場 ご予約のご案内",
+   "visual": "n2rd_J13"
+  },
+  {
+   "question": "Ｄの車中泊の区画を予約した森さんは、仕事が終わってから出発するため、キャンプ場に着くのは午後7時ごろになりそうだ。森さんがしなければならないことは何か。",
+   "choices": [
+    "午後5時を過ぎるので予約を取り消す",
+    "当日の午後5時までに電話をすればよい",
+    "受付は午後5時までなので、翌日の朝に受付棟へ行く",
+    "前日までに電話をして、遅くなることを伝える"
+   ],
+   "answer": "前日までに電話をして、遅くなることを伝える",
+   "explanation": "チェックインの時間は午後2時から午後5時までで、森さんは間に合わない。注記に、着くのが午後5時を過ぎる人は前日までに電話をするようにとあり、連絡がない区画は当日の夕方に取り消すと書かれている。「当日の午後5時まで」のほうは前日という決まりに合わない。",
+   "group": "もりかぜ高原キャンプ場 ご予約のご案内",
+   "visual": "n2rd_J13"
+  },
+  {
+   "question": "市内に住む中学2年生の松本さんは、10kmに出たいと思っている。松本さんの参加費はいくらになるか。",
+   "choices": [
+    "参加費は1,000円になる",
+    "参加費は2,500円になる",
+    "参加費は1,500円になる",
+    "10kmには出られないので5kmに申し込む"
+   ],
+   "answer": "参加費は1,500円になる",
+   "explanation": "10kmは中学生以上が出られるので、中学2年生の松本さんは申し込める。参加費3,000円の半額で1,500円。市内に住む人は500円引きだが、半額と500円引きは重ねられず、安くなるほうだけを引くので1,000円にはならない。",
+   "group": "あおば市民マラソン大会 参加要項",
+   "visual": "n2rd_J14"
+  },
+  {
+   "question": "市外に住む67歳の岡田さんは、車で会場へ行き、ハーフに出たいと考えている。岡田さんがしなければならないことは何か。",
+   "choices": [
+    "大会の日の朝、南口の臨時駐車場へ行き500円を払う",
+    "駐車場の希望を書いて、9月30日までに申し込む",
+    "会場に駐車場があるので、申し込みだけすればよい",
+    "9月30日までに申し込み、駐車場は当日に決める"
+   ],
+   "answer": "駐車場の希望を書いて、9月30日までに申し込む",
+   "explanation": "ハーフは高校生以上が出られるので年齢の点では問題がない。締切は9月30日で、当日の受け付けはない。南口の臨時駐車場は申し込みの用紙に希望を書いた人だけが使え、大会の日の申し込みはできないと注記にあるので、用紙に駐車場の希望も書いておく必要がある。",
+   "group": "あおば市民マラソン大会 参加要項",
+   "visual": "n2rd_J14"
+  },
+  {
+   "question": "初めて出店する西野さんは、車に荷物をたくさん積んで行く。西野さんが使える区画のうち、いちばん広いものと出店料の説明として正しいものはどれか。",
+   "choices": [
+    "Ｂの区画で、出店料は2,500円",
+    "Ｂの区画で、車はそのまま置いておける",
+    "Ｄの区画で、出店料は3,500円",
+    "Ｃの区画で、出店料は4,000円"
+   ],
+   "answer": "Ｂの区画で、出店料は2,500円",
+   "explanation": "初めて出店する人はＡ・Ｂ・Ｅから選ぶことになっていて、ＣとＤは2回目からの人の区画である。ＡとＢとＥのうちいちばん広いのはＢで、出店料は2,500円。Ｂには車を置けず、荷物を降ろしたら公園の外へ出さなければならない。",
+   "group": "なぎさ公園フリーマーケット 出店者募集",
+   "visual": "n2rd_J15"
+  },
+  {
+   "question": "2回目の出店になる南さんは、Ｄの屋根つき区画に申し込み、日よけにパラソルを立てて、手作りのパンを売ろうと考えている。正しいものはどれか。",
+   "choices": [
+    "Ｄに申し込めるが、パラソルもパンもだめ",
+    "Ｄに申し込め、パラソルも立てられる",
+    "Ｄには申し込めないが、パンは売れる",
+    "パンは売れるが、パラソルは立てられない"
+   ],
+   "answer": "Ｄに申し込めるが、パラソルもパンもだめ",
+   "explanation": "ＣとＤは2回目からの人の区画なので、南さんはＤに申し込める。ただしＤではテントやパラソルを立てられないと注記にある。また当日のきまりで食べ物は売れないことになっており、手作りの菓子やパンも売れないと注記に書かれている。",
+   "group": "なぎさ公園フリーマーケット 出店者募集",
+   "visual": "n2rd_J15"
   }
  ]
 };
@@ -44708,10 +45020,22 @@ const visualHTML = (function() {
   var sakura = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #c62828;margin:0 0 12px\"><div style=\"background:linear-gradie"+"nt(135deg,#c62828,#b71c1c);color:#fff;padding:14px 16px 10px;text-align:center;position:relative;overflow:hidden\"><div style=\"position:absolute;top:-20px;right:-20px;opacity:.1;font-size:80px\">&#x1F33"+"8;</div><div style=\"font-size:24px;margin-bottom:4px;position:relative\">&#x1F338;</div><div style=\"font-size:18px;font-weight:700;letter-spacing:.06em;position:relative\">&#x3055;&#x304F;&#x3089;&#x65E"+"5;&#x672C;&#x8A9E;&#x5B66;&#x6821;</div><div style=\"font-size:10px;color:#ffcdd2;margin-top:4px;letter-spacing:.1em;position:relative\">SAKURA JAPANESE LANGUAGE SCHOOL</div></div><div style=\"background"+":#b71c1c;border-top:.5px solid #e53935;border-bottom:.5px solid #e53935;padding:6px 16px;display:flex;justify-content:center;align-items:center;gap:8px\"><span style=\"background:#fff;color:#c62828;font"+"-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;letter-spacing:.05em\">&#x1F342; &#x79CB;&#x306E;&#x7279;&#x5225;&#x8B1B;&#x5EA7;&#x3000;&#x53D7;&#x8B1B;&#x751F;&#x52DF;&#x96C6;&#x4E2D;&"+"#xFF01;</span></div><div style=\"background:#fff;padding:10px 14px\"><table style=\"width:100%;border-collapse:collapse;font-size:11px\"><tr><th style=\"background:#c62828;color:#fff;padding:6px 8px;text-a"+"lign:left;font-size:10px;font-weight:500;letter-spacing:.05em\">&#x8B1B;&#x3000;&#x5EA7;</th><th style=\"background:#c62828;color:#fff;padding:6px 8px;text-align:center;font-size:10px;font-weight:500;le"+"tter-spacing:.05em\">&#x6599;&#x3000;&#x91D1;</th><th style=\"background:#c62828;color:#fff;padding:6px 8px;text-align:center;font-size:10px;font-weight:500;letter-spacing:.05em\">&#x65E5;&#x3000;&#x6642"+";</th><th style=\"background:#c62828;color:#fff;padding:6px 8px;text-align:center;font-size:10px;font-weight:500;letter-spacing:.05em\">&#x5B9A;&#x54E1;</th></tr><tr><td style=\"padding:7px 8px;border-bo"+"ttom:.5px solid #ffebee\"><div style=\"display:flex;align-items:center;gap:5px\"><span style=\"display:inline-flex;width:20px;height:20px;background:#c62828;color:#fff;border-radius:50%;font-size:10px;fon"+"t-weight:700;align-items:center;justify-content:center\">&#x2460;</span><span style=\"font-weight:500;color:#111;font-size:12px\">&#x4F1A;&#x8A71;&#x529B;&#x30A2;&#x30C3;&#x30D7;</span></div></td><td sty"+"le=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-weight:700;color:#c62828;font-size:12px;text-align:center\">3,000&#x5186;</td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-"+"size:10px;color:#666;text-align:center\">10/4&#xFF08;&#x571F;&#xFF09;<br>10:00&#xFF5E;12:00</td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;text-align:center;font-size:11px;color:#888\">"+"20&#x540D;</td></tr><tr style=\"background:#fff8f8\"><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee\"><div style=\"display:flex;align-items:center;gap:5px\"><span style=\"display:inline-flex;wi"+"dth:20px;height:20px;background:#c62828;color:#fff;border-radius:50%;font-size:10px;font-weight:700;align-items:center;justify-content:center\">&#x2461;</span><span style=\"font-weight:500;color:#111;fo"+"nt-size:12px\">&#x30D3;&#x30B8;&#x30CD;&#x30B9;&#x65E5;&#x672C;&#x8A9E;</span></div></td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-weight:700;color:#c62828;font-size:12px;text-al"+"ign:center\">5,000&#x5186;</td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-size:10px;color:#666;text-align:center\">10/11&#xFF08;&#x571F;&#xFF09;<br>14:00&#xFF5E;16:00</td><td style"+"=\"padding:7px 8px;border-bottom:.5px solid #ffebee;text-align:center;font-size:11px;color:#888\">15&#x540D;</td></tr><tr><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee\"><div style=\"display"+":flex;align-items:center;gap:5px\"><span style=\"display:inline-flex;width:20px;height:20px;background:#c62828;color:#fff;border-radius:50%;font-size:10px;font-weight:700;align-items:center;justify-cont"+"ent:center\">&#x2462;</span><span style=\"font-weight:500;color:#111;font-size:12px\">&#x6F22;&#x5B57;&#x30C1;&#x30E3;&#x30EC;&#x30F3;&#x30B8;</span></div></td><td style=\"padding:7px 8px;border-bottom:.5"+"px solid #ffebee;font-weight:700;color:#c62828;font-size:12px;text-align:center\">2,000&#x5186;</td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-size:10px;color:#666;text-align:cent"+"er\">10/18&#xFF08;&#x571F;&#xFF09;<br>10:00&#xFF5E;12:00</td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;text-align:center;font-size:11px;color:#888\">25&#x540D;</td></tr><tr style=\"back"+"ground:#fff8f8\"><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee\"><div style=\"display:flex;align-items:center;gap:5px\"><span style=\"display:inline-flex;width:20px;height:20px;background:#c6"+"2828;color:#fff;border-radius:50%;font-size:10px;font-weight:700;align-items:center;justify-content:center\">&#x2463;</span><span style=\"font-weight:500;color:#111;font-size:12px\">&#x8AAD;&#x89E3;&#x30"+"C8;&#x30EC;&#x30FC;&#x30CB;&#x30F3;&#x30B0;</span></div></td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-weight:700;color:#c62828;font-size:12px;text-align:center\">3,500&#x5186;</"+"td><td style=\"padding:7px 8px;border-bottom:.5px solid #ffebee;font-size:10px;color:#666;text-align:center\">10/18&#xFF08;&#x571F;&#xFF09;<br>14:00&#xFF5E;16:00</td><td style=\"padding:7px 8px;border-bo"+"ttom:.5px solid #ffebee;text-align:center;font-size:11px;color:#888\">20&#x540D;</td></tr><tr><td style=\"padding:7px 8px\"><div style=\"display:flex;align-items:center;gap:5px\"><span style=\"display:inlin"+"e-flex;width:20px;height:20px;background:#c62828;color:#fff;border-radius:50%;font-size:10px;font-weight:700;align-items:center;justify-content:center\">&#x2464;</span><span style=\"font-weight:500;colo"+"r:#111;font-size:12px\">JLPT&#x6A21;&#x64EC;&#x8A66;&#x9A13;</span></div></td><td style=\"padding:7px 8px;font-weight:700;color:#c62828;font-size:12px;text-align:center\">1,500&#x5186;</td><td style=\"pad"+"ding:7px 8px;font-size:10px;color:#666;text-align:center\">10/25&#xFF08;&#x571F;&#xFF09;<br>10:00&#xFF5E;13:00</td><td style=\"padding:7px 8px;text-align:center;font-size:11px;color:#888\">30&#x540D;</td"+"></tr></table></div><div style=\"background:#ffebee;border-top:1px solid #ffcdd2;padding:8px 14px;font-size:10px;color:#c62828;line-height:1.8\">&#x1F4E7; &#x7533;&#x3057;&#x8FBC;&#x307F;&#xFF1A;info@sa"+"kura-school.jp<br>&#x25C6; &#x5B9A;&#x54E1;&#x306B;&#x306A;&#x308A;&#x6B21;&#x7B2C;&#x3001;&#x7DE0;&#x3081;&#x5207;&#x308A;&#x307E;&#x3059;&#x3002;&#x8907;&#x6570;&#x306E;&#x8B1B;&#x5EA7;&#x306B;&#x75"+"33;&#x3057;&#x8FBC;&#x3081;&#x307E;&#x3059;&#x3002;</div></div>";
   var event = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:3px solid #e65100;margin:0 0 12px\"><div style=\"background:linear-gradie"+"nt(180deg,#ff6d00,#e65100);padding:0;text-align:center;position:relative;overflow:hidden\"><div style=\"padding:16px 16px 12px\"><div style=\"font-size:11px;color:#ffcc80;letter-spacing:.3em;margin-bottom"+":6px\">&#x2015;&#x2015; AUTUMN EVENT &#x2015;&#x2015;</div><div style=\"font-size:22px;font-weight:700;color:#fff;letter-spacing:.06em;text-shadow:1px 2px 4px rgba(0,0,0,.3);line-height:1.2\">&#x5730;&#x"+"57DF;&#x30BB;&#x30F3;&#x30BF;&#x30FC;<br>&#x79CB;&#x306E;&#x30A4;&#x30D9;&#x30F3;&#x30C8;</div><div style=\"font-size:22px;margin-top:4px\">&#x1F341; &#x1F342; &#x1F341;</div></div><div style=\"backgroun"+"d:#bf360c;padding:7px 14px;display:flex;justify-content:center;gap:16px\"><div style=\"text-align:center\"><div style=\"font-size:9px;color:#ffcc80;letter-spacing:.1em\">OPEN</div><div style=\"font-size:13p"+"x;font-weight:700;color:#fff\">&#x6BCE;&#x9031;&#x958B;&#x50AC;</div></div><div style=\"text-align:center\"><div style=\"font-size:9px;color:#ffcc80;letter-spacing:.1em\">PLACE</div><div style=\"font-size:1"+"3px;font-weight:700;color:#fff\">&#x5730;&#x57DF;&#x30BB;&#x30F3;&#x30BF;&#x30FC;</div></div><div style=\"text-align:center\"><div style=\"font-size:9px;color:#ffcc80;letter-spacing:.1em\">ACCESS</div><div"+" style=\"font-size:13px;font-weight:700;color:#fff\">&#x99C5;&#x3088;&#x308A;5&#x5206;</div></div></div></div><div style=\"background:#fff;padding:10px 14px\"><div style=\"display:flex;align-items:center;g"+"ap:8px;padding:7px 0;border-bottom:.5px solid #fff3e0\"><div style=\"width:30px;height:30px;border-radius:50%;background:#f44336;display:flex;align-items:center;justify-content:center;font-size:13px;fon"+"t-weight:700;flex-shrink:0;color:#fff\">&#x2460;</div><div style=\"flex:1\"><div style=\"font-size:13px;font-weight:500;color:#222\">&#x1F373; &#x6599;&#x7406;&#x30EF;&#x30FC;&#x30AF;&#x30B7;&#x30E7;&#x30C"+"3;&#x30D7;</div><div style=\"font-size:10px;color:#888;margin-top:1px\">&#x6BCE;&#x9031;&#x571F;&#x66DC; 10:00&#xFF5E;12:00</div></div><div style=\"font-size:12px;font-weight:700;flex-shrink:0;color:#e65"+"100\">500&#x5186;</div></div><div style=\"display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:.5px solid #fff3e0\"><div style=\"width:30px;height:30px;border-radius:50%;background:#4caf50;"+"display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:#fff\">&#x2461;</div><div style=\"flex:1\"><div style=\"font-size:13px;font-weight:500;color:#222\""+">&#x1F4F7; &#x5199;&#x771F;&#x5C55;</div><div style=\"font-size:10px;color:#888;margin-top:1px\">&#x6708;&#xFF5E;&#x91D1; 9:00&#xFF5E;17:00</div></div><div style=\"font-size:12px;font-weight:700;flex-shr"+"ink:0;color:#2e7d32\">&#x7121;&#x6599;</div></div><div style=\"display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:.5px solid #fff3e0\"><div style=\"width:30px;height:30px;border-radius:50"+"%;background:#2196f3;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:#fff\">&#x2462;</div><div style=\"flex:1\"><div style=\"font-size:13px;font-w"+"eight:500;color:#222\">&#x1F6CD; &#x30D5;&#x30EA;&#x30FC;&#x30DE;&#x30FC;&#x30B1;&#x30C3;&#x30C8;</div><div style=\"font-size:10px;color:#888;margin-top:1px\">&#x6BCE;&#x9031;&#x65E5;&#x66DC; 10:00&#xFF5"+"E;15:00</div></div><div style=\"font-size:12px;font-weight:700;flex-shrink:0;color:#2e7d32\">&#x7121;&#x6599;</div></div><div style=\"display:flex;align-items:center;gap:8px;padding:7px 0\"><div style=\"wi"+"dth:30px;height:30px;border-radius:50%;background:#9c27b0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:#fff\">&#x2463;</div><div style=\"flex"+":1\"><div style=\"font-size:13px;font-weight:500;color:#222\">&#x1F3AC; &#x6620;&#x753B;&#x9451;&#x8CDE;&#x4F1A;</div><div style=\"font-size:10px;color:#888;margin-top:1px\">&#x6BCE;&#x9031;&#x706B;&#x66DC"+"; 19:00&#xFF5E;21:00</div></div><div style=\"font-size:12px;font-weight:700;flex-shrink:0;color:#e65100\">300&#x5186;</div></div></div><div style=\"background:#fff3e0;border-top:1px solid #ffe0b2;padding"+":7px 14px;font-size:10px;color:#bf360c;line-height:1.8\">&#x1F4E7; &#x8A73;&#x7D30;&#x30FB;&#x7533;&#x8FBC;&#xFF1A;chiiki-center@example.jp</div></div>";
   var shisetsu = "<div style=\"font-family:'Hiragino Mincho ProN','Yu Mincho',serif;max-width:100%;border-radius:6px;overflow:hidden;border:2px solid #424242;background:#faf9f4;margin:0 0 12px\"><div style=\"height:5px;ba"+"ckground:#424242\"></div><div style=\"padding:12px 16px 8px;border-bottom:2.5px double #424242\"><div style=\"font-size:9px;color:#666;letter-spacing:.12em;font-family:'Hiragino Sans','Yu Gothic',sans-ser"+"if;margin-bottom:4px\">&#x307F;&#x3069;&#x308A;&#x5E02;&#x3000;&#x5E02;&#x6C11;&#x4F1A;&#x9928;</div><div style=\"display:flex;justify-content:space-between;align-items:flex-start\"><div><div style=\"font"+"-size:17px;font-weight:700;color:#111;letter-spacing:.06em;line-height:1.3\">&#x4F1A;&#x8B70;&#x5BA4;&#x3000;&#x5229;&#x7528;&#x306E;&#x3054;&#x6848;&#x5185;</div><div style=\"font-size:10px;color:#888;"+"font-family:'Hiragino Sans',sans-serif;margin-top:3px;letter-spacing:.1em\">CONFERENCE ROOM GUIDE</div></div><div style=\"width:38px;height:38px;border:2px solid #8b0000;border-radius:50%;display:flex;a"+"lign-items:center;justify-content:center;color:#8b0000;font-size:7px;line-height:1.15;text-align:center;font-family:serif;flex-shrink:0;margin-left:8px\">&#x307F;&#x3069;&#x308A;&#x5E02;<br>&#x5E02;&#x6"+"C11;<br>&#x4F1A;&#x9928;</div></div></div><div style=\"padding:10px 16px\"><div style=\"font-size:9px;font-weight:700;letter-spacing:.15em;color:#8b0000;border-bottom:1px solid #8b0000;padding-bottom:3px;margin:0 0 "+"6px;font-family:'Hiragino Sans',sans-serif\">&#x25A0; &#x6599;&#x91D1;&#x8868;&#xFF08;1&#x6642;&#x9593;&#x3042;&#x305F;&#x308A;&#xFF09;</div><table style=\"width:100%;border-collapse:collapse;font-size:1"+"1px\"><tr><th style=\"background:#424242;color:#fff;padding:5px 8px;text-align:left;font-size:10px;font-weight:500;font-family:'Hiragino Sans',sans-serif;letter-spacing:.06em\">&#x90E8;&#x3000;&#x5C4B;</"+"th><th style=\"background:#424242;color:#fff;padding:5px 8px;text-align:center;font-size:10px;font-weight:500;font-family:'Hiragino Sans',sans-serif;letter-spacing:.06em\">&#x5B9A;&#x3000;&#x54E1;</th><"+"th style=\"background:#424242;color:#fff;padding:5px 8px;text-align:center;font-size:10px;font-weight:500;font-family:'Hiragino Sans',sans-serif;letter-spacing:.06em\">&#x6599;&#x3000;&#x91D1;</th><th s"+"tyle=\"background:#424242;color:#fff;padding:5px 8px;text-align:center;font-size:10px;font-weight:500;font-family:'Hiragino Sans',sans-serif;letter-spacing:.06em\">&#x8A2D;&#x3000;&#x5099;</th></tr><tr>"+"<td style=\"padding:6px 8px;border:1px solid #ccc;font-weight:700\">&#x5C0F;&#x4F1A;&#x8B70;&#x5BA4;&#xFF08;A&#xFF09;</td><td style=\"padding:6px 8px;border:1px solid #ccc;text-align:center;font-family:'"+"Hiragino Sans',sans-serif\">10&#x540D;</td><td style=\"padding:6px 8px;border:1px solid #ccc;text-align:right;font-family:'Hiragino Sans',sans-serif\">500&#x5186;</td><td style=\"padding:6px 8px;border:1p"+"x solid #ccc;text-align:center;font-size:10px;font-family:'Hiragino Sans',sans-serif\">PJ</td></tr><tr style=\"background:#f0ede4\"><td style=\"padding:6px 8px;border:1px solid #ccc;font-weight:700\">&#x4E"+"2D;&#x4F1A;&#x8B70;&#x5BA4;&#xFF08;B&#xFF09;</td><td style=\"padding:6px 8px;border:1px solid #ccc;text-align:center;font-family:'Hiragino Sans',sans-serif\">20&#x540D;</td><td style=\"padding:6px 8px;bo"+"rder:1px solid #ccc;text-align:right;font-family:'Hiragino Sans',sans-serif\">1,000&#x5186;</td><td style=\"padding:6px 8px;border:1px solid #ccc;text-align:center;font-size:10px;font-family:'Hiragino S"+"ans',sans-serif\">PJ&#x30FB;&#x97F3;&#x97FF;</td></tr><tr><td style=\"padding:6px 8px;border:1px solid #ccc;font-weight:700\">&#x5927;&#x4F1A;&#x8B70;&#x5BA4;&#xFF08;C&#xFF09;</td><td style=\"padding:6px "+"8px;border:1px solid #ccc;text-align:center;font-family:'Hiragino Sans',sans-serif\">50&#x540D;</td><td style=\"padding:6px 8px;border:1px solid #ccc;text-align:right;font-family:'Hiragino Sans',sans-se"+"rif\">2,000&#x5186;</td><td style=\"padding:6px 8px;border:1px solid #ccc;text-align:center;font-size:10px;font-family:'Hiragino Sans',sans-serif\">PJ&#x30FB;&#x97F3;&#x97FF;&#x30FB;&#x821E;&#x53F0;</td>"+"</tr></table><div style=\"font-size:9px;font-weight:700;letter-spacing:.15em;color:#8b0000;border-bottom:1px solid #8b0000;padding-bottom:3px;margin:10px 0 6px;font-family:'Hiragino Sans',sans-serif\">&"+"#x25A0; &#x3054;&#x5229;&#x7528;&#x4E0A;&#x306E;&#x3054;&#x6CE8;&#x610F;</div><div style=\"font-family:'Hiragino Sans',sans-serif\"><div style=\"font-size:10px;color:#333;padding:3px 0;border-bottom:.5px"+" solid #e0e0e0;line-height:1.7\">&#x25C6; &#x3054;&#x5229;&#x7528;&#x306E;3&#x65E5;&#x524D;&#x307E;&#x3067;&#x306B;&#x3054;&#x4E88;&#x7D04;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</div><div style=\"font"+"-size:10px;color:#333;padding:3px 0;border-bottom:.5px solid #e0e0e0;line-height:1.7\">&#x25C6; &#x304A;&#x98F2;&#x307F;&#x7269;&#x306E;&#x6301;&#x3061;&#x8FBC;&#x307F;&#x306F;&#x53EF;&#x80FD;&#x3067;&"+"#x3059;&#x304C;&#x3001;&#x98DF;&#x3079;&#x7269;&#x306F;&#x3054;&#x9060;&#x616E;&#x304F;&#x3060;&#x3055;&#x3044;&#x3002;</div><div style=\"font-size:10px;color:#333;padding:3px 0;line-height:1.7\">&#x25C"+"6; &#x55B6;&#x696D;&#x6642;&#x9593;&#xFF1A;9:00&#xFF5E;21:00&#xFF08;&#x65E5;&#x66DC;&#x30FB;&#x795D;&#x65E5;&#x3082;&#x55B6;&#x696D;&#xFF09;</div></div></div><div style=\"background:#f0ede4;border-top:"+"1px solid #bbb;padding:7px 16px;font-size:10px;color:#555;line-height:1.8;font-family:'Hiragino Sans',sans-serif\">&#x4E88;&#x7D04;&#x30FB;&#x304A;&#x554F;&#x3044;&#x5408;&#x308F;&#x305B;&#xFF1A;&#x307"+"F;&#x3069;&#x308A;&#x5E02;&#x5E02;&#x6C11;&#x4F1A;&#x9928;&#x3000;Tel. 042-000-0000<br>E&#x30E1;&#x30FC;&#x30EB;&#xFF1A;shisetsu@midori-city.jp</div></div>";
-  var n2rd_0 = "<div style='width:400px;border:1px solid #999;font-family:sans-serif;font-size:13px;color:#333;'><div style='background:#2D5A8E;color:#fff;padding:8px 10px;font-size:15px;font-weight:bold;'>みどり市民プール ご利用案内</div><div style='padding:10px;'><div style='font-weight:bold;color:#2D5A8E;border-bottom:2px solid #2D5A8E;padding-bottom:3px;margin-bottom:6px;'>◆ 開場時間</div><table style='width:100%;border-collapse:collapse;font-size:13px;'><tr style='background:#EAF0F7;'><td style='border:1px solid #bbb;padding:4px;'>平日（月〜金）</td><td style='border:1px solid #bbb;padding:4px;'>10:00〜21:00</td></tr><tr><td style='border:1px solid #bbb;padding:4px;'>土・日・祝日</td><td style='border:1px solid #bbb;padding:4px;'>9:00〜18:00</td></tr></table><div style='font-size:12px;color:#666;margin:4px 0;'>※毎週水曜は清掃のため休館します。</div><div style='font-weight:bold;color:#2D5A8E;border-bottom:2px solid #2D5A8E;padding-bottom:3px;margin:10px 0 6px;'>◆ 料金表（1回2時間まで）</div><table style='width:100%;border-collapse:collapse;font-size:13px;'><tr style='background:#EAF0F7;'><td style='border:1px solid #bbb;padding:4px;'>区分</td><td style='border:1px solid #bbb;padding:4px;'>平日</td><td style='border:1px solid #bbb;padding:4px;'>土日祝</td></tr><tr><td style='border:1px solid #bbb;padding:4px;'>大人（18歳以上）</td><td style='border:1px solid #bbb;padding:4px;'>500円</td><td style='border:1px solid #bbb;padding:4px;'>700円</td></tr><tr><td style='border:1px solid #bbb;padding:4px;'>子ども（6〜17歳）</td><td style='border:1px solid #bbb;padding:4px;'>250円</td><td style='border:1px solid #bbb;padding:4px;'>350円</td></tr><tr><td style='border:1px solid #bbb;padding:4px;'>幼児（5歳以下）</td><td style='border:1px solid #bbb;padding:4px;' colspan='2'>無料（要保護者同伴）</td></tr></table><div style='font-weight:bold;color:#2D5A8E;border-bottom:2px solid #2D5A8E;padding-bottom:3px;margin:10px 0 6px;'>◆ 割引</div><div style='font-size:12px;line-height:1.6;'>・65歳以上の方は、平日のみ大人料金が半額になります（証明書提示）。<br>・市内在住の方は、上記料金から一律50円引きになります。</div></div></div>";
-  var n2rd_1 = "<div style='width:400px;border:1px solid #999;font-family:sans-serif;font-size:13px;color:#333;'><div style='background:#8E442D;color:#fff;padding:8px 10px;font-size:15px;font-weight:bold;'>春の親子料理講座 参加者募集</div><div style='padding:10px;'><div style='font-size:12px;line-height:1.7;'>小学生とその保護者を対象に、全3回の料理講座を開きます。楽しく料理の基本を学びましょう。</div><div style='font-weight:bold;color:#8E442D;border-bottom:2px solid #8E442D;padding-bottom:3px;margin:10px 0 6px;'>◆ 日程（全3回・いずれも土曜）</div><table style='width:100%;border-collapse:collapse;font-size:13px;'><tr style='background:#F5EAE6;'><td style='border:1px solid #bbb;padding:4px;'>第1回</td><td style='border:1px solid #bbb;padding:4px;'>5月10日 10:00〜12:00</td></tr><tr><td style='border:1px solid #bbb;padding:4px;'>第2回</td><td style='border:1px solid #bbb;padding:4px;'>5月17日 10:00〜12:00</td></tr><tr style='background:#F5EAE6;'><td style='border:1px solid #bbb;padding:4px;'>第3回</td><td style='border:1px solid #bbb;padding:4px;'>5月24日 10:00〜12:00</td></tr></table><div style='font-weight:bold;color:#8E442D;border-bottom:2px solid #8E442D;padding-bottom:3px;margin:10px 0 6px;'>◆ 参加費（親子1組・全3回分）</div><table style='width:100%;border-collapse:collapse;font-size:13px;'><tr style='background:#F5EAE6;'><td style='border:1px solid #bbb;padding:4px;'>区内在住・在学</td><td style='border:1px solid #bbb;padding:4px;'>2,000円</td></tr><tr><td style='border:1px solid #bbb;padding:4px;'>区外の方</td><td style='border:1px solid #bbb;padding:4px;'>3,000円</td></tr></table><div style='font-size:12px;color:#666;margin:4px 0;'>※子ども1人追加につき+800円。材料費を含みます。</div><div style='font-weight:bold;color:#8E442D;border-bottom:2px solid #8E442D;padding-bottom:3px;margin:10px 0 6px;'>◆ 申込方法</div><div style='font-size:12px;line-height:1.7;'>4月25日（金）までに、窓口または電話でお申し込みください。<br>定員10組。応募多数の場合は区内在住者を優先し、その後は先着順です。<br>※3回すべてに参加できる方に限ります。</div></div></div>";
-  var n2rd_2 = "<div style='width:400px;border:1px solid #999;font-family:sans-serif;font-size:13px;color:#333;'><div style='background:#2D6E4E;color:#fff;padding:8px 10px;font-size:15px;font-weight:bold;'>ひかりトレーニングジム 利用ルール</div><div style='padding:10px;'><div style='font-weight:bold;color:#2D6E4E;border-bottom:2px solid #2D6E4E;padding-bottom:3px;margin-bottom:6px;'>◆ 会員種別と利用可能時間</div><table style='width:100%;border-collapse:collapse;font-size:13px;'><tr style='background:#E6F0EA;'><td style='border:1px solid #bbb;padding:4px;'>種別</td><td style='border:1px solid #bbb;padding:4px;'>利用時間</td><td style='border:1px solid #bbb;padding:4px;'>月額</td></tr><tr><td style='border:1px solid #bbb;padding:4px;'>フルタイム会員</td><td style='border:1px solid #bbb;padding:4px;'>全営業時間</td><td style='border:1px solid #bbb;padding:4px;'>6,000円</td></tr><tr><td style='border:1px solid #bbb;padding:4px;'>デイタイム会員</td><td style='border:1px solid #bbb;padding:4px;'>平日9:00〜17:00</td><td style='border:1px solid #bbb;padding:4px;'>4,000円</td></tr></table><div style='font-size:12px;color:#666;margin:4px 0;'>営業時間：平日6:00〜23:00／土日9:00〜20:00（第2月曜休館）</div><div style='font-weight:bold;color:#2D6E4E;border-bottom:2px solid #2D6E4E;padding-bottom:3px;margin:10px 0 6px;'>◆ 利用時のルール</div><table style='width:100%;border-collapse:collapse;font-size:13px;'><tr style='background:#E6F0EA;'><td style='border:1px solid #bbb;padding:4px;'>持ち物</td><td style='border:1px solid #bbb;padding:4px;'>室内用シューズ必須</td></tr><tr><td style='border:1px solid #bbb;padding:4px;'>タオル</td><td style='border:1px solid #bbb;padding:4px;'>各自持参（貸出1枚200円）</td></tr><tr style='background:#E6F0EA;'><td style='border:1px solid #bbb;padding:4px;'>年齢</td><td style='border:1px solid #bbb;padding:4px;'>16歳以上（18歳未満は保護者の同意書が必要）</td></tr><tr><td style='border:1px solid #bbb;padding:4px;'>マシン利用</td><td style='border:1px solid #bbb;padding:4px;'>1台30分まで（混雑時）</td></tr></table><div style='font-weight:bold;color:#2D6E4E;border-bottom:2px solid #2D6E4E;padding-bottom:3px;margin:10px 0 6px;'>◆ ご注意</div><div style='font-size:12px;line-height:1.7;'>・室内用シューズを忘れた場合は利用できません（レンタルはありません）。<br>・初回利用時は、受付でロッカーの鍵をお受け取りください。</div></div></div>";
-  return {eiga:eiga, bus:bus, sports:sports, midori:midori, gym:gym, nihongo:nihongo, pool:pool, sakura:sakura, event:event, shisetsu:shisetsu, n2rd_0:n2rd_0, n2rd_1:n2rd_1, n2rd_2:n2rd_2};
+  var n2rd_J01 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #1565c0;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">みどりの丘市立図書館　特別貸出サービスのご案内</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">ふつうの貸出（10冊・2週間）のほかにお使いいただけます</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#0d47a1;border-bottom:2px solid #90caf9;padding-bottom:4px;margin:0 0 8px\">■ サービスの種類</div><div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px\"><tr style=\"background:#e3f2fd\"><th style=\"border:1px solid #bbb;padding:5px\">記号</th><th style=\"border:1px solid #bbb;padding:5px\">サービス</th><th style=\"border:1px solid #bbb;padding:5px\">お使いになれる方</th><th style=\"border:1px solid #bbb;padding:5px\">冊数と期間</th><th style=\"border:1px solid #bbb;padding:5px\">料金</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ａ</td><td style=\"border:1px solid #bbb;padding:5px\">まとめて貸出</td><td style=\"border:1px solid #bbb;padding:5px\">市内の学校・子ども会の代表の方</td><td style=\"border:1px solid #bbb;padding:5px\">50冊・4週間</td><td style=\"border:1px solid #bbb;padding:5px\">無料</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｂ</td><td style=\"border:1px solid #bbb;padding:5px\">長期貸出</td><td style=\"border:1px solid #bbb;padding:5px\">65歳以上の方</td><td style=\"border:1px solid #bbb;padding:5px\">10冊・6週間</td><td style=\"border:1px solid #bbb;padding:5px\">無料</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｃ</td><td style=\"border:1px solid #bbb;padding:5px\">取り寄せ</td><td style=\"border:1px solid #bbb;padding:5px\">利用カードをお持ちの方</td><td style=\"border:1px solid #bbb;padding:5px\">5冊・3週間</td><td style=\"border:1px solid #bbb;padding:5px\">1冊200円</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｄ</td><td style=\"border:1px solid #bbb;padding:5px\">宅配貸出</td><td style=\"border:1px solid #bbb;padding:5px\">外出がむずかしい方</td><td style=\"border:1px solid #bbb;padding:5px\">8冊・3週間</td><td style=\"border:1px solid #bbb;padding:5px\">1回500円</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｅ</td><td style=\"border:1px solid #bbb;padding:5px\">郵送での返却</td><td style=\"border:1px solid #bbb;padding:5px\">どなたでも</td><td style=\"border:1px solid #bbb;padding:5px\">－</td><td style=\"border:1px solid #bbb;padding:5px\">1回400円</td></tr></table></div><div style=\"font-weight:bold;color:#0d47a1;border-bottom:2px solid #90caf9;padding-bottom:4px;margin:12px 0 8px\">■ 申し込み</div><div style=\"font-size:13px;line-height:1.8\"><b>窓口</b>　1階のカウンター　午前9時から午後7時まで<br><b>いつまで</b>　Ａは使う日の10日前まで、Ｂ・Ｃ・Ｄは3日前まで<br><b>初めての方</b>　住所の分かる証明書をお持ちください<br><b>電話</b>　Ｄの宅配だけ、電話でも受け付けます（平日の午前10時から午後4時）</div><div style=\"font-weight:bold;color:#0d47a1;border-bottom:2px solid #90caf9;padding-bottom:4px;margin:12px 0 8px\">■ 返すときのきまり</div><div style=\"font-size:13px;line-height:1.8\"><b>返す場所</b>　借りた館のカウンター、または入口横の返却箱<br><b>延長</b>　1回だけ2週間のばせます。窓口か電話でお申し出ください<br><b>おくれたとき</b>　次の予約の方にご迷惑がかかります。すぐにお返しください</div><div style=\"font-weight:bold;color:#0d47a1;border-bottom:2px solid #90caf9;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※Ｂの長期貸出は、65歳以上の方のほか、市内の会社や学校に通っている方もお使いになれます。この場合は社員証か学生証をお見せください。<br>※Ｃの取り寄せは、市外にお住まいの方は1冊300円です。ただし、市内に通勤・通学している方は、市内の方と同じ1冊200円です。<br>※Ｄの宅配は、市内にお住まいの方に限ります。1回に運べるのは8冊までで、同じ月に2回までお使いになれます。<br>※取り寄せた本は、期間をのばすことができません。返す場所も、受け取った館のカウンターだけです。<br>※返す期限を過ぎている本がある方は、新しいお申し込みをお受けできません。先にお返しください。</div></div></div>";
+  var n2rd_J02 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #2e7d32;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">あさひ野市　リサイクル自転車　展示販売会のお知らせ</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">直して使えるようにした自転車を、5台お分けします</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#1b5e20;border-bottom:2px solid #a5d6a7;padding-bottom:4px;margin:0 0 8px\">■ 出す自転車</div><div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px\"><tr style=\"background:#e8f5e9\"><th style=\"border:1px solid #bbb;padding:5px\">番号</th><th style=\"border:1px solid #bbb;padding:5px\">型</th><th style=\"border:1px solid #bbb;padding:5px\">大きさ</th><th style=\"border:1px solid #bbb;padding:5px\">様子</th><th style=\"border:1px solid #bbb;padding:5px\">値段</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">①</td><td style=\"border:1px solid #bbb;padding:5px\">買い物用</td><td style=\"border:1px solid #bbb;padding:5px\">26インチ</td><td style=\"border:1px solid #bbb;padding:5px\">かごつき・変速なし</td><td style=\"border:1px solid #bbb;padding:5px\">6,000円</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">②</td><td style=\"border:1px solid #bbb;padding:5px\">通学用</td><td style=\"border:1px solid #bbb;padding:5px\">27インチ</td><td style=\"border:1px solid #bbb;padding:5px\">変速3段・かごなし</td><td style=\"border:1px solid #bbb;padding:5px\">8,500円</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">③</td><td style=\"border:1px solid #bbb;padding:5px\">子ども用</td><td style=\"border:1px solid #bbb;padding:5px\">22インチ</td><td style=\"border:1px solid #bbb;padding:5px\">補助輪つき</td><td style=\"border:1px solid #bbb;padding:5px\">3,000円</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">④</td><td style=\"border:1px solid #bbb;padding:5px\">電動アシスト</td><td style=\"border:1px solid #bbb;padding:5px\">26インチ</td><td style=\"border:1px solid #bbb;padding:5px\">電池は新しいもの</td><td style=\"border:1px solid #bbb;padding:5px\">24,000円</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">⑤</td><td style=\"border:1px solid #bbb;padding:5px\">折りたたみ</td><td style=\"border:1px solid #bbb;padding:5px\">20インチ</td><td style=\"border:1px solid #bbb;padding:5px\">かごなし・かぎ2本</td><td style=\"border:1px solid #bbb;padding:5px\">5,000円</td></tr></table></div><div style=\"font-weight:bold;color:#1b5e20;border-bottom:2px solid #a5d6a7;padding-bottom:4px;margin:12px 0 8px\">■ 申し込み</div><div style=\"font-size:13px;line-height:1.8\"><b>受付</b>　9月1日から9月15日まで（当日消印有効）<br><b>方法</b>　はがきに住所・氏名・年齢・電話番号・希望の番号を書いて送る<br><b>台数</b>　お一人1台まで。希望は第二希望まで書けます<br><b>抽選と結果</b>　9月20日に抽選。9月25日ごろ、申し込んだ方全員にはがきを送ります</div><div style=\"font-weight:bold;color:#1b5e20;border-bottom:2px solid #a5d6a7;padding-bottom:4px;margin:12px 0 8px\">■ 引き取り</div><div style=\"font-size:13px;line-height:1.8\"><b>日にち</b>　10月3日（土）・4日（日）　午前9時から正午まで<br><b>場所</b>　あさひ野リサイクルセンター　自転車置き場<br><b>代金</b>　引き取りの日に、その場で現金でお払いください<br><b>持ち帰り</b>　乗って帰るか、車に積んでお帰りください。お届けはしません</div><div style=\"font-weight:bold;color:#1b5e20;border-bottom:2px solid #a5d6a7;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※申し込めるのは市内にお住まいの方です。ただし、市外にお住まいでも、市内の学校に通っている方は申し込めます。<br>※④の電動アシスト自転車だけ、防犯登録を書きかえる料金として、値段のほかに600円かかります。ほかの自転車はかかりません。<br>※③の子ども用は、小学生が乗るためのものです。保護者の方のお名前でお申し込みください。<br>※同じ番号に二人以上のお申し込みがあったときだけ抽選をします。お一人のときは抽選をしません。<br>※引き取りの2日間に来られない方は、9月30日までにお電話ください。ご連絡があれば10月10日まで取り置きします。ご連絡のない方は取り消しとします。</div></div></div>";
+  var n2rd_J03 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #8d6e63;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#8d6e63,#5d4037);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">さかえ台公民館　会議室・和室のご利用案内</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">話し合い、教室、集まりなどにお使いください</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#5d4037;border-bottom:2px solid #d7ccc8;padding-bottom:4px;margin:0 0 8px\">■ 部屋と料金（1時間あたり）</div><div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px\"><tr style=\"background:#efebe9\"><th style=\"border:1px solid #bbb;padding:5px\">記号</th><th style=\"border:1px solid #bbb;padding:5px\">部屋</th><th style=\"border:1px solid #bbb;padding:5px\">定員</th><th style=\"border:1px solid #bbb;padding:5px\">広さ</th><th style=\"border:1px solid #bbb;padding:5px\">料金</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ａ</td><td style=\"border:1px solid #bbb;padding:5px\">第一会議室</td><td style=\"border:1px solid #bbb;padding:5px\">30人</td><td style=\"border:1px solid #bbb;padding:5px\">60平方メートル</td><td style=\"border:1px solid #bbb;padding:5px\">500円</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｂ</td><td style=\"border:1px solid #bbb;padding:5px\">第二会議室</td><td style=\"border:1px solid #bbb;padding:5px\">12人</td><td style=\"border:1px solid #bbb;padding:5px\">25平方メートル</td><td style=\"border:1px solid #bbb;padding:5px\">200円</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｃ</td><td style=\"border:1px solid #bbb;padding:5px\">大集会室</td><td style=\"border:1px solid #bbb;padding:5px\">120人</td><td style=\"border:1px solid #bbb;padding:5px\">200平方メートル</td><td style=\"border:1px solid #bbb;padding:5px\">1,200円</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｄ</td><td style=\"border:1px solid #bbb;padding:5px\">和室（松）</td><td style=\"border:1px solid #bbb;padding:5px\">20人</td><td style=\"border:1px solid #bbb;padding:5px\">十二畳</td><td style=\"border:1px solid #bbb;padding:5px\">300円</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｅ</td><td style=\"border:1px solid #bbb;padding:5px\">調理室</td><td style=\"border:1px solid #bbb;padding:5px\">24人</td><td style=\"border:1px solid #bbb;padding:5px\">70平方メートル</td><td style=\"border:1px solid #bbb;padding:5px\">600円</td></tr></table></div><div style=\"font-weight:bold;color:#5d4037;border-bottom:2px solid #d7ccc8;padding-bottom:4px;margin:12px 0 8px\">■ 申し込み</div><div style=\"font-size:13px;line-height:1.8\"><b>いつから</b>　使う日の3か月前の1日から、窓口か電話で<br><b>いつまで</b>　使う日の3日前まで。調理室だけは10日前まで<br><b>お支払い</b>　使う日の前日までに窓口でお願いします<br><b>使える時間</b>　午前9時から午後9時30分まで<br><b>休みの日</b>　毎月第三月曜日と年末年始（この日はお使いになれません）</div><div style=\"font-weight:bold;color:#5d4037;border-bottom:2px solid #d7ccc8;padding-bottom:4px;margin:12px 0 8px\">■ 備品の貸出</div><div style=\"font-size:13px;line-height:1.8\"><b>机・いす</b>　無料　　<b>マイク</b>　1本100円<br><b>映写機</b>　1回500円　　<b>ピアノ</b>　1回800円（ＣとＤのみ）<br><b>白板</b>　1台200円　　<b>湯わかし器</b>　無料（和室のみ）<br><b>お支払い</b>　備品の代金は使う日に受付でお願いします</div><div style=\"font-weight:bold;color:#5d4037;border-bottom:2px solid #d7ccc8;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※表の料金は、市内にお住まいの方と市内で働いている方の額です。市外の方は表の額の2倍になります。<br>※市内の子ども会と高齢者クラブがお使いになる場合は、表の額の半分になります。市外の方には、この割引はありません。<br>※調理室はガスを使いますので、火の元の説明を受けてから使っていただきます。当日は15分早くおいでください。<br>※取りやめるときは、使う日の7日前までなら無料です。6日前から前日までは料金の半分、当日は全額をいただきます。<br>※飲食ができるのは調理室と和室だけです。ほかの部屋には、お菓子や飲み物を持ちこまないでください。出たごみはお持ち帰りください。</div></div></div>";
+  var n2rd_J04 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #6a1b9a;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#6a1b9a,#4a148c);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">さくら野市国際交流センター　外国人支援ボランティア養成講座</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">令和8年度　秋の講座（全5回）　受講生を募集します</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#4a148c;border-bottom:2px solid #ce93d8;padding-bottom:4px;margin-bottom:8px\">■ 講座の日程</div><div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px\"><tr style=\"background:#f3e5f5\"><th style=\"border:1px solid #bbb;padding:5px\">回</th><th style=\"border:1px solid #bbb;padding:5px\">日時</th><th style=\"border:1px solid #bbb;padding:5px\">内容</th><th style=\"border:1px solid #bbb;padding:5px\">会場</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">第1回</td><td style=\"border:1px solid #bbb;padding:5px\">9月5日　午前10時〜12時</td><td style=\"border:1px solid #bbb;padding:5px\">やさしい日本語の基礎</td><td style=\"border:1px solid #bbb;padding:5px\">中央館2階</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">第2回</td><td style=\"border:1px solid #bbb;padding:5px\">9月12日　午前10時〜12時</td><td style=\"border:1px solid #bbb;padding:5px\">生活の相談の受け方</td><td style=\"border:1px solid #bbb;padding:5px\">中央館2階</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">第3回</td><td style=\"border:1px solid #bbb;padding:5px\">9月19日　午後1時〜4時</td><td style=\"border:1px solid #bbb;padding:5px\">病院での通訳の実際</td><td style=\"border:1px solid #bbb;padding:5px\">南支所</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">第4回</td><td style=\"border:1px solid #bbb;padding:5px\">9月26日　午前10時〜12時</td><td style=\"border:1px solid #bbb;padding:5px\">子どもの学習の手助け</td><td style=\"border:1px solid #bbb;padding:5px\">中央館3階</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">第5回</td><td style=\"border:1px solid #bbb;padding:5px\">10月3日　午前10時〜午後3時</td><td style=\"border:1px solid #bbb;padding:5px\">交流の場での実習</td><td style=\"border:1px solid #bbb;padding:5px\">みどり小学校</td></tr></table></div><div style=\"font-weight:bold;color:#4a148c;border-bottom:2px solid #ce93d8;padding-bottom:4px;margin:12px 0 8px\">■ 申し込み</div><div style=\"font-size:13px;line-height:1.8\"><b>受付</b>　8月1日〜8月20日　センターの窓口、またははがき<br><b>定員</b>　30名（申し込みが多いときは抽選し、8月25日ごろ全員にお知らせします）<br><b>持ち物</b>　筆記用具。第5回だけは動きやすい服装でお越しください</div><div style=\"font-weight:bold;color:#4a148c;border-bottom:2px solid #ce93d8;padding-bottom:4px;margin:12px 0 8px\">■ 修了証</div><div style=\"font-size:13px;line-height:1.8\">全5回に出た方に、講座の終わりに修了証をお渡しします。修了証をお持ちの方は、市の通訳の登録に申し込むことができます。</div><div style=\"font-weight:bold;color:#4a148c;border-bottom:2px solid #ce93d8;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※休んだ回が1回だけの方は、次の年の同じ回に出れば修了証を受け取れます。2回以上休んだ方は、はじめから受け直してください。<br>※一部の回だけ聞きたい方は「聴講」でお申し込みください。聴講は1回1,000円で、修了証は出ません。第5回の実習は聴講できません。<br>※託児（0歳から小学校に上がる前まで）は無料です。ただし、希望する回の10日前までにお電話ください。当日のお申し出はお受けできません。<br>※受講料は全5回で3,000円です。市内にお住まいの方と、市内にお勤めの方は1,500円になります。受付でお支払いください。<br>※第3回だけは午後で、会場も南支所です。お間違えのないようにお願いします。</div></div></div>";
+  var n2rd_J05 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #0277bd;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#0288d1,#01579b);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">みずほ市　けんこう診査のお知らせ</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">受けられる期間　7月1日〜11月30日</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#01579b;border-bottom:2px solid #81d4fa;padding-bottom:4px;margin-bottom:8px\">■ 検査の種類</div><div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px\"><tr style=\"background:#e1f5fe\"><th style=\"border:1px solid #bbb;padding:5px\">検査</th><th style=\"border:1px solid #bbb;padding:5px\">対象</th><th style=\"border:1px solid #bbb;padding:5px\">自己負担</th><th style=\"border:1px solid #bbb;padding:5px\">かかる時間</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px\">基本健診</td><td style=\"border:1px solid #bbb;padding:5px\">30歳以上</td><td style=\"border:1px solid #bbb;padding:5px\">800円</td><td style=\"border:1px solid #bbb;padding:5px\">約40分</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px\">胃の検査</td><td style=\"border:1px solid #bbb;padding:5px\">40歳以上</td><td style=\"border:1px solid #bbb;padding:5px\">1,200円</td><td style=\"border:1px solid #bbb;padding:5px\">約30分</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px\">肺の検査</td><td style=\"border:1px solid #bbb;padding:5px\">40歳以上</td><td style=\"border:1px solid #bbb;padding:5px\">500円</td><td style=\"border:1px solid #bbb;padding:5px\">約15分</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px\">大腸の検査</td><td style=\"border:1px solid #bbb;padding:5px\">40歳以上</td><td style=\"border:1px solid #bbb;padding:5px\">600円</td><td style=\"border:1px solid #bbb;padding:5px\">約10分</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px\">骨の検査</td><td style=\"border:1px solid #bbb;padding:5px\">20歳以上の女性</td><td style=\"border:1px solid #bbb;padding:5px\">900円</td><td style=\"border:1px solid #bbb;padding:5px\">約20分</td></tr></table></div><div style=\"font-weight:bold;color:#01579b;border-bottom:2px solid #81d4fa;padding-bottom:4px;margin:12px 0 8px\">■ 受診券と予約</div><div style=\"font-size:13px;line-height:1.8\"><b>受診券</b>　6月上旬に対象の方へ郵便でお送りします。受診券がないと受けられません<br><b>予約</b>　受ける日の7日前までに健康課へお電話ください<br><b>場所</b>　市民健康センター、または市が決めた市内の病院<br><b>結果</b>　3週間ほどのちに郵便でお送りします。数字の見方を知りたい方は健康課でご相談ください</div><div style=\"font-weight:bold;color:#01579b;border-bottom:2px solid #81d4fa;padding-bottom:4px;margin:12px 0 8px\">■ 当日のお願い</div><div style=\"font-size:13px;line-height:1.8\">受診券と保険証をお持ちください。胃の検査を受ける方は、前の日の夜9時以降、何も食べないでください。体の具合が悪い日は無理をせず、日を変えてください。取り消しは前の日までにご連絡ください。</div><div style=\"font-weight:bold;color:#01579b;border-bottom:2px solid #81d4fa;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※70歳以上の方と、市民税がかからない世帯の方は、どの検査も無料です。受付で年齢や世帯が分かる物をお見せください。<br>※胃の検査と肺の検査は2年に1回です。昨年受けた方は今年はお受けになれません。ほかの検査は毎年受けられます。<br>※受診券をなくした方は健康課の窓口で作り直します。当日はできませんので、受ける日の3日前までにお越しください。<br>※大腸の検査だけは予約が要りません。窓口で容器を受け取り、家で用意して後日お出しください。<br>※骨の検査は市民健康センターだけで行います。病院では受けられませんのでご注意ください。<br>※市の外の病院で受けた検査は、この診査には入りません。かかった費用のお返しもできません。</div></div></div>";
+  var n2rd_J06 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #e65100;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#ef6c00,#e65100);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">ひばり市　粗大ごみの出し方</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">一辺が30センチをこえる物が粗大ごみです</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#e65100;border-bottom:2px solid #ffcc80;padding-bottom:4px;margin-bottom:8px\">■ おもな品物と手数料</div><div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px\"><tr style=\"background:#fff3e0\"><th style=\"border:1px solid #bbb;padding:5px\">品物</th><th style=\"border:1px solid #bbb;padding:5px\">大きさ</th><th style=\"border:1px solid #bbb;padding:5px\">手数料</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px\">つくえ</td><td style=\"border:1px solid #bbb;padding:5px\">幅1.2メートル未満</td><td style=\"border:1px solid #bbb;padding:5px\">600円</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px\">つくえ</td><td style=\"border:1px solid #bbb;padding:5px\">幅1.2メートル以上</td><td style=\"border:1px solid #bbb;padding:5px\">1,000円</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px\">たんす</td><td style=\"border:1px solid #bbb;padding:5px\">高さ1.5メートル未満</td><td style=\"border:1px solid #bbb;padding:5px\">1,000円</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px\">自転車</td><td style=\"border:1px solid #bbb;padding:5px\">大きさは問いません</td><td style=\"border:1px solid #bbb;padding:5px\">800円</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px\">ふとん</td><td style=\"border:1px solid #bbb;padding:5px\">1枚（毛布も同じ）</td><td style=\"border:1px solid #bbb;padding:5px\">400円</td></tr></table></div><div style=\"font-weight:bold;color:#e65100;border-bottom:2px solid #ffcc80;padding-bottom:4px;margin:12px 0 8px\">■ 出すまでの順序</div><div style=\"font-size:13px;line-height:1.8\"><b>1</b>　収集センターへ電話するか、市のごみ受付の画面から申し込む<br><b>2</b>　手数料と同じ額の「粗大ごみシール」をコンビニか市内の取扱店で買う<br><b>3</b>　シールに受付の番号と名前を書き、品物の見えるところにはる<br><b>4</b>　収集の日の朝8時までに、家の前の道に出しておく（雨の日もそのままで結構です）</div><div style=\"font-weight:bold;color:#e65100;border-bottom:2px solid #ffcc80;padding-bottom:4px;margin:12px 0 8px\">■ 収集の日</div><div style=\"font-size:13px;line-height:1.8\">申し込んでから収集まで、ふだんは10日ほどです。引っ越しの多い3月と4月は3週間ほどかかります。収集の日は申し込みのときにお伝えします。その日にお立ち会いいただく必要はありません。</div><div style=\"font-weight:bold;color:#e65100;border-bottom:2px solid #ffcc80;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※シールは申し込みのあとでお買いください。申し込みの前に買ったシールは使えません。<br>※自分でクリーンセンターへ運ぶ場合は、手数料が半額になります。持ち込むときも先に申し込みが必要です。<br>※テレビ・冷蔵庫・洗濯機・エアコンとパソコンは粗大ごみに出せません。買ったお店にご相談ください。<br>※1回に出せるのは5点までです。6点以上になるときは分けてお申し込みください。<br>※シールをはり忘れた品物は持って行けません。はり直して次の収集の日をお待ちください。<br>※一人でお住まいの65歳以上の方と、体の不自由な方は、玄関の中まで取りに伺います。申し込みのときにお申し出ください。</div></div></div>";
+  var n2rd_J07 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #b71c1c;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#b71c1c,#7f0000);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">こもれび市立みなも美術館　入館のご案内</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">令和8年度　常設展・企画展「川と町のくらし」</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#7f0000;border-bottom:2px solid #ef9a9a;padding-bottom:4px;margin-bottom:8px\">■ 入館券の種類</div><div style=\"overflow-x:auto\"><table style=\"width:100%%;border-collapse:collapse;font-size:13px;min-width:0\"><tr style=\"background:#ffebee\"><th style=\"border:1px solid #bbb;padding:5px\">券</th><th style=\"border:1px solid #bbb;padding:5px\">大人</th><th style=\"border:1px solid #bbb;padding:5px\">高校生以下</th><th style=\"border:1px solid #bbb;padding:5px\">見られる展示</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">①常設券</td><td style=\"border:1px solid #bbb;padding:5px\">700円</td><td style=\"border:1px solid #bbb;padding:5px\">200円</td><td style=\"border:1px solid #bbb;padding:5px\">常設展だけ</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">②企画券</td><td style=\"border:1px solid #bbb;padding:5px\">1,200円</td><td style=\"border:1px solid #bbb;padding:5px\">400円</td><td style=\"border:1px solid #bbb;padding:5px\">企画展だけ</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">③共通券</td><td style=\"border:1px solid #bbb;padding:5px\">1,600円</td><td style=\"border:1px solid #bbb;padding:5px\">500円</td><td style=\"border:1px solid #bbb;padding:5px\">常設展と企画展</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">④夜間券</td><td style=\"border:1px solid #bbb;padding:5px\">900円</td><td style=\"border:1px solid #bbb;padding:5px\">300円</td><td style=\"border:1px solid #bbb;padding:5px\">午後5時以降の両方</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">⑤年間券</td><td style=\"border:1px solid #bbb;padding:5px\">4,000円</td><td style=\"border:1px solid #bbb;padding:5px\">1,000円</td><td style=\"border:1px solid #bbb;padding:5px\">常設展だけ何度でも</td></tr></table></div><div style=\"font-weight:bold;color:#7f0000;border-bottom:2px solid #ef9a9a;padding-bottom:4px;margin:12px 0 8px\">■ 開いている時間</div><div style=\"font-size:13px;line-height:1.8\"><b>通常</b>　午前9時30分～午後5時（入館は閉まる30分前まで）<br><b>夜間開館</b>　毎週金曜日だけ　午後8時まで開けます<br><b>休館日</b>　毎週月曜日と、月末の日（月曜日が祝日のときは翌日）<br><b>企画展の会期</b>　4月4日から6月28日まで。この間は常設展の一部を閉めます</div><div style=\"font-weight:bold;color:#7f0000;border-bottom:2px solid #ef9a9a;padding-bottom:4px;margin:12px 0 8px\">■ 団体でのご利用</div><div style=\"font-size:13px;line-height:1.8\"><b>人数</b>　20名以上で団体になります<br><b>割引</b>　1名につき200円引き。受付でまとめてお支払いください<br><b>予約</b>　1週間前までに電話でお知らせください。当日のお申し出は受けられません<br><b>案内</b>　係の者がご説明します（30分ほど）。ご希望の方は予約のときにお申し出ください<br><b>学校</b>　授業でお使いの場合、高校生以下の入館料はいりません。1週間前までに学校からお申し込みください</div><div style=\"font-weight:bold;color:#7f0000;border-bottom:2px solid #ef9a9a;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※団体割引が使えるのは常設券・企画券・共通券だけです。夜間券と年間券には使えません。<br>※65歳以上の方は共通券が半額になります。他の割引と重ねて使うことはできません。<br>※同じ日のうちなら再入館できます。ただし夜間券で入った方は再入館できません。<br>※年間券をお持ちの方が企画展をご覧になるときは、企画券を別にお買いください。200円引きです。<br>※夜間券は金曜日しか売っていません。他の曜日にお越しの方は、他の券をお求めください。</div></div></div>";
+  var n2rd_J08 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #689f38;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#689f38,#33691e);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">ひなた台子どもセンター　夏休み子ども教室</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">7月25日から8月20日まで　小学1年生～中学2年生</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#33691e;border-bottom:2px solid #c5e1a5;padding-bottom:4px;margin-bottom:8px\">■ コースと費用</div><div style=\"overflow-x:auto\"><table style=\"width:100%%;border-collapse:collapse;font-size:13px;min-width:0\"><tr style=\"background:#f1f8e9\"><th style=\"border:1px solid #bbb;padding:5px\">コース</th><th style=\"border:1px solid #bbb;padding:5px\">対象</th><th style=\"border:1px solid #bbb;padding:5px\">日数</th><th style=\"border:1px solid #bbb;padding:5px\">費用</th><th style=\"border:1px solid #bbb;padding:5px\">持ち物</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">①川の生き物さがし</td><td style=\"border:1px solid #bbb;padding:5px\">小3～小6</td><td style=\"border:1px solid #bbb;padding:5px\">2日</td><td style=\"border:1px solid #bbb;padding:5px\">1,600円</td><td style=\"border:1px solid #bbb;padding:5px\">長ぐつ・タオル</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">②かんたん木工</td><td style=\"border:1px solid #bbb;padding:5px\">小1～小4</td><td style=\"border:1px solid #bbb;padding:5px\">1日</td><td style=\"border:1px solid #bbb;padding:5px\">900円</td><td style=\"border:1px solid #bbb;padding:5px\">軍手・エプロン</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">③おかし作り</td><td style=\"border:1px solid #bbb;padding:5px\">小2～小6</td><td style=\"border:1px solid #bbb;padding:5px\">2日</td><td style=\"border:1px solid #bbb;padding:5px\">1,800円</td><td style=\"border:1px solid #bbb;padding:5px\">エプロン・三角きん</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">④星の観察</td><td style=\"border:1px solid #bbb;padding:5px\">小4～中2</td><td style=\"border:1px solid #bbb;padding:5px\">1日</td><td style=\"border:1px solid #bbb;padding:5px\">700円</td><td style=\"border:1px solid #bbb;padding:5px\">上着・ふでばこ</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">⑤絵本の読み合い</td><td style=\"border:1px solid #bbb;padding:5px\">小1～小3</td><td style=\"border:1px solid #bbb;padding:5px\">3日</td><td style=\"border:1px solid #bbb;padding:5px\">1,200円</td><td style=\"border:1px solid #bbb;padding:5px\">ふでばこ・水とう</td></tr></table></div><div style=\"font-weight:bold;color:#33691e;border-bottom:2px solid #c5e1a5;padding-bottom:4px;margin:12px 0 8px\">■ 申し込み</div><div style=\"font-size:13px;line-height:1.8\"><b>受付</b>　6月10日～6月25日（土日は休みます）<br><b>方法</b>　センターの窓口かファクスで申込書を出す。電話ではお受けできません<br><b>結果</b>　7月1日ごろ、申し込んだ方みなさまに郵便でお知らせします<br><b>定員</b>　どのコースも20人です。お一人で二つまでお申し込みになれます<br><b>お越しの際</b>　センターの駐車場は使えません。近くの市営駐車場か、歩いてお越しください</div><div style=\"font-weight:bold;color:#33691e;border-bottom:2px solid #c5e1a5;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※きょうだいでお申し込みの場合、2人目からは費用が3割引きになります。ただし同じコースに申し込むときだけです。<br>※雨のときは川の生き物さがしと星の観察を中止し、別の日に行います。中止のご連絡は当日の午前7時までにお電話でします。<br>※小学3年生までのお子さんには保護者の付き添いが必要です。星の観察はどの学年でも付き添いをお願いします。<br>※定員を超えたときは抽選します。去年、同じコースに出たお子さんは選びません。<br>※費用は初日に、おつりのないようにお持ちください。休んだ日の分はお返しできません。</div></div></div>";
+  var n2rd_J09 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #546e7a;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#546e7a,#37474f);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">しらとり町役場　引っ越しのときの手続き一覧</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">住民課・水道係・子育て係　1階から2階の窓口で受け付けます</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#37474f;border-bottom:2px solid #b0bec5;padding-bottom:4px;margin-bottom:8px\">■ 手続きの種類</div><div style=\"overflow-x:auto\"><table style=\"width:100%%;border-collapse:collapse;font-size:13px;min-width:0\"><tr style=\"background:#eceff1\"><th style=\"border:1px solid #bbb;padding:5px\">手続き</th><th style=\"border:1px solid #bbb;padding:5px\">窓口</th><th style=\"border:1px solid #bbb;padding:5px\">期限</th><th style=\"border:1px solid #bbb;padding:5px\">必要な物</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ａ転出届</td><td style=\"border:1px solid #bbb;padding:5px\">住民課</td><td style=\"border:1px solid #bbb;padding:5px\">引っ越しの14日前から当日まで</td><td style=\"border:1px solid #bbb;padding:5px\">本人確認書類</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｂ転入届</td><td style=\"border:1px solid #bbb;padding:5px\">住民課</td><td style=\"border:1px solid #bbb;padding:5px\">引っ越した日から14日以内</td><td style=\"border:1px solid #bbb;padding:5px\">転出証明書・印鑑</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｃ転居届</td><td style=\"border:1px solid #bbb;padding:5px\">住民課</td><td style=\"border:1px solid #bbb;padding:5px\">引っ越した日から14日以内</td><td style=\"border:1px solid #bbb;padding:5px\">本人確認書類</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｄ水道の停止・開始</td><td style=\"border:1px solid #bbb;padding:5px\">水道係</td><td style=\"border:1px solid #bbb;padding:5px\">引っ越しの5日前まで</td><td style=\"border:1px solid #bbb;padding:5px\">使用者番号のわかる物</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｅ児童手当の住所変更</td><td style=\"border:1px solid #bbb;padding:5px\">子育て係</td><td style=\"border:1px solid #bbb;padding:5px\">引っ越した日から15日以内</td><td style=\"border:1px solid #bbb;padding:5px\">手当証書・通帳</td></tr></table></div><div style=\"font-weight:bold;color:#37474f;border-bottom:2px solid #b0bec5;padding-bottom:4px;margin:12px 0 8px\">■ 受付の時間</div><div style=\"font-size:13px;line-height:1.8\"><b>平日</b>　午前8時30分～午後5時15分（正午から1時間は混みます）<br><b>第2土曜日</b>　午前中だけ開けます。開くのは住民課だけです<br><b>日曜日と祝日</b>　お休みします。年末年始もお休みです<br><b>混みあう時期</b>　3月と4月は待ち時間が1時間を超えることがあります<br><b>お問い合わせ</b>　代表の電話番号は町の広報紙の裏面に出ています<br><b>電話での受付</b>　水道の手続きだけは電話でも承ります。使い始める日を決めてからお電話ください</div><div style=\"font-weight:bold;color:#37474f;border-bottom:2px solid #b0bec5;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※郵便で出せるのは転出届と水道の手続きだけです。転入届と転居届は必ず窓口へお越しください。<br>※代わりの方が来られるときは委任状が要ります。ただし同じ世帯のご家族が来るときは要りません。<br>※町の外へ出る方は、先に水道の停止を済ませてから転出届をお出しください。<br>※転出証明書は転出届を出したその場でお渡しします。なくすと出し直しに3日かかります。<br>※町の中で移る方に転出証明書は要りません。転居届をお出しになるだけで済みます。</div></div></div>";
+  var n2rd_J10 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #3949ab;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#3949ab,#1a237e);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">あおば湯　日帰り温泉のご利用案内</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">受付　午前10時〜午後9時30分／年中無休</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#1a237e;border-bottom:2px solid #c5cae9;padding-bottom:4px;margin-bottom:8px\">■ 利用券の種類</div><div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px\"><tr style=\"background:#e8eaf6\"><th style=\"border:1px solid #bbb;padding:5px\">券の種類</th><th style=\"border:1px solid #bbb;padding:5px\">使える時間</th><th style=\"border:1px solid #bbb;padding:5px\">料金</th><th style=\"border:1px solid #bbb;padding:5px\">使える設備</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">①ひるま券</td><td style=\"border:1px solid #bbb;padding:5px\">10時〜16時</td><td style=\"border:1px solid #bbb;padding:5px\">800円</td><td style=\"border:1px solid #bbb;padding:5px\">大浴場</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">②よる券</td><td style=\"border:1px solid #bbb;padding:5px\">18時〜22時</td><td style=\"border:1px solid #bbb;padding:5px\">700円</td><td style=\"border:1px solid #bbb;padding:5px\">大浴場・サウナ</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">③いちにち券</td><td style=\"border:1px solid #bbb;padding:5px\">10時〜22時</td><td style=\"border:1px solid #bbb;padding:5px\">1,300円</td><td style=\"border:1px solid #bbb;padding:5px\">大浴場・サウナ・岩ぶろ</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">④ゆったり券</td><td style=\"border:1px solid #bbb;padding:5px\">10時〜22時</td><td style=\"border:1px solid #bbb;padding:5px\">1,800円</td><td style=\"border:1px solid #bbb;padding:5px\">左のすべてと休憩室</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">⑤かいすう券</td><td style=\"border:1px solid #bbb;padding:5px\">ひるま券11回分</td><td style=\"border:1px solid #bbb;padding:5px\">8,000円</td><td style=\"border:1px solid #bbb;padding:5px\">大浴場</td></tr></table></div><div style=\"font-weight:bold;color:#1a237e;border-bottom:2px solid #c5cae9;padding-bottom:4px;margin:12px 0 8px\">■ 貸し出しと追加の料金</div><div style=\"font-size:13px;line-height:1.8\"><b>バスタオル</b>　200円　<b>フェイスタオル</b>　100円<br><b>休憩室のご利用</b>　700円<br><b>館内着</b>　300円<br><b>くつ箱・ロッカー</b>　無料<br><b>タオルの持ち込み</b>　自由です</div><div style=\"font-weight:bold;color:#1a237e;border-bottom:2px solid #c5cae9;padding-bottom:4px;margin:12px 0 8px\">■ ご利用の決まり</div><div style=\"font-size:13px;line-height:1.8\"><b>お支払い</b>　入り口の受付で先にお願いします<br><b>期限</b>　利用券はお買いになった日だけ有効です<br><b>再入場</b>　一度お帰りになると入り直せません<br><b>混雑日</b>　土曜・日曜・祝日<br><b>お子さま</b>　小学生未満の方は、大人といっしょにお入りください<br><b>休憩室</b>　飲み物をお持ち込みいただけます。お食事はご遠慮ください</div><div style=\"font-weight:bold;color:#1a237e;border-bottom:2px solid #c5cae9;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※混雑日は、よる券とかいすう券をお使いになれません。ほかの券はお使いいただけます。<br>※中学生以下の方は、いちにち券とゆったり券が半額になります。ひるま券とよる券には割引がありません。<br>※かいすう券は、お使いになる日に受付でひるま券とお取り替えください。混雑日は取り替えができません。<br>※サウナは15歳以上の方に限ります。岩ぶろは小学生以上ならどなたでもお入りになれます。<br>※休憩室は午後9時に閉まります。ゆったり券の方も、それより後はお使いになれません。<br>※タオルは、ゆったり券の方だけ1枚を無料でお貸しします。ほかの券の方は有料です。</div></div></div>";
+  var n2rd_J11 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #2e7d32;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">みどり野市　しごと相談会　ブースのご案内</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">11月14日（土）　午前10時〜午後5時　市民ホール</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#1b5e20;border-bottom:2px solid #a5d6a7;padding-bottom:4px;margin-bottom:8px\">■ ブースのご案内</div><div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px\"><tr style=\"background:#e8f5e9\"><th style=\"border:1px solid #bbb;padding:5px\">ブース</th><th style=\"border:1px solid #bbb;padding:5px\">分野</th><th style=\"border:1px solid #bbb;padding:5px\">受付時間</th><th style=\"border:1px solid #bbb;padding:5px\">予約</th><th style=\"border:1px solid #bbb;padding:5px\">持ち物</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ａ</td><td style=\"border:1px solid #bbb;padding:5px\">製造・工場</td><td style=\"border:1px solid #bbb;padding:5px\">10時〜15時</td><td style=\"border:1px solid #bbb;padding:5px\">いらない</td><td style=\"border:1px solid #bbb;padding:5px\">とくになし</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｂ</td><td style=\"border:1px solid #bbb;padding:5px\">介護・福祉</td><td style=\"border:1px solid #bbb;padding:5px\">10時〜16時</td><td style=\"border:1px solid #bbb;padding:5px\">いる</td><td style=\"border:1px solid #bbb;padding:5px\">履歴書1枚</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｃ</td><td style=\"border:1px solid #bbb;padding:5px\">情報・技術</td><td style=\"border:1px solid #bbb;padding:5px\">13時〜17時</td><td style=\"border:1px solid #bbb;padding:5px\">いる</td><td style=\"border:1px solid #bbb;padding:5px\">履歴書2枚</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｄ</td><td style=\"border:1px solid #bbb;padding:5px\">販売・接客</td><td style=\"border:1px solid #bbb;padding:5px\">10時〜17時</td><td style=\"border:1px solid #bbb;padding:5px\">いらない</td><td style=\"border:1px solid #bbb;padding:5px\">とくになし</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｅ</td><td style=\"border:1px solid #bbb;padding:5px\">進学・学び直し</td><td style=\"border:1px solid #bbb;padding:5px\">13時〜16時</td><td style=\"border:1px solid #bbb;padding:5px\">いらない</td><td style=\"border:1px solid #bbb;padding:5px\">学生証</td></tr></table></div><div style=\"font-weight:bold;color:#1b5e20;border-bottom:2px solid #a5d6a7;padding-bottom:4px;margin:12px 0 8px\">■ 当日の受付</div><div style=\"font-size:13px;line-height:1.8\"><b>場所</b>　みどり野市民ホール　2階の入り口<br><b>時間</b>　午前9時30分から午後4時30分まで<br><b>相談の長さ</b>　1回30分（お一人2つのブースまで）<br><b>費用</b>　無料<br><b>持ち物</b>　在留カードか、身分を証明できる物<br><b>駐車場</b>　ホールの地下（3時間まで無料）</div><div style=\"font-weight:bold;color:#1b5e20;border-bottom:2px solid #a5d6a7;padding-bottom:4px;margin:12px 0 8px\">■ 予約と通訳</div><div style=\"font-size:13px;line-height:1.8\"><b>予約</b>　前の日の午後5時まで、電話か受付の窓口で<br><b>通訳</b>　英語・中国語・ベトナム語（3日前までにお申し込みください）<br><b>お知らせ</b>　予約された方には、前の日に電話でご連絡します<br><b>取り消し</b>　行けなくなったときは、前の日までにご連絡ください<br><b>電話の受付</b>　市の仕事の相談の窓口　平日の午前9時から午後5時まで</div><div style=\"font-weight:bold;color:#1b5e20;border-bottom:2px solid #a5d6a7;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※Ｃのブースは予約された方だけです。当日の受付ではご相談いただけません。<br>※通訳は3日前までですが、英語だけは当日の受付でもお申し込みになれます。<br>※履歴書がいるブースでは、写真をはった物をお持ちください。会場では印刷できません。<br>※予約がいっぱいのときは、当日の空いた時間にご案内することがあります。<br>※Ｅのブースは高校生と大学生のためのものです。学生証をお忘れの方はご相談いただけません。</div></div></div>";
+  var n2rd_J12 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #ad1457;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#ad1457,#880e4f);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">あかね市　学習支援金（給付・貸与）のご案内</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">令和8年度　外国から来た方・日本の方どちらもお使いになれます</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#880e4f;border-bottom:2px solid #f8bbd0;padding-bottom:4px;margin-bottom:8px\">■ 支援の種類</div><div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px\"><tr style=\"background:#fce4ec\"><th style=\"border:1px solid #bbb;padding:5px\">種類</th><th style=\"border:1px solid #bbb;padding:5px\">対象になる方</th><th style=\"border:1px solid #bbb;padding:5px\">金額</th><th style=\"border:1px solid #bbb;padding:5px\">返す</th><th style=\"border:1px solid #bbb;padding:5px\">締切</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ａ学びの給付金</td><td style=\"border:1px solid #bbb;padding:5px\">市内に1年以上お住まいの方</td><td style=\"border:1px solid #bbb;padding:5px\">月10,000円</td><td style=\"border:1px solid #bbb;padding:5px\">いらない</td><td style=\"border:1px solid #bbb;padding:5px\">5月31日</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｂ入学しえん金</td><td style=\"border:1px solid #bbb;padding:5px\">今年4月に入学した方</td><td style=\"border:1px solid #bbb;padding:5px\">1回50,000円</td><td style=\"border:1px solid #bbb;padding:5px\">いらない</td><td style=\"border:1px solid #bbb;padding:5px\">4月20日</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｃ生活の貸付金</td><td style=\"border:1px solid #bbb;padding:5px\">世帯の収入が基準より低い方</td><td style=\"border:1px solid #bbb;padding:5px\">月30,000円</td><td style=\"border:1px solid #bbb;padding:5px\">いる</td><td style=\"border:1px solid #bbb;padding:5px\">6月30日</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｄ資格ちょうせん金</td><td style=\"border:1px solid #bbb;padding:5px\">資格の試験を受ける方</td><td style=\"border:1px solid #bbb;padding:5px\">1回20,000円</td><td style=\"border:1px solid #bbb;padding:5px\">下の注意へ</td><td style=\"border:1px solid #bbb;padding:5px\">試験の1か月前</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｅ急なときの貸付金</td><td style=\"border:1px solid #bbb;padding:5px\">急に収入が減った方</td><td style=\"border:1px solid #bbb;padding:5px\">1回100,000円</td><td style=\"border:1px solid #bbb;padding:5px\">いる</td><td style=\"border:1px solid #bbb;padding:5px\">いつでも</td></tr></table></div><div style=\"font-weight:bold;color:#880e4f;border-bottom:2px solid #f8bbd0;padding-bottom:4px;margin:12px 0 8px\">■ お申し込み</div><div style=\"font-size:13px;line-height:1.8\"><b>場所</b>　あかね市役所　3階　学びの支援の窓口<br><b>方法</b>　窓口に出すか、郵送で送ってください<br><b>郵送</b>　締切の日の消印まで受け付けます<br><b>結果</b>　申し込んだ月の翌月にお知らせします</div><div style=\"font-weight:bold;color:#880e4f;border-bottom:2px solid #f8bbd0;padding-bottom:4px;margin:12px 0 8px\">■ いる書類</div><div style=\"font-size:13px;line-height:1.8\"><b>全部の支援</b>　申込書、在留カードか身分の証明<br><b>収入の証明</b>　市役所で出す書類（ＣとＥにいります）<br><b>成績の証明</b>　学校で出す書類（Ａにいります）<br><b>合格の証明</b>　試験の結果の書類（Ｄを受けた方は後で出します）<br><b>そのほか</b>　書類が足りないときは、こちらからご連絡します</div><div style=\"font-weight:bold;color:#880e4f;border-bottom:2px solid #f8bbd0;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※ＡとＣは同時に受けられません。どちらか一方をお選びください。ほかの組み合わせはできます。<br>※Ａは前の年の成績が平均以上の方に限ります。ＢとＣには成績の決まりがありません。<br>※Ｄは、試験に合格すれば返す必要がありませんが、落ちたときは半分を返していただきます。<br>※郵送で出せない支援があります。Ｅだけは必ず窓口にお出しください。<br>※締切を過ぎたお申し込みは、理由があっても受け付けられません。</div></div></div>";
+  var n2rd_J13 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #6d4c41;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#6d4c41,#4e342e);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">もりかぜ高原キャンプ場　ご予約のご案内</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">営業は4月～11月（12月～3月は閉めています）</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#4e342e;border-bottom:2px solid #d7ccc8;padding-bottom:4px;margin-bottom:8px\">■ サイトの種類</div><div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px;min-width:0\"><tr style=\"background:#efebe9\"><th style=\"border:1px solid #bbb;padding:5px\">記号</th><th style=\"border:1px solid #bbb;padding:5px\">種類</th><th style=\"border:1px solid #bbb;padding:5px\">定員</th><th style=\"border:1px solid #bbb;padding:5px\">1泊料金</th><th style=\"border:1px solid #bbb;padding:5px\">そなえつけ</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ａ</td><td style=\"border:1px solid #bbb;padding:5px\">テント</td><td style=\"border:1px solid #bbb;padding:5px\">4人</td><td style=\"border:1px solid #bbb;padding:5px\">3,000円</td><td style=\"border:1px solid #bbb;padding:5px\">水道</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｂ</td><td style=\"border:1px solid #bbb;padding:5px\">広いテント</td><td style=\"border:1px solid #bbb;padding:5px\">6人</td><td style=\"border:1px solid #bbb;padding:5px\">4,500円</td><td style=\"border:1px solid #bbb;padding:5px\">水道・電源</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｃ</td><td style=\"border:1px solid #bbb;padding:5px\">小屋</td><td style=\"border:1px solid #bbb;padding:5px\">5人</td><td style=\"border:1px solid #bbb;padding:5px\">8,000円</td><td style=\"border:1px solid #bbb;padding:5px\">電源・寝具</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｄ</td><td style=\"border:1px solid #bbb;padding:5px\">車中泊</td><td style=\"border:1px solid #bbb;padding:5px\">3人</td><td style=\"border:1px solid #bbb;padding:5px\">2,500円</td><td style=\"border:1px solid #bbb;padding:5px\">電源</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｅ</td><td style=\"border:1px solid #bbb;padding:5px\">道具つき</td><td style=\"border:1px solid #bbb;padding:5px\">4人</td><td style=\"border:1px solid #bbb;padding:5px\">12,000円</td><td style=\"border:1px solid #bbb;padding:5px\">道具一式</td></tr></table></div><div style=\"font-weight:bold;color:#4e342e;border-bottom:2px solid #d7ccc8;padding-bottom:4px;margin:12px 0 8px\">■ ご予約</div><div style=\"font-size:13px;line-height:1.8\"><b>受付開始</b>　泊まる日の3か月前の1日　午前9時から<br><b>方法</b>　お電話、または受付棟の窓口で<br><b>お支払い</b>　着いた日に受付棟でまとめてお願いします<br><b>チェックイン</b>　午後2時～午後5時　<b>チェックアウト</b>　翌日の午前11時まで<br><b>取り消し</b>　受付棟へお電話ください。ホームページからはできません</div><div style=\"font-weight:bold;color:#4e342e;border-bottom:2px solid #d7ccc8;padding-bottom:4px;margin:12px 0 8px\">■ 場内のきまり</div><div style=\"font-size:13px;line-height:1.8\"><b>火</b>　直火はできません。焚き火台か炉をお使いください<br><b>音</b>　午後9時から翌朝7時までは静かに。楽器はご遠慮ください<br><b>ごみ</b>　燃えるごみだけお預かりします。缶とびんは持ち帰りです<br><b>犬</b>　Ｄの区画と広場だけ、ひもをつけてご一緒できます<br><b>車</b>　1区画に1台まで。2台目は入口の駐車場（1泊400円）へ<br><b>シャワー</b>　1回200円。Ｃの小屋にお泊まりの方は無料でお使いになれます</div><div style=\"font-weight:bold;color:#4e342e;border-bottom:2px solid #d7ccc8;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※雨で取り消すときは、前日の午後5時までにご連絡いただければ料金はかかりません。当日のお申し出は半額をいただきます。<br>※着くのが午後5時を過ぎる方は、前日までにお電話ください。ご連絡のない区画は、当日の夕方に取り消します。<br>※小学生以下のお子さまは定員に数えません。ただし1区画に2人までです。<br>※電源をお使いになる方は、1泊500円が別にかかります。Ｅの区画だけは料金にふくまれています。<br>※Ｃの小屋の中では、火を使う道具を使えません。食事のしたくは外の炉でお願いします。</div></div></div>";
+  var n2rd_J14 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #5e35b1;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#5e35b1,#311b92);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">あおば市民マラソン大会　参加要項</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">11月3日（祝）午前9時スタート　みどりが丘運動公園</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#311b92;border-bottom:2px solid #d1c4e9;padding-bottom:4px;margin-bottom:8px\">■ 種目</div><div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px;min-width:0\"><tr style=\"background:#ede7f6\"><th style=\"border:1px solid #bbb;padding:5px\">記号</th><th style=\"border:1px solid #bbb;padding:5px\">種目</th><th style=\"border:1px solid #bbb;padding:5px\">出られる方</th><th style=\"border:1px solid #bbb;padding:5px\">参加費</th><th style=\"border:1px solid #bbb;padding:5px\">制限時間</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">①</td><td style=\"border:1px solid #bbb;padding:5px\">ハーフ（21km）</td><td style=\"border:1px solid #bbb;padding:5px\">高校生以上</td><td style=\"border:1px solid #bbb;padding:5px\">4,000円</td><td style=\"border:1px solid #bbb;padding:5px\">3時間</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">②</td><td style=\"border:1px solid #bbb;padding:5px\">10km</td><td style=\"border:1px solid #bbb;padding:5px\">中学生以上</td><td style=\"border:1px solid #bbb;padding:5px\">3,000円</td><td style=\"border:1px solid #bbb;padding:5px\">1時間40分</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">③</td><td style=\"border:1px solid #bbb;padding:5px\">5km</td><td style=\"border:1px solid #bbb;padding:5px\">小学4年生以上</td><td style=\"border:1px solid #bbb;padding:5px\">2,000円</td><td style=\"border:1px solid #bbb;padding:5px\">1時間</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">④</td><td style=\"border:1px solid #bbb;padding:5px\">親子3km</td><td style=\"border:1px solid #bbb;padding:5px\">小学1～3年生と保護者</td><td style=\"border:1px solid #bbb;padding:5px\">1組2,500円</td><td style=\"border:1px solid #bbb;padding:5px\">なし</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">⑤</td><td style=\"border:1px solid #bbb;padding:5px\">車いす5km</td><td style=\"border:1px solid #bbb;padding:5px\">高校生以上</td><td style=\"border:1px solid #bbb;padding:5px\">2,000円</td><td style=\"border:1px solid #bbb;padding:5px\">50分</td></tr></table></div><div style=\"font-weight:bold;color:#311b92;border-bottom:2px solid #d1c4e9;padding-bottom:4px;margin:12px 0 8px\">■ お申し込み</div><div style=\"font-size:13px;line-height:1.8\"><b>締切</b>　9月30日（当日の消印まで有効）<br><b>方法</b>　用紙に書いて郵送、または市役所2階の窓口へ<br><b>通知</b>　10月20日ごろ、番号札と案内をお送りします<br><b>当日の受け付けはありません</b><br><b>参加できる人数</b>　全部の種目を合わせて3,000人。多いときは先に届いた順とします<br><b>取り消し</b>　参加費はお返しできません。種目の変更は9月30日までにご連絡ください</div><div style=\"font-weight:bold;color:#311b92;border-bottom:2px solid #d1c4e9;padding-bottom:4px;margin:12px 0 8px\">■ 大会の日</div><div style=\"font-size:13px;line-height:1.8\"><b>天気</b>　小雨なら行います。荒天のときだけ中止し、当日午前6時に電話案内でお知らせします<br><b>参加賞</b>　出場した方全員にタオルをさしあげます<br><b>記録証</b>　ゴールのあと、その場でお渡しします<br><b>関門</b>　ハーフと10kmには途中に関門があり、間に合わない方はそこでやめていただきます<br><b>駐車場</b>　会場にはありません。南口の臨時駐車場（1日500円）へ</div><div style=\"font-weight:bold;color:#311b92;border-bottom:2px solid #d1c4e9;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※中学生以下の方は参加費が半額になります。<br>※65歳以上の方と、市内にお住まいの方は500円引きです。半額と500円引きは重ねられません。安くなるほうだけを引きます。<br>※親子3kmは2人で1組の料金です。この種目に割引はありません。<br>※記録証は制限時間の中で走り終えた方だけにお渡しします。<br>※南口の臨時駐車場は、申し込みの用紙に希望を書いた方だけが使えます。大会の日のお申し込みはできません。</div></div></div>";
+  var n2rd_J15 = "<div style=\"font-family:'Hiragino Sans','Yu Gothic','Meiryo',sans-serif;max-width:100%;border-radius:10px;overflow:hidden;border:2px solid #d84315;background:#fff;margin:0 0 12px\"><div style=\"background:linear-gradient(135deg,#d84315,#bf360c);color:#fff;padding:12px 14px\"><div style=\"font-size:17px;font-weight:bold\">なぎさ公園フリーマーケット　出店者募集</div><div style=\"font-size:12px;opacity:.9;margin-top:3px\">7月5日（日）午前9時～午後3時　なぎさ公園 中央広場</div></div><div style=\"padding:12px 14px\"><div style=\"font-weight:bold;color:#bf360c;border-bottom:2px solid #ffccbc;padding-bottom:4px;margin-bottom:8px\">■ 区画</div><div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px;min-width:0\"><tr style=\"background:#fbe9e7\"><th style=\"border:1px solid #bbb;padding:5px\">記号</th><th style=\"border:1px solid #bbb;padding:5px\">広さ</th><th style=\"border:1px solid #bbb;padding:5px\">出店料</th><th style=\"border:1px solid #bbb;padding:5px\">車</th></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ａ</td><td style=\"border:1px solid #bbb;padding:5px\">2m×2m</td><td style=\"border:1px solid #bbb;padding:5px\">1,500円</td><td style=\"border:1px solid #bbb;padding:5px\">置けません</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｂ</td><td style=\"border:1px solid #bbb;padding:5px\">3m×3m</td><td style=\"border:1px solid #bbb;padding:5px\">2,500円</td><td style=\"border:1px solid #bbb;padding:5px\">置けません</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｃ</td><td style=\"border:1px solid #bbb;padding:5px\">3m×3m</td><td style=\"border:1px solid #bbb;padding:5px\">4,000円</td><td style=\"border:1px solid #bbb;padding:5px\">1台置けます</td></tr><tr style=\"background:#fafafa\"><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｄ</td><td style=\"border:1px solid #bbb;padding:5px\">2m×3m（屋根つき）</td><td style=\"border:1px solid #bbb;padding:5px\">3,500円</td><td style=\"border:1px solid #bbb;padding:5px\">置けません</td></tr><tr><td style=\"border:1px solid #bbb;padding:5px;text-align:center\">Ｅ</td><td style=\"border:1px solid #bbb;padding:5px\">2m×2m</td><td style=\"border:1px solid #bbb;padding:5px\">無料</td><td style=\"border:1px solid #bbb;padding:5px\">置けません</td></tr></table></div><div style=\"font-weight:bold;color:#bf360c;border-bottom:2px solid #ffccbc;padding-bottom:4px;margin:12px 0 8px\">■ お申し込み</div><div style=\"font-size:13px;line-height:1.8\"><b>締切</b>　6月15日　はがき、または公園管理室の窓口へ<br><b>結果</b>　6月25日ごろ、はがきでお知らせします<br><b>当日のお申し込みは受け付けません</b><br><b>出店料</b>　結果のはがきが届いてから、6月30日までに公園管理室でお支払いください<br><b>数</b>　全部で60区画。申し込みが多いときは抽選します</div><div style=\"font-weight:bold;color:#bf360c;border-bottom:2px solid #ffccbc;padding-bottom:4px;margin:12px 0 8px\">■ 当日のきまり</div><div style=\"font-size:13px;line-height:1.8\"><b>搬入</b>　午前7時～8時30分。8時30分を過ぎると車は入れません<br><b>車</b>　Ｃ以外の方は、荷物を降ろしたら車を公園の外へ出してください<br><b>片づけ</b>　午後3時から4時まで。ごみは必ずお持ち帰りください<br><b>値段</b>　品物には見やすい値札をつけてください<br><b>売れない物</b>　食べ物、飲み物、生き物、刃物、電気で動く物<br><b>持ち物</b>　机やいす、シートの貸し出しはありません。台車は管理室で借りられます<br><b>Ｅの区画</b>　小学生のための区画です。保護者の方がそばにいてください</div><div style=\"font-weight:bold;color:#bf360c;border-bottom:2px solid #ffccbc;padding-bottom:4px;margin:12px 0 8px\">■ ご注意</div><div style=\"font-size:12px;line-height:1.8;color:#444\">※雨のときは中止です。中止する場合は当日の午前6時までに、申し込みの用紙に書かれた電話へご連絡します。出店料はお返しします。<br>※Ｃに置ける車は1台までです。荷物が多くても2台目は入れられません。<br>※Ｄの屋根つき区画では、テントやパラソルを立てることができません。<br>※初めて出店される方は、Ａ・Ｂ・Ｅからお選びください。ＣとＤは2回目からの方の区画です。<br>※手作りの菓子やパンも、食べ物ですのでお売りになれません。</div></div></div>";
+  return {eiga:eiga, bus:bus, sports:sports, midori:midori, gym:gym, nihongo:nihongo, pool:pool, sakura:sakura, event:event, shisetsu:shisetsu, n2rd_J01:n2rd_J01, n2rd_J02:n2rd_J02, n2rd_J03:n2rd_J03, n2rd_J04:n2rd_J04, n2rd_J05:n2rd_J05, n2rd_J06:n2rd_J06, n2rd_J07:n2rd_J07, n2rd_J08:n2rd_J08, n2rd_J09:n2rd_J09, n2rd_J10:n2rd_J10, n2rd_J11:n2rd_J11, n2rd_J12:n2rd_J12, n2rd_J13:n2rd_J13, n2rd_J14:n2rd_J14, n2rd_J15:n2rd_J15};
 })();
 updateStatsBar();
 </script>
@@ -44722,12 +45046,19 @@ function __updateCounts(){
   var V=(typeof vocabQuestions!=='undefined')?vocabQuestions:null;
   var G=(typeof grammarQuestions!=='undefined')?grammarQuestions:null;
   var R=(typeof readingQuestions!=='undefined')?readingQuestions:null;
-  var L=(typeof listeningQuestions!=='undefined')?listeningQuestions:null;
+  var L=(typeof listeningQuestions!=='undefined')?listeningQuestions:
+          ((typeof otherQuestions!=='undefined'&&otherQuestions&&otherQuestions['聴解'])?otherQuestions['聴解']:null);
   function subCount(cat,sub){
     if(cat==='文字・語彙') return (V&&V[sub])?V[sub].length:0;
     if(cat==='文法') return (G&&G[sub])?G[sub].length:0;
     if(cat==='読解') return (R&&R[sub])?R[sub].length:0;
-    if(cat==='聴解'){ if(!L||!L.length) return 0; var mm=(sub||'').match(/(\d+)/); if(mm){var n=parseInt(mm[1],10); return L.filter(function(q){return q.mondai===n;}).length;} return L.length; }
+    if(cat==='聴解'){ if(!L||!L.length) return 0;
+      /* まず大問の名前（課題理解など）で絞る。名前で当たらないときだけ番号で絞る */
+      var byType=L.filter(function(q){return q.type===sub;});
+      if(byType.length) return byType.length;
+      var mm=(sub||'').match(/(\d+)/);
+      if(mm){var n=parseInt(mm[1],10); return L.filter(function(q){return q.mondai===n;}).length;}
+      return L.length; }
     return 0;
   }
   function catTotal(cat){

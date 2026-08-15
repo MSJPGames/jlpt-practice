@@ -295,6 +295,27 @@ def main(path, level):
     # 2026-08-13、★5で聴解の画面の並べ替えを止めたとき、データ側では正解が全問1番目に
     # 固まっていたため「画面でも音声でも答えはいつも1番」になった。
     # 画面の作りに頼らず、データそのものを毎回ここで点検する。
+    # ── 大問ごとの「長さの手がかり」──────────────
+    #   ★2026-08-15 追加。科目ぜんたいでは◯でも、1つの大問だけが偏っていることがある
+    #   （N2の統合理解24問で、正解が最長の肢である割合が60%だった）。
+    print('\n【長さの手がかり（大問ごと）】正解がいちばん長い／短い肢になっていないか')
+    warn = 0
+    for nm in ('vocabQuestions', 'grammarQuestions', 'readingQuestions'):
+        if nm not in B:
+            continue
+        for k, v in B[nm].items():
+            if len(v) < 10:
+                continue
+            hi, lo = hit(v, max), hit(v, min)
+            n4 = statistics.mean([len(q['choices']) for q in v])
+            lim = 100 / n4 + 15
+            if hi > lim or lo > lim:
+                warn += 1
+                print(f'  × {k:16}{len(v):5}問  最長{hi:5.1f}%  最短{lo:5.1f}%  '
+                      f'（{lim:.0f}%を超えると「迷ったら長いほう」で当たってしまう）')
+    if not warn:
+        print('  ◯ どの大問も、長さから正解を当てられる作りにはなっていない')
+
     print('\n【正解の位置の偏り】（データの中で、正解が何番目に置かれているか）')
     ng = 0
     for nm, key in (('otherQuestions', '聴解'), ('readingQuestions', '読解'),

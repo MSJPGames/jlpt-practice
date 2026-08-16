@@ -28,6 +28,21 @@ def blocks(path):
                 if d == 0:
                     break
         out[name] = json.loads(h[i:j + 1])
+    # ★N4・N5は聴解が listeningQuestions という**配列**に入っている
+    #   （N1〜N3は otherQuestions['聴解']）。どちらでも読めるようにする。
+    m = re.search(r'const listeningQuestions\s*=\s*', h)
+    if m and not out.get('otherQuestions', {}).get('聴解'):
+        i = h.index('[', m.end())
+        d = 0
+        for j in range(i, len(h)):
+            if h[j] == '[':
+                d += 1
+            elif h[j] == ']':
+                d -= 1
+                if d == 0:
+                    break
+        out.setdefault('otherQuestions', {})['聴解'] = json.loads(h[i:j + 1])
+        out['otherQuestions'].setdefault('読解', [])
     return out
 
 
@@ -130,10 +145,22 @@ def main(path, level):
     # ── 聴解 ──────────────────────────
     if 'otherQuestions' in B and '聴解' in B['otherQuestions']:
         oth = B['otherQuestions']['聴解']
+        print('\n【聴解】')
+        # ★音声も台本も大問名も持たない問がある（N4は「聴解」の中身が
+        #   〈会話を読んで答える〉問で、音声そのものが無い）。まずそこを言う。
+        noaudio = [q for q in oth if not q.get('audio')]
+        notype = [q for q in oth if not q.get('type')]
+        if noaudio:
+            print(f'  × 音声のファイルが無い問が{len(noaudio)}問（聴解ぜんたい{len(oth)}問）')
+            if len(noaudio) == len(oth):
+                print('      この級には聴解の音声がまだありません。'
+                      '会話を「読んで」答える問になっています。')
+        if notype:
+            print(f'  × 大問（課題理解など）が決まっていない問が{len(notype)}問')
+        oth = [q for q in oth if q.get('type')]
         g = collections.defaultdict(list)
         for q in oth:
             g[q['type']].append(q)
-        print('\n【聴解】')
         allq = []
         same_total = 0
         for k, spec in kj['聴解'].items():
@@ -262,14 +289,19 @@ def main(path, level):
                 if pn:
                     line('  段落数', 0, spec['段落数'], '段落', sample=pn)
                     line('  1段落の字数', 0, spec['1段落の字数'], '字', sample=pl)
-        z = kj['読解']['_全体']
-        print(f'\n ▼ 読解ぜんたい（{len(allr)}問）')
-        line('最長肢正解率', hit(allr, max), z['最長肢正解率'], '%')
-        line('最短肢正解率', hit(allr, min), z['最短肢正解率'], '%')
-        d = [max(len(x) for x in q['choices']) - min(len(x) for x in q['choices']) for q in allr]
-        line('肢の長短差', statistics.mean(d), z['肢の長短差'], '字')
-        same = sum(1 for q in allr if len(set(len(x) for x in q['choices'])) == 1) / len(allr)
-        line('完全同字数の割合', same, z['完全同字数の割合'])
+        # ★_全体（科目ぜんたいの基準）がまだ無いレベルもある（N4・N5は公式の
+        #   解答をまだ突き合わせていない）。無いときはここを飛ばす。
+        z = kj['読解'].get('_全体')
+        if not z:
+            print(f'\n ▼ 読解ぜんたい（{len(allr)}問）… 科目ぜんたいの基準がまだ無いので判定しません')
+        if z:
+            print(f'\n ▼ 読解ぜんたい（{len(allr)}問）')
+            line('最長肢正解率', hit(allr, max), z['最長肢正解率'], '%')
+            line('最短肢正解率', hit(allr, min), z['最短肢正解率'], '%')
+            d = [max(len(x) for x in q['choices']) - min(len(x) for x in q['choices']) for q in allr]
+            line('肢の長短差', statistics.mean(d), z['肢の長短差'], '字')
+            same = sum(1 for q in allr if len(set(len(x) for x in q['choices'])) == 1) / len(allr)
+            line('完全同字数の割合', same, z['完全同字数の割合'])
 
     # ── 文字・語彙／文法 ────────────────
     for nm, key in (('vocabQuestions', '文字・語彙'), ('grammarQuestions', '文法')):
@@ -298,10 +330,13 @@ def main(path, level):
                 kw = [100.0 if re.search(r'[^\n]{1,8}[「『]|^\s*\S{1,6}\s*[：:]',
                                          q['question'].split('\n\n', 1)[-1], re.M) else 0.0 for q in v]
                 line('  会話形式の割合', 0, spec['会話形式の割合'], '%', sample=kw)
-        z = kj[key]['_全体']
-        print(f'\n ▼ {key}ぜんたい（{len(alla)}問）')
-        line('最長肢正解率', hit(alla, max), z['最長肢正解率'], '%')
-        line('最短肢正解率', hit(alla, min), z['最短肢正解率'], '%')
+        z = kj[key].get('_全体')
+        if not z:
+            print(f'\n ▼ {key}ぜんたい（{len(alla)}問）… 科目ぜんたいの基準がまだ無いので判定しません')
+        else:
+            print(f'\n ▼ {key}ぜんたい（{len(alla)}問）')
+            line('最長肢正解率', hit(alla, max), z['最長肢正解率'], '%')
+            line('最短肢正解率', hit(alla, min), z['最短肢正解率'], '%')
 
     # ── ★正解の位置の偏り ──────────────
     # 2026-08-13、★5で聴解の画面の並べ替えを止めたとき、データ側では正解が全問1番目に

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜（さ）せられる（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜（さ）せられる」の意味・接続・例文。使役受身の作り方と、したくないのにさせられた気持ち、「〜（さ）せる」「〜（ら）れる（受身）」とのちがいを図で解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜（さ）せられる</div>
+    <div class="p-en">be made to ~ / be forced to ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">使役形から作る</span>
+      <span class="badge sub">強制</span>
+      <span class="badge sub">いやな気持ち</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">強制</span>したくないのに、人にさせられる</div>
+    <div class="lead"><span class="imi-tag">いやな気持ち</span>めいわくだ・つらかったと言う</div>
+    <div class="desc">「〜（さ）せられる」は、使役形の「せる・させる」を受身の形にしたものです。自分がしたくてしたのではなく、ほかの人にやらされて、しかたなくした、という意味になります。動くのは自分ですが、そう決めたのは相手です。だから、めいわくだった・つらかった、という気持ちがいっしょに出ます。Ⅰ類の動詞では「飲まされる」のような短い形もよく使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 作り方：ふつうの形 → させる形 → させられる形</div>
+    <svg class="zu" viewBox="0 0 460 196" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="飲むから飲ませる、飲ませるから飲ませられるへと、三つのだんかいで形を作ることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" fill="#3C3489" font-family="sans-serif" font-weight="700">三つのだんかいで形を作る</text><rect x="14" y="52" width="124" height="52" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="76" y="76" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-family="sans-serif" font-weight="700">飲む</text><text x="76" y="94" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ふつうの形</text><path d="M144 78 L166 78" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="155" y="66" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">＋せる</text><rect x="172" y="52" width="124" height="52" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="234" y="76" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-family="sans-serif" font-weight="700">飲ませる</text><text x="234" y="94" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">させる形</text><path d="M302 78 L324 78" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="313" y="66" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">＋られる</text><rect x="330" y="52" width="116" height="52" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="388" y="76" text-anchor="middle" font-size="12" fill="#3C3489" font-family="sans-serif" font-weight="700">飲ませられる</text><text x="388" y="94" text-anchor="middle" font-size="10.5" fill="#3C3489" font-family="sans-serif">させられる形</text><text x="230" y="128" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">食べる → 食べさせる → 食べさせられる</text><text x="230" y="150" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">する → させる → させられる ／ 来る → 来させる → 来させられる</text><text x="230" y="176" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">Ⅰ類は「飲まされる」の短い形もよく使う</text></svg>
+    <div class="zu-cap">② だれが動くか、気持ちはどうか</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="させる人と、じっさいに動く人を分けて、動くのは自分だが気持ちはいやだということを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" fill="#3C3489" font-family="sans-serif" font-weight="700">動くのは自分。でも、決めたのは相手</text><rect x="24" y="44" width="140" height="54" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="94" y="68" text-anchor="middle" font-size="12.5" fill="#3C3489" font-family="sans-serif" font-weight="700">部長</text><text x="94" y="86" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">させる人</text><path d="M170 72 L226 72" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="198" y="62" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">やらせる</text><rect x="232" y="44" width="140" height="54" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="302" y="68" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-family="sans-serif" font-weight="700">わたし</text><text x="302" y="86" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">じっさいに動く人</text><path d="M302 100 L302 116" fill="none" stroke="#6B6560" stroke-width="1.4" marker-end="url(#ar2)"/><text x="406" y="74" text-anchor="middle" font-size="11.5" fill="#A0392E" font-family="sans-serif" font-weight="700">いやだ…</text><text x="302" y="132" text-anchor="middle" font-size="11" fill="#A0392E" font-family="sans-serif" font-weight="700">したくない気持ちが残る</text><rect x="24" y="142" width="412" height="40" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="230" y="167" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif" font-weight="700">文の主語は「わたし」。させた人は「〜に」で示す。</text></svg>
+    <div class="zu-cap">③ Ⅰ類の短い形。「す」でおわる動詞に注意</div>
+    <svg class="zu" viewBox="0 0 460 196" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ⅰ類の動詞は短い「〜される」の形が使えるが、す で終わる動詞は使えないことを二段でくらべた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" fill="#3C3489" font-family="sans-serif" font-weight="700">Ⅰ類は「〜される」の短い形が使える</text><rect x="24" y="42" width="190" height="48" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="119" y="72" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-family="sans-serif" font-weight="700">飲ませられる</text><path d="M220 66 L244 66" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="250" y="42" width="186" height="48" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="343" y="72" text-anchor="middle" font-size="12.5" fill="#3C3489" font-family="sans-serif" font-weight="700">飲まされる ○</text><rect x="24" y="108" width="190" height="48" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="119" y="138" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-family="sans-serif" font-weight="700">話させられる</text><path d="M220 132 L244 132" fill="none" stroke="#6B6560" stroke-width="1.8" marker-end="url(#ar2)"/><rect x="250" y="108" width="186" height="48" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5"/><text x="343" y="138" text-anchor="middle" font-size="12.5" fill="#A0392E" font-family="sans-serif" font-weight="700">話さされる ✕</text><text x="230" y="178" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「す」でおわる動詞（話す・出す・返す）は短い形にしない</text></svg>
+    <div class="zu-note">まず<b>形の作り方</b>（①）をおぼえ、つぎに<b>だれが決めて、だれが動くか</b>（②）を見てください。③は形のちゅういです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">使役形の「せる・させる」を <span class="n">せられる・させられる</span> に変える（Ⅰ類は <span class="n">〜される</span> の形も）</div>
+    <div class="setsu-note">Ⅰ類（五段）：書く→書かせる→書か<b>せられる</b>／書か<b>される</b>。Ⅱ類：食べる→食べさせる→食べ<b>させられる</b>。Ⅲ類：する→<b>させられる</b>、来る→来<b>させられる</b>。話しことばではⅠ類の短い形（〜される）がよく使われますが、「話す・出す・返す」など「す」でおわる動詞は「話させられる」で、「話さされる」とは言いません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">させる人（〜に）</div>
+      <div class="chips"><span class="chip">部長に</span><span class="chip">先生に</span><span class="chip">母に</span><span class="chip">先輩に</span><span class="chip">店長に</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく来る動詞</div>
+      <div class="chips"><span class="chip">待つ</span><span class="chip">飲む</span><span class="chip">書く</span><span class="chip">覚える</span><span class="chip">残業する</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">気持ちを表すことば</div>
+      <div class="chips"><span class="chip">むりに</span><span class="chip">いやいや</span><span class="chip">しかたなく</span><span class="chip">何度も</span><span class="chip">急に</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">強制</span>
+        <div class="ex-ja">新人のころ、毎晩おそくまで残業<b>させられました</b>。<button class="say" data-say="新人のころ、毎晩おそくまで残業させられました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">When I was new, I was made to work overtime late every night.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">強制</span>
+        <div class="ex-ja">子どものとき、きらいな野菜をむりに<b>食べさせられた</b>。<button class="say" data-say="子どものとき、きらいな野菜をむりに食べさせられた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">As a child I was forced to eat vegetables I hated.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">短い形</span>
+        <div class="ex-ja">歓迎会で、飲めないお酒を<b>飲まされて</b>こまりました。<button class="say" data-say="歓迎会で、飲めないお酒を飲まされてこまりました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">At the welcome party I was made to drink alcohol I can't handle, and it was rough.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">短い形</span>
+        <div class="ex-ja">みんなの前で長い作文を<b>読まされた</b>ので、はずかしかった。<button class="say" data-say="みんなの前で長い作文を読まされたので、はずかしかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I was made to read a long essay in front of everyone, so I was embarrassed.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">強制</span>
+        <div class="ex-ja">アルバイトの初日に、店のメニューを全部<b>覚えさせられました</b>。<button class="say" data-say="アルバイトの初日に、店のメニューを全部覚えさせられました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">On my first day of the part-time job, I was made to memorise the whole menu.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">「す」の動詞</span>
+        <div class="ex-ja">会議で、急に一人ずつ意見を<b>話させられた</b>。<button class="say" data-say="会議で、急に一人ずつ意見を話させられた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">At the meeting we were suddenly made to give our opinions one by one.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>Ⅰ類の短い形「〜される」</div>
+      <div class="use-d">話しことばでは「〜せられる」より短い「〜される」がよく使われます。ただし「す」でおわる動詞では使えません。</div>
+      <div class="use-e">雨の日に、駅の外で三十分も<b>待たされた</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>気持ちが自然に動くとき</div>
+      <div class="use-d">「考える・感動する・おどろく」などでは、いやいやではなく「自然にそうなった」という意味になります。</div>
+      <div class="use-e">あの作品には、いろいろと<b>考えさせられました</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜（さ）せる</div>
+      <div class="vs-lead">同じできごとでも、<b>させた人</b>を主語にすれば「〜させる」、<b>させられた人</b>を主語にすれば「〜させられる」です。気持ちが出るのは「させられる」のほうです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜（さ）せられる</th><th>〜（さ）せる</th></tr>
+        <tr><td class="k">文の主語</td><td>させられた人（じっさいに動く人）</td><td>させる人（決める人）</td></tr>
+        <tr><td class="k">気持ち</td><td>いやだ・つらいが出る</td><td>気持ちはあまり出ない</td></tr>
+        <tr><td class="k">例</td><td>わたしは部長に書類を書かされた</td><td>部長はわたしに書類を書かせた</td></tr>
+      </table>
+      <div class="vs-ex">
+        言う人が動いた本人なら「毎日、日記を<b>書かせられた</b>」。<br>
+        言う人が先生の側なら「毎日、日記を<b>書かせた</b>」。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜（ら）れる（受身）</div>
+      <div class="vs-lead">「〜させられる」は<b>自分が動く</b>（動作をするのは自分）。ふつうの受身「〜られる」は<b>相手が動く</b>（自分は動かない）ところがちがいます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜（さ）せられる</th><th>〜（ら）れる（受身）</th></tr>
+        <tr><td class="k">だれが動くか</td><td>自分が動く</td><td>相手が動く</td></tr>
+        <tr><td class="k">気持ち</td><td>いやいやさせられた</td><td>めいわく・被害を受けた</td></tr>
+        <tr><td class="k">例</td><td>母に部屋をそうじさせられた</td><td>母に部屋をそうじされた</td></tr>
+      </table>
+      <div class="vs-ex">
+        自分がそうじしたなら「妹に部屋を<b>かたづけさせられた</b>」。<br>
+        妹がそうじしたなら「妹に部屋を<b>かたづけられた</b>」。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜（さ）せられる is the causative-passive: someone else made you do something, and you did it unwillingly, so the sentence carries a clear note of annoyance or hardship. Group I verbs often take the shorter 〜される form (飲まされる), but verbs ending in す keep the long form (話させられる, never 話さされる).</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜（さ）せられる」是使役被動形，表示「被別人強迫去做」，動作雖然是自己做的，卻不是自己願意的，因此帶有麻煩、無奈的語氣。第一類動詞常用較短的「〜される」（飲まされる），但以「す」結尾的動詞只能用「話させられる」，不能說「話さされる」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%EF%BC%88%E3%81%95%EF%BC%89%E3%81%9B%E3%82%89%E3%82%8C%E3%82%8B&amp;lv=N3&amp;ex=%E6%96%B0%E4%BA%BA%E3%81%AE%E3%81%93%E3%82%8D%E3%80%81%E6%AF%8E%E6%99%A9%E3%81%8A%E3%81%9D%E3%81%8F%E3%81%BE%E3%81%A7%E6%AE%8B%E6%A5%AD%E3%81%95%E3%81%9B%E3%82%89%E3%82%8C%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="zaruwoenai.html">🔁 〜ざるを得ないとくらべる<span class="ar">›</span></a>
+      <a href="woyoginakusareru.html">🔁 〜を余儀なくされるとくらべる<span class="ar">›</span></a>
+      <a href="shikanai.html">🔁 〜しかないとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#saserareru">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

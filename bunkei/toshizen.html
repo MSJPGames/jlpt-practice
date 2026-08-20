@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜と（自然の結果）（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜と（自然の結果）」の意味・接続・例文。いつも決まってそうなる言い方と、うしろに命令や依頼が置けない決まり、「〜たら」「〜ば」とのちがいを図で解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜と（自然の結果）</div>
+    <div class="p-en">whenever ~ / if ~, (naturally) ...</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">辞書形・ない形に付く</span>
+      <span class="badge sub">自然のなりゆき</span>
+      <span class="badge sub">うしろに意志×</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">いつも同じ</span>Aをすれば、決まってBになる</div>
+    <div class="lead"><span class="imi-tag">気づき</span>そうしたら、あることが分かった・起きた</div>
+    <div class="desc">「〜と」は、Aが起きればいつも決まってBになる、というつながりを言う形です。季節や自然のなりゆき、機械の動き、道あんない、毎日の習慣など、何度やっても同じ結果になることに使います。人の力でどうにかできることではないので、うしろに「〜てください」「〜ましょう」「〜たい」のような、話す人の気もちを表すことばは置けません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① いつも同じ：何回やっても結果は変わらない</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="同じことをすると何回でも同じ結果になることを、三つの行でならべて示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">Aをすると、何回でも同じBになる</text><text x="26" y="63" text-anchor="start" font-size="10.5" fill="#6B6560" font-family="sans-serif">1回目</text><rect x="70" y="44" width="132" height="30" rx="6" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.4"/><text x="136" y="64" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">ボタンをおす</text><path d="M208 59 L262 59" fill="none" stroke="#3C3489" stroke-width="1.6" marker-end="url(#ar)"/><rect x="270" y="44" width="132" height="30" rx="6" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.4"/><text x="336" y="64" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">切符が出る</text><text x="26" y="103" text-anchor="start" font-size="10.5" fill="#6B6560" font-family="sans-serif">2回目</text><rect x="70" y="84" width="132" height="30" rx="6" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.4"/><text x="136" y="104" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">ボタンをおす</text><path d="M208 99 L262 99" fill="none" stroke="#3C3489" stroke-width="1.6" marker-end="url(#ar)"/><rect x="270" y="84" width="132" height="30" rx="6" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.4"/><text x="336" y="104" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">切符が出る</text><text x="26" y="143" text-anchor="start" font-size="10.5" fill="#6B6560" font-family="sans-serif">3回目</text><rect x="70" y="124" width="132" height="30" rx="6" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.4"/><text x="136" y="144" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">ボタンをおす</text><path d="M208 139 L262 139" fill="none" stroke="#3C3489" stroke-width="1.6" marker-end="url(#ar)"/><rect x="270" y="124" width="132" height="30" rx="6" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.4"/><text x="336" y="144" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">切符が出る</text><text x="230" y="176" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">だれがやっても、いつやっても同じ　＝　「ボタンをおすと、切符が出ます」</text></svg>
+    <div class="zu-cap">② いちばん大事な決まり：うしろに置けないもの</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「春になると」のうしろに、自然の結果は置けるが、さそいや命令は置けないことを二またの矢印で示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">うしろに「意志・命令・依頼」は置けない</text><rect x="18" y="62" width="128" height="46" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="82" y="91" text-anchor="middle" font-size="12" font-weight="700" fill="#3C3489" font-family="sans-serif">春になると、</text><path d="M152 78 L206 60" fill="none" stroke="#3C3489" stroke-width="1.6" marker-end="url(#ar)"/><rect x="214" y="40" width="224" height="36" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.4"/><text x="326" y="63" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">花がさきます　○　自然の結果</text><path d="M152 92 L206 116" fill="none" stroke="#A0392E" stroke-width="1.6" marker-end="url(#ar2)"/><rect x="214" y="98" width="224" height="36" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.4"/><text x="326" y="121" text-anchor="middle" font-size="11.5" fill="#A0392E" font-family="sans-serif">花見に行きましょう　×　さそい</text><text x="230" y="158" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">さそい・命令・希望を言いたいときは「春に<tspan font-weight="700">なったら</tspan>」</text><text x="230" y="178" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「〜と」のうしろは、人がきめられないことだけ</text></svg>
+    <div class="zu-note">上の図は<b>いつも決まって同じ結果</b>になること、下の図は<b>うしろに置けないもの</b>です。「〜と」は<b>ひとりでにそうなる</b>ことを言う形なので、話す人がえらべること（さそい・命令・お願い・希望）はうしろに来られません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞辞書形・ない形 ＋ <span class="n">と</span></div>
+    <div class="setsu-note">い形容詞は「安いと」、な形容詞・名詞は「しずかだと」「雨だと」の形になります。前は現在の形だけで、「〜たと」の形にはなりません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞</div>
+      <div class="chips"><span class="chip">押す</span><span class="chip">回す</span><span class="chip">曲がる</span><span class="chip">なる</span><span class="chip">入れる</span><span class="chip">行く</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う場面</div>
+      <div class="chips"><span class="chip">道あんない</span><span class="chip">機械の使い方</span><span class="chip">季節の変化</span><span class="chip">毎日の習慣</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろに置けないことば</div>
+      <div class="chips"><span class="chip">〜てください</span><span class="chip">〜ましょう</span><span class="chip">〜たい</span><span class="chip">〜つもりだ</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">自然のなりゆき</span>
+        <div class="ex-ja">秋に<b>なると</b>、この公園の木が赤くなります。<button class="say" data-say="秋になると、この公園の木が赤くなります。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">When autumn comes, the trees in this park turn red.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">機械の動き</span>
+        <div class="ex-ja">このボタンを<b>おすと</b>、切符が出てきます。<button class="say" data-say="このボタンをおすと、切符が出てきます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you press this button, a ticket comes out.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">道あんない</span>
+        <div class="ex-ja">つぎの角を右に<b>曲がると</b>、大きな病院があります。<button class="say" data-say="つぎの角を右に曲がると、大きな病院があります。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Turn right at the next corner and you'll see a big hospital.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">習慣</span>
+        <div class="ex-ja">父は家に<b>帰ると</b>、まず手をあらいます。<button class="say" data-say="父は家に帰ると、まず手をあらいます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">When my father gets home, he always washes his hands first.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ない形</span>
+        <div class="ex-ja">この道は、雨が<b>降らないと</b>ほこりっぽくなります。<button class="say" data-say="この道は、雨が降らないとほこりっぽくなります。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This road gets dusty whenever it doesn't rain.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">気づき（〜と、〜た）</span>
+        <div class="ex-ja">本のページを<b>めくると</b>、古いしおりがはさんでありました。<button class="say" data-say="本のページをめくると、古いしおりがはさんでありました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">When I turned the page, I found an old bookmark inside.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜と、〜た」＝ そうしたら、分かった・起きた</div>
+      <div class="use-d">何かをしたそのとき、思いがけないことに気がついた、という言い方です。うしろは「〜た」の形になり、あとから話す形になります。</div>
+      <div class="use-e">会場に<b>入ると</b>、もう百人ぐらいの人がすわっていました。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>ことわざや決まりごと</div>
+      <div class="use-d">だれにでもあてはまることを言うときにも使います。人ではなく、世の中のきまりを言う形です。</div>
+      <div class="use-e">この駅は、七時を<b>すぎると</b>切符売り場が閉まります。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜たら</div>
+      <div class="vs-lead">「〜と」は<b>いつも決まってそうなる</b>ことだけ。「〜たら」は<b>一回きりのこと</b>にも使えて、うしろに命令・さそい・希望も置けます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜と</th><th>〜たら</th></tr>
+        <tr><td class="k">回数</td><td>何度でも同じ</td><td>一回きりでもいい</td></tr>
+        <tr><td class="k">うしろに「〜てください」</td><td>×</td><td>○</td></tr>
+        <tr><td class="k">うしろに「〜ましょう」</td><td>×</td><td>○</td></tr>
+        <tr><td class="k">うしろに「〜たい」</td><td>×</td><td>○</td></tr>
+        <tr><td class="k">よく使う場面</td><td>機械・道あんない・自然</td><td>予定・お願い・約束</td></tr>
+      </table>
+      <div class="vs-ex">
+        「駅に<b>着いたら</b>、電話してください」は言えるが、「駅に着くと、電話してください」は言えない。<br>
+        「ボタンを<b>おすと</b>、音が鳴ります」＝だれがやっても同じ。人の気もちは入らない。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ば</div>
+      <div class="vs-lead">「〜ば」は<b>そうするための条件</b>を言う形で、うしろにすすめや希望を置けます。「〜と」は<b>ひとりでにそうなる</b>と言うだけです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜と</th><th>〜ば</th></tr>
+        <tr><td class="k">言いたいこと</td><td>自然にそうなる</td><td>そうすれば、そうなる</td></tr>
+        <tr><td class="k">うしろにすすめ・希望</td><td>置けない</td><td>置ける（〜ばいい など）</td></tr>
+        <tr><td class="k">話し手の気もち</td><td>入らない</td><td>入る</td></tr>
+        <tr><td class="k">よく使う場面</td><td>しくみ・習慣の説明</td><td>もしもの話・アドバイス</td></tr>
+      </table>
+      <div class="vs-ex">
+        「ここを<b>押せば</b>開きますよ」＝やり方を教えている。<br>
+        「ここを<b>押すと</b>開きます」＝そういうしくみだと説明している。<br>
+        「早く<b>行けば</b>、席が取れますよ」は言えるが、すすめの気もちは「〜と」では出せない。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜と marks a result that always follows: press the button and the ticket comes out, spring comes and the flowers open. Because the result is automatic, you cannot follow it with a request, an invitation or a wish — use 〜たら for those.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜と」表示只要A發生，B就必然跟著出現，常用於自然現象、機械操作、指路和日常習慣。由於結果是自動發生的，後面不能接命令、邀約或願望，這時要改用「〜たら」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A8%EF%BC%88%E8%87%AA%E7%84%B6%E3%81%AE%E7%B5%90%E6%9E%9C%EF%BC%89&amp;lv=N3&amp;ex=%E7%A7%8B%E3%81%AB%E3%81%AA%E3%82%8B%E3%81%A8%E3%80%81%E3%81%93%E3%81%AE%E5%85%AC%E5%9C%92%E3%81%AE%E6%9C%A8%E3%81%8C%E8%B5%A4%E3%81%8F%E3%81%AA%E3%82%8A%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="baii.html">🔁 〜ばいい・〜たらいいを見る<span class="ar">›</span></a>
+      <a href="bahodo.html">🔁 〜ば〜ほど・〜なら〜ほどとくらべる<span class="ar">›</span></a>
+      <a href="toshitara.html">🔁 〜としたら・〜とすればとくらべる<span class="ar">›</span></a>
+      <a href="katoomouto.html">🔁 〜（か）と思うととくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-37">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

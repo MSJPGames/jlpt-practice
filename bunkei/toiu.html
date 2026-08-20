@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜という〜（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜という〜」の意味・接続・例文。相手が知らないものを紹介する「名づけ」と、前の文がうしろの名詞の中身になる「内容」の使い方、ふつうの名詞修飾や「〜ということだ」とのちがいを図で解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜という〜</div>
+    <div class="p-en">a ~ called ~ / the news that ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">名詞・文に付く</span>
+      <span class="badge sub">名づけ</span>
+      <span class="badge sub">内容</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">名づけ</span>相手が知らないものの名前を出して紹介する</div>
+    <div class="lead"><span class="imi-tag">内容</span>前の文が、うしろの名詞の中身になる</div>
+    <div class="desc">「〜という〜」は、名前や文を、うしろの名詞につなぐ形です。一つめは、相手がまだ知らないものの名前を出して、それが何なのかを教える使い方です。二つめは、前の文がそのままうしろの名詞の中身になる使い方です。どちらも、聞く人がまだ知らないことを、名詞の形にしてわたすところが同じです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 名づけ：知らない名まえを、うしろの名詞で説明する</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="相手が知らない名まえを「という」でうしろの名詞につなぎ、それが何なのかを教えることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">知らない名まえ ＋ という ＋ それが何か</text><rect x="22" y="46" width="152" height="64" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="98" y="72" text-anchor="middle" font-size="13" font-weight="700" fill="#3C3489" font-family="sans-serif">みどり橋</text><text x="98" y="94" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">相手は知らない名まえ</text><rect x="192" y="63" width="72" height="30" rx="15" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.5"/><text x="228" y="83" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">という</text><path d="M176 78 L190 78" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><path d="M266 78 L284 78" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="286" y="46" width="152" height="64" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="362" y="72" text-anchor="middle" font-size="13" font-weight="700" fill="#1C1C1C" font-family="sans-serif">橋</text><text x="362" y="94" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">それが何かを教える</text><text x="230" y="138" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">「みどり橋という橋があります」</text><text x="230" y="162" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">はじめて出す名まえだから、「という」でつなぐ</text></svg>
+    <div class="zu-cap">② 内容：前の文が、うしろの名詞の中に入る</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="前の文が「という」を通ってうしろの名詞の箱の中に入り、その名詞の中身になることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">文が、そのまま名詞の中身になる</text><text x="118" y="42" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">文</text><rect x="24" y="50" width="188" height="44" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="118" y="78" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">店が来月閉まる</text><text x="231" y="62" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">という</text><path d="M216 72 L246 72" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="250" y="38" width="186" height="82" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="343" y="60" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">知らせ・うわさ（名詞）</text><rect x="262" y="72" width="162" height="36" rx="6" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.2"/><text x="343" y="95" text-anchor="middle" font-size="11" fill="#3C3489" font-family="sans-serif">中身＝店が来月閉まる</text><text x="230" y="146" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">「店が来月閉まるという知らせ」</text><text x="230" y="170" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">前の文が、うしろの名詞の中に入る</text></svg>
+    <div class="zu-note">上は<b>名づけ</b>、下は<b>内容</b>です。どちらも「という」の前は、<b>聞く人がまだ知らないもの</b>です。相手がもう知っていることには使いません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞 ＋ <span class="n">という</span> ＋ 名詞<br>文（普通形） ＋ <span class="n">という</span> ＋ 名詞</div>
+    <div class="setsu-note">話しことばでは「〜っていう」「〜って」になります（みどり橋っていう橋／雨が降るって話）。「〜との」というかたい形は、書類やニュースで使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろに来る名詞（名づけ）</div>
+      <div class="chips"><span class="chip">人</span><span class="chip">方</span><span class="chip">町</span><span class="chip">店</span><span class="chip">本</span><span class="chip">会社</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろに来る名詞（内容）</div>
+      <div class="chips"><span class="chip">話</span><span class="chip">うわさ</span><span class="chip">知らせ</span><span class="chip">予報</span><span class="chip">気もち</span><span class="chip">考え</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使うことば</div>
+      <div class="chips"><span class="chip">はじめて</span><span class="chip">聞いたことがない</span><span class="chip">〜という名前の</span><span class="chip">ご存じですか</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">名づけ</span>
+        <div class="ex-ja">駅の近くに、みどり橋<b>という</b>橋があります。<button class="say" data-say="駅の近くに、みどり橋という橋があります。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">There is a bridge called Midori Bridge near the station.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名づけ</span>
+        <div class="ex-ja">わたしの町には、あかつき祭<b>という</b>お祭りがあります。<button class="say" data-say="わたしの町には、あかつき祭というお祭りがあります。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My town has a festival called the Akatsuki Festival.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名づけ</span>
+        <div class="ex-ja">さっき、北原<b>という</b>方が受付に来ましたよ。<button class="say" data-say="さっき、北原という方が受付に来ましたよ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">A person called Kitahara came to the reception desk a moment ago.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">内容</span>
+        <div class="ex-ja">あしたは雨が降る<b>という</b>予報が出ています。<button class="say" data-say="あしたは雨が降るという予報が出ています。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">There is a forecast saying that it will rain tomorrow.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">内容</span>
+        <div class="ex-ja">あの店が来月で閉まる<b>という</b>うわさを聞きました。<button class="say" data-say="あの店が来月で閉まるといううわさを聞きました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I heard a rumor that the shop will close at the end of next month.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">内容</span>
+        <div class="ex-ja">試験が一週間のびた<b>という</b>知らせが届きました。<button class="say" data-say="試験が一週間のびたという知らせが届きました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The news arrived that the exam has been put off by a week.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜というのは」＝ことばの意味を説明する</div>
+      <div class="use-d">はじめて出すことばの意味を、これから説明するときの形です。</div>
+      <div class="use-e">「しめきり」<b>というのは</b>、出す日の終わりのことです。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜ということ」＝文を名詞にする</div>
+      <div class="use-d">文をひとかたまりの「こと」にして、主語や目的語にできます。</div>
+      <div class="use-e">一人で外国に住む<b>ということ</b>は、思ったより大変でした。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">ふつうの名詞修飾（「という」を使わない形）</div>
+      <div class="vs-lead">「という」は<b>相手がまだ知らない名まえ</b>を出すときの形です。相手がもう知っている人やものには付けず、<b>「〜の＋名詞」</b>などのふつうの形にします。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜という〜</th><th>「という」なし</th></tr>
+        <tr><td class="k">相手が知っているか</td><td>知らない・はじめて出す</td><td>もう知っている・話に出た</td></tr>
+        <tr><td class="k">前の名詞のはたらき</td><td>うしろの名詞の名まえ</td><td>持ち主・関係など</td></tr>
+        <tr><td class="k">気もち</td><td>これから紹介します</td><td>分かっている前提で話す</td></tr>
+        <tr><td class="k">例</td><td>北原さんという人</td><td>北原さんの話</td></tr>
+      </table>
+      <div class="vs-ex">
+        はじめての人なら<span class="ok">○</span>「田中さん<b>という</b>人がたずねて来ました」。<br>
+        毎日会う同僚には<span class="tri">△</span>「田中さん<b>という</b>人が来ました」→「田中さんが来ました」。<br>
+        「田中さん<b>という</b>話」とは言えません。この場合は「田中さんの話」です。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ということだ（伝聞）</div>
+      <div class="vs-lead">「〜という＋名詞」は<b>うしろに名詞が続く</b>形、「〜ということだ」は<b>文の終わり</b>で、人から聞いた話をそのまま伝える形です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜という〜</th><th>〜ということだ</th></tr>
+        <tr><td class="k">文の中の場所</td><td>名詞の前（うしろに名詞）</td><td>文の終わり</td></tr>
+        <tr><td class="k">はたらき</td><td>文を名詞の中身にする</td><td>聞いた話を伝える</td></tr>
+        <tr><td class="k">だれの情報か</td><td>言わなくてよい</td><td>自分ではなく他の人から</td></tr>
+        <tr><td class="k">例</td><td>雨が降るという予報</td><td>雨が降るということだ</td></tr>
+      </table>
+      <div class="vs-ex">
+        「駅前に新しい店ができる<b>という</b>話を聞いた」＝「話」の中身を言っている。<br>
+        「駅前に新しい店ができる<b>ということだ</b>」＝人から聞いたと伝えている。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜という〜 links a name or a whole sentence to the noun that follows it. With a name it introduces something the listener does not know yet (a bridge called Midori Bridge); with a sentence it turns that sentence into the content of the noun (the news that the exam was postponed). Do not use it for people or things the listener already knows.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜という〜」把名稱或一整個句子接到後面的名詞上。接名稱時，用來介紹對方還不知道的事物（叫做みどり橋的橋）；接句子時，該句子就成為後面名詞的內容（考試延期的消息）。對方已經知道的人事物則不使用。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A8%E3%81%84%E3%81%86%E3%80%9C&amp;lv=N3&amp;ex=%E9%A7%85%E3%81%AE%E8%BF%91%E3%81%8F%E3%81%AB%E3%80%81%E3%81%BF%E3%81%A9%E3%82%8A%E6%A9%8B%E3%81%A8%E3%81%84%E3%81%86%E6%A9%8B%E3%81%8C%E3%81%82%E3%82%8A%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="toiukotoda.html">🔁 〜ということだ（結論・伝聞）とくらべる<span class="ar">›</span></a>
+      <a href="toiunoha.html">🔁 〜というのは・〜とは（定義）とくらべる<span class="ar">›</span></a>
+      <a href="toiuyori.html">🔁 〜というよりとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-39">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

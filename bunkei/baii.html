@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ばいい・〜たらいい（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ばいい・〜たらいい」の意味・接続・例文。やり方を教える助言と「〜たらいいなあ」の願望、「〜ばいいですか」のたずね方、「〜たほうがいい」とのちがいを図で解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ばいい・〜たらいい</div>
+    <div class="p-en">you can just ~ / it would be good if ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">ば形・た形に付く</span>
+      <span class="badge sub">助言</span>
+      <span class="badge sub">願望</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">助言</span>こうすれば、それで大丈夫ですよ</div>
+    <div class="lead"><span class="imi-tag">願望</span>そうなったらうれしいなあ</div>
+    <div class="desc">「〜ばいい」「〜たらいい」は、ば形やた形に「いい」をつけた形です。一つめは、こまっている人に「こうすれば大丈夫ですよ」と、かんたんなやり方を教える言い方です。二つめは、「そうなったらうれしいなあ」と、自分ののぞみを言う言い方です。相手にやり方をたずねるときは「どこに出せばいいですか」のように使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 助言：こうすれば、それでいい</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="こまっている人に、一つのやり方を示すとそれで解決することを、左から右への流れで示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">やり方を一つ示して「それで大丈夫」と言う</text><rect x="16" y="54" width="110" height="46" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="71" y="72" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">こまっている</text><text x="71" y="91" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">どうしよう？</text><path d="M132 77 L172 77" fill="none" stroke="#3C3489" stroke-width="1.6" marker-end="url(#ar)"/><rect x="178" y="50" width="150" height="54" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="253" y="71" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">この機械で買う</text><text x="253" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#3C3489" font-family="sans-serif">＝ 買えばいい</text><path d="M334 77 L374 77" fill="none" stroke="#3C3489" stroke-width="1.6" marker-end="url(#ar)"/><circle cx="414" cy="77" r="24" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="414" y="83" text-anchor="middle" font-size="13" font-weight="700" fill="#3C3489" font-family="sans-serif">かいけつ</text><text x="230" y="136" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">ほかのやり方とくらべていない。ただ「それで足りる」と言うだけ。</text><text x="230" y="164" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">たずねる形　→　「どこに出せばいいですか」</text></svg>
+    <div class="zu-cap">② 願望：そうなったらいいなあ</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="今はそうではないことと、そうなってほしいという願いを、左右の箱と矢印であらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">今はそうではない　→　そうなってほしい</text><rect x="26" y="62" width="170" height="52" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="111" y="83" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">いま（ほんとうのこと）</text><text x="111" y="103" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">雨がふっている</text><text x="230" y="56" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">〜たらいいなあ</text><path d="M202 88 L256 88" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="264" y="62" width="170" height="52" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5" stroke-dasharray="6 4"/><text x="349" y="83" text-anchor="middle" font-size="11" fill="#3C3489" font-family="sans-serif">ねがい（まだ本当ではない）</text><text x="349" y="103" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">あしたは晴れる</text><text x="230" y="142" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">「〜たらいいなあ」＝ そうなるのを待つ気もち</text><text x="230" y="166" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">「〜ばいいのに」＝ 今はそうでないと分かっている、残念な気もち</text></svg>
+    <div class="zu-note">上は<b>助言</b>、下は<b>願望</b>です。どちらも「その形になれば、それでいい」と言っているところは同じで、<b>相手のこと</b>を言えば助言、<b>自分ののぞみ</b>を言えば願望になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞ば形 ＋ <span class="n">いい</span>　／　動詞た形 ＋ <span class="n">らいい</span></div>
+    <div class="setsu-note">い形容詞は「安ければいい」、な形容詞・名詞は「元気ならいい」「あしたなら（あしたでも）いい」の形。ていねいに言うときは「〜ばいいです」「〜たらいいですよ」、後悔は「〜ばよかった」になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞</div>
+      <div class="chips"><span class="chip">聞く</span><span class="chip">出す</span><span class="chip">使う</span><span class="chip">書く</span><span class="chip">相談する</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">願望でいっしょに使うことば</div>
+      <div class="chips"><span class="chip">〜なあ</span><span class="chip">〜のに</span><span class="chip">早く</span><span class="chip">せめて</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">たずねるときの形</div>
+      <div class="chips"><span class="chip">どこに</span><span class="chip">だれに</span><span class="chip">いつ</span><span class="chip">どうやって</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">助言</span>
+        <div class="ex-ja">きっぷは、この機械で<b>買えばいいですよ</b>。<button class="say" data-say="きっぷは、この機械で買えばいいですよ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">You can just buy your ticket at this machine.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">助言（たら）</span>
+        <div class="ex-ja">分からない漢字は、辞書で<b>調べたらいい</b>と思います。<button class="say" data-say="分からない漢字は、辞書で調べたらいいと思います。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">For kanji you don't know, I think you should just look them up in a dictionary.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">たずねる</span>
+        <div class="ex-ja">この書類は、どこに<b>出せばいいですか</b>。<button class="say" data-say="この書類は、どこに出せばいいですか。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Where should I hand in this document?</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">願望</span>
+        <div class="ex-ja">あしたの遠足、天気が<b>よかったらいいなあ</b>。<button class="say" data-say="あしたの遠足、天気がよかったらいいなあ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I hope the weather is nice for tomorrow's field trip.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">願望（のに）</span>
+        <div class="ex-ja">うちの近くにも、大きな図書館が<b>あればいいのに</b>。<button class="say" data-say="うちの近くにも、大きな図書館があればいいのに。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I wish there were a big library near my place too.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">後悔</span>
+        <div class="ex-ja">もっと早く<b>相談すればよかった</b>。今からでは間に合わない。<button class="say" data-say="もっと早く相談すればよかった。今からでは間に合わない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I should have asked for advice sooner. Now it's too late.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜ばよかった」＝ しなかったことへの後悔</div>
+      <div class="use-d">しなかったこと、または、しすぎたことを、あとから残念に思う言い方です。もう変えられないと分かっているときに使います。</div>
+      <div class="use-e">こんなに道がこむのなら、電車で<b>来ればよかった</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜ばいいですか」＝ やり方をたずねる</div>
+      <div class="use-d">自分がこれからすることについて、どうするのが正しいか相手に聞く形です。手つづきや道具の使い方をたずねるときによく使います。</div>
+      <div class="use-e">はじめての方は、どの用紙に<b>書けばいいですか</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>「〜さえ〜ばいい」＝ それだけで足りる</div>
+      <div class="use-d">ほかは何もいらない、これ一つで十分だ、と強く言う形です。</div>
+      <div class="use-e">申しこみは、名前と電話番号を<b>書きさえすればいい</b>そうです。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜たほうがいい</div>
+      <div class="vs-lead">「〜ばいい」は<b>やり方を一つ教えるだけ</b>、「〜たほうがいい」は<b>二つをくらべて、こちらを強くすすめる</b>言い方です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ばいい・〜たらいい</th><th>〜たほうがいい</th></tr>
+        <tr><td class="k">言いたいこと</td><td>かんたんなやり方を教える</td><td>くらべて、強くすすめる</td></tr>
+        <tr><td class="k">くらべる気もち</td><td>ない</td><td>ある（しないより、するほうが）</td></tr>
+        <tr><td class="k">聞く人の受け取り方</td><td>かるい案内に聞こえる</td><td>少し強い忠告に聞こえる</td></tr>
+        <tr><td class="k">よく使う場面</td><td>道具の使い方・手つづき</td><td>体・お金・安全のこと</td></tr>
+      </table>
+      <div class="vs-ex">
+        「その荷物なら、後ろの棚に<b>のせればいいですよ</b>」＝置き場所の案内。<br>
+        「重そうですね。今日は荷物を<b>減らしたほうがいいですよ</b>」＝減らさないよりいい、というすすめ。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜といい</div>
+      <div class="vs-lead">「〜といい」は<b>話しことばでよく使う、のぞみの言い方</b>です。「〜ばいい・〜たらいい」は<b>助言にものぞみにも</b>使えます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ばいい・〜たらいい</th><th>〜といい</th></tr>
+        <tr><td class="k">助言に使えるか</td><td>使える</td><td>使いにくい</td></tr>
+        <tr><td class="k">のぞみに使えるか</td><td>使える</td><td>よく使う</td></tr>
+        <tr><td class="k">相手といっしょに願う</td><td>言える</td><td>とくによく言う</td></tr>
+        <tr><td class="k">よく出る形</td><td>〜たらいいなあ／〜ばいいのに</td><td>〜といいですね</td></tr>
+      </table>
+      <div class="vs-ex">
+        「あしたは晴れる<b>といいですね</b>」＝相手といっしょに願う、やわらかい言い方。<br>
+        「もう少し部屋が広<b>ければいいのに</b>」＝今はそうでないと分かっている、残念な気もち。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜ばいい / 〜たらいい gives light advice — "you can just do X and that's enough" — with no comparison behind it, unlike 〜たほうがいい. The same shape also expresses a wish (〜たらいいなあ, 〜ばいいのに), asks how to do something (どこに出せばいいですか), and, as 〜ばよかった, regrets what you did not do.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜ばいい／〜たらいい」用來輕輕地給建議，意思是「這樣做就可以了」，背後沒有兩相比較的語氣，這點與「〜たほうがいい」不同。同樣的形式也能表示願望（〜たらいいなあ、〜ばいいのに）、向對方詢問做法（どこに出せばいいですか），而「〜ばよかった」則表示對沒做的事感到後悔。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%B0%E3%81%84%E3%81%84%E3%83%BB%E3%80%9C%E3%81%9F%E3%82%89%E3%81%84%E3%81%84&amp;lv=N3&amp;ex=%E3%81%8D%E3%81%A3%E3%81%B7%E3%81%AF%E3%80%81%E3%81%93%E3%81%AE%E6%A9%9F%E6%A2%B0%E3%81%A7%E8%B2%B7%E3%81%88%E3%81%B0%E3%81%84%E3%81%84%E3%81%A7%E3%81%99%E3%82%88%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="toshizen.html">🔁 〜と（自然の結果）とくらべる<span class="ar">›</span></a>
+      <a href="banoni.html">🔁 〜ば〜（のに）（反実仮想）を見る<span class="ar">›</span></a>
+      <a href="bahodo.html">🔁 〜ば〜ほど・〜なら〜ほどを見る<span class="ar">›</span></a>
+      <a href="../bunkei.html#ba-ii">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

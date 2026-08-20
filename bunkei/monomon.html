@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜もの・〜もん（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜もの・〜もん」の意味・接続・例文。言いわけや甘えの気もちで理由をあとから足す話しことばの使い方、「もん」のくだけ方、「〜から」「〜ので」との文体のちがいを図で解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜もの・〜もん</div>
+    <div class="p-en">because ~ (casual excuse)</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">普通形に付く</span>
+      <span class="badge sub">言いわけ</span>
+      <span class="badge sub">話しことば</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">言いわけ</span>あとから理由を足して、自分を守る</div>
+    <div class="lead"><span class="imi-tag">甘え</span>分かってほしいという気もちを出す</div>
+    <div class="desc">「〜もの・〜もん」は、言いたいことを先に言ってから、そのわけをあとから足すときの形です。ただ理由を説明するのではなく、「だって、しかたがないでしょう」という言いわけや甘えの気もちが入ります。話しことば専用で、親しい人にだけ使います。「もん」はもっとくだけた形です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 先に言って、あとから理由をくっつける</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="先に言いたいことを言い、そのあとで「もん」の文が理由としてうしろから前の文をささえることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">先に言って、あとから理由をくっつける</text><rect x="22" y="40" width="182" height="50" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="113" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#1C1C1C" font-family="sans-serif">「今日は行かない」</text><text x="113" y="81" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">① まず言う</text><path d="M208 64 L246 64" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="250" y="40" width="186" height="50" rx="10" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="343" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#3C3489" font-family="sans-serif">「つかれてるんだもん」</text><text x="343" y="81" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">② あとから理由</text><path d="M343 96 L343 110 L113 110 L113 96" fill="none" stroke="#3C3489" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#ar)"/><text x="230" y="128" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">うしろから、前の文をささえる</text><text x="230" y="154" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">言いわけ・甘えの気もちが出る</text><text x="230" y="176" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">話しことばだけ。書くときには使わない</text></svg>
+    <div class="zu-cap">② だれに言えるか：もん・もの と から・ので</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="もん・もの・から・のでをくだけた順にならべ、親しい人には使えるが目上の人には使えないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">だれに言うかで、形を変える</text><rect x="22" y="36" width="96" height="28" rx="14" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="70" y="55" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">もん</text><rect x="126" y="36" width="96" height="28" rx="14" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="174" y="55" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">もの</text><rect x="242" y="36" width="96" height="28" rx="14" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="290" y="55" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">から</text><rect x="340" y="36" width="96" height="28" rx="14" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="388" y="55" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6B6560" font-family="sans-serif">ので</text><path d="M24 78 L430 78" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><text x="24" y="96" text-anchor="start" font-size="10.5" fill="#6B6560" font-family="sans-serif">うんとくだけた</text><text x="436" y="96" text-anchor="end" font-size="10.5" fill="#6B6560" font-family="sans-serif">ていねい</text><rect x="22" y="110" width="200" height="62" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="122" y="132" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">友だち・家族・子ども</text><text x="122" y="156" text-anchor="middle" font-size="12" font-weight="700" fill="#3C3489" font-family="sans-serif">○ もん・もの が言える</text><rect x="238" y="110" width="200" height="62" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="338" y="132" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">先生・上司・お客さん</text><text x="338" y="156" text-anchor="middle" font-size="12" font-weight="700" fill="#A0392E" font-family="sans-serif">× もん・もの は使わない</text><text x="230" y="190" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">目上の人には「〜ので」を使う</text></svg>
+    <div class="zu-note">上の図が<b>使い方</b>、下の図が<b>相手</b>です。「もん」は「もの」よりさらにくだけていて、<b>子どもや親しい人</b>の言い方です。<b>目上の人には使いません</b>。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">普通形 ＋ <span class="n">もの／もん</span><br>な形＋な・名詞＋な ＋ <span class="n">もの／もん</span></div>
+    <div class="setsu-note">実さいには「〜んだもの／〜んだもん」の形がいちばん多く使われます（つかれたんだもん・きらいなんだもん）。文の頭に「だって」が付くこともよくあります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来ることば</div>
+      <div class="chips"><span class="chip">だって</span><span class="chip">でも</span><span class="chip">しかたがない</span><span class="chip">知らなかった</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よくある形</div>
+      <div class="chips"><span class="chip">〜んだもの</span><span class="chip">〜んだもん</span><span class="chip">〜なんだもん</span><span class="chip">〜たんだもん</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">言う相手</div>
+      <div class="chips"><span class="chip">友だち</span><span class="chip">家族</span><span class="chip">子ども</span><span class="chip">きょうだい</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">言いわけ</span>
+        <div class="ex-ja">「まだ食べないの？」「だって、おなかがすいてない<b>もの</b>。」<button class="say" data-say="「まだ食べないの？」「だって、おなかがすいてないもの。」" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">"Aren't you eating yet?" "Well, I'm just not hungry."</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">言いわけ</span>
+        <div class="ex-ja">「どうして来なかったの？」「熱があった<b>んだもん</b>。」<button class="say" data-say="「どうして来なかったの？」「熱があったんだもん。」" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">"Why didn't you come?" "I had a fever, that's why."</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">甘え</span>
+        <div class="ex-ja">もう一つ買って。まだ一つしか持ってない<b>んだもん</b>。<button class="say" data-say="もう一つ買って。まだ一つしか持ってないんだもん。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Buy me one more. I've only got one, you know.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">な形</span>
+        <div class="ex-ja">歩いて行こうよ。わたし、バスがきらい<b>なんだもん</b>。<button class="say" data-say="歩いて行こうよ。わたし、バスがきらいなんだもん。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Let's walk. I don't like buses, that's why.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名詞</span>
+        <div class="ex-ja">今日はごちそうだよ。むすめの誕生日<b>なんだもの</b>。<button class="say" data-say="今日はごちそうだよ。むすめの誕生日なんだもの。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">We're having a feast today. It's my daughter's birthday, after all.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">言いわけ</span>
+        <div class="ex-ja">電話に出られなかったの。ずっと会議中だった<b>もの</b>。<button class="say" data-say="電話に出られなかったの。ずっと会議中だったもの。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I couldn't answer the phone. I was in a meeting the whole time.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「だって〜もの／もん」でセットになる</div>
+      <div class="use-d">文の頭に「だって」を置いて、終わりを「もの・もん」でしめる形がとても多いです。</div>
+      <div class="use-e">だって、一人で夜の道を歩くのはこわい<b>んだもん</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜んだもの／〜んだもん」の形</div>
+      <div class="use-d">動詞・い形のあとには「んだ」を入れる形がふつうで、気もちがもっと強く出ます。</div>
+      <div class="use-e">もう食べられないよ。さっきパンを二つ食べた<b>んだもん</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜から</div>
+      <div class="vs-lead">「〜から」は<b>ふつうに理由を言う形</b>で、だれにでも使えます。「〜もの・〜もん」は<b>言いわけの気もち</b>が入り、親しい人にしか使えません。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜もの・〜もん</th><th>〜から</th></tr>
+        <tr><td class="k">気もち</td><td>言いわけ・甘え</td><td>ふつうに理由を言う</td></tr>
+        <tr><td class="k">文の中の場所</td><td>文の終わり（あとから足す）</td><td>文の前（〜から、〜）</td></tr>
+        <tr><td class="k">言う相手</td><td>友だち・家族だけ</td><td>だれにでも</td></tr>
+        <tr><td class="k">書きことば</td><td>使わない</td><td>使える</td></tr>
+      </table>
+      <div class="vs-ex">
+        「今日は行かない。用事がある<b>もん</b>」＝親しい人への、言いわけっぽい言い方。<br>
+        「用事がある<b>から</b>、今日は行かない」＝理由をふつうに言っているだけ。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ので</div>
+      <div class="vs-lead">「〜ので」は<b>ていねいでやわらかい</b>理由の言い方です。目上の人には「もの・もん」ではなく、こちらを使います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜もの・〜もん</th><th>〜ので</th></tr>
+        <tr><td class="k">文体</td><td>話しことば（くだけた）</td><td>話しことば・書きことば（ていねい）</td></tr>
+        <tr><td class="k">目上の人に</td><td><span class="ng">×</span> 使わない</td><td><span class="ok">○</span> よく使う</td></tr>
+        <tr><td class="k">きこえ方</td><td>子どもっぽい・甘えた感じ</td><td>礼儀正しい感じ</td></tr>
+        <tr><td class="k">例</td><td>電車が止まったんだもん</td><td>電車が止まったので</td></tr>
+      </table>
+      <div class="vs-ex">
+        先生に「おくれました。電車が止まった<b>んだもん</b>」は<span class="ng">×</span>です。<br>
+        「電車が止まった<b>ので</b>、おくれてしまいました」なら<span class="ok">○</span>です。<br>
+        同じ言いわけでも、<b>相手によって形を変える</b>ことが大切です。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜もの / 〜もん adds a reason after you have already said what you want to say, with the feeling of an excuse or of appealing to the listener ("but I just..."). It is spoken language only, usually in the form 〜んだもの / 〜んだもん. 〜もん is even more casual — children and close friends use it, and you must not use it with teachers, bosses or customers.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜もの／〜もん」用在把想說的話先講出來之後，再補上理由，帶有辯解、撒嬌、希望對方體諒的語氣。只用於口語，常見形式是「〜んだもの／〜んだもん」。「もん」比「もの」更隨便，是小孩和親近的人的說法，對老師、上司、客人不可以使用。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%82%82%E3%81%AE%E3%83%BB%E3%80%9C%E3%82%82%E3%82%93&amp;lv=N3&amp;ex=%E3%80%8C%E3%81%BE%E3%81%A0%E9%A3%9F%E3%81%B9%E3%81%AA%E3%81%84%E3%81%AE%EF%BC%9F%E3%80%8D%E3%80%8C%E3%81%A0%E3%81%A3%E3%81%A6%E3%80%81%E3%81%8A%E3%81%AA%E3%81%8B%E3%81%8C%E3%81%99%E3%81%84%E3%81%A6%E3%81%AA%E3%81%84%E3%82%82%E3%81%AE%E3%80%82%E3%80%8D">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="monodakara.html">🔁 〜ものだから・〜もので（言いわけ）とくらべる<span class="ar">›</span></a>
+      <a href="monoda.html">🔁 〜ものだ（当然・性質）とくらべる<span class="ar">›</span></a>
+      <a href="monono.html">🔁 〜ものの（けれども）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-32">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

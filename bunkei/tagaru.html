@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜たがる（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜たがる」の意味・接続・例文。自分以外の人の願望を外から見て言う使い方と、「〜たい」「〜ようだ・〜らしい」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜たがる</div>
+    <div class="p-en">(someone else) wants to ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">ます形に付く</span>
+      <span class="badge sub">自分以外の願望</span>
+      <span class="badge sub">様子を見て言う</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">他人の願望</span>自分以外の人が「〜たい」と思っている様子を言う</div>
+    <div class="lead"><span class="imi-tag">いつもの性質</span>その人がいつもそうしたがる、というくせ・性質</div>
+    <div class="desc">「〜たがる」は、自分以外の人が「〜たい」と思っている様子を、外から見て言う形です。人の心の中は直接見えませんから、その人のことばや行動などの様子から「そうしたいんだな」と分かったときに使います。だから「私は行きたがる」とは言いません。自分の気持ちは「〜たい」で言います。いま目の前で そうしている様子は「〜たがっている」の形にします。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 芯：気持ちを 外から見て言う</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ほかの人の心の中にある「行きたい」という気持ちが外の様子にあらわれ、それを見た話し手が「行きたがっている」と言う流れの図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">人の気持ちを、外から見て言う</text><rect x="26" y="44" width="168" height="82" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="110" y="66" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">ほかの人（弟）</text><rect x="40" y="76" width="140" height="36" rx="14" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.2"/><text x="110" y="99" text-anchor="middle" font-size="12" fill="#1C1C1C" font-weight="700" font-family="sans-serif">心の中「行きたい」</text><path d="M200 84 L268 84" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="234" y="72" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">様子が見える</text><rect x="276" y="44" width="158" height="82" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="355" y="66" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">話し手（わたし）</text><text x="355" y="99" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">「行きたがっている」</text><text x="230" y="152" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">見えるのは 気持ちそのものではなく、外に出た様子</text><text x="230" y="174" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">だから 自分の気持ちには 使わない</text></svg>
+    <div class="zu-cap">② 自分には使わない</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="わたしの気持ちには「〜たい」を使い「〜たがる」は使えないこと、ほかの人にはその逆になることを、二行の表にしてくらべた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">だれの気持ちか で 形がかわる</text><text x="196" y="52" text-anchor="middle" font-size="12" fill="#3C3489" font-weight="700" font-family="sans-serif">〜たい</text><text x="360" y="52" text-anchor="middle" font-size="12" fill="#3C3489" font-weight="700" font-family="sans-serif">〜たがる</text><path d="M24 62 L436 62" fill="none" stroke="#E2DDD6" stroke-width="1.2"/><text x="28" y="92" text-anchor="start" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">わたし</text><text x="196" y="92" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">○ 行きたい</text><text x="360" y="92" text-anchor="middle" font-size="12" fill="#A0392E" font-weight="700" font-family="sans-serif">× 行きたがる</text><path d="M24 106 L436 106" fill="none" stroke="#E2DDD6" stroke-width="1.2"/><text x="28" y="136" text-anchor="start" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">弟・友だち</text><text x="196" y="136" text-anchor="middle" font-size="12" fill="#6B6560" font-family="sans-serif">△ 行きたい</text><text x="360" y="136" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">○ 行きたがる</text><path d="M24 150 L436 150" fill="none" stroke="#E2DDD6" stroke-width="1.2"/><text x="230" y="176" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">気持ちは 本人にしか わからない ＝ 外から見た形にする</text></svg>
+    <div class="zu-note">上の図が芯です。<b>気持ちは本人のもの、話し手に見えるのは外に出た様子だけ</b>。ですから下の図のように、<b>自分（わたし）のことには「〜たがる」を使いません</b>。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">ます形（語幹） ＋ <span class="n">たがる</span></div>
+    <div class="setsu-note">「行きます→行き＋たがる」。「〜たい」（い形容詞のような形）から作りますが、「〜たがる」は動詞と同じように活用します（行きたがらない・行きたがった・行きたがっている）。「ほしい→ほしがる」も同じ作り方です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞</div>
+      <div class="chips"><span class="chip">行く</span><span class="chip">食べる</span><span class="chip">知る</span><span class="chip">会う</span><span class="chip">やる</span><span class="chip">帰る</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">主語になりやすいことば</div>
+      <div class="chips"><span class="chip">子ども</span><span class="chip">弟・妹</span><span class="chip">友だち</span><span class="chip">お客さん</span><span class="chip">うちの犬</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">いつも</span><span class="chip">しきりに</span><span class="chip">やたらに</span><span class="chip">なかなか（〜ない）</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">いまの様子</span>
+        <div class="ex-ja">弟は、買ったばかりのゲームを<b>やりたがって</b>います。<button class="say" data-say="弟は、買ったばかりのゲームをやりたがっています。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My little brother wants to play the game he just bought.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">いつも・くせ</span>
+        <div class="ex-ja">うちの犬は、雨の日でも外に<b>出たがる</b>。<button class="say" data-say="うちの犬は、雨の日でも外に出たがる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Our dog wants to go outside even on rainy days.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">いつも・くせ</span>
+        <div class="ex-ja">新しく入った人は、何でも一人で<b>やりたがります</b>。<button class="say" data-say="新しく入った人は、何でも一人でやりたがります。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The new staff member wants to do everything by himself.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">いまの様子</span>
+        <div class="ex-ja">子どもたちが水族館に<b>行きたがっている</b>ので、日曜に連れて行きます。<button class="say" data-say="子どもたちが水族館に行きたがっているので、日曜に連れて行きます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The kids want to go to the aquarium, so I'll take them on Sunday.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">過去</span>
+        <div class="ex-ja">留学生の友人が、この町の祭りを<b>見たがっていました</b>。<button class="say" data-say="留学生の友人が、この町の祭りを見たがっていました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My friend from abroad wanted to see this town's festival.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">打ち消し</span>
+        <div class="ex-ja">父は病院がきらいで、なかなか<b>行きたがりません</b>。<button class="say" data-say="父は病院がきらいで、なかなか行きたがりません。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My father hates hospitals and won't go, no matter what.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜たがっている」＝いま そうしている</div>
+      <div class="use-d">その時その場の様子を言うときは「〜ている」の形にします。「〜たがる」だけだと、いつもそうだ、という性質の話になります。</div>
+      <div class="use-e">妹は、さっきから早く<b>帰りたがっています</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜たがらない」＝したがらない</div>
+      <div class="use-d">打ち消しの形。すすめても、その人がその気にならないときに使います。</div>
+      <div class="use-e">祖父は、新しい機械を<b>使いたがらない</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>助詞は「〜を」になる</div>
+      <div class="use-d">「〜たい」は「水が飲みたい」と「が」も使えますが、「〜たがる」は動詞なので、ふつう「を」を使います。</div>
+      <div class="use-e">むすこは、朝からジュース<b>を飲みたがる</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜たい</div>
+      <div class="vs-lead">「〜たい」は<b>自分の心の中の気持ち</b>、「〜たがる」は<b>自分以外の人の、外に出た様子</b>を言います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜たい</th><th>〜たがる</th></tr>
+        <tr><td class="k">だれの気持ち</td><td>自分（質問なら相手）</td><td>自分以外の人</td></tr>
+        <tr><td class="k">何を見て言うか</td><td>自分の心の中</td><td>その人の外の様子</td></tr>
+        <tr><td class="k">ことばの働き</td><td>い形容詞のように使う</td><td>動詞のように使う</td></tr>
+        <tr><td class="k">助詞</td><td>水<b>が</b>飲みたい</td><td>水<b>を</b>飲みたがる</td></tr>
+      </table>
+      <div class="vs-ex">
+        自分のことは「休みの日は家で<b>休みたい</b>」。<span class="ng">×</span>「わたしは休みたがる」とは言えません。<br>
+        人のことは「兄は休みの日も外で<b>動きたがる</b>」。<span class="ok">○</span> 外から見て言っています。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ようだ・〜らしい</div>
+      <div class="vs-lead">どちらも外から見て言いますが、「〜たがる」は<b>その人の願望をそのまま言う形</b>、「〜ようだ・〜らしい」は<b>話し手のおしはかり</b>です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜たがる</th><th>〜ようだ・〜らしい</th></tr>
+        <tr><td class="k">言っていること</td><td>様子から分かる、その人の願望</td><td>たぶんそうだろう、という話し手の考え</td></tr>
+        <tr><td class="k">言えることがら</td><td>願望（〜たい）だけ</td><td>何にでも使える</td></tr>
+        <tr><td class="k">形</td><td>帰りたがっている</td><td>帰りたいようだ・帰りたいらしい</td></tr>
+      </table>
+      <div class="vs-ex">
+        「原田さんは<b>帰りたがっている</b>」＝時計を何度も見るなどの様子から、そう言っている。<br>
+        「原田さんは<b>帰りたいようだ</b>」＝話し手が、たぶんそうだろうと考えて言っている。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜たがる describes someone else's desire as seen from the outside, so it cannot be used for your own feelings — those take 〜たい. Use 〜たがっている for what a person wants right now, and plain 〜たがる for what they always want.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜たがる」用於從旁觀察、描述別人想做某事的樣子，不能用在自己身上（自己的願望要用「〜たい」）。表示此刻的情形時說「〜たがっている」，表示一向如此的性質時則用「〜たがる」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%9F%E3%81%8C%E3%82%8B&amp;lv=N3&amp;ex=%E5%BC%9F%E3%81%AF%E3%80%81%E8%B2%B7%E3%81%A3%E3%81%9F%E3%81%B0%E3%81%8B%E3%82%8A%E3%81%AE%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%92%E3%82%84%E3%82%8A%E3%81%9F%E3%81%8C%E3%81%A3%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="tehoshii.html">🔁 〜てほしいです（人にしてほしい）とくらべる<span class="ar">›</span></a>
+      <a href="taimonoda.html">🔁 〜たいものだ（強い願い）とくらべる<span class="ar">›</span></a>
+      <a href="teshikataganai.html">🔁 〜てしかたがない（気持ちがおさえられない）とくらべる<span class="ar">›</span></a>
+      <a href="rashii.html">🔁 〜らしいとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#tagaru">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

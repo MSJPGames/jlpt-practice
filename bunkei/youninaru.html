@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ようになる（N4文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ようになる」の意味・接続・例文。前はできなかったことができるようになる変化の使い方、「〜なくなる」、「〜ことになる」「〜ようにする」とのちがいを図で説明します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #316F8A; --accent-bg: #E4EFF5;   /* N4 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ようになる</div>
+    <div class="p-en">come to be able to ~ / start ~ing</div>
+    <div class="p-badges">
+      <span class="badge">N4</span>
+      <span class="badge sub">可能形・辞書形・ない形に付く</span>
+      <span class="badge sub">ゆっくりした変化</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">できる変化</span>前はできなかったことが、できるようになる</div>
+    <div class="lead"><span class="imi-tag">習慣の変化</span>前はしなかったことを、するようになる</div>
+    <div class="lead"><span class="imi-tag">しなくなる</span>反対の変化は「〜なくなる」で言う</div>
+    <div class="desc">「〜ようになる」は、<b>まえと今をくらべて、変わった</b>と言う形です。前はできなかったことができるようになった、前はしなかったことをするようになった、という意味です。<b>少しずつ、時間をかけて変わった</b>という気持ちがあるので、「だんだん」「やっと」がよく合います。反対に、しなくなったときは「〜なくなる」を使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">コアイメージ：まえ → いま の線で、変わっていく</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="時間の線の上で、まえは話せなかった状態からゆるやかな坂の矢印がのびて、いまは話せる状態に変わったことをあらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">まえは できなかった → いまは できる</text><rect x="26" y="58" width="146" height="46" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="99" y="78" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">話せなかった</text><text x="99" y="96" text-anchor="middle" font-size="10.5" fill="#A0392E" font-family="sans-serif">まえ　×</text><path d="M180 98 C 216 96 236 78 268 66" fill="none" stroke="#316F8A" stroke-width="2.2" marker-end="url(#ar)"/><rect x="282" y="42" width="150" height="46" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8"/><text x="357" y="62" text-anchor="middle" font-size="11.5" font-weight="700" fill="#316F8A" font-family="sans-serif">話せる</text><text x="357" y="80" text-anchor="middle" font-size="10.5" fill="#316F8A" font-family="sans-serif">いま　○</text><path d="M28 124 L434 124" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><circle cx="99" cy="124" r="5" fill="#9E9890"/><circle cx="357" cy="124" r="5" fill="#316F8A"/><text x="99" y="144" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">まえ</text><text x="357" y="144" text-anchor="middle" font-size="10.5" font-weight="700" fill="#316F8A" font-family="sans-serif">いま</text><text x="228" y="144" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">少しずつ、時間をかけて</text><text x="230" y="176" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「日本語が話せるようになりました」</text></svg>
+    <div class="zu-cap">ふえる変化と、へる変化（〜なくなる）</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="上の行はしなかったことをするようになった変化、下の行はしていたことをしなくなった変化を、二本の矢印でならべた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">ふえる変化 と へる変化</text><rect x="24" y="40" width="140" height="42" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="94" y="66" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">前は 読まなかった</text><path d="M170 61 L238 61" fill="none" stroke="#316F8A" stroke-width="2" marker-end="url(#ar)"/><rect x="246" y="40" width="188" height="42" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8"/><text x="340" y="66" text-anchor="middle" font-size="11" font-weight="700" fill="#316F8A" font-family="sans-serif">読むように なった</text><rect x="24" y="104" width="140" height="42" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><text x="94" y="130" text-anchor="middle" font-size="10.5" fill="#316F8A" font-family="sans-serif">前は 毎日 読んでいた</text><path d="M170 125 L238 125" fill="none" stroke="#9E9890" stroke-width="1.6" marker-end="url(#ar2)"/><rect x="246" y="104" width="188" height="42" rx="10" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5" stroke-dasharray="5 4"/><text x="340" y="130" text-anchor="middle" font-size="11" fill="#A0392E" font-family="sans-serif">読まなく なった</text><text x="204" y="96" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">反対の変化</text><text x="230" y="174" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ふえるほうは「〜ようになる」、へるほうは「〜なくなる」</text></svg>
+    <div class="zu-cap">〜ようになる と 〜ようにする：けっか か どりょく か</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="左はようになるがしぜんに変わった結果であること、右はようにするが自分で気をつけてこれから続ける努力であることをくらべた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">しぜんに 変わった ／ 自分で 気をつける</text><rect x="22" y="36" width="200" height="118" rx="10" fill="#FAF8F4" stroke="#316F8A" stroke-width="1.8"/><text x="122" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="#316F8A" font-family="sans-serif">〜ようになる</text><path d="M44 110 C 96 108 130 90 194 76" fill="none" stroke="#316F8A" stroke-width="2.2" marker-end="url(#ar)"/><text x="122" y="128" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">けっか（もう変わった）</text><text x="122" y="146" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">自分の力だけではない</text><rect x="238" y="36" width="200" height="118" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="338" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="#6B6560" font-family="sans-serif">〜ようにする</text><rect x="252" y="72" width="64" height="30" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="284" y="92" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">わたし</text><path d="M322 87 L352 87" fill="none" stroke="#9E9890" stroke-width="1.6" marker-end="url(#ar2)"/><rect x="358" y="72" width="66" height="30" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="391" y="92" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">気をつける</text><text x="338" y="128" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">どりょく（これからする）</text><text x="338" y="146" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">自分で 決めて 続ける</text><text x="230" y="176" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「早く起きるようになった」＝変わった／「〜ようにする」＝がんばる</text></svg>
+    <div class="zu-note">この形の芯は<b>変化</b>です。図の坂のように、<b>ゆっくり時間をかけて</b>変わったことを言います。「きゅうに」より「だんだん」「少しずつ」「やっと」がよく合います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞の可能形・辞書形・ない形 ＋ <span class="n">ようになる</span></div>
+    <div class="setsu-note">できることの変化は可能形（話せる・読める）に、習慣の変化は辞書形（読む）につけます。しなくなったときは「〜ないようになる」より「〜なくなる」がふつうです。ていねいな形は「〜ようになりました」。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞</div>
+      <div class="chips"><span class="chip">話せる</span><span class="chip">読める</span><span class="chip">使える</span><span class="chip">乗れる</span><span class="chip">食べられる</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">だんだん</span><span class="chip">少しずつ</span><span class="chip">やっと</span><span class="chip">このごろ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う形</div>
+      <div class="chips"><span class="chip">〜ようになりました</span><span class="chip">〜なくなりました</span><span class="chip">〜ようになってきた</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">できる変化</span>
+        <div class="ex-ja">毎日れんしゅうして、じてんしゃに<b>乗れるようになりました</b>。<button class="say" data-say="毎日れんしゅうして、じてんしゃに乗れるようになりました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">After practicing every day, I became able to ride a bicycle.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">できる変化</span>
+        <div class="ex-ja">この町でも、去年から夜おそくまで<b>買い物ができるようになった</b>。<button class="say" data-say="この町でも、去年から夜おそくまで買い物ができるようになった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Since last year, it has become possible to shop late at night in this town too.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">習慣の変化</span>
+        <div class="ex-ja">父はさいきん、休みの日に台所に<b>立つようになりました</b>。<button class="say" data-say="父はさいきん、休みの日に台所に立つようになりました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Lately my father has started cooking in the kitchen on his days off.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">習慣の変化</span>
+        <div class="ex-ja">むすこはこのごろ、自分から本を<b>読むようになった</b>。<button class="say" data-say="むすこはこのごろ、自分から本を読むようになった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">These days my son has started reading books on his own.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">しなくなる</span>
+        <div class="ex-ja">近くにスーパーができて、駅前まで<b>行かなくなりました</b>。<button class="say" data-say="近くにスーパーができて、駅前まで行かなくなりました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">A supermarket opened nearby, so I stopped going all the way to the station.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">できる変化</span>
+        <div class="ex-ja">はじめは苦手でしたが、なっとうも<b>食べられるようになりました</b>。<button class="say" data-say="はじめは苦手でしたが、なっとうも食べられるようになりました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">At first I didn't like it, but I've come to be able to eat natto too.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜なくなる」＝しなくなった・できなくなった</div>
+      <div class="use-d">反対の変化を言うときの形です。「〜ないようになる」とはあまり言いません。</div>
+      <div class="use-e">足をけがしてから、走ら<b>なくなりました</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜ようになってきた」＝今も変わっているところ</div>
+      <div class="use-d">変化がとちゅうで、今も進んでいるという言い方です。</div>
+      <div class="use-e">この駅でも、外国からのお客さんを<b>見かけるようになってきた</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>「やっと〜ようになった」＝長くかかった気持ち</div>
+      <div class="use-d">時間がかかったという気持ちを出したいときは、「やっと」「ようやく」といっしょに使います。</div>
+      <div class="use-e">三年たって、やっと会議で意見が<b>言えるようになった</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ことになる</div>
+      <div class="vs-lead">「〜ようになる」は<b>時間をかけて変わった</b>こと、「〜ことになる」は<b>そう決まった</b>ことです。同じ「なる」でも、中身がぜんぜんちがいます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ようになる</th><th>〜ことになる</th></tr>
+        <tr><td class="k">何を言うか</td><td>前とちがう今（変化）</td><td>決まったこと（決定・予定）</td></tr>
+        <tr><td class="k">どうやって</td><td>少しずつ しぜんに</td><td>会社・学校などが 決める</td></tr>
+        <tr><td class="k">いつのこと</td><td>もう変わったあと</td><td>これから すること</td></tr>
+        <tr><td class="k">例</td><td>日本語が話せるようになった</td><td>来月、大阪へ行くことになった</td></tr>
+      </table>
+      <div class="vs-ex">
+        「毎朝走る<b>ようになりました</b>」＝いつのまにか、そう変わった。<br>
+        「毎朝走る<b>ことになりました</b>」＝そう決まった（決定）。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ようにする</div>
+      <div class="vs-lead">「〜ようになる」は<b>変わったという結果</b>、「〜ようにする」は<b>自分で気をつけて続ける</b>という、これからのどりょくです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ようになる</th><th>〜ようにする</th></tr>
+        <tr><td class="k">だれの力か</td><td>しぜんに そうなった</td><td>自分の どりょく</td></tr>
+        <tr><td class="k">いつのこと</td><td>もう変わったあと</td><td>これから 続ける</td></tr>
+        <tr><td class="k">よく使う形</td><td>〜ようになりました</td><td>〜ようにしています</td></tr>
+        <tr><td class="k">例</td><td>野菜が食べられるようになった</td><td>毎日野菜を食べるようにしている</td></tr>
+      </table>
+      <div class="vs-ex">
+        「早くねる<b>ようにしています</b>」＝自分で気をつけて、続けている。<br>
+        「早くねる<b>ようになりました</b>」＝いつのまにか、そう変わった。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜ようになる describes a change: something you could not do before, you can do now, or something you did not do before, you do now. The change is gradual, built up over time, so adverbs like だんだん or やっと fit well. The opposite change is 〜なくなる. Compare 〜ことになる (a decision made for you) and 〜ようにする (an effort you keep making yourself).</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜ようになる」表示變化：以前做不到的事現在做得到，或以前不做的事現在會做了。這種變化是慢慢累積而成的，常和「だんだん」「やっと」一起使用；相反的變化則用「〜なくなる」。請注意與「〜ことになる」（由他方決定）和「〜ようにする」（自己努力持續去做）的差別。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%82%88%E3%81%86%E3%81%AB%E3%81%AA%E3%82%8B&amp;lv=N4&amp;ex=%E6%AF%8E%E6%97%A5%E3%82%8C%E3%82%93%E3%81%97%E3%82%85%E3%81%86%E3%81%97%E3%81%A6%E3%80%81%E3%81%98%E3%81%A6%E3%82%93%E3%81%97%E3%82%83%E3%81%AB%E4%B9%97%E3%82%8C%E3%82%8B%E3%82%88%E3%81%86%E3%81%AB%E3%81%AA%E3%82%8A%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="kotoninaru.html">🔁 〜ことになる（決まる）とくらべる<span class="ar">›</span></a>
+      <a href="kotonisuru.html">🔁 〜ことにする（自分で決める）とくらべる<span class="ar">›</span></a>
+      <a href="teikutekuru.html">🔁 〜ていく・〜てくる（変化のつづき）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#you-ni-naru">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜（さ）せる〈許可〉（N4文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜（さ）せる」（許可）の意味・接続・例文。相手がしたいことをみとめる使い方と、むりにさせる強制の使役とのちがいを、図でやさしく説明します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #316F8A; --accent-bg: #E4EFF5;   /* N4 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜（さ）せる〈許可〉</div>
+    <div class="p-en">let someone ~</div>
+    <div class="p-badges">
+      <span class="badge">N4</span>
+      <span class="badge sub">動詞の使役形</span>
+      <span class="badge sub">ゆるす・みとめる</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">ゆるす</span>相手がしたいことを、してもいいとみとめる</div>
+    <div class="lead"><span class="imi-tag">そのままにする</span>止めないで、したいようにさせておく</div>
+    <div class="desc">使役の形「〜（さ）せる」には、二つの意味があります。一つは、相手が<b>したくないこと</b>をむりにさせる〈強制〉。もう一つは、相手が<b>したいこと</b>を「してもいいよ」とみとめる〈許可〉です。このページは<b>許可</b>のほうです。「子どもに、好きな本を読ませています」は、子どもが読みたがっているのを、親がゆるしている、という意味です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">使役の 二つの 意味：強制と 許可</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="同じ使役の形でも、相手がしたくないことをさせる強制と、相手がしたいことをみとめる許可の二つがあることを左右にならべた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">同じ 使役の形に、二つの 意味</text><rect x="18" y="32" width="206" height="146" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="121" y="54" text-anchor="middle" font-size="12" font-weight="700" fill="#6B6560" font-family="sans-serif">①強制（むりに させる）</text><text x="121" y="76" text-anchor="middle" font-size="10.5" fill="#A0392E" font-family="sans-serif">子ども：したくない</text><rect x="36" y="88" width="66" height="30" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="69" y="108" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">親</text><path d="M108 103 L142 103" fill="none" stroke="#9E9890" stroke-width="1.6" marker-end="url(#ar2)"/><rect x="148" y="88" width="58" height="30" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="177" y="108" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">子</text><text x="121" y="140" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">いやなことを おす</text><text x="121" y="162" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「野菜を 食べさせる」</text><rect x="236" y="32" width="206" height="146" rx="10" fill="#FAF8F4" stroke="#316F8A" stroke-width="1.8"/><text x="339" y="54" text-anchor="middle" font-size="12" font-weight="700" fill="#316F8A" font-family="sans-serif">②許可（したいことを ゆるす）</text><text x="339" y="76" text-anchor="middle" font-size="10.5" fill="#316F8A" font-family="sans-serif">子ども：したい</text><rect x="254" y="88" width="66" height="30" rx="8" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><text x="287" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="#316F8A" font-family="sans-serif">親</text><path d="M326 103 L360 103" fill="none" stroke="#316F8A" stroke-width="1.8" marker-end="url(#ar)"/><rect x="366" y="88" width="58" height="30" rx="8" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><text x="395" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="#316F8A" font-family="sans-serif">子</text><text x="339" y="140" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">したいことを みとめる</text><text x="339" y="162" text-anchor="middle" font-size="10.5" fill="#316F8A" font-family="sans-serif">「好きな本を 読ませる」</text><text x="230" y="194" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">相手が したいか、したくないか で 意味が 決まる</text></svg>
+    <div class="zu-cap">許可の 流れ：したい → いいよ → させる</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="子どもが読みたいと言い、親がいいよとみとめて読ませる、という許可の流れをあらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">許可の 流れ</text><rect x="20" y="46" width="92" height="34" rx="9" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="66" y="68" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">子ども</text><rect x="20" y="88" width="92" height="28" rx="8" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.2"/><text x="66" y="107" text-anchor="middle" font-size="10.5" fill="#316F8A" font-family="sans-serif">「読みたい」</text><path d="M118 63 L172 63" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><rect x="178" y="46" width="92" height="34" rx="9" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="224" y="68" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">親</text><rect x="178" y="88" width="92" height="28" rx="8" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.2"/><text x="224" y="107" text-anchor="middle" font-size="10.5" fill="#316F8A" font-family="sans-serif">「いいよ」</text><path d="M276 63 L334 63" fill="none" stroke="#316F8A" stroke-width="1.8" marker-end="url(#ar)"/><rect x="340" y="44" width="104" height="58" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8"/><text x="392" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="#316F8A" font-family="sans-serif">読ませる</text><text x="392" y="88" text-anchor="middle" font-size="10.5" fill="#316F8A" font-family="sans-serif">＝読ませてあげる</text><text x="230" y="146" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">相手が したいことを、そのまま させて あげる</text><text x="230" y="172" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「〜てあげる」を つけると、ゆるす 気もちが はっきり する</text></svg>
+    <div class="zu-cap">助詞は「を」か「に」か</div>
+    <svg class="zu" viewBox="0 0 460 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="使役の文では、後ろに「を」がないときは人に「を」、後ろに「を」があるときは人に「に」を使うことをならべた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">人に つく 助詞は「を」か「に」か</text><rect x="22" y="40" width="416" height="50" rx="9" fill="#FAF8F4" stroke="#316F8A" stroke-width="1.5"/><text x="40" y="62" font-size="11.5" font-weight="700" fill="#316F8A" font-family="sans-serif">〈人〉を ＋ 使役形</text><text x="40" y="80" font-size="10.5" fill="#6B6560" font-family="sans-serif">ほかに「を」が ない とき　例）子どもを 公園で 遊ばせる</text><rect x="22" y="98" width="416" height="50" rx="9" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><text x="40" y="120" font-size="11.5" font-weight="700" fill="#316F8A" font-family="sans-serif">〈人〉に ＋ 使役形</text><text x="40" y="138" font-size="10.5" fill="#6B6560" font-family="sans-serif">ほかに「を」が ある とき　例）子どもに 本を 読ませる</text><text x="230" y="168" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">一つの文に「を」は 一つだけ、とおぼえる</text></svg>
+    <div class="zu-note">見分けるところは、<b>相手の気もち</b>です。相手がしたくないことなら〈強制〉、したいことなら〈許可〉になります。形は同じなので、前後のことば（「好きな」「〜たがる」「自由に」など）や場面から読み取ります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">〈人〉に・〈人〉を ＋ <span class="n">（さ）せる</span></div>
+    <div class="setsu-note">使役形は、Ⅰ類（う→あ段＋せる）読む→読ませる、Ⅱ類（る→させる）出かける→出かけさせる、Ⅲ類 する→させる／来る→来させる、です。許可の意味をはっきりさせたいときは「〜（さ）せてあげる」「〜（さ）せておく」の形にします。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞</div>
+      <div class="chips"><span class="chip">遊ぶ</span><span class="chip">読む</span><span class="chip">行く</span><span class="chip">やる</span><span class="chip">休む</span><span class="chip">出かける</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使うことば</div>
+      <div class="chips"><span class="chip">好きなだけ</span><span class="chip">自由に</span><span class="chip">したいように</span><span class="chip">むりに（＝強制）</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う形</div>
+      <div class="chips"><span class="chip">〜（さ）せてあげる</span><span class="chip">〜（さ）せておく</span><span class="chip">〜（さ）せてくれる</span><span class="chip">〜（さ）せない</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">ゆるす</span>
+        <div class="ex-ja">子どもには、好きな本を自由に<b>読ませて</b>います。<button class="say" data-say="子どもには、好きな本を自由に読ませています。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I let my child read whatever books they like.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ゆるす</span>
+        <div class="ex-ja">天気のいい日は、犬を庭で<b>遊ばせます</b>。<button class="say" data-say="天気のいい日は、犬を庭で遊ばせます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">On nice days I let the dog play in the yard.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜せてあげる</span>
+        <div class="ex-ja">むすめが行きたがっているので、来年、留学<b>させてあげる</b>つもりです。<button class="say" data-say="むすめが行きたがっているので、来年、留学させてあげるつもりです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My daughter wants to go, so I plan to let her study abroad next year.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜せてくれる</span>
+        <div class="ex-ja">部長は、若い社員にも会議で自由に意見を<b>言わせてくれます</b>。<button class="say" data-say="部長は、若い社員にも会議で自由に意見を言わせてくれます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Our manager lets even the younger staff speak freely at meetings.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜せてくれた</span>
+        <div class="ex-ja">母は、わたしが小さいころ、やりたいことは何でも<b>やらせてくれました</b>。<button class="say" data-say="母は、わたしが小さいころ、やりたいことは何でもやらせてくれました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">When I was little, my mother let me try anything I wanted to do.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜せておく</span>
+        <div class="ex-ja">弟がねむそうだったので、そのまま<b>ねさせておきました</b>。<button class="say" data-say="弟がねむそうだったので、そのままねさせておきました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My little brother looked sleepy, so I just let him keep sleeping.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜（さ）せてあげる」＝ゆるす気もちを はっきり出す</div>
+      <div class="use-d">「〜てあげる」をつけると、相手のためにゆるしている、というやさしい気もちがはっきりします。強制の意味には ふつう使いません。</div>
+      <div class="use-e">つかれているようだから、今日は<b>休ませてあげよう</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜（さ）せておく」＝止めないで、そのままにする</div>
+      <div class="use-d">わざわざゆるすというより、止めないでそのままにしておく、という意味になります。</div>
+      <div class="use-e">話がもりあがっているので、もう少し<b>話させておきましょう</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>「〜（さ）せない」＝ゆるさない</div>
+      <div class="use-d">ない形にすると、「してはいけないと言う」「させないようにする」という意味になります。</div>
+      <div class="use-e">夜おそくは、子どもに一人で<b>出かけさせません</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜（さ）せる〈強制〉</div>
+      <div class="vs-lead">形はまったく同じで、ちがうのは<b>相手がしたいことか、したくないことか</b>です。したいことなら〈許可〉、したくないことをむりにさせるなら〈強制〉になります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〈許可〉させる</th><th>〈強制〉させる</th></tr>
+        <tr><td class="k">相手の気もち</td><td>したい・やりたい</td><td>したくない・いやだ</td></tr>
+        <tr><td class="k">する人の気もち</td><td>ゆるす・みとめる</td><td>命令する・むりにさせる</td></tr>
+        <tr><td class="k">よく付く形</td><td>〜（さ）せてあげる・〜（さ）せておく</td><td>〜（さ）せられる（言われた側の言い方）</td></tr>
+        <tr><td class="k">いっしょに使うことば</td><td>好きなだけ・自由に・したいように</td><td>むりに・いやがるのに</td></tr>
+        <tr><td class="k">例</td><td>子どもに 好きな絵をかかせる</td><td>子どもに きらいな野菜を食べさせる</td></tr>
+        <tr><td class="k">言われた人は</td><td>うれしい・ありがたい</td><td>いやだ・つらい</td></tr>
+      </table>
+      <div class="vs-ex">
+        したいことなら「休みの日は、子どもを 好きなだけ <b>ねさせて</b>います」〈許可〉。<br>
+        したくないことなら「先生は 学生に 作文を 五回も <b>書かせました</b>」〈強制〉。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜（さ）せてあげる と 〜てあげる</div>
+      <div class="vs-lead">「〜てあげる」は<b>自分がする</b>、「〜（さ）せてあげる」は<b>相手がする</b>のをゆるす、です。ここも する人が入れかわります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜（さ）せてあげる</th><th>〜てあげる</th></tr>
+        <tr><td class="k">する人</td><td>相手（子どもなど）</td><td>自分</td></tr>
+        <tr><td class="k">していること</td><td>したいように させる</td><td>かわりに してやる</td></tr>
+        <tr><td class="k">例</td><td>本を 読ませてあげる（子どもが 読む）</td><td>本を 読んであげる（自分が 読む）</td></tr>
+      </table>
+      <div class="vs-ex">
+        子どもが自分で作りたい時は「ケーキを <b>作らせてあげました</b>」。<br>
+        自分が作ってわたす時は「ケーキを <b>作ってあげました</b>」。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜てもいい</div>
+      <div class="vs-lead">「〜てもいい」は<b>ゆるしを言うことば</b>そのもの、「〜（さ）せる」は<b>ゆるしている ようすを 外から説明する</b>言い方です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜（さ）せる〈許可〉</th><th>〜てもいい</th></tr>
+        <tr><td class="k">だれの目から</td><td>ゆるす人の 目から 説明する</td><td>その場で 本人に 言う</td></tr>
+        <tr><td class="k">文の形</td><td>〈人〉に 〜（さ）せる</td><td>〜てもいいです（よ）</td></tr>
+        <tr><td class="k">例</td><td>むすこに 車を 使わせています</td><td>この車、使ってもいいですよ</td></tr>
+      </table>
+      <div class="vs-ex">
+        人に説明する時は「父は わたしに 車を <b>使わせて</b>くれます」。<br>
+        その場で言う時は「今日は 車を <b>使ってもいいよ</b>」。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>The causative 〜（さ）せる has two very different uses. When the other person does NOT want to do it, it means making them do it (forcing). When the other person DOES want to do it, it means letting them — permission. This page covers permission. Adding 〜（さ）せてあげる or 〜（さ）せておく makes the permission reading clear. Use 〈人〉に when the sentence already has another を, and 〈人〉を when it does not.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">使役形「〜（さ）せる」有兩種用法：對方不想做卻要他做，是「強制」；對方本來就想做而加以允許，則是「許可」。本頁說明的是許可用法。加上「〜（さ）せてあげる」「〜（さ）せておく」，允許的語氣就更明確。句中已有其他「を」時，人用「に」；沒有其他「を」時，人用「を」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%EF%BC%88%E3%81%95%EF%BC%89%E3%81%9B%E3%82%8B%E3%80%88%E8%A8%B1%E5%8F%AF%E3%80%89&amp;lv=N4&amp;ex=%E5%AD%90%E3%81%A9%E3%82%82%E3%81%AB%E3%81%AF%E3%80%81%E5%A5%BD%E3%81%8D%E3%81%AA%E6%9C%AC%E3%82%92%E8%87%AA%E7%94%B1%E3%81%AB%E8%AA%AD%E3%81%BE%E3%81%9B%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="saserareru.html">🔁 〜（さ）せられる（いやなのに させられる）とくらべる<span class="ar">›</span></a>
+      <a href="sasetekudasai.html">🔁 〜（さ）せてください（させてほしいと たのむ）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#saseru-kyoka">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

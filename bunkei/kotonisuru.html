@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ことにする（N4文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ことにする」の意味・接続・例文。自分で決めるという使い方と、決めて続けている「〜ことにしている」、「〜ことになる」「〜つもりだ」とのちがいを図でやさしく説明します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #316F8A; --accent-bg: #E4EFF5;   /* N4 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ことにする</div>
+    <div class="p-en">decide to ~</div>
+    <div class="p-badges">
+      <span class="badge">N4</span>
+      <span class="badge sub">動詞の辞書形・ない形に付く</span>
+      <span class="badge sub">自分で決める</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">自分で決める</span>自分の考えで、そうすると決める</div>
+    <div class="lead"><span class="imi-tag">決めて続ける</span>決めたことを、ずっと続けている</div>
+    <div class="desc">「〜ことにする」は、動詞の辞書形やない形に「ことにする」をつけた形です。<b>自分の考えで決める</b>ときに使います。「行きます」と言うより、「よく考えて、自分で決めました」という気持ちが強く出ます。「〜ことにしている」にすると、決めたことを今もずっと続けている、という意味になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">決定：二つの道から、自分で一つをえらぶ</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="わたしから二つの道が出ていて、そのうちの一つを自分でえらんで決めることをあらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">自分で えらんで、決める</text><rect x="26" y="76" width="94" height="44" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><text x="73" y="103" text-anchor="middle" font-size="11.5" font-weight="700" fill="#316F8A" font-family="sans-serif">わたし</text><path d="M126 88 L232 64" fill="none" stroke="#316F8A" stroke-width="1.8" marker-end="url(#ar)"/><path d="M126 108 L232 138" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><rect x="240" y="42" width="192" height="48" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8"/><text x="336" y="62" text-anchor="middle" font-size="11.5" font-weight="700" fill="#316F8A" font-family="sans-serif">国へ帰る</text><text x="336" y="80" text-anchor="middle" font-size="10.5" fill="#316F8A" font-family="sans-serif">← こちらに決めた</text><rect x="240" y="116" width="192" height="48" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="336" y="136" text-anchor="middle" font-size="11.5" fill="#6B6560" font-family="sans-serif">国へ帰らない</text><text x="336" y="154" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">えらばなかった</text><text x="120" y="180" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">決めるのは、ほかの人ではなく自分</text></svg>
+    <div class="zu-cap">〜ことにしている：決めて、ずっと続けている</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="決めた日から同じことがくりかえし今までつづいていることを、時間の線と丸であらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">一度 決めて、ずっと つづける</text><rect x="26" y="48" width="110" height="42" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8"/><text x="81" y="74" text-anchor="middle" font-size="11.5" font-weight="700" fill="#316F8A" font-family="sans-serif">決めた日</text><line x1="81" y1="90" x2="81" y2="134" stroke="#316F8A" stroke-width="1.6"/><path d="M28 138 L440 138" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><circle cx="81" cy="138" r="5" fill="#316F8A"/><circle cx="160" cy="112" r="7" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><circle cx="212" cy="112" r="7" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><circle cx="264" cy="112" r="7" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><circle cx="316" cy="112" r="7" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><circle cx="368" cy="112" r="7" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><circle cx="420" cy="112" r="7" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><text x="290" y="90" text-anchor="middle" font-size="11.5" font-weight="700" fill="#316F8A" font-family="sans-serif">毎日 くりかえしている</text><text x="81" y="160" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ここで決めた</text><text x="424" y="160" text-anchor="end" font-size="11" font-weight="700" fill="#316F8A" font-family="sans-serif">いま</text><text x="230" y="182" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「毎朝、水を一ぱい飲むことにしている」</text></svg>
+    <div class="zu-cap">〜ことにする と 〜ことになる：決めるのはだれか</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ことにするは自分が決め、ことになるは会社や学校など自分いがいで決まることを左右にならべた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">決めるのは だれ？</text><rect x="26" y="42" width="192" height="112" rx="10" fill="#FAF8F4" stroke="#316F8A" stroke-width="1.8"/><text x="122" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="#316F8A" font-family="sans-serif">〜ことにする</text><rect x="42" y="82" width="62" height="30" rx="8" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><text x="73" y="102" text-anchor="middle" font-size="10.5" font-weight="700" fill="#316F8A" font-family="sans-serif">わたし</text><path d="M110 97 L152 97" fill="none" stroke="#316F8A" stroke-width="1.8" marker-end="url(#ar)"/><rect x="158" y="82" width="46" height="30" rx="8" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><text x="181" y="102" text-anchor="middle" font-size="10.5" font-weight="700" fill="#316F8A" font-family="sans-serif">決定</text><text x="122" y="138" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">自分の考えで えらぶ</text><rect x="242" y="42" width="192" height="112" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="338" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="#6B6560" font-family="sans-serif">〜ことになる</text><rect x="252" y="82" width="86" height="30" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="295" y="102" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">会社・学校</text><path d="M344 97 L376 97" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><rect x="382" y="82" width="46" height="30" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="405" y="102" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">決定</text><text x="338" y="138" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">自分いがいで 決まる</text><text x="230" y="176" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">同じことでも、だれが決めたかで 言い方が変わる</text></svg>
+    <div class="zu-note">大事なのは<b>だれが決めたか</b>です。「〜ことにする」は<b>自分</b>、「〜ことになる」は<b>自分いがい</b>（会社・学校・みんなの話し合い）です。同じ「会社をやめる」でも、この形で聞く人の受け取り方が変わります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞の辞書形・ない形 ＋ <span class="n">ことにする</span></div>
+    <div class="setsu-note">ていねいな形は「〜ことにします」、決めた時のことは「〜ことにしました」、さそうときは「〜ことにしましょう／〜ことにしよう」。続けている習慣は「〜ことにしています」。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞</div>
+      <div class="chips"><span class="chip">やめる</span><span class="chip">行く</span><span class="chip">買う</span><span class="chip">休む</span><span class="chip">始める</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使うことば</div>
+      <div class="chips"><span class="chip">よく考えて</span><span class="chip">話し合って</span><span class="chip">思いきって</span><span class="chip">毎朝</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う形</div>
+      <div class="chips"><span class="chip">〜ことにしました</span><span class="chip">〜ことにしよう</span><span class="chip">〜ことにしています</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">決める</span>
+        <div class="ex-ja">よく考えて、来年の春に国へ<b>帰ることにしました</b>。<button class="say" data-say="よく考えて、来年の春に国へ帰ることにしました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">After thinking it over, I've decided to go back to my country next spring.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">決める（ない形）</span>
+        <div class="ex-ja">ねだんが高いので、その旅行には<b>行かないことにします</b>。<button class="say" data-say="ねだんが高いので、その旅行には行かないことにします。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It's expensive, so I've decided not to go on that trip.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">決める</span>
+        <div class="ex-ja">雨がひどいから、今日の買い物は<b>やめることにしよう</b>。<button class="say" data-say="雨がひどいから、今日の買い物はやめることにしよう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The rain is heavy, so let's decide to skip today's shopping.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">みんなで決める</span>
+        <div class="ex-ja">打ち合わせは、来週の火曜日に<b>することにしましょう</b>。<button class="say" data-say="打ち合わせは、来週の火曜日にすることにしましょう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Let's decide to hold the meeting next Tuesday.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">決めて続ける</span>
+        <div class="ex-ja">夜は十一時までにねる<b>ことにしています</b>。<button class="say" data-say="夜は十一時までにねることにしています。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I make it a rule to be in bed by eleven at night.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">決めて続ける</span>
+        <div class="ex-ja">体のために、あまい飲み物は買わない<b>ことにしている</b>。<button class="say" data-say="体のために、あまい飲み物は買わないことにしている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">For my health, I make a point of not buying sweet drinks.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜ことにしている」＝決めて、ずっと続けている習慣</div>
+      <div class="use-d">自分で決めて、それを今も続けているという意味です。ただそうなっているだけの習慣なら「〜ています」を使います。</div>
+      <div class="use-e">日曜日は仕事の話を<b>しないことにしています</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜ことにしました」＝もう決めた、と知らせる</div>
+      <div class="use-d">決めたことを人に伝えるときによく使います。あいさつやメールでもよく見ます。</div>
+      <div class="use-e">アルバイトは、今月で<b>やめることにしました</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>「〜ことにして」＝本当はちがうが、そうしておく</div>
+      <div class="use-d">本当のことではないけれど、そう決めておく、という使い方もあります。</div>
+      <div class="use-e">今の話は<b>聞かなかったことにして</b>ください。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ことになる</div>
+      <div class="vs-lead">「〜ことにする」は<b>自分が決める</b>、「〜ことになる」は<b>自分ではなく、まわりで決まる</b>。日本語ではこの言い分けをとても大事にします。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ことにする</th><th>〜ことになる</th></tr>
+        <tr><td class="k">決める人</td><td>自分</td><td>自分いがい（会社・学校・みんな）</td></tr>
+        <tr><td class="k">気持ち</td><td>自分の意志がある</td><td>決まったことを知らせる</td></tr>
+        <tr><td class="k">聞く人の受け取り方</td><td>その人がえらんだ</td><td>しかたがない・そう決まった</td></tr>
+        <tr><td class="k">例</td><td>来月やめることにしました</td><td>来月やめることになりました</td></tr>
+      </table>
+      <div class="vs-ex">
+        自分の考えでやめるなら「会社を<b>やめることにしました</b>」。<br>
+        会社の都合で行くなら「大阪へ<b>行くことになりました</b>」。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜つもりだ</div>
+      <div class="vs-lead">「〜つもりだ」は<b>心の中の予定・気持ち</b>で、まだ変わるかもしれません。「〜ことにする」は<b>もう決めたこと</b>です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ことにする</th><th>〜つもりだ</th></tr>
+        <tr><td class="k">どの段階か</td><td>決めた</td><td>そう考えている</td></tr>
+        <tr><td class="k">変わるか</td><td>変わりにくい</td><td>変わることもある</td></tr>
+        <tr><td class="k">人に言うとき</td><td>知らせる形で使う</td><td>気持ちを言うだけ</td></tr>
+      </table>
+      <div class="vs-ex">
+        「来年、留学する<b>ことにしました</b>」＝もう決めて、じゅんびを始めた。<br>
+        「来年、留学する<b>つもりです</b>」＝そう考えているが、まだ決めていない。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ことになっている</div>
+      <div class="vs-lead">「〜ことにしている」は<b>自分で決めた習慣</b>、「〜ことになっている」は<b>規則や約束としてそう決まっている</b>ことです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ことにしている</th><th>〜ことになっている</th></tr>
+        <tr><td class="k">だれのきまりか</td><td>自分のきまり</td><td>みんなのきまり・規則</td></tr>
+        <tr><td class="k">やぶったら</td><td>自分がこまるだけ</td><td>人にめいわくがかかる</td></tr>
+        <tr><td class="k">例</td><td>毎朝走ることにしている</td><td>会議は九時に始まることになっている</td></tr>
+      </table>
+      <div class="vs-ex">
+        「休みの日も早く起きる<b>ことにしている</b>」＝自分で決めた。<br>
+        「この部屋は土足禁止という<b>ことになっている</b>」＝きまりで決まっている。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜ことにする means the speaker themselves decides to do (or not do) something. 〜ことにしている describes a rule you set for yourself and still keep. Compare 〜ことになる, where the decision comes from outside you, and 〜つもりだ, which is only an intention that may still change.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜ことにする」表示由自己下決定要做或不做某事；「〜ことにしている」則是自己決定並一直維持的習慣。相對地，「〜ことになる」是由公司、學校等自己以外的一方決定；「〜つもりだ」只是心裡的打算，還可能改變。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%93%E3%81%A8%E3%81%AB%E3%81%99%E3%82%8B&amp;lv=N4&amp;ex=%E3%82%88%E3%81%8F%E8%80%83%E3%81%88%E3%81%A6%E3%80%81%E6%9D%A5%E5%B9%B4%E3%81%AE%E6%98%A5%E3%81%AB%E5%9B%BD%E3%81%B8%E5%B8%B0%E3%82%8B%E3%81%93%E3%81%A8%E3%81%AB%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="kotoninaru.html">🔁 〜ことになる（まわりが決める）とくらべる<span class="ar">›</span></a>
+      <a href="kotoninatteiru.html">🔁 〜ことになっている（きまり）とくらべる<span class="ar">›</span></a>
+      <a href="tsumoridatta.html">🔁 〜つもりだった（予定とちがった）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#kotonisuru">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ないで、…（N4文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ないで」の意味・接続・例文。ふつうすることをしないで次のことをする使い方、「〜ないでください」、まちがえやすい「〜なくて」「〜ずに」とのちがいを図で説明します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #316F8A; --accent-bg: #E4EFF5;   /* N4 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ないで、…</div>
+    <div class="p-en">without doing ~ / instead of ~</div>
+    <div class="p-badges">
+      <span class="badge">N4</span>
+      <span class="badge sub">動詞ない形に付く</span>
+      <span class="badge sub">しない まま</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">しないで する</span>ふつうならすることを、しないまま次のことをする</div>
+    <div class="lead"><span class="imi-tag">かわりに</span>Aをしないで、かわりにBをする</div>
+    <div class="lead"><span class="imi-tag">おねがい</span>「〜ないでください」で、しないでとたのむ</div>
+    <div class="desc">「〜ないで」は、動詞のない形に「で」をつけた形です。<b>ふつうならすることを、しないまま</b>次のことをする、という意味です。「朝ごはんを食べないで出かけた」なら、いつもは食べるのに今日は食べなかった、という気持ちが出ます。「AないでB」で、<b>Aのかわりに Bをする</b>という言い方もできます。理由を言う「〜なくて」とはちがうので、気をつけてください。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">コアイメージ：する はずのことを とばして、つぎへ</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ふつうならする朝ごはんを食べる動作に赤いバツが付き、それをしないまま出かけたことをあらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">ふつう する ことを、しないまま つぎへ</text><rect x="30" y="58" width="152" height="58" rx="10" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5" stroke-dasharray="5 4"/><text x="106" y="82" text-anchor="middle" font-size="11.5" fill="#6B6560" font-family="sans-serif">朝ごはんを食べる</text><text x="106" y="102" text-anchor="middle" font-size="10.5" fill="#A0392E" font-family="sans-serif">しなかった</text><line x1="40" y1="64" x2="172" y2="110" stroke="#A0392E" stroke-width="1.6" opacity="0.55"/><line x1="172" y1="64" x2="40" y2="110" stroke="#A0392E" stroke-width="1.6" opacity="0.55"/><path d="M188 87 L266 87" fill="none" stroke="#316F8A" stroke-width="1.8" marker-end="url(#ar)"/><text x="227" y="76" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">そのまま</text><rect x="274" y="58" width="158" height="58" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8"/><text x="353" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#316F8A" font-family="sans-serif">出かけた</text><text x="353" y="102" text-anchor="middle" font-size="10.5" fill="#316F8A" font-family="sans-serif">こちらは した</text><text x="230" y="148" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">「朝ごはんを 食べないで、出かけた」</text><text x="230" y="172" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">いつもは食べるのに、今日は食べなかった</text></svg>
+    <div class="zu-cap">かわりに：Aを えらばないで、Bを した</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="二つの道のうち上の出かける道をえらばず、下の家で休む道をえらんだことをあらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">Aを しないで、かわりに Bを する</text><rect x="24" y="74" width="82" height="44" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="65" y="101" text-anchor="middle" font-size="11.5" fill="#6B6560" font-family="sans-serif">きのう</text><path d="M112 86 L214 60" fill="none" stroke="#9E9890" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#ar2)"/><path d="M112 106 L214 136" fill="none" stroke="#316F8A" stroke-width="2" marker-end="url(#ar)"/><rect x="222" y="34" width="210" height="46" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="327" y="54" text-anchor="middle" font-size="11.5" fill="#6B6560" font-family="sans-serif">出かける（A）</text><text x="327" y="72" text-anchor="middle" font-size="10.5" fill="#A0392E" font-family="sans-serif">しなかった＝出かけないで</text><rect x="222" y="114" width="210" height="48" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8"/><text x="327" y="135" text-anchor="middle" font-size="11.5" font-weight="700" fill="#316F8A" font-family="sans-serif">家で休んだ（B）</text><text x="327" y="153" text-anchor="middle" font-size="10.5" fill="#316F8A" font-family="sans-serif">かわりに こちらを した</text><text x="230" y="182" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「きのうは出かけないで、家で休みました」</text></svg>
+    <div class="zu-cap">〜ないで と 〜なくて：言っていることがちがう</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ないでは どうやってしたか、なくては なぜそうなったかをあらわすことを左右にならべてくらべた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">「ないで」は どうやって、「なくて」は なぜ</text><rect x="22" y="36" width="200" height="116" rx="10" fill="#FAF8F4" stroke="#316F8A" stroke-width="1.8"/><text x="122" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#316F8A" font-family="sans-serif">〜ないで</text><rect x="34" y="74" width="80" height="30" rx="8" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><text x="74" y="94" text-anchor="middle" font-size="10.5" font-weight="700" fill="#316F8A" font-family="sans-serif">見ないで</text><path d="M120 89 L150 89" fill="none" stroke="#316F8A" stroke-width="1.8" marker-end="url(#ar)"/><rect x="156" y="74" width="54" height="30" rx="8" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.5"/><text x="183" y="94" text-anchor="middle" font-size="10.5" font-weight="700" fill="#316F8A" font-family="sans-serif">書いた</text><text x="122" y="130" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">どうやって したか</text><rect x="238" y="36" width="200" height="116" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="338" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#6B6560" font-family="sans-serif">〜なくて</text><rect x="248" y="74" width="92" height="30" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="294" y="94" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">わからなくて</text><path d="M346 89 L374 89" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><rect x="380" y="74" width="48" height="30" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="404" y="94" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">こまった</text><text x="338" y="130" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">なぜ そうなったか（原因）</text><text x="230" y="176" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">原因を言うときは「〜なくて」。「〜ないで」は使えません。</text></svg>
+    <div class="zu-note">「〜ないで」がつかうのは、<b>どうやって次のことをしたか</b>を言うときです。「わからなくて、こまった」のように<b>原因</b>を言うときは「〜なくて」で、この二つは入れかえられません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞ない形（食べない）＋ <span class="n">で</span></div>
+    <div class="setsu-note">「する」は「しないで」、「来る」は「来ないで」。ていねいなお願いは「〜ないでください」、親しい人には「〜ないで」だけでも言えます。「しないままにしておく」は「〜ないでおく」です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞</div>
+      <div class="chips"><span class="chip">食べる</span><span class="chip">言う</span><span class="chip">持つ</span><span class="chip">使う</span><span class="chip">休む</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る動詞</div>
+      <div class="chips"><span class="chip">出かける</span><span class="chip">ねる</span><span class="chip">行く</span><span class="chip">出す</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う形</div>
+      <div class="chips"><span class="chip">〜ないでください</span><span class="chip">〜ないでおく</span><span class="chip">〜ないでね</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">しないで する</span>
+        <div class="ex-ja">きのうは何も<b>食べないで</b>、そのままねてしまいました。<button class="say" data-say="きのうは何も食べないで、そのままねてしまいました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Yesterday I fell asleep without eating anything.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">しないで する</span>
+        <div class="ex-ja">かさを<b>持たないで</b>出かけたので、ひどくぬれました。<button class="say" data-say="かさを持たないで出かけたので、ひどくぬれました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I went out without taking an umbrella, so I got soaked.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">かわりに</span>
+        <div class="ex-ja">今年の夏は海へ<b>行かないで</b>、山の温泉に行きます。<button class="say" data-say="今年の夏は海へ行かないで、山の温泉に行きます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This summer we'll go to a hot spring in the mountains instead of the sea.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">かわりに</span>
+        <div class="ex-ja">エレベーターを<b>使わないで</b>、階段で七階まで上がった。<button class="say" data-say="エレベーターを使わないで、階段で七階まで上がった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I went up to the seventh floor by the stairs instead of using the elevator.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">おねがい</span>
+        <div class="ex-ja">この部屋の電気は、<b>消さないでください</b>。<button class="say" data-say="この部屋の電気は、消さないでください。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Please don't turn off the light in this room.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">おねがい</span>
+        <div class="ex-ja">むずかしくても、とちゅうで<b>あきらめないで</b>ね。<button class="say" data-say="むずかしくても、とちゅうであきらめないでね。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even if it's hard, don't give up halfway, okay?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜ないでください」＝しないで、とたのむ</div>
+      <div class="use-d">相手に「しないでほしい」とお願いするときの形です。親しい人には、うしろの「ください」を取って「〜ないで」だけでも言えます。</div>
+      <div class="use-e">この用紙には、えんぴつで<b>書かないでください</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜ないでおく」＝しないままにしておく</div>
+      <div class="use-d">わざとしないで、そのままの状態にしておく、という意味になります。</div>
+      <div class="use-e">本人には、まだ<b>言わないでおきましょう</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>「〜ないで」で文を止める</div>
+      <div class="use-d">会話では、うしろを言わずに「〜ないで」だけで止めることもあります。やわらかいお願いになります。</div>
+      <div class="use-e">そんなに<b>急がないで</b>。まだ時間があるよ。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜なくて</div>
+      <div class="vs-lead">学習者がいちばんまちがえるところです。「〜ないで」は<b>どうやって次のことをしたか</b>、「〜なくて」は<b>なぜそうなったか（原因・理由）</b>を言います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ないで</th><th>〜なくて</th></tr>
+        <tr><td class="k">何を言うか</td><td>どうやって したか</td><td>なぜ そうなったか（原因）</td></tr>
+        <tr><td class="k">前に来る動詞</td><td>自分でえらべる動作</td><td>えらべないこと（わかる・できる など）</td></tr>
+        <tr><td class="k">うしろに来る文</td><td>自分がする 次の動作</td><td>気持ち・こまったこと・できごと</td></tr>
+        <tr><td class="k">例</td><td>じしょを使わないで書いた</td><td>ことばがわからなくてこまった</td></tr>
+      </table>
+      <div class="vs-ex">
+        「じしょを<b>使わないで</b>書きました」＝使わずに書いた（どうやって）。<br>
+        「ことばが<b>わからなくて</b>、こまりました」＝わからないことが原因（なぜ）。<br>
+        ×「ことばがわからないで、こまりました」とは言いません。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ずに</div>
+      <div class="vs-lead">意味はほとんど同じです。ちがうのは<b>場面</b>で、「〜ないで」は<b>ふだんの話しことば</b>、「〜ずに」は<b>書くときやあらたまった言い方</b>です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ないで</th><th>〜ずに</th></tr>
+        <tr><td class="k">どんな場面</td><td>会話でも作文でも使える</td><td>文章・あらたまった場</td></tr>
+        <tr><td class="k">感じ</td><td>やわらかい・ふつう</td><td>かたい・ひきしまった感じ</td></tr>
+        <tr><td class="k">「する」の形</td><td>しないで</td><td>せずに</td></tr>
+        <tr><td class="k">お願いの形</td><td>〜ないでください（言える）</td><td>〜ずにください（言えない）</td></tr>
+      </table>
+      <div class="vs-ex">
+        話すときは「かぎを<b>かけないで</b>出かけた」。<br>
+        書くときは「かぎを<b>かけずに</b>外出した」。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜てはいけません</div>
+      <div class="vs-lead">どちらも「するな」ですが、「〜ないでください」は<b>おねがい</b>、「〜てはいけません」は<b>きんし・きまり</b>です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ないでください</th><th>〜てはいけません</th></tr>
+        <tr><td class="k">気持ち</td><td>たのむ・おねがいする</td><td>だめだと言う・きんじる</td></tr>
+        <tr><td class="k">だれが言うか</td><td>だれでも言える</td><td>立場が上の人・きまりや注意書き</td></tr>
+        <tr><td class="k">つよさ</td><td>やわらかい</td><td>つよい</td></tr>
+      </table>
+      <div class="vs-ex">
+        友だちに「そこには<b>すわらないでください</b>」＝おねがい。<br>
+        注意書きなら「そこにすわってはいけません」＝きんし。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜ないで attaches to the ない-form and means doing the next action without doing something you would normally do, or doing B instead of A. 〜ないでください is a polite request not to do something. Watch out: 〜なくて states a cause or reason (「わからなくて、こまった」) and cannot replace 〜ないで.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜ないで」接在動詞ない形之後，表示「沒有做原本會做的事，就直接做下一件事」，或「不做A，而改做B」；「〜ないでください」則是請求對方別做某事。要特別注意「〜なくて」表示原因、理由（如「わからなくて、こまった」），兩者不能互換；「〜ずに」意思相同，但屬於較書面、生硬的說法。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AA%E3%81%84%E3%81%A7%E3%80%81%E2%80%A6&amp;lv=N4&amp;ex=%E3%81%8D%E3%81%AE%E3%81%86%E3%81%AF%E4%BD%95%E3%82%82%E9%A3%9F%E3%81%B9%E3%81%AA%E3%81%84%E3%81%A7%E3%80%81%E3%81%9D%E3%81%AE%E3%81%BE%E3%81%BE%E3%81%AD%E3%81%A6%E3%81%97%E3%81%BE%E3%81%84%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="zuni.html">🔁 〜ずに（かたい言い方）とくらべる<span class="ar">›</span></a>
+      <a href="tewaikenai.html">🔁 〜てはいけません（きんし）とくらべる<span class="ar">›</span></a>
+      <a href="tamama.html">🔁 〜たまま（そのままにする）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#naide-fuzoku">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜なら（N4文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜なら」の意味・接続・例文。相手の話を受けて助言を言う使い方と、「〜たら」との順番のちがい（日本へ行ったら買う／行くなら買う）を図でやさしく説明します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #316F8A; --accent-bg: #E4EFF5;   /* N4 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜なら</div>
+    <div class="p-en">if it is ~ / as for ~</div>
+    <div class="p-badges">
+      <span class="badge">N4</span>
+      <span class="badge sub">名詞・な形容詞の語幹に付く</span>
+      <span class="badge sub">相手の話を受ける</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">話を受ける</span>相手が言ったことをとりあげて、それについて言う</div>
+    <div class="lead"><span class="imi-tag">もし〜なら</span>そのことが本当なら、と考えて自分の意見を言う</div>
+    <div class="desc">「〜なら」は、名詞やな形容詞の語幹に「なら」をつけた形です（動詞・い形容詞は普通形につけます）。いちばん大事なのは、<b>相手が言ったことを受けて、それについて言う</b>ということです。「京都へ行きたいんです」と言われて「京都<b>なら</b>、電車が早いですよ」と答える。うしろには<b>助言・意見・命令</b>がよく来ます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">相手の ことばを 受け取って 話す</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="相手の言ったことばを受け取り、そのことばをそのまま使って自分の助言を言う流れをあらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">相手の ことばを 受け取って 言う</text><rect x="22" y="50" width="124" height="52" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="84" y="72" text-anchor="middle" font-size="11" font-weight="700" fill="#6B6560" font-family="sans-serif">相手</text><text x="84" y="90" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">京都へ 行きます</text><path d="M152 76 L204 76" fill="none" stroke="#9E9890" stroke-width="1.6" marker-end="url(#ar2)"/><rect x="210" y="52" width="104" height="36" rx="9" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8" stroke-dasharray="5 4"/><text x="262" y="75" text-anchor="middle" font-size="12" font-weight="700" fill="#316F8A" font-family="sans-serif">京都 なら</text><path d="M262 92 L262 112" fill="none" stroke="#316F8A" stroke-width="1.8" marker-end="url(#ar)"/><rect x="188" y="118" width="152" height="48" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8"/><text x="264" y="139" text-anchor="middle" font-size="11.5" font-weight="700" fill="#316F8A" font-family="sans-serif">電車が 早いですよ</text><text x="264" y="157" text-anchor="middle" font-size="10.5" fill="#316F8A" font-family="sans-serif">わたしの 助言</text><text x="394" y="110" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">聞いた ことばを</text><text x="394" y="126" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">そのまま つかう</text></svg>
+    <div class="zu-cap">「なら」と「たら」：買うのは いつ？</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="二本の時間の線の上で、なら の場合はカメラを買うのが先、たら の場合は日本へ行くのが先になることをくらべた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">どちらが 先に おきるか</text><text x="16" y="64" text-anchor="start" font-size="11.5" font-weight="700" fill="#316F8A" font-family="sans-serif">行くなら</text><path d="M84 66 L436 66" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><circle cx="150" cy="66" r="7" fill="#316F8A"/><circle cx="330" cy="66" r="7" fill="#FAF8F4" stroke="#9E9890" stroke-width="1.5"/><text x="150" y="50" text-anchor="middle" font-size="10.5" font-weight="700" fill="#316F8A" font-family="sans-serif">カメラを 買う</text><text x="330" y="50" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">日本へ 行く</text><text x="260" y="88" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">行く 前に 買う（日本は 高いから）</text><path d="M28 106 L436 106" fill="none" stroke="#E2DDD6" stroke-width="1.2"/><text x="16" y="140" text-anchor="start" font-size="11.5" font-weight="700" fill="#316F8A" font-family="sans-serif">行ったら</text><path d="M84 142 L436 142" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><circle cx="150" cy="142" r="7" fill="#FAF8F4" stroke="#9E9890" stroke-width="1.5"/><circle cx="330" cy="142" r="7" fill="#316F8A"/><text x="150" y="126" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">日本へ 行く</text><text x="330" y="126" text-anchor="middle" font-size="10.5" font-weight="700" fill="#316F8A" font-family="sans-serif">カメラを 買う</text><text x="260" y="164" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">着いて から 買う（むこうで さがす）</text><text x="230" y="184" text-anchor="middle" font-size="11" font-weight="700" fill="#316F8A" font-family="sans-serif">「なら」は 前のことが あとに おきても よい</text></svg>
+    <div class="zu-cap">「なら」の うしろに 来る 形</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="なら の前の部分から矢印がのびて、助言、おねがい、さそいの形がうしろに来ることをあらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#316F8A" font-family="sans-serif">うしろは 助言・おねがい・さそい</text><rect x="20" y="74" width="150" height="48" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8"/><text x="95" y="95" text-anchor="middle" font-size="11.5" font-weight="700" fill="#316F8A" font-family="sans-serif">その 山に 行くなら</text><text x="95" y="113" text-anchor="middle" font-size="10.5" fill="#316F8A" font-family="sans-serif">（相手の 話）</text><path d="M176 92 L242 60" fill="none" stroke="#316F8A" stroke-width="1.6" marker-end="url(#ar)"/><path d="M176 98 L242 106" fill="none" stroke="#316F8A" stroke-width="1.6" marker-end="url(#ar)"/><path d="M176 106 L242 150" fill="none" stroke="#316F8A" stroke-width="1.6" marker-end="url(#ar)"/><rect x="248" y="42" width="190" height="34" rx="8" fill="#FAF8F4" stroke="#316F8A" stroke-width="1.4"/><text x="343" y="64" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">早く 出た ほうが いいですよ</text><rect x="248" y="90" width="190" height="34" rx="8" fill="#FAF8F4" stroke="#316F8A" stroke-width="1.4"/><text x="343" y="112" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">地図を 持って いってください</text><rect x="248" y="138" width="190" height="34" rx="8" fill="#FAF8F4" stroke="#316F8A" stroke-width="1.4"/><text x="343" y="160" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">わたしも いっしょに 行きましょう</text><text x="95" y="146" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">自分の 考えを 言う</text></svg>
+    <div class="zu-note">「なら」は<b>相手の話が先にある</b>ときの形です。だれも何も言っていないところで、いきなり「あした雨がふるなら…」とは言いにくく、そういうときは「〜たら」を使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞・な形容詞の語幹 ＋ <span class="n">なら</span>／動詞・い形容詞の普通形 ＋ <span class="n">なら</span></div>
+    <div class="setsu-note">京都＋なら→<b>京都なら</b>／ひまだ→<b>ひまなら</b>／行く→<b>行くなら</b>／行かない→<b>行かないなら</b>／安い→<b>安いなら</b>。話しことばでは「行く<b>んなら</b>」「行く<b>のなら</b>」もよく使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来ることば</div>
+      <div class="chips"><span class="chip">もし</span><span class="chip">そんなに</span><span class="chip">どうしても</span><span class="chip">それ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る形</div>
+      <div class="chips"><span class="chip">〜たほうがいい</span><span class="chip">〜てください</span><span class="chip">〜がいいですよ</span><span class="chip">〜ましょう</span><span class="chip">〜つもりです</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う言い方</div>
+      <div class="chips"><span class="chip">〜んなら</span><span class="chip">それなら</span><span class="chip">〜なら、〜がいちばんです</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">話を受ける（名詞）</span>
+        <div class="ex-ja">うどんですか。うどん<b>なら</b>、この先の店がおいしいですよ。<button class="say" data-say="うどんですか。うどんなら、この先の店がおいしいですよ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Udon? If it's udon you want, the shop up ahead is good.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">話を受ける（動詞）</span>
+        <div class="ex-ja">日本語を勉強する<b>なら</b>、この辞書がべんりですよ。<button class="say" data-say="日本語を勉強するなら、この辞書がべんりですよ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you're going to study Japanese, this dictionary is handy.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">助言</span>
+        <div class="ex-ja">そんなに頭がいたい<b>なら</b>、早く病院へ行ってください。<button class="say" data-say="そんなに頭がいたいなら、早く病院へ行ってください。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If your head hurts that much, please go to a hospital soon.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">おねがい</span>
+        <div class="ex-ja">コンビニへ行く<b>なら</b>、切手を買ってきてくれませんか。<button class="say" data-say="コンビニへ行くなら、切手を買ってきてくれませんか。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you're going to the convenience store, could you buy me stamps?</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">意見</span>
+        <div class="ex-ja">森本さんが行かない<b>なら</b>、わたしも今回はやめておきます。<button class="say" data-say="森本さんが行かないなら、わたしも今回はやめておきます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If Morimoto isn't going, I'll pass this time too.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">な形容詞</span>
+        <div class="ex-ja">あしたが<b>ひまなら</b>、引っこしを手つだってくれませんか。<button class="say" data-say="あしたがひまなら、引っこしを手つだってくれませんか。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you're free tomorrow, could you help me move?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>名詞＋なら＝「それについて言えば」</div>
+      <div class="use-d">話の中に出たことばをとりあげて、「そのことなら」と説明します。店の人がよく使います。</div>
+      <div class="use-e">魚<b>なら</b>、今日はさんまがいちばんいいですよ。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「それなら」＝聞いたことを受けて</div>
+      <div class="use-d">前の話をぜんぶ受けて、次のことを言うときの短い形です。会話の始めによく出ます。</div>
+      <div class="use-e">電車が止まっているんですか。<b>それなら</b>、バスで行きましょう。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>「〜んなら」＝話しことばの形</div>
+      <div class="use-d">動詞のうしろに「ん（の）」を入れると、話しことばらしくなります。友だちとの会話で多いです。</div>
+      <div class="use-e">そんなにねむい<b>んなら</b>、少し休んだら？</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜たら</div>
+      <div class="vs-lead">いちばん大きなちがいは<b>じゅんばん</b>です。「〜たら」は<b>前のことが先</b>におきます。「〜なら」は、<b>あとのことが先</b>におきてもかまいません。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜なら</th><th>〜たら</th></tr>
+        <tr><td class="k">じゅんばん</td><td>あとのことが 先でもよい</td><td>かならず 前のことが 先</td></tr>
+        <tr><td class="k">話のきっかけ</td><td>相手が言ったことを受ける</td><td>自分から言い出せる</td></tr>
+        <tr><td class="k">うしろの形</td><td>助言・意見・命令が多い</td><td>何でも置ける</td></tr>
+        <tr><td class="k">例</td><td>日本へ行くなら、カメラを買う</td><td>日本へ行ったら、カメラを買う</td></tr>
+      </table>
+      <div class="vs-ex">
+        「日本へ<b>行くなら</b>、カメラを買います」＝買うのは<b>行く前</b>。日本に着く前に買っておく。<br>
+        「日本へ<b>行ったら</b>、カメラを買います」＝買うのは<b>着いてから</b>。むこうの店でさがす。<br>
+        「おふろに<b>入るなら</b>、タオルを出しておきますね」＝入る前にじゅんびします。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ば</div>
+      <div class="vs-lead">「〜ば」は<b>だれが言ったかにかんけいなく</b>、そうすればこうなる、と言うだけです。「〜なら」は<b>相手の話を受けて</b>、自分の考えを言います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜なら</th><th>〜ば</th></tr>
+        <tr><td class="k">相手の話</td><td>受けてから言う</td><td>なくてもよい</td></tr>
+        <tr><td class="k">うしろに 命令・おねがい</td><td><span class="ok">○</span> 置ける</td><td><span class="tri">△</span> 前が動作だと置きにくい</td></tr>
+        <tr><td class="k">よく使う場面</td><td>会話の返事・お店の助言</td><td>きまりごと・ことわざ・説明</td></tr>
+      </table>
+      <div class="vs-ex">
+        「駅へ行く<b>なら</b>、この道がちかいですよ」＝相手が「駅へ行きたい」と言ったあとの返事。<br>
+        「まっすぐ<b>行けば</b>、駅に出ます」＝だれにでも当てはまる道あんない。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜なら picks up what the other person has just said and comments on it: "if that's the case, then…". Advice, requests and opinions usually follow. Unlike 〜たら, the event in the second half can happen before the one marked by なら — 日本へ行くならカメラを買う means you buy the camera before going.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜なら」是接住對方剛說的話，再針對這件事表達自己的意見，後面多接建議、請求或命令。和「〜たら」不同的是，後半的動作可以發生在前半之前：「日本へ行くならカメラを買う」是出發前先買，「日本へ行ったらカメラを買う」則是到了日本以後才買。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AA%E3%82%89&amp;lv=N4&amp;ex=%E3%81%86%E3%81%A9%E3%82%93%E3%81%A7%E3%81%99%E3%81%8B%E3%80%82%E3%81%86%E3%81%A9%E3%82%93%E3%81%AA%E3%82%89%E3%80%81%E3%81%93%E3%81%AE%E5%85%88%E3%81%AE%E5%BA%97%E3%81%8C%E3%81%8A%E3%81%84%E3%81%97%E3%81%84%E3%81%A7%E3%81%99%E3%82%88%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="tara.html">🔁 〜たら（じゅんばんが 決まっている）とくらべる<span class="ar">›</span></a>
+      <a href="toshizen.html">🔁 〜と（自然の結果）とくらべる<span class="ar">›</span></a>
+      <a href="baii.html">🔁 〜ばいい・〜たらいい を見る<span class="ar">›</span></a>
+      <a href="../bunkei.html#na-nara">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

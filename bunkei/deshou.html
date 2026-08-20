@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜だろう・〜でしょう（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜だろう・〜でしょう」の意味・接続・例文。話し手の推量と、上げて言う「でしょう？」の確認、そして「〜と思う」「〜かもしれない」との確かさのちがいを図で解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜だろう・〜でしょう</div>
+    <div class="p-en">probably ~ / ~, right?</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">普通形に付く</span>
+      <span class="badge sub">推量</span>
+      <span class="badge sub">でしょう＝ていねい</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">推量</span>はっきりわからないが、たぶんそうだと考える</div>
+    <div class="lead"><span class="imi-tag">確認</span>そうですよね、と相手にたしかめる</div>
+    <div class="desc">「〜だろう」は、まだはっきりわからないことを、たぶんこうなると考えて言うときの形です。「〜でしょう」は、その<b>ていねいな形</b>で、意味は同じです。言い切らないので、天気予報やニュース、人に何かを説明するときによく使われます。また、終わりを上げて「〜でしょう？」と言うと、相手に「そうですよね」とたしかめる言い方になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 確かさのものさしの、まん中より少し上</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="確かさのものさしの上に、左からかもしれない、だろう・でしょう、にちがいないを並べた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">どのくらい確かか</text><text x="92" y="46" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">かもしれない</text><text x="236" y="46" text-anchor="middle" font-size="11.5" font-weight="700" fill="#3C3489" font-family="sans-serif">だろう・でしょう</text><text x="380" y="46" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">にちがいない</text><rect x="30" y="56" width="400" height="24" rx="12" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.4"/><circle cx="92" cy="68" r="7" fill="#9E9890"/><circle cx="236" cy="68" r="9" fill="#3C3489"/><circle cx="380" cy="68" r="7" fill="#9E9890"/><path d="M30 94 L430 94" fill="none" stroke="#9E9890" stroke-width="1.2" marker-end="url(#ar2)"/><text x="32" y="111" text-anchor="start" font-size="10.5" fill="#6B6560" font-family="sans-serif">よわい</text><text x="428" y="111" text-anchor="end" font-size="10.5" fill="#6B6560" font-family="sans-serif">つよい</text><text x="230" y="138" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">「たぶんそうなる」と考えているが、言い切らない</text><text x="230" y="162" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">だから、はっきりした証こがなくても使える</text></svg>
+    <div class="zu-cap">② 下げて言うと推量、上げて言うと確認</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="左に下がる線をそえた推量の言い方、右に上がる線をそえた確認の言い方を並べた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">終わりの音を、下げるか 上げるか</text><rect x="22" y="36" width="196" height="126" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="120" y="58" text-anchor="middle" font-size="11.5" font-weight="700" fill="#6B6560" font-family="sans-serif">下げて言う「でしょう。」</text><path d="M44 78 L120 78 L182 100" fill="none" stroke="#6B6560" stroke-width="2" marker-end="url(#ar2)"/><text x="120" y="126" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">あしたは雨が降るでしょう。</text><text x="120" y="148" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">＝ 自分の予想を言う</text><rect x="242" y="36" width="196" height="126" rx="10" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="340" y="58" text-anchor="middle" font-size="11.5" font-weight="700" fill="#3C3489" font-family="sans-serif">上げて言う「でしょう？」</text><path d="M264 100 L340 100 L402 78" fill="none" stroke="#3C3489" stroke-width="2" marker-end="url(#ar)"/><text x="340" y="126" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">この店、おいしいでしょう？</text><text x="340" y="148" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">＝ 相手にたしかめる</text><text x="230" y="180" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">同じ形でも、音の上げ下げで役わりが変わる</text></svg>
+    <div class="zu-cap">③ 「だろう」と「でしょう」は、中身が同じ</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="頭の中の同じ予想から、友だちに言う形と、ていねいに言う形の二つに分かれることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="140" y="20" width="180" height="56" rx="26" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="230" y="42" text-anchor="middle" font-size="11.5" font-weight="700" fill="#3C3489" font-family="sans-serif">頭の中の予想</text><text x="230" y="63" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">「たぶん、あしたは雨」</text><path d="M178 80 L118 112" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><path d="M282 80 L342 112" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="24" y="118" width="176" height="54" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="112" y="138" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">友だちと話すとき</text><text x="112" y="160" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">「降るだろう」</text><rect x="260" y="118" width="176" height="54" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="348" y="138" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ていねいに話すとき</text><text x="348" y="160" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">「降るでしょう」</text></svg>
+    <div class="zu-note">③のとおり、<b>「でしょう」は「だろう」のていねいな形</b>で、考えていることは同じです。ちがうのは、だれに向かって話しているかだけです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">普通形 ＋ <span class="n">だろう</span>（ていねいな形は <span class="n">でしょう</span>）</div>
+    <div class="setsu-note">な形容詞と名詞は「だ」を取ってつけます（「静かだろう」「休みだろう」）。話しことばでは「だろ？」「でしょ？」と短くなります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞（推量）</div>
+      <div class="chips"><span class="chip">たぶん</span><span class="chip">きっと</span><span class="chip">おそらく</span><span class="chip">そのうち</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使うことば（確認）</div>
+      <div class="chips"><span class="chip">ほら</span><span class="chip">ね</span><span class="chip">やっぱり</span><span class="chip">前に言った</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う場面</div>
+      <div class="chips"><span class="chip">天気予報</span><span class="chip">ニュース</span><span class="chip">道あんない</span><span class="chip">教室</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">推量</span>
+        <div class="ex-ja">あしたの試合は、たぶん<b>中止になるでしょう</b>。<button class="say" data-say="あしたの試合は、たぶん中止になるでしょう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Tomorrow's match will probably be called off.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">推量（ふつうの形）</span>
+        <div class="ex-ja">山の上は、今ごろとても<b>寒いだろう</b>。<button class="say" data-say="山の上は、今ごろとても寒いだろう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It's probably very cold up on the mountain right now.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名詞・な形</span>
+        <div class="ex-ja">会場までは、歩いて十分ぐらい<b>でしょう</b>。<button class="say" data-say="会場までは、歩いて十分ぐらいでしょう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It's probably about a ten-minute walk to the venue.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">確認（上げて言う）</span>
+        <div class="ex-ja">この漢字、前の授業で習った<b>でしょう？</b><button class="say" data-say="この漢字、前の授業で習ったでしょう？" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">You learned this kanji in the last class, right?</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">確認（同意を求める）</span>
+        <div class="ex-ja">ほら、この店のパンはおいしい<b>でしょう？</b><button class="say" data-say="ほら、この店のパンはおいしいでしょう？" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">See? The bread at this bakery is good, isn't it?</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">天気予報</span>
+        <div class="ex-ja">午後からは、風が強く<b>なるでしょう</b>。<button class="say" data-say="午後からは、風が強くなるでしょう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The wind will pick up from the afternoon.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜だろうと思う」＝ 予想をやわらかく言う</div>
+      <div class="use-d">自分の予想であることをはっきりさせて、ひかえめに伝える言い方です。</div>
+      <div class="use-e">この仕事は、来週には<b>終わるだろうと思います</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「どうして〜んだろう」＝ 自分に問いかける</div>
+      <div class="use-d">答えのわからないことを、ひとりごとのように考えるときに使います。</div>
+      <div class="use-e">この機械、どうして<b>動かないんだろう</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>命令のように聞こえる「〜でしょう」</div>
+      <div class="use-d">強く上げて言うと、「早くしなさい」という気持ちがまじることがあります。友だちどうしで使います。</div>
+      <div class="use-e">そんなに走ると、<b>転ぶでしょう</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜と思う</div>
+      <div class="vs-lead">「〜だろう」は<b>ものごとがどうなるかの予想</b>、「〜と思う」は<b>自分の考え・意見</b>です。「〜と思う」の主語は、ふつう<b>「私」</b>です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜だろう</th><th>〜と思う</th></tr>
+        <tr><td class="k">言いたいこと</td><td>たぶんそうなる（予想）</td><td>私はこう考える（意見）</td></tr>
+        <tr><td class="k">だれの話か</td><td>ものごとのなりゆき</td><td>話し手の頭の中</td></tr>
+        <tr><td class="k">主語</td><td>人でなくてもよい</td><td>ふつうは私</td></tr>
+        <tr><td class="k">ていねいな形</td><td>でしょう</td><td>と思います</td></tr>
+      </table>
+      <div class="vs-ex">
+        空を見て「午後は晴れる<b>だろう</b>」＝なりゆきの予想。<br>
+        会議で「この案がいい<b>と思います</b>」＝自分の意見。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜かもしれない</div>
+      <div class="vs-lead">ちがうのは<b>確かさの度合い</b>です。「〜だろう」は<b>たぶんそうなる（半分より上）</b>、「〜かもしれない」は<b>そうならないこともある（低くてよい）</b>。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜だろう</th><th>〜かもしれない</th></tr>
+        <tr><td class="k">確かさ</td><td>高め（たぶんそうだ）</td><td>低くてもよい（ひょっとすると）</td></tr>
+        <tr><td class="k">気持ち</td><td>そうなるほうに気持ちがある</td><td>どちらとも言えない</td></tr>
+        <tr><td class="k">よく合う副詞</td><td>たぶん・きっと・おそらく</td><td>もしかすると・ひょっとしたら</td></tr>
+        <tr><td class="k">反対の場合</td><td>あまり考えていない</td><td>はじめから半分考えている</td></tr>
+      </table>
+      <div class="vs-ex">
+        「今夜は雪が降る<b>だろう</b>」＝降るほうに気持ちがある。<br>
+        「今夜は雪が降る<b>かもしれない</b>」＝降らないこともある。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜だろう expresses the speaker's guess: "it will probably be ~". でしょう is simply its polite form, with the same meaning, which is why weather forecasts and news use it. Said with rising intonation, 〜でしょう？ instead asks the listener to agree: "~, right?"</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜だろう」表示說話者的推測，意思是「大概會這樣」；「〜でしょう」只是它的禮貌形，意思完全相同，所以氣象預報和新聞常用。若句尾語調上揚說成「〜でしょう？」，則變成向對方確認、徵求同意的「對吧？」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A0%E3%82%8D%E3%81%86%E3%83%BB%E3%80%9C%E3%81%A7%E3%81%97%E3%82%87%E3%81%86&amp;lv=N3&amp;ex=%E3%81%82%E3%81%97%E3%81%9F%E3%81%AE%E8%A9%A6%E5%90%88%E3%81%AF%E3%80%81%E3%81%9F%E3%81%B6%E3%82%93%E4%B8%AD%E6%AD%A2%E3%81%AB%E3%81%AA%E3%82%8B%E3%81%A7%E3%81%97%E3%82%87%E3%81%86%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nichigainai.html">🔁 〜に違いない（もっと強い確信）とくらべる<span class="ar">›</span></a>
+      <a href="hazuganai.html">🔁 〜はずがない（可能性ゼロ）とくらべる<span class="ar">›</span></a>
+      <a href="hazuda.html">🔁 〜はずだとくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#darou">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

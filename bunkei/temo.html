@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ても（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ても」の意味・接続・例文。ふつうならこうなるはずなのにそうならない逆接の条件、疑問語＋ての形、「〜のに」「〜たら・〜ば」とのちがいを図で解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ても</div>
+    <div class="p-en">even if ~ / even though ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">動詞て形に付く</span>
+      <span class="badge sub">逆接の条件</span>
+      <span class="badge sub">疑問語と使う</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">逆接条件</span>ふつうならこうなるのに、そうならない</div>
+    <div class="lead"><span class="imi-tag">どれでも</span>疑問語といっしょに使って、どんな場合でも同じ</div>
+    <div class="desc">「〜ても」は、前のことから当然おきるはずのことが、おきないときに使います。「雨がふる」なら、ふつうは「行かない」はずです。でも「雨がふっても行きます」と言えば、その予想をこえて行く、という意味になります。まだ起きていないことにも、いつものことにも使えます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 芯：予想される結果に ならない</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="じょうけんから予想される結果に赤いバツが付き、実際にはちがう結果になることを二本の矢印であらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">ふつうなら こうなる。でも、そうならない</text><rect x="26" y="62" width="118" height="52" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="85" y="86" text-anchor="middle" font-size="12" font-weight="700" fill="#3C3489" font-family="sans-serif">雨が ふる</text><text x="85" y="104" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">じょうけん</text><path d="M152 68 L302 68" fill="none" stroke="#9E9890" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#ar2)"/><text x="227" y="58" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ふつうは</text><rect x="310" y="46" width="126" height="44" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="373" y="64" text-anchor="middle" font-size="11.5" fill="#6B6560" font-family="sans-serif">行かない</text><text x="373" y="82" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">＝ 予想される結果</text><path d="M326 52 L420 84" fill="none" stroke="#A0392E" stroke-width="2.2"/><path d="M420 52 L326 84" fill="none" stroke="#A0392E" stroke-width="2.2"/><path d="M152 122 L302 122" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="227" y="112" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">でも じっさいは</text><rect x="310" y="100" width="126" height="44" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="373" y="128" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">行きます</text><text x="230" y="172" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">「雨が ふっても、行きます」</text></svg>
+    <div class="zu-cap">② 疑問語＋ても：どれでも 同じ</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="だれが・何を・いくらの三つのじょうけんから矢印が一つの結果に集まり、どれでも結果は同じであることをあらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">疑問語＋ても：どれでも 結果は同じ</text><rect x="28" y="40" width="132" height="34" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.3"/><text x="94" y="62" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">だれが 来ても</text><rect x="28" y="86" width="132" height="34" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.3"/><text x="94" y="108" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">何を 言っても</text><rect x="28" y="132" width="132" height="34" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.3"/><text x="94" y="154" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">いくら 安くても</text><path d="M166 57 L300 96" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><path d="M166 103 L300 103" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><path d="M166 149 L300 110" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><rect x="308" y="76" width="126" height="56" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="371" y="100" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">結果は 一つ</text><text x="371" y="120" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">何をしても 変わらない</text><text x="230" y="182" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">じょうけんが どうであっても、行き先は同じ</text></svg>
+    <div class="zu-note">「〜ても」の芯は、①の<b>赤いバツ</b>のところです。前のことから当然出てくるはずの結果を、うしろの文が<b>けす</b>と考えると分かりやすくなります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞て形 ＋ <span class="n">も</span></div>
+    <div class="setsu-note">い形容詞は「高<b>くても</b>」、な形容詞は「静か<b>でも</b>」、名詞は「雨<b>でも</b>」の形になります。ないときは「行か<b>なくても</b>」です。「たとえ」「いくら」「どんなに」をつけると、気持ちが強くなります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">たとえ</span><span class="chip">いくら</span><span class="chip">どんなに</span><span class="chip">たとえば</span><span class="chip">もし</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前に来る疑問語</div>
+      <div class="chips"><span class="chip">だれ</span><span class="chip">何</span><span class="chip">いつ</span><span class="chip">どこ</span><span class="chip">いくら</span><span class="chip">どんなに</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく作る形</div>
+      <div class="chips"><span class="chip">〜てもいい</span><span class="chip">〜てもかまわない</span><span class="chip">〜なくても</span><span class="chip">〜ても〜なくても</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">逆接条件</span>
+        <div class="ex-ja">雨が<b>降っても</b>、あしたの試合は行います。<button class="say" data-say="雨が降っても、あしたの試合は行います。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The match will be held tomorrow even if it rains.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">い形容詞</span>
+        <div class="ex-ja">この店のケーキは、<b>高くても</b>買いたいです。<button class="say" data-say="この店のケーキは、高くても買いたいです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I want to buy the cake at this shop even if it is expensive.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名詞</span>
+        <div class="ex-ja">あしたが<b>休みでも</b>、朝は早く起きます。<button class="say" data-say="あしたが休みでも、朝は早く起きます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even if tomorrow is a day off, I get up early.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">疑問語＋ても</span>
+        <div class="ex-ja"><b>いくら考えても</b>、いい答えが出ませんでした。<button class="say" data-say="いくら考えても、いい答えが出ませんでした。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">No matter how much I thought about it, I couldn't come up with a good answer.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">疑問語＋ても</span>
+        <div class="ex-ja"><b>だれが来ても</b>、この部屋には入れません。<button class="say" data-say="だれが来ても、この部屋には入れません。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">No one may enter this room, whoever they are.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜なくても</span>
+        <div class="ex-ja">パスポートを持って<b>いかなくても</b>大丈夫です。<button class="say" data-say="パスポートを持っていかなくても大丈夫です。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It's fine even if you don't take your passport.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜てもいい」＝ してよい</div>
+      <div class="use-d">「〜ても」に「いい・かまわない」がつくと、ゆるす言い方（許可）になります。</div>
+      <div class="use-e">この資料は、<b>持って帰ってもいいです</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「たとえ〜ても」＝ 強めた形</div>
+      <div class="use-d">「たとえ」をつけると、まだ起きていないことを強く仮定する言い方になります。</div>
+      <div class="use-e">たとえ雪が<b>ふっても</b>、朝の練習は休みません。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>「〜ても〜なくても」＝ どちらでも</div>
+      <div class="use-d">同じ動詞をくり返して、どちらの場合でも結果は同じだと言います。</div>
+      <div class="use-e">会に出<b>ても</b>出なくても、お金はもどりません。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜のに</div>
+      <div class="vs-lead">「〜ても」は<b>まだ決まっていないこと</b>にも使えます。「〜のに」は<b>もう起きたこと</b>を言い、不満やおどろきの気持ちが入ります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ても</th><th>〜のに</th></tr>
+        <tr><td class="k">いつのこと</td><td>これから・いつでも（仮定でよい）</td><td>もう起きたこと・今のこと</td></tr>
+        <tr><td class="k">気持ち</td><td>とくに入らない</td><td>不満・おどろき・ざんねん</td></tr>
+        <tr><td class="k">文の終わり</td><td>意志・お願い・命令も言える</td><td>言いにくい</td></tr>
+        <tr><td class="k">例</td><td>雨が降っても行きます</td><td>雨が降ったのに行きました</td></tr>
+      </table>
+      <div class="vs-ex">
+        あしたのことなら「雨が<b>降っても</b>、行きます」＝まだ降っていない。<br>
+        きのうのことなら「雨が<b>降ったのに</b>、行きました」＝もう降った＋おどろき。<br>
+        「話し<b>ても</b>いいですか」は言えるが、「話したのにいいですか」とは言えない。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜たら・〜ば</div>
+      <div class="vs-lead">「〜たら・〜ば」は<b>予想どおり</b>につながります。「〜ても」は同じじょうけんから、<b>予想とちがう</b>ほうへ行きます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ても</th><th>〜たら・〜ば</th></tr>
+        <tr><td class="k">つながり方</td><td>逆（そうならない）</td><td>順（そうなる）</td></tr>
+        <tr><td class="k">言いたいこと</td><td>じょうけんに 負けない</td><td>じょうけんがそろえば する</td></tr>
+        <tr><td class="k">例</td><td>安くても買いません</td><td>安かったら買います</td></tr>
+      </table>
+      <div class="vs-ex">
+        「安か<b>ったら</b>買います」＝安いことが、買う理由になる。<br>
+        「安く<b>ても</b>買いません」＝安いのに、買わない。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜ても marks a concessive condition: the result you would normally expect from the first clause does not happen. With a question word (だれが来ても, いくら安くても) it means "no matter who / how ~", the outcome stays the same.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜ても」表示逆接的條件：照常理應該會出現的結果並沒有發生。與疑問詞搭配時（だれが来ても、いくら安くても），意思是「無論誰、無論多麼～」，結果都不會改變。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A6%E3%82%82&amp;lv=N3&amp;ex=%E9%9B%A8%E3%81%8C%E9%99%8D%E3%81%A3%E3%81%A6%E3%82%82%E3%80%81%E3%81%82%E3%81%97%E3%81%9F%E3%81%AE%E8%A9%A6%E5%90%88%E3%81%AF%E8%A1%8C%E3%81%84%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="tatoetemo.html">🔁 たとえ〜ても（強めた形）を見る<span class="ar">›</span></a>
+      <a href="kuseni.html">🔁 〜くせに（不満）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#temo">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

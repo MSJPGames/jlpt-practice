@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜を込めて（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜を込めて」の意味・接続・例文。心や感謝などの気持ちを、作るもの・する行為の中に入れる言い方を、「〜をもって」とのちがいとあわせて図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜を込めて</div>
+    <div class="p-en">with (feeling) ~ / putting ~ into</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">名詞に付く</span>
+      <span class="badge sub">気持ちを入れる</span>
+      <span class="badge sub">あらたまった場面</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">気持ちを入れる</span>作るもの・する行為の中に、気持ちを入れる</div>
+    <div class="lead"><span class="imi-tag">決まった名詞</span>前に来るのは、心・感謝・祈りなど、ほぼ決まったことば</div>
+    <div class="desc">「〜を込めて」は、心や感謝などの気持ちを、これから作るものや、これからする行為の中に入れる、という言い方です。前に来る名詞はほとんど決まっていて、「心・愛情・感謝・祈り・力・思い・願い」など、気持ちや力を表すことばに限られます。手紙やあいさつなど、少しあらたまった場面でよく使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 気持ちは、作るものの中に入る</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="気持ちを、作るものやする行為の中に入れることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">気持ちを、作るもの・する行為の 中に 入れる</text><rect x="26" y="60" width="132" height="62" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="92" y="87" text-anchor="middle" font-size="12" font-weight="700" fill="#854F0B" font-family="sans-serif">気持ち</text><text x="92" y="107" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">心・感謝・祈り・力</text><path d="M164 91 L212 91" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><text x="188" y="80" text-anchor="middle" font-size="10.5" fill="#854F0B" font-family="sans-serif">込める</text><rect x="218" y="48" width="216" height="88" rx="10" fill="#FAF8F4" stroke="#854F0B" stroke-width="2"/><text x="326" y="69" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">作るもの・する行為</text><rect x="240" y="78" width="172" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.5" stroke-dasharray="5 4"/><text x="326" y="105" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">手紙・料理・歌・おくりもの</text><text x="230" y="160" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">外からは 見えないが、中に 気持ちが 入っている</text><text x="230" y="180" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">だから、受け取る人の 心に 届く</text></svg>
+    <div class="zu-cap">② 「〜を込めて」と「〜のこもった〜」</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="動作で言う「を込めて」と、ようすで言う「のこもった」の使い分けを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">うごきで 言うか、ようすで 言うか</text><rect x="26" y="38" width="376" height="56" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="46" y="62" font-size="11" font-weight="700" fill="#854F0B" font-family="sans-serif">① 気持ちを 入れる うごき</text><text x="46" y="84" font-size="12" fill="#1C1C1C" font-family="sans-serif">心を込めて 手紙を 書く</text><path d="M414 82 C444 90 444 116 414 124" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><rect x="26" y="106" width="376" height="56" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.8"/><text x="46" y="130" font-size="11" font-weight="700" fill="#854F0B" font-family="sans-serif">② 入っている ようす（名詞を くわしく）</text><text x="46" y="152" font-size="12" fill="#1C1C1C" font-family="sans-serif">心のこもった 手紙</text><text x="230" y="180" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">同じ 気持ちを、うごきで 言うか、ようすで 言うか</text></svg>
+    <div class="zu-note">「〜を込めて」の前に置けるのは、<b>気持ちを表す名詞</b>だけです。「お金を込めて」「時間を込めて」とは言えません。この形は、いっしょに使うことばを、ひとまとまりで覚えるのがいちばんの近道です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞（気持ち） ＋ <span class="n">を込めて</span>　／　名詞 ＋ <span class="n">を込めた</span> ＋ 名詞</div>
+    <div class="setsu-note">うしろには「作る・書く・歌う・焼く・おくる」など、<b>形になって残る行為</b>の動詞が来ます。名詞をくわしく説明するときは「〜を込めた手紙」、気持ちが入っているようすを言うときは「〜のこもった手紙」の形になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る名詞（気持ち）</div>
+      <div class="chips"><span class="chip">心</span><span class="chip">愛情</span><span class="chip">感謝</span><span class="chip">祈り</span><span class="chip">思い</span><span class="chip">願い</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る名詞（そのほか）</div>
+      <div class="chips"><span class="chip">力</span><span class="chip">真心</span><span class="chip">感謝の気持ち</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る動詞</div>
+      <div class="chips"><span class="chip">作る</span><span class="chip">書く</span><span class="chip">歌う</span><span class="chip">おくる</span><span class="chip">焼く</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">手紙の 場面</span>
+        <div class="ex-ja">祖母は毎年、感謝<b>を込めて</b>短い手紙を送ってくれる。<button class="say" data-say="祖母は毎年、感謝を込めて短い手紙を送ってくれる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Every year my grandmother sends me a short letter full of gratitude.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">家の 場面</span>
+        <div class="ex-ja">母は愛情<b>を込めて</b>、毎朝わたしの弁当を作ってくれる。<button class="say" data-say="母は愛情を込めて、毎朝わたしの弁当を作ってくれる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My mother lovingly makes my lunchbox every morning.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">学校の 行事</span>
+        <div class="ex-ja">卒業する先輩へ、思い<b>を込めて</b>この歌をうたいます。<button class="say" data-say="卒業する先輩へ、思いを込めてこの歌をうたいます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">We will sing this song for our graduating seniors, putting our feelings into it.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">スポーツ</span>
+        <div class="ex-ja">最後の一球に力<b>を込めて</b>、かれはバットをふりぬいた。<button class="say" data-say="最後の一球に力を込めて、かれはバットをふりぬいた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Putting all his strength into the last pitch, he swung the bat right through.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">祈りの 場面</span>
+        <div class="ex-ja">友だちの病気がよくなるよう、祈り<b>を込めて</b>千羽づるを折った。<button class="say" data-say="友だちの病気がよくなるよう、祈りを込めて千羽づるを折った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Praying that my friend would get better, I folded a thousand paper cranes.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">店・仕事</span>
+        <div class="ex-ja">この店のパンは、一つ一つ真心<b>を込めて</b>焼き上げています。<button class="say" data-say="この店のパンは、一つ一つ真心を込めて焼き上げています。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The bread at this shop is baked one by one with real care.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜を込めた＋名詞」</div>
+      <div class="use-d">うしろの名詞をくわしく説明する形です。作った人の気持ちが、そのものに入っていることを表します。</div>
+      <div class="use-e">妹は愛情<b>を込めた</b>手作りのケーキを、友だちにおくった。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜のこもった＋名詞」</div>
+      <div class="use-d">「込める」の自動詞「こもる」を使い、気持ちが<b>入っているようす</b>を言います。受け取った側から見た言い方です。</div>
+      <div class="use-e">道にまよったとき、駅員さんの<b>心のこもった</b>案内に助けられた。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>あいさつの 結びで</div>
+      <div class="use-d">「感謝を込めて」「祈りを込めて」は、手紙やあいさつの最後の一行としても使われます。</div>
+      <div class="use-e">深い感謝<b>を込めて</b>、この賞をチームのみなさんにささげます。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜をもって</div>
+      <div class="vs-lead">前に来る名詞がちがいます。「〜を込めて」は<b>中に入れる「気持ち」</b>、「〜をもって」は<b>それを使ってする「手段・方法」</b>です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜を込めて</th><th>〜をもって</th></tr>
+        <tr><td class="k">前に来る名詞</td><td>心・感謝・祈りなど 気持ち</td><td>書面・電話・実力など 手段</td></tr>
+        <tr><td class="k">言いたいこと</td><td>気持ちを 中に 入れる</td><td>それを 使って する</td></tr>
+        <tr><td class="k">うしろの動詞</td><td>作る・書く・歌う</td><td>知らせる・示す・終わる</td></tr>
+        <tr><td class="k">かたさ</td><td>手紙やあいさつで使う</td><td>とてもかたい。案内状・規則</td></tr>
+        <tr><td class="k">言いかえ</td><td>心を込めて ＝ 真心で</td><td>書面をもって ＝ 書面で</td></tr>
+      </table>
+      <div class="vs-ex">
+        「感謝<b>を込めて</b>花をおくる」＝花の中に、感謝の気持ちが入っている。<br>
+        「書面<b>をもって</b>お知らせします」＝知らせる方法が「書面」だということ。<br>
+        「本日<b>をもって</b>閉店します」のような区切りの言い方は、「を込めて」には無い。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">心から</div>
+      <div class="vs-lead">「心から」は<b>気持ちの深さ</b>を言う副詞で、思う・感謝するなど<b>気持ちの動詞</b>に付きます。「心を込めて」は<b>形が残る行為</b>に付きます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>心を込めて</th><th>心から</th></tr>
+        <tr><td class="k">うしろに来る動詞</td><td>作る・書く・歌う（形が残る）</td><td>感謝する・思う・願う（気持ち）</td></tr>
+        <tr><td class="k">言いたいこと</td><td>行為の中に 気持ちを 入れる</td><td>気持ちが 本物で 深い</td></tr>
+        <tr><td class="k">形</td><td>名詞 ＋ を込めて</td><td>副詞。そのまま前に置く</td></tr>
+      </table>
+      <div class="vs-ex">
+        「<b>心を込めて</b>ケーキを焼く」＝焼くという行為に、気持ちを入れる。<br>
+        「<b>心から</b>お礼を申し上げます」＝お礼の気持ちが、深く本物だということ。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜を込めて attaches to a noun and means "putting ~ into it." The noun is almost always a feeling or effort: 心, 愛情, 感謝, 祈り, 力, 思い, 願い. It is followed by a verb of making or doing something that takes shape, such as writing a letter or baking bread. The related form 〜のこもった describes the finished thing itself, as in 心のこもった手紙.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜を込めて」接在名詞後，表示「把某種心意注入其中」。前面的名詞幾乎固定為表示情感或力量的詞：心、愛情、感謝、祈り、力、思い、願い。後面多接「作る・書く・歌う」等會留下具體成果的動詞。相關形式「〜のこもった〜」則用來描述成品本身，如「心のこもった手紙」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%82%92%E8%BE%BC%E3%82%81%E3%81%A6&amp;lv=N2&amp;ex=%E7%A5%96%E6%AF%8D%E3%81%AF%E6%AF%8E%E5%B9%B4%E3%80%81%E6%84%9F%E8%AC%9D%E3%82%92%E8%BE%BC%E3%82%81%E3%81%A6%E7%9F%AD%E3%81%84%E6%89%8B%E7%B4%99%E3%82%92%E9%80%81%E3%81%A3%E3%81%A6%E3%81%8F%E3%82%8C%E3%82%8B%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="womotte.html">🔁 〜をもって（手段・方法。かたい）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-34">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜の至り（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜の至り」の意味・接続・例文。気持ちが最高のところまで行ったことを表すあらたまった決まり文句で、「〜の極み」とのちがいもふくめて図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜の至り</div>
+    <div class="p-en">the height of ~ / utmost ~</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">名詞に付く</span>
+      <span class="badge sub">あらたまった</span>
+      <span class="badge sub">あいさつ・スピーチ</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">最高の所</span>気持ちが、これ以上ないところまで行っている</div>
+    <div class="lead"><span class="imi-tag">決まり文句</span>あいさつやスピーチで使う、あらたまった言い方</div>
+    <div class="desc">「〜の至り」は、うれしさやはずかしさなどの気持ちが、いちばん上まで行っていることを言う、とてもあらたまった言い方です。前に置ける名詞は「光栄」「感激」「恐縮」「赤面」「若気」など、数えられるほどしかありません。式のあいさつやスピーチ、手紙で使うことばで、ふだんの会話では使いません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① いちばん上まで行った気持ち</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="気持ちの高さを下から上へ三段で表し、いちばん上のこれ以上ないところが「〜の至り」であることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">気持ちが いちばん上まで 行った ところ</text><path d="M104 168 L104 44" fill="none" stroke="#993C1D" stroke-width="2" marker-end="url(#ar)"/><text x="70" y="108" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">気持ちの 高さ</text><rect x="126" y="36" width="308" height="46" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="186" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#993C1D" font-family="sans-serif">〜の至り</text><text x="330" y="64" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">＝ これ以上 上がらない ところ</text><rect x="126" y="92" width="308" height="34" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="280" y="114" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">とても うれしい・はずかしい</text><rect x="126" y="136" width="308" height="34" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="280" y="158" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">ふつうの 気持ち</text></svg>
+    <div class="zu-cap">② 前に置ける名詞は、ごくわずか</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「の至り」の前に置ける名詞は光栄・感激・恐縮・赤面・若気などごく少数で、ふつうの名詞は使えないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">前に置ける名詞は、ほんの少しだけ</text><rect x="22" y="34" width="248" height="124" rx="10" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="146" y="54" text-anchor="middle" font-size="11" font-weight="700" fill="#993C1D" font-family="sans-serif">○ この名詞で 決まっている</text><text x="146" y="80" text-anchor="middle" font-size="13" fill="#1C1C1C" font-family="sans-serif">光栄　感激　恐縮</text><text x="146" y="106" text-anchor="middle" font-size="13" fill="#1C1C1C" font-family="sans-serif">赤面　若気　汗顔</text><text x="146" y="134" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">＋ の至り　で ひとまとまり</text><path d="M274 96 L292 96" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><rect x="298" y="34" width="140" height="124" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="368" y="58" text-anchor="middle" font-size="15" font-weight="700" fill="#A0392E" font-family="sans-serif">×</text><text x="368" y="82" text-anchor="middle" font-size="11.5" fill="#A0392E" font-family="sans-serif">うれしさの至り</text><text x="368" y="106" text-anchor="middle" font-size="11.5" fill="#A0392E" font-family="sans-serif">楽しみの至り</text><text x="368" y="134" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">とは 言わない</text><text x="230" y="180" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">あいさつ・スピーチのことば。ふだんの会話では 使わない</text></svg>
+    <div class="zu-note">上の図の芯は<b>「これ以上ないところ」</b>、下の図の芯は<b>「使える名詞が決まっている」</b>です。意味だけ覚えても、名詞をまちがえると使えません。<b>ことばごと</b>覚えてください。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞 ＋ <span class="n">の至り</span></div>
+    <div class="setsu-note">「〜の至りです」「〜の至りでございます」「〜の至りに存じます」の形で、文の終わりに置くのがふつうです。「若気の至り」だけは、「若気の至りで〜した」のように文のとちゅうでも使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前に来る名詞（ほぼこれだけ）</div>
+      <div class="chips"><span class="chip">光栄</span><span class="chip">感激</span><span class="chip">恐縮</span><span class="chip">赤面</span><span class="chip">若気</span><span class="chip">汗顔</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う文の形</div>
+      <div class="chips"><span class="chip">〜の至りです</span><span class="chip">〜の至りでございます</span><span class="chip">〜の至りに存じます</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">使う場面</div>
+      <div class="chips"><span class="chip">式のあいさつ</span><span class="chip">スピーチ</span><span class="chip">手紙</span><span class="chip">受賞のことば</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">スピーチ</span>
+        <div class="ex-ja">このような賞をいただき、光栄<b>の至り</b>でございます。<button class="say" data-say="このような賞をいただき、光栄の至りでございます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Receiving an award like this is the greatest of honors.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">あいさつ</span>
+        <div class="ex-ja">本日はお集まりいただき、感激<b>の至り</b>です。<button class="say" data-say="本日はお集まりいただき、感激の至りです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I am deeply moved that you all gathered here today.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">あらたまった場</span>
+        <div class="ex-ja">遠いところをわざわざお越しいただき、恐縮<b>の至り</b>です。<button class="say" data-say="遠いところをわざわざお越しいただき、恐縮の至りです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I am terribly obliged that you came all this way.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">はずかしい気持ち</span>
+        <div class="ex-ja">お名前を読みまちがえてしまい、赤面<b>の至り</b>です。<button class="say" data-say="お名前を読みまちがえてしまい、赤面の至りです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I misread your name, and I am utterly embarrassed.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">決まったことば</span>
+        <div class="ex-ja">若気<b>の至り</b>で、仕事をやめて旅に出たことがある。<button class="say" data-say="若気の至りで、仕事をやめて旅に出たことがある。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">In the folly of my youth, I once quit my job and set off on a trip.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">手紙</span>
+        <div class="ex-ja">ご連絡がおくれまして、汗顔<b>の至り</b>に存じます。<button class="say" data-say="ご連絡がおくれまして、汗顔の至りに存じます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I am deeply ashamed that my reply was late.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「若気の至り」</div>
+      <div class="use-d">「若かったからしてしまった」という意味の決まったことばで、これだけは文の中でふつうに使えます。</div>
+      <div class="use-e">学生のころの写真は、若気<b>の至り</b>としか言えない。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜の至りに存じます」</div>
+      <div class="use-d">「です」を「に存じます」にかえると、手紙や式のことばにふさわしい、もっとかたい言い方になります。</div>
+      <div class="use-e">身にあまるおことばをいただき、光栄<b>の至り</b>に存じます。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜の極み</div>
+      <div class="vs-lead">「〜の至り」は<b>自分の気持ち</b>が最高だと言う、あいさつのことばです。「〜の極み」は<b>ものごとの程度</b>が極端だと言うことばで、よいことにも悪いことにも使えます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜の至り</th><th>〜の極み</th></tr>
+        <tr><td class="k">前に来る名詞</td><td>光栄・感激・恐縮 など ごく少し</td><td>ぜいたく・混乱・痛恨 など 広い</td></tr>
+        <tr><td class="k">言いたいこと</td><td>自分の 気持ちが 最高</td><td>ものごとの 程度が 極端</td></tr>
+        <tr><td class="k">よい・わるい</td><td>よい あいさつの 場面が多い</td><td>よいことにも わるいことにも</td></tr>
+        <tr><td class="k">使う場面</td><td>式のあいさつ・スピーチ・手紙</td><td>かたい文章で ようすを 強く言う</td></tr>
+      </table>
+      <div class="vs-ex">
+        「光栄<b>の至り</b>です」＝話し手の うれしい気持ちが いちばん上。<br>
+        「ぜいたく<b>の極み</b>だ」＝そのものごとの ぜいたくさが 度をこえている。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜極まりない</div>
+      <div class="vs-lead">「〜の至り」は<b>名詞</b>に付いて自分の気持ちを言い、「〜極まりない」は<b>ようすを表すことば</b>に付いて、たいてい<b>悪い評価</b>を強く言います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜の至り</th><th>〜極まりない</th></tr>
+        <tr><td class="k">前に来る形</td><td>名詞（光栄・感激 など）</td><td>な形容詞など（失礼・危険 など）</td></tr>
+        <tr><td class="k">言いたいこと</td><td>自分の 気持ちが 最高</td><td>ようすが この上なく ひどい</td></tr>
+        <tr><td class="k">よい・わるい</td><td>よい 場面が 多い</td><td>わるい 評価が ほとんど</td></tr>
+      </table>
+      <div class="vs-ex">
+        「感激<b>の至り</b>です」＝自分が とてもうれしい、というあいさつ。<br>
+        「失礼<b>極まりない</b>」＝相手の たいどが この上なく ひどい、という悪い評価。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜の至り means that a feeling has reached its highest possible point. It is a fixed, very formal expression: only a small set of nouns can be used with it, such as 光栄 (honor), 感激 (deep emotion), 恐縮 (obligation), 赤面 (embarrassment) and 若気 (youthful folly). You will hear it in ceremonial greetings, speeches and letters, not in everyday conversation.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜の至り」表示某種感情已經到達最高點，是非常鄭重的固定說法。前面能接的名詞極少，主要是「光栄・感激・恐縮・赤面・若気」等。多用於典禮致詞、演講與書信，日常會話中不使用。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AE%E8%87%B3%E3%82%8A&amp;lv=N1&amp;ex=%E3%81%93%E3%81%AE%E3%82%88%E3%81%86%E3%81%AA%E8%B3%9E%E3%82%92%E3%81%84%E3%81%9F%E3%81%A0%E3%81%8D%E3%80%81%E5%85%89%E6%A0%84%E3%81%AE%E8%87%B3%E3%82%8A%E3%81%A7%E3%81%94%E3%81%96%E3%81%84%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="kiwamaru.html">🔁 〜極まる・〜極まりない（この上なく〜だ）とくらべる<span class="ar">›</span></a>
+      <a href="kagirida.html">🔁 〜かぎりだ（この上なく〜な気持ちだ）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-28">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜（よ）うが・〜（よ）うと（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜（よ）うが・〜（よ）うと」の意味・接続・例文。何があっても結果は変わらないという強い言い方を、「〜ても」とのちがいとあわせて図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜（よ）うが・〜（よ）うと</div>
+    <div class="p-en">no matter ~ / whatever ~</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">意向形に付く</span>
+      <span class="badge sub">強い譲歩</span>
+      <span class="badge sub">かたい言い方</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">変わらない</span>どんな場合でも、結果は同じ</div>
+    <div class="lead"><span class="imi-tag">話し手の意志</span>うしろに、話し手の意志や判断が来る</div>
+    <div class="desc">「〜（よ）うが」「〜（よ）うと」は、どんなことが起きても、話し手の気持ちや結果は変わらない、と言い切る形です。前には「だれが」「何を」「どこへ」のような疑問語がよく来て、うしろには「かまわない」「関係ない」「自由だ」など、話し手の意志や判断が来ます。「〜ても」より、ずっとかたくて強い言い方です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① どんな場合でも、行き先は一つ</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="どんな条件が来ても結果は一つに決まっていて変わらないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">どんな場合でも、結果は 変わらない</text><rect x="24" y="40" width="152" height="34" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="100" y="62" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">だれが 反対しようが</text><rect x="24" y="84" width="152" height="34" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="100" y="106" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">何を 言われようと</text><rect x="24" y="128" width="152" height="34" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="100" y="150" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">どこへ 行こうが</text><path d="M182 57 L242 88" fill="none" stroke="#993C1D" stroke-width="1.6" marker-end="url(#ar)"/><path d="M182 101 L242 99" fill="none" stroke="#993C1D" stroke-width="1.6" marker-end="url(#ar)"/><path d="M182 145 L242 110" fill="none" stroke="#993C1D" stroke-width="1.6" marker-end="url(#ar)"/><rect x="248" y="70" width="188" height="60" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="342" y="95" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">結果は 一つだけ</text><text x="342" y="116" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">わたしは 行く（意志）</text><text x="230" y="178" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">うしろには「かまわない・関係ない・自由だ」など 話し手の判断</text></svg>
+    <div class="zu-cap">② 「〜（よ）うが〜まいが」＝するかしないか、どちらでも</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="するかしないか、どちらの場合でも結果は同じであることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">「〜（よ）うが〜まいが」＝ どちらでも 同じ</text><rect x="26" y="44" width="140" height="42" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="96" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">行こうが（する）</text><rect x="26" y="112" width="140" height="42" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="96" y="138" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">行くまいが（しない）</text><path d="M172 65 L282 92" fill="none" stroke="#993C1D" stroke-width="1.6" marker-end="url(#ar)"/><path d="M172 133 L282 106" fill="none" stroke="#993C1D" stroke-width="1.6" marker-end="url(#ar)"/><text x="224" y="103" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">どちらでも</text><rect x="288" y="72" width="148" height="54" rx="8" fill="#FAF8F4" stroke="#993C1D" stroke-width="2"/><text x="362" y="96" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">結果は 同じ</text><text x="362" y="116" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">＝ 気にしない</text><text x="230" y="176" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「〜ても〜なくても」の、かたくて 強い 言い方</text></svg>
+    <div class="zu-note">上の図の芯は<b>「前がいくつあっても、うしろは一つ」</b>です。うしろが事実の説明で終わると、この形はうまく働きません。<b>話し手の意志・判断</b>を置いてください。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞意向形 ＋ <span class="n">が</span>／<span class="n">と</span>　／　い形容詞 ＋ <span class="n">かろうが</span>　／　名詞・な形容詞 ＋ <span class="n">であろうが</span></div>
+    <div class="setsu-note">「行こうが／行こうと」のように、「が」と「と」はほとんど同じように使えます。前に疑問語（だれ・何・どこ・いつ・どんなに）を置く形がとても多く、「たとえ」「どんなに」といっしょに使うと意味がはっきりします。かたい書きことばと、強く言い切る話しことばの両方で使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る疑問語</div>
+      <div class="chips"><span class="chip">だれ</span><span class="chip">何</span><span class="chip">どこ</span><span class="chip">いつ</span><span class="chip">どんなに</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">たとえ</span><span class="chip">どんなに</span><span class="chip">いくら</span><span class="chip">いかに</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る言い方</div>
+      <div class="chips"><span class="chip">かまわない</span><span class="chip">関係ない</span><span class="chip">自由だ</span><span class="chip">気にしない</span><span class="chip">変わらない</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">疑問語といっしょに</span>
+        <div class="ex-ja">だれに何を<b>言われようが</b>、わたしはこのやり方を変えない。<button class="say" data-say="だれに何を言われようが、わたしはこのやり方を変えない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">No matter what anyone says to me, I will not change this way of doing things.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">二つ ならべて</span>
+        <div class="ex-ja">雨が<b>降ろうが</b>雪が<b>降ろうと</b>、日曜の試合は必ずおこないます。<button class="say" data-say="雨が降ろうが雪が降ろうと、日曜の試合は必ずおこないます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Rain or snow, Sunday's match will definitely be held.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">い形容詞に付く形</span>
+        <div class="ex-ja">値段がどんなに<b>高かろうが</b>、この机は買うと決めている。<button class="say" data-say="値段がどんなに高かろうが、この机は買うと決めている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">No matter how expensive it is, I have decided to buy this desk.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜（よ）うが〜まいが</span>
+        <div class="ex-ja">きみが<b>賛成しようがしまいが</b>、この計画はこのまま進める。<button class="say" data-say="きみが賛成しようがしまいが、この計画はこのまま進める。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Whether you agree or not, this plan will go ahead as it is.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名詞に付く形</span>
+        <div class="ex-ja">結果が<b>どうであろうと</b>、最後までやりぬくつもりだ。<button class="say" data-say="結果がどうであろうと、最後までやりぬくつもりだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Whatever the result may be, I intend to see it through to the end.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">家の 場面</span>
+        <div class="ex-ja">娘が何時に<b>帰ろうと</b>、母は何も文句を言わない。<button class="say" data-say="娘が何時に帰ろうと、母は何も文句を言わない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">No matter what time my daughter comes home, my mother never complains.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>疑問語＋（よ）うが</div>
+      <div class="use-d">「だれが」「何を」「どこへ」などの疑問語を前に置くと、「どんな場合でも」という意味がはっきりします。この形がいちばんよく使われます。</div>
+      <div class="use-e">この時間をどう使おうと、<b>だれに何と思われようが</b>、わたしの自由だ。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>〜（よ）うが〜まいが</div>
+      <div class="use-d">同じ動詞の意向形と「まい」をならべて、するかしないか、どちらの場合でも同じだ、と言います。</div>
+      <div class="use-e">雨が<b>降ろうが降るまいが</b>、あの店は朝六時に開ける。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>〜（よ）うと〜（よ）うと</div>
+      <div class="use-d">ちがう二つの動詞をならべて、どちらの場合でも結果は同じだ、と言う形もあります。</div>
+      <div class="use-e"><b>歩こうと走ろうと</b>、あの坂の上に着く時間はほとんど変わらない。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ても</div>
+      <div class="vs-lead">意味はどちらも「〜の場合でも」ですが、「〜（よ）うが・〜（よ）うと」は<b>ずっとかたく、強く言い切る</b>形です。「〜ても」は<b>ふつうの逆接条件</b>で、どんな場面にも合います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜（よ）うが・〜（よ）うと</th><th>〜ても</th></tr>
+        <tr><td class="k">かたさ</td><td>かたい。あらたまった場面</td><td>やわらかい。ふだんの会話でも</td></tr>
+        <tr><td class="k">強さ</td><td>何があっても変わらないと言い切る</td><td>軽い場合でも使える</td></tr>
+        <tr><td class="k">うしろの文</td><td>話し手の意志・判断が来る</td><td>事実の説明でもよい</td></tr>
+        <tr><td class="k">前に来ることば</td><td>疑問語といっしょが多い</td><td>とくに決まりはない</td></tr>
+        <tr><td class="k">使う回数</td><td>強く言いたいときだけ</td><td>とてもよく使う</td></tr>
+      </table>
+      <div class="vs-ex">
+        「何を<b>言われようが</b>行く」＝だれが何を言っても気持ちは動かない、という強い言い方。<br>
+        「何を<b>言われても</b>行く」＝内容は同じだが、ずっとやわらかく、ふだんの会話にも合う。<br>
+        「窓を<b>開けても</b>いいですか」のような許可の言い方は、「〜（よ）うが」に置きかえられない。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜にかかわらず</div>
+      <div class="vs-lead">「〜にかかわらず」は<b>どちらの場合も同じあつかいだ</b>と、落ち着いて事実を述べます。「〜（よ）うが」は<b>話し手の強い気持ち</b>が出ます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜（よ）うが・〜（よ）うと</th><th>〜にかかわらず</th></tr>
+        <tr><td class="k">気持ち</td><td>話し手の強い意志が出る</td><td>気持ちを出さず、事実を述べる</td></tr>
+        <tr><td class="k">うしろの文</td><td>「かまわない」など判断</td><td>決まり・案内の文が多い</td></tr>
+        <tr><td class="k">よく使う場所</td><td>会話・意見を言う文</td><td>案内文・規則・書類</td></tr>
+      </table>
+      <div class="vs-ex">
+        「雨が<b>降ろうが</b>、わたしは行く」＝行くと決めた、話し手の気持ち。<br>
+        「天候に<b>かかわらず</b>、大会はおこないます」＝決まりとしての案内。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜（よ）うが / 〜（よ）うと attaches to the volitional form and means "no matter what happens, this does not change." It usually comes with a question word (だれ, 何, どこ) and is followed by the speaker's own will or judgement, such as かまわない or 関係ない. It is a stronger, more formal version of 〜ても.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜（よ）うが／〜（よ）うと」接在意向形之後，表示「不管怎樣，結果都不會改變」。前面常搭配疑問詞（だれ・何・どこ），後面接說話者的意志或判斷，如「かまわない」「関係ない」。語氣比「〜ても」更硬、更強。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%EF%BC%88%E3%82%88%EF%BC%89%E3%81%86%E3%81%8C%E3%83%BB%E3%80%9C%EF%BC%88%E3%82%88%EF%BC%89%E3%81%86%E3%81%A8&amp;lv=N1&amp;ex=%E3%81%A0%E3%82%8C%E3%81%AB%E4%BD%95%E3%82%92%E8%A8%80%E3%82%8F%E3%82%8C%E3%82%88%E3%81%86%E3%81%8C%E3%80%81%E3%82%8F%E3%81%9F%E3%81%97%E3%81%AF%E3%81%93%E3%81%AE%E3%82%84%E3%82%8A%E6%96%B9%E3%82%92%E5%A4%89%E3%81%88%E3%81%AA%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="yougamaiga.html">🔁 〜（よ）うが〜まいが（するかしないか、どちらでも）とくらべる<span class="ar">›</span></a>
+      <a href="youkamaika.html">🔁 〜（よ）うか〜まいか（するか、しないか まよう）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-41">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

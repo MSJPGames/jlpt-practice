@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜が最後・〜たら最後（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜が最後・〜たら最後」の意味・接続・例文。一度そうなったらもう止められない、という言い方を、「〜ばそれまでだ」「〜たとたん」とのちがいとあわせて図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜が最後・〜たら最後</div>
+    <div class="p-en">once ~, then (inevitably) ...</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">辞書形・た形に付く</span>
+      <span class="badge sub">止められない</span>
+      <span class="badge sub">悪い結果</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">もどれない</span>一度そうなったら、途中ではやめられない</div>
+    <div class="lead"><span class="imi-tag">こまる結果</span>そのあとに来るのは、話し手にとって こまること</div>
+    <div class="desc">「〜が最後」「〜たら最後」は、あることが一度おきたら、もうそこで止めることができず、行くところまで行ってしまう、という言い方です。うしろには、「〜ない」「〜てしまう」のように、話し手にとってこまることや、とても大げさなことが来ます。いいことが起きる場面では使いにくい形です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 境目をこえたら、もう引き返せない</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="境目をこえる前はやめられるが、こえたあとは止まらず、もどることもできないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">そこを こえたら、もう もどれない</text><rect x="26" y="48" width="124" height="54" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="88" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#6B6560" font-family="sans-serif">その前</text><text x="88" y="90" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">まだ やめられる</text><path d="M154 75 L172 75" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="176" y="40" width="108" height="70" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="230" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">〜たら最後</text><text x="230" y="86" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">＝ここが境目</text><path d="M288 75 L306 75" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="310" y="48" width="124" height="54" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5"/><text x="372" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">そのあと</text><text x="372" y="90" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">止まらない</text><path d="M300 130 L250 130" fill="none" stroke="#9E9890" stroke-width="1.4"/><path d="M212 130 L176 130" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><text x="231" y="136" text-anchor="middle" font-size="16" font-weight="700" fill="#A0392E" font-family="sans-serif">×</text><text x="230" y="154" text-anchor="middle" font-size="11" fill="#A0392E" font-family="sans-serif">もう 引き返せない</text><text x="230" y="177" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">うしろに来るのは、話し手が こまること</text></svg>
+    <div class="zu-cap">② うしろに来るのは、こまること</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="一度そうなったあとに来るのは止まらない困ったことで、うれしい結果には使いにくいことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">うしろに 来るのは、こまること</text><rect x="24" y="62" width="118" height="62" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5"/><text x="83" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">一度そうなる</text><text x="83" y="108" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">〜たら最後</text><path d="M146 82 L206 66" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><path d="M146 108 L206 130" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><rect x="212" y="42" width="224" height="46" rx="8" fill="#FAF8F4" stroke="#993C1D" stroke-width="1.5"/><text x="230" y="71" text-anchor="middle" font-size="13" font-weight="700" fill="#993C1D" font-family="sans-serif">○</text><text x="340" y="71" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">止まらない・元にもどらない</text><rect x="212" y="110" width="224" height="46" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="230" y="139" text-anchor="middle" font-size="13" font-weight="700" fill="#A0392E" font-family="sans-serif">×</text><text x="340" y="139" text-anchor="middle" font-size="11.5" fill="#6B6560" font-family="sans-serif">うれしい結果には 使いにくい</text><text x="230" y="178" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「〜たら最後」は 話しことばで よく使う</text></svg>
+    <div class="zu-note">上の図の芯は<b>「もどれない」</b>、下の図の芯は<b>「うしろはこまること」</b>です。この二つがそろったときだけ使える形だと考えてください。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞辞書形 ＋ <span class="n">が最後</span>　／　動詞た形 ＋ <span class="n">ら最後</span></div>
+    <div class="setsu-note">「〜が最後」はかたい書きことばで、注意書きなどに使います。ふだんの会話では「〜たら最後」のほうがずっとよく使われます。うしろは「〜ない」「二度と〜ない」「〜てしまう」の形になることが多いです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞</div>
+      <div class="chips"><span class="chip">始める</span><span class="chip">出す</span><span class="chip">入る</span><span class="chip">出かける</span><span class="chip">忘れる</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る形</div>
+      <div class="chips"><span class="chip">〜ない</span><span class="chip">〜てしまう</span><span class="chip">二度と〜ない</span><span class="chip">もう〜ない</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">一度</span><span class="chip">いったん</span><span class="chip">うっかり</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">話しことば</span>
+        <div class="ex-ja">姉は買い物に<b>出かけたら最後</b>、夜になるまで帰ってこない。<button class="say" data-say="姉は買い物に出かけたら最後、夜になるまで帰ってこない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Once my sister goes out shopping, she doesn't come home until night.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">話しことば</span>
+        <div class="ex-ja">弟はまんがを<b>読みだしたら最後</b>、よんでも返事をしない。<button class="say" data-say="弟はまんがを読みだしたら最後、よんでも返事をしない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Once my little brother starts reading manga, he won't answer even if you call him.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">かたい言い方</span>
+        <div class="ex-ja">この用紙は一度<b>出したが最後</b>、書き直すことはできない。<button class="say" data-say="この用紙は一度出したが最後、書き直すことはできない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Once you hand in this form, there is no rewriting it.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">注意・警告</span>
+        <div class="ex-ja">このボタンを<b>押したが最後</b>、注文は取り消せません。<button class="say" data-say="このボタンを押したが最後、注文は取り消せません。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Once you press this button, the order cannot be cancelled.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">話しことば</span>
+        <div class="ex-ja">あの部長は昔の話を<b>始めたら最後</b>、一時間は終わらない。<button class="say" data-say="あの部長は昔の話を始めたら最後、一時間は終わらない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Once that manager starts talking about the old days, it goes on for an hour.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">こまる結果</span>
+        <div class="ex-ja">このパスワードを<b>忘れたら最後</b>、二度と入れなくなる。<button class="say" data-say="このパスワードを忘れたら最後、二度と入れなくなる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you forget this password, you'll never be able to log in again.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「一度〜たら最後」の形</div>
+      <div class="use-d">「一度」「いったん」を前に入れて、たった一回でもそうなれば十分だ、と強めます。</div>
+      <div class="use-e">この道は一度<b>入ったら最後</b>、次の町までもどれない。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>じょうだんで、たのしいことにも</div>
+      <div class="use-d">本来はこまることに使いますが、「やめられない」気持ちを大げさに言うときだけ、たのしいことにも使えます。</div>
+      <div class="use-e">この店のおかしは<b>食べだしたら最後</b>、一つでは終わらない。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ばそれまでだ</div>
+      <div class="vs-lead">「〜が最後」は<b>そのあとも止まらずに進んでいく</b>ことを言い、「〜ばそれまでだ」は<b>その時点で全部おしまいになる</b>ことを言います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜が最後・〜たら最後</th><th>〜ばそれまでだ</th></tr>
+        <tr><td class="k">そのあと</td><td>止まらずにつづく</td><td>そこで全部終わる</td></tr>
+        <tr><td class="k">言いたいこと</td><td>もう引き返せない</td><td>それでむだになる・台なしだ</td></tr>
+        <tr><td class="k">時間のはば</td><td>あとまで長くつづく</td><td>その一点でおわり</td></tr>
+      </table>
+      <div class="vs-ex">
+        「この用紙を<b>出したが最後</b>」＝出したあと、直せないまま話が進んでいく。<br>
+        「用紙をなくせば<b>それまでだ</b>」＝なくした時点で、話は全部おしまい。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜たとたん</div>
+      <div class="vs-lead">「〜たとたん」は<b>すぐ次のことが起きた</b>と言うだけで、よいことでも使えます。「〜たら最後」は<b>そのあとずっと止まらず、こまる</b>ことしか言えません。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜たら最後</th><th>〜たとたん</th></tr>
+        <tr><td class="k">言いたいこと</td><td>もう止められない</td><td>すぐ次のことが起きた</td></tr>
+        <tr><td class="k">うしろの内容</td><td>話し手がこまること</td><td>よいことでもよい</td></tr>
+        <tr><td class="k">見ている時間</td><td>そのあと ずっと</td><td>その しゅんかんだけ</td></tr>
+      </table>
+      <div class="vs-ex">
+        「ドアを<b>開けたとたん</b>、ねこが出ていった」＝開けたしゅんかんのこと。<br>
+        「ドアを<b>開けたが最後</b>、ねこはもどってこない」＝そのあとずっとこまる。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜が最後 / 〜たら最後 means "once ~ happens, there is no stopping it." What follows is almost always something the speaker finds troublesome, often with a negative ending. 〜たら最後 is the form used in everyday speech.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜が最後／〜たら最後」表示「一旦如此，就再也停不下來、無法回頭」。後面幾乎都是說話者覺得麻煩的事，常以否定形結尾。口語中多用「〜たら最後」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%8C%E6%9C%80%E5%BE%8C%E3%83%BB%E3%80%9C%E3%81%9F%E3%82%89%E6%9C%80%E5%BE%8C&amp;lv=N1&amp;ex=%E5%A7%89%E3%81%AF%E8%B2%B7%E3%81%84%E7%89%A9%E3%81%AB%E5%87%BA%E3%81%8B%E3%81%91%E3%81%9F%E3%82%89%E6%9C%80%E5%BE%8C%E3%80%81%E5%A4%9C%E3%81%AB%E3%81%AA%E3%82%8B%E3%81%BE%E3%81%A7%E5%B8%B0%E3%81%A3%E3%81%A6%E3%81%93%E3%81%AA%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="basoremadeda.html">🔁 〜ばそれまでだ（そこで全部おしまい）とくらべる<span class="ar">›</span></a>
+      <a href="tatotan.html">🔁 〜たとたん（すぐ次のことが起きる）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-25">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

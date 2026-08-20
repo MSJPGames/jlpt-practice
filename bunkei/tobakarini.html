@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜とばかりに（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜とばかりに」の意味・接続・例文。口には出していないのに、そう言っているような態度を表す使い方を、「〜と言わんばかりに」「〜ように」とのちがいとあわせて図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜とばかりに</div>
+    <div class="p-en">as if to say ~</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">引用の形に付く</span>
+      <span class="badge sub">態度</span>
+      <span class="badge sub">書きことば</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">言わない</span>口には出していないが、そう言っているような 様子・態度</div>
+    <div class="lead"><span class="imi-tag">いきおい</span>そのあとに、強くて いきおいのある 動作が来る</div>
+    <div class="desc">「〜とばかりに」は、その人が口に出して言ったわけではないのに、まるでそう言っているように見える態度や動作を表します。「帰れとばかりに」なら、「帰れ」とは一言も言っていません。でも、そう言っているとしか思えない様子だ、ということです。小説や記事のような書きことばで使い、うしろには勢いのある強い動作が来ます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 言ってはいない。でも、そう見える</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="口には出していないことばを点線の吹き出しで示し、実際には言っていないが、その態度や動作からそう言っているように見えることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">口には 出していない。でも、そう 見える</text><rect x="22" y="40" width="170" height="52" rx="12" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8" stroke-dasharray="5 4"/><path d="M60 92 L52 108 L78 92" fill="none" stroke="#993C1D" stroke-width="1.8" stroke-dasharray="5 4"/><text x="107" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#993C1D" font-family="sans-serif">「帰れ」</text><text x="107" y="83" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">心の中の ことば</text><text x="107" y="124" text-anchor="middle" font-size="11" fill="#A0392E" font-family="sans-serif">× 声には 出していない</text><path d="M198 66 L232 66" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="238" y="40" width="200" height="60" rx="8" fill="#FAF8F4" stroke="#993C1D" stroke-width="2"/><text x="338" y="65" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">ドアを 指さす</text><text x="338" y="85" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">＝ 目に見える 態度・動作</text><path d="M338 104 L338 126" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="22" y="134" width="416" height="42" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5"/><text x="230" y="160" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">見ている人には、そう 言っているように 見える</text></svg>
+    <div class="zu-cap">② うしろは、いきおいのある動作</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="じっと待っていた人が、ここぞという時をのがさず一気に強い動作に移ることを、折れ線で示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">「ここぞとばかりに」＝ その時を のがさず 一気に</text><path d="M26 162 L434 162" fill="none" stroke="#E2DDD6" stroke-width="1.5"/><path d="M40 132 L224 132" fill="none" stroke="#9E9890" stroke-width="1.8"/><path d="M230 46 L230 152" fill="none" stroke="#993C1D" stroke-width="1.4" stroke-dasharray="4 4"/><text x="230" y="40" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">ここぞ ／ 今だ</text><path d="M234 130 L408 68" fill="none" stroke="#993C1D" stroke-width="2.4" marker-end="url(#ar)"/><text x="130" y="152" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">じっと 待っている</text><text x="352" y="104" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">一気に 動く</text><text x="230" y="182" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">うしろに来るのは、走り出す・立ち上がる のような 強い動き</text></svg>
+    <div class="zu-note">上の図の芯は<b>「実際には言っていない」</b>、下の図の芯は<b>「その時をのがさず一気に動く」</b>です。この二つがそろうところが、ふつうの「〜ように」とちがうところです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">普通形・引用の形 ＋ <span class="n">とばかりに</span></div>
+    <div class="setsu-note">前には、その人が言いそうなことばがそのまま入ります（「帰れ」「もう知らない」「まだ終わらない」など）。書きことばの形なので、ふだんの会話ではあまり使いません。主語は自分以外の人になることがほとんどです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る決まった形</div>
+      <div class="chips"><span class="chip">ここぞ</span><span class="chip">今だ</span><span class="chip">それ見たことか</span><span class="chip">もう帰れ</span><span class="chip">近づくな</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る動詞</div>
+      <div class="chips"><span class="chip">走り出す</span><span class="chip">立ち上がる</span><span class="chip">にらむ</span><span class="chip">投げつける</span><span class="chip">始める</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">ぐっと</span><span class="chip">さっと</span><span class="chip">一気に</span><span class="chip">勢いよく</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">小説的な言い方</span>
+        <div class="ex-ja">もう帰れ<b>とばかりに</b>、店主は入り口の明かりを消した。<button class="say" data-say="もう帰れとばかりに、店主は入り口の明かりを消した。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">As if to say "go home already," the shop owner turned off the light at the entrance.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ここぞ</span>
+        <div class="ex-ja">発表が終わると、記者たちはここぞ<b>とばかりに</b>質問を始めた。<button class="say" data-say="発表が終わると、記者たちはここぞとばかりに質問を始めた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">When the announcement ended, the reporters started asking questions as if to say "now is our chance."</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">今だ</span>
+        <div class="ex-ja">相手が転んだので、今だ<b>とばかりに</b>前へ走り出した。<button class="say" data-say="相手が転んだので、今だとばかりに前へ走り出した。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The opponent fell, so he dashed forward as if to say "now!"</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">態度で示す</span>
+        <div class="ex-ja">妹は自分は悪くない<b>とばかりに</b>、そっぽを向いていた。<button class="say" data-say="妹は自分は悪くないとばかりに、そっぽを向いていた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My little sister looked away, as if to say that she had done nothing wrong.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">それ見たことか</span>
+        <div class="ex-ja">兄はそれ見たことか<b>とばかりに</b>、こちらを見て笑った。<button class="say" data-say="兄はそれ見たことかとばかりに、こちらを見て笑った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My brother looked over and laughed, as if to say "I told you so."</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">書きことば</span>
+        <div class="ex-ja">番犬は近づくな<b>とばかりに</b>、低い声でうなり続けた。<button class="say" data-say="番犬は近づくなとばかりに、低い声でうなり続けた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The guard dog kept growling in a low voice, as if to say "don't come near."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「ここぞとばかりに」の形</div>
+      <div class="use-d">「今がその時だ」と見て、待っていた人がいっせいに動きだすときの決まった言い方です。</div>
+      <div class="use-e">セールが始まると、客はここぞ<b>とばかりに</b>かごへ商品を入れた。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>文章の中で使う</div>
+      <div class="use-d">小説や新聞の記事のような書きことばの形です。会話では「〜って感じで」などに言いかえます。</div>
+      <div class="use-e">選手は負けられない<b>とばかりに</b>、最後の一周を走りぬいた。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜と言わんばかりに</div>
+      <div class="vs-lead">意味は<b>ほとんど同じ</b>です。ちがうのはかたさで、「〜と言わんばかりに」のほうが<b>もっと文語的でかたい</b>言い方です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜とばかりに</th><th>〜と言わんばかりに</th></tr>
+        <tr><td class="k">前の形</td><td>「帰れ」＋ とばかりに</td><td>「帰れ」＋ と言わんばかりに</td></tr>
+        <tr><td class="k">かたさ</td><td>書きことば</td><td>さらに かたい 文語</td></tr>
+        <tr><td class="k">入れかえ</td><td>多くの場合 入れかえられる</td><td>多くの場合 入れかえられる</td></tr>
+      </table>
+      <div class="vs-ex">
+        「早く出て行け<b>とばかりに</b>、かばんを差し出した」＝小説などでよく見る形。<br>
+        「早く出て行け<b>と言わんばかりに</b>、かばんを差し出した」＝もっとかたく、古い感じ。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ように</div>
+      <div class="vs-lead">「〜ように」は<b>にているものにたとえる</b>だけです。「〜とばかりに」は<b>ことばにしていないことばがある</b>ところがちがいます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜とばかりに</th><th>〜ように</th></tr>
+        <tr><td class="k">中身</td><td>言いそうな ことばがある</td><td>ことばでなくてもよい</td></tr>
+        <tr><td class="k">言いたいこと</td><td>そう 言っている ような態度</td><td>何かに にている ようす</td></tr>
+        <tr><td class="k">うしろ</td><td>強くて はやい 動作</td><td>どんな 文でもよい</td></tr>
+        <tr><td class="k">文の かたさ</td><td>書きことば</td><td>会話でも 文章でも</td></tr>
+      </table>
+      <div class="vs-ex">
+        「もう来るな<b>とばかりに</b>、戸を閉めた」＝「もう来るな」と言っているような態度。<br>
+        「風がなでる<b>ように</b>、やさしく手を置いた」＝ことばではなく、ようすのたとえ。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜とばかりに describes an action or attitude that looks exactly as if the person were saying the quoted words, even though nothing was actually said out loud. It belongs to written, novelistic Japanese, and the clause after it is usually a sudden, forceful action. Set phrases like ここぞとばかりに (seizing the chance) and 今だとばかりに are very common.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜とばかりに」表示某人並沒有真的說出口，但態度或動作看起來就像在說那句話一樣。屬於書面語、小說式的說法，後面多接氣勢強烈的動作。「ここぞとばかりに」「今だとばかりに」是常見的固定說法。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A8%E3%81%B0%E3%81%8B%E3%82%8A%E3%81%AB&amp;lv=N1&amp;ex=%E3%82%82%E3%81%86%E5%B8%B0%E3%82%8C%E3%81%A8%E3%81%B0%E3%81%8B%E3%82%8A%E3%81%AB%E3%80%81%E5%BA%97%E4%B8%BB%E3%81%AF%E5%85%A5%E3%82%8A%E5%8F%A3%E3%81%AE%E6%98%8E%E3%81%8B%E3%82%8A%E3%82%92%E6%B6%88%E3%81%97%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nbakari.html">🔁 〜んばかりに（今にも〜しそう）とくらべる<span class="ar">›</span></a>
+      <a href="kanoyouni.html">🔁 〜かのように（まるで〜のようだ）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-06">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

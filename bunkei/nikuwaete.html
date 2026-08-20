@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜に加えて（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜に加えて」の意味・接続・例文。あるものの上に同じ向きのものを足す言い方を、「〜ばかりでなく・〜だけでなく」とのちがいとあわせて図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜に加えて</div>
+    <div class="p-en">in addition to ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">名詞に付く</span>
+      <span class="badge sub">付け加え</span>
+      <span class="badge sub">書きことば寄り</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">足す</span>もとからあるものの上に、さらに一つ足す</div>
+    <div class="lead"><span class="imi-tag">同じ向き</span>足すのは、同じ種類・同じ向きのもの</div>
+    <div class="desc">「〜に加えて」は、もとからあるものの上に、もう一つ同じようなものを足すときの言い方です。だいじなのは<b>向き</b>で、いいことにはいいこと、こまることにはこまることを足します。前と後ろの重さはだいたい同じで、二つならべて「ぜんぶで、これだけある」と示します。書きことばでよく使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① もとの上に、同じ向きのものをのせる</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="もとからあるものの上に同じ向きのものを足して、全体がもっと大きくなることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">もとの A に、同じ向きの B を 足す</text><rect x="28" y="42" width="152" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8" stroke-dasharray="5 4"/><text x="104" y="63" text-anchor="middle" font-size="11.5" font-weight="700" fill="#854F0B" font-family="sans-serif">B ＝ さらに 足す</text><text x="104" y="80" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">雨も 降ってきた</text><text x="104" y="103" text-anchor="middle" font-size="14" font-weight="700" fill="#854F0B" font-family="sans-serif">＋</text><rect x="28" y="110" width="152" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="104" y="131" text-anchor="middle" font-size="11.5" font-weight="700" fill="#854F0B" font-family="sans-serif">A ＝ もとから ある</text><text x="104" y="148" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">風が 強い</text><path d="M186 64 L252 96" fill="none" stroke="#854F0B" stroke-width="1.6" marker-end="url(#ar)"/><path d="M186 132 L252 110" fill="none" stroke="#854F0B" stroke-width="1.6" marker-end="url(#ar)"/><rect x="258" y="70" width="178" height="66" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="2"/><text x="347" y="96" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">A ＋ B</text><text x="347" y="119" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">二つ そろって、もっと ひどい</text><text x="230" y="176" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">足すのは、同じ 種類・同じ 向きの もの</text></svg>
+    <div class="zu-cap">② 足せる向き・足せない向き</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="よいことにはよいこと、こまることにはこまることを足し、向きのちがうものは足せないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#854F0B" font-family="sans-serif">よいことには よいこと、こまることには こまること</text><rect x="24" y="34" width="412" height="48" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.6"/><text x="44" y="57" font-size="13" font-weight="700" fill="#854F0B" font-family="sans-serif">○</text><text x="70" y="55" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">給料が 上がった ＋ 休みも ふえた</text><text x="70" y="73" font-size="10.5" fill="#6B6560" font-family="sans-serif">→ どちらも うれしいこと。向きが 同じ。</text><rect x="24" y="88" width="412" height="48" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.6"/><text x="44" y="111" font-size="13" font-weight="700" fill="#854F0B" font-family="sans-serif">○</text><text x="70" y="109" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">台風が 来た ＋ 電車も 止まった</text><text x="70" y="127" font-size="10.5" fill="#6B6560" font-family="sans-serif">→ どちらも こまること。向きが 同じ。</text><rect x="24" y="142" width="412" height="42" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6" stroke-dasharray="5 4"/><text x="44" y="169" font-size="13" font-weight="700" fill="#A0392E" font-family="sans-serif">×</text><text x="70" y="168" font-size="11.5" fill="#A0392E" font-family="sans-serif">うれしいこと ＋ こまること は 足せない</text></svg>
+    <div class="zu-note">この文型でまちがえやすいのは<b>向き</b>です。「給料が上がったことに加えて、通勤が遠くなった」のように、うれしいこととこまることをまぜると、聞く人はとまどいます。そのときは「〜が、一方で」などを使ってください。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞 ＋ <span class="n">に加えて</span>　／　〜の ＋ <span class="n">に加えて</span></div>
+    <div class="setsu-note">「て」を落とした「〜に加え」の形もよく使われ、そのほうがかたい言い方になります。文を受けるときは「〜のに加えて」の形にします。案内文・報告書・ニュースなど、書きことばでよく見る文型です。うしろの文には「〜も」「さらに」がよく入ります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る名詞</div>
+      <div class="chips"><span class="chip">雨</span><span class="chip">風</span><span class="chip">寒さ</span><span class="chip">家賃</span><span class="chip">人手不足</span><span class="chip">値上がり</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る言い方</div>
+      <div class="chips"><span class="chip">〜も</span><span class="chip">さらに</span><span class="chip">ますます</span><span class="chip">そのうえ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う場面</div>
+      <div class="chips"><span class="chip">案内文</span><span class="chip">報告書</span><span class="chip">ニュース</span><span class="chip">説明の文</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">天気の ニュース</span>
+        <div class="ex-ja">強い風<b>に加えて</b>波も高くなり、船は港へもどった。<button class="say" data-say="強い風に加えて波も高くなり、船は港へもどった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">In addition to the strong wind, the waves grew high, so the ship returned to port.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">仕事の 話</span>
+        <div class="ex-ja">あの会社は給料のよさ<b>に加えて</b>、休みの取りやすさでも人気がある。<button class="say" data-say="あの会社は給料のよさに加えて、休みの取りやすさでも人気がある。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">That company is popular not only for its good pay but also for how easy it is to take time off.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">くらしの 話</span>
+        <div class="ex-ja">今月は家賃<b>に加えて</b>電気代まで上がり、家計がとても苦しい。<button class="say" data-say="今月は家賃に加えて電気代まで上がり、家計がとても苦しい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This month, on top of the rent, even the electricity bill went up, so our budget is very tight.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">学校・講座</span>
+        <div class="ex-ja">この講座では文法<b>に加え</b>、発音の練習も毎回おこないます。<button class="say" data-say="この講座では文法に加え、発音の練習も毎回おこないます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">In this course, in addition to grammar, we also practise pronunciation every time.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">買い物の 場面</span>
+        <div class="ex-ja">駅前の店は品ぞろえのよさ<b>に加えて</b>、店員の説明もていねいだ。<button class="say" data-say="駅前の店は品ぞろえのよさに加えて、店員の説明もていねいだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The shop by the station has a good selection, and on top of that the staff explain things politely.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">報告の 文</span>
+        <div class="ex-ja">人手不足<b>に加えて</b>材料の値上がりが続き、工事はさらにおくれている。<button class="say" data-say="人手不足に加えて材料の値上がりが続き、工事はさらにおくれている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">On top of the labour shortage, material prices keep rising, so the construction is falling further behind.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜に加え」の形</div>
+      <div class="use-d">「て」を落とすと、もっとかたい書きことばになります。新聞・報告書・案内文でよく使われます。</div>
+      <div class="use-e">地震の被害<b>に加え</b>、大雨の心配も出てきている。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜のに加えて」で文を受ける</div>
+      <div class="use-d">名詞だけでなく、「〜のに加えて」の形にすれば、前の文をまるごと受けることができます。</div>
+      <div class="use-e">この部屋は駅から遠い<b>のに加えて</b>、バスの本数も少ない。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>「〜を加えて」とのちがい</div>
+      <div class="use-d">「を加えて」は「ものを足す」という、ふつうの動詞の使い方です。文型の「に加えて」とは形も意味もちがいます。</div>
+      <div class="use-e">なべに塩と<b>さとうを加えて</b>、五分ほど煮ます。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ばかりでなく・〜だけでなく</div>
+      <div class="vs-lead">「〜に加えて」は<b>前と後ろを対等にならべて足す</b>言い方です。「〜ばかりでなく・〜だけでなく」は<b>前を軽く、後ろを重く</b>して、言いたいことを後ろに置きます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜に加えて</th><th>〜ばかりでなく・〜だけでなく</th></tr>
+        <tr><td class="k">前と後ろの重さ</td><td>どちらも同じくらい</td><td>後ろのほうが重い</td></tr>
+        <tr><td class="k">言いたいこと</td><td>二つ足して、ぜんぶでこれだけ</td><td>後ろの内容のおどろき</td></tr>
+        <tr><td class="k">前に来る形</td><td>名詞が中心</td><td>名詞も文も受けやすい</td></tr>
+        <tr><td class="k">場面</td><td>書きことば寄り</td><td>話しことばでも使う</td></tr>
+        <tr><td class="k">うしろの形</td><td>「〜も」が入りやすい</td><td>「〜まで」「〜さえ」も入る</td></tr>
+      </table>
+      <div class="vs-ex">
+        「風<b>に加えて</b>雨も強い」＝風と雨、二つならべて足しているだけ。<br>
+        「風が強い<b>ばかりでなく</b>雨まで降ってきた」＝言いたいのは、後ろの「雨」のほう。<br>
+        「かれは英語<b>だけでなく</b>フランス語も話す」＝おどろきは「フランス語も」にある。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜のみならず</div>
+      <div class="vs-lead">「〜のみならず」は<b>もっとかたい書きことば</b>で、話が前から後ろへ<b>広がっていく</b>ときに使います。「〜に加えて」は、ものの足し算です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜に加えて</th><th>〜のみならず</th></tr>
+        <tr><td class="k">かたさ</td><td>かたいが、案内文にも使う</td><td>とてもかたい。論文・演説向き</td></tr>
+        <tr><td class="k">見ているもの</td><td>ものの 足し算</td><td>範囲の 広がり</td></tr>
+        <tr><td class="k">後ろに来るもの</td><td>同じ向きの、もう一つ</td><td>もっと大きい 範囲</td></tr>
+      </table>
+      <div class="vs-ex">
+        「大雨<b>に加えて</b>風も強まった」＝天気の悪さが、二つ足された。<br>
+        「この問題は市<b>のみならず</b>県全体に広がっている」＝市から県へ、範囲が広がる。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜に加えて attaches to a noun and means "in addition to ~." The added item must point the same way as the first one: good news is added to good news, trouble is added to trouble. Both halves carry about the same weight, and the pattern belongs mainly to written Japanese; the shorter 〜に加え is even more formal.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜に加えて」接在名詞後，表示「在原有的基礎上再加上一項」。前後兩項必須方向相同：好事加好事，麻煩加麻煩，兩者分量相當。多用於書面語，去掉「て」的「〜に加え」語氣更為正式。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AB%E5%8A%A0%E3%81%88%E3%81%A6&amp;lv=N2&amp;ex=%E5%BC%B7%E3%81%84%E9%A2%A8%E3%81%AB%E5%8A%A0%E3%81%88%E3%81%A6%E6%B3%A2%E3%82%82%E9%AB%98%E3%81%8F%E3%81%AA%E3%82%8A%E3%80%81%E8%88%B9%E3%81%AF%E6%B8%AF%E3%81%B8%E3%82%82%E3%81%A9%E3%81%A3%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="dakedenaku.html">🔁 〜だけでなく（後ろが重い）とくらべる<span class="ar">›</span></a>
+      <a href="bakaridenaku.html">🔁 〜ばかりでなく（後ろが重い）とくらべる<span class="ar">›</span></a>
+      <a href="nominarazu.html">🔁 〜のみならず（範囲が広がる）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-24">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

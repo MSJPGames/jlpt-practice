@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜たところで（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜たところで」の意味・接続・例文。そうしてもむだだという言い方と、うしろが打ち消しになる決まり、「〜ても」や経過の「〜たところ」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜たところで</div>
+    <div class="p-en">even if ~, (it's no use)</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">動詞た形に付く</span>
+      <span class="badge sub">むだ</span>
+      <span class="badge sub">うしろは打ち消し</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">むだだ</span>そうしても意味がない。結果は変わらない</div>
+    <div class="lead"><span class="imi-tag">打ち消し</span>うしろには打ち消しか、よくない内容しか来ない</div>
+    <div class="desc">「〜たところで」は、そうしてもむだだ、やっても意味がない、という気持ちを表す言い方です。前には動詞のた形が来ますが、過去のことを言うのではなく、これからのことにも使えます。うしろには「〜ない」などの打ち消しか、よくない内容しか来ません。「いくら」「どんなに」「今さら」といっしょに使うと、気持ちがよく伝わります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① どんなにしても、結果は変わらない</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="いくらしても力がとどかず、結果は何も変わらないことを、かべでさえぎられた矢印であらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="24" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">どんなに しても、結果は 変わらない</text><rect x="24" y="52" width="156" height="58" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5"/><text x="102" y="76" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">いくら たのむ</text><text x="102" y="96" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">（たのんだところで）</text><path d="M186 81 L214 81" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><line x1="228" y1="44" x2="228" y2="126" stroke="#A0392E" stroke-width="3" stroke-dasharray="6 4"/><text x="228" y="144" text-anchor="middle" font-size="11" font-weight="700" fill="#A0392E" font-family="sans-serif">とどかない</text><rect x="248" y="52" width="188" height="58" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="342" y="76" text-anchor="middle" font-size="12" font-weight="700" fill="#6B6560" font-family="sans-serif">手伝ってくれない</text><text x="342" y="96" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">＝ 何も 変わらない</text><text x="230" y="174" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">うしろは いつも 打ち消しか、よくない内容</text></svg>
+    <div class="zu-cap">② うしろに来られるのは、よくない内容だけ</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="〜てもはよい結果もよくない結果も後ろに置けるが、〜たところでは よくない結果しか置けないことをくらべた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">うしろに 来られるもの</text><text x="64" y="70" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">〜ても</text><rect x="104" y="46" width="152" height="36" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="180" y="69" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">うまくいく（よい）</text><rect x="268" y="46" width="168" height="36" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="352" y="69" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">だめだ（よくない）</text><text x="64" y="132" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">〜たところで</text><rect x="104" y="108" width="152" height="36" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5" stroke-dasharray="5 4"/><text x="180" y="131" text-anchor="middle" font-size="11" fill="#A0392E" font-family="sans-serif">× 使えない</text><rect x="268" y="108" width="168" height="36" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5"/><text x="352" y="131" text-anchor="middle" font-size="11" font-weight="700" fill="#993C1D" font-family="sans-serif">○ だめだ・むだだ</text><text x="230" y="172" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「〜たところで」は 右がわしか えらべない</text></svg>
+    <div class="zu-note">上の図は<b>「してもとどかない」</b>という芯、下の図は<b>「うしろが決まっている」</b>という決まりです。うしろによい結果を置くと、文がこわれます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞た形 ＋ <span class="n">ところで</span></div>
+    <div class="setsu-note">形は「た形」ですが、意味は過去ではありません。これから先のことにも使います。うしろに「〜てもいい」「〜たい」のようなお願いや希望は置けません。<b>経過を表す「〜たところ」とは別の文型です</b>（「先生に聞いたところ」＝聞いてみたら、の意味）。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">いくら</span><span class="chip">どんなに</span><span class="chip">今さら</span><span class="chip">どう</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞</div>
+      <div class="chips"><span class="chip">急ぐ</span><span class="chip">たのむ</span><span class="chip">あやまる</span><span class="chip">考える</span><span class="chip">待つ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る形</div>
+      <div class="chips"><span class="chip">〜ない</span><span class="chip">むだだ</span><span class="chip">しかたがない</span><span class="chip">たかが知れている</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">いくら〜</span>
+        <div class="ex-ja">いくら<b>たのんだところで</b>、あの人は手伝ってくれないよ。<button class="say" data-say="いくらたのんだところで、あの人は手伝ってくれないよ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">No matter how much you ask, that person won't help you.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">どんなに〜</span>
+        <div class="ex-ja">どんなに<b>練習したところで</b>、一週間では上手にならない。<button class="say" data-say="どんなに練習したところで、一週間では上手にならない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">However much you practise, you won't get good in a week.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">今さら</span>
+        <div class="ex-ja">今さら<b>あやまったところで</b>、こわれたカメラは元にもどらない。<button class="say" data-say="今さらあやまったところで、こわれたカメラは元にもどらない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even if you apologise now, the broken camera won't come back.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">打ち消し</span>
+        <div class="ex-ja">高い薬を<b>飲んだところで</b>、かぜはすぐには治らない。<button class="say" data-say="高い薬を飲んだところで、かぜはすぐには治らない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even if you take expensive medicine, a cold won't get better right away.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">むだ</span>
+        <div class="ex-ja">ここで<b>待っていたところで</b>、あの店は今日は開かない。<button class="say" data-say="ここで待っていたところで、あの店は今日は開かない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even if you wait here, that shop isn't opening today.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">たかが知れている</span>
+        <div class="ex-ja">給料が<b>上がったところで</b>、月に二千円ぐらいだろう。<button class="say" data-say="給料が上がったところで、月に二千円ぐらいだろう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even if my pay goes up, it'll only be about 2,000 yen a month.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「せいぜい〜だ」「たかが知れている」といっしょに</div>
+      <div class="use-d">そうなっても数や量はほんの少しだ、と言うときの形です。</div>
+      <div class="use-e">手伝いに<b>来たところで</b>、せいぜい二、三人だろう。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜たところで、どうにもならない」</div>
+      <div class="use-d">考えても悩んでもしかたがない、と相手をなぐさめるときにも使います。</div>
+      <div class="use-e">今から<b>心配したところで</b>、どうにもならないよ。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ても</div>
+      <div class="vs-lead">「〜ても」は<b>うしろが自由</b>で、よい結果でも置けます。「〜たところで」は<b>むだだという気持ち</b>があるので、うしろは打ち消しかよくない内容だけです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜たところで</th><th>〜ても</th></tr>
+        <tr><td class="k">うしろに置けるもの</td><td>打ち消し・よくない内容だけ</td><td>よい結果でもよくない結果でも自由</td></tr>
+        <tr><td class="k">話し手の気持ち</td><td>してもむだだ</td><td>とくに決まっていない</td></tr>
+        <tr><td class="k">前の形</td><td>た形だけ</td><td>て形（動詞・形容詞・名詞）</td></tr>
+        <tr><td class="k">よく使う副詞</td><td>いくら・今さら</td><td>たとえ・もし</td></tr>
+      </table>
+      <div class="vs-ex">
+        「走っ<b>ても</b>間に合う」＝○　よい結果も言える。<br>
+        「走っ<b>たところで</b>間に合う」＝×　うしろによい結果は置けない。<br>
+        「走っ<b>たところで</b>間に合わない」＝○　むだだという気持ち。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜たところ（経過）</div>
+      <div class="vs-lead">形はにていますが、まったく別の文型です。「<b>〜たところ</b>」は<b>してみたら、こうだった</b>という結果の報告で、むだだという気持ちはありません。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜たところで</th><th>〜たところ</th></tr>
+        <tr><td class="k">意味</td><td>そうしてもむだだ</td><td>してみたら、こうだった</td></tr>
+        <tr><td class="k">うしろ</td><td>打ち消し・よくない内容</td><td>分かったこと（自由）</td></tr>
+        <tr><td class="k">「で」</td><td>ある</td><td>ない</td></tr>
+      </table>
+      <div class="vs-ex">
+        「店に電話し<b>たところ</b>、まだ席があった」＝電話してみたら分かったこと。<br>
+        「店に電話し<b>たところで</b>、席はもうないだろう」＝電話してもむだだ。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜たところで means "even if you do ~, it's no use": the action brings no result. The second half must be a negative or an unwelcome outcome, and it often pairs with いくら, どんなに or 今さら. Do not confuse it with 〜たところ ("when I did ~, I found that ...").</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜たところで」表示「就算做了也沒用」，後半必須是否定或不好的結果，常與「いくら」「どんなに」「今さら」搭配。請勿與表示「做了之後發現」的「〜たところ」混淆。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%9F%E3%81%A8%E3%81%93%E3%82%8D%E3%81%A7&amp;lv=N1&amp;ex=%E3%81%84%E3%81%8F%E3%82%89%E3%81%9F%E3%81%AE%E3%82%93%E3%81%A0%E3%81%A8%E3%81%93%E3%82%8D%E3%81%A7%E3%80%81%E3%81%82%E3%81%AE%E4%BA%BA%E3%81%AF%E6%89%8B%E4%BC%9D%E3%81%A3%E3%81%A6%E3%81%8F%E3%82%8C%E3%81%AA%E3%81%84%E3%82%88%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="tatokoro.html">🔁 〜たところ（経過）とくらべる<span class="ar">›</span></a>
+      <a href="tatoetemo.html">🔁 たとえ〜ても とくらべる<span class="ar">›</span></a>
+      <a href="nishitatokorode.html">🔁 〜にしたところで とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-05">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

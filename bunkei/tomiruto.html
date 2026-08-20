@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜とみると・〜とみるや（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜とみると・〜とみるや」の意味・接続・例文。そうだと見てとったとたんにすばやく動く使い方と、そこにこもる冷たい見る目を、「〜が早いか」「〜や否や」とのちがいとあわせて図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜とみると・〜とみるや</div>
+    <div class="p-en">the moment one sees that ~</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">普通形に付く</span>
+      <span class="badge sub">かたい書きことば</span>
+      <span class="badge sub">よく思わない気もち</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">見てとる</span>そうだと 分かった とたんに</div>
+    <div class="lead"><span class="imi-tag">すばやい行動</span>うしろに すぐの 行動が 来る</div>
+    <div class="lead"><span class="imi-tag">冷たい目</span>ずるい・身がってだ、と 見る 気もち</div>
+    <div class="desc">「〜とみると」は、相手やまわりのようすを見て「そうだ」と分かったとたんに、間をおかずに動く、という言い方です。うしろにはかならず、すばやい行動が来ます。とくに、その人のずるさや身がってさを、あまりよく思わない目で書くことが多いのが特徴です。「〜とみるや」は同じ意味で、もっとかたい書きことばです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 見てとった とたんに、すぐ 動く</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="相手のようすを見てそうだと分かったとたんに、間をおかずすばやく行動することを、左から右への流れで示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">見てとった とたんに、すぐ 動く</text><rect x="20" y="46" width="128" height="58" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="84" y="70" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">① 相手の ようすを 見る</text><text x="84" y="90" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">弱そうだ／新人らしい</text><path d="M152 75 L184 75" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="190" y="46" width="112" height="58" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="246" y="70" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">② 〜とみると</text><text x="246" y="90" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">そうだ と 分かる</text><path d="M306 75 L338 75" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="344" y="46" width="96" height="58" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="392" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">③ すぐ 行動</text><text x="392" y="90" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">態度を 変える</text><path d="M246 112 L246 132 L392 132 L392 112" fill="none" stroke="#993C1D" stroke-width="1.4"/><text x="319" y="152" text-anchor="middle" font-size="11" fill="#993C1D" font-family="sans-serif">この あいだは、ほとんど ない</text><text x="230" y="176" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「〜とみるや」は、これを もっと かたく 書いた 形</text></svg>
+    <div class="zu-cap">② 書き手の 目が 入るか どうか</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="〜とみるとには相手をよく思わない書き手の目が入るのに対し、〜が早いか・〜や否やは速さだけを言うことを上下に並べて比べた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">同じ「すぐ」でも、書き手の 目が ちがう</text><rect x="24" y="40" width="412" height="64" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="100" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">〜とみると</text><text x="100" y="87" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">見てとって すぐ 動く</text><path d="M176 48 L176 96" fill="none" stroke="#993C1D" stroke-width="1.2"/><text x="308" y="66" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">「ずるい」「身がってだ」と</text><text x="308" y="87" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">よく 思わない 目が 入る</text><rect x="24" y="116" width="412" height="60" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="100" y="141" text-anchor="middle" font-size="12" font-weight="700" fill="#6B6560" font-family="sans-serif">〜が早いか／や否や</text><text x="100" y="161" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">すぐ あとに 起きる</text><path d="M176 124 L176 168" fill="none" stroke="#E2DDD6" stroke-width="1.2"/><text x="308" y="141" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">気もちは 入らない。</text><text x="308" y="161" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">時間の 近さだけを 言う</text><text x="230" y="192" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">人の ずるさを 書きたい ときは「〜とみると」</text></svg>
+    <div class="zu-note">「〜とみると」は、<b>時間が近い</b>ことだけを言う文型ではありません。<b>書き手がその人をどう見ているか</b>まで伝わるところが、ほかの「すぐに」の文型とちがいます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">普通形 ＋ <span class="n">とみると／とみるや</span></div>
+    <div class="setsu-note">前には「弱い」「もうかる」「新人だ」のように、見て分かるようすが来ます。「〜とみるや」は新聞や小説のようなかたい文章に出る形で、話しことばでは使いません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る言い方</div>
+      <div class="chips"><span class="chip">相手が弱い</span><span class="chip">客が新人だ</span><span class="chip">もうけになる</span><span class="chip">すきがある</span><span class="chip">こちらが困っている</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る副詞</div>
+      <div class="chips"><span class="chip">すぐに</span><span class="chip">たちまち</span><span class="chip">急に</span><span class="chip">さっと</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る動作</div>
+      <div class="chips"><span class="chip">態度を変える</span><span class="chip">強気に出る</span><span class="chip">走り出す</span><span class="chip">値上げする</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">すばやい行動</span>
+        <div class="ex-ja">父は雨が降りそうだ<b>とみると</b>、すぐに洗たく物を取りこんだ。<button class="say" data-say="父は雨が降りそうだとみると、すぐに洗たく物を取りこんだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The moment my father saw that it might rain, he brought in the laundry.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">冷たい目</span>
+        <div class="ex-ja">あの店員は客が新人だ<b>とみると</b>、高い品ばかりすすめてくる。<button class="say" data-say="あの店員は客が新人だとみると、高い品ばかりすすめてくる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">That clerk pushes only expensive goods the moment he sees a customer is new.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">冷たい目</span>
+        <div class="ex-ja">相手が弱い<b>とみると</b>急に強気になるのが、彼の悪いくせだ。<button class="say" data-say="相手が弱いとみると急に強気になるのが、彼の悪いくせだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Turning aggressive the moment he sees the other side is weak is his bad habit.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">かたい形（とみるや）</span>
+        <div class="ex-ja">男は警官の姿を見た<b>とみるや</b>、暗い路地へ走り去った。<button class="say" data-say="男は警官の姿を見たとみるや、暗い路地へ走り去った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The instant the man saw the officer, he ran off into a dark alley.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">かたい形（とみるや）</span>
+        <div class="ex-ja">社長は市場が動いた<b>とみるや</b>、新しい工場の建設を決めた。<button class="say" data-say="社長は市場が動いたとみるや、新しい工場の建設を決めた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The moment the president saw the market move, he decided to build a new plant.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">すばやい行動</span>
+        <div class="ex-ja">母は私が黙りこんだ<b>とみると</b>、何も聞かずにお茶を出した。<button class="say" data-say="母は私が黙りこんだとみると、何も聞かずにお茶を出した。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The moment my mother saw me fall silent, she served tea without asking anything.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜とみるや」はもっとかたい</div>
+      <div class="use-d">意味は「〜とみると」と同じですが、新聞記事や小説など、かたい書きことばの中だけで使います。話しことばでは使いません。</div>
+      <div class="use-e">その犬は戸が開いた<b>とみるや</b>、庭のおくへ飛び出していった。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>よく思わない気もちがこもる</div>
+      <div class="use-d">「弱い」「困っている」など、相手の弱いところを見つけてすぐ利用する、というときによく使います。書き手のつめたい目が伝わります。</div>
+      <div class="use-e">その業者は相手が急いでいる<b>とみると</b>、平気で値段をつり上げた。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜が早いか</div>
+      <div class="vs-lead">「〜が早いか」は<b>目に見える動作</b>のすぐあとに次のことが起きた、という<b>速さだけ</b>を言います。「〜とみると」は<b>そうだと見てとった判断</b>が前に来て、書き手の<b>気もち（多くはよく思わない目）</b>が入ります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜とみると</th><th>〜が早いか</th></tr>
+        <tr><td class="k">前に来るもの</td><td>そうだと 見てとった 判断</td><td>目に 見える 動作そのもの</td></tr>
+        <tr><td class="k">気もちが こもるか</td><td>こもる。ずるい・身がってだ という 目</td><td>こもらない。速さだけを 言う</td></tr>
+        <tr><td class="k">うしろに 来るもの</td><td>その 判断を 使った すばやい 行動</td><td>すぐ あとに 起きた こと</td></tr>
+      </table>
+      <div class="vs-ex">
+        「弟は父が出かけた<b>が早いか</b>、テレビをつけた」＝ただ速いことを言うだけ。<br>
+        「弟は父が出かけた<b>とみると</b>、すぐテレビをつけた」＝ようすをうかがっていた、というずるさが出る。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜や否や</div>
+      <div class="vs-lead">「〜や否や」は<b>できごとの時間の近さ</b>を書くだけの、かたい書きことばです。「〜とみるや」も同じくらいかたいですが、<b>書き手がその人をどう見ているか</b>まで伝わります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜とみるや</th><th>〜や否や</th></tr>
+        <tr><td class="k">前に来るもの</td><td>「〜だ」と 見てとった 判断</td><td>起きた できごと・動作</td></tr>
+        <tr><td class="k">気もちが こもるか</td><td>こもる。多くは 冷たい 目</td><td>こもらない。時間の 近さだけ</td></tr>
+        <tr><td class="k">よく使う 場面</td><td>人の ずるさ・身がってさを 書くとき</td><td>できごとを 順に 書く とき</td></tr>
+      </table>
+      <div class="vs-ex">
+        「幕が上がる<b>や否や</b>、会場は静かになった」＝時間が近いことだけ。<br>
+        「男は人がいない<b>とみるや</b>、荷物に手をのばした」＝すきをうかがっていた、という見方が出る。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜とみると (and the stiffer 〜とみるや) means "the moment one judges that ~, one immediately acts." What comes before is a judgement the subject reads off the situation, and what follows is a quick action. It very often carries the writer's disapproval: the person is seen as sly or self-serving, taking advantage as soon as they spot a weakness. 〜とみるや belongs to written style only.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜とみると・〜とみるや」表示「一看出情況是這樣，就立刻行動」。前面是根據情況所做的判斷，後面必接迅速的動作。它常帶有寫話人的負面眼光：看準對方弱點或處境不利就馬上加以利用，含有「狡猾、自私」的評價。「〜とみるや」語氣更硬，只用於書面語。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A8%E3%81%BF%E3%82%8B%E3%81%A8%E3%83%BB%E3%80%9C%E3%81%A8%E3%81%BF%E3%82%8B%E3%82%84&amp;lv=N1&amp;ex=%E7%88%B6%E3%81%AF%E9%9B%A8%E3%81%8C%E9%99%8D%E3%82%8A%E3%81%9D%E3%81%86%E3%81%A0%E3%81%A8%E3%81%BF%E3%82%8B%E3%81%A8%E3%80%81%E3%81%99%E3%81%90%E3%81%AB%E6%B4%97%E3%81%9F%E3%81%8F%E7%89%A9%E3%82%92%E5%8F%96%E3%82%8A%E3%81%93%E3%82%93%E3%81%A0%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="gahayaika.html">🔁 〜が早いか（速さだけを言う）とくらべる<span class="ar">›</span></a>
+      <a href="yainaya.html">🔁 〜や否や（かたい書きことば）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-66">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

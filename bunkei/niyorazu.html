@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜によらず（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜によらず」の意味・接続・例文。「〜に関係なく」の使い方と、「見かけによらず」のように思うのとちがうという使い方の二つを、「〜にかかわらず」とのちがいとあわせて図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜によらず</div>
+    <div class="p-en">regardless of ~ / contrary to ~</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">名詞に付く</span>
+      <span class="badge sub">かたい書きことば</span>
+      <span class="badge sub">用法が二つ</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">関係なく</span>〜に 関係なく。どれも 同じに あつかう</div>
+    <div class="lead"><span class="imi-tag">思うのとちがう</span>そこから 思うのとは ちがって</div>
+    <div class="desc">「〜によらず」には二つの使い方があります。一つめは「〜に関係なく」で、「男女によらず」「理由のいかんによらず」のように、前のちがいが結果にひびかないことを言います。二つめは「〜から思うのとはちがって」で、「見かけによらず」「年によらず」のように、見た目から考えたことと本当のようすがちがう、という意味です。どちらもかたい書きことばです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 〜に 関係なく</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="男性・女性・年齢のちがいがどれも同じ結果につながることを、左の三つの箱から右の一つの箱へ矢印で集めて示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">① 前の ちがいは、結果に ひびかない</text><rect x="20" y="40" width="122" height="32" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.4"/><text x="81" y="61" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">男性</text><rect x="20" y="80" width="122" height="32" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.4"/><text x="81" y="101" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">女性</text><rect x="20" y="120" width="122" height="32" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.4"/><text x="81" y="141" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">年が 上でも 下でも</text><path d="M146 56 L288 88" fill="none" stroke="#993C1D" stroke-width="1.6" marker-end="url(#ar)"/><path d="M146 96 L288 96" fill="none" stroke="#993C1D" stroke-width="1.6" marker-end="url(#ar)"/><path d="M146 136 L288 104" fill="none" stroke="#993C1D" stroke-width="1.6" marker-end="url(#ar)"/><text x="216" y="46" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">〜によらず</text><rect x="296" y="66" width="142" height="60" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="367" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">だれでも 応募できる</text><text x="367" y="112" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ぜんぶ 同じ あつかい</text><text x="230" y="172" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">男女によらず・年齢によらず・理由のいかんによらず</text><text x="230" y="192" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">案内文や 規則で よく 使う、かたい 言い方</text></svg>
+    <div class="zu-cap">② 〜から 思うのとは ちがって</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="見かけから思うことと本当のようすが一致しないことを、二つの箱と等号を打ち消した記号で示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">② 見かけから 思うことと、ちがう</text><rect x="24" y="40" width="170" height="58" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="109" y="64" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">見かけから 思うこと</text><text x="109" y="85" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">力が なさそうだ</text><text x="230" y="76" text-anchor="middle" font-size="17" font-weight="700" fill="#A0392E" font-family="sans-serif">≠</text><rect x="266" y="40" width="170" height="58" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="351" y="64" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">ほんとうの ようす</text><text x="351" y="85" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">重い 荷物も 持てる</text><rect x="24" y="112" width="412" height="44" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.6"/><text x="230" y="140" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">妹は 見かけによらず、力が 強い</text><text x="230" y="176" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">②は「見かけ」「年」など、前に 来る ことばが だいたい 決まっている</text></svg>
+    <div class="zu-note">同じ形でも、①は<b>前のちがいを問題にしない</b>言い方、②は<b>前から思ったことを打ち消す</b>言い方です。②は「見かけ」「年」など、前に来ることばがだいたい決まっています。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞 ＋ <span class="n">によらず</span></div>
+    <div class="setsu-note">古い形の「〜によらぬ」も残っていて、「人は見かけによらぬもの」のような決まった言い方に使います。また「何事によらず」で「どんなことでも」という意味になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">①によく来る名詞</div>
+      <div class="chips"><span class="chip">男女</span><span class="chip">年齢</span><span class="chip">国籍</span><span class="chip">経験の有無</span><span class="chip">理由のいかん</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">②によく来る名詞</div>
+      <div class="chips"><span class="chip">見かけ</span><span class="chip">見た目</span><span class="chip">年</span><span class="chip">外見</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">決まった言い方</div>
+      <div class="chips"><span class="chip">人は見かけによらぬもの</span><span class="chip">何事によらず</span><span class="chip">いかんによらず</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">①関係なく</span>
+        <div class="ex-ja">この仕事は年齢や性別<b>によらず</b>だれでも応募できます。<button class="say" data-say="この仕事は年齢や性別によらずだれでも応募できます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Anyone can apply for this job regardless of age or gender.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">①関係なく</span>
+        <div class="ex-ja">会員かどうか<b>によらず</b>、資料室の利用はいつでも無料です。<button class="say" data-say="会員かどうかによらず、資料室の利用はいつでも無料です。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Use of the reading room is always free regardless of membership.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">①関係なく</span>
+        <div class="ex-ja">理由のいかん<b>によらず</b>、申しこみ後の変更はできません。<button class="say" data-say="理由のいかんによらず、申しこみ後の変更はできません。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Regardless of the reason, no changes can be made after applying.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">②思うのとちがって</span>
+        <div class="ex-ja">妹は見かけ<b>によらず</b>、重い荷物を軽々と持ち上げる。<button class="say" data-say="妹は見かけによらず、重い荷物を軽々と持ち上げる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Contrary to how she looks, my sister lifts heavy loads with ease.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">②思うのとちがって</span>
+        <div class="ex-ja">祖母は年<b>によらず</b>、毎朝二時間も畑の仕事をしている。<button class="say" data-say="祖母は年によらず、毎朝二時間も畑の仕事をしている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Contrary to her age, my grandmother works in the field two hours every morning.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">決まった言い方</span>
+        <div class="ex-ja">人は見かけ<b>によらぬ</b>ものだと、あのときつくづく思った。<button class="say" data-say="人は見かけによらぬものだと、あのときつくづく思った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I felt keenly at that time that people are not what they seem.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「何事によらず」</div>
+      <div class="use-d">「何事によらず」で「どんなことでも」という決まった言い方になります。人のやり方を言うときによく使います。</div>
+      <div class="use-e">父は<b>何事によらず</b>、まず自分の手で試してみる人だった。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>古い形の「〜によらぬ」</div>
+      <div class="use-d">「〜によらぬ」は古い形で、うしろに名詞が来ます。ことわざのような決まった言い方に残っています。</div>
+      <div class="use-e">見かけ<b>によらぬ</b>強さに、その場のみんながおどろいた。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜にかかわらず</div>
+      <div class="vs-lead">どちらも「〜に関係なく」ですが、「〜にかかわらず」は<b>前に来る形が広く</b>、話しことばにも出ます。「〜によらず」は<b>名詞だけ</b>に付くかたい言い方で、そのうえ<b>②「見かけによらず」の意味</b>も持ちます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜によらず</th><th>〜にかかわらず</th></tr>
+        <tr><td class="k">前に 来る形</td><td>名詞だけ</td><td>名詞のほか「行くか行かないか」「多い少ない」も</td></tr>
+        <tr><td class="k">かたさ</td><td>かたい。案内文や 規則に 多い</td><td>書きことばだが、話しことばにも 出る</td></tr>
+        <tr><td class="k">②の 意味</td><td>ある（見かけによらず・年によらず）</td><td>ない。①の 意味だけ</td></tr>
+      </table>
+      <div class="vs-ex">
+        「出席する<b>かしないかにかかわらず</b>、返事をください」＝「〜によらず」ではこの形は使いません。<br>
+        「彼は見かけ<b>によらず</b>やさしい」＝この②の意味で「にかかわらず」は使えません。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜のいかんによらず</div>
+      <div class="vs-lead">「〜のいかんによらず」は「〜によらず」の①の意味を、<b>もっとかたく</b>言った形です。前には「理由」「結果」のような、<b>中身が問われる名詞</b>が来ます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜によらず</th><th>〜のいかんによらず</th></tr>
+        <tr><td class="k">前に 来る名詞</td><td>男女・年齢・見かけ など 広い</td><td>理由・結果・成績など 中身が 問われる 名詞</td></tr>
+        <tr><td class="k">かたさ</td><td>かたい</td><td>いちばん かたい。契約書や 規則に 出る</td></tr>
+        <tr><td class="k">意味</td><td>①関係なく ②思うのと ちがって</td><td>①だけ（中身が どうであっても）</td></tr>
+      </table>
+      <div class="vs-ex">
+        「成績<b>のいかんによらず</b>、参加費は返しません」＝規則の文らしいかたさ。<br>
+        「見かけ<b>のいかんによらず</b>」とは言いません。②の意味には使えません。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜によらず attaches to a noun and has two uses. (1) "regardless of ~": 男女によらず, 理由のいかんによらず — the difference before it has no effect on the result; common in notices and rules. (2) "contrary to what ~ suggests": 見かけによらず, 年によらず — what you would guess from the appearance is not what is really true. Use (2) appears mostly in set expressions such as 人は見かけによらぬもの.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜によらず」接名詞，有兩種用法。①「與～無關」：男女によらず、理由のいかんによらず，前面的差異不影響結果，常見於公告與規定。②「與～看起來的樣子相反」：見かけによらず、年によらず，實際情形和從外表推想的不同。②多半用於「人は見かけによらぬもの」等固定說法。兩種都屬於較硬的書面語。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AB%E3%82%88%E3%82%89%E3%81%9A&amp;lv=N1&amp;ex=%E3%81%93%E3%81%AE%E4%BB%95%E4%BA%8B%E3%81%AF%E5%B9%B4%E9%BD%A2%E3%82%84%E6%80%A7%E5%88%A5%E3%81%AB%E3%82%88%E3%82%89%E3%81%9A%E3%81%A0%E3%82%8C%E3%81%A7%E3%82%82%E5%BF%9C%E5%8B%9F%E3%81%A7%E3%81%8D%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nikakawarazu.html">🔁 〜にかかわらず（前に来る形が広い）とくらべる<span class="ar">›</span></a>
+      <a href="ikanniyorazu.html">🔁 〜のいかんによらず（もっとかたい形）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-70">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜に言わせれば（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜に言わせれば」の意味・接続・例文。その人の立場から言うとほかの人とはちがう意見になるという使い方を、「〜によると」「〜にしたら」とのちがいとあわせて図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜に言わせれば</div>
+    <div class="p-en">according to ~ / if you ask ~</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">人を表す名詞に付く</span>
+      <span class="badge sub">意見を言う</span>
+      <span class="badge sub">うしろは主張</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">その人の立場</span>その人の 立場から 言うと</div>
+    <div class="lead"><span class="imi-tag">ちがう意見</span>ほかの人とは ちがう 見方を 出す</div>
+    <div class="lead"><span class="imi-tag">自分の主張</span>うしろに 言い切りの 主張が 来る</div>
+    <div class="desc">「〜に言わせれば」は「その人の立場から言うと」という意味です。いちばん多いのは「私に言わせれば」の形で、世間やほかの人の見方とはちがう意見を出すときに使います。うしろには「〜のだ」「〜にすぎない」のような、言い切りの主張が来ます。聞いた話をそのまま伝える形ではなく、自分の考えをはっきり言う形です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① ほかの人とは ちがう 意見を 出す</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="世間のふつうの見方と、私に言わせればで始まるちがう意見を左右に並べ、うしろに自分の主張が来ることを下の帯で示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">ほかの人とは ちがう 意見を 出す</text><rect x="24" y="40" width="176" height="58" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="112" y="64" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">ほかの人は こう 言う</text><text x="112" y="85" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「あれは 名作だ」</text><text x="230" y="75" text-anchor="middle" font-size="17" font-weight="700" fill="#A0392E" font-family="sans-serif">≠</text><rect x="260" y="40" width="176" height="58" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="348" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">私に 言わせれば</text><text x="348" y="85" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「ただ 長いだけだ」</text><path d="M348 104 L348 122" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="24" y="128" width="412" height="44" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.6"/><text x="230" y="156" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">うしろには、自分の 主張が 来る（〜のだ／〜べきだ）</text><text x="230" y="190" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「みんなは〜と言うが」と いっしょに 使うことが 多い</text></svg>
+    <div class="zu-cap">② 立場から 出る 言い切り</div>
+    <svg class="zu" viewBox="0 0 460 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="話す人が自分の立場に立ち、そこから言い切りの意見を出すことを、人を表す丸と右の箱を矢印でつないで示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">その人の 立場から 言うと、こうなる</text><circle cx="72" cy="88" r="24" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="72" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#993C1D" font-family="sans-serif">私</text><text x="72" y="134" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">言う人の 立場</text><path d="M102 88 L164 88" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><text x="133" y="76" text-anchor="middle" font-size="10.5" fill="#993C1D" font-family="sans-serif">に言わせれば</text><rect x="172" y="52" width="264" height="70" rx="8" fill="#FAF8F4" stroke="#993C1D" stroke-width="1.6"/><text x="304" y="78" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">「〜のだ」「〜にすぎない」</text><text x="304" y="102" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">＝ その 立場からの 言い切り</text><text x="230" y="164" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">聞いた 話を つたえるのでは なく、意見を 言う 形</text></svg>
+    <div class="zu-note">「〜に言わせれば」は<b>情報をつたえる形ではなく、意見を言う形</b>です。だから、前には人を表すことばだけが来て、うしろには<b>自分（またはその人）の主張</b>が続きます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">人を表す名詞 ＋ <span class="n">に言わせれば</span></div>
+    <div class="setsu-note">前に来るのは人や、人のあつまりを表すことばだけです。「天気予報に言わせれば」のようには言えません。「〜に言わせると」もほとんど同じ意味で使えます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る名詞</div>
+      <div class="chips"><span class="chip">私</span><span class="chip">専門家</span><span class="chip">医者</span><span class="chip">上司</span><span class="chip">地元の人</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る形</div>
+      <div class="chips"><span class="chip">〜のだ</span><span class="chip">〜にすぎない</span><span class="chip">〜べきだ</span><span class="chip">〜ということだ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく置く言い方</div>
+      <div class="chips"><span class="chip">みんなは〜と言うが</span><span class="chip">一般には〜だが</span><span class="chip">世間では〜だが</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">私に言わせれば</span>
+        <div class="ex-ja"><b>私に言わせれば</b>、あの計画は最初から無理があった。<button class="say" data-say="私に言わせれば、あの計画は最初から無理があった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you ask me, that plan was unreasonable from the very start.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ちがう意見</span>
+        <div class="ex-ja">みんなは名作だと言うが、<b>私に言わせれば</b>ただ長いだけだ。<button class="say" data-say="みんなは名作だと言うが、私に言わせればただ長いだけだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Everyone calls it a masterpiece, but if you ask me it is merely long.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ほかの人の立場</span>
+        <div class="ex-ja">医者<b>に言わせれば</b>、夜ふかしは体に何よりよくないそうだ。<button class="say" data-say="医者に言わせれば、夜ふかしは体に何よりよくないそうだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">According to doctors, staying up late is worse for you than anything.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ほかの人の立場</span>
+        <div class="ex-ja">上司<b>に言わせれば</b>、この失敗は準備不足のせいだということだ。<button class="say" data-say="上司に言わせれば、この失敗は準備不足のせいだということだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">According to my boss, this failure was due to a lack of preparation.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ちがう意見</span>
+        <div class="ex-ja">むだ話に見えるが、店長<b>に言わせれば</b>大事な仕事なのだ。<button class="say" data-say="むだ話に見えるが、店長に言わせれば大事な仕事なのだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It looks like idle chat, but if you ask the manager it is important work.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">私に言わせれば</span>
+        <div class="ex-ja"><b>私に言わせれば</b>、この町のよさは静かさにこそあるのだ。<button class="say" data-say="私に言わせれば、この町のよさは静かさにこそあるのだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you ask me, the charm of this town lies precisely in its quietness.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「私に言わせれば」がいちばん多い</div>
+      <div class="use-d">話す人が自分の意見を強く出すときの形です。世間の見方に対して「でも自分はこう思う」と言うときによく使います。</div>
+      <div class="use-e">世間ではむだだと言うが、<b>私に言わせれば</b>大切な回り道だ。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜に言わせると」も同じ</div>
+      <div class="use-d">「〜に言わせると」の形もあり、意味はほとんど変わりません。少しやわらかく聞こえます。</div>
+      <div class="use-e">父<b>に言わせると</b>、道具は手入れしだいで一生使えるらしい。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜によると</div>
+      <div class="vs-lead">「〜によると」は<b>どこから聞いた話か</b>という情報のもとを示し、うしろは「〜そうだ」のような伝聞になります。「〜に言わせれば」が伝えるのは情報ではなく、<b>その人の意見・見方</b>です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜に言わせれば</th><th>〜によると</th></tr>
+        <tr><td class="k">何を 伝えるか</td><td>その人の 意見・見方</td><td>その人から 聞いた 情報</td></tr>
+        <tr><td class="k">うしろの 形</td><td>言い切りの 主張（〜のだ・〜べきだ）</td><td>伝聞（〜そうだ・〜という）</td></tr>
+        <tr><td class="k">前に 来る名詞</td><td>人を 表す ことばだけ</td><td>人のほか 天気予報・新聞なども</td></tr>
+      </table>
+      <div class="vs-ex">
+        「天気予報<b>によると</b>、あすは冷えこむそうだ」＝情報のもと。人以外でもよい。<br>
+        「祖父<b>に言わせれば</b>、寒い日ほど体が動くのだそうだ」＝祖父の見方を出している。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜にしたら</div>
+      <div class="vs-lead">「〜にしたら」は、その人の<b>心の中の気もち</b>を書き手がおしはかる言い方です。「〜に言わせれば」は、その人が<b>口に出して言いそうな意見</b>を代わりに言う形です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜に言わせれば</th><th>〜にしたら</th></tr>
+        <tr><td class="k">何を 伝えるか</td><td>その人が 言う であろう 意見</td><td>その人が 感じて いる 気もち</td></tr>
+        <tr><td class="k">だれの ことばか</td><td>その人の ことばとして 出す</td><td>書き手が おしはかって 言う</td></tr>
+        <tr><td class="k">うしろに 来るもの</td><td>主張・判断</td><td>つらい・うれしい などの 気もち</td></tr>
+      </table>
+      <div class="vs-ex">
+        「子ども<b>にしたら</b>、急な引っこしはさびしいだろう」＝子どもの気もちをおしはかる。<br>
+        「子ども<b>に言わせれば</b>、大人の都合など知ったことではないのだ」＝子どもの言い分として出す。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜に言わせれば attaches to a noun for a person and means "from that person's point of view / if you ask ~." By far the most common form is 私に言わせれば. It is used when putting forward an opinion that differs from what other people say, so what follows is an assertion (〜のだ, 〜にすぎない, 〜べきだ), not reported information.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜に言わせれば」接表示人的名詞，意思是「從那個人的立場來說」，其中最常見的是「私に言わせれば」。用於提出與別人不同的看法，因此後面接的是斷定的主張（〜のだ、〜にすぎない、〜べきだ），而不是傳聞。它傳達的是意見，不是消息來源。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AB%E8%A8%80%E3%82%8F%E3%81%9B%E3%82%8C%E3%81%B0&amp;lv=N1&amp;ex=%E7%A7%81%E3%81%AB%E8%A8%80%E3%82%8F%E3%81%9B%E3%82%8C%E3%81%B0%E3%80%81%E3%81%82%E3%81%AE%E8%A8%88%E7%94%BB%E3%81%AF%E6%9C%80%E5%88%9D%E3%81%8B%E3%82%89%E7%84%A1%E7%90%86%E3%81%8C%E3%81%82%E3%81%A3%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="niyoruto.html">🔁 〜によると（情報のもとを示す伝聞）とくらべる<span class="ar">›</span></a>
+      <a href="nishitara.html">🔁 〜にしたら（その人の気もちになって）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-71">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

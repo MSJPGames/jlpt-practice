@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ごとし・〜ごとく・〜ごとき（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ごとし・〜ごとく・〜ごとき」の意味・接続・例文。「〜ようだ」の文語版としての三つの形の使い分けを、「〜ようだ・〜ように・〜ような」との対応表と図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ごとし・〜ごとく・〜ごとき</div>
+    <div class="p-en">like ~ / as if ~</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">名詞＋の・動詞普通形に付く</span>
+      <span class="badge sub">文語（とてもかたい）</span>
+      <span class="badge sub">会話では使わない</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">ようだの文語</span>「〜ようだ」の とても かたい 言い方</div>
+    <div class="lead"><span class="imi-tag">たとえ</span>まるで 〜のようだ、と たとえて 言う</div>
+    <div class="lead"><span class="imi-tag">三つの形</span>ごとし＝終わり／ごとく＝動詞の前／ごとき＝名詞の前</div>
+    <div class="desc">「〜ごとし」は「〜ようだ」の古い、かたい言い方（文語）です。意味は「〜ようだ」と同じで、あるものをほかのものにたとえて言います。形が三つあり、文の終わりでは「ごとし」、うしろに動詞が来るときは「ごとく」、うしろに名詞が来るときは「ごとき」になります。ことわざやあらたまった文章、式のあいさつなどで使い、ふだんの会話では使いません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 三つの形の使い分け</div>
+    <svg class="zu" viewBox="0 0 460 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ごとしは文の終わり、ごとくはうしろに動詞、ごときはうしろに名詞、という三つの形の使い分けを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">三つの形は、うしろに 来る ものが ちがう</text><rect x="22" y="32" width="414" height="52" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><rect x="32" y="41" width="96" height="34" rx="7" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="80" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#993C1D" font-family="sans-serif">ごとし</text><path d="M134 58 L164 58" fill="none" stroke="#993C1D" stroke-width="1.6" marker-end="url(#ar)"/><text x="238" y="63" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">文の 終わり</text><text x="368" y="63" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">光陰矢のごとし。</text><rect x="22" y="92" width="414" height="52" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><rect x="32" y="101" width="96" height="34" rx="7" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="80" y="124" text-anchor="middle" font-size="13" font-weight="700" fill="#993C1D" font-family="sans-serif">ごとく</text><path d="M134 118 L164 118" fill="none" stroke="#993C1D" stroke-width="1.6" marker-end="url(#ar)"/><text x="238" y="123" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">うしろに 動詞</text><text x="368" y="123" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">先に述べたごとく…</text><rect x="22" y="152" width="414" height="52" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><rect x="32" y="161" width="96" height="34" rx="7" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="80" y="184" text-anchor="middle" font-size="13" font-weight="700" fill="#993C1D" font-family="sans-serif">ごとき</text><path d="M134 178 L164 178" fill="none" stroke="#993C1D" stroke-width="1.6" marker-end="url(#ar)"/><text x="238" y="183" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">うしろに 名詞</text><text x="368" y="183" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">夢のごとき日々</text><text x="230" y="214" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「ようだ／ように／ような」と 同じ 使い分け</text></svg>
+    <div class="zu-cap">② 「ようだ」との対応</div>
+    <svg class="zu" viewBox="0 0 460 196" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="かたい文語のごとし・ごとく・ごときが、ふだんのことばのようだ・ように・ようなにそれぞれ対応することを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><rect x="22" y="30" width="414" height="64" rx="9" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="34" y="47" font-size="11" font-weight="700" fill="#993C1D" font-family="sans-serif">かたい 文章・ことわざ（文語）</text><rect x="54" y="56" width="96" height="30" rx="7" fill="#FAF8F4" stroke="#993C1D" stroke-width="1.8"/><text x="102" y="76" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">ごとし</text><rect x="182" y="56" width="96" height="30" rx="7" fill="#FAF8F4" stroke="#993C1D" stroke-width="1.8"/><text x="230" y="76" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">ごとく</text><rect x="310" y="56" width="96" height="30" rx="7" fill="#FAF8F4" stroke="#993C1D" stroke-width="1.8"/><text x="358" y="76" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">ごとき</text><path d="M102 98 L102 118" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><path d="M230 98 L230 118" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><path d="M358 98 L358 118" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="22" y="120" width="414" height="58" rx="9" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="34" y="136" font-size="11" font-weight="700" fill="#6B6560" font-family="sans-serif">ふだんの ことば（会話でも 使う）</text><rect x="54" y="142" width="96" height="30" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.8"/><text x="102" y="162" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">ようだ</text><rect x="182" y="142" width="96" height="30" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.8"/><text x="230" y="162" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">ように</text><rect x="310" y="142" width="96" height="30" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.8"/><text x="358" y="162" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">ような</text><text x="230" y="192" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">意味は 同じ。ちがうのは「かたさ」だけ</text></svg>
+    <div class="zu-note">形に迷ったら、まず<b>「ようだ」で言ってみて</b>、それを「ごとし／ごとく／ごとき」に置きかえると、まちがえません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞＋の／動詞普通形 ＋（かの） ＋ <span class="n">ごとし・ごとく・ごとき</span></div>
+    <div class="setsu-note">名詞のときは「矢のごとし」のように「の」が入ります。動詞のときは「述べたごとく」「流れるがごとく」の形になり、「〜かのごとく」の形にもなります。うしろに「〜だ・〜です」を付けて「ごとしだ」とは言えません。「ごとし」はそこで文が終わります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う決まった言い方</div>
+      <div class="chips"><span class="chip">光陰矢のごとし</span><span class="chip">先に述べたごとく</span><span class="chip">上記のごとく</span><span class="chip">夢のごとき</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">まるで</span><span class="chip">あたかも</span><span class="chip">さながら</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">出てくる場面</div>
+      <div class="chips"><span class="chip">ことわざ</span><span class="chip">あらたまった文章</span><span class="chip">式のあいさつ</span><span class="chip">論文・報告書</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">ごとし（文の終わり）</span>
+        <div class="ex-ja">学生時代の三年は短く、まさに<b>光陰矢のごとし</b>だった。<button class="say" data-say="学生時代の三年は短く、まさに光陰矢のごとしだった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The three years of student life were short - time really does fly like an arrow.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ごとく（＋動詞）</span>
+        <div class="ex-ja"><b>先に述べたごとく</b>、この計画は来月から動き出します。<button class="say" data-say="先に述べたごとく、この計画は来月から動き出します。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">As stated earlier, this plan will start moving next month.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ごとき（＋名詞）</span>
+        <div class="ex-ja">遠い島で過ごした、<b>夢のごとき</b>ひと夏を思い出す。<button class="say" data-say="遠い島で過ごした、夢のごときひと夏を思い出す。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I remember that dreamlike summer spent on a distant island.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">かのごとく</span>
+        <div class="ex-ja">彼は何も知らない<b>かのごとく</b>、だまって席についていた。<button class="say" data-say="彼は何も知らないかのごとく、だまって席についていた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">He sat silently in his seat as if he knew nothing.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ごとく（たとえ）</span>
+        <div class="ex-ja">雪は白い綿の<b>ごとく</b>、村の屋根に積もっていた。<button class="say" data-say="雪は白い綿のごとく、村の屋根に積もっていた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The snow lay on the village roofs like white cotton.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ごとし（ことわざ風）</span>
+        <div class="ex-ja">人の心は水の<b>ごとし</b>、入れる器で形を変える。<button class="say" data-say="人の心は水のごとし、入れる器で形を変える。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The human heart is like water: it changes shape with the vessel that holds it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜（かの）ごとく」の形</div>
+      <div class="use-d">動詞の普通形に「かの」を付けて「まるで〜であるかのように」という意味になります。本当はそうではないのに、そう見える、というときに使います。</div>
+      <div class="use-e">その村は時が止まった<b>かのごとく</b>、静かなままだった。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「私ごとき」の言い方</div>
+      <div class="use-d">人を表すことばに「ごとき」を付けて、「私のようなつまらないものが」とへりくだったり、相手を軽く見たりする使い方もあります。</div>
+      <div class="use-e"><b>私ごとき</b>がこの賞をいただいてよいのでしょうか。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ようだ・〜ように・〜ような</div>
+      <div class="vs-lead">意味は<b>まったく同じ</b>です。ちがうのは<b>かたさ</b>だけ。「ごとし」はかたい文章、「ようだ」はふだんのことばです。形は下の表のように、一つずつ対応しています。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ごとし（文語）</th><th>〜ようだ（ふつう）</th></tr>
+        <tr><td class="k">文の 終わり</td><td>ごとし</td><td>ようだ・ようです</td></tr>
+        <tr><td class="k">うしろに 動詞</td><td>ごとく</td><td>ように</td></tr>
+        <tr><td class="k">うしろに 名詞</td><td>ごとき</td><td>ような</td></tr>
+      </table>
+      <div class="vs-ex">
+        「時が流れる<b>ごとく</b>過ぎた」＝かたい文章の言い方。<br>
+        「時が流れる<b>ように</b>過ぎた」＝同じ内容を、ふだんのことばで。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜かのように</div>
+      <div class="vs-lead">「〜かのように」も<b>本当はちがうのに、そう見える</b>という意味で、書きことばです。「〜かのごとく」はそれをさらに古く、かたくした形で、<b>会話ではまず使いません</b>。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜かのごとく</th><th>〜かのように</th></tr>
+        <tr><td class="k">かたさ</td><td>文語。いちばん かたい</td><td>かたいが、いまの ことば</td></tr>
+        <tr><td class="k">使う 場所</td><td>ことわざ・式・古い文章</td><td>小説・新聞・レポート</td></tr>
+        <tr><td class="k">会話で 使うか</td><td>使わない</td><td>少し 使う</td></tr>
+      </table>
+      <div class="vs-ex">
+        「何も見なかった<b>かのように</b>ふるまう」＝新聞や小説でよく見る言い方。<br>
+        「何も見なかった<b>かのごとく</b>ふるまう」＝わざと古めかしく、重く言うとき。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜ごとし is the classical, literary equivalent of 〜ようだ ("like, as if"). It has three shapes that work exactly like the modern ones: ごとし ends a sentence (ようだ), ごとく comes before a verb (ように), and ごとき comes before a noun (ような). It attaches to a noun + の or to a plain-form verb, often with かの (〜かのごとく). You will meet it in proverbs, formal writing and speeches, but never in ordinary conversation.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜ごとし」是「〜ようだ」的文言說法，意思完全相同，只是文體較硬。三種形式與現代語一一對應：句尾用「ごとし」（＝ようだ）、後接動詞用「ごとく」（＝ように）、後接名詞用「ごとき」（＝ような）。接續為名詞＋の或動詞普通形，也常用「〜かのごとく」。多見於諺語、正式文章與致詞，日常會話不使用。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%94%E3%81%A8%E3%81%97%E3%83%BB%E3%80%9C%E3%81%94%E3%81%A8%E3%81%8F%E3%83%BB%E3%80%9C%E3%81%94%E3%81%A8%E3%81%8D&amp;lv=N1&amp;ex=%E5%AD%A6%E7%94%9F%E6%99%82%E4%BB%A3%E3%81%AE%E4%B8%89%E5%B9%B4%E3%81%AF%E7%9F%AD%E3%81%8F%E3%80%81%E3%81%BE%E3%81%95%E3%81%AB%E5%85%89%E9%99%B0%E7%9F%A2%E3%81%AE%E3%81%94%E3%81%A8%E3%81%97%E3%81%A0%E3%81%A3%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="kanoyouni.html">🔁 〜かのように・〜かのような（いまのことばの言い方）とくらべる<span class="ar">›</span></a>
+      <a href="youna.html">🔁 〜ように・〜ような（例示）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-62">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

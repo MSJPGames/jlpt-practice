@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜には及ばない（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜には及ばない」の意味・接続・例文。動詞に付く「その必要はない」と名詞に付く「くらべて劣る」の二つの用法を、「〜には当たらない」「〜までもない」とのちがいとあわせて図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜には及ばない</div>
+    <div class="p-en">there's no need to ~ / not as good as ~</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">動詞辞書形・名詞に付く</span>
+      <span class="badge sub">用法が二つ</span>
+      <span class="badge sub">遠慮・くらべる</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">必要ない</span>そこまで する 必要は ない（動詞に付く）</div>
+    <div class="lead"><span class="imi-tag">くらべて下</span>力や 腕前が そこまで 届かない（名詞に付く）</div>
+    <div class="desc">「〜には及ばない」には、二つの使い方があります。前が動詞の辞書形なら「そこまでする必要はない」。「心配するには及びません」のように、相手に気をつかわせないための、ていねいな遠慮の言い方です。前が名詞なら「くらべて下だ」。「祖母の腕には及ばない」のように、力や腕前がそこまで届かないことを言います。<b>前が動詞か名詞かで、打ち消しているものが変わります</b>。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 前が動詞か名詞かで、意味が分かれる</div>
+    <svg class="zu" viewBox="0 0 460 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="には及ばないは、前が動詞辞書形なら必要はないの意味、前が名詞ならくらべて劣るの意味に分かれることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">前が 動詞か 名詞かで、道が 二つに 分かれる</text><rect x="160" y="32" width="140" height="44" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="230" y="60" text-anchor="middle" font-size="13" font-weight="700" fill="#993C1D" font-family="sans-serif">〜には及ばない</text><path d="M198 78 L118 106" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><path d="M262 78 L342 106" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="16" y="112" width="200" height="74" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="116" y="133" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">前が 動詞辞書形</text><text x="116" y="153" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">心配する には及ばない</text><text x="116" y="172" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">＝その 必要は ない（遠慮）</text><rect x="244" y="112" width="200" height="74" rx="8" fill="#FAF8F4" stroke="#993C1D" stroke-width="1.8"/><text x="344" y="133" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">前が 名詞</text><text x="344" y="153" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">祖母の腕 には及ばない</text><text x="344" y="172" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">＝くらべて 下だ</text><text x="230" y="202" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">同じ 形なのに、前の ことばで 打ち消す ものが ちがう</text></svg>
+    <div class="zu-cap">② 名詞に付くときは「そこまで届かない」</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="名詞に付く及ばないは、相手の高さまで自分が届かないことを二本の棒でくらべて示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">くらべて、そこまで 届かない</text><text x="230" y="38" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">名詞に 付く ときの イメージ</text><path d="M30 158 L430 158" fill="none" stroke="#E2DDD6" stroke-width="2"/><rect x="90" y="58" width="64" height="100" rx="5" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="122" y="176" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">祖母の腕</text><rect x="250" y="108" width="64" height="50" rx="5" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.8"/><text x="282" y="176" text-anchor="middle" font-size="11.5" fill="#6B6560" font-family="sans-serif">わたしの腕</text><path d="M90 58 L336 58" fill="none" stroke="#993C1D" stroke-width="1.4" stroke-dasharray="5 4"/><path d="M282 100 L282 70" fill="none" stroke="#993C1D" stroke-width="2" marker-end="url(#ar)"/><text x="384" y="78" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">ここまで</text><text x="384" y="96" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">及ばない</text><text x="230" y="194" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">打ち消して いるのは「同じ 高さに 届く こと」</text></svg>
+    <div class="zu-note">①は<b>必要</b>を打ち消し、②は<b>とどく高さ</b>を打ち消します。まず前が動詞か名詞かを見ると、どちらの意味かがすぐ分かります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞辞書形・名詞 ＋ <span class="n">には及ばない</span></div>
+    <div class="setsu-note">①の「必要はない」の意味では、話し相手に向かって「〜にはおよびません」とていねいな形で使うことがほとんどです。「〜するにはおよびませんよ」と言うと、やわらかい断りになります。②の「くらべて下だ」の意味では、「〜には及びません」のほか、「足もとにも及ばない」という強めた決まった言い方もあります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">①の前によく来る動詞</div>
+      <div class="chips"><span class="chip">心配する</span><span class="chip">急ぐ</span><span class="chip">来る</span><span class="chip">気をつかう</span><span class="chip">あわてる</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">②の前によく来る名詞</div>
+      <div class="chips"><span class="chip">腕</span><span class="chip">力</span><span class="chip">足もと</span><span class="chip">本物</span><span class="chip">去年</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使うことば</div>
+      <div class="chips"><span class="chip">わざわざ</span><span class="chip">まだ</span><span class="chip">だれも</span><span class="chip">とても</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">必要ない</span>
+        <div class="ex-ja">熱はもう下がりましたから、<b>心配するには及びません</b>。<button class="say" data-say="熱はもう下がりましたから、心配するには及びません。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My fever has already gone down, so there is no need to worry.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">必要ない</span>
+        <div class="ex-ja">宿は駅のすぐ前ですので、<b>迎えに来るには及びません</b>。<button class="say" data-say="宿は駅のすぐ前ですので、迎えに来るには及びません。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The inn is right in front of the station, so there is no need to come and meet me.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">必要ない</span>
+        <div class="ex-ja">コピーを送るだけですから、<b>急ぐには及ばない</b>と伝えてください。<button class="say" data-say="コピーを送るだけですから、急ぐには及ばないと伝えてください。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Please tell them there is no need to hurry, since it is only sending a copy.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">くらべて下</span>
+        <div class="ex-ja">包丁の使い方では、私はまだ祖母の<b>腕には及ばない</b>。<button class="say" data-say="包丁の使い方では、私はまだ祖母の腕には及ばない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">When it comes to handling a kitchen knife, I still cannot match my grandmother's skill.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">くらべて下</span>
+        <div class="ex-ja">この店のパンも悪くないが、市場の店<b>には及ばない</b>。<button class="say" data-say="この店のパンも悪くないが、市場の店には及ばない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The bread at this shop is not bad, but it does not measure up to the shop in the market.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">くらべて下</span>
+        <div class="ex-ja">坂道を走る速さでは、だれも彼<b>には及ばなかった</b>。<button class="say" data-say="坂道を走る速さでは、だれも彼には及ばなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">In running speed on a slope, no one could match him.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「お礼にはおよびません」</div>
+      <div class="use-d">あいさつの決まった言い方です。お礼を言われたときに、ていねいに遠慮して返します。「おかまいなく」に近い気もちです。</div>
+      <div class="use-e">そんな、<b>お礼にはおよびません</b>。当たり前のことをしただけです。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「足もとにも及ばない」</div>
+      <div class="use-d">②を強めた決まった言い方です。くらべものにならないほど下だ、という意味になります。</div>
+      <div class="use-e">絵のうまさでは、私など姉の<b>足もとにも及ばない</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜には当たらない</div>
+      <div class="vs-lead">「〜には及ばない」は<b>必要</b>を打ち消し、「〜には当たらない」は<b>そうするだけの理由・値打ち</b>を打ち消します。前者は相手への遠慮、後者はできごとへの評価です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜には及ばない</th><th>〜には当たらない</th></tr>
+        <tr><td class="k">打ち消すもの</td><td>そこまでする必要</td><td>そうするだけの理由・値打ち</td></tr>
+        <tr><td class="k">前によく来ることば</td><td>心配する・急ぐ・迎えに来る</td><td>おどろく・怒る・ほめる・悲しむ</td></tr>
+        <tr><td class="k">気もち</td><td>遠慮して「けっこうですよ」</td><td>「そんな話ではない」と評価を下げる</td></tr>
+      </table>
+      <div class="vs-ex">
+        「心配する<b>には及びません</b>」＝しなくていいですよ、という遠慮。<br>
+        「おどろく<b>には当たらない</b>」＝おどろくような話ではない、という評価。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜までもない</div>
+      <div class="vs-lead">「〜には及ばない」は<b>相手に手間をかけさせない</b>ための遠慮。「〜までもない」は<b>分かりきっているから、わざわざする手間がいらない</b>という言い方です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜には及ばない</th><th>〜までもない</th></tr>
+        <tr><td class="k">打ち消すもの</td><td>必要（そこまでしなくてよい）</td><td>手間（わざわざしなくても分かる）</td></tr>
+        <tr><td class="k">そう言う理由</td><td>相手に気をつかわせたくない</td><td>当たり前で、みんな知っている</td></tr>
+        <tr><td class="k">名詞に付くか</td><td>付く（くらべて下だ、の意味になる）</td><td>付かない（動詞辞書形だけ）</td></tr>
+      </table>
+      <div class="vs-ex">
+        「わざわざ来る<b>には及びません</b>」＝来なくていいですよ、という遠慮。<br>
+        「わざわざ言う<b>までもない</b>」＝言わなくてもみんな分かっている。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜には及ばない has two clearly different uses, decided by what comes before it. After a dictionary-form verb it means "there is no need to ~" and is a polite way of waving off someone's trouble (心配するには及びません = please don't worry). After a noun it means "cannot match / is not as good as" and compares two things (祖母の腕には及ばない). In use ①, what is denied is the necessity; in use ②, what is denied is reaching the same level.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜には及ばない」依前面接的詞而分成兩種用法。接動詞辭書形時表示「不必那麼做」，是客氣婉拒、請對方不要費心的說法（心配するには及びません＝不必擔心）。接名詞時表示「比不上」，用來比較高低（祖母の腕には及ばない＝比不上祖母的手藝）。前者否定的是「必要性」，後者否定的是「達到同樣的高度」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AB%E3%81%AF%E5%8F%8A%E3%81%B0%E3%81%AA%E3%81%84&amp;lv=N1&amp;ex=%E7%86%B1%E3%81%AF%E3%82%82%E3%81%86%E4%B8%8B%E3%81%8C%E3%82%8A%E3%81%BE%E3%81%97%E3%81%9F%E3%81%8B%E3%82%89%E3%80%81%E5%BF%83%E9%85%8D%E3%81%99%E3%82%8B%E3%81%AB%E3%81%AF%E5%8F%8A%E3%81%B3%E3%81%BE%E3%81%9B%E3%82%93%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="niwaataranai.html">🔁 〜には当たらない（そうする理由がない）とくらべる<span class="ar">›</span></a>
+      <a href="mademonai.html">🔁 〜までもない（わざわざする手間がいらない）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-69">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

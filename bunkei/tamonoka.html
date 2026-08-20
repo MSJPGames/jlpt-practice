@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜たものか（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜たものか」の意味・接続・例文。前に来る疑問語、うしろの「迷う・考える」との結びつき、強い打ち消しの「〜ものか」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜たものか</div>
+    <div class="p-en">I wonder how I should ~</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">前に疑問語が来る</span>
+      <span class="badge sub">動詞た形に付く</span>
+      <span class="badge sub">迷い・思案</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">迷い</span>どうすればいいか分からず、決められない</div>
+    <div class="lead"><span class="imi-tag">自問</span>人にではなく、自分に問いかける形</div>
+    <div class="desc">「〜たものか」は、「どう」「何と」「どこから」などの疑問語といっしょに使って、どうすればいいか分からず、迷っている気もちを表します。人にたずねるのではなく、自分の中で自分に問いかける形です。うしろには「迷う」「考える」「悩む」のようなことばが来ます。前に疑問語がない「〜ものか」は「絶対にしない」という強い打ち消しで、まったくべつの文型です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 前に かならず 疑問語が 来る</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「たものか」の前にはかならずどう・何・どこ・いつなどの疑問語が来ることを、三つの箱の並びで示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">前に かならず 疑問語が 来る</text><rect x="20" y="44" width="120" height="68" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="80" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">疑問語</text><text x="80" y="86" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">どう・何と</text><text x="80" y="103" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">どこから・いつ</text><path d="M144 78 L172 78" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="176" y="52" width="104" height="52" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="228" y="76" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">動詞た形</text><text x="228" y="94" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">した・言った</text><path d="M284 78 L312 78" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="316" y="52" width="120" height="52" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="376" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#993C1D" font-family="sans-serif">ものか</text><rect x="20" y="130" width="416" height="46" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="228" y="151" text-anchor="middle" font-size="11.5" font-weight="700" fill="#A0392E" font-family="sans-serif">× 疑問語が ないと、この 文型に ならない</text><text x="228" y="169" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「行ったものか」だけでは、迷う 気もちが 出ない</text><text x="230" y="193" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">前の 疑問語が、この 文型の 目じるし</text></svg>
+    <div class="zu-cap">② 自分への 問いかけ。うしろは「迷う・考える」</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「たものか」は人にたずねるのではなく自分に問いかけて答えが出ず、うしろに迷う・考える・悩むが来ることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">自分に 問いかけて、答えが 出ない</text><circle cx="64" cy="88" r="20" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="64" y="93" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">自分</text><text x="64" y="130" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">話し手</text><path d="M86 78 L128 62" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><path d="M128 112 L86 100" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="132" y="42" width="152" height="46" rx="8" fill="#FAF8F4" stroke="#993C1D" stroke-width="1.6"/><text x="208" y="63" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">どう したものか</text><text x="208" y="80" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">（どうすれば いいのか）</text><rect x="132" y="98" width="152" height="40" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5" stroke-dasharray="5 4"/><text x="208" y="123" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">答えが 出ない</text><path d="M292 118 L318 118" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="322" y="84" width="114" height="66" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="379" y="105" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">うしろに 来る</text><text x="379" y="124" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">迷う・考える</text><text x="379" y="142" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">悩む・思案する</text><text x="230" y="176" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">人に たずねる のではなく、ひとりで 考えこんでいる</text></svg>
+    <div class="zu-note">見分け方はかんたんです。<b>前に疑問語があれば「迷い」</b>の「〜たものか」、<b>疑問語がなければ「絶対にしない」</b>の「〜ものか」です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">疑問語（どう・何と・どこ・いつ）＋ 動詞た形 ＋ <span class="n">ものか</span></div>
+    <div class="setsu-note">「どうしたものか」「何と言ったものか」のように、疑問語と動詞た形がひとまとまりで前に来ます。「〜たものかと」の形で、「〜と迷う」「〜と考えこむ」につながることが多いです。かたい書きことばや、ひとりごとに近い言い方で使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前にかならず来る疑問語</div>
+      <div class="chips"><span class="chip">どう</span><span class="chip">何と</span><span class="chip">どこから</span><span class="chip">いつ</span><span class="chip">だれに</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来ることば</div>
+      <div class="chips"><span class="chip">迷う</span><span class="chip">考える</span><span class="chip">悩む</span><span class="chip">思案する</span><span class="chip">分からない</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">しばらく</span><span class="chip">ひとりで</span><span class="chip">いまだに</span><span class="chip">ずっと</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">迷い（どう）</span>
+        <div class="ex-ja">この古い写真を<b>どう整理したものか</b>と、ずっと迷っている。<button class="say" data-say="この古い写真をどう整理したものかと、ずっと迷っている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I keep wondering how on earth to sort out these old photos.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">迷い（何と）</span>
+        <div class="ex-ja">初めての客に<b>何と声をかけたものか</b>、しばらく分からなかった。<button class="say" data-say="初めての客に何と声をかけたものか、しばらく分からなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">For a while I had no idea what to say to a first-time customer.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">迷い（どこ）</span>
+        <div class="ex-ja">散らかった台所を<b>どこから片づけたものか</b>、ため息が出た。<button class="say" data-say="散らかった台所をどこから片づけたものか、ため息が出た。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I sighed, wondering where to even start tidying the messy kitchen.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">迷い（いつ）</span>
+        <div class="ex-ja">この話を母に<b>いつ伝えたものか</b>、まだ決められずにいる。<button class="say" data-say="この話を母にいつ伝えたものか、まだ決められずにいる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I still cannot decide when to tell my mother about this.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">自問（考えこむ）</span>
+        <div class="ex-ja">断りの返事を<b>どう書いたものか</b>と、一晩じゅう考えこんだ。<button class="say" data-say="断りの返事をどう書いたものかと、一晩じゅう考えこんだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I spent the whole night wondering how to write the refusal.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">自問（悩む）</span>
+        <div class="ex-ja">こわれた棚を<b>どう直したものか</b>と、腕を組んで悩んだ。<button class="say" data-say="こわれた棚をどう直したものかと、腕を組んで悩んだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Arms folded, I puzzled over how to fix the broken shelf.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「どうしたものか」だけで使う</div>
+      <div class="use-d">あとに何もつづけず、「どうしたものか」だけで、こまって考えこんでいる気もちを表すことがあります。ひとりごとに近い言い方です。</div>
+      <div class="use-e">返事がいつまでも来ない。<b>どうしたものか</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜たものかどうか」</div>
+      <div class="use-d">するかしないかで迷うときは、「〜たものかどうか」の形になります。「〜かどうか」が付くだけで、迷う気もちは同じです。</div>
+      <div class="use-e">この件を先方に<b>伝えたものかどうか</b>、まだ判断がつかない。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ものか（強い打ち消し）</div>
+      <div class="vs-lead">同じ「ものか」でも、<b>前に疑問語があるかどうか</b>でまったく別の文型です。疑問語があれば<b>迷い</b>、なければ<b>「絶対にしない」という強い打ち消し</b>です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜たものか</th><th>〜ものか</th></tr>
+        <tr><td class="k">前に来るもの</td><td>かならず疑問語（どう・何と）</td><td>疑問語は来ない</td></tr>
+        <tr><td class="k">気もち</td><td>迷って決められない</td><td>絶対にしないという強い反発</td></tr>
+        <tr><td class="k">前の形</td><td>動詞た形</td><td>動詞辞書形・ない形など</td></tr>
+        <tr><td class="k">言い方</td><td>自分に静かに問いかける</td><td>相手に強く言い切る</td></tr>
+      </table>
+      <div class="vs-ex">
+        「どう答えたものか」＝答え方が分からなくて、迷っている。<br>
+        「二度と答えるものか」＝絶対に答えない、という強い気もち。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ばいいのか</div>
+      <div class="vs-lead">「〜ばいいのか」は<b>ふつうの迷い方</b>で、人にたずねることもできます。「〜たものか」は<b>かたい言い方</b>で、自分の中で考えこんでいるときだけに使います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜たものか</th><th>〜ばいいのか</th></tr>
+        <tr><td class="k">かたさ</td><td>かたい書きことば・ひとりごと</td><td>ふだんの会話でも使う</td></tr>
+        <tr><td class="k">だれに向けるか</td><td>自分に向けた問いかけ</td><td>人にたずねることもできる</td></tr>
+        <tr><td class="k">気もち</td><td>答えが出ず、考えこむ</td><td>やり方を知りたい</td></tr>
+      </table>
+      <div class="vs-ex">
+        「この機械はどう直したものか」＝ひとりで考えこんでいる。<br>
+        「この機械はどう直せばいいですか」＝相手にやり方をたずねている。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜たものか is used with a question word (どう, 何と, どこから, いつ) plus the plain past form of a verb, and expresses that the speaker cannot decide what to do. It is an inward question, not a request for advice, and is usually followed by verbs like 迷う, 考える or 悩む. Do not confuse it with 〜ものか (without a question word), which means "I will absolutely never do that".</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜たものか」前面必須有「どう」「何と」「どこから」「いつ」等疑問詞，再接動詞た形，表示不知道該怎麼辦、拿不定主意，是對自己的提問，後面常接「迷う」「考える」「悩む」。請與沒有疑問詞的「〜ものか」（表示強烈否定「絕不…」）分清楚，兩者是不同的句型。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%9F%E3%82%82%E3%81%AE%E3%81%8B&amp;lv=N1&amp;ex=%E3%81%93%E3%81%AE%E5%8F%A4%E3%81%84%E5%86%99%E7%9C%9F%E3%82%92%E3%81%A9%E3%81%86%E6%95%B4%E7%90%86%E3%81%97%E3%81%9F%E3%82%82%E3%81%AE%E3%81%8B%E3%81%A8%E3%80%81%E3%81%9A%E3%81%A3%E3%81%A8%E8%BF%B7%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="monoka.html">🔁 〜ものか（絶対にしない、という強い打ち消し）とくらべる<span class="ar">›</span></a>
+      <a href="naimonoka.html">🔁 〜ないものか（なんとかしたい、という願い）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-63">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

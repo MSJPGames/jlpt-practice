@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜を兼ねて（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜を兼ねて」の意味・接続・例文。一つの行いで二つの目的をいっしょに果たす使い方と「〜を兼ねた＋名詞」の形、「〜かたがた」「〜がてら」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜を兼ねて</div>
+    <div class="p-en">serving also as ~ / combining ~ with ...</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">名詞に付く</span>
+      <span class="badge sub">目的が二つ</span>
+      <span class="badge sub">〜を兼ねた＋名詞</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">二つの目的</span>一つの行いで、二つの目的をいっしょに果たす</div>
+    <div class="lead"><span class="imi-tag">目的を足す</span>おもな用事に、もう一つの目的をつけ足す</div>
+    <div class="desc">「〜を兼ねて」は、一つの行いで二つの目的をいっしょに果たすときの言い方です。前に来るのは「運動」「散歩」「あいさつ」「見学」「お礼」のような、目的を表す名詞です。「運動を兼ねて駅まで歩く」なら、駅まで歩くという一つの行いの中に、「用事で出かける」と「運動する」の二つの目的が入っています。うしろの名詞をくわしく言うときは「〜を兼ねた＋名詞」の形になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 一つの行いで、目的は二つ</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="駅まで歩くという一つの行いから、会社へ行くという目的と運動という目的の二つへ矢印が分かれ、一度の行いで二つの目的を果たすことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">行いは 一つ、目的は 二つ</text><rect x="18" y="58" width="152" height="72" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="94" y="82" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">一つの 行い</text><text x="94" y="104" text-anchor="middle" font-size="13" font-weight="700" fill="#993C1D" font-family="sans-serif">駅まで 歩く</text><text x="94" y="122" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">出かけるのは 一回だけ</text><path d="M174 82 L230 66" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><path d="M174 108 L230 130" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="236" y="40" width="206" height="52" rx="8" fill="#FAF8F4" stroke="#993C1D" stroke-width="1.5"/><text x="339" y="62" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">目的① 会社へ 行く</text><text x="339" y="80" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">きょう しなければ ならない 用事</text><rect x="236" y="104" width="206" height="52" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.5"/><text x="339" y="126" text-anchor="middle" font-size="11.5" font-weight="700" fill="#993C1D" font-family="sans-serif">目的② 運動</text><text x="339" y="144" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「運動を兼ねて」と 言うところ</text><text x="230" y="178" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">二つとも ちゃんとした 目的。ついで ではない</text></svg>
+    <div class="zu-cap">② 前に来るのは「目的」を表す名詞</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="を兼ねての前には運動や見学のような目的を表す名詞だけが来られ、雨や机のような目的でない名詞は来られないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">前に 置けるのは「目的」の 名詞だけ</text><rect x="20" y="38" width="200" height="72" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1.8"/><text x="120" y="59" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">○ 目的を 表す 名詞</text><text x="120" y="80" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">運動・散歩・あいさつ</text><text x="120" y="99" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">見学・お礼・お祝い</text><rect x="20" y="124" width="200" height="58" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="120" y="146" text-anchor="middle" font-size="12" font-weight="700" fill="#A0392E" font-family="sans-serif">× 目的では ない 名詞</text><text x="120" y="167" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">雨・つくえ・きのう …</text><path d="M226 72 L292 78" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><path d="M226 152 L262 142" fill="none" stroke="#9E9890" stroke-width="1.4"/><text x="276" y="148" text-anchor="middle" font-size="15" font-weight="700" fill="#A0392E" font-family="sans-serif">×</text><rect x="298" y="50" width="144" height="62" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="370" y="76" text-anchor="middle" font-size="13.5" font-weight="700" fill="#993C1D" font-family="sans-serif">〜を兼ねて</text><text x="370" y="98" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">名詞の 前は〜を兼ねた</text><text x="230" y="194" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「何のために」が 言える ことばを 前に 置く</text></svg>
+    <div class="zu-note">見分け方はかんたんです。前のことばに「何のために」と聞けるなら「〜を兼ねて」が使えます。<b>二つの目的は、どちらもちゃんとした目的</b>で、かたほうが「ついで」なのではありません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞 ＋ <span class="n">を兼ねて</span></div>
+    <div class="setsu-note">うしろの名詞をくわしく言うときは「<b>〜を兼ねた＋名詞</b>」の形になります（見学を兼ねた説明会／お祝いを兼ねた食事会）。「〜も兼ねて」の形にすると、「そのうえ、これも」という気もちが少し強くなります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前に来る名詞（目的）</div>
+      <div class="chips"><span class="chip">運動</span><span class="chip">散歩</span><span class="chip">あいさつ</span><span class="chip">見学</span><span class="chip">お礼</span><span class="chip">気分てんかん</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る動詞</div>
+      <div class="chips"><span class="chip">行く</span><span class="chip">歩く</span><span class="chip">出かける</span><span class="chip">うかがう</span><span class="chip">ひらく</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">「〜を兼ねた」に続く名詞</div>
+      <div class="chips"><span class="chip">会</span><span class="chip">旅行</span><span class="chip">説明会</span><span class="chip">集まり</span><span class="chip">訪問</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">目的が二つ</span>
+        <div class="ex-ja"><b>運動を兼ねて</b>、毎朝ひと駅ぶん歩いて会社へ通っています。<button class="say" data-say="運動を兼ねて、毎朝ひと駅ぶん歩いて会社へ通っています。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I walk one train stop to work every morning, which also serves as exercise.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">あいさつ</span>
+        <div class="ex-ja"><b>あいさつを兼ねて</b>、新しくできた支店の様子を見に行った。<button class="say" data-say="あいさつを兼ねて、新しくできた支店の様子を見に行った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I went to see the new branch, partly to pay my respects there.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">お礼</span>
+        <div class="ex-ja"><b>お礼を兼ねて</b>、先生に地元の風景の写真を送りました。<button class="say" data-say="お礼を兼ねて、先生に地元の風景の写真を送りました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I sent my teacher photos of my hometown, also as a way of saying thank you.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">目的が二つ</span>
+        <div class="ex-ja"><b>散歩を兼ねて</b>、遠まわりしながら図書館に本を返しに行った。<button class="say" data-say="散歩を兼ねて、遠まわりしながら図書館に本を返しに行った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I took the long way to return the books to the library, which doubled as a walk.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜を兼ねた＋名詞</span>
+        <div class="ex-ja">工場<b>見学を兼ねた</b>説明会が、来週の土曜日にひらかれます。<button class="say" data-say="工場見学を兼ねた説明会が、来週の土曜日にひらかれます。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">An information session that also includes a factory tour will be held next Saturday.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">あいさつ</span>
+        <div class="ex-ja">引っこしの<b>あいさつを兼ねて</b>、隣の部屋にお菓子を持っていった。<button class="say" data-say="引っこしのあいさつを兼ねて、隣の部屋にお菓子を持っていった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I took sweets to the room next door, also to introduce myself after moving in.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜を兼ねた＋名詞」の形</div>
+      <div class="use-d">うしろの名詞をくわしく言うときは「〜を兼ねた」になります。会や集まりの名まえを説明するときによく使います。</div>
+      <div class="use-e">町の人へのお礼<b>を兼ねた</b>小さな音楽会をひらいた。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜も兼ねて」の形</div>
+      <div class="use-d">「も」を入れると、「そのうえ、これも」という気もちが足されます。二つめの目的を、あとから思いついたように言うときの形です。</div>
+      <div class="use-e">昼ごはん<b>も兼ねて</b>、駅前の店で打ち合わせをした。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜かたがた</div>
+      <div class="vs-lead">「〜かたがた」は<b>あらたまった手紙やあいさつのことば</b>で、前に来るのは「お礼」「お見舞い」「ごあいさつ」など決まったものだけです。「〜を兼ねて」は<b>ふだんの話でも使え</b>、目的を表す名詞なら広く付きます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜を兼ねて</th><th>〜かたがた</th></tr>
+        <tr><td class="k">かたさ</td><td>話しことばでも書きことばでも使う</td><td>とてもあらたまった手紙・あいさつ</td></tr>
+        <tr><td class="k">前に来る名詞</td><td>目的を表す名詞なら広く付く</td><td>お礼・お見舞い・ごあいさつ・ご報告など</td></tr>
+        <tr><td class="k">二つの重さ</td><td>二つとも同じくらい大事な目的</td><td>あいさつのほうがおもな目的</td></tr>
+      </table>
+      <div class="vs-ex">
+        「<b>運動を兼ねて</b>駅まで歩く」＝ふだんの生活のことを、ふつうに言う言い方。<br>
+        「お礼<b>かたがた</b>ごあいさつにうかがいます」＝手紙やあらたまった場でのあいさつの言い方。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜がてら</div>
+      <div class="vs-lead">「〜がてら」は<b>「ついでに」という軽い気もち</b>で、おもな行動が先にあり、もう一方はそのついでです。「〜を兼ねて」は<b>二つとも目的</b>で、どちらもちゃんと果たすつもりがあります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜を兼ねて</th><th>〜がてら</th></tr>
+        <tr><td class="k">前に来る形</td><td>目的を表す名詞</td><td>動詞ます形・動作を表す名詞</td></tr>
+        <tr><td class="k">二つの重さ</td><td>どちらも同じくらいの目的</td><td>おもな行動の「ついで」</td></tr>
+        <tr><td class="k">気もち</td><td>きちんとした感じ。仕事でも使える</td><td>軽い感じ。おもに私的なこと</td></tr>
+      </table>
+      <div class="vs-ex">
+        「<b>見学を兼ねて</b>工場へ行く」＝見学も、もう一つの用事も、どちらも目的。<br>
+        「散歩し<b>がてら</b>ポストに手紙を出す」＝散歩がおもで、手紙はそのついで。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜を兼ねて marks one single action that fulfils two purposes at the same time. The noun before it names a purpose — 運動 (exercise), 散歩 (a walk), あいさつ (greetings), 見学 (a tour), お礼 (thanks). When it modifies a following noun, the form becomes 〜を兼ねた＋noun, as in 見学を兼ねた説明会. Unlike 〜がてら, neither purpose is a mere afterthought: both are real reasons for doing the action.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜を兼ねて」表示一個行為同時達成兩個目的。前面要接表示「目的」的名詞，例如運動、散歩、あいさつ、見学、お礼。修飾後面的名詞時改為「〜を兼ねた＋名詞」，如「見学を兼ねた説明会」。與「〜がてら」（順便）不同，這裡的兩個目的份量相當，都是真正要做的事。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%82%92%E5%85%BC%E3%81%AD%E3%81%A6&amp;lv=N1&amp;ex=%E9%81%8B%E5%8B%95%E3%82%92%E5%85%BC%E3%81%AD%E3%81%A6%E3%80%81%E6%AF%8E%E6%9C%9D%E3%81%B2%E3%81%A8%E9%A7%85%E3%81%B6%E3%82%93%E6%AD%A9%E3%81%84%E3%81%A6%E4%BC%9A%E7%A4%BE%E3%81%B8%E9%80%9A%E3%81%A3%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="katagata.html">🔁 〜かたがた（あらたまった手紙のあいさつ）とくらべる<span class="ar">›</span></a>
+      <a href="gatera.html">🔁 〜がてら（ついでに。軽い言い方）とくらべる<span class="ar">›</span></a>
+      <a href="tsuideni.html">🔁 〜ついでに（ついでの言い方）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-58">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

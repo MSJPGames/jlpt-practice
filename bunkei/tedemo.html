@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜てでも（N1文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜てでも」の意味・接続・例文。ふつうならしない手段をとってでも必ずやるという強い決意を表す使い方と、「〜ても」「〜てまで」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #993C1D; --accent-bg: #FAECE7;   /* N1 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F3DACF 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜てでも</div>
+    <div class="p-en">even by ~ing (I will do it)</div>
+    <div class="p-badges">
+      <span class="badge">N1</span>
+      <span class="badge sub">動詞て形に付く</span>
+      <span class="badge sub">手段</span>
+      <span class="badge sub">強い決意</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">特別な手段</span>ふつうなら しない やり方を とる</div>
+    <div class="lead"><span class="imi-tag">強い決意</span>それでも かならず する という 気もち</div>
+    <div class="desc">「〜てでも」は、ふつうならしないような手段をとってでも、それをかならずやる、という強い決意を表します。前に来るのは「借金をして」「仕事を休んで」「徹夜して」のような、なみたいていでない手段です。うしろに来るのは「〜たい」「〜つもりだ」「〜なければならない」のような、話し手の意志を表すことばです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 前は 特別な手段、うしろは 意志</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「〜てでも」は前になみたいていでない手段が来て、うしろに話し手の強い意志が来ることを、左右の箱と矢印で示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">特別な 手段 ＋ かならず やる 気もち</text><rect x="22" y="36" width="192" height="78" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="118" y="56" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">前：ふつうなら しない 手段</text><text x="118" y="78" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">借金をして・徹夜して</text><text x="118" y="99" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">仕事を休んで</text><path d="M220 75 L248 75" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><rect x="254" y="36" width="184" height="78" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="346" y="56" text-anchor="middle" font-size="10.5" fill="#993C1D" font-family="sans-serif">うしろ：話し手の 意志</text><text x="346" y="78" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">〜たい・〜つもりだ</text><text x="346" y="99" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">〜なければ ならない</text><text x="230" y="142" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">＝ そこまで しても、かならず やる という 強い 決意</text><text x="230" y="172" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">うしろが ただの 事実の ときは 使えない</text></svg>
+    <div class="zu-cap">② ふつうの やり方では 届かない</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ふつうのやり方では目標に届かないとき、遠回りでも特別な手段を使って目標にたどりつこうとする気もちを、二本の道で示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#993C1D"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">ふつうの やり方 では 届かない とき</text><rect x="24" y="48" width="70" height="48" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="59" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#1C1C1C" font-family="sans-serif">いま</text><rect x="360" y="48" width="76" height="48" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="2"/><text x="398" y="78" text-anchor="middle" font-size="12.5" font-weight="700" fill="#993C1D" font-family="sans-serif">目標</text><path d="M100 72 L210 72" fill="none" stroke="#E2DDD6" stroke-width="2"/><text x="155" y="60" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ふつうの やり方</text><text x="224" y="78" text-anchor="middle" font-size="16" font-weight="700" fill="#A0392E" font-family="sans-serif">×</text><path d="M96 110 C 180 172, 300 172, 354 118" fill="none" stroke="#993C1D" stroke-width="1.8" marker-end="url(#ar)"/><text x="230" y="194" text-anchor="middle" font-size="12" font-weight="700" fill="#993C1D" font-family="sans-serif">借金をしてでも・徹夜してでも 行く</text><text x="410" y="130" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">遠回りでも</text></svg>
+    <div class="zu-note">うしろが「〜ました」「〜そうだ」のような<b>ただの事実や人から聞いた話</b>のときは使えません。「〜てでも」は、<b>話し手の意志</b>とセットで使う言い方です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞て形 ＋ <span class="n">でも</span></div>
+    <div class="setsu-note">「うそをついてでも」のように、あまりよくない手段が来ることもあります。「どんな手を使ってでも」は、決まった言い方としてよく使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る手段</div>
+      <div class="chips"><span class="chip">借金をして</span><span class="chip">仕事を休んで</span><span class="chip">徹夜して</span><span class="chip">頭を下げて</span><span class="chip">はって</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろに来る形</div>
+      <div class="chips"><span class="chip">〜たい</span><span class="chip">〜つもりだ</span><span class="chip">〜なければならない</span><span class="chip">〜（よ）う</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">決まった言い方</div>
+      <div class="chips"><span class="chip">どんな手を使ってでも</span><span class="chip">何をしてでも</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">買う</span>
+        <div class="ex-ja">借金を<b>してでも</b>、あの機械だけは手に入れるつもりだ。<button class="say" data-say="借金をしてでも、あの機械だけは手に入れるつもりだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even if I have to borrow money, I intend to get that machine.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">仕上げる</span>
+        <div class="ex-ja">徹夜を<b>してでも</b>、この原稿を今日中に書き上げたい。<button class="say" data-say="徹夜をしてでも、この原稿を今日中に書き上げたい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I want to finish this manuscript today, even if it means staying up all night.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">休む</span>
+        <div class="ex-ja">仕事を<b>休んででも</b>、父の手術には立ち会わなければならない。<button class="say" data-say="仕事を休んででも、父の手術には立ち会わなければならない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I have to be there for my father's operation, even if I must take time off work.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">たのむ</span>
+        <div class="ex-ja">頭を<b>下げてでも</b>、あの職人にもう一度お願いしよう。<button class="say" data-say="頭を下げてでも、あの職人にもう一度お願いしよう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even if I have to bow my head, I will ask that craftsman one more time.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">やりとげる</span>
+        <div class="ex-ja"><b>はってでも</b>ゴールまで行くと、彼女は言い切った。<button class="say" data-say="はってでもゴールまで行くと、彼女は言い切った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">She declared that she would reach the goal even if she had to crawl.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">手に入れる</span>
+        <div class="ex-ja">大金を<b>払ってでも</b>、あの茶わんがほしいという客がいる。<button class="say" data-say="大金を払ってでも、あの茶わんがほしいという客がいる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">There are customers who want that tea bowl even if they must pay a fortune.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「どんな手を使ってでも」</div>
+      <div class="use-d">手段をはっきり言わずに、「どんな手を使ってでも」「何をしてでも」と言うこともあります。強い決意を、ひとことで表す言い方です。</div>
+      <div class="use-e"><b>どんな手を使ってでも</b>、この土地を守り抜くつもりです。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>よくない手段が来ることも</div>
+      <div class="use-d">「うそをついて」「人をだまして」のような、よくない手段が前に来ることもあります。その場合は、聞く人がよく思わないこともあります。</div>
+      <div class="use-e">うそを<b>ついてでも</b>勝ちたいという気もちが、彼をだめにした。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ても</div>
+      <div class="vs-lead">「〜ても」は、そうなっても<b>結果は変わらない</b>という、ふつうの逆接の条件です。「〜てでも」は、前に<b>手段</b>が来て、うしろに<b>かならずやるという意志</b>が来ます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜てでも</th><th>〜ても</th></tr>
+        <tr><td class="k">前に来るもの</td><td>ふつうなら しない 手段</td><td>ふつうの こと・じょうけん</td></tr>
+        <tr><td class="k">うしろに来るもの</td><td>話し手の 強い 意志</td><td>予想と ちがう 結果</td></tr>
+        <tr><td class="k">気もち</td><td>かならず やりとげる</td><td>そうなっても 変わらない</td></tr>
+      </table>
+      <div class="vs-ex">
+        「走っ<b>てでも</b>間に合わせる」＝走るという手段を使って、かならず間に合わせる。<br>
+        「走っ<b>ても</b>間に合わない」＝走るという条件でも、結果は変わらない。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜てまで</div>
+      <div class="vs-lead">「〜てまで」は、<b>そこまでするのか</b>という見方が入り、うしろに「〜たくない」「〜必要はない」のような打ち消しが来ることが多い言い方です。「〜てでも」は<b>やりとげたい</b>という前向きな気もちです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜てでも</th><th>〜てまで</th></tr>
+        <tr><td class="k">話し手の見方</td><td>やりとげたい 気もち</td><td>そこまでするのか、という 見方</td></tr>
+        <tr><td class="k">よしあし</td><td>前むきに 言うことが 多い</td><td>批判の 気もちが 入りやすい</td></tr>
+        <tr><td class="k">うしろに来る形</td><td>〜たい・〜つもりだ</td><td>〜たくない・〜必要はない</td></tr>
+      </table>
+      <div class="vs-ex">
+        「三時間 並ん<b>ででも</b>食べたい」＝どうしても食べたい、という強い気もち。<br>
+        「三時間 並ん<b>でまで</b>食べたいとは思わない」＝そこまでするのか、という気もち。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜てでも marks an extreme means: "even by doing X (I will do Y)". What comes before it is something one would not normally do — borrowing money, taking time off work, staying up all night — and what follows must express the speaker's own will (〜たい, 〜つもりだ, 〜なければならない). It cannot be followed by a plain statement of fact or hearsay.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜てでも」表示採取平常不會採取的極端手段，也一定要做到某件事，帶有強烈的決心。前面接「借金をして」「仕事を休んで」「徹夜して」等非比尋常的手段，後面必須是說話者的意志（〜たい、〜つもりだ、〜なければならない）。「〜てまで」則常帶有「有必要做到那個地步嗎」的批評語氣。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A6%E3%81%A7%E3%82%82&amp;lv=N1&amp;ex=%E5%80%9F%E9%87%91%E3%82%92%E3%81%97%E3%81%A6%E3%81%A7%E3%82%82%E3%80%81%E3%81%82%E3%81%AE%E6%A9%9F%E6%A2%B0%E3%81%A0%E3%81%91%E3%81%AF%E6%89%8B%E3%81%AB%E5%85%A5%E3%82%8C%E3%82%8B%E3%81%A4%E3%82%82%E3%82%8A%E3%81%A0%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="temo.html">🔁 〜ても（ふつうの逆接）とくらべる<span class="ar">›</span></a>
+      <a href="temade.html">🔁 〜てまで（そこまでするのか）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n1-55">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

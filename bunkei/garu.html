@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜がる（N4文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜がる」の意味・接続・例文。ほかの人の気持ちを外から見て言う使い方、自分には使えないこと、助詞が「を」に変わること、「〜たがる」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #316F8A; --accent-bg: #E4EFF5;   /* N4 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜がる</div>
+    <div class="p-en">show signs of feeling ~</div>
+    <div class="p-badges">
+      <span class="badge">N4</span>
+      <span class="badge sub">い形容詞・な形容詞の 語幹に 付く</span>
+      <span class="badge sub">ほかの 人の 気もち</span>
+      <span class="badge sub">自分には 使わない</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">外から 見る</span>ほかの 人の 気もちが、様子から わかる</div>
+    <div class="lead"><span class="imi-tag">いつもの くせ</span>その 人が いつも そうなる、という 性質</div>
+    <div class="desc">「〜がる」は、ほかの 人の 気もちを、外から 見て 言う 形です。人の 心の 中は 直せつ 見えませんから、その 人の 顔や 声や 行動などの 様子から「うれしいんだな」と わかった ときに 使います。「うれしい」「こわい」「ほしい」などの 形容詞に 付いて、「うれしがる」「こわがる」「ほしがる」の ように 動詞に なります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 自分の 心と、ほかの 人の 様子</div>
+    <svg class="zu" viewBox="0 0 460 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="自分の気持ちは心の中がそのままわかるが、ほかの人の気持ちは外に出た様子から分かるので「〜がる」を使うことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="18" text-anchor="middle" font-size="12.5" fill="#316F8A" font-weight="700" font-family="sans-serif">心の 中は 見えない。外の 様子で わかる</text><rect x="16" y="30" width="190" height="120" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="111" y="50" text-anchor="middle" font-size="12" fill="#6B6560" font-weight="700" font-family="sans-serif">自分</text><rect x="46" y="60" width="130" height="46" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8"/><text x="111" y="80" text-anchor="middle" font-size="12" fill="#316F8A" font-weight="700" font-family="sans-serif">うれしい！</text><text x="111" y="98" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">（心の 中）</text><text x="111" y="126" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">中が そのまま わかる</text><text x="111" y="143" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">→「うれしいです」</text><rect x="216" y="30" width="228" height="120" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="330" y="50" text-anchor="middle" font-size="12" fill="#6B6560" font-weight="700" font-family="sans-serif">ほかの 人</text><rect x="238" y="60" width="84" height="46" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.4" stroke-dasharray="5 4"/><text x="280" y="80" text-anchor="middle" font-size="12" fill="#6B6560" font-family="sans-serif">？ ？ ？</text><text x="280" y="98" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">（見えない）</text><path d="M326 83 L358 83" fill="none" stroke="#316F8A" stroke-width="1.8" marker-end="url(#ar)"/><rect x="362" y="60" width="74" height="46" rx="10" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8"/><text x="399" y="78" text-anchor="middle" font-size="11" fill="#316F8A" font-weight="700" font-family="sans-serif">わらう</text><text x="399" y="95" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">とびはねる</text><text x="330" y="126" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">外に 出た 様子から わかる</text><text x="330" y="143" text-anchor="middle" font-size="11" fill="#316F8A" font-family="sans-serif">→「うれしがって います」</text><rect x="76" y="160" width="308" height="30" rx="6" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5"/><text x="230" y="180" text-anchor="middle" font-size="12" fill="#A0392E" font-weight="700" font-family="sans-serif">× わたしは うれしがって います</text><text x="230" y="204" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">自分の 気もちには 「〜がる」を 使わない</text></svg>
+    <div class="zu-cap">② 助詞が 変わる</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「水がほしい」の助詞「が」が、「水をほしがる」では「を」に変わることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#316F8A" font-weight="700" font-family="sans-serif">助詞が「が」から「を」に 変わる</text><rect x="20" y="36" width="200" height="58" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="120" y="58" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">自分の 気もち</text><text x="120" y="80" text-anchor="middle" font-size="13" fill="#1C1C1C" font-weight="700" font-family="sans-serif">水 が ほしい</text><path d="M226 66 L286 66" fill="none" stroke="#316F8A" stroke-width="1.8" marker-end="url(#ar)"/><text x="256" y="56" text-anchor="middle" font-size="10.5" fill="#316F8A" font-weight="700" font-family="sans-serif">がる</text><rect x="292" y="36" width="152" height="58" rx="8" fill="#E4EFF5" stroke="#316F8A" stroke-width="2"/><text x="368" y="58" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">弟の 気もち</text><text x="368" y="80" text-anchor="middle" font-size="13" fill="#316F8A" font-weight="700" font-family="sans-serif">水 を ほしがる</text><path d="M100 86 L114 86" fill="none" stroke="#A0392E" stroke-width="2.4"/><path d="M335 86 L349 86" fill="none" stroke="#316F8A" stroke-width="2.4"/><text x="230" y="118" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">「ほしい」は 形容詞、「ほしがる」は 動詞。</text><text x="230" y="138" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">動詞に なるので、前は「〜を」に なる。</text><rect x="60" y="152" width="340" height="28" rx="6" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.4"/><text x="230" y="171" text-anchor="middle" font-size="11.5" fill="#A0392E" font-weight="700" font-family="sans-serif">× 弟は 水が ほしがって います</text></svg>
+    <div class="zu-note">「〜がる」に なると、ことばは <b>形容詞から 動詞</b>に 変わります。だから 前の 助詞も「が」から「を」に 変わり、「〜ています」「〜ません」など 動詞の 形で 使えます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">い形容詞・な形容詞の 語幹 ＋ <span class="n">がる</span></div>
+    <div class="setsu-note">い形容詞は さいごの「い」を、な形容詞は さいごの「な・だ」を とった 形に 付けます。<b>うれし</b>い→うれし<b>がる</b>、<b>こわ</b>い→こわ<b>がる</b>、<b>ほし</b>い→ほし<b>がる</b>、<b>いや</b>だ→いや<b>がる</b>、<b>ざんねん</b>だ→ざんねん<b>がる</b>。いま その 様子だ という ときは「〜がっている」に します。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく 使う い形容詞</div>
+      <div class="chips"><span class="chip">うれしい</span><span class="chip">こわい</span><span class="chip">さびしい</span><span class="chip">いたい</span><span class="chip">ほしい</span><span class="chip">はずかしい</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく 使う な形容詞</div>
+      <div class="chips"><span class="chip">いやだ</span><span class="chip">ざんねんだ</span><span class="chip">ふしぎだ</span><span class="chip">めんどうだ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">主語に よく 来る 人</div>
+      <div class="chips"><span class="chip">子ども</span><span class="chip">弟</span><span class="chip">妹</span><span class="chip">友だち</span><span class="chip">お客さん</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">うれしがる</span>
+        <div class="ex-ja">妹は、新しいくつを買ってもらって<b>うれしがって</b>います。<button class="say" data-say="妹は、新しいくつを買ってもらってうれしがっています。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My sister is delighted with the new shoes she was bought.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">こわがる</span>
+        <div class="ex-ja">この犬は、かみなりの音をとても<b>こわがり</b>ます。<button class="say" data-say="この犬は、かみなりの音をとてもこわがります。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This dog is very frightened of the sound of thunder.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ほしがる（助詞は を）</span>
+        <div class="ex-ja">子どもが、店の前でおかしを<b>ほしがって</b>こまりました。<button class="say" data-say="子どもが、店の前でおかしをほしがってこまりました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My child started begging for sweets in front of the shop, which was awkward.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">いやがる（な形容詞）</span>
+        <div class="ex-ja">父は、写真をとられるのを<b>いやがり</b>ます。<button class="say" data-say="父は、写真をとられるのをいやがります。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My father hates having his picture taken.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ざんねんがる</span>
+        <div class="ex-ja">みんな、大会が中止になって<b>ざんねんがって</b>いました。<button class="say" data-say="みんな、大会が中止になってざんねんがっていました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Everyone was disappointed that the tournament had been called off.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ほかの 人だけ</span>
+        <div class="ex-ja">友だちは<b>さびしがって</b>いましたが、わたしは平気でした。<button class="say" data-say="友だちはさびしがっていましたが、わたしは平気でした。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My friend was feeling lonely, but I was fine.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜がっている」＝いま その 様子</div>
+      <div class="use-d">目の 前で そう して いる 様子を 言う ときは「〜ている」の 形に します。「〜がる」だけだと、いつも そうだ、という 性質の 話に なります。</div>
+      <div class="use-e">赤ちゃんが、さっきから ぬいぐるみを<b>ほしがっています</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜がり（や）」＝そういう 人</div>
+      <div class="use-d">「さむがり」「こわがり」「はずかしがりや」の ように、いつも そうなる 人を 表す ことばにも なります。</div>
+      <div class="use-e">兄は<b>さむがり</b>で、九月からコートを着ています。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜たがる</div>
+      <div class="vs-lead">二つは <b>兄弟のような 形</b>です。<b>形容詞</b>に 付くのが「〜がる」、<b>動詞</b>に 付くのが「〜たがる」です。どちらも ほかの 人の 気もちを 外から 見て 言い、自分には 使いません。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜がる</th><th>〜たがる</th></tr>
+        <tr><td class="k">前に 来る 形</td><td>い形容詞・な形容詞の 語幹</td><td>動詞の ます形（語幹）</td></tr>
+        <tr><td class="k">もとの 形</td><td>うれしい・ほしい・いやだ</td><td>行きたい・見たい・飲みたい</td></tr>
+        <tr><td class="k">できる ことば</td><td>うれしがる・ほしがる・いやがる</td><td>行きたがる・見たがる・飲みたがる</td></tr>
+        <tr><td class="k">同じ ところ</td><td>自分には 使わない</td><td>自分には 使わない</td></tr>
+      </table>
+      <div class="vs-ex">
+        「弟は 水を<b>ほしがって</b>います」＝形容詞「ほしい」から できた 形。<br>
+        「弟は 水を 飲み<b>たがって</b>います」＝動詞「飲む」から できた 形。<br>
+        どちらも <span class="ng">×</span>「わたしは ほしがる／飲みたがる」とは 言えません。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜い・〜たい（自分の 気もち）</div>
+      <div class="vs-lead">自分の 気もちは、<b>そのままの 形容詞</b>で 言います。「〜がる」を 使うと、外から 見て いる 言い方に なるので、自分の ことには 使えません。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜がる</th><th>〜い・〜たい</th></tr>
+        <tr><td class="k">だれの 気もち</td><td>自分以外の 人</td><td>自分（しつもんなら 相手）</td></tr>
+        <tr><td class="k">何を 見て 言うか</td><td>その 人の 外の 様子</td><td>自分の 心の 中</td></tr>
+        <tr><td class="k">ことばの 働き</td><td>動詞</td><td>形容詞</td></tr>
+        <tr><td class="k">助詞</td><td>水<b>を</b>ほしがる</td><td>水<b>が</b>ほしい</td></tr>
+      </table>
+      <div class="vs-ex">
+        「わたしは 冷たい水<b>が</b>ほしいです」＝自分の ことは そのまま 言う。<br>
+        「弟は 冷たい水<b>を</b><b>ほしがって</b>います」＝ほかの 人の ことは 外から 見て 言う。<br>
+        <span class="ng">×</span>「わたしは 冷たい水を ほしがって います」とは 言えません。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜がる attaches to the stem of an i-adjective or na-adjective (うれしい→うれしがる, いやだ→いやがる) and turns it into a verb meaning 'shows signs of feeling ~'. It is used for other people, because you can only judge their feelings from the outside; you never say 私はうれしがる about yourself. Because the word becomes a verb, the particle changes from が to を: 水がほしい (I want water) but 弟は水をほしがる (my brother wants water). The matching form for verbs is 〜たがる.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜がる」接在い形容詞、な形容詞的語幹後面（うれしい→うれしがる、いやだ→いやがる），把形容詞變成動詞，表示「從外表看得出來有那種感覺」。因為別人的心裡看不見，只能從表情、動作判斷，所以只用在別人身上，不能說「私はうれしがる」。變成動詞之後，助詞也由「が」改成「を」：「水がほしい」→「弟は水をほしがる」。接動詞時則用「〜たがる」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%8C%E3%82%8B&amp;lv=N4&amp;ex=%E5%A6%B9%E3%81%AF%E3%80%81%E6%96%B0%E3%81%97%E3%81%84%E3%81%8F%E3%81%A4%E3%82%92%E8%B2%B7%E3%81%A3%E3%81%A6%E3%82%82%E3%82%89%E3%81%A3%E3%81%A6%E3%81%86%E3%82%8C%E3%81%97%E3%81%8C%E3%81%A3%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="tagaru.html">🔁 〜たがる（動詞に付く形）とくらべる<span class="ar">›</span></a>
+      <a href="rashii.html">🔁 〜らしい（おしはかる）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n4-01">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

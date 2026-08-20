@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ばかり・〜てばかりいる（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ばかり・〜てばかりいる」の意味・接続・例文。それだけでほかがない、多すぎてかたよっているという使い方と、「〜だけ」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ばかり・〜てばかりいる</div>
+    <div class="p-en">only ~ / do nothing but ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">名詞・動詞て形に付く</span>
+      <span class="badge sub">かたより</span>
+      <span class="badge sub">よくない感じ</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">そればかり</span>それだけで、ほかが ない</div>
+    <div class="lead"><span class="imi-tag">かたより</span>多すぎる・かたよっていて よくない、と見ている</div>
+    <div class="desc">「〜ばかり」は、まわりを見わたしても<b>それだけ</b>で、ほかがないことを表します。ただ数をかぎるのではなく、<b>多すぎる・かたよっている</b>と話し手が思っているところが大切です。だから、よくない気持ちがいっしょに出ます。動詞に付けるときは「〜てばかりいる」の形にして、そればかりしていることを表します。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 中身が かたよる</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ふつうは中身がいろいろあるのに、「〜ばかり」では中身が一つにかたよっていることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">中身が 一つに かたよって いる</text><rect x="20" y="38" width="190" height="112" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="115" y="58" text-anchor="middle" font-size="11.5" fill="#6B6560" font-weight="700" font-family="sans-serif">ふつう</text><rect x="36" y="70" width="76" height="30" rx="6" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.3"/><rect x="120" y="70" width="76" height="30" rx="6" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.3"/><rect x="36" y="108" width="76" height="30" rx="6" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.3"/><rect x="120" y="108" width="76" height="30" rx="6" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.3"/><text x="74" y="90" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">肉</text><text x="158" y="90" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">やさい</text><text x="74" y="128" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">さかな</text><text x="158" y="128" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">ごはん</text><path d="M214 94 L246 94" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="250" y="38" width="190" height="112" rx="10" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="345" y="58" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">肉ばかり</text><rect x="266" y="70" width="76" height="30" rx="6" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.3"/><rect x="350" y="70" width="76" height="30" rx="6" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.3"/><rect x="266" y="108" width="76" height="30" rx="6" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.3"/><rect x="350" y="108" width="76" height="30" rx="6" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.3"/><text x="304" y="90" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">肉</text><text x="388" y="90" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">肉</text><text x="304" y="128" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">肉</text><text x="388" y="128" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">肉</text><text x="345" y="170" text-anchor="middle" font-size="11.5" fill="#A0392E" font-weight="700" font-family="sans-serif">ほかが ない</text><text x="230" y="192" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">かたよっていて よくない、という 見かたが 出る</text></svg>
+    <div class="zu-cap">② 〜てばかりいる</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「〜てばかりいる」は同じ行動だけがくり返され、ほかのことをしていないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">〜てばかりいる ＝ そればかり して いる</text><rect x="30" y="60" width="72" height="34" rx="7" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><rect x="110" y="60" width="72" height="34" rx="7" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><rect x="190" y="60" width="72" height="34" rx="7" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><rect x="270" y="60" width="72" height="34" rx="7" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><rect x="350" y="60" width="72" height="34" rx="7" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="66" y="82" text-anchor="middle" font-size="11" fill="#3C3489" font-family="sans-serif">ゲーム</text><text x="146" y="82" text-anchor="middle" font-size="11" fill="#3C3489" font-family="sans-serif">ゲーム</text><text x="226" y="82" text-anchor="middle" font-size="11" fill="#3C3489" font-family="sans-serif">ゲーム</text><text x="306" y="82" text-anchor="middle" font-size="11" fill="#3C3489" font-family="sans-serif">ゲーム</text><text x="386" y="82" text-anchor="middle" font-size="11" fill="#3C3489" font-family="sans-serif">ゲーム</text><path d="M66 94 L66 142" fill="none" stroke="#E2DDD6" stroke-width="1.2"/><path d="M146 94 L146 142" fill="none" stroke="#E2DDD6" stroke-width="1.2"/><path d="M226 94 L226 142" fill="none" stroke="#E2DDD6" stroke-width="1.2"/><path d="M306 94 L306 142" fill="none" stroke="#E2DDD6" stroke-width="1.2"/><path d="M386 94 L386 142" fill="none" stroke="#E2DDD6" stroke-width="1.2"/><text x="230" y="120" text-anchor="middle" font-size="11.5" fill="#A0392E" font-weight="700" font-family="sans-serif">ほかの ことは して いない</text><path d="M24 146 L430 146" fill="none" stroke="#9E9890" stroke-width="1.6" marker-end="url(#ar2)"/><text x="414" y="168" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">時間</text><text x="160" y="168" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">同じ ことだけが つづく</text></svg>
+    <div class="zu-cap">③ 「〜だけ」との ちがい</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「〜だけ」はただの線引きで気持ちが入らないが、「〜ばかり」には多すぎるというよくない見かたが付くことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">ことばに つく 気もちの ちがい</text><rect x="20" y="38" width="196" height="122" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="118" y="62" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-weight="700" font-family="sans-serif">やさいだけ 食べる</text><circle cx="118" cy="98" r="20" fill="#FAF8F4" stroke="#6B6560" stroke-width="1.6"/><path d="M106 98 L130 98" fill="none" stroke="#6B6560" stroke-width="2"/><text x="118" y="136" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ただの 線引き</text><text x="118" y="152" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">よい・わるいは 言わない</text><rect x="244" y="38" width="196" height="122" rx="10" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="342" y="62" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">やさいばかり 食べる</text><path d="M342 80 L342 110" fill="none" stroke="#A0392E" stroke-width="2.2"/><path d="M332 102 L342 116 L352 102" fill="none" stroke="#A0392E" stroke-width="2.2"/><text x="342" y="136" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">多すぎる・かたよって いる</text><text x="342" y="152" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">という 見かたが つく</text><text x="230" y="180" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「ばかり」には よくない 気もちが いっしょに 出る</text></svg>
+    <div class="zu-note">「ばかり」を使うと、見ている人の<b>「多すぎる」という気持ち</b>がいっしょに伝わります。だから、ほめるときには使いません。よい意味で「それだけだ」と言いたいときは「〜だけ」を使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞 ＋ <span class="n">ばかり</span>／動詞て形 ＋ <span class="n">ばかりいる</span></div>
+    <div class="setsu-note">名詞には直接付きます（「肉ばかり」「マンガばかり」）。動詞は<b>て形</b>にして「〜てばかりいる」の形にします。注意するようすを言うときは「〜てばかりいないで」、言い切るときは「〜ばかりだ」になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る名詞</div>
+      <div class="chips"><span class="chip">肉</span><span class="chip">ゲーム</span><span class="chip">マンガ</span><span class="chip">文句</span><span class="chip">失敗</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">〜てばかりいる の形</div>
+      <div class="chips"><span class="chip">遊んでばかり</span><span class="chip">寝てばかり</span><span class="chip">文句を言ってばかり</span><span class="chip">あやまってばかり</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使うことば</div>
+      <div class="chips"><span class="chip">いつも</span><span class="chip">毎日</span><span class="chip">さっきから</span><span class="chip">そんなに</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">名詞＋ばかり</span>
+        <div class="ex-ja">弟は、あまいもの<b>ばかり</b>食べて、やさいを残す。<button class="say" data-say="弟は、あまいものばかり食べて、やさいを残す。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My little brother eats nothing but sweet things and leaves his vegetables.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜ばかりだ</span>
+        <div class="ex-ja">わたしの本だなは、りょうりの本<b>ばかり</b>だ。<button class="say" data-say="わたしの本だなは、りょうりの本ばかりだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My bookshelf is nothing but cookbooks.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜てばかりいる</span>
+        <div class="ex-ja">休みの日は、家で寝て<b>ばかりいる</b>。<button class="say" data-say="休みの日は、家で寝てばかりいる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">On my days off I do nothing but sleep at home.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜てばかりいた</span>
+        <div class="ex-ja">かれは会議のあいだ、時計を見て<b>ばかりいた</b>。<button class="say" data-say="かれは会議のあいだ、時計を見てばかりいた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">He did nothing but look at the clock all through the meeting.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜てばかりいないで</span>
+        <div class="ex-ja">文句を言って<b>ばかりいないで</b>、少し手伝ってよ。<button class="say" data-say="文句を言ってばかりいないで、少し手伝ってよ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Stop just complaining and give me a bit of help.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">人＋ばかり</span>
+        <div class="ex-ja">新しいクラスは知らない人<b>ばかり</b>で、きんちょうした。<button class="say" data-say="新しいクラスは知らない人ばかりで、きんちょうした。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The new class was full of people I did not know, so I felt nervous.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜ばかりで」で 理由を言う</div>
+      <div class="use-d">「〜ばかりで、…ない」の形にすると、そればかりしているせいで、たいせつなことができていないと言えます。</div>
+      <div class="use-e">話し合いは意見が出る<b>ばかりで</b>、なかなか決まらない。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜ばかり」で だいたいの数</div>
+      <div class="use-d">古い言い方ですが、数のうしろに付いて「だいたいそのくらい」を表すこともあります。手紙などで見かけます。</div>
+      <div class="use-e">駅から十分<b>ばかり</b>歩いたところに、その店はある。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜だけ</div>
+      <div class="vs-lead">「〜だけ」は<b>ほかはない</b>とただ線を引くだけの言い方で、よい・わるいは言いません。「〜ばかり」は同じ「それだけ」でも、<b>多すぎる・かたよっている</b>という<b>よくない見かた</b>がいっしょに出ます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ばかり</th><th>〜だけ</th></tr>
+        <tr><td class="k">言いたいこと</td><td>多すぎる・かたよっている</td><td>ほかはない（線を引く）</td></tr>
+        <tr><td class="k">気もち</td><td>よくないと 思っている</td><td>よい・わるいは 言わない</td></tr>
+        <tr><td class="k">数をかぎるとき</td><td>使うと 意味が変わる</td><td>「千円だけ」のように 使える</td></tr>
+        <tr><td class="k">動詞に付く形</td><td>〜てばかりいる</td><td>〜ているだけだ</td></tr>
+      </table>
+      <div class="vs-ex">
+        「やさい<b>だけ</b>食べる」＝ほかは食べない。それだけの話。<br>
+        「やさい<b>ばかり</b>食べる」＝やさいが多すぎる、とよく思っていない。<br>
+        「千円<b>だけ</b>使う」＝ちょうど千円。「千円<b>ばかり</b>」だと「だいたい千円」の意味になる。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜たばかり</div>
+      <div class="vs-lead">同じ「ばかり」ですが、<b>動詞のた形</b>に付くと「たった今おわった」という意味になり、かたよりの意味はなくなります。前に来る形で見分けます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ばかり（かたより）</th><th>〜たばかり（すぐあと）</th></tr>
+        <tr><td class="k">前に来る形</td><td>名詞・動詞て形</td><td>動詞た形</td></tr>
+        <tr><td class="k">意味</td><td>それだけで 多すぎる</td><td>し終わって すぐ</td></tr>
+        <tr><td class="k">気もち</td><td>よくないと 思っている</td><td>時間が みじかいと 感じている</td></tr>
+      </table>
+      <div class="vs-ex">
+        「食べて<b>ばかり</b>いる」＝いつも食べている。よく思っていない。<br>
+        「食べた<b>ばかり</b>だ」＝いま食べ終わったところだ。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜ばかり means that there is only that one thing and nothing else. Unlike 〜だけ, which simply draws a line, ばかり adds the speaker's feeling that there is too much of it and that things are out of balance, so it usually sounds critical. With verbs it becomes 〜てばかりいる, 'do nothing but ~'. Note that after a past-form verb, 〜たばかり means 'have just done ~' instead.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜ばかり」表示全都是那一樣，沒有別的。與只是單純劃出範圍的「〜だけ」不同，「ばかり」還帶有說話者「太多了、太偏了」的看法，因此語氣多半是負面的。接動詞時用「〜てばかりいる」，表示「光是做某事」。要注意接在動詞「た形」後面的「〜たばかり」，意思是「剛剛做完」，並沒有偏頗的語感。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%B0%E3%81%8B%E3%82%8A%E3%83%BB%E3%80%9C%E3%81%A6%E3%81%B0%E3%81%8B%E3%82%8A%E3%81%84%E3%82%8B&amp;lv=N3&amp;ex=%E5%BC%9F%E3%81%AF%E3%80%81%E3%81%82%E3%81%BE%E3%81%84%E3%82%82%E3%81%AE%E3%81%B0%E3%81%8B%E3%82%8A%E9%A3%9F%E3%81%B9%E3%81%A6%E3%80%81%E3%82%84%E3%81%95%E3%81%84%E3%82%92%E6%AE%8B%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="dake.html">🔁 〜だけ（ただの限定）とくらべる<span class="ar">›</span></a>
+      <a href="tabakari.html">🔁 〜たばかりだ（したすぐあと）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-63">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

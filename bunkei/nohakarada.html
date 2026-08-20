@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜のは〜からだ（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜のは〜からだ」の意味・接続・例文。理由を文のうしろに置いてはっきり言う形と、「なぜ〜のか、それは〜からだ」という説明の流れ、「〜から」との位置のちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜のは〜からだ</div>
+    <div class="p-en">the reason ~ is that ...</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">普通形に付く</span>
+      <span class="badge sub">理由をうしろに置く</span>
+      <span class="badge sub">説明の文でよく使う</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">理由</span>なぜそうなのかを、文のうしろではっきり言う</div>
+    <div class="lead"><span class="imi-tag">答えの形</span>「なぜ〜のか」への答えとして使う</div>
+    <div class="desc">「〜のは〜からだ」は、あることが起きた理由を、文のうしろに置いてはっきり言う形です。「なぜ〜のか」と問いを立てて、「それは〜からだ」と答える流れでよく使います。前の「〜のは」には、もう相手も知っていることを入れ、うしろの「〜からだ」に、いちばん伝えたい理由を置きます。説明や発表など、理由をていねいに言いたいときに便利です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 理由を うしろに 動かす</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「雨が強かったから、試合は中止になった」を「試合が中止になったのは、雨が強かったからだ」に組みかえ、理由を文のうしろに動かすことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="18" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">理由を、文の うしろへ 動かす</text><rect x="14" y="30" width="432" height="52" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="26" y="48" font-size="10" fill="#6B6560" font-family="sans-serif">ふつうの言い方</text><text x="26" y="70" font-size="12.5" fill="#1C1C1C" font-family="sans-serif">雨が強かったから、試合は中止になった。</text><path d="M26 76 L126 76" fill="none" stroke="#3C3489" stroke-width="3"/><text x="320" y="70" font-size="10.5" fill="#6B6560" font-family="sans-serif">← 理由は 前に ある</text><path d="M230 86 L230 108" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="244" y="103" font-size="10.5" fill="#6B6560" font-family="sans-serif">理由を うしろに 置きかえる</text><rect x="14" y="114" width="432" height="64" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="26" y="142" font-size="12.5" fill="#1C1C1C" font-family="sans-serif">試合が中止になった</text><text x="140" y="142" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">のは</text><text x="170" y="142" font-size="12.5" fill="#1C1C1C" font-family="sans-serif">、雨が強かった</text><text x="258" y="142" font-size="13" fill="#3C3489" font-weight="700" font-family="sans-serif">からだ。</text><text x="26" y="166" font-size="10.5" fill="#6B6560" font-family="sans-serif">前＝もう 起きていること　／　うしろ＝いちばん 伝えたい 理由</text><text x="230" y="194" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">うしろに 回すと、理由の ところが 強く 伝わる</text></svg>
+    <div class="zu-cap">② 「なぜ〜のか」→「それは〜からだ」</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「なぜ〜のか」という問いに「それは〜からだ」と答える流れの中で、〜のは〜からだ が使われることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="18" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">なぜ〜のか。 → それは〜からだ。</text><rect x="14" y="32" width="188" height="60" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="108" y="54" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">聞く人の あたまの 中</text><text x="108" y="78" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-family="sans-serif">なぜ 中止なのか？</text><path d="M206 62 L248 62" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="252" y="32" width="194" height="60" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="349" y="54" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">その 答えの 形</text><text x="349" y="78" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">〜のは、〜からだ</text><rect x="14" y="106" width="432" height="52" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="230" y="128" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">中止になったのは、雨が強かったからです。</text><text x="230" y="148" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">前＝相手も 知っている こと　／　うしろ＝新しい 理由</text><text x="230" y="178" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">発表や 説明の 文では、この 問いと 答えの 形が よく 出てくる</text></svg>
+    <div class="zu-note">「〜のは」の前には<b>もう起きていること</b>、「からだ」の前には<b>その理由</b>を置きます。理由をうしろに回すと、そこがいちばん強く伝わります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">普通形 ＋ <span class="n">のは</span> ＋ 普通形 ＋ <span class="n">からだ</span></div>
+    <div class="setsu-note">前が名詞やな形容詞のときは「休みな<b>のは</b>」のように<b>な</b>をはさみます。うしろの理由の部分も、名詞やな形容詞なら「かぜだ<b>からだ</b>」「静かだ<b>からだ</b>」の形になります。ていねいに言うときは「〜のは〜からです」です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る言い方</div>
+      <div class="chips"><span class="chip">休んだ</span><span class="chip">おくれた</span><span class="chip">中止になった</span><span class="chip">人気がある</span><span class="chip">高い</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る理由</div>
+      <div class="chips"><span class="chip">雨が降ったから</span><span class="chip">時間がないから</span><span class="chip">初めてだから</span><span class="chip">安いから</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使うことば</div>
+      <div class="chips"><span class="chip">なぜ</span><span class="chip">どうして</span><span class="chip">それは</span><span class="chip">つまり</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">学校で</span>
+        <div class="ex-ja">きょう授業が休みな<b>のは</b>、先生が出張だ<b>からです</b>。<button class="say" data-say="きょう授業が休みなのは、先生が出張だからです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The reason there is no class today is that the teacher is away on a business trip.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">仕事で</span>
+        <div class="ex-ja">報告がおくれた<b>のは</b>、資料が見つからなかった<b>からです</b>。<button class="say" data-say="報告がおくれたのは、資料が見つからなかったからです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The reason my report was late is that I could not find the documents.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">店について</span>
+        <div class="ex-ja">この店がいつも混んでいる<b>のは</b>、値段が安い<b>からだ</b>。<button class="say" data-say="この店がいつも混んでいるのは、値段が安いからだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The reason this shop is always crowded is that its prices are low.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">自分のこと</span>
+        <div class="ex-ja">きのう早く寝た<b>のは</b>、朝から頭が痛かった<b>からだ</b>。<button class="say" data-say="きのう早く寝たのは、朝から頭が痛かったからだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The reason I went to bed early yesterday is that my head had ached since morning.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">旅行の計画</span>
+        <div class="ex-ja">冬に行くことにした<b>のは</b>、飛行機代が安くなる<b>からです</b>。<button class="say" data-say="冬に行くことにしたのは、飛行機代が安くなるからです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The reason we decided to go in winter is that the airfares get cheaper.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">気もちを説明する</span>
+        <div class="ex-ja">わたしが黙っていた<b>のは</b>、話を最後まで聞きたかった<b>からです</b>。<button class="say" data-say="わたしが黙っていたのは、話を最後まで聞きたかったからです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The reason I stayed quiet was that I wanted to hear the whole story.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜のは〜ためだ」に言いかえる</div>
+      <div class="use-d">かたい文章では「からだ」を「ためだ」に変えることがあります。意味はほとんど同じで、「ためだ」のほうがかたい感じになります。</div>
+      <div class="use-e">工事がおくれている<b>のは</b>、雨の日が多かった<b>ためだ</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>自分で問いを出してから答える</div>
+      <div class="use-d">説明文や発表では、はじめに「なぜ〜のか」と問いを出し、そのあとで「それは〜からだ」と答える書き方をよく使います。</div>
+      <div class="use-e">なぜ売れた<b>のか</b>。それは形がめずらしかった<b>からだ</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜から（ふつうの理由）</div>
+      <div class="vs-lead">「〜から」は理由を<b>文の前</b>に置きます。「〜のは〜からだ」は、同じ理由を<b>文のうしろ</b>に回して、そこを目立たせます。言っていることは同じでも、置く場所がちがいます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜のは〜からだ</th><th>〜から</th></tr>
+        <tr><td class="k">理由の場所</td><td>文のうしろ</td><td>文の前</td></tr>
+        <tr><td class="k">形</td><td>中止になったのは雨だからだ</td><td>雨だから中止になった</td></tr>
+        <tr><td class="k">目立つところ</td><td>うしろの理由</td><td>とくに目立たない</td></tr>
+        <tr><td class="k">よく使う場面</td><td>説明・発表・問いに答えるとき</td><td>ふだんの話や文、全体に</td></tr>
+      </table>
+      <div class="vs-ex">
+        「休んだ<b>のは</b>、熱があった<b>からです</b>」＝「なぜ？」に答えている。<br>
+        「熱があった<b>から</b>、休みました」＝ことの流れを 順に 言っている。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜のは〜だ</div>
+      <div class="vs-lead">うしろに<b>理由</b>が来れば「〜からだ」、うしろに<b>人・時・場所・もの</b>が来れば「〜だ」です。どちらも形は同じですが、答えている問いがちがいます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜のは〜からだ</th><th>〜のは〜だ</th></tr>
+        <tr><td class="k">答える問い</td><td>なぜ・どうして</td><td>だれが・いつ・どこで</td></tr>
+        <tr><td class="k">うしろのことば</td><td>理由の文 ＋ からだ</td><td>名詞など ＋ だ</td></tr>
+        <tr><td class="k">形</td><td>遅れたのは道が混んだからだ</td><td>遅れたのは山口さんだ</td></tr>
+      </table>
+      <div class="vs-ex">
+        「電話した<b>のは</b>、道がわからなかった<b>からです</b>」＝理由を言っている。<br>
+        「電話した<b>のは</b>、駅に着いた時<b>です</b>」＝いつかを言っている。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜のは〜からだ puts the reason at the very end of the sentence so that it stands out. The front half (…のは) is something the listener already knows, and the からだ part is the new information you want to give. It is the reason version of 〜のは〜だ, and it fits the pattern "naze ~ no ka. Sore wa ~ kara da" used in explanations and presentations. Polite form: 〜のは〜からです.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜のは〜からだ」把理由放在句子的最後面，讓理由變得突出。「〜のは」前面是聽話者已經知道的事，後面的「〜からだ」才是要傳達的新資訊。它是「〜のは〜だ」的理由版，常出現在「なぜ〜のか。それは〜からだ」這種說明或報告的流程中。禮貌形是「〜のは〜からです」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AE%E3%81%AF%E3%80%9C%E3%81%8B%E3%82%89%E3%81%A0&amp;lv=N3&amp;ex=%E3%81%8D%E3%82%87%E3%81%86%E6%8E%88%E6%A5%AD%E3%81%8C%E4%BC%91%E3%81%BF%E3%81%AA%E3%81%AE%E3%81%AF%E3%80%81%E5%85%88%E7%94%9F%E3%81%8C%E5%87%BA%E5%BC%B5%E3%81%A0%E3%81%8B%E3%82%89%E3%81%A7%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nohada.html">🔁 〜のは〜だ（強調の形）とくらべる<span class="ar">›</span></a>
+      <a href="tameni.html">🔁 〜ために（理由・目的）を見る<span class="ar">›</span></a>
+      <a href="monodakara.html">🔁 〜ものだから（理由）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-61">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

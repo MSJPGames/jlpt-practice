@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ことにしている（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ことにしている」の意味・接続・例文。自分で決めて今も続けている習慣を表す使い方と、「〜ことにする」「〜ようにしている」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ことにしている</div>
+    <div class="p-en">make it a rule to ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">動詞辞書形・ない形に付く</span>
+      <span class="badge sub">自分で決めた習慣</span>
+      <span class="badge sub">いまも続いている</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">決めた習慣</span>自分で決めて、それをずっと続けている</div>
+    <div class="lead"><span class="imi-tag">自分の意志</span>人に言われたのではなく、自分で決めたこと</div>
+    <div class="desc">「〜ことにしている」は、<b>自分で決めたことを、いまもずっと続けている</b>と言う形です。一回だけしたことには使いません。「毎日」「かならず」「なるべく」といっしょによく使います。決めたのは前の一回、続いているのはいま、と考えると分かりやすいです。人に言われて決まったことではなく、<b>自分の考えで決めた</b>ところが大事です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 決めたのは一回、続いているのはいま</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="過去の一点で自分が決め、そのあと今までずっと守り続けていることを時間の線で示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">決めたのは 一回。続けているのは いまも</text><rect x="24" y="54" width="114" height="46" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="81" y="76" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">自分で 決めた</text><text x="81" y="93" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">＝ことに する</text><path d="M142 77 L184 77" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="190" y="54" width="250" height="46" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.8"/><text x="315" y="76" text-anchor="middle" font-size="12" fill="#3C3489" font-weight="700" font-family="sans-serif">そのあと ずっと 続けている</text><text x="315" y="93" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">＝ことに して いる</text><path d="M24 124 L436 124" fill="none" stroke="#9E9890" stroke-width="1.6" marker-end="url(#ar2)"/><path d="M81 116 L81 132" fill="none" stroke="#3C3489" stroke-width="1.8"/><text x="81" y="146" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">決めた 日</text><text x="300" y="146" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">きのうも 今日も あしたも</text><text x="424" y="146" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">いま</text><text x="230" y="172" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">自分で 決めた ことを、いまも 守って いる</text></svg>
+    <div class="zu-cap">② 〜ことにしている／〜ようにしている</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ことにしているは決めて守れている習慣、ようにしているは気をつけて努力している途中であることのちがいを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">「決めて 守る」と「気をつけて がんばる」</text><rect x="16" y="34" width="204" height="54" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="118" y="57" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">〜ことに して いる</text><text x="118" y="77" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">自分の きまりに して 守る</text><rect x="240" y="34" width="204" height="54" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="342" y="57" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-weight="700" font-family="sans-serif">〜ように して いる</text><text x="342" y="77" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">できるように 気を つけて いる</text><path d="M118 90 L118 112" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><path d="M342 90 L342 112" fill="none" stroke="#9E9890" stroke-width="1.6" marker-end="url(#ar2)"/><rect x="16" y="116" width="204" height="60" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.5"/><text x="118" y="139" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">ほとんど 毎回 して いる</text><text x="118" y="161" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">できて いる</text><rect x="240" y="116" width="204" height="60" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5"/><text x="342" y="139" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">できない日も ある</text><text x="342" y="161" text-anchor="middle" font-size="11.5" fill="#A0392E" font-weight="700" font-family="sans-serif">まだ とちゅう</text><text x="230" y="192" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「ようにしている」は、うまく できていると は かぎらない</text></svg>
+    <div class="zu-note">「ことにする」で<b>決め</b>、そのあと「ことにしている」で<b>続けます</b>。だから「〜ことにしている」と言うときは、もう決めたあとで、いまはそれを守っている、という話になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞辞書形・ない形 ＋ <span class="n">ことにしている</span></div>
+    <div class="setsu-note">「〜ことにする」の「する」が「している」に変わった形です。ていねいに言うときは「〜ことにしています」。前のことを言うときは「〜ことにしていた」になります。「〜ないことにしている」の形もよく使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">毎日</span><span class="chip">かならず</span><span class="chip">なるべく</span><span class="chip">週に一回</span><span class="chip">ぜったいに</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞</div>
+      <div class="chips"><span class="chip">歩く</span><span class="chip">書く</span><span class="chip">飲まない</span><span class="chip">見ない</span><span class="chip">つける</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る言い方</div>
+      <div class="chips"><span class="chip">〜んです</span><span class="chip">〜ので、すみません</span><span class="chip">〜が、たまに休む</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">毎日の習慣</span>
+        <div class="ex-ja">朝おきたら、まず一ぱいの水を<b>飲むことにしています</b>。<button class="say" data-say="朝おきたら、まず一ぱいの水を飲むことにしています。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I make it a rule to drink a glass of water as soon as I get up.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ない形</span>
+        <div class="ex-ja">休みの日は、仕事のメールを<b>開かないことにしている</b>。<button class="say" data-say="休みの日は、仕事のメールを開かないことにしている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I make it a rule not to open work email on my days off.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">仕事</span>
+        <div class="ex-ja">会議の前に、資料をもう一度<b>読み直すことにしている</b>。<button class="say" data-say="会議の前に、資料をもう一度読み直すことにしている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I make a point of reading the materials once more before a meeting.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">家</span>
+        <div class="ex-ja">月の終わりの土曜に、まどを<b>ふくことにしています</b>。<button class="say" data-say="月の終わりの土曜に、まどをふくことにしています。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I make it a rule to clean the windows on the last Saturday of the month.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">買い物</span>
+        <div class="ex-ja">安くても、いらない物は<b>買わないことにしています</b>。<button class="say" data-say="安くても、いらない物は買わないことにしています。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even if it is cheap, I make it a rule not to buy things I do not need.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">勉強</span>
+        <div class="ex-ja">電車の中では、新しいことばを五つ<b>おぼえることにしている</b>。<button class="say" data-say="電車の中では、新しいことばを五つおぼえることにしている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">On the train I make it a rule to learn five new words.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>〜ことにしていた</div>
+      <div class="use-d">「していた」にすると、前は続けていたが、いまはもうしていない、という意味になります。</div>
+      <div class="use-e">学生のころは、朝六時に<b>おきることにしていた</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>やわらかく断るとき</div>
+      <div class="use-d">「〜ことにしているんです」と言うと、自分のきまりだからと言って、しつれいにならないように断ることができます。</div>
+      <div class="use-e">すみません、夜は<b>飲まないことにしているんです</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ことにする</div>
+      <div class="vs-lead">「〜ことにする」は<b>そのとき決める</b>、決めた<b>その一点</b>の話です。「〜ことにしている」は、もう決めたあとで、それを<b>いまもずっと続けている</b>という線の話です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ことにする</th><th>〜ことにしている</th></tr>
+        <tr><td class="k">いつの話か</td><td>いま 決める（その 一点）</td><td>前に 決めて、いまも 続いて いる</td></tr>
+        <tr><td class="k">回数</td><td>その 一回</td><td>何回も、毎日のように</td></tr>
+        <tr><td class="k">よく使う場面</td><td>その場で 決めて 人に 言う</td><td>自分の 習慣を 紹介する</td></tr>
+        <tr><td class="k">いっしょの副詞</td><td>今日は・やっぱり</td><td>毎日・かならず・なるべく</td></tr>
+      </table>
+      <div class="vs-ex">
+        「今日は歩いて帰る<b>ことにする</b>」＝いま決めた。今日だけの話。<br>
+        「毎日歩いて帰る<b>ことにしている</b>」＝前に決めて、いまも続けている。<br>
+        「来年から日記を書く<b>ことにしました</b>」＝決めた。まだ続いてはいない。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ようにしている</div>
+      <div class="vs-lead">「〜ようにしている」は、そうできるように<b>気をつけて努力している</b>という言い方で、<b>うまくできているとはかぎりません</b>。「〜ことにしている」は自分のきまりにして<b>守っている</b>ので、ほとんど毎回できています。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ことにしている</th><th>〜ようにしている</th></tr>
+        <tr><td class="k">中身</td><td>自分の きまり</td><td>気をつけての 努力</td></tr>
+        <tr><td class="k">できているか</td><td>ほとんど 毎回 できて いる</td><td>できない日も ある</td></tr>
+        <tr><td class="k">気もち</td><td>そう 決めたから 守る</td><td>できるだけ 近づきたい</td></tr>
+        <tr><td class="k">いっしょの副詞</td><td>かならず・ぜったいに</td><td>なるべく・できるだけ</td></tr>
+      </table>
+      <div class="vs-ex">
+        「一日三十分歩く<b>ことにしている</b>」＝きまりにして、毎日守っている。<br>
+        「一日三十分歩く<b>ようにしている</b>」＝努力中。歩けない日もある。<br>
+        「なるべく早くねる<b>ことにしている</b>」は少し変で、「ようにしている」が自然です。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜ことにしている says that you decided something yourself and have kept doing it ever since - your own personal rule. 〜ことにする is the moment of deciding; 〜ことにしている is the habit that follows. Unlike 〜ようにしている, which means you are trying hard and may still fail, 〜ことにしている means you actually keep to it.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜ことにしている」表示自己下了決定，並且一直維持到現在，是自己給自己訂的規矩。「〜ことにする」是「做決定」的那一刻，「〜ことにしている」則是決定之後持續的習慣。與「〜ようにしている」（努力做到，有時仍做不到）不同，「〜ことにしている」表示實際上一直有做到。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%93%E3%81%A8%E3%81%AB%E3%81%97%E3%81%A6%E3%81%84%E3%82%8B&amp;lv=N3&amp;ex=%E6%9C%9D%E3%81%8A%E3%81%8D%E3%81%9F%E3%82%89%E3%80%81%E3%81%BE%E3%81%9A%E4%B8%80%E3%81%B1%E3%81%84%E3%81%AE%E6%B0%B4%E3%82%92%E9%A3%B2%E3%82%80%E3%81%93%E3%81%A8%E3%81%AB%E3%81%97%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="kotonisuru.html">🔁 〜ことにする（そのとき決める）とくらべる<span class="ar">›</span></a>
+      <a href="kotoninatteiru.html">🔁 〜ことになっている（まわりのきまり）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-49">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜出す・〜込む（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜出す・〜込む」の意味・接続・例文。急に始まる・外へ出るの「〜出す」と、中へ入る・すっかりの「〜込む」、「〜はじめる」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜出す・〜込む</div>
+    <div class="p-en">start ~ing suddenly / ~ into</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">動詞ます形に付く</span>
+      <span class="badge sub">複合動詞</span>
+      <span class="badge sub">出す＝外へ／込む＝中へ</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">急に始まる</span>〜出す①：前ぶれなく 始まる（泣き出す・降り出す）</div>
+    <div class="lead"><span class="imi-tag">外へ出る</span>〜出す②：中から 外へ 動く（飛び出す・取り出す）</div>
+    <div class="lead"><span class="imi-tag">中へ・深く</span>〜込む：外から 中へ（飛び込む）／すっかり（考え込む）</div>
+    <div class="desc">「〜出す」「〜込む」は、動詞のます形にくっついて意味を足す言い方です（こういう形を複合動詞といいます）。「出す」は<b>外へ</b>が芯で、そこから「急に始まる」という意味も生まれます。「込む」は<b>中へ</b>が芯で、そこから「すっかり・深く」という意味も生まれます。二つは向きがちょうど反対だと考えると覚えやすくなります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 外へ／中へ の 向き</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「〜出す」は中から外へ、「〜込む」は外から中へという反対の向きを表すことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">〜出す は 外へ、〜込む は 中へ</text><rect x="180" y="62" width="100" height="76" rx="10" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.8"/><text x="230" y="96" text-anchor="middle" font-size="14" fill="#3C3489" font-weight="700" font-family="sans-serif">中</text><text x="230" y="118" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">へや・水・心</text><path d="M176 100 L98 100" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="136" y="86" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">〜出す</text><text x="136" y="122" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">飛び出す・取り出す</text><path d="M384 100 L286 100" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="334" y="86" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">〜込む</text><text x="334" y="122" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">飛び込む・持ち込む</text><text x="230" y="166" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">向きが ちょうど 反対</text><text x="230" y="184" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">どちらも 動詞の ます形に くっついて 意味を 足す</text></svg>
+    <div class="zu-cap">② 〜出す は 急に 始まる</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「〜出す」は前ぶれなく急に動作が始まることを、時間の線と立ち上がる矢印で示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">〜出す ＝ 前ぶれなく 急に 始まる</text><rect x="170" y="42" width="120" height="30" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.6"/><text x="230" y="63" text-anchor="middle" font-size="12" fill="#3C3489" font-weight="700" font-family="sans-serif">泣き出す</text><path d="M230 128 L230 78" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><path d="M212 88 L202 76" fill="none" stroke="#3C3489" stroke-width="1.5"/><path d="M248 88 L258 76" fill="none" stroke="#3C3489" stroke-width="1.5"/><path d="M28 130 L426 130" fill="none" stroke="#9E9890" stroke-width="1.6" marker-end="url(#ar2)"/><text x="110" y="112" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">しずかだった</text><text x="345" y="112" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">わっと 始まった</text><text x="414" y="150" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">時間</text><text x="230" y="172" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「そろそろ」ではなく、思いがけず 始まる ところが 芯</text></svg>
+    <div class="zu-cap">③ 〜込む の 二つの 意味</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「〜込む」には外から中へ入る意味と、すっかり深くなる意味の二つがあることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">〜込む の 二つの 意味</text><text x="120" y="46" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">① 中へ 入る</text><circle cx="34" cy="96" r="11" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.6"/><path d="M50 96 L96 96" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="100" y="58" width="110" height="76" rx="10" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="155" y="100" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">プール</text><text x="120" y="154" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">飛び込む・持ち込む</text><text x="340" y="46" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">② すっかり・深く</text><rect x="270" y="58" width="140" height="76" rx="10" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="302" y="80" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">少し</text><text x="302" y="102" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">もっと</text><text x="304" y="124" text-anchor="middle" font-size="10.5" fill="#3C3489" font-weight="700" font-family="sans-serif">すっかり</text><path d="M372 66 L372 124" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="340" y="154" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">考え込む・眠り込む</text><text x="230" y="178" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「中へ」の 動きが、気もちの「深さ」にも つかわれる</text></svg>
+    <div class="zu-note">まず<b>向き</b>で覚えてください。「出す」は外へ、「込む」は中へ。外へぱっと出るようすが<b>「急に始まる」</b>に、中へ深く入るようすが<b>「すっかり」</b>につながっています。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞ます形（語幹）＋ <span class="n">出す</span>／<span class="n">込む</span></div>
+    <div class="setsu-note">「泣きます」→「泣き<b>出す</b>」、「飛びます」→「飛び<b>込む</b>」のように、ます形から「ます」を取った形に付けます。できあがったものは一つの動詞なので、「泣き出した」「飛び込んで」のようにふつうに活用します。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">〜出す（急に始まる）</div>
+      <div class="chips"><span class="chip">泣き出す</span><span class="chip">降り出す</span><span class="chip">笑い出す</span><span class="chip">走り出す</span><span class="chip">動き出す</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">〜出す（外へ）</div>
+      <div class="chips"><span class="chip">飛び出す</span><span class="chip">取り出す</span><span class="chip">持ち出す</span><span class="chip">はみ出す</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">〜込む（中へ・深く）</div>
+      <div class="chips"><span class="chip">飛び込む</span><span class="chip">持ち込む</span><span class="chip">考え込む</span><span class="chip">眠り込む</span><span class="chip">だまり込む</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">〜出す（急に）</span>
+        <div class="ex-ja">駅を出たとたん、雨が<b>降り出した</b>。<button class="say" data-say="駅を出たとたん、雨が降り出した。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The moment I left the station, it started to rain.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜出す（急に）</span>
+        <div class="ex-ja">子どもが急に<b>泣き出して</b>、まわりの人がふり返った。<button class="say" data-say="子どもが急に泣き出して、まわりの人がふり返った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The child suddenly burst into tears and people around us turned to look.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜出す（外へ）</span>
+        <div class="ex-ja">かばんから手ちょうを<b>取り出して</b>、日づけを書いた。<button class="say" data-say="かばんから手ちょうを取り出して、日づけを書いた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I took my notebook out of my bag and wrote down the date.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜込む（中へ）</span>
+        <div class="ex-ja">会場には、飲みものを<b>持ち込む</b>ことができません。<button class="say" data-say="会場には、飲みものを持ち込むことができません。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">You may not bring drinks into the hall.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜込む（深く）</span>
+        <div class="ex-ja">兄はいすにすわったまま、じっと<b>考え込んで</b>いた。<button class="say" data-say="兄はいすにすわったまま、じっと考え込んでいた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My older brother sat in the chair, lost deep in thought.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜込む（すっかり）</span>
+        <div class="ex-ja">きのうは電気をつけたまま<b>眠り込んで</b>しまった。<button class="say" data-say="きのうは電気をつけたまま眠り込んでしまった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Yesterday I fell fast asleep with the light still on.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>〜込む ①：外から 中へ</div>
+      <div class="use-d">人・もの・気持ちが、外から中へ入る動きを表します。「飛び込む」「持ち込む」「書き込む」「乗り込む」などがあります。</div>
+      <div class="use-e">答えは、この列に<b>書き込んで</b>ください。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>〜込む ②：すっかり・深く</div>
+      <div class="use-d">中へ深く入るようすから、「すっかりそうなる」「深くそうする」という意味にもなります。「考え込む」「眠り込む」「だまり込む」などです。</div>
+      <div class="use-e">父はその話を聞いて、<b>だまり込んで</b>しまった。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>ほかの 複合動詞</div>
+      <div class="use-d">同じ作り方で「〜合う」（いっしょにする）、「〜きる」（さいごまでする）なども作れます。まとめて覚えると使えることばが増えます。</div>
+      <div class="use-e">みんなで<b>話し合って</b>、場所を決めた。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜はじめる</div>
+      <div class="vs-lead">「〜はじめる」は<b>ふつうに始まる</b>ことを言い、自分で決めて始めることにも使えます。「〜出す」は<b>急に・思いがけず</b>始まったときに使うので、おどろきの気持ちが出ます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜出す</th><th>〜はじめる</th></tr>
+        <tr><td class="k">始まり方</td><td>急に、思いがけず</td><td>ふつうに、じゅんばんに</td></tr>
+        <tr><td class="k">自分で決めたこと</td><td>言いにくい</td><td>言える</td></tr>
+        <tr><td class="k">おどろき</td><td>ある</td><td>ない</td></tr>
+        <tr><td class="k">よく使う例</td><td>雨が降り出した</td><td>ピアノを習いはじめた</td></tr>
+      </table>
+      <div class="vs-ex">
+        「赤ちゃんが<b>泣き出した</b>」＝急に泣いた。おどろきがある。<br>
+        「ピアノを習い<b>はじめた</b>」＝自分で決めて始めた。「習い出した」とはあまり言わない。<br>
+        「雨が降り<b>はじめた</b>」＝しずかに始まった感じ。「降り<b>出した</b>」＝ぱっと来た感じ。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜込む（〜出すとくらべて）</div>
+      <div class="vs-lead">同じ作り方の二つですが、<b>向きが反対</b>です。「出す」は中から外へ、「込む」は外から中へ。それぞれ、もう一つの意味も反対の方向にのびています。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜出す</th><th>〜込む</th></tr>
+        <tr><td class="k">向き</td><td>中から 外へ</td><td>外から 中へ</td></tr>
+        <tr><td class="k">もう一つの意味</td><td>急に 始まる</td><td>すっかり・深く</td></tr>
+        <tr><td class="k">よく使う語</td><td>飛び出す・取り出す</td><td>飛び込む・持ち込む</td></tr>
+      </table>
+      <div class="vs-ex">
+        「かばんから本を<b>取り出す</b>」＝中から外へ。<br>
+        「かばんに本を<b>しまい込む</b>」＝外から中へ、しかも おくのほうへ。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜出す and 〜込む attach to the masu-stem of a verb to make a compound verb. 出す has the core sense of 'out': 取り出す (take out), and from that 'suddenly start': 泣き出す, 降り出す. 込む has the core sense of 'in': 飛び込む, 持ち込む, and from that 'thoroughly, deeply': 考え込む, 眠り込む. Compared with 〜はじめる, which is a plain, often planned beginning, 〜出す sounds sudden and unexpected.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜出す」「〜込む」接在動詞ます形的語幹後面，構成複合動詞。「出す」的核心是「向外」：取り出す（拿出來），由此引申出「突然開始」：泣き出す、降り出す。「込む」的核心是「向內」：飛び込む、持ち込む，由此引申出「徹底、深深地」：考え込む、眠り込む。與表示一般開始（也可以是自己決定的）的「〜はじめる」相比，「〜出す」帶有突然、出乎意料的語感。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E5%87%BA%E3%81%99%E3%83%BB%E3%80%9C%E8%BE%BC%E3%82%80&amp;lv=N3&amp;ex=%E9%A7%85%E3%82%92%E5%87%BA%E3%81%9F%E3%81%A8%E3%81%9F%E3%82%93%E3%80%81%E9%9B%A8%E3%81%8C%E9%99%8D%E3%82%8A%E5%87%BA%E3%81%97%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="hajimeru.html">🔁 〜はじめる（ふつうに始まる）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-64">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

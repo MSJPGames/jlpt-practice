@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜のこと（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜のこと」の意味・接続・例文。その人・そのものに関わること全体をさす使い方と、「彼が好きだ」とのちがい、「〜について」との使い分けを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜のこと</div>
+    <div class="p-en">about ~ / ~ (as a whole)</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">名詞に付く</span>
+      <span class="badge sub">気持ちのことばと</span>
+      <span class="badge sub">やわらかい感じ</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">まるごと</span>その人・そのものに かかわること全体を まとめてさす</div>
+    <div class="lead"><span class="imi-tag">気持ちの先</span>好き・心配などの 気持ちが 向かう先を 表す</div>
+    <div class="desc">「〜のこと」は、人やものを表すことばのうしろに付いて、その人・そのものに<b>かかわること全体</b>をまとめてさす言い方です。「彼のこと」なら、その人の性格も、毎日のようすも、思い出も、ぜんぶ入ります。「好きだ」「心配する」「考える」「忘れる」のような、<b>気持ちを表すことば</b>といっしょによく使います。付けると、言い方がやわらかくなります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 「のこと」がさす はんい</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「彼」は一点をさすが、「彼のこと」はその人に関わること全体をまとめてさすことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">「のこと」を つけると、さす はんいが 広がる</text><circle cx="62" cy="104" r="9" fill="#3C3489" stroke="#3C3489" stroke-width="0"/><text x="62" y="138" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-weight="700" font-family="sans-serif">彼</text><text x="62" y="158" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">その人 一点</text><path d="M92 104 L140 104" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="150" y="40" width="296" height="130" rx="14" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="298" y="62" text-anchor="middle" font-size="13.5" fill="#3C3489" font-weight="700" font-family="sans-serif">彼のこと</text><rect x="166" y="74" width="124" height="34" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.4"/><rect x="302" y="74" width="128" height="34" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.4"/><rect x="166" y="116" width="124" height="34" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.4"/><rect x="302" y="116" width="128" height="34" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.4"/><text x="228" y="96" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">せいかく</text><text x="366" y="96" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">しごと</text><text x="228" y="138" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">毎日の ようす</text><text x="366" y="138" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">思い出</text><text x="230" y="190" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">その人に かかわる こと ぜんぶが、まるごと 入る</text></svg>
+    <div class="zu-cap">② いっしょに使う ことば</div>
+    <svg class="zu" viewBox="0 0 460 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「のこと」は好き・心配する・考えるなど気持ちを表すことばといっしょに使うことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">気持ちを 表す ことばと いっしょに 使う</text><rect x="16" y="76" width="140" height="58" rx="10" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="86" y="102" text-anchor="middle" font-size="13.5" fill="#3C3489" font-weight="700" font-family="sans-serif">〜のこと</text><text x="86" y="122" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">（まるごと）</text><path d="M160 105 L246 49" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><path d="M160 105 L246 79" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><path d="M160 105 L246 109" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><path d="M160 105 L246 139" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><path d="M160 105 L246 169" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="250" y="36" width="194" height="26" rx="7" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.4"/><rect x="250" y="66" width="194" height="26" rx="7" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.4"/><rect x="250" y="96" width="194" height="26" rx="7" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.4"/><rect x="250" y="126" width="194" height="26" rx="7" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.4"/><rect x="250" y="156" width="194" height="26" rx="7" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.4"/><text x="347" y="54" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">好きだ・きらいだ</text><text x="347" y="84" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">心配する</text><text x="347" y="114" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">考える・思う</text><text x="347" y="144" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">わすれる・思い出す</text><text x="347" y="174" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">話す・聞く</text><text x="230" y="200" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">気持ちが 向かう 先を さすので、「のこと」が よく つく</text></svg>
+    <div class="zu-cap">③ 「彼が好きだ」との ちがい</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「彼が好きだ」は一点をさし、「彼のことが好きだ」はその人まるごとをさしてやわらかい感じになることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">「彼が好きだ」と「彼のことが好きだ」</text><rect x="16" y="32" width="204" height="128" rx="10" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="118" y="56" text-anchor="middle" font-size="13" fill="#1C1C1C" font-weight="700" font-family="sans-serif">彼が 好きだ</text><circle cx="118" cy="92" r="9" fill="#1C1C1C" stroke="#1C1C1C" stroke-width="0"/><text x="118" y="124" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">その人（一点）を さす</text><text x="118" y="144" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">まっすぐで つよい 感じ</text><rect x="240" y="32" width="204" height="128" rx="10" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="342" y="56" text-anchor="middle" font-size="13" fill="#3C3489" font-weight="700" font-family="sans-serif">彼のことが 好きだ</text><circle cx="342" cy="92" r="24" fill="none" stroke="#3C3489" stroke-width="1.4"/><circle cx="342" cy="92" r="7" fill="#3C3489" stroke="#3C3489" stroke-width="0"/><text x="342" y="124" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">その人 まるごとを さす</text><text x="342" y="144" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">やわらかく あたたかい 感じ</text><text x="230" y="180" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">どちらも 正しいが、「のこと」の ほうが はんいが 広い</text></svg>
+    <div class="zu-note">「のこと」は、その人・そのものを入れる<b>大きなふくろ</b>だと考えてください。中には、見た目も、性格も、これまでのことも入っています。だから、気持ちを言うときによく合うのです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">人・ものを表す名詞 ＋ <span class="n">のこと</span></div>
+    <div class="setsu-note">名詞にそのまま付きます。「私のこと」「家族のこと」「この町のこと」のように使います。「〜のことが好きだ」「〜のことを考える」「〜のことで」「〜のことなら」の形でよく出てきます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る名詞</div>
+      <div class="chips"><span class="chip">家族</span><span class="chip">友だち</span><span class="chip">むすめ</span><span class="chip">仕事</span><span class="chip">この町</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来ることば</div>
+      <div class="chips"><span class="chip">好きだ</span><span class="chip">心配する</span><span class="chip">考える</span><span class="chip">思い出す</span><span class="chip">忘れる</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う形</div>
+      <div class="chips"><span class="chip">〜のことが好きだ</span><span class="chip">〜のことを考える</span><span class="chip">〜のことで</span><span class="chip">〜のことなら</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">好きだ</span>
+        <div class="ex-ja">弟は、となりのクラスの人<b>のこと</b>が好きらしい。<button class="say" data-say="弟は、となりのクラスの人のことが好きらしい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My little brother seems to have feelings for someone in the class next door.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">心配する</span>
+        <div class="ex-ja">母は、いつもわたし<b>のこと</b>を心配してくれる。<button class="say" data-say="母は、いつもわたしのことを心配してくれる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My mother is always worrying about me.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">考える</span>
+        <div class="ex-ja">新しい仕事<b>のこと</b>を考えていて、なかなか眠れなかった。<button class="say" data-say="新しい仕事のことを考えていて、なかなか眠れなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I lay awake thinking about my new job and could not fall asleep.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">忘れる</span>
+        <div class="ex-ja">引っこしがいそがしくて、友だち<b>のこと</b>をすっかり忘れていた。<button class="say" data-say="引っこしがいそがしくて、友だちのことをすっかり忘れていた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I was so busy moving house that I completely forgot about my friend.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">話す</span>
+        <div class="ex-ja">面接では、自分<b>のこと</b>を三分ぐらいで話してください。<button class="say" data-say="面接では、自分のことを三分ぐらいで話してください。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">In the interview, please talk about yourself for about three minutes.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜のことなら</span>
+        <div class="ex-ja">この町<b>のこと</b>なら、駅前の花屋のおばさんにきくといい。<button class="say" data-say="この町のことなら、駅前の花屋のおばさんにきくといい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If it is about this town, you should ask the lady at the flower shop by the station.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜のことで」で 用件を言う</div>
+      <div class="use-d">「〜のことで」の形で、何についての話かを先に言います。会社や学校の連絡でよく使う、ていねいな言い方です。</div>
+      <div class="use-e">来週のけんがく<b>のことで</b>、少しご相談があります。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜のことだから」で 予想する</div>
+      <div class="use-d">よく知っている人について、「あの人の性格だから、きっと…」と予想するときに使います。</div>
+      <div class="use-e">しっかり者の姉<b>のことだから</b>、もう用意はできているだろう。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜について</div>
+      <div class="vs-lead">「〜について」は<b>話題として取り上げる</b>かたい言い方で、調べる・書く・話すのような説明の文に合います。「〜のこと」は<b>その人・そのものにかかわること全体</b>をやわらかくさし、気持ちを表す文によく合います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜のこと</th><th>〜について</th></tr>
+        <tr><td class="k">さすもの</td><td>その人・ものに かかわること全体</td><td>取り上げる 話題</td></tr>
+        <tr><td class="k">感じ</td><td>やわらかい。話しことば向き</td><td>かたい。書きことば・発表向き</td></tr>
+        <tr><td class="k">うしろに来る文</td><td>好きだ・心配する・忘れる</td><td>調べる・書く・発表する</td></tr>
+        <tr><td class="k">「が好きだ」に続けて</td><td>○ 彼のことが好きだ</td><td>× 彼についてが好きだ</td></tr>
+      </table>
+      <div class="vs-ex">
+        「日本の祭り<b>について</b>調べる」＝話題として調べる。<br>
+        「祖母<b>のこと</b>を思い出す」＝その人がまるごと心にうかぶ。<br>
+        「彼<b>のこと</b>が心配だ」は自然だが、「彼<b>について</b>心配だ」は不自然。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜が好きだ（「のこと」なし）</div>
+      <div class="vs-lead">「彼が好きだ」も正しい言い方です。ただし、さしているのは<b>その人そのもの</b>で、まっすぐで強い感じがします。「彼のことが好きだ」は<b>その人まるごと</b>をさし、やわらかく、あたたかい感じになります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>彼のことが好きだ</th><th>彼が好きだ</th></tr>
+        <tr><td class="k">さす はんい</td><td>その人に かかわること全体</td><td>その人 そのもの</td></tr>
+        <tr><td class="k">感じ</td><td>やわらかい・あたたかい</td><td>まっすぐ・つよい</td></tr>
+        <tr><td class="k">よく使う場面</td><td>ふだんの会話・手紙</td><td>みじかく 言い切るとき</td></tr>
+      </table>
+      <div class="vs-ex">
+        「あなた<b>のこと</b>が心配です」＝ふだんのようすもふくめて心配だ。<br>
+        「あなたが心配です」＝いま目の前にいるその人が心配だ。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜のこと attaches to a noun for a person or thing and points to everything connected with it, not just the thing itself. It is very common with verbs of feeling and thought: 好きだ, 心配する, 考える, 思い出す, 忘れる. 彼が好きだ and 彼のことが好きだ are both correct, but the second covers the whole person and sounds warmer and softer.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜のこと」接在表示人或事物的名詞後面，指的是與那個人、那樣東西「有關的一切」，而不只是它本身。常與表達心情的詞語一起使用：好きだ、心配する、考える、思い出す、忘れる。「彼が好きだ」與「彼のことが好きだ」都正確，但後者涵蓋那個人的全部，語氣更柔和、更溫暖。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AE%E3%81%93%E3%81%A8&amp;lv=N3&amp;ex=%E5%BC%9F%E3%81%AF%E3%80%81%E3%81%A8%E3%81%AA%E3%82%8A%E3%81%AE%E3%82%AF%E3%83%A9%E3%82%B9%E3%81%AE%E4%BA%BA%E3%81%AE%E3%81%93%E3%81%A8%E3%81%8C%E5%A5%BD%E3%81%8D%E3%82%89%E3%81%97%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nitsuite.html">🔁 〜について（話題として）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-59">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

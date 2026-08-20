@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜（よ）うとしても〜ない（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜（よ）うとしても〜ない」の意味・接続・例文。やってみてもできないという使い方と、「〜（よ）うとする」「〜ても」とのちがいを、やさしい日本語と図で解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜（よ）うとしても〜ない</div>
+    <div class="p-en">even if one tries to ~, one can't</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">動詞の意向形に付く</span>
+      <span class="badge sub">うしろは必ず打ち消し</span>
+      <span class="badge sub">やってもできない</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">やってもだめ</span>やって みるけれど、できない</div>
+    <div class="lead"><span class="imi-tag">強い打ち消し</span>うしろは いつも「〜ない」で 終わる</div>
+    <div class="desc">「〜（よ）うとしても〜ない」は、<b>やって みるけれど、できない</b>と言う形です。「開けようとしても、開かない」なら、手は動かしたのに、ドアは開かなかったということです。前は動詞の意向形（開けよう・行こう）で、うしろには<b>必ず打ち消し</b>が来ます。「行こうとしても、行った」のような言い方はできません。「どんなに」「いくら」といっしょに使うと、気もちが もっと強く出ます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① やって みる → でも できない</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="やろうとしても、壁にぶつかってできない、という「〜（よ）うとしても〜ない」の形を示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">やって みる → でも できない</text><rect x="16" y="62" width="148" height="56" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="90" y="86" text-anchor="middle" font-size="12" fill="#3C3489" font-weight="700" font-family="sans-serif">開けようとしても</text><text x="90" y="106" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">＝やって みる</text><path d="M168 90 L198 90" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="204" y="50" width="12" height="80" rx="3" fill="#A0392E" stroke="#A0392E" stroke-width="1.5"/><text x="210" y="42" text-anchor="middle" font-size="14" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><text x="210" y="146" text-anchor="middle" font-size="10" fill="#A0392E" font-family="sans-serif">かべ</text><rect x="232" y="62" width="212" height="56" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.6"/><text x="338" y="86" text-anchor="middle" font-size="12.5" fill="#A0392E" font-weight="700" font-family="sans-serif">ドアは 開かない</text><text x="338" y="106" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">うしろは 必ず 打ち消し</text><text x="230" y="178" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「やって みた」＋「でも だめだった」が セットに なる</text></svg>
+    <div class="zu-cap">② 「〜ても」との ちがい</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「〜ても」はうしろが自由だが「〜（よ）うとしても」はうしろが打ち消しに限られることを比べた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">うしろに 来られる ものが ちがう</text><rect x="14" y="38" width="152" height="50" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="90" y="60" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-weight="700" font-family="sans-serif">〜ても</text><text x="90" y="78" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">ふつうの 逆接</text><path d="M170 62 L200 62" fill="none" stroke="#9E9890" stroke-width="1.6" marker-end="url(#ar2)"/><rect x="206" y="34" width="240" height="58" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="326" y="56" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">雨が 降っても 行く　○</text><text x="326" y="76" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">雨が 降っても 行かない　○</text><rect x="14" y="106" width="152" height="54" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="90" y="128" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">〜（よ）うとしても</text><text x="90" y="148" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">うしろは 打ち消しだけ</text><path d="M170 132 L200 132" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="206" y="102" width="240" height="58" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="326" y="124" text-anchor="middle" font-size="11" fill="#3C3489" font-family="sans-serif">行こうとしても 行けない　○</text><text x="326" y="144" text-anchor="middle" font-size="11" fill="#A0392E" font-family="sans-serif">行こうとしても 行った　×</text><text x="230" y="186" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「〜ても」は 自由。「〜うとしても」は 打ち消しで 止まる</text></svg>
+    <div class="zu-note">「〜（よ）うとしても」だけでは 文が おわりません。<b>うしろの「〜ない」までが 一つの形</b>だと 覚えてください。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞の意向形 ＋ <span class="n">としても</span> …… <span class="n">〜ない</span></div>
+    <div class="setsu-note">意向形は、Ⅰグループが「開く→開こう」、Ⅱグループが「開ける→開けよう」、Ⅲグループが「する→しよう」「来る→来よう」です。うしろは「〜ない」「〜られない」「〜なかった」など、<b>打ち消しの形</b>にします。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞（意向形）</div>
+      <div class="chips"><span class="chip">開けよう</span><span class="chip">直そう</span><span class="chip">思い出そう</span><span class="chip">寝よう</span><span class="chip">話そう</span><span class="chip">運ぼう</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">どんなに</span><span class="chip">いくら</span><span class="chip">どうしても</span><span class="chip">何度</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろに来る形</div>
+      <div class="chips"><span class="chip">〜ない</span><span class="chip">〜られない</span><span class="chip">〜なかった</span><span class="chip">〜ません</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">仕事</span>
+        <div class="ex-ja">何度もコピー機を<b>直そうとしても</b>、まったく<b>動かなかった</b>。<button class="say" data-say="何度もコピー機を直そうとしても、まったく動かなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">No matter how many times I tried to fix the copier, it would not run at all.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">学校</span>
+        <div class="ex-ja">先生の名前を<b>思い出そうとしても</b>、どうしても出て<b>こない</b>。<button class="say" data-say="先生の名前を思い出そうとしても、どうしても出てこない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">However hard I try to recall my teacher's name, it just will not come to me.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">家</span>
+        <div class="ex-ja">赤ちゃんが泣いて、<b>寝ようとしても</b><b>寝られない</b>夜が続いた。<button class="say" data-say="赤ちゃんが泣いて、寝ようとしても寝られない夜が続いた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The baby kept crying, so night after night I tried to sleep but could not.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">旅行</span>
+        <div class="ex-ja">暗い山道で地図を<b>見ようとしても</b>、字が小さくて<b>読めない</b>。<button class="say" data-say="暗い山道で地図を見ようとしても、字が小さくて読めない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">On the dark mountain path I tried to look at the map, but the print was too small to read.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">買い物</span>
+        <div class="ex-ja">安い店を<b>探そうとしても</b>、この町にはもう一軒も<b>ありません</b>。<button class="say" data-say="安い店を探そうとしても、この町にはもう一軒もありません。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even if you try to find a cheap shop, there is not a single one left in this town.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">引っ越し</span>
+        <div class="ex-ja">箱が重くて、一人で<b>運ぼうとしても</b>持ち上が<b>らなかった</b>。<button class="say" data-say="箱が重くて、一人で運ぼうとしても持ち上がらなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The box was so heavy that, try as I might, I could not lift it on my own.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>〜（よ）うとする（やって みる）</div>
+      <div class="use-d">「としても」を取った「〜（よ）うとする」だけの形もよく使います。こちらは<b>やって みる</b>という意味で、うしろは打ち消しでなくてもかまいません。</div>
+      <div class="use-e">妹はふたを<b>開けようとした</b>が、すぐにあきらめた。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>〜（よ）うとしている（〜しかけている）</div>
+      <div class="use-d">「〜（よ）うとしている」は、そのことが<b>今にも始まる／おわる</b>ようすを表します。人の気もちではなく、目の前のようすを言うときにも使います。</div>
+      <div class="use-e">空が暗くなって、雨が<b>降ろうとしている</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜（よ）うとする</div>
+      <div class="vs-lead">形は にていますが、「〜（よ）うとする」は<b>やって みる</b>までを言うだけです。できたか どうかは 言いません。「〜（よ）うとしても」は、そのあとに<b>できなかった</b>という打ち消しが 必ず つきます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜（よ）うとしても〜ない</th><th>〜（よ）うとする</th></tr>
+        <tr><td class="k">言いたいこと</td><td>やって みたが できない</td><td>やって みる／今にも〜する</td></tr>
+        <tr><td class="k">うしろの形</td><td>必ず 打ち消し</td><td>自由（打ち消しでなくてよい）</td></tr>
+        <tr><td class="k">結果</td><td>だめだったと わかる</td><td>わからない</td></tr>
+      </table>
+      <div class="vs-ex">
+        「窓を<b>開けようとしても</b>、開かなかった」＝やって みたが、だめだった。<br>
+        「窓を<b>開けようとした</b>とき、電話が鳴った」＝やって みる ところだった。<br>
+        「日が<b>沈もうとしている</b>」＝今にも 沈む ようす。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜ても</div>
+      <div class="vs-lead">「〜ても」は ふつうの 逆接で、うしろは<b>何が来ても かまいません</b>。「〜（よ）うとしても」は、<b>自分で やって みた</b>ことが前に来て、うしろは<b>打ち消しだけ</b>です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜（よ）うとしても〜ない</th><th>〜ても</th></tr>
+        <tr><td class="k">前に来るもの</td><td>自分が やって みること</td><td>何でも（雨・高い・休みでも）</td></tr>
+        <tr><td class="k">うしろ</td><td>打ち消しだけ</td><td>肯定でも 打ち消しでも よい</td></tr>
+        <tr><td class="k">気もち</td><td>できなくて 残念だ</td><td>予想と ちがう</td></tr>
+      </table>
+      <div class="vs-ex">
+        「電話し<b>ても</b>、出なかった」＝ただの 逆接。<br>
+        「電話し<b>ようとしても</b>、番号が わからなかった」＝しようとしたが、できなかった。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜（よ）うとしても〜ない attaches to the volitional form of a verb and means "even if you try to do it, you can't." The second half must be negative: 開けようとしても開かない (I tried to open it, but it wouldn't open). Adverbs like どんなに and いくら make it stronger. Without としても, plain 〜（よ）うとする simply means "try to do" or "be about to do," and the ending is free.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜（よ）うとしても〜ない」接在動詞的意向形之後，表示「即使想做、試著做，也做不到」。後半一定要是否定形：開けようとしても開かない（想打開卻打不開）。搭配「どんなに」「いくら」語氣更強。若只用「〜（よ）うとする」，則單純表示「試圖做」或「就要發生」，後面接什麼都可以。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%EF%BC%88%E3%82%88%EF%BC%89%E3%81%86%E3%81%A8%E3%81%97%E3%81%A6%E3%82%82%E3%80%9C%E3%81%AA%E3%81%84&amp;lv=N3&amp;ex=%E4%BD%95%E5%BA%A6%E3%82%82%E3%82%B3%E3%83%94%E3%83%BC%E6%A9%9F%E3%82%92%E7%9B%B4%E3%81%9D%E3%81%86%E3%81%A8%E3%81%97%E3%81%A6%E3%82%82%E3%80%81%E3%81%BE%E3%81%A3%E3%81%9F%E3%81%8F%E5%8B%95%E3%81%8B%E3%81%AA%E3%81%8B%E3%81%A3%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="youtosuru.html">🔁 〜（よ）うとする・〜（よ）うとしているとくらべる<span class="ar">›</span></a>
+      <a href="temo.html">🔁 〜ても（ふつうの逆接）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-66">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

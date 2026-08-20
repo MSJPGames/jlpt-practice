@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜まで（時点）（N4文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜まで（時点）」の意味・接続・例文。そのときまで動作がずっと続く使い方と、「〜までに」（その前に一回する）や極限の「〜まで」とのちがいを、図つきでやさしく解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #316F8A; --accent-bg: #E4EFF5;   /* N4 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #CDE2EC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜まで（時点）</div>
+    <div class="p-en">until ~</div>
+    <div class="p-badges">
+      <span class="badge">N4</span>
+      <span class="badge sub">名詞・動詞辞書形に 付く</span>
+      <span class="badge sub">ずっと 続く</span>
+      <span class="badge sub">「〜までに」と ちがう</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">ずっと</span>そのときまで、動作や 様子が 続く</div>
+    <div class="lead"><span class="imi-tag">おわりの点</span>「まで」の ところで 動作が おわる</div>
+    <div class="desc">「〜まで」は、動作や 様子が <b>そのときまで ずっと 続く</b>ことを 表します。「五時まで 待ちます」なら、いまから 五時に なるまで ずっと 待って いて、五時で おわります。前には「五時」「あした」の ような 時の ことばの ほかに、「雨が やむ」「先生が 来る」の ような <b>動詞の 辞書形</b>も 置けます。うしろには「待つ」「ねる」「いる」など、続けられる 動詞が 来ます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① そのときまで ずっと 続く</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「まで」はそのときまで動作がずっと続き、その時点で終わることを時間の線で示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="18" text-anchor="middle" font-size="12.5" fill="#316F8A" font-weight="700" font-family="sans-serif">「まで」＝ そのときまで ずっと 続く</text><rect x="64" y="62" width="250" height="30" rx="6" fill="#E4EFF5" stroke="#316F8A" stroke-width="2"/><path d="M74 77 L300 77" fill="none" stroke="#316F8A" stroke-width="1.7" marker-end="url(#ar)"/><text x="186" y="52" text-anchor="middle" font-size="11" fill="#316F8A" font-weight="700" font-family="sans-serif">ずっと 待って いる</text><path d="M32 112 L432 112" fill="none" stroke="#6B6560" stroke-width="1.5"/><path d="M64 104 L64 120" fill="none" stroke="#6B6560" stroke-width="1.4"/><path d="M314 56 L314 126" fill="none" stroke="#316F8A" stroke-width="2.4"/><text x="64" y="136" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">いま</text><text x="314" y="136" text-anchor="middle" font-size="12" fill="#316F8A" font-weight="700" font-family="sans-serif">五時</text><text x="370" y="78" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ここで おわり</text><path d="M368 88 L322 100" fill="none" stroke="#6B6560" stroke-width="1.3"/><path d="M24 154 L436 154" fill="none" stroke="#E2DDD6" stroke-width="1.4"/><text x="230" y="176" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">「雨が やむまで 待つ」＝おわりは 出来事でも いい</text><text x="230" y="194" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">五時・あした・雨がやむ　…　「そこ」で 動作が おわる</text></svg>
+    <div class="zu-cap">② 「まで」と「までに」の ちがい</div>
+    <svg class="zu" viewBox="0 0 460 212" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「五時まで待つ」は五時までずっと続くこと、「五時までに出す」は五時より前に一回だけすることを二つの時間の線で分けて示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#316F8A"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="18" text-anchor="middle" font-size="12.5" fill="#316F8A" font-weight="700" font-family="sans-serif">「まで」と「までに」は ちがう</text><rect x="16" y="30" width="428" height="68" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="30" y="52" text-anchor="start" font-size="12.5" fill="#316F8A" font-weight="700" font-family="sans-serif">① 五時まで 待つ</text><rect x="150" y="60" width="180" height="22" rx="5" fill="#E4EFF5" stroke="#316F8A" stroke-width="1.8"/><path d="M156 71 L322 71" fill="none" stroke="#316F8A" stroke-width="1.6" marker-end="url(#ar)"/><text x="240" y="54" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">ずっと 続く</text><path d="M330 54 L330 88" fill="none" stroke="#316F8A" stroke-width="2.2"/><text x="90" y="76" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">いま</text><text x="370" y="76" text-anchor="start" font-size="10.5" fill="#6B6560" font-family="sans-serif">五時</text><rect x="16" y="106" width="428" height="68" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="30" y="128" text-anchor="start" font-size="12.5" fill="#316F8A" font-weight="700" font-family="sans-serif">② 五時までに 出す</text><path d="M150 148 L330 148" fill="none" stroke="#6B6560" stroke-width="2" stroke-dasharray="6 4"/><circle cx="228" cy="148" r="8" fill="#316F8A"/><text x="228" y="134" text-anchor="middle" font-size="10.5" fill="#316F8A" font-weight="700" font-family="sans-serif">出す</text><text x="228" y="166" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">一回だけ。いつでも いい</text><path d="M330 132 L330 164" fill="none" stroke="#316F8A" stroke-width="2.2"/><text x="90" y="152" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">いま</text><text x="370" y="152" text-anchor="start" font-size="10.5" fill="#6B6560" font-family="sans-serif">五時</text><text x="230" y="198" text-anchor="middle" font-size="11" fill="#1C1C1C" font-weight="700" font-family="sans-serif">「まで」は ずっと、「までに」は その 前に 一回</text></svg>
+    <div class="zu-note">見分け方は <b>うしろの 動詞</b>です。「待つ・ねる・いる」の ように <b>続けられる</b>動詞なら「まで」、「出す・帰る・電話する」の ように <b>一回で おわる</b>動詞なら「までに」です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞・動詞辞書形 ＋ <span class="n">まで</span></div>
+    <div class="setsu-note">名詞は「五時<b>まで</b>」「金曜日<b>まで</b>」の ように そのまま 付けます。動詞は「やむ<b>まで</b>」「来る<b>まで</b>」の ように <b>辞書形</b>に 付けます。た形には しません（<span class="ng">×</span>やんだまで）。はじめも 言う ときは「朝<b>から</b>夜<b>まで</b>」の 形に します。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前に よく 来る ことば（時）</div>
+      <div class="chips"><span class="chip">五時</span><span class="chip">あした</span><span class="chip">来週</span><span class="chip">なつやすみ</span><span class="chip">そつぎょう</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前に よく 来る 動詞</div>
+      <div class="chips"><span class="chip">やむ</span><span class="chip">来る</span><span class="chip">おわる</span><span class="chip">なおる</span><span class="chip">帰る</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろに よく 来る 動詞</div>
+      <div class="chips"><span class="chip">待つ</span><span class="chip">ねる</span><span class="chip">いる</span><span class="chip">働く</span><span class="chip">読む</span><span class="chip">話す</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">名詞（時こく）</span>
+        <div class="ex-ja">この図書館は<b>六時まで</b>開いています。<button class="say" data-say="この図書館は六時まで開いています。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This library is open until six o'clock.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名詞（曜日）</span>
+        <div class="ex-ja">駅前の店は、<b>金曜日まで</b>やすみだそうです。<button class="say" data-say="駅前の店は、金曜日までやすみだそうです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">They say the shop by the station is closed until Friday.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">動詞辞書形</span>
+        <div class="ex-ja">雨が<b>やむまで</b>、駅で待つことにしました。<button class="say" data-say="雨がやむまで、駅で待つことにしました。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">We decided to wait at the station until the rain stopped.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">動詞辞書形</span>
+        <div class="ex-ja">先生が<b>来るまで</b>、教室でしずかに本を読んでいた。<button class="say" data-say="先生が来るまで、教室でしずかに本を読んでいた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I read quietly in the classroom until the teacher came.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜から〜まで</span>
+        <div class="ex-ja">きのうは、朝<b>から</b>夜<b>まで</b>ずっと仕事でした。<button class="say" data-say="きのうは、朝から夜までずっと仕事でした。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Yesterday I worked right through from morning until night.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">みじかい 間</span>
+        <div class="ex-ja">バスが<b>来るまで</b>、ここで話しましょう。<button class="say" data-say="バスが来るまで、ここで話しましょう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Let's chat here until the bus comes.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜から〜まで」</div>
+      <div class="use-d">はじめと おわりを ならべて、続いて いる 間を 表します。時間にも 場所にも 使えます。</div>
+      <div class="use-e">月曜日<b>から</b>金曜日<b>まで</b>、まいにち走っています。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>場所の「まで」</div>
+      <div class="use-d">場所に 付くと、そこが <b>行きつく 先</b>だ という 意味に なります。</div>
+      <div class="use-e">この電車は、みなと駅<b>まで</b>行きます。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜までに</div>
+      <div class="vs-lead">ここが いちばん だいじな ところです。「まで」は そのときまで <b>ずっと 続ける</b>こと、「までに」は そのときが 来る 前に <b>一回 する</b>ことです。「に」が 一つ 入るだけで、意味が 大きく 変わります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜まで</th><th>〜までに</th></tr>
+        <tr><td class="k">すること</td><td>そのときまで ずっと 続ける</td><td>その 前に 一回 する</td></tr>
+        <tr><td class="k">いつ するか</td><td>その 間 ずっと</td><td>いつでも いい（一回）</td></tr>
+        <tr><td class="k">うしろの 動詞</td><td>待つ・ねる・いる（続く 動詞）</td><td>出す・帰る・電話する（一回の 動詞）</td></tr>
+        <tr><td class="k">れい</td><td>五時まで 待ちます</td><td>五時までに 出します</td></tr>
+      </table>
+      <div class="vs-ex">
+        「五時<b>まで</b>会社に います」＝いまから 五時まで ずっと 会社に いる。<br>
+        「五時<b>までに</b>会社に 来て ください」＝五時より 前に 一回 来れば いい。<br>
+        <span class="ng">×</span>「五時まで 出して ください」とは 言えません。「出す」は 一回の 動作だからです。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜まで（極限・意外）</div>
+      <div class="vs-lead">形は 同じ「まで」ですが、<b>意味が ぜんぜん ちがいます</b>。時の「まで」は おわりの 点を 言います。もう 一つの「まで」は、「そんな ものまで！」という <b>おどろき</b>を 表します。前に 来る ことばで 見分けます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜まで（時点）</th><th>〜まで（極限・意外）</th></tr>
+        <tr><td class="k">前に 来る もの</td><td>時・場所・出来事</td><td>人・もの・ことがら</td></tr>
+        <tr><td class="k">言いたい こと</td><td>そこまで ずっと 続く</td><td>そんな ものまで、と おどろく</td></tr>
+        <tr><td class="k">れい</td><td>十時まで 勉強した</td><td>子どもまで 手つだって くれた</td></tr>
+      </table>
+      <div class="vs-ex">
+        「三時<b>まで</b>待ちました」＝三時が おわりの 時こく。時の 話。<br>
+        「先生<b>まで</b>わらいました」＝先生さえも、という おどろき。気もちの 話。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜まで marks the point at which an ongoing action stops: 五時まで待ちます means you keep waiting right up to five o'clock. It takes a noun of time or place, or a dictionary-form verb (雨がやむまで, 先生が来るまで), and the following verb must be one that can continue - 待つ, ねる, いる. Do not confuse it with 〜までに, which sets a deadline for a single action done at some point before that time (五時までに出す). The same word まで also has a quite different use meaning 'even ~', which attaches to people and things rather than times.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜まで」表示動作或狀態一直持續到那個時間點為止，例如「五時まで待ちます」＝一直等到五點。前面可以接時間、地點的名詞，也可以接動詞辭書形（雨がやむまで、先生が来るまで）；後面要用「待つ、ねる、いる」這類可以持續的動詞。要和「〜までに」分清楚：「までに」是期限，在那個時間之前做一次就好（五時までに出す）。另外還有一個「〜まで」表示「連〜都」的意外語氣，接的是人或事物，意思完全不同。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%BE%E3%81%A7%EF%BC%88%E6%99%82%E7%82%B9%EF%BC%89&amp;lv=N4&amp;ex=%E3%81%93%E3%81%AE%E5%9B%B3%E6%9B%B8%E9%A4%A8%E3%81%AF%E5%85%AD%E6%99%82%E3%81%BE%E3%81%A7%E9%96%8B%E3%81%84%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="made.html">🔁 〜まで（極限・意外）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n4-03">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

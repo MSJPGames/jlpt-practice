@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜のは〜だ（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜のは〜だ」の意味・接続・例文。文を組みかえて言いたいところをうしろに出す強調の作り方と、何を目立たせるかによる形のちがい、ふつうの文とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜のは〜だ</div>
+    <div class="p-en">it is ~ that ...</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">普通形に付く</span>
+      <span class="badge sub">強調の形</span>
+      <span class="badge sub">答えをはっきり言う</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">強調</span>いちばん言いたいところを、文のうしろに出して目立たせる</div>
+    <div class="lead"><span class="imi-tag">答え</span>「だれが」「いつ」「どこで」の答えを、はっきり示す</div>
+    <div class="desc">「〜のは〜だ」は、ふつうの文を組みかえて、いちばん言いたいところを文のうしろに出す言い方です。「きのう田中さんが来ました」を「きのう来たのは田中さんです」にすると、「田中さん」だけが強く目立ちます。前の「〜のは」には、もう相手も知っていることを入れ、うしろには伝えたい新しいことを置きます。「だれが」「いつ」「どこで」の答えを、はっきり言いたいときに使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① もとの文からの 作り方</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ふつうの文「きのう田中さんが来ました」を「きのう来たのは田中さんです」に組みかえて、言いたいところをうしろに出すことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="18" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">ふつうの文を 組みかえて、うしろで 目立たせる</text><rect x="14" y="30" width="432" height="52" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="26" y="48" font-size="10" fill="#6B6560" font-family="sans-serif">もとの文</text><text x="26" y="70" font-size="13" fill="#1C1C1C" font-family="sans-serif">きのう 田中さんが 来ました。</text><path d="M69 76 L135 76" fill="none" stroke="#3C3489" stroke-width="3"/><text x="300" y="70" font-size="10.5" fill="#6B6560" font-family="sans-serif">← 言いたいのは ここ</text><path d="M230 86 L230 108" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="244" y="103" font-size="10.5" fill="#6B6560" font-family="sans-serif">うしろへ 動かす</text><rect x="14" y="114" width="432" height="64" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="26" y="142" font-size="13" fill="#1C1C1C" font-family="sans-serif">きのう来た</text><text x="93" y="142" font-size="13" fill="#3C3489" font-weight="700" font-family="sans-serif">のは</text><rect x="124" y="124" width="92" height="26" rx="6" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.5"/><text x="170" y="142" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">田中さんです</text><text x="224" y="142" font-size="10.5" fill="#6B6560" font-family="sans-serif">← ここが いちばん 強い</text><text x="26" y="166" font-size="10.5" fill="#6B6560" font-family="sans-serif">前＝もう わかっていること　／　うしろ＝伝えたいこと</text><text x="230" y="194" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">動きのことばは 前に さがり、目立たせたいものが うしろに 出る</text></svg>
+    <div class="zu-cap">② 何を 目立たせるかで、うしろが 変わる</div>
+    <svg class="zu" viewBox="0 0 460 212" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="同じ出来事でも、だれ・いつ・どこ・なにのどれを目立たせたいかで、のはのうしろに置くことばが変わることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="18" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">目立たせたいもので、うしろが 変わる</text><rect x="14" y="28" width="432" height="32" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="230" y="49" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">きのう 姉が 駅前で ケーキを 買った。</text><rect x="14" y="70" width="76" height="26" rx="6" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="52" y="88" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">だれ？</text><path d="M94 83 L118 83" fill="none" stroke="#3C3489" stroke-width="1.6" marker-end="url(#ar)"/><text x="124" y="88" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">買ったのは 姉だ。（人）</text><rect x="14" y="102" width="76" height="26" rx="6" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="52" y="120" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">いつ？</text><path d="M94 115 L118 115" fill="none" stroke="#3C3489" stroke-width="1.6" marker-end="url(#ar)"/><text x="124" y="120" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">姉が買ったのは きのうだ。（時）</text><rect x="14" y="134" width="76" height="26" rx="6" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="52" y="152" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">どこ？</text><path d="M94 147 L118 147" fill="none" stroke="#3C3489" stroke-width="1.6" marker-end="url(#ar)"/><text x="124" y="152" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">姉が買ったのは 駅前だ。（場所）</text><rect x="14" y="166" width="76" height="26" rx="6" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><text x="52" y="184" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">なに？</text><path d="M94 179 L118 179" fill="none" stroke="#3C3489" stroke-width="1.6" marker-end="url(#ar)"/><text x="124" y="184" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">姉が買ったのは ケーキだ。（もの）</text><text x="230" y="206" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">出来事は 同じでも、うしろに 何を 置くかで 話の 中心が 変わる</text></svg>
+    <div class="zu-note">前の「〜のは」には<b>もう知っていること</b>、うしろには<b>いちばん伝えたいこと</b>を置きます。うしろに来るものが変われば、文の中心も変わります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">普通形 ＋ <span class="n">のは</span> ＋ 〜<span class="n">だ</span></div>
+    <div class="setsu-note">前が名詞やな形容詞のときは「休みな<b>のは</b>」「元気な<b>のは</b>」のように<b>な</b>をはさみます。うしろには名詞のほか、「きのうです」「駅前です」のような時や場所のことばも来ます。ていねいに言うときは「〜のは〜です」の形です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来るもの</div>
+      <div class="chips"><span class="chip">人の名前</span><span class="chip">時のことば</span><span class="chip">場所</span><span class="chip">もの</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う問い</div>
+      <div class="chips"><span class="chip">だれが</span><span class="chip">いつ</span><span class="chip">どこで</span><span class="chip">どれ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞（た形）</div>
+      <div class="chips"><span class="chip">来た</span><span class="chip">作った</span><span class="chip">言った</span><span class="chip">こわした</span><span class="chip">見つけた</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">人を目立たせる</span>
+        <div class="ex-ja">この花を植えた<b>のは</b>、となりの林さん<b>です</b>。<button class="say" data-say="この花を植えたのは、となりの林さんです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It was Ms. Hayashi next door who planted these flowers.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">時を目立たせる</span>
+        <div class="ex-ja">会議の日が変わったと聞いた<b>のは</b>、今朝<b>です</b>。<button class="say" data-say="会議の日が変わったと聞いたのは、今朝です。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It was this morning that I heard the meeting date had changed.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">場所を目立たせる</span>
+        <div class="ex-ja">この写真をとった<b>のは</b>、丘の上の古い駅<b>だ</b>。<button class="say" data-say="この写真をとったのは、丘の上の古い駅だ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It was at the old station on the hill that I took this photo.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ものを目立たせる</span>
+        <div class="ex-ja">わたしがいちばん食べたい<b>のは</b>、母が作るカレー<b>だ</b>。<button class="say" data-say="わたしがいちばん食べたいのは、母が作るカレーだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">What I want to eat most is the curry my mother makes.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">まちがいを直す</span>
+        <div class="ex-ja">コップを割った<b>のは</b>、弟ではなくわたし<b>です</b>。<button class="say" data-say="コップを割ったのは、弟ではなくわたしです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It wasn't my little brother who broke the glass - it was me.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ていねいに言う</span>
+        <div class="ex-ja">会場の予約をたのまれた<b>のは</b>、先週の金曜日<b>でした</b>。<button class="say" data-say="会場の予約をたのまれたのは、先週の金曜日でした。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It was last Friday that I was asked to book the venue.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜ではなく〜だ」で言い直す</div>
+      <div class="use-d">この形は、まちがいを直すときにもよく使います。「〜のは、Aではなく Bだ」と続けると、正しいほうがはっきりします。</div>
+      <div class="use-e">先に帰った<b>のは</b>、山本さんではなく田口さん<b>です</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「のは」が「のも」「のが」になる</div>
+      <div class="use-d">うしろのことばによって「のは」は「のも」「のが」に変わります。文のどこを取り立てるかがちがうだけで、組みかえ方は同じです。</div>
+      <div class="use-e">この店を教えてくれた<b>のも</b>、田口さん<b>です</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜が〜だ（ふつうの文）</div>
+      <div class="vs-lead">ふつうの文「きのう田中さんが来ました」は、起きたことをそのまま伝えるだけです。「きのう来たのは田中さんです」にすると、<b>田中さん</b>のところだけが強く目立ちます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜のは〜だ</th><th>〜が〜だ（ふつうの文）</th></tr>
+        <tr><td class="k">形</td><td>きのう来たのは田中さんです</td><td>きのう田中さんが来ました</td></tr>
+        <tr><td class="k">言いたいこと</td><td>だれかを一つにしぼって示す</td><td>出来事をそのまま伝える</td></tr>
+        <tr><td class="k">聞く人の受け取り方</td><td>「だれが？」の答えだとわかる</td><td>新しい話として受け取る</td></tr>
+        <tr><td class="k">文のおわり</td><td>目立たせたいものが来る</td><td>動きのことばが来る</td></tr>
+      </table>
+      <div class="vs-ex">
+        「かぎをかけた<b>のは</b>わたし<b>です</b>」＝ほかの人ではない、とはっきり言う。<br>
+        「わたしがかぎをかけました」＝したことを ふつうに 伝える。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜のは〜からだ</div>
+      <div class="vs-lead">うしろに<b>人・時・場所・もの</b>が来れば「〜のは〜だ」、うしろに<b>理由</b>が来れば「〜のは〜からだ」です。形はにていますが、答えている問いがちがいます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜のは〜だ</th><th>〜のは〜からだ</th></tr>
+        <tr><td class="k">うしろに来るもの</td><td>人・時・場所・ものなど</td><td>理由をあらわす文</td></tr>
+        <tr><td class="k">答える問い</td><td>だれが・いつ・どこで</td><td>なぜ・どうして</td></tr>
+        <tr><td class="k">文のおわり</td><td>〜だ／〜です</td><td>〜からだ／〜からです</td></tr>
+      </table>
+      <div class="vs-ex">
+        「電気を消した<b>のは</b>弟<b>です</b>」＝だれがしたかを言っている。<br>
+        「電気を消した<b>のは</b>、もう寝る<b>からです</b>」＝なぜしたかを言っている。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜のは〜だ reshapes a plain sentence so that the part you most want to highlight moves to the end. Turn kinou Tanaka-san ga kimashita into kinou kita no wa Tanaka-san desu and the sentence now answers "who?". Whatever you put after のは - a person, a time, a place, a thing - is what the sentence is really about; the front half is treated as information the listener already has.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜のは〜だ」是把普通句子改寫、將最想強調的部分移到句尾的說法。「きのう田中さんが来ました」改成「きのう来たのは田中さんです」，整句就等於在回答「是誰？」。放在「のは」後面的是人、時間、地點還是東西，決定了這句話真正的重點；前半部分則是聽話者已經知道的內容。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AE%E3%81%AF%E3%80%9C%E3%81%A0&amp;lv=N3&amp;ex=%E3%81%93%E3%81%AE%E8%8A%B1%E3%82%92%E6%A4%8D%E3%81%88%E3%81%9F%E3%81%AE%E3%81%AF%E3%80%81%E3%81%A8%E3%81%AA%E3%82%8A%E3%81%AE%E6%9E%97%E3%81%95%E3%82%93%E3%81%A7%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nohakarada.html">🔁 〜のは〜からだ（理由をうしろに置く）とくらべる<span class="ar">›</span></a>
+      <a href="noga.html">🔁 〜のが・〜のを（名詞にする形）を見る<span class="ar">›</span></a>
+      <a href="toiunoha.html">🔁 〜というのは・〜とは（定義）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-62">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

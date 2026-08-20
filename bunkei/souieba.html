@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>そういえば（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="接続詞「そういえば」の意味・使い方・例文。相手の話をきっかけにふと思い出したことを持ち出して話題を変える働きと、「ところで」「ちなみに」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">そういえば</div>
+    <div class="p-en">come to think of it / that reminds me</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">文と文をつなぐ</span>
+      <span class="badge sub">思い出して話題を変える</span>
+      <span class="badge sub">会話でよく使う</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">思い出す</span>相手の話をきっかけに、関係することをふと思い出す</div>
+    <div class="lead"><span class="imi-tag">話題を変える</span>思い出したことを持ち出して、別の話に移る</div>
+    <div class="desc">「そういえば」は、相手の話を聞いているうちに、それに関係することをふと思い出したときに使うことばです。思い出したことを持ち出して、そこから新しい話題に移ります。前の話とどこかで糸がつながっているのが特徴です。会話ではとてもよく使いますが、レポートや論文などの書きことばでは使いにくい形です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 相手の話から 思い出す</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="相手の話がきっかけになって話し手が別のことを思い出し、そういえばと言って新しい話題に移ることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">相手の話が きっかけ → ふと 思い出す</text><rect x="14" y="36" width="190" height="48" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="109" y="54" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">相手の話</text><text x="109" y="72" text-anchor="middle" font-size="11.5" fill="#854F0B" font-weight="700" font-family="sans-serif">来月 京都へ 行くんだ</text><path d="M208 60 L242 60" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="248" y="30" width="196" height="60" rx="26" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.5" stroke-dasharray="5 4"/><text x="346" y="52" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">頭の中（記おく）</text><text x="346" y="72" text-anchor="middle" font-size="11.5" fill="#6B6560" font-family="sans-serif">京都… あ、そうだ</text><path d="M346 94 L346 118" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="248" y="124" width="196" height="56" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="346" y="146" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">そういえば、</text><text x="346" y="166" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">先週 手紙が 届いたよ</text><text x="109" y="136" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">きっかけは 相手の話</text><text x="109" y="158" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">中身は 別の 話題</text></svg>
+    <div class="zu-cap">②「ところで」とのちがい</div>
+    <svg class="zu" viewBox="0 0 460 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="そういえばは前の話と糸でつながり、ところでは前の話とのつながりが切れていることを左右にならべて示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">前の話との つながりが あるか ないか</text><path d="M230 32 L230 154" fill="none" stroke="#E2DDD6" stroke-width="1.5"/><text x="115" y="46" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">そういえば</text><rect x="22" y="56" width="82" height="42" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.6"/><text x="63" y="82" text-anchor="middle" font-size="11" fill="#854F0B" font-family="sans-serif">前の話</text><rect x="126" y="56" width="82" height="42" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.6"/><text x="167" y="82" text-anchor="middle" font-size="11" fill="#854F0B" font-family="sans-serif">次の話</text><path d="M106 77 L122 77" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><text x="115" y="120" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">糸が つながっている</text><text x="115" y="140" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">京都 → 京都の 友だち</text><text x="345" y="46" text-anchor="middle" font-size="12" fill="#6B6560" font-weight="700" font-family="sans-serif">ところで</text><rect x="252" y="56" width="82" height="42" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="293" y="82" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">前の話</text><rect x="356" y="56" width="82" height="42" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="397" y="82" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">次の話</text><text x="345" y="84" text-anchor="middle" font-size="16" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><text x="345" y="120" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">糸が 切れている</text><text x="345" y="140" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">京都 → あすの 会議</text><text x="230" y="170" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「そういえば」は 前の話から 思い出した ときだけ</text></svg>
+    <div class="zu-note">「そういえば」は<b>前の話が糸になっている</b>ところがたいせつです。糸がまったく無い話に変えるときは「ところで」を使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">相手の話 ＋ 。 ＋ <span class="n">そういえば</span>、＋ 思い出したこと</div>
+    <div class="setsu-note">文の頭に置いて、点（、）を打ちます。「そう」は相手の話をさしています。くだけた会話では「<b>そういや</b>」とも言います。話しことば専用に近いことばで、レポートや論文では使いません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょによく出ることば</div>
+      <div class="chips"><span class="chip">あの件</span><span class="chip">この前の</span><span class="chip">さっきの話</span><span class="chip">前に言っていた</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る形</div>
+      <div class="chips"><span class="chip">〜んだった</span><span class="chip">〜ていたね</span><span class="chip">〜のを忘れていた</span><span class="chip">〜はどうなりましたか</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前に付く あいづち</div>
+      <div class="chips"><span class="chip">あ、</span><span class="chip">そうそう、</span><span class="chip">ねえ、</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">思い出す（うわさ）</span>
+        <div class="ex-ja">「その店、駅の裏にできたらしいよ。」「<b>そういえば</b>、長い行列を見かけたな。」<button class="say" data-say="「その店、駅の裏にできたらしいよ。」「そういえば、長い行列を見かけたな。」" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">"They say that shop opened behind the station." "Come to think of it, I did see a long line."</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">仕事（会議のあと）</span>
+        <div class="ex-ja">会議はこれで終わりです。<b>そういえば</b>、来週の出張の切符はもう取りましたか。<button class="say" data-say="会議はこれで終わりです。そういえば、来週の出張の切符はもう取りましたか。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">That's all for the meeting. By the way, that reminds me: have you booked the ticket for next week's trip?</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">家（天気の話から）</span>
+        <div class="ex-ja">「あしたは雨だって。」「<b>そういえば</b>、玄関に傘を干したままだった。」<button class="say" data-say="「あしたは雨だって。」「そういえば、玄関に傘を干したままだった。」" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">"They say it'll rain tomorrow." "That reminds me, I left the umbrella out to dry by the door."</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">学校（友だちの話）</span>
+        <div class="ex-ja">森下さんは今日休みだそうだ。<b>そういえば</b>、きのうから声がかれていたね。<button class="say" data-say="森下さんは今日休みだそうだ。そういえば、きのうから声がかれていたね。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I hear Morishita is off today. Come to think of it, her voice was hoarse from yesterday.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">買い物</span>
+        <div class="ex-ja">このお茶、安くなっている。<b>そういえば</b>、家のお茶がもうすぐなくなる。<button class="say" data-say="このお茶、安くなっている。そういえば、家のお茶がもうすぐなくなる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This tea is on sale. Come to think of it, we're almost out of tea at home.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">旅行のあと</span>
+        <div class="ex-ja">沖縄はまだ暑かったよ。<b>そういえば</b>、写真を送るのを忘れていた。<button class="say" data-say="沖縄はまだ暑かったよ。そういえば、写真を送るのを忘れていた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Okinawa was still hot. That reminds me, I forgot to send you the photos.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>前の話を あとで たしかめる</div>
+      <div class="use-d">思い出したことが「聞きたかったこと」のときは、そのまま質問になります。会話でとてもよく使う形です。</div>
+      <div class="use-e"><b>そういえば</b>、この前の申しこみはどうなりましたか。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>言いさして 止める</div>
+      <div class="use-d">「そういえば…」と言ったまま止めて、何かを思い出そうとしていることだけを示すこともあります。</div>
+      <div class="use-e"><b>そういえば</b>…、あの人の名前、何だったかな。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>くだけた 形「そういや」</div>
+      <div class="use-d">親しい人との会話では「そういや」「そーいえば」のように短くなります。書くときは使いません。</div>
+      <div class="use-e"><b>そういや</b>、去年もここで会ったね。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">ところで</div>
+      <div class="vs-lead">「そういえば」は前の話が<b>きっかけ</b>になって思い出した話をします。「ところで」は前の話と<b>関係なく</b>、話をきっぱり切りかえます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>そういえば</th><th>ところで</th></tr>
+        <tr><td class="k">前の話との関係</td><td>前の話から思い出す</td><td>前の話と関係ない</td></tr>
+        <tr><td class="k">話の変わり方</td><td>ゆるやかにつながる</td><td>きっぱり切りかえる</td></tr>
+        <tr><td class="k">聞き手の感じ</td><td>自然に流れる</td><td>話が変わる合図</td></tr>
+        <tr><td class="k">よく使う場面</td><td>ふつうの会話</td><td>会議や司会の進行にも</td></tr>
+      </table>
+      <div class="vs-ex">
+        「京都へ行くんだ」「<b>そういえば</b>、京都の友だちは元気？」＝前の話から思い出した。<br>
+        「京都へ行くんだ」「<b>ところで</b>、あしたの会議は何時から？」＝関係のない話に切りかえる。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">ちなみに</div>
+      <div class="vs-lead">「そういえば」は<b>今ふと思い出した</b>ことを出して別の話に移ります。「ちなみに」は<b>同じ話題のまま</b>、関係のある情報を足すだけです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>そういえば</th><th>ちなみに</th></tr>
+        <tr><td class="k">出す中身</td><td>ふと思い出したこと</td><td>前の話に足す情報</td></tr>
+        <tr><td class="k">話題</td><td>別の話に移る</td><td>同じ話題のまま</td></tr>
+        <tr><td class="k">書きことば</td><td>使いにくい</td><td>案内文などにも使える</td></tr>
+      </table>
+      <div class="vs-ex">
+        「この道は工事中です。<b>そういえば</b>、駅前の店ももう閉まりましたね」＝別の話へ。<br>
+        「この道は工事中です。<b>ちなみに</b>、工事は来月までだそうです」＝同じ話題に情報を足す。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>そういえば means "come to think of it" or "that reminds me". Something in the other person's words triggers a memory, and the speaker brings it up, moving the talk to a new topic. Because the new topic is triggered by the old one, the two are still loosely linked; ところで, by contrast, switches to something unrelated. It belongs to spoken Japanese and is not used in reports or academic writing.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「そういえば」相當於「說起來、對了」。說話者聽了對方的話，忽然想起與之相關的事情並提出來，藉此轉入新的話題。由於是被前面的話引起的，前後多少仍有一點關聯，這一點與完全轉換話題的「ところで」不同。屬於口語，論文或報告等書面語幾乎不用。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%81%9D%E3%81%86%E3%81%84%E3%81%88%E3%81%B0&amp;lv=N2&amp;ex=%E3%80%8C%E3%81%9D%E3%81%AE%E5%BA%97%E3%80%81%E9%A7%85%E3%81%AE%E8%A3%8F%E3%81%AB%E3%81%A7%E3%81%8D%E3%81%9F%E3%82%89%E3%81%97%E3%81%84%E3%82%88%E3%80%82%E3%80%8D%E3%80%8C%E3%81%9D%E3%81%86%E3%81%84%E3%81%88%E3%81%B0%E3%80%81%E9%95%B7%E3%81%84%E8%A1%8C%E5%88%97%E3%82%92%E8%A6%8B%E3%81%8B%E3%81%91%E3%81%9F%E3%81%AA%E3%80%82%E3%80%8D">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="toieba.html">🔁 〜というと（話題を受けて言う）とくらべる<span class="ar">›</span></a>
+      <a href="hasateoki.html">🔁 〜はさておき（話題を切りかえる）を見る<span class="ar">›</span></a>
+      <a href="monomon.html">🔁 〜もの・〜もん（話しことばの形）を見る<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-77">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

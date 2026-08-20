@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜ようでは（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜ようでは」の意味・接続・例文。そんな状態が続くならよくない結果になるという芯と、うしろに必ずわるい結果が来ること、「〜たら」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜ようでは</div>
+    <div class="p-en">if (things are) like ~, then ...</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">普通形に付く</span>
+      <span class="badge sub">うしろはわるい結果</span>
+      <span class="badge sub">心配・注意</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">よくない状態</span>話し手がだめだと思っている様子が前に来る</div>
+    <div class="lead"><span class="imi-tag">わるい結果</span>このままだと、よくないことになる</div>
+    <div class="desc">「〜ようでは」は、そんな状態が続くなら、よくない結果になる、と言う文型です。前に来るのは、話し手が見て「これはよくない」と思っている様子です。そして、うしろには必ずよくない結果が来ます。「うまくいかない」「体をこわす」「続かない」のような形です。相手に注意したり、先を心配したりするときに使う言い方で、うしろによい結果を置くことはできません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 前と うしろに 来るもの</div>
+    <svg class="zu" viewBox="0 0 460 195" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ようではの前にはよくない状態が来て、うしろには必ずよくない結果が来る。よい結果は来られないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">前は「よくない 状態」、うしろは かならず わるい 結果</text><rect x="14" y="44" width="150" height="58" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5"/><text x="89" y="66" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">だめだと 思う 状態</text><text x="89" y="88" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">毎回 おくれる</text><path d="M168 73 L196 73" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="200" y="48" width="104" height="50" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="252" y="79" text-anchor="middle" font-size="14" fill="#854F0B" font-weight="700" font-family="sans-serif">〜ようでは</text><path d="M308 73 L336 73" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="340" y="44" width="106" height="58" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5"/><text x="393" y="66" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">わるい 結果</text><text x="393" y="88" text-anchor="middle" font-size="12" fill="#A0392E" font-weight="700" font-family="sans-serif">信用を なくす</text><path d="M252 102 L252 142 L322 142" fill="none" stroke="#9E9890" stroke-width="1.4" stroke-dasharray="5 4"/><text x="332" y="147" text-anchor="middle" font-size="15" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><rect x="342" y="120" width="104" height="44" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="394" y="138" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">よい 結果</text><text x="394" y="155" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">うまく いく</text><text x="230" y="184" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">うしろに 来るのは 心配・注意・わるい 予想 だけ</text></svg>
+    <div class="zu-cap">② 前に 来られるのは よくない 状態だけ</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ようではの前に来られるのは話し手がよくないと思っている状態だけで、ふつうのことやよいことは前に来られないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">前に 来られるのは、話し手が「だめだ」と 思う 状態</text><rect x="14" y="36" width="200" height="84" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="114" y="56" text-anchor="middle" font-size="11.5" fill="#854F0B" font-weight="700" font-family="sans-serif">○ よくないと 思う 状態</text><text x="114" y="78" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">毎日 おくれる</text><text x="114" y="96" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">すぐ あきらめる</text><text x="114" y="114" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">これくらいで 息が 切れる</text><rect x="14" y="130" width="200" height="46" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="114" y="149" text-anchor="middle" font-size="11.5" fill="#A0392E" font-weight="700" font-family="sans-serif">× ふつうの こと・よい こと</text><text x="114" y="167" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">毎日 早く 来る・よく 勉強する</text><path d="M218 78 L258 78" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><path d="M218 152 L244 152" fill="none" stroke="#9E9890" stroke-width="1.4"/><text x="256" y="158" text-anchor="middle" font-size="15" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><rect x="266" y="52" width="180" height="52" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="356" y="84" text-anchor="middle" font-size="14" fill="#854F0B" font-weight="700" font-family="sans-serif">〜ようでは</text><text x="356" y="128" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「この ままだと まずい」と</text><text x="356" y="146" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">思って いるから 使える</text><text x="230" y="192" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">よい 状態を 入れると、文が おかしく なる</text></svg>
+    <div class="zu-note">「〜ようでは」を使ったしゅんかん、話し手は<b>その様子をよくないと思っている</b>ことになります。ですから、うしろは自然とわるい結果になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">普通形 ＋ <span class="n">ようでは</span></div>
+    <div class="setsu-note">動詞・イ形容詞はそのまま（おくれる／おそい）、ナ形容詞と名詞は「〜な」「〜の」を付けて「へた<b>な</b>ようでは」「学生<b>の</b>ようでは」となります。打ち消しの「〜ないようでは」もよく使います。話しことばでは<b>「〜ようじゃ」</b>の形になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来ることば</div>
+      <div class="chips"><span class="chip">おくれる</span><span class="chip">できない</span><span class="chip">続かない</span><span class="chip">あきらめる</span><span class="chip">こわがる</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来ることば</div>
+      <div class="chips"><span class="chip">だめだ</span><span class="chip">むりだ</span><span class="chip">困る</span><span class="chip">信用をなくす</span><span class="chip">先が思いやられる</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">この先</span><span class="chip">いつまでも</span><span class="chip">これくらいで</span><span class="chip">毎回</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">注意する</span>
+        <div class="ex-ja">こんな点しか取れない<b>ようでは</b>、行きたい学校はむずかしい。<button class="say" data-say="こんな点しか取れないようでは、行きたい学校はむずかしい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If these are the only marks you can get, the school you want will be hard to reach.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">仕事で</span>
+        <div class="ex-ja">朝の会議に毎回おくれる<b>ようでは</b>、みんなの信用をなくすよ。<button class="say" data-say="朝の会議に毎回おくれるようでは、みんなの信用をなくすよ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you are late for the morning meeting every time, you will lose everyone's trust.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">体のこと</span>
+        <div class="ex-ja">これくらいの坂で息が切れる<b>ようでは</b>、山登りはとてもむりだ。<button class="say" data-say="これくらいの坂で息が切れるようでは、山登りはとてもむりだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If a slope like this leaves you out of breath, mountain climbing is quite out of the question.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">買い物で</span>
+        <div class="ex-ja">値段だけで店を選んでいる<b>ようでは</b>、いい材料は手に入らない。<button class="say" data-say="値段だけで店を選んでいるようでは、いい材料は手に入らない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you choose a shop by price alone, you will never get good ingredients.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜ないようでは</span>
+        <div class="ex-ja">あいさつもできない<b>ようでは</b>、この先、外で困ることになる。<button class="say" data-say="あいさつもできないようでは、この先、外で困ることになる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you cannot even greet people, you will run into trouble outside from now on.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">習いごとで</span>
+        <div class="ex-ja">初めの一週間でやめてしまう<b>ようでは</b>、何を習っても同じだ。<button class="say" data-say="初めの一週間でやめてしまうようでは、何を習っても同じだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you give up in the first week, it will be the same whatever you take up.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜ようじゃ」（話しことば）</div>
+      <div class="use-d">話すときは「〜ようじゃ」の形になります。意味は同じで、注意する気もちがもっと近く聞こえます。</div>
+      <div class="use-e">こんなに散らかっている<b>ようじゃ</b>、お客さんは呼べないね。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜ようでは困る」</div>
+      <div class="use-d">うしろに「困る」「まずい」を置くと、注意の気もちがはっきり出ます。仕事の場面でよく使います。</div>
+      <div class="use-e">毎回、人にたよる<b>ようでは困る</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜たら</div>
+      <div class="vs-lead">「〜たら」はふつうの条件で、うしろにはよいことも来ます。「〜ようでは」は<b>前がよくない状態、うしろはわるい結果</b>と、両方が決まっています。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ようでは</th><th>〜たら</th></tr>
+        <tr><td class="k">前に来ること</td><td>話し手がよくないと思う状態</td><td>どんなことでもよい</td></tr>
+        <tr><td class="k">うしろに来ること</td><td>わるい結果だけ</td><td>よい結果もわるい結果も</td></tr>
+        <tr><td class="k">話し手の気もち</td><td>心配している・注意している</td><td>ただの条件で、色は付かない</td></tr>
+        <tr><td class="k">うしろの命令</td><td>言いにくい</td><td>「〜たら、来てね」と言える</td></tr>
+      </table>
+      <div class="vs-ex">
+        「毎日おくれる<b>ようでは</b>、続かないよ」＝よくないと思って注意している。<br>
+        「毎日走っ<b>たら</b>、体が強くなった」＝よい結果。「ようでは」ではこう言えない。<br>
+        「駅に着い<b>たら</b>、電話してください」＝ただの条件。ここも「ようでは」は使えない。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜くらいなら</div>
+      <div class="vs-lead">「〜くらいなら」は<b>二つをくらべて</b>、いやなほうを選ばずにこちらを選ぶ、と言う文型です。「〜ようでは」は<b>今の状態を見て</b>、この先を心配します。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜ようでは</th><th>〜くらいなら</th></tr>
+        <tr><td class="k">見ているもの</td><td>今そうなっている状態</td><td>これからする二つのこと</td></tr>
+        <tr><td class="k">言いたいこと</td><td>このままだと、よくない結果になる</td><td>そちらをするなら、こちらを選ぶ</td></tr>
+        <tr><td class="k">うしろに来ること</td><td>わるい結果・心配</td><td>選ぶほう（〜ほうがましだ）</td></tr>
+        <tr><td class="k">前に来る形</td><td>普通形＋ようでは</td><td>動詞辞書形＋くらいなら</td></tr>
+      </table>
+      <div class="vs-ex">
+        「毎晩おそくまで残る<b>ようでは</b>、体をこわす」＝今の様子を心配している。<br>
+        「毎晩おそくまで残る<b>くらいなら</b>、給料が下がってもいい」＝二つをくらべて選んでいる。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜ようでは attaches to the plain form and means “if things stay in this (bad) state, the result will be bad.” Two things are fixed: what comes before is a situation the speaker judges to be poor, and what follows is always a negative outcome — losing trust, not lasting, ruining your health. It is the form you reach for when warning someone or worrying about how things will end. Plain 〜たら carries no such colour and allows good results too.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「普通形＋ようでは」表示「照這種情況下去，結果會不好」。有兩點是固定的：前面必須是說話者認為不理想的狀態，後面一定是不好的結果，例如「信用をなくす、続かない、体をこわす」。用於提醒對方或擔心將來，後面不能接好結果。相對地，「〜たら」只是普通的條件，後面好壞都可以。口語中會說成「〜ようじゃ」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%82%88%E3%81%86%E3%81%A7%E3%81%AF&amp;lv=N2&amp;ex=%E3%81%93%E3%82%93%E3%81%AA%E7%82%B9%E3%81%97%E3%81%8B%E5%8F%96%E3%82%8C%E3%81%AA%E3%81%84%E3%82%88%E3%81%86%E3%81%A7%E3%81%AF%E3%80%81%E8%A1%8C%E3%81%8D%E3%81%9F%E3%81%84%E5%AD%A6%E6%A0%A1%E3%81%AF%E3%82%80%E3%81%9A%E3%81%8B%E3%81%97%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="tara.html">🔁 〜たら（ふつうの条件）とくらべる<span class="ar">›</span></a>
+      <a href="kurainara.html">🔁 〜くらいなら（くらべて選ぶ）とくらべる<span class="ar">›</span></a>
+      <a href="nara.html">🔁 〜なら（話に出たことを受ける）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-70">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

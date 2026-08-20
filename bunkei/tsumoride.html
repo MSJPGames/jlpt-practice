@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜のつもりで・〜つもりで（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜のつもりで・〜つもりで」の意味・接続・例文。そういう気もちで何かをするという芯と、相手の受け取り方とのズレ、「〜として」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜のつもりで・〜つもりで</div>
+    <div class="p-en">with the intention of ~ / as if ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">名詞の・動詞た形に付く</span>
+      <span class="badge sub">本人の気もち</span>
+      <span class="badge sub">受け取り方とズレる</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">気もち</span>そう思って、何かをする</div>
+    <div class="lead"><span class="imi-tag">ズレ</span>相手の受け取り方とちがうことがある</div>
+    <div class="lead"><span class="imi-tag">したことに</span>「〜たつもりで」＝しないのに、したことにして</div>
+    <div class="desc">「〜のつもりで」は、話し手がそういう気もちで何かをした、ということを言う形です。「冗談のつもりで言った」のように、名詞に「の」を付けて使います。ここで言えるのはあくまで本人の気もちだけなので、相手が同じように受け取るとはかぎりません。そのため、あとに「〜のに」「〜が」を続けて、ごかいされたことを言う文がよく出てきます。動詞のた形に付くと、実際はしないのにしたことにして、という意味になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 本人の気もち と 相手の受け取り方</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="言った人は冗談のつもりでも、相手は本気だと受け取ることがあり、二つがちがうことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">言った人の 気もち と 相手の 受け取り方</text><rect x="14" y="40" width="130" height="64" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="79" y="62" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">言った人</text><text x="79" y="84" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">冗談の つもり</text><path d="M148 72 L160 72" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="164" y="40" width="130" height="64" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="229" y="62" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">出た ことば</text><text x="229" y="84" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">「むりだと 思うよ」</text><path d="M298 72 L312 72" fill="none" stroke="#9E9890" stroke-width="1.6" marker-end="url(#ar2)"/><rect x="316" y="40" width="130" height="64" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5"/><text x="381" y="62" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">相手</text><text x="381" y="84" text-anchor="middle" font-size="12" fill="#A0392E" font-weight="700" font-family="sans-serif">本気で 言われた</text><path d="M79 110 L79 130 L381 130 L381 112" fill="none" stroke="#A0392E" stroke-width="1.4" stroke-dasharray="5 4"/><rect x="196" y="118" width="68" height="24" rx="6" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.4"/><text x="230" y="135" text-anchor="middle" font-size="12" fill="#A0392E" font-weight="700" font-family="sans-serif">≠</text><text x="230" y="166" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">「〜のつもりで」が 言うのは、左の 気もちだけ</text><text x="230" y="183" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">気もちは、相手に そのまま 伝わるとは かぎらない</text></svg>
+    <div class="zu-cap">② 前に来る形は二つ</div>
+    <svg class="zu" viewBox="0 0 460 195" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="つもりでの前に来る形は名詞の＋つもりでと動詞た形＋つもりでの二つで、それぞれの意味を並べた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">前に 来る 形は 二つ</text><rect x="14" y="36" width="170" height="54" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="99" y="58" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">名詞＋の つもりで</text><text x="99" y="78" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">冗談・お礼・練習</text><path d="M188 63 L212 63" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="216" y="36" width="230" height="54" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.5"/><text x="331" y="58" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">そういう 気もちで、何かを する</text><text x="331" y="78" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「冗談のつもりで 言った」</text><rect x="14" y="106" width="170" height="54" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="99" y="128" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">動詞た形＋つもりで</text><text x="99" y="148" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">買った・食べた</text><path d="M188 133 L212 133" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="216" y="106" width="230" height="54" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.5"/><text x="331" y="128" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">しないのに、したことに して する</text><text x="331" y="148" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「食べたつもりで お金を ためる」</text><text x="230" y="184" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">どちらも「そう 思って、次の 行動を する」が 芯</text></svg>
+    <div class="zu-note">「つもり」は<b>頭の中の思い</b>です。ですから「〜のつもりで」は、行動の理由になった<b>気もち</b>を見せているだけで、それが相手に伝わったかどうかまでは言いません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞の・動詞た形 ＋ <span class="n">つもりで</span></div>
+    <div class="setsu-note">名詞のときは「冗談<b>の</b>つもりで」のように<b>「の」</b>をはさみます。動詞は「買った」「食べた」のように<b>た形</b>。気もちを持ちつづけていることを言うときは「〜のつもりでいる」、あとから打ち消すときは「〜のつもりではなかった」の形になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る名詞</div>
+      <div class="chips"><span class="chip">冗談</span><span class="chip">お礼</span><span class="chip">練習</span><span class="chip">あいさつ</span><span class="chip">助言</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞（た形）</div>
+      <div class="chips"><span class="chip">買った</span><span class="chip">食べた</span><span class="chip">行った</span><span class="chip">読んだ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来ることば</div>
+      <div class="chips"><span class="chip">言った</span><span class="chip">渡した</span><span class="chip">書いた</span><span class="chip">〜のに</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">冗談のつもりで</span>
+        <div class="ex-ja">軽い冗談<b>のつもりで</b>言ったのに、相手を本気で怒らせてしまった。<button class="say" data-say="軽い冗談のつもりで言ったのに、相手を本気で怒らせてしまった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I said it as a light joke, but it really made the other person angry.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">助言のつもりで</span>
+        <div class="ex-ja">助言<b>のつもりで</b>直した文が、後輩にはきつく聞こえたらしい。<button class="say" data-say="助言のつもりで直した文が、後輩にはきつく聞こえたらしい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I rewrote the sentences meaning to help, but my junior seems to have found it harsh.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">お礼のつもりで</span>
+        <div class="ex-ja">お礼<b>のつもりで</b>、駅前の店で小さな花束を買って帰った。<button class="say" data-say="お礼のつもりで、駅前の店で小さな花束を買って帰った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">As a way of saying thank you, I bought a small bouquet at the shop by the station.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">練習のつもりで</span>
+        <div class="ex-ja">本番の練習<b>のつもりで</b>、家族の前で発表してみた。<button class="say" data-say="本番の練習のつもりで、家族の前で発表してみた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Treating it as a rehearsal, I gave the presentation in front of my family.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜たつもりで</span>
+        <div class="ex-ja">外で食べた<b>つもりで</b>、その分を子どもの本代に回した。<button class="say" data-say="外で食べたつもりで、その分を子どもの本代に回した。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">As if I had eaten out, I put that money towards books for my children.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜たつもりで</span>
+        <div class="ex-ja">初めて読んだ<b>つもりで</b>、もう一度この手紙を見てください。<button class="say" data-say="初めて読んだつもりで、もう一度この手紙を見てください。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Please look at this letter once more, as if you were reading it for the first time.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜のつもりでいる」</div>
+      <div class="use-d">その気もちを今も持ちつづけている、という言い方です。人のことを言うときは、少し批判の色が出ることもあります。</div>
+      <div class="use-e">本人は、まだ若手<b>のつもりでいる</b>ようだ。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜のつもりではなかった」</div>
+      <div class="use-d">ごかいされたときに、そういう気もちではなかったと打ち消す形です。</div>
+      <div class="use-e">人を責める<b>つもりではなかった</b>んです。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>「〜たつもりで」</div>
+      <div class="use-d">実際はしていないのに、したことにして次の行動をする形です。お金や時間の使い方でよく使います。</div>
+      <div class="use-e">旅行に行った<b>つもりで</b>、古い自転車を直した。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜として</div>
+      <div class="vs-lead">「〜として」は<b>資格や立場、名目</b>を言うので、だれが見ても同じです。「〜のつもりで」は<b>本人の気もち</b>だけなので、ほかの人にはちがって見えることがあります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜のつもりで</th><th>〜として</th></tr>
+        <tr><td class="k">もとになるもの</td><td>本人の気もち（心の中）</td><td>資格・立場・名目（外から見える）</td></tr>
+        <tr><td class="k">ほかの人から見て</td><td>ちがって見えることがある</td><td>だれが見ても同じ</td></tr>
+        <tr><td class="k">よく使う場面</td><td>冗談・お礼・練習など気もち</td><td>代表・記念・お礼の品など名目</td></tr>
+        <tr><td class="k">ごかい</td><td>「〜のに」で言いやすい</td><td>ごかいの話にはなりにくい</td></tr>
+      </table>
+      <div class="vs-ex">
+        「お礼<b>のつもりで</b>渡した」＝自分の気もち。相手がどう受け取るかは分からない。<br>
+        「お礼<b>として</b>渡した」＝お礼という名目がはっきりしている。<br>
+        「冗談<b>のつもりで</b>言った」は言えるが、「冗談<b>として</b>言った」は不自然。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜つもりだ</div>
+      <div class="vs-lead">「〜つもりだ」は文のおわりで<b>これからの予定</b>を言い切ります。「〜のつもりで」は文の途中に来て、<b>その気もちでする行動</b>がうしろに続きます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜のつもりで</th><th>〜つもりだ</th></tr>
+        <tr><td class="k">文の中の場所</td><td>途中。うしろに動作が来る</td><td>おわり。言い切る</td></tr>
+        <tr><td class="k">言いたいこと</td><td>その気もちで、何かをする</td><td>これからの予定・意志</td></tr>
+        <tr><td class="k">前に来る形</td><td>名詞の・動詞た形</td><td>動詞辞書形が多い</td></tr>
+      </table>
+      <div class="vs-ex">
+        「見学<b>のつもりで</b>会場へ行った」＝その気もちで行った。<br>
+        「見学する<b>つもりだ</b>」＝これからの予定。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜のつもりで (noun + の) or 〜たつもりで (past-form verb) tells you the state of mind behind an action: “I did it meaning it as ~.” Because it reports only the speaker's own feeling, it is very often used when the listener took it quite differently, so 〜のに or が tends to follow. Unlike 〜として, which states an objective role or capacity, 〜のつもりで stays inside the speaker's head.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「名詞＋の／動詞た形 ＋ つもりで」表示做某件事時心裡抱著什麼想法，例如「冗談のつもりで言った」（我是當作玩笑說的）。因為說的只是本人的心情，對方未必如此接受，所以後面常接「〜のに、〜が」，用來說明被誤會的情況。「〜として」講的是客觀的資格與名目，兩者不同。「〜たつもりで」則是實際沒做卻當作做了。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AE%E3%81%A4%E3%82%82%E3%82%8A%E3%81%A7%E3%83%BB%E3%80%9C%E3%81%A4%E3%82%82%E3%82%8A%E3%81%A7&amp;lv=N2&amp;ex=%E8%BB%BD%E3%81%84%E5%86%97%E8%AB%87%E3%81%AE%E3%81%A4%E3%82%82%E3%82%8A%E3%81%A7%E8%A8%80%E3%81%A3%E3%81%9F%E3%81%AE%E3%81%AB%E3%80%81%E7%9B%B8%E6%89%8B%E3%82%92%E6%9C%AC%E6%B0%97%E3%81%A7%E6%80%92%E3%82%89%E3%81%9B%E3%81%A6%E3%81%97%E3%81%BE%E3%81%A3%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="tatsumori.html">🔁 〜たつもりだ（したと思っている）とくらべる<span class="ar">›</span></a>
+      <a href="toshite.html">🔁 〜として（資格・立場）とくらべる<span class="ar">›</span></a>
+      <a href="tsumoridatta.html">🔁 〜つもりだった（するはずが、しなかった）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-59">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

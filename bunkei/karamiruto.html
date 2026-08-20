@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜から見ると・〜から見れば（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜から見ると・〜から見れば」の意味・接続・例文。人の立場から判断する使い方と、結果や数字をよりどころにする使い方、「〜にとって」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜から見ると・〜から見れば</div>
+    <div class="p-en">from the viewpoint of ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">名詞に付く</span>
+      <span class="badge sub">立場・角度</span>
+      <span class="badge sub">うしろは判断</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">人の立場から</span>その人の目を借りて、こう判断する</div>
+    <div class="lead"><span class="imi-tag">よりどころ</span>ある事実をもとにして、こう判断する</div>
+    <div class="desc">「〜から見ると」は、どの立場・どの角度から判断するのかを、はじめにことわっておく言い方です。使い方は二つあります。一つは「親から見ると」「外国人から見れば」のように、人の目を借りて判断するとき。もう一つは「この結果から見て」「空のようすから見ると」のように、あるものをよりどころにして判断するときです。うしろには、その立場から見えた判断や結論が来ます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 立つ場所が変わると、見え方も変わる</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="同じ一人の人でも、親から見るか会社から見るかで判断が変わることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">どこに 立って 見るかで、見え方が 変わる</text><rect x="14" y="44" width="104" height="40" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="66" y="69" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">親から見ると</text><rect x="14" y="112" width="104" height="40" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="66" y="137" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">会社から見ると</text><path d="M120 66 L146 86" fill="none" stroke="#854F0B" stroke-width="1.7" marker-end="url(#ar)"/><path d="M120 130 L146 110" fill="none" stroke="#854F0B" stroke-width="1.7" marker-end="url(#ar)"/><rect x="150" y="70" width="120" height="56" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="210" y="96" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-weight="700" font-family="sans-serif">二十歳の 息子</text><text x="210" y="114" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">（同じ 一人）</text><path d="M272 90 L296 68" fill="none" stroke="#854F0B" stroke-width="1.7" marker-end="url(#ar)"/><path d="M272 106 L296 128" fill="none" stroke="#854F0B" stroke-width="1.7" marker-end="url(#ar)"/><rect x="300" y="44" width="146" height="40" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.5"/><text x="373" y="69" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-weight="700" font-family="sans-serif">まだ 子どもだ</text><rect x="300" y="112" width="146" height="40" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.5"/><text x="373" y="137" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-weight="700" font-family="sans-serif">もう 一人前だ</text><text x="230" y="178" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">見る 立場が かわれば、同じ ものでも 判断は かわる</text></svg>
+    <div class="zu-cap">② 二つの使い方と、文の形</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="から見るとには人の立場から見る使い方と判断のよりどころにする使い方の二つがあり、うしろに判断が来ることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">前に 置くものは、二 とおり</text><rect x="14" y="34" width="210" height="66" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="119" y="54" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">① 人の 立場</text><text x="119" y="75" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">親・外国人・子ども…</text><text x="119" y="92" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">その人の 目を 借りて 判断する</text><rect x="236" y="34" width="210" height="66" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="341" y="54" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">② 判断の よりどころ</text><text x="341" y="75" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">結果・数字・空のようす…</text><text x="341" y="92" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">それを もとに 判断する</text><rect x="14" y="124" width="120" height="44" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="74" y="144" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">①か②（名詞）</text><text x="74" y="160" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">立つ 場所を きめる</text><path d="M138 146 L166 146" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="172" y="124" width="116" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="230" y="152" text-anchor="middle" font-size="13.5" fill="#854F0B" font-weight="700" font-family="sans-serif">から見ると</text><path d="M292 146 L320 146" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="326" y="124" width="120" height="44" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.5"/><text x="386" y="144" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-weight="700" font-family="sans-serif">判断・結論</text><text x="386" y="160" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">〜だ・〜と言える</text><text x="230" y="188" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">前は かならず 名詞。うしろには 判断の ことばが 来る</text></svg>
+    <div class="zu-note">「から見ると」は、<b>どこに立って見るか</b>を先に決めることばです。立つ場所が決まると、そこからの見え方が決まります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞 ＋ <span class="n">から見ると</span>／<span class="n">から見れば</span>／<span class="n">から見て</span></div>
+    <div class="setsu-note">前に来るのは<b>名詞</b>だけです。動詞や形容詞には付きません。「から見ると」「から見れば」「から見て」は、ほとんど同じ意味で入れかえられます。名詞をくわしく言うときは「〜から見た＋名詞」の形になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る名詞（人・立場）</div>
+      <div class="chips"><span class="chip">親</span><span class="chip">外国人</span><span class="chip">専門家</span><span class="chip">子ども</span><span class="chip">会社</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る名詞（よりどころ）</div>
+      <div class="chips"><span class="chip">この結果</span><span class="chip">数字</span><span class="chip">今の状況</span><span class="chip">空のようす</span><span class="chip">成績</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る言い方</div>
+      <div class="chips"><span class="chip">〜だろう</span><span class="chip">〜と言える</span><span class="chip">〜そうだ</span><span class="chip">〜にちがいない</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">人の立場から</span>
+        <div class="ex-ja">親<b>から見ると</b>、二十歳の息子はまだまだ子どもらしい。<button class="say" data-say="親から見ると、二十歳の息子はまだまだ子どもらしい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">From a parent's point of view, a twenty-year-old son is still very much a child.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">よりどころ</span>
+        <div class="ex-ja">この売り上げ<b>から見て</b>、新商品は成功だと言えるだろう。<button class="say" data-say="この売り上げから見て、新商品は成功だと言えるだろう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Judging from these sales figures, the new product can be called a success.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">人の立場から</span>
+        <div class="ex-ja">外国人<b>から見れば</b>、日本の乗りかえ案内は複雑に感じるそうだ。<button class="say" data-say="外国人から見れば、日本の乗りかえ案内は複雑に感じるそうだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">From a foreign visitor's point of view, transfer information in Japan feels complicated.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">よりどころ</span>
+        <div class="ex-ja">空のようす<b>から見ると</b>、夕方には雨が降りそうだ。<button class="say" data-say="空のようすから見ると、夕方には雨が降りそうだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Judging by the look of the sky, it will probably rain by evening.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">人の立場から</span>
+        <div class="ex-ja">私<b>から見ると</b>、あの二人の考え方はとてもよく似ている。<button class="say" data-say="私から見ると、あの二人の考え方はとてもよく似ている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The way I see it, those two think in very similar ways.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">から見た＋名詞</span>
+        <div class="ex-ja">子ども<b>から見た</b>町のあぶない場所を、地図にまとめた。<button class="say" data-say="子どもから見た町のあぶない場所を、地図にまとめた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">We mapped the spots in town that look dangerous from a child's point of view.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜から見ても」の形</div>
+      <div class="use-d">「〜から見ても」にすると、どの角度から判断しても結論は変わらない、という気もちが出ます。理由を重ねるときに便利です。</div>
+      <div class="use-e">この案は、費用の面<b>から見ても</b>むりがある。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜から見た＋名詞」の形</div>
+      <div class="use-d">名詞をくわしく説明するときは「〜から見た＋名詞」になります。だれの目を通したものかを、はっきりさせる言い方です。</div>
+      <div class="use-e">留学生<b>から見た</b>この町のよさを、聞いてみたい。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜にとって</div>
+      <div class="vs-lead">「〜から見ると」は<b>その立場から判断すると、こう見える</b>という話です。「〜にとって」は<b>その人にどんな意味やねうちがあるか</b>という話で、うしろには「大切だ」「つらい」のような気もちや評価のことばが来ます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜から見ると</th><th>〜にとって</th></tr>
+        <tr><td class="k">言いたいこと</td><td>その立場からの 判断・見え方</td><td>その人に とっての 意味・ねうち</td></tr>
+        <tr><td class="k">うしろに来ることば</td><td>〜だ・〜と言える（判断）</td><td>大切だ・つらい（気もち・評価）</td></tr>
+        <tr><td class="k">前に来る名詞</td><td>人にも、結果や数字にも 付く</td><td>ほとんど 人・組織に 付く</td></tr>
+      </table>
+      <div class="vs-ex">
+        「親<b>から見ると</b>、まだ子どもだ」＝親の目で判断すると、そう見える。<br>
+        「親<b>にとって</b>、子どもはいつまでも心配な存在だ」＝親にどんな意味があるか。<br>
+        「この数字<b>から見ると</b>」とは言えるが、「この数字<b>にとって</b>」とは言えない。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜としては</div>
+      <div class="vs-lead">「〜としては」は<b>その立場の者として、こう考える・こうする</b>と、自分の立場をことわる言い方です。「〜から見ると」は<b>その立場から外を見たときの見え方</b>で、自分以外の人の目を借りることもできます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜から見ると</th><th>〜としては</th></tr>
+        <tr><td class="k">目の向き</td><td>その立場から 外を 見る</td><td>その立場の 者として 意見を 出す</td></tr>
+        <tr><td class="k">だれの立場か</td><td>自分でも 他人でも よい</td><td>話し手 自身の 立場が 多い</td></tr>
+        <tr><td class="k">うしろに来るもの</td><td>見え方・判断</td><td>考え・態度・これからの方針</td></tr>
+      </table>
+      <div class="vs-ex">
+        「学校<b>から見ると</b>、この案は費用がかかりすぎる」＝学校の目で判断すると。<br>
+        「学校<b>としては</b>、この案に賛成できません」＝学校の立場で意見を言う。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜からいうと・〜からすると</div>
+      <div class="vs-lead">この三つはとても近い仲間です。「<b>から見ると</b>」は目で見て判断する感じ、「<b>からいうと</b>」はどの面について話すのかを決める感じ、「<b>からすると</b>」はある事実からおして考える感じです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜から見ると</th><th>〜からいうと／からすると</th></tr>
+        <tr><td class="k">中心の意味</td><td>その立場・角度から 見ると</td><td>その面から 言うと／その事実から おすと</td></tr>
+        <tr><td class="k">人の立場</td><td>よく使う（親から見ると）</td><td>「からいうと」は 面のほうが 多い</td></tr>
+        <tr><td class="k">よりどころ</td><td>使える（結果から見て）</td><td>「からすると」が とくに 得意</td></tr>
+      </table>
+      <div class="vs-ex">
+        「今の成績<b>から見ると</b>、合格できそうだ」＝見て判断する。<br>
+        「安全の面<b>からいうと</b>、この道は使えない」＝どの面の話かを決める。<br>
+        「この足あと<b>からすると</b>、体の大きな人だろう」＝事実からおして考える。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜から見ると (also から見れば / から見て) attaches to a noun and states the standpoint from which a judgement is made. There are two uses: borrowing someone's eyes (親から見ると = as a parent sees it), and taking a fact as the basis of a conclusion (この結果から見て = judging from this result). What follows is a judgement or conclusion. 〜にとって, by contrast, says what something means or is worth to a person.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜から見ると」（也作「から見れば」「から見て」）前面接名詞，用來先說明是站在哪個立場、從哪個角度下判斷。有兩種用法：一是借某人的眼光來看（親から見ると＝在父母眼中）；二是以某項事實為根據來推斷（この結果から見て＝從這個結果來看）。後面接的是判斷或結論。而「〜にとって」談的則是「對某人而言有什麼意義或價值」，兩者並不相同。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%8B%E3%82%89%E8%A6%8B%E3%82%8B%E3%81%A8%E3%83%BB%E3%80%9C%E3%81%8B%E3%82%89%E8%A6%8B%E3%82%8C%E3%81%B0&amp;lv=N2&amp;ex=%E8%A6%AA%E3%81%8B%E3%82%89%E8%A6%8B%E3%82%8B%E3%81%A8%E3%80%81%E4%BA%8C%E5%8D%81%E6%AD%B3%E3%81%AE%E6%81%AF%E5%AD%90%E3%81%AF%E3%81%BE%E3%81%A0%E3%81%BE%E3%81%A0%E5%AD%90%E3%81%A9%E3%82%82%E3%82%89%E3%81%97%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nitotte.html">🔁 〜にとって（意味・ねうち）とくらべる<span class="ar">›</span></a>
+      <a href="karaiuto.html">🔁 〜からいうと（どの面の話か）とくらべる<span class="ar">›</span></a>
+      <a href="karasuruto.html">🔁 〜からすると（事実からおす）とくらべる<span class="ar">›</span></a>
+      <a href="toshite.html">🔁 〜として（立場）を見る<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-55">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

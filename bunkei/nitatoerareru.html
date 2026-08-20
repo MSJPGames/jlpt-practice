@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜に例えられる・〜に例える（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜に例えられる・〜に例える」の意味・接続・例文。分かりにくいものを身近なものになぞらえて説明する使い方と、「〜かのように」「〜のようだ」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜に例えられる・〜に例える</div>
+    <div class="p-en">be likened to ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">名詞に付く</span>
+      <span class="badge sub">身近なものになぞらえる</span>
+      <span class="badge sub">説明文・論文でよく使う</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">なぞらえる</span>分かりにくいものを、よく知っているものに重ねて言う</div>
+    <div class="lead"><span class="imi-tag">説明のため</span>相手に分かってもらうために、わざわざ持ってくる</div>
+    <div class="desc">「〜に例える」は、そのままでは 分かりにくい ものを、聞く人が よく 知っている 身近な ものに 重ねて 説明する 言い方です。二つは 本当は ちがう ものですが、にている ところを 借りて、頭の 中に 絵を うかばせます。説明文や 論文では「A は B に 例えられる」の 受け身の 形が よく 使われ、だれが 例えたかを 言わずに、ふつう そう 言われる、という ひびきに なります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 分かりにくいものを、身近なものに重ねる</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="わかりにくいものを、聞く人がよく知っている身近なものに重ねて説明することを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">わかりにくい ものを、身近な ものに 重ねる</text><rect x="14" y="44" width="132" height="64" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="80" y="68" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">わかりにくい こと</text><text x="80" y="92" text-anchor="middle" font-size="13" fill="#1C1C1C" font-weight="700" font-family="sans-serif">人の 記憶</text><rect x="314" y="44" width="132" height="64" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="380" y="68" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">よく 知っている もの</text><text x="380" y="92" text-anchor="middle" font-size="13" fill="#854F0B" font-weight="700" font-family="sans-serif">引き出し</text><path d="M152 76 L308 76" fill="none" stroke="#854F0B" stroke-width="2" marker-end="url(#ar)"/><text x="230" y="68" text-anchor="middle" font-size="11" fill="#854F0B" font-weight="700" font-family="sans-serif">重ねて 見せる</text><text x="230" y="100" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">（＝ 例える）</text><rect x="60" y="126" width="340" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="230" y="154" text-anchor="middle" font-size="13" fill="#854F0B" font-weight="700" font-family="sans-serif">記憶は 引き出しに 例えられる</text><text x="230" y="190" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">聞く人が 知っている ものを 使うと、ぐっと 分かりやすく なる</text></svg>
+    <div class="zu-cap">② 説明文でよく使う形</div>
+    <svg class="zu" viewBox="0 0 460 172" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="説明文でよく使う「AはBに例えられる」という形の組み立てを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">説明文で よく 使う 形</text><rect x="20" y="42" width="120" height="46" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="80" y="70" text-anchor="middle" font-size="11" fill="#854F0B" font-weight="700" font-family="sans-serif">説明したい もの</text><text x="150" y="70" text-anchor="middle" font-size="12" fill="#6B6560" font-family="sans-serif">は</text><rect x="162" y="42" width="126" height="46" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.5"/><text x="225" y="70" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">身近な もの</text><text x="298" y="70" text-anchor="middle" font-size="12" fill="#6B6560" font-family="sans-serif">に</text><rect x="310" y="42" width="136" height="46" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="378" y="70" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">例えられる</text><text x="230" y="112" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">＝ 読む人の 頭に、絵を うかばせる 言い方</text><text x="230" y="136" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">自分が 例えるときは「〜に例える」、</text><text x="230" y="156" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ふつう そう 言われるときは「〜に例えられる」</text></svg>
+    <div class="zu-note">うまい たとえの きめては、<b>聞く人が よく 知っている もの</b>を えらぶ ことです。相手の 知らない ものを 持ってくると、かえって 分かりにくく なります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞 ＋ <span class="n">に例える</span>／<span class="n">に例えられる</span></div>
+    <div class="setsu-note">前に 来るのは <b>名詞</b>です。「A を B に例える」が もとの 形で、A を 主語に した 受け身が「A は B に例えられる」です。文を つづけるときは「〜に例えて」「〜に例えると」の 形を 使います。「たとえる」は「喩える」とも 書きますが、ふつうは「例える」または ひらがなで 書きます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使われるたとえ</div>
+      <div class="chips"><span class="chip">川の流れ</span><span class="chip">歯車</span><span class="chip">船</span><span class="chip">道路網</span><span class="chip">引き出し</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来ることば</div>
+      <div class="chips"><span class="chip">人の一生</span><span class="chip">会社</span><span class="chip">脳の働き</span><span class="chip">経済の動き</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使うことば</div>
+      <div class="chips"><span class="chip">よく</span><span class="chip">しばしば</span><span class="chip">しばしば〜と言われる</span><span class="chip">分かりやすく</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">〜に例えられる</span>
+        <div class="ex-ja">人の一生は、しばしば川の流れ<b>に例えられる</b>。<button class="say" data-say="人の一生は、しばしば川の流れに例えられる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">A human life is often likened to the flow of a river.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜に例えて説明する</span>
+        <div class="ex-ja">先生は脳の働きを、町の道路網<b>に例えて</b>説明してくれた。<button class="say" data-say="先生は脳の働きを、町の道路網に例えて説明してくれた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The teacher explained how the brain works by likening it to a city's road network.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">説明文で使う</span>
+        <div class="ex-ja">この現象は、器から水があふれる様子<b>に例えられる</b>ことが多い。<button class="say" data-say="この現象は、器から水があふれる様子に例えられることが多い。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This phenomenon is often likened to water overflowing from a container.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">話し手が例える</span>
+        <div class="ex-ja">会長は会社を大きな船<b>に例え</b>、全員に協力を求めた。<button class="say" data-say="会長は会社を大きな船に例え、全員に協力を求めた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The chairman likened the company to a large ship and asked everyone to cooperate.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜に例えると</span>
+        <div class="ex-ja">経済の動きを天気<b>に例えると</b>、今はまだ曇りだと言える。<button class="say" data-say="経済の動きを天気に例えると、今はまだ曇りだと言える。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If we liken the state of the economy to the weather, it is still cloudy.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「たとえ」の名詞で使う</div>
+      <div class="use-d">名詞の「たとえ」だけでも 使います。「たとえ話」「たとえが うまい」のように、なぞらえた 話 そのものを 指します。</div>
+      <div class="use-e">その先生は<b>たとえ</b>がうまいので、話がよく分かる。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>文をつなぐ「〜に例えるなら」</div>
+      <div class="use-d">「〜に例えるなら」の 形に すると、これから たとえを 出しますよ、という 合図に なります。</div>
+      <div class="use-e">この仕事を料理<b>に例えるなら</b>、今はまだ下ごしらえの段階だ。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜かのように</div>
+      <div class="vs-lead"><b>〜かのように</b>は、本当は ちがうのに <b>まるで そうであるかのような 様子</b>を えがきます。<b>〜に例える</b>は、分かりやすく <b>説明する ため</b>に、別の ものを 持ってきます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜に例える</th><th>〜かのように</th></tr>
+        <tr><td class="k">何のため</td><td>分かりやすく 説明するため</td><td>そう見える 様子を えがくため</td></tr>
+        <tr><td class="k">前に来る形</td><td>名詞だけ</td><td>文（普通形）</td></tr>
+        <tr><td class="k">よく使う場</td><td>説明文・レポート・授業</td><td>小説・場面のえがき方</td></tr>
+        <tr><td class="k">聞き手への ねらい</td><td>分かってほしい</td><td>様子を 感じてほしい</td></tr>
+      </table>
+      <div class="vs-ex">
+        「心の動きを 天気<b>に例える</b>」＝分かりやすく するため。<br>
+        「何も なかった<b>かのように</b> 話す」＝そう見える 様子を えがく。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜のようだ</div>
+      <div class="vs-lead"><b>〜のようだ</b>は、見た目や 感じが <b>ただ にている</b>と 言うだけです。<b>〜に例えられる</b>は、説明の ために わざわざ 別の ものを 持ってきた、という 気もちが 入ります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜に例えられる</th><th>〜のようだ</th></tr>
+        <tr><td class="k">言いたいこと</td><td>説明のために なぞらえる</td><td>見た目・感じが にている</td></tr>
+        <tr><td class="k">話す人の ねらい</td><td>相手に 分からせる</td><td>感想を 言う</td></tr>
+        <tr><td class="k">使う場</td><td>説明文・論文・授業</td><td>会話でも よく 使う</td></tr>
+      </table>
+      <div class="vs-ex">
+        「この組織は 大きな家族<b>に例えられる</b>」＝しくみを 説明している。<br>
+        「この組織は 大きな家族<b>のようだ</b>」＝そんな 感じが する、という 感想。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜に例える means to liken something hard to grasp to a familiar thing so that the listener can picture it. It takes a noun: X を Y に例える, and the passive X は Y に例えられる is very common in explanatory and academic writing, where it means "X is commonly likened to Y". Unlike 〜のようだ, which simply says two things resemble each other, 〜に例える is a deliberate move made in order to explain.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜に例える」是把難以理解的事物比作聽者熟悉的東西，好讓對方在腦中浮現畫面。前面接名詞：「XをYに例える」；被動形「XはYに例えられる」在說明文與論文中很常見，意思是「X常被比喻為Y」。「〜のようだ」只是說兩者相似，而「〜に例える」則是為了說明而刻意舉出的比喻。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%AB%E4%BE%8B%E3%81%88%E3%82%89%E3%82%8C%E3%82%8B%E3%83%BB%E3%80%9C%E3%81%AB%E4%BE%8B%E3%81%88%E3%82%8B&amp;lv=N2&amp;ex=%E4%BA%BA%E3%81%AE%E4%B8%80%E7%94%9F%E3%81%AF%E3%80%81%E3%81%97%E3%81%B0%E3%81%97%E3%81%B0%E5%B7%9D%E3%81%AE%E6%B5%81%E3%82%8C%E3%81%AB%E4%BE%8B%E3%81%88%E3%82%89%E3%82%8C%E3%82%8B%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="kanoyouni.html">🔁 〜かのように（まるでそのような様子）とくらべる<span class="ar">›</span></a>
+      <a href="youna.html">🔁 〜ように・〜ような（例示）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-66">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

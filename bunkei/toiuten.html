@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜という点（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜という点」の意味・接続・例文。どこに注目して言っているかを示す使い方と、「〜という点で」「〜という点が」のちがい、「〜ところ」との使い分けを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜という点</div>
+    <div class="p-en">in the point that ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">普通形・名詞に付く</span>
+      <span class="badge sub">注目するところを示す</span>
+      <span class="badge sub">レポート・発表向き</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">注目する面</span>いろいろある中から、見るところを一つに決める</div>
+    <div class="lead"><span class="imi-tag">評価のもと</span>そこを見て、いい・わるい・問題だと言う</div>
+    <div class="desc">「〜という点」は、そのものの どこを 見て 話しているのかを はっきり 示す 言い方です。一つの ものごとには いろいろな 面が ありますが、その中から 一つを 取り出して「ここを 見ると こうだ」と 言います。うしろに 評価の ことばが 来るときは「〜という点で」、その一つが 話の 中心に なるときは「〜という点が」を 使います。レポートや 発表など、きちんとした 場で よく 使う 言い方です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① いろいろな面から、一つを取り出す</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="いろいろな面がある中から一つを取り出して「〜という点で」と言うことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">いろいろ ある 中から、見る ところを 一つ 取り出す</text><rect x="14" y="38" width="190" height="140" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="109" y="58" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">一つの もの・こと（全体）</text><rect x="30" y="68" width="158" height="24" rx="6" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.2"/><text x="109" y="85" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">値段</text><rect x="30" y="98" width="158" height="24" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="109" y="115" text-anchor="middle" font-size="11.5" fill="#854F0B" font-weight="700" font-family="sans-serif">例文の 多さ</text><rect x="30" y="128" width="158" height="24" rx="6" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.2"/><text x="109" y="145" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">大きさ</text><text x="109" y="170" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">…など、面は いくつも ある</text><path d="M206 110 L250 110" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="254" y="76" width="192" height="66" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="350" y="102" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">例文が 多いという点で</text><text x="350" y="124" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">この辞書は すぐれている</text><text x="230" y="192" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「どこを 見て 言っているか」を はっきり させる</text></svg>
+    <div class="zu-cap">② 「点で」と「点が」の使い分け</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「〜という点で」と「〜という点が」で、うしろに来ることばが変わることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">うしろに 来る ことばで、助詞が 変わる</text><rect x="14" y="38" width="196" height="56" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="112" y="62" text-anchor="middle" font-size="13" fill="#854F0B" font-weight="700" font-family="sans-serif">〜という点で</text><text x="112" y="82" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">見る 角度を 示す</text><path d="M214 66 L248 66" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="252" y="38" width="194" height="56" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.5"/><text x="349" y="62" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">すぐれている・便利だ</text><text x="349" y="82" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">＝ その面から 見た 評価</text><rect x="14" y="108" width="196" height="56" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="112" y="132" text-anchor="middle" font-size="13" fill="#854F0B" font-weight="700" font-family="sans-serif">〜という点が</text><text x="112" y="152" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">その一つが 話の 中心</text><path d="M214 136 L248 136" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="252" y="108" width="194" height="56" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.5"/><text x="349" y="132" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">問題だ・惜しい・いい</text><text x="349" y="152" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">＝ その点 そのものを 言う</text><text x="230" y="182" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「で」は 角度、「が」は 中心。まよったら うしろを 見る</text></svg>
+    <div class="zu-note">「点」は<b>見る角度</b>を一つに決めるしるしです。同じものでも、取り出す点を変えれば、言えることは変わります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">普通形・名詞 ＋ <span class="n">という点</span>（で・が・は）</div>
+    <div class="setsu-note">文が前に来るときは「使いやすい<b>という点</b>」「静かだ<b>という点</b>」のように<b>普通形</b>に付きます。名詞が前に来るときは「安全<b>という点</b>」のように そのまま 付きます。うしろは「〜という点で」「〜という点が」「〜という点は」のほか、「〜という点から」も よく 使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来ることば</div>
+      <div class="chips"><span class="chip">使いやすい</span><span class="chip">費用が安い</span><span class="chip">安全</span><span class="chip">分かりやすさ</span><span class="chip">続けられる</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">「点で」のうしろ</div>
+      <div class="chips"><span class="chip">すぐれている</span><span class="chip">共通している</span><span class="chip">評価できる</span><span class="chip">似ている</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">「点が」のうしろ</div>
+      <div class="chips"><span class="chip">問題だ</span><span class="chip">惜しい</span><span class="chip">気になる</span><span class="chip">弱点だ</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">〜という点で</span>
+        <div class="ex-ja">この案は費用を抑えられる<b>という点で</b>、ほかより現実的だ。<button class="say" data-say="この案は費用を抑えられるという点で、ほかより現実的だ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This plan is more realistic than the others in that it keeps costs down.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜という点が</span>
+        <div class="ex-ja">この調査は対象が少ない<b>という点が</b>、大きな弱点だと言える。<button class="say" data-say="この調査は対象が少ないという点が、大きな弱点だと言える。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The weak point of this survey is that it covers too few people.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名詞＋という点は</span>
+        <div class="ex-ja">発表の分かりやすさ<b>という点は</b>、まだ直すところが多い。<button class="say" data-say="発表の分かりやすさという点は、まだ直すところが多い。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">As for how easy the presentation is to follow, there is still a lot to fix.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜という点では</span>
+        <div class="ex-ja">通勤の便利さ<b>という点では</b>、駅前の部屋にかなうものはない。<button class="say" data-say="通勤の便利さという点では、駅前の部屋にかなうものはない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">When it comes to convenience for commuting, nothing beats a flat by the station.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">共通する点を言う</span>
+        <div class="ex-ja">二つの制度は、働く人を守る<b>という点で</b>共通している。<button class="say" data-say="二つの制度は、働く人を守るという点で共通している。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The two systems have in common that they protect working people.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>〜という点から</div>
+      <div class="use-d">「〜という点から」にすると、そこを 出発点にして 考える、という 意味に なります。理由を おだやかに 示すときに 使います。</div>
+      <div class="use-e">安全<b>という点から</b>、この設計を見直すことになった。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「この点」で受ける</div>
+      <div class="use-d">一度 出した 点を、次の 文で「この点」「その点」と 受けると、話が つながります。</div>
+      <div class="use-e">費用が高い。<b>この点</b>については、次の章でくわしく述べる。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ところ</div>
+      <div class="vs-lead">どちらも「見る ところ」を 取り出す 言い方ですが、<b>〜ところ</b>は くだけた 話しことばで、<b>〜という点</b>は レポートや 発表など きちんとした 場で 使います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜という点</th><th>〜ところ</th></tr>
+        <tr><td class="k">使う場</td><td>レポート・発表・論文</td><td>会話・親しい人へのメール</td></tr>
+        <tr><td class="k">ひびき</td><td>かたい・きちんとしている</td><td>やわらかい・くだけている</td></tr>
+        <tr><td class="k">名詞に付くか</td><td>○「安全という点で」</td><td>△ 名詞には付きにくい</td></tr>
+        <tr><td class="k">前に来る形</td><td>普通形・名詞</td><td>主に 動詞・形容詞（な形は「な」）</td></tr>
+      </table>
+      <div class="vs-ex">
+        「安全だ<b>という点で</b>すぐれている」＝発表やレポートの言い方。<br>
+        「安全な<b>ところ</b>がいいね」＝親しい人との会話の言い方。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜面（で）</div>
+      <div class="vs-lead"><b>〜面で</b>は 分野を おおまかに 指します。<b>〜という点で</b>は 前に 文を 置けるので、注目する ことを 細かく 言えます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜という点で</th><th>〜面で</th></tr>
+        <tr><td class="k">前に来るもの</td><td>文も 名詞も 来る</td><td>名詞だけ（費用面・技術面）</td></tr>
+        <tr><td class="k">指すはば</td><td>一つのことを ぴたりと 指す</td><td>分野を おおまかに 指す</td></tr>
+        <tr><td class="k">言えること</td><td>くわしく 言い分けられる</td><td>短く まとめられる</td></tr>
+      </table>
+      <div class="vs-ex">
+        「一人でも運べる<b>という点で</b>便利だ」＝どこが便利かを ぴたりと 言う。<br>
+        「技術<b>面で</b>すぐれている」＝分野を おおまかに 言う。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜という点 picks out one particular aspect of something and says "looking at this aspect, ...". Use 〜という点で before an evaluation (すぐれている, 便利だ), and 〜という点が when that single aspect is itself the subject (問題だ, 惜しい). It attaches to plain forms and to nouns and belongs to careful, written-style Japanese; the casual equivalent is 〜ところ.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜という点」用來從許多面向之中挑出一個，表示「就這一點來看」。後面接評價時用「〜という点で」（すぐれている、便利だ）；當這一點本身是主語時用「〜という点が」（問題だ、惜しい）。前面可接普通形或名詞，屬於報告、論文等正式的書面語；口語中則多說「〜ところ」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A8%E3%81%84%E3%81%86%E7%82%B9&amp;lv=N2&amp;ex=%E3%81%93%E3%81%AE%E6%A1%88%E3%81%AF%E8%B2%BB%E7%94%A8%E3%82%92%E6%8A%91%E3%81%88%E3%82%89%E3%82%8C%E3%82%8B%E3%81%A8%E3%81%84%E3%81%86%E7%82%B9%E3%81%A7%E3%80%81%E3%81%BB%E3%81%8B%E3%82%88%E3%82%8A%E7%8F%BE%E5%AE%9F%E7%9A%84%E3%81%A0%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="toiu.html">🔁 〜という〜（名詞につなぐ）とくらべる<span class="ar">›</span></a>
+      <a href="karaiuto.html">🔁 〜からいうと（見る立場）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-62">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

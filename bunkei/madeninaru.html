@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜までになる（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜までになる」の意味・接続・例文。時間をかけて高いところまで達したという使い方と、ただの変化を言う「〜ようになる」とのちがいを、高さの図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜までになる</div>
+    <div class="p-en">reach the point of ~ing</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">動詞辞書形に付く</span>
+      <span class="badge sub">高い到達点</span>
+      <span class="badge sub">「ようになる」より上</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">到達点</span>時間をかけて、そこまで達した</div>
+    <div class="lead"><span class="imi-tag">りっぱ</span>うれしい、ほこらしい変化に使う</div>
+    <div class="desc">「〜までになる」は、少しずつ時間をかけて、とうとうそこまで来たという言い方です。大事なのは<b>到達点の高さ</b>で、「よくここまで来たものだ」というおどろきや、うれしい気もちがいっしょに出ます。「〜ようになる」がただの変化を言うのに対して、「〜までになる」はりっぱなところまで達したときに使います。多くは「〜までになった」の形です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 少しずつ上がって、ここまで</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="時間をかけて少しずつ上がっていき、新聞を読めるところまでたどりついたことを右上がりの線で示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">時間を かけて、ここまで たどりついた</text><path d="M40 160 L430 160" fill="none" stroke="#9E9890" stroke-width="1.4"/><path d="M40 160 L40 44" fill="none" stroke="#9E9890" stroke-width="1.4" marker-end="url(#ar2)"/><text x="44" y="36" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">できる 高さ</text><path d="M46 154 L150 140 L250 116 L330 92 L392 74" fill="none" stroke="#854F0B" stroke-width="2.2" marker-end="url(#ar)"/><rect x="286" y="20" width="160" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="366" y="38" text-anchor="middle" font-size="11.5" fill="#854F0B" font-weight="700" font-family="sans-serif">新聞を 読む</text><text x="366" y="56" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">＝ここまで 来た！</text><text x="100" y="182" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">はじめ（できなかった）</text><text x="390" y="182" text-anchor="middle" font-size="10.5" fill="#854F0B" font-family="sans-serif">いま（ここまで）</text></svg>
+    <div class="zu-cap">② 「〜ようになる」との高さのちがい</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「ようになる」より「までになる」のほうが到達点が高いことを、高さのちがう二本の柱でくらべた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">「〜ようになる」より 高い ところ</text><path d="M40 170 L430 170" fill="none" stroke="#9E9890" stroke-width="1.4"/><rect x="70" y="118" width="110" height="52" rx="6" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="125" y="142" text-anchor="middle" font-size="11.5" fill="#6B6560" font-weight="700" font-family="sans-serif">〜ようになる</text><text x="125" y="160" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">できるようになった</text><path d="M182 118 L264 118" fill="none" stroke="#9E9890" stroke-width="1.2"/><rect x="270" y="56" width="110" height="114" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="325" y="96" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">〜までになる</text><text x="325" y="120" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">そこまで</text><text x="325" y="138" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">たどりついた</text><path d="M404 118 L404 62" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><text x="424" y="96" text-anchor="middle" font-size="10.5" fill="#854F0B" font-family="sans-serif">高い</text><text x="125" y="188" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ふつうの 変化</text><text x="325" y="188" text-anchor="middle" font-size="10.5" fill="#854F0B" font-weight="700" font-family="sans-serif">りっぱな 到達点</text></svg>
+    <div class="zu-note">線の<b>高さ</b>を見てください。「〜ようになる」は、できるようになっただけ。「〜までになる」は、そこまで<b>高いところ</b>にたどりついた、という気もちが入ります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞辞書形 ＋ <span class="n">までになる</span></div>
+    <div class="setsu-note">前は<b>動詞の辞書形</b>です。可能の形（話せる・歩ける）もよく使います。ふつうは「〜までになった」と過去の形にして、いまそこまで来ていることを表します。前には「少しずつ」「三年で」のような、時間のかかったことを表すことばを置くと、意味がはっきりします。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞（辞書形）</div>
+      <div class="chips"><span class="chip">話す</span><span class="chip">歩く</span><span class="chip">作る</span><span class="chip">任される</span><span class="chip">教える</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使うことば</div>
+      <div class="chips"><span class="chip">今では</span><span class="chip">ついに</span><span class="chip">ようやく</span><span class="chip">三年で</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前に来る文の形</div>
+      <div class="chips"><span class="chip">少しずつ〜して</span><span class="chip">練習を続けて</span><span class="chip">一から始めて</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">ことばの力</span>
+        <div class="ex-ja">半年でひらがなを覚え、今では新聞を<b>読むまでになった</b>。<button class="say" data-say="半年でひらがなを覚え、今では新聞を読むまでになった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">In six months she learned hiragana, and now she can even read the newspaper.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">体・回復</span>
+        <div class="ex-ja">手術のあと歩く練習を続け、去年は山に<b>登るまでになった</b>。<button class="say" data-say="手術のあと歩く練習を続け、去年は山に登るまでになった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">After the surgery he kept practising walking, and last year he even climbed a mountain.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">仕事</span>
+        <div class="ex-ja">小さな屋台から始めて、姉は店を三つ<b>持つまでになった</b>。<button class="say" data-say="小さな屋台から始めて、姉は店を三つ持つまでになった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Starting from a small food stall, my sister now owns three shops.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">けいこごと</span>
+        <div class="ex-ja">妹はピアノを習い始めて三年で、人前で<b>弾くまでになった</b>。<button class="say" data-say="妹はピアノを習い始めて三年で、人前で弾くまでになった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Three years after starting piano, my little sister can even play in front of an audience.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">家のこと</span>
+        <div class="ex-ja">包丁も持てなかった父が、家族の夕食を<b>作るまでになった</b>。<button class="say" data-say="包丁も持てなかった父が、家族の夕食を作るまでになった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My father, who could not even hold a knife, now makes dinner for the family.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>ふつうは「〜までになった」</div>
+      <div class="use-d">多くは過去の形で使い、いまそこまで来ていることを表します。うしろに「今では」を付けると、変化がよく見えます。</div>
+      <div class="use-e">今では、みんなの前で歌う<b>までになった</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>わるい変化には使いにくい</div>
+      <div class="use-d">「〜までになる」はうれしい到達点に使います。わるくなったことには、ふつう使いません。</div>
+      <div class="use-e">×「歩けなくなる<b>までになった</b>」→ ○「歩けなくなってしまった」</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ようになる</div>
+      <div class="vs-lead">「〜ようになる」は<b>ただの変化</b>で、できなかったことができるようになった、というだけです。「〜までになる」は<b>高いところまで達した</b>という気もちが入り、話し手のおどろきやうれしさがのります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜までになる</th><th>〜ようになる</th></tr>
+        <tr><td class="k">どんな変化か</td><td>高いところまで達した変化</td><td>できなかったことができる変化</td></tr>
+        <tr><td class="k">到達点の高さ</td><td>高い（りっぱ・すごい）</td><td>高さは関係ない</td></tr>
+        <tr><td class="k">話し手の気もち</td><td>うれしい、ほこらしい</td><td>ただの事実</td></tr>
+        <tr><td class="k">前に来る形</td><td>動詞辞書形</td><td>動詞辞書形・ない形など広い</td></tr>
+      </table>
+      <div class="vs-ex">
+        「一人で外国へ行く<b>までになった</b>」＝そこまで育ったのか、という感動。<br>
+        「一人で外国へ行く<b>ようになった</b>」＝そうするようになった、という事実だけ。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜までに（期限）</div>
+      <div class="vs-lead">形がにていますが、まったくちがいます。「〜までに」は<b>時間のしめきり</b>です。「〜までになる」は<b>たどりついたところ</b>を表し、しめきりとは関係ありません。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜までになる</th><th>〜までに</th></tr>
+        <tr><td class="k">前に来るもの</td><td>動詞の辞書形</td><td>時・日・出来事を表す名詞</td></tr>
+        <tr><td class="k">意味</td><td>そこまでたどりついた</td><td>その時をすぎないうちに</td></tr>
+        <tr><td class="k">うしろに来るもの</td><td>「なる」だけ</td><td>出す・終わる など いろいろ</td></tr>
+      </table>
+      <div class="vs-ex">
+        「歩ける<b>までになった</b>」＝歩けるところまでよくなった。<br>
+        「金曜日<b>までに</b>出す」＝金曜日をすぎないうちに出す。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜までになる (usually 〜までになった) says that, little by little, someone has reached a remarkable point. It follows a dictionary-form verb. The key idea is the height of the goal reached: unlike the plain change of 〜ようになる, it carries the speaker's admiration or joy, so it is used for happy, impressive results, not for things getting worse.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜までになる」（多用「〜までになった」）表示經過長時間，一點一點地終於達到了某個了不起的程度。前接動詞辭書形。重點在於「到達點很高」：和單純表示變化的「〜ようになる」不同，它帶有說話者的感動與喜悅，因此用於好的、值得誇耀的結果，不用於變壞的情況。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%BE%E3%81%A7%E3%81%AB%E3%81%AA%E3%82%8B&amp;lv=N2&amp;ex=%E5%8D%8A%E5%B9%B4%E3%81%A7%E3%81%B2%E3%82%89%E3%81%8C%E3%81%AA%E3%82%92%E8%A6%9A%E3%81%88%E3%80%81%E4%BB%8A%E3%81%A7%E3%81%AF%E6%96%B0%E8%81%9E%E3%82%92%E8%AA%AD%E3%82%80%E3%81%BE%E3%81%A7%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="youninaru.html">🔁 〜ようになる（ただの変化）とくらべる<span class="ar">›</span></a>
+      <a href="teikutekuru.html">🔁 〜ていく・〜てくる（少しずつの変化）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-69">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜たつもりだ（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜たつもりだ」の意味・接続・例文。自分ではしたと思っているという芯と、実際はちがう含み、「〜たつもりで」の形、「〜つもりだった」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜たつもりだ</div>
+    <div class="p-en">I believe I did ~ (but maybe not)</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">動詞た形に付く</span>
+      <span class="badge sub">自分ではしたと思う</span>
+      <span class="badge sub">実際はちがうかも</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">したと思う</span>自分では、ちゃんとしたと思っている</div>
+    <div class="lead"><span class="imi-tag">実は…</span>本当はできていないことがある</div>
+    <div class="lead"><span class="imi-tag">したことに</span>「〜たつもりで」＝しないのに、したことにして</div>
+    <div class="desc">「〜たつもりだ」は、自分ではちゃんとそうしたと思っている、という言い方です。大事なのは、それが話し手の頭の中の気もちだという点です。だから「〜たつもりだが」「〜たつもりだけれど」と続けて、実際はちがっていたことを言う形がとても多くなります。また「〜たつもりで」の形にすると、実際はしていないのに、したことにして次の行動をするという意味になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 気もちと実際が ズレる</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="話し手の頭の中では「した」と思っているのに、実際はできていないというズレを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">〜たつもりだ ＝ 自分では「した」と 思っている</text><rect x="14" y="62" width="158" height="80" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="93" y="90" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">話し手</text><text x="93" y="114" text-anchor="middle" font-size="13.5" fill="#854F0B" font-weight="700" font-family="sans-serif">〜たつもりだ</text><path d="M176 88 L196 66" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="200" y="38" width="246" height="54" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="323" y="60" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">頭の中（気もち）</text><text x="323" y="80" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">「レポートは 出した」</text><text x="323" y="107" text-anchor="middle" font-size="13" fill="#A0392E" font-weight="700" font-family="sans-serif">≠  ズレ</text><rect x="200" y="116" width="246" height="52" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5" stroke-dasharray="5 4"/><text x="323" y="137" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">実際</text><text x="323" y="157" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">まだ かばんの 中に あった</text><text x="230" y="188" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「つもりだ」が 言うのは 上の 気もちだけ。下は ちがうことが ある</text></svg>
+    <div class="zu-cap">② 「〜たつもりで」＝したことにして</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「〜たつもりで」は実際にはしないのにしたことにして、そのお金や時間を別のことに回すという流れを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">〜たつもりで ＝ しないのに、したことに する</text><rect x="14" y="50" width="126" height="54" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="77" y="72" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">実際は しない</text><text x="77" y="92" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">くつは 買わない</text><path d="M144 77 L162 77" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="166" y="50" width="126" height="54" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="229" y="72" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">気もちの 中では</text><text x="229" y="92" text-anchor="middle" font-size="11.5" fill="#854F0B" font-weight="700" font-family="sans-serif">買った ことに する</text><path d="M296 77 L314 77" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="318" y="50" width="128" height="54" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="382" y="83" text-anchor="middle" font-size="14" fill="#854F0B" font-weight="700" font-family="sans-serif">〜たつもりで</text><path d="M382 108 L382 128" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="252" y="132" width="194" height="44" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.5"/><text x="349" y="159" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">その分の お金を 貯金する</text><text x="120" y="150" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">使わずに すんだ</text><text x="120" y="170" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">お金・時間が 残る</text><text x="230" y="192" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「したこと」に して、その分を べつの ことに 回す</text></svg>
+    <div class="zu-note">「つもり」は<b>頭の中にある思い</b>です。ですから「〜たつもりだ」は、実際にできているかどうかまでは言いません。そこにズレが生まれます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞た形 ＋ <span class="n">つもりだ</span></div>
+    <div class="setsu-note">ていねいな形は「〜たつもりです」。文をつづけるときは「〜たつもりだが」「〜たつもりだけれど」。そういう気もちはなかったと言うときは<b>「〜たつもりはない」</b>、実際はしないでしたことにするときは<b>「〜たつもりで」</b>の形を使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞（た形）</div>
+      <div class="chips"><span class="chip">説明した</span><span class="chip">確かめた</span><span class="chip">片づけた</span><span class="chip">伝えた</span><span class="chip">教えた</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来ることば</div>
+      <div class="chips"><span class="chip">〜が</span><span class="chip">〜けれど</span><span class="chip">〜のに</span><span class="chip">らしい</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">「たつもりで」と合うことば</div>
+      <div class="chips"><span class="chip">買った</span><span class="chip">食べた</span><span class="chip">旅行した</span><span class="chip">休んだ</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">したと思っている</span>
+        <div class="ex-ja">テストの前に一通り復習した<b>つもりだ</b>が、点はのびなかった。<button class="say" data-say="テストの前に一通り復習したつもりだが、点はのびなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I thought I had reviewed everything before the test, but my score did not improve.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">したと思っている</span>
+        <div class="ex-ja">日にちはメールで伝えた<b>つもりだ</b>けれど、返事がまだ来ない。<button class="say" data-say="日にちはメールで伝えたつもりだけれど、返事がまだ来ない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I believe I told them the date by email, but I still have no reply.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ていねいな形</span>
+        <div class="ex-ja">この絵は、子どものころの町を描いた<b>つもりです</b>。<button class="say" data-say="この絵は、子どものころの町を描いたつもりです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This picture is meant to be the town where I grew up.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜たつもりで</span>
+        <div class="ex-ja">新しいくつを買った<b>つもりで</b>、そのお金を寄付した。<button class="say" data-say="新しいくつを買ったつもりで、そのお金を寄付した。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I acted as if I had bought new shoes, and gave that money to charity instead.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜たつもりで</span>
+        <div class="ex-ja">一杯飲んだ<b>つもりで</b>、毎晩百円ずつびんに入れている。<button class="say" data-say="一杯飲んだつもりで、毎晩百円ずつびんに入れている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Pretending I have had a drink, I put a hundred yen in a bottle every night.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜たつもりはない</span>
+        <div class="ex-ja">わたしは、そんな仕事まで頼んだ<b>つもりはありません</b>。<button class="say" data-say="わたしは、そんな仕事まで頼んだつもりはありません。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I certainly did not mean to ask you to take on work like that.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜たつもりで」</div>
+      <div class="use-d">実際はしていないのに、したことにして次の行動をする言い方です。お金や時間の使い方の話でよく出ます。</div>
+      <div class="use-e">旅行に行った<b>つもりで</b>、部屋の家具を買いかえた。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜たつもりはない」</div>
+      <div class="use-d">相手にごかいされたとき、「そういう気もちでしたのではない」と打ち消す言い方です。</div>
+      <div class="use-e">きつい言い方をした<b>つもりはない</b>んです。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>「〜たつもりになる」</div>
+      <div class="use-d">実際はできていないのに、できたと思いこんでしまうことです。注意することばといっしょに使います。</div>
+      <div class="use-e">一度読んだだけで、わかった<b>つもりになる</b>のはあぶない。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜つもりだった</div>
+      <div class="vs-lead">「〜たつもりだ」は<b>したと思っている</b>（実際はちがうかもしれない）、「〜つもりだった」は<b>するはずだったのに、しなかった</b>と言う文型です。前に来る形もちがいます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜たつもりだ</th><th>〜つもりだった</th></tr>
+        <tr><td class="k">前に来る形</td><td>動詞た形（送った）</td><td>動詞辞書形が多い（送る）</td></tr>
+        <tr><td class="k">言いたいこと</td><td>自分では、したと思っている</td><td>する予定だったが、しなかった</td></tr>
+        <tr><td class="k">実際は</td><td>できていないかもしれない</td><td>していない・できなかった</td></tr>
+        <tr><td class="k">気もち</td><td>え、ちがったのか</td><td>しようと思っていたのに</td></tr>
+      </table>
+      <div class="vs-ex">
+        「もう送った<b>つもりだ</b>」＝送ったと思っている。本当はまだかもしれない。<br>
+        「今日中に送る<b>つもりだった</b>」＝送る予定だったが、送らなかった。<br>
+        「かぎをかけた<b>つもりだ</b>」と「かぎをかける<b>つもりだった</b>」は、まったくちがう話。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜たはずだ</div>
+      <div class="vs-lead">「〜たはずだ」は<b>そう考えるだけの理由</b>があって言います。「〜たつもりだ」のもとは<b>自分の気もちだけ</b>なので、相手を説得する力は弱くなります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜たつもりだ</th><th>〜たはずだ</th></tr>
+        <tr><td class="k">もとになるもの</td><td>自分の思い・気もち</td><td>予定・約束・記録などの理由</td></tr>
+        <tr><td class="k">強さ</td><td>自分ではそう思う、ぐらい</td><td>きっとそうだ、という確信</td></tr>
+        <tr><td class="k">よく続くことば</td><td>〜が、〜のに</td><td>〜のに、おかしいな</td></tr>
+      </table>
+      <div class="vs-ex">
+        「机に置いた<b>つもりだ</b>」＝そうしたと思っている。<br>
+        「机に置いた<b>はずだ</b>」＝置いたと言える理由がある。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜たつもりだ means “I believe I did it — at least that is how I feel.” It attaches to the past (た) form of a verb and describes only what is in the speaker's head, so it is very often followed by が or けれど to admit that reality was different. The related form 〜たつもりで means acting as if you had done something you did not actually do, for example saving the money you would have spent.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜たつもりだ」用在動詞的「た形」之後，表示「我自己認為已經做了」，講的只是說話者心裡的想法，所以後面常接「が、けれど」來承認事實其實不同。另有「〜たつもりで」的形式，意思是實際上沒做，卻當作已經做了，再把省下的錢或時間用在別處。與「〜つもりだった」（本來打算做卻沒做）不同，請分清楚。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%9F%E3%81%A4%E3%82%82%E3%82%8A%E3%81%A0&amp;lv=N2&amp;ex=%E3%83%86%E3%82%B9%E3%83%88%E3%81%AE%E5%89%8D%E3%81%AB%E4%B8%80%E9%80%9A%E3%82%8A%E5%BE%A9%E7%BF%92%E3%81%97%E3%81%9F%E3%81%A4%E3%82%82%E3%82%8A%E3%81%A0%E3%81%8C%E3%80%81%E7%82%B9%E3%81%AF%E3%81%AE%E3%81%B3%E3%81%AA%E3%81%8B%E3%81%A3%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="tsumoridatta.html">🔁 〜つもりだった（するはずが、しなかった）とくらべる<span class="ar">›</span></a>
+      <a href="tsumoride.html">🔁 〜のつもりで・〜つもりで（その気もちで）とくらべる<span class="ar">›</span></a>
+      <a href="hazuda.html">🔁 〜はずだ（理由のある確信）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-57">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

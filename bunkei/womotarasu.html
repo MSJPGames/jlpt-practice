@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜をもたらす（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜をもたらす」の意味・接続・例文。技術や大雨などが大きな変化や被害を生み出す使い方と、「〜を引き起こす」「〜につながる」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜をもたらす</div>
+    <div class="p-en">bring about ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">名詞に付く</span>
+      <span class="badge sub">かたい書きことば</span>
+      <span class="badge sub">主語は人以外が多い</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">大きな結果</span>あるものが、大きな変化や影響を生み出す</div>
+    <div class="lead"><span class="imi-tag">よしあし両方</span>利益にも被害にも、どちらにも使える</div>
+    <div class="desc">「〜をもたらす」は、あるものが大きな変化や結果を生み出す、というかたい言い方です。主語には「新しい技術」「大雨」「戦争」「人口の減少」のように、人ではないものが来ることがほとんどです。うしろに来るのは、社会や人びとに広く関わる大きな結果で、利益にも被害にも使えます。身近な小さなことには使いません。新聞や説明文でよく見る形です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 人ではないものが、大きな結果を生む</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="技術や大雨など人ではないものが原因になり、変化・利益・被害・影響といった大きな結果を生み出すことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">人では ない ものが、大きな 結果を 生み出す</text><rect x="12" y="52" width="120" height="96" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="72" y="74" text-anchor="middle" font-size="11" fill="#854F0B" font-weight="700" font-family="sans-serif">原因（人では ない）</text><text x="72" y="96" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">新しい 技術</text><text x="72" y="116" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">大雨・戦争</text><text x="72" y="136" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">人口の 減少</text><text x="169" y="90" text-anchor="middle" font-size="10.5" fill="#854F0B" font-weight="700" font-family="sans-serif">をもたらす</text><path d="M140 102 L196 102" fill="none" stroke="#854F0B" stroke-width="2" marker-end="url(#ar)"/><rect x="200" y="34" width="248" height="126" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.6"/><text x="324" y="54" text-anchor="middle" font-size="11" fill="#854F0B" font-weight="700" font-family="sans-serif">大きな 結果（社会・人びとに 関わる）</text><rect x="212" y="64" width="110" height="38" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4"/><text x="267" y="89" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">変化</text><rect x="328" y="64" width="110" height="38" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4"/><text x="383" y="89" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">利益</text><rect x="212" y="110" width="110" height="38" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4"/><text x="267" y="135" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">被害</text><rect x="328" y="110" width="110" height="38" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4"/><text x="383" y="135" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">影響</text><text x="230" y="182" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">よい ことにも わるい ことにも 使える</text></svg>
+    <div class="zu-cap">② 小さなことには使わない</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「をもたらす」のうしろには大きな結果は来られるが、身近な小さなことは来られないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">うしろに 来るのは「大きな 結果」だけ</text><rect x="14" y="34" width="200" height="70" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="114" y="56" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">○ 大きな 結果</text><text x="114" y="78" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">社会の 変化・大きな 被害</text><text x="114" y="95" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">産業への 影響・地域の 利益</text><rect x="14" y="114" width="200" height="60" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="114" y="136" text-anchor="middle" font-size="11.5" fill="#A0392E" font-weight="700" font-family="sans-serif">× 身近な 小さな こと</text><text x="114" y="158" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">「今日の 昼食が 満足を—」</text><path d="M218 68 L262 68" fill="none" stroke="#854F0B" stroke-width="2" marker-end="url(#ar)"/><path d="M218 144 L248 144" fill="none" stroke="#9E9890" stroke-width="1.4"/><text x="258" y="150" text-anchor="middle" font-size="15" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><rect x="268" y="52" width="178" height="58" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="357" y="78" text-anchor="middle" font-size="14" fill="#854F0B" font-weight="700" font-family="sans-serif">〜をもたらす</text><text x="357" y="98" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">＝大きな 結果を 生み出す</text><text x="230" y="184" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">結果が 小さいと、大げさに ひびいて 不自然に なる</text></svg>
+    <div class="zu-note">「もたらす」は<b>持って来る</b>という古い動詞から来ています。大きなものが、大きな結果を<b>かかえて やって来る</b>絵を思いうかべてください。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞〈原因〉が ＋ 名詞〈結果〉を ＋ <span class="n">もたらす</span></div>
+    <div class="setsu-note">「を」の前も「が」の前も<b>名詞</b>です。動詞には直接つきません。原因を「〜によって」で示し、<b>「〜によってもたらされる」</b>と受身にする形も、かたい文章ではよく使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">主語によく来る名詞</div>
+      <div class="chips"><span class="chip">技術</span><span class="chip">大雨</span><span class="chip">戦争</span><span class="chip">円安</span><span class="chip">少子化</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">「を」の前によく来る名詞</div>
+      <div class="chips"><span class="chip">変化</span><span class="chip">利益</span><span class="chip">被害</span><span class="chip">影響</span><span class="chip">恵み</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う形</div>
+      <div class="chips"><span class="chip">もたらした</span><span class="chip">もたらしている</span><span class="chip">もたらされた</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">変化をもたらす</span>
+        <div class="ex-ja">新しい輸送技術は、この地方の産業に大きな変化を<b>もたらした</b>。<button class="say" data-say="新しい輸送技術は、この地方の産業に大きな変化をもたらした。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The new transport technology brought about a major change in the region's industry.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">被害をもたらす</span>
+        <div class="ex-ja">三日続いた大雨は、川ぞいの村に深刻な被害を<b>もたらした</b>。<button class="say" data-say="三日続いた大雨は、川ぞいの村に深刻な被害をもたらした。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Three days of heavy rain brought serious damage to the villages along the river.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">利益をもたらす</span>
+        <div class="ex-ja">港の整備は、島の人びとに長く続く利益を<b>もたらす</b>だろう。<button class="say" data-say="港の整備は、島の人びとに長く続く利益をもたらすだろう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Improving the port will bring lasting benefits to the people of the island.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">受身の形</span>
+        <div class="ex-ja">この改革によって<b>もたらされた</b>効果は、数字にはっきり表れている。<button class="say" data-say="この改革によってもたらされた効果は、数字にはっきり表れている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The effects brought about by this reform show up clearly in the figures.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">恵みをもたらす</span>
+        <div class="ex-ja">冬のあいだに積もった雪は、春の田畑に豊かな水を<b>もたらす</b>。<button class="say" data-say="冬のあいだに積もった雪は、春の田畑に豊かな水をもたらす。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The snow that piles up through the winter brings plentiful water to the spring fields.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">影響をもたらす</span>
+        <div class="ex-ja">人口の減少は、地方の交通に大きな影響を<b>もたらしている</b>。<button class="say" data-say="人口の減少は、地方の交通に大きな影響をもたらしている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The falling population is having a major impact on rural transport.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>自然の恵みを言う</div>
+      <div class="use-d">自然が人にあたえるよいものを言うときにもよく使います。「恵み」「実り」などが「を」の前に来ます。</div>
+      <div class="use-e">この森は、ふもとの町に清らかな水の<b>恵みをもたらして</b>いる。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>受身「〜によってもたらされる」</div>
+      <div class="use-d">原因を「〜によって」で示し、結果のほうを主語にする形です。かたい説明文や報告文でよく見ます。</div>
+      <div class="use-e">その決定<b>によってもたらされた</b>混乱は、半年も続いた。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜を引き起こす</div>
+      <div class="vs-lead">「〜を引き起こす」は、事故・混乱・病気のような<b>よくないこと</b>にしか使えません。「〜をもたらす」は<b>よいことにもわるいことにも</b>使えます。ここがいちばん大きなちがいです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜をもたらす</th><th>〜を引き起こす</th></tr>
+        <tr><td class="k">うしろに来る結果</td><td>よいことも、わるいことも</td><td>わるいことだけ</td></tr>
+        <tr><td class="k">言いたいこと</td><td>大きな結果を生み出す</td><td>困ったことを起こしてしまう</td></tr>
+        <tr><td class="k">「利益」が言えるか</td><td>「利益をもたらす」と言える</td><td>「利益を引き起こす」とは言わない</td></tr>
+      </table>
+      <div class="vs-ex">
+        「新しい薬が多くの人に希望を<b>もたらした</b>」＝よい結果なので「引き起こす」は使えない。<br>
+        「小さな見落としが大きな混乱を<b>引き起こした</b>」＝わるい結果。<br>
+        「大雨が被害を<b>もたらした／引き起こした</b>」＝わるい結果なら、どちらでも言える。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜につながる</div>
+      <div class="vs-lead">「〜につながる」は、あることが<b>ある結果と結びついていく</b>という意味で、結び方がずっとゆるい言い方です。まだ起きていない先のことにも使え、結果の大きさも問いません。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜をもたらす</th><th>〜につながる</th></tr>
+        <tr><td class="k">結果の出かた</td><td>実際に大きな結果を生む</td><td>その結果に結びついていく</td></tr>
+        <tr><td class="k">結果の大きさ</td><td>大きなことに限る</td><td>大きくても小さくてもよい</td></tr>
+        <tr><td class="k">いつのことか</td><td>もう起きた、または確かに起きる</td><td>これから起きるかもしれない</td></tr>
+      </table>
+      <div class="vs-ex">
+        「毎日の点検が事故を防ぐことに<b>つながる</b>」＝結びついていく、という見通し。<br>
+        「毎日の点検が、大きな節約を<b>もたらした</b>」＝実際に結果が出た。<br>
+        「小さな親切が笑顔に<b>つながる</b>」＝小さいことにも使えるが、「もたらす」では大げさになる。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜をもたらす means that something brings about a large-scale result. The subject is usually not a person - technology, heavy rain, war, a falling population - and the result is something broad: change, benefit, damage, influence. Unlike 〜を引き起こす, which only introduces bad outcomes, もたらす works for good results too. Avoid it for small everyday matters.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜をもたらす」表示某事物帶來重大的結果。主語多半不是人，而是技術、大雨、戰爭、人口減少之類的事物；後面接的是變化、利益、災害、影響等規模較大的結果。與只能用於壞事的「〜を引き起こす」不同，「もたらす」好事壞事都能用。日常的小事則不適合使用。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%82%92%E3%82%82%E3%81%9F%E3%82%89%E3%81%99&amp;lv=N2&amp;ex=%E6%96%B0%E3%81%97%E3%81%84%E8%BC%B8%E9%80%81%E6%8A%80%E8%A1%93%E3%81%AF%E3%80%81%E3%81%93%E3%81%AE%E5%9C%B0%E6%96%B9%E3%81%AE%E7%94%A3%E6%A5%AD%E3%81%AB%E5%A4%A7%E3%81%8D%E3%81%AA%E5%A4%89%E5%8C%96%E3%82%92%E3%82%82%E3%81%9F%E3%82%89%E3%81%97%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="niyotte.html">🔁 〜によって（原因）とくらべる<span class="ar">›</span></a>
+      <a href="okagede.html">🔁 〜おかげで（ありがたい原因）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-72">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

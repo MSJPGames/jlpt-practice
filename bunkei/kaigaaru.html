@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜かいがある・〜かいがない（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜かいがある・〜かいがない」の意味・接続・例文。苦労が実った「〜かいがあって」と、実らなかった「〜かいもなく」の二つの形、「〜だけあって」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜かいがある・〜かいがない</div>
+    <div class="p-en">worth doing ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">動詞た形・名詞に付く</span>
+      <span class="badge sub">努力が実る</span>
+      <span class="badge sub">「かいもなく」＝実らない</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">むくわれた</span>苦労した分だけの、よい結果があった</div>
+    <div class="lead"><span class="imi-tag">むだだった</span>「かいもなく」で、苦労が実らなかった</div>
+    <div class="desc">「〜かいがある」は、時間や力を使ってがんばったことに、それだけの結果があったという言い方です。前には「練習した」「待った」「努力」「苦労」のような、がんばりを表すことばが来ます。うしろへ文をつづけるときは「〜かいがあって」、反対に、がんばったのに結果が出なかったときは「〜かいもなく」の形を使います。この二つをセットで覚えると使いやすくなります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 「かいがあって」と「かいもなく」</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="同じ苦労でも「かいがあって」ならよい結果に、「かいもなく」なら結果が出なかったことに分かれることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">同じ 苦労が、うしろの形で 二つに 分かれる</text><rect x="14" y="72" width="110" height="56" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="69" y="96" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">がんばった</text><text x="69" y="114" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">練習した・待った</text><path d="M128 92 L182 66" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><path d="M128 110 L182 138" fill="none" stroke="#9E9890" stroke-width="1.6" marker-end="url(#ar2)"/><rect x="186" y="42" width="118" height="46" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="245" y="70" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">〜かいがあって</text><path d="M308 65 L336 65" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="340" y="42" width="106" height="46" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.5"/><text x="393" y="63" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-weight="700" font-family="sans-serif">よい結果</text><text x="393" y="80" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">合格した！</text><rect x="186" y="116" width="118" height="46" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5"/><text x="245" y="144" text-anchor="middle" font-size="12.5" fill="#A0392E" font-weight="700" font-family="sans-serif">〜かいもなく</text><path d="M308 139 L336 139" fill="none" stroke="#9E9890" stroke-width="1.6" marker-end="url(#ar2)"/><rect x="340" y="116" width="106" height="46" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5"/><text x="393" y="137" text-anchor="middle" font-size="11.5" fill="#A0392E" font-weight="700" font-family="sans-serif">だめだった</text><text x="393" y="154" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">実らなかった</text><text x="230" y="186" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">苦労は同じでも、実ったか どうかで 言い方が 変わる</text></svg>
+    <div class="zu-cap">② 前に来るのは、がんばったこと</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「かい」の前に来られるのは努力や苦労を表すことばだけで、ただ起きた出来事は付けられないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">前に 来るのは「がんばったこと」だけ</text><rect x="14" y="34" width="178" height="88" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="103" y="54" text-anchor="middle" font-size="11.5" fill="#854F0B" font-weight="700" font-family="sans-serif">○ 努力・苦労の ことば</text><text x="103" y="76" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">練習した・待った</text><text x="103" y="96" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">努力・苦労・看病</text><text x="103" y="114" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">（時間や力を 使った）</text><rect x="14" y="130" width="178" height="44" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="103" y="148" text-anchor="middle" font-size="11.5" fill="#A0392E" font-weight="700" font-family="sans-serif">× ただ 起きた こと</text><text x="103" y="166" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">雨が降った・道が混んだ</text><path d="M196 78 L246 78" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><path d="M196 152 L228 152" fill="none" stroke="#9E9890" stroke-width="1.4"/><text x="240" y="158" text-anchor="middle" font-size="15" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><rect x="256" y="52" width="190" height="54" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="351" y="78" text-anchor="middle" font-size="14" fill="#854F0B" font-weight="700" font-family="sans-serif">〜かいがある</text><text x="351" y="96" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">＝その苦労に、結果が ついてくる</text><text x="230" y="186" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「どれだけ がんばったか」が 前に 来る</text></svg>
+    <div class="zu-note">「かい」は<b>がんばりの量</b>を入れる入れものだと考えてください。その入れものに見合う結果が出れば<b>かいがあって</b>、出なければ<b>かいもなく</b>です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞た形・名詞の ＋ <span class="n">かいがある</span>／<span class="n">かいがあって</span>／<span class="n">かいもなく</span></div>
+    <div class="setsu-note">動詞は「練習した」「待った」のように<b>た形</b>で付きます。名詞のときは「努力のかいがあって」「看病のかいもなく」のように<b>「の」</b>をはさみます。文をつづけるときは「〜かいがあって」「〜かいもなく」、言い切るときは「〜かいがあった」「〜かいがない」です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞（た形）</div>
+      <div class="chips"><span class="chip">練習した</span><span class="chip">待った</span><span class="chip">がんばった</span><span class="chip">調べた</span><span class="chip">並んだ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る名詞</div>
+      <div class="chips"><span class="chip">努力</span><span class="chip">苦労</span><span class="chip">看病</span><span class="chip">練習</span><span class="chip">手当て</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来ることば</div>
+      <div class="chips"><span class="chip">合格した</span><span class="chip">うまくいった</span><span class="chip">実った</span><span class="chip">だめだった</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">かいがあって</span>
+        <div class="ex-ja">毎朝走った<b>かいがあって</b>、大会で自己新記録が出た。<button class="say" data-say="毎朝走ったかいがあって、大会で自己新記録が出た。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">All that morning running paid off, and I set a personal best at the meet.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">かいもなく</span>
+        <div class="ex-ja">三時間並んだ<b>かいもなく</b>、目当ての品は売り切れていた。<button class="say" data-say="三時間並んだかいもなく、目当ての品は売り切れていた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Despite queueing for three hours, the item I wanted was already sold out.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名詞＋のかいがあって</span>
+        <div class="ex-ja">毎日の練習<b>のかいがあって</b>、今では一人で買い物ができる。<button class="say" data-say="毎日の練習のかいがあって、今では一人で買い物ができる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Thanks to daily practice, I can now do my shopping by myself.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名詞＋のかいもなく</span>
+        <div class="ex-ja">手当て<b>のかいもなく</b>、古い柱時計はもう動かなかった。<button class="say" data-say="手当てのかいもなく、古い柱時計はもう動かなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">In spite of all the repairs, the old wall clock would not run again.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">言い切る形</span>
+        <div class="ex-ja">遠くまで来た<b>かいがあった</b>。ここからの眺めは最高だ。<button class="say" data-say="遠くまで来たかいがあった。ここからの眺めは最高だ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Coming all this way was worth it - the view from here is superb.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">かいがない</span>
+        <div class="ex-ja">これでは、毎晩おそくまで教えた<b>かいがない</b>。<button class="say" data-say="これでは、毎晩おそくまで教えたかいがない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">At this rate, all those late nights of teaching were for nothing.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜がい」の形</div>
+      <div class="use-d">「かい」は「〜がい」の形でも使います。「やりがい」「読みがい」「生きがい」のように名詞のうしろに付いて、そうするだけのねうちがあることを表します。</div>
+      <div class="use-e">この仕事は大変だが、<b>やりがい</b>がある。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>文のおわりで言い切る</div>
+      <div class="use-d">「かいがあった」と言い切ると、苦労がむくわれたよろこびが強く出ます。話しことばでもよく使います。</div>
+      <div class="use-e">長い列に並んだけれど、<b>かいがあった</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜だけあって</div>
+      <div class="vs-lead">「〜だけあって」は<b>その立場や経験にふさわしい</b>と言う文型で、うしろにはよいことしか来ません。「〜かいがある」は<b>苦労がむくわれたかどうか</b>を言う文型なので、「かいもなく」で<b>わるい結果</b>も言えます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜かいがある</th><th>〜だけあって</th></tr>
+        <tr><td class="k">前に来るもの</td><td>努力・苦労したこと</td><td>立場・経験・評判など</td></tr>
+        <tr><td class="k">言いたいこと</td><td>苦労がむだにならなかった</td><td>なるほど、それにふさわしい</td></tr>
+        <tr><td class="k">わるい結果</td><td>「かいもなく」で言える</td><td>言えない（うしろはよいこと）</td></tr>
+      </table>
+      <div class="vs-ex">
+        「三年通った<b>かいがあって</b>、話せるようになった」＝苦労が実った。<br>
+        「三年通っていた<b>だけあって</b>、話し方が自然だ」＝経験にふさわしい。<br>
+        「三年通った<b>かいもなく</b>、話せないままだ」＝「だけあって」ではこうは言えない。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜おかげで</div>
+      <div class="vs-lead">「〜おかげで」は<b>ありがたい原因</b>を言います。原因は人でも物でもかまいません。「〜かいがあって」は<b>自分がしたがんばり</b>が実ったときだけに使います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜かいがあって</th><th>〜おかげで</th></tr>
+        <tr><td class="k">原因になるもの</td><td>自分がした努力・苦労</td><td>人・もの・出来事、なんでも</td></tr>
+        <tr><td class="k">気もち</td><td>がんばりが実った</td><td>助かった、ありがたい</td></tr>
+        <tr><td class="k">わるい結果のとき</td><td>「かいもなく」と言う</td><td>「〜せいで」に変える</td></tr>
+      </table>
+      <div class="vs-ex">
+        「早起きを続けた<b>かいがあって</b>、体が軽くなった」＝自分の努力が実った。<br>
+        「先生の<b>おかげで</b>、体が軽くなった」＝ほかの人に感謝している。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜かいがある says that the effort you put in was rewarded. It follows a past-form verb (待った, 練習した) or a noun plus の (努力の, 苦労の). Use 〜かいがあって when a good result follows, and 〜かいもなく when all that effort came to nothing. Unlike 〜だけあって, it can introduce a bad outcome.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜かいがある」表示付出的辛苦得到了回報。前面接動詞的「た形」（待った、練習した）或「名詞＋の」（努力の、苦労の）。後面接好結果時用「〜かいがあって」；努力落空、沒有結果時則用「〜かいもなく」。與「〜だけあって」不同，它也可以帶出不好的結果。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%8B%E3%81%84%E3%81%8C%E3%81%82%E3%82%8B%E3%83%BB%E3%80%9C%E3%81%8B%E3%81%84%E3%81%8C%E3%81%AA%E3%81%84&amp;lv=N2&amp;ex=%E6%AF%8E%E6%9C%9D%E8%B5%B0%E3%81%A3%E3%81%9F%E3%81%8B%E3%81%84%E3%81%8C%E3%81%82%E3%81%A3%E3%81%A6%E3%80%81%E5%A4%A7%E4%BC%9A%E3%81%A7%E8%87%AA%E5%B7%B1%E6%96%B0%E8%A8%98%E9%8C%B2%E3%81%8C%E5%87%BA%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="dakeatte.html">🔁 〜だけあって（ふさわしい）とくらべる<span class="ar">›</span></a>
+      <a href="okagede.html">🔁 〜おかげで（ありがたい原因）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-54">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

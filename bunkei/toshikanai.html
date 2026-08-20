@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜としか〜ない（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜としか〜ない」の意味・接続・例文。そう考えるほかないという使い方、うしろに来る動詞が限られること、「〜しかない」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜としか〜ない</div>
+    <div class="p-en">can only ~ that ...</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">普通形・名詞に付く</span>
+      <span class="badge sub">うしろは「ない形」</span>
+      <span class="badge sub">あきれ・不満</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">ほかにない</span>そう 受け取る ほかに 道が ない</div>
+    <div class="lead"><span class="imi-tag">あきれ・不満</span>話し手の 強い 気もちが こもる</div>
+    <div class="desc">「〜としか〜ない」は、そう考えるほかに受け取り方がない、と言い切る言い方です。ほかの見方をぜんぶ消して、一つだけ残すイメージです。うしろに来る動詞は「思えない」「考えられない」「見えない」「言いようがない」など、頭の中の受け取り方を表すことばに限られます。あきれた気もちや不満がこもることが多い言い方です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① うしろに来る動詞は決まっている</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「としか」のうしろに来る動詞が思えない・考えられないなど、ない形に限られることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">うしろに 来る 動詞は 決まって いる</text><rect x="12" y="74" width="118" height="56" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="71" y="100" text-anchor="middle" font-size="12.5" fill="#1C1C1C" font-weight="700" font-family="sans-serif">うそだ</text><text x="71" y="120" text-anchor="middle" font-size="11" fill="#854F0B" font-weight="700" font-family="sans-serif">＋ としか</text><path d="M134 102 L148 102" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="152" y="44" width="140" height="124" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="222" y="68" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">思えない</text><text x="222" y="94" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">考えられない</text><text x="222" y="120" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">見えない</text><text x="222" y="146" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">言いようがない</text><path d="M296 104 L312 104" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="316" y="76" width="132" height="56" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.5"/><text x="382" y="102" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">ほかの 受け取り方は</text><text x="382" y="121" text-anchor="middle" font-size="11.5" fill="#854F0B" font-weight="700" font-family="sans-serif">ない</text><text x="222" y="186" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">どれも「ない形」。ここは 変えられない</text></svg>
+    <div class="zu-cap">② ほかの見方を消して、一つだけ残す</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ほかの見方をすべて消して一つだけ残す形になり、あきれや不満がこもることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">ほかの 見方を 消して、一つだけ 残す</text><rect x="12" y="34" width="172" height="34" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="98" y="56" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">× ぐうぜん だった</text><rect x="12" y="76" width="172" height="34" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="98" y="98" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">× 気の せい だった</text><rect x="12" y="118" width="172" height="34" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="98" y="140" text-anchor="middle" font-size="11.5" fill="#854F0B" font-weight="700" font-family="sans-serif">わざと だ</text><path d="M188 135 L228 135" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><text x="340" y="52" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">話し手の 気もち</text><rect x="232" y="62" width="216" height="80" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.8"/><text x="340" y="96" text-anchor="middle" font-size="11.5" fill="#854F0B" font-weight="700" font-family="sans-serif">わざとだ としか 思えない</text><text x="340" y="120" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">＝あきれ・不満が こもる</text><text x="230" y="172" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">消した ぶんだけ、言い方が 強く なる</text></svg>
+    <div class="zu-note">「としか」は、<b>ほかの見方に×を付けることば</b>です。消したぶんだけ言い方が強くなり、<b>あきれ</b>や<b>不満</b>がにじみます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">普通形・名詞 ＋ <span class="n">としか</span> ＋ 動詞のない形</div>
+    <div class="setsu-note">うしろには必ず<b>ない形</b>が来ます。よく使うのは「思えない」「考えられない」「見えない」「言いようがない」「受け取れない」です。名詞やナ形容詞のときは「うそだとしか」「失礼としか」のように、「だ」を付けても付けなくても使えます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る形</div>
+      <div class="chips"><span class="chip">思えない</span><span class="chip">考えられない</span><span class="chip">見えない</span><span class="chip">言いようがない</span><span class="chip">受け取れない</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来ることば</div>
+      <div class="chips"><span class="chip">うそ</span><span class="chip">わざと</span><span class="chip">失礼</span><span class="chip">ぐうぜん</span><span class="chip">冗談</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">どう見ても</span><span class="chip">もう</span><span class="chip">わたしには</span><span class="chip">だれが見ても</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">思えない</span>
+        <div class="ex-ja">こんな時間に電話が来るなんて、急用だ<b>としか思えない</b>。<button class="say" data-say="こんな時間に電話が来るなんて、急用だとしか思えない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">A call at this hour can only mean there's an emergency.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">考えられない</span>
+        <div class="ex-ja">答えが最後の記号まで同じだ。写した<b>としか考えられない</b>。<button class="say" data-say="答えが最後の記号まで同じだ。写したとしか考えられない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The answers match right down to the last mark - they can only have been copied.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">見えない</span>
+        <div class="ex-ja">机の上のこの散らかりようは、あわてて出た<b>としか見えない</b>。<button class="say" data-say="机の上のこの散らかりようは、あわてて出たとしか見えない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Looking at this messy desk, they can only have left in a hurry.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">言いようがない</span>
+        <div class="ex-ja">三度も同じ説明をさせるとは、失礼<b>としか言いようがない</b>。<button class="say" data-say="三度も同じ説明をさせるとは、失礼としか言いようがない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Making me explain the same thing three times is nothing short of rude.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">受け取れない</span>
+        <div class="ex-ja">値上げの理由がどこにも書いていない。ごまかし<b>としか受け取れない</b>。<button class="say" data-say="値上げの理由がどこにも書いていない。ごまかしとしか受け取れない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">No reason for the price rise is given anywhere; I can only take it as a dodge.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">過去の形</span>
+        <div class="ex-ja">毎晩続いた工事の音は、いやがらせ<b>としか思えなかった</b>。<button class="say" data-say="毎晩続いた工事の音は、いやがらせとしか思えなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The construction noise every night could only be taken as harassment.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜としか言えない」で答えをぼかす</div>
+      <div class="use-d">はっきり言えないとき、「今のところ〜としか言えない」の形で、それ以上は答えられないという意味に使います。</div>
+      <div class="use-e">調査中なので、<b>わからないとしか言えません</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>名詞に直接つく</div>
+      <div class="use-d">名詞やナ形容詞のときは「だ」を入れずに、「失礼としか」「冗談としか」の形もよく使います。</div>
+      <div class="use-e">あの返事は<b>冗談としか思えない</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜しかない</div>
+      <div class="vs-lead">「〜しかない」は<b>それしか方法がない</b>という、やることの話です。「〜としか〜ない」は<b>そうとしか受け取れない</b>という、考え方・受け取り方の話です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜としか〜ない</th><th>〜しかない</th></tr>
+        <tr><td class="k">話していること</td><td>頭の 中の 受け取り方</td><td>取れる 方法・やること</td></tr>
+        <tr><td class="k">うしろに来るもの</td><td>思えない・見えない など</td><td>言い切りで おわる</td></tr>
+        <tr><td class="k">気もち</td><td>あきれ・不満が 出やすい</td><td>ほかに 道が ない、しかたない</td></tr>
+      </table>
+      <div class="vs-ex">
+        「作り話<b>としか思えない</b>」＝そう考えるほかない。<br>
+        「バスで行く<b>しかない</b>」＝ほかに方法がない。<br>
+        同じ「しか〜ない」でも、消しているものがちがいます。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜に違いない</div>
+      <div class="vs-lead">「〜に違いない」は<b>きっとそうだ</b>という強い推測です。「〜としか〜ない」は<b>ほかの見方ができない</b>という言い方で、あきれや不満がこもりやすくなります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜としか〜ない</th><th>〜に違いない</th></tr>
+        <tr><td class="k">言い方</td><td>ほかの 見方を 消す</td><td>きっと そうだと 思う</td></tr>
+        <tr><td class="k">気もち</td><td>あきれ・不満が 出やすい</td><td>気もちの 色は うすい</td></tr>
+        <tr><td class="k">文のおわり</td><td>うしろは ない形</td><td>うしろは 言い切り</td></tr>
+      </table>
+      <div class="vs-ex">
+        「わざと<b>としか思えない</b>」＝ほかに考えようがない、という不満。<br>
+        「わざとに<b>違いない</b>」＝きっとわざとだ、という強い推測。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜としか〜ない says that there is only one way to take something: every other interpretation is ruled out. The verb that follows is limited to ones about how you receive or judge things - 思えない, 考えられない, 見えない, 言いようがない - and it must be negative. The speaker often sounds exasperated or dissatisfied.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜としか〜ない」表示「除此之外沒有別的看法」，把其他解釋全部排除，只留下一種。後面出現的動詞有限，多為表示接受、判斷的「思えない」「考えられない」「見えない」「言いようがない」，而且必須用否定形。說話者常帶有無奈、不滿的語氣。與「〜しかない」（沒有別的辦法）所談的層面不同。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A8%E3%81%97%E3%81%8B%E3%80%9C%E3%81%AA%E3%81%84&amp;lv=N2&amp;ex=%E3%81%93%E3%82%93%E3%81%AA%E6%99%82%E9%96%93%E3%81%AB%E9%9B%BB%E8%A9%B1%E3%81%8C%E6%9D%A5%E3%82%8B%E3%81%AA%E3%82%93%E3%81%A6%E3%80%81%E6%80%A5%E7%94%A8%E3%81%A0%E3%81%A8%E3%81%97%E3%81%8B%E6%80%9D%E3%81%88%E3%81%AA%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="shikanai.html">🔁 〜しかない（方法がない）とくらべる<span class="ar">›</span></a>
+      <a href="nichigainai.html">🔁 〜に違いない（強い推測）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-64">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

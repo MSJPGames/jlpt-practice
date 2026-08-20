@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜であって〜ではない（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜であって〜ではない」の意味・接続・例文。Aだとみとめて同時にBを打ち消し、にた二つを分ける使い方と、「〜ではなく〜だ」との並べ方のちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜であって〜ではない</div>
+    <div class="p-en">it is ~, not ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">名詞に付く</span>
+      <span class="badge sub">二つをはっきり分ける</span>
+      <span class="badge sub">かたい書きことば</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">みとめる</span>前のAについては、たしかにそうだと言う</div>
+    <div class="lead"><span class="imi-tag">打ち消す</span>うしろのBについては、ちがうとはっきり言う</div>
+    <div class="desc">「〜であって〜ではない」は、「これは A だ。けれども B では ない」と、二つを ならべて 言う 形です。まず A を みとめ、そのすぐ あとで B を 打ち消すので、A と B の あいだに はっきりした 境目が できます。「意見と 事実」「原因と 結果」のように、にていて まちがえやすい 二つを 分けるときに よく 使います。レポートや 論文などの かたい 文で 見かける 言い方です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① みとめる ＋ 打ち消す</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Aだとみとめ、同時にBを打ち消して、二つのあいだにはっきり境目を引くことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">かた方を みとめ、もう かた方を 打ち消す</text><rect x="20" y="44" width="190" height="76" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="115" y="70" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">これは A だ</text><text x="115" y="92" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">〜であって</text><text x="115" y="110" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">○ みとめる</text><rect x="250" y="44" width="190" height="76" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.8" stroke-dasharray="5 4"/><text x="345" y="70" text-anchor="middle" font-size="12.5" fill="#A0392E" font-weight="700" font-family="sans-serif">B では ない</text><text x="345" y="92" text-anchor="middle" font-size="12" fill="#1C1C1C" font-family="sans-serif">〜ではない</text><text x="345" y="110" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">× 打ち消す</text><path d="M230 38 L230 132" fill="none" stroke="#854F0B" stroke-width="1.6" stroke-dasharray="4 4"/><text x="230" y="150" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ここに 境目を 引く</text><text x="230" y="172" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">にている 二つを、まぜて 考えないための 言い方</text><text x="230" y="192" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">「意見」と「事実」、「原因」と「結果」など</text></svg>
+    <div class="zu-cap">② まぎらわしい二つを切り分ける</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="まぎらわしくて重なって見える二つを、「〜であって〜ではない」と言って切り分けることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">まぎらわしい 二つを、ことばで 切り分ける</text><circle cx="160" cy="100" r="50" fill="none" stroke="#854F0B" stroke-width="2"/><circle cx="232" cy="100" r="50" fill="none" stroke="#A0392E" stroke-width="1.8" stroke-dasharray="5 4"/><text x="128" y="104" text-anchor="middle" font-size="13" fill="#854F0B" font-weight="700" font-family="sans-serif">事実</text><text x="266" y="104" text-anchor="middle" font-size="13" fill="#A0392E" font-weight="700" font-family="sans-serif">意見</text><text x="196" y="160" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">重なって 見える</text><path d="M288 100 L326 100" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="330" y="66" width="116" height="68" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="388" y="92" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">A であって</text><text x="388" y="114" text-anchor="middle" font-size="12" fill="#A0392E" font-weight="700" font-family="sans-serif">B では ない</text><text x="230" y="182" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「どっちだろう」と まよう ところで 使うと、話が すっきりする</text></svg>
+    <div class="zu-note">大事なのは、A を <b>みとめてから</b> B を 打ち消すことです。はじめに みとめる ので、ただの 否定より おだやかで、それでいて 区別は はっきりします。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞 ＋ <span class="n">であって</span>、名詞 ＋ <span class="n">ではない</span></div>
+    <div class="setsu-note">前も うしろも <b>名詞</b>が 来ます。ていねいに 言うときは「〜であって、〜ではありません」に します。うしろは「〜ではなく」で 文を つづけることも できます。話しことばで「〜で、〜じゃない」と 言うと、この 文型の きちんとした ひびきは なくなります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく組みになる名詞</div>
+      <div class="chips"><span class="chip">意見／事実</span><span class="chip">原因／結果</span><span class="chip">目標／手段</span><span class="chip">一部／全体</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来ることば</div>
+      <div class="chips"><span class="chip">あくまで</span><span class="chip">たんなる</span><span class="chip">ひとつの</span><span class="chip">現時点では</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る文</div>
+      <div class="chips"><span class="chip">注意したい</span><span class="chip">区別すべきだ</span><span class="chip">混同してはならない</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">事実と意見</span>
+        <div class="ex-ja">今回の数字はあくまで見通し<b>であって</b>、事実<b>ではない</b>。<button class="say" data-say="今回の数字はあくまで見通しであって、事実ではない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">These figures are only a forecast, not a fact.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">立場を分ける</span>
+        <div class="ex-ja">私は案内役<b>であって</b>、責任者<b>ではありません</b>。<button class="say" data-say="私は案内役であって、責任者ではありません。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I am just the guide here, not the person in charge.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">原因と結果</span>
+        <div class="ex-ja">睡眠不足は結果<b>であって</b>、原因<b>ではない</b>と医師は言った。<button class="say" data-say="睡眠不足は結果であって、原因ではないと医師は言った。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The doctor said lack of sleep was a result, not a cause.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">一部と全体</span>
+        <div class="ex-ja">これは一例<b>であって</b>、全体の傾向を示すもの<b>ではない</b>。<button class="say" data-say="これは一例であって、全体の傾向を示すものではない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This is just one example; it does not show the overall trend.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">本の性格を言う</span>
+        <div class="ex-ja">本書は入門書<b>であって</b>、専門的な研究書<b>ではない</b>。<button class="say" data-say="本書は入門書であって、専門的な研究書ではない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This book is an introduction, not a specialist research volume.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜であっても」とはちがう</div>
+      <div class="use-d">形が にていますが、「〜であっても」は「たとえ そうでも」という ゆずりの 言い方です。「〜であって」は 打ち消しと セットに なります。</div>
+      <div class="use-e">子ども<b>であっても</b>、決まりは守らなければならない。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>言い切って まとめる</div>
+      <div class="use-d">話の おわりで 使うと、「ここまでは みとめる。しかし ここからは ちがう」と、線引きを して まとめられます。</div>
+      <div class="use-e">これは第一歩<b>であって</b>、ゴール<b>ではない</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ではなく〜だ</div>
+      <div class="vs-lead">言っている ことは 同じですが、<b>ならべ方が 逆</b>です。「〜であって〜ではない」は <b>みとめる → 打ち消す</b>、「〜ではなく〜だ」は <b>打ち消す → 言い直す</b>の 順です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜であって〜ではない</th><th>〜ではなく〜だ</th></tr>
+        <tr><td class="k">ならべ方</td><td>先に みとめ、あとで 打ち消す</td><td>先に 打ち消し、あとで 言い直す</td></tr>
+        <tr><td class="k">言いたいこと</td><td>前の A（＝これだ）</td><td>後ろの B（＝これだ）</td></tr>
+        <tr><td class="k">打ち消すもの</td><td>後ろの B</td><td>前の A</td></tr>
+        <tr><td class="k">ひびき</td><td>かたい・書きことば向き</td><td>話しことばでも 使える</td></tr>
+      </table>
+      <div class="vs-ex">
+        「これは意見<b>であって</b>、事実<b>ではない</b>」＝言いたいのは「意見だ」。<br>
+        「これは事実<b>ではなく</b>、意見<b>だ</b>」＝同じ内容を、逆の順で 言う。<br>
+        先に 打ち消したいなら「ではなく」、先に みとめたいなら「であって」。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜というより</div>
+      <div class="vs-lead"><b>〜というより</b>は、どちらとも 言えるが 一方の ほうが 近い、と おだやかに 言います。<b>〜であって〜ではない</b>は、二つを きっぱり 分けます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜であって〜ではない</th><th>〜というより</th></tr>
+        <tr><td class="k">分け方</td><td>はっきり 二つに 分ける</td><td>くらべて、近いほうを 選ぶ</td></tr>
+        <tr><td class="k">打ち消し</td><td>はっきり 打ち消す</td><td>打ち消しは 弱い</td></tr>
+        <tr><td class="k">ひびき</td><td>強い・かたい</td><td>やわらかい・話しことば向き</td></tr>
+      </table>
+      <div class="vs-ex">
+        「これは説明<b>であって</b>、言い訳<b>ではない</b>」＝きっぱり 分ける。<br>
+        「これは説明<b>というより</b>、言い訳だ」＝近いほうを 選んで 言う。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜であって〜ではない first accepts A and then denies B, drawing a clear line between two things that are easily confused (fact vs. opinion, cause vs. result). Both slots take nouns, and the polite form is 〜であって、〜ではありません. 〜ではなく〜だ says the same thing in the opposite order: it denies first and then states what is true.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜であって〜ではない」先肯定A、緊接著否定B，在容易混淆的兩者之間劃出清楚的界線（如事實與意見、原因與結果）。前後都接名詞，禮貌形是「〜であって、〜ではありません」。「〜ではなく〜だ」表達的內容相同，但順序相反：先否定，再說出正確的一方。屬於報告、論文等書面語。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A7%E3%81%82%E3%81%A3%E3%81%A6%E3%80%9C%E3%81%A7%E3%81%AF%E3%81%AA%E3%81%84&amp;lv=N2&amp;ex=%E4%BB%8A%E5%9B%9E%E3%81%AE%E6%95%B0%E5%AD%97%E3%81%AF%E3%81%82%E3%81%8F%E3%81%BE%E3%81%A7%E8%A6%8B%E9%80%9A%E3%81%97%E3%81%A7%E3%81%82%E3%81%A3%E3%81%A6%E3%80%81%E4%BA%8B%E5%AE%9F%E3%81%A7%E3%81%AF%E3%81%AA%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="toiuyori.html">🔁 〜というより（近いほうを選ぶ）とくらべる<span class="ar">›</span></a>
+      <a href="wakedehanai.html">🔁 〜わけではない（部分的な打ち消し）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-61">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

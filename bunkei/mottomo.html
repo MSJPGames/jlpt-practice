@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>もっとも（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="文と文をつなぐ「もっとも」の意味・使い方・例文。前に言ったことにあとから条件や例外を足す使い方と、「ただし」「それなのに」とのちがい、副詞の「もっとも」との見分け方を解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">もっとも</div>
+    <div class="p-en">though / but then again</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">文と文をつなぐ</span>
+      <span class="badge sub">例外を足す</span>
+      <span class="badge sub">「ただし」に近い</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">言いそえる</span>前に言ったことに、条件や例外をあとから足す</div>
+    <div class="lead"><span class="imi-tag">自分で直す</span>自分のことばを自分で少しせまくする</div>
+    <div class="desc">「もっとも」は、自分が言い切ったことに、あとから条件や例外を付け足すことばです。「ただし」に近く、前の文をすっかり取り消すのではなく、あてはまらないところを少しだけ切り取って、話をせまくします。うしろの文は「〜が」「〜けれど」で終わることが多く、言い方がやわらかくなります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① あてはまる範囲を、自分でせまくする</div>
+    <svg class="zu" viewBox="0 0 460 195" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="言い切ったあとで自分の言ったことに例外を足し、あてはまる範囲をせまくすることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">言い切ったあと、自分で 例外を 足す</text><rect x="16" y="42" width="246" height="60" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="139" y="64" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">この道なら 十分で 着く</text><text x="139" y="84" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">（ぜんぶに あてはまる 言い方）</text><path d="M266 72 L284 72" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><rect x="288" y="42" width="158" height="60" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.6" stroke-dasharray="5 4"/><text x="367" y="64" text-anchor="middle" font-size="11.5" fill="#854F0B" font-weight="700" font-family="sans-serif">もっとも、</text><text x="367" y="84" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">雨の日は のぞく</text><rect x="16" y="124" width="430" height="32" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.6"/><rect x="336" y="124" width="110" height="32" rx="8" fill="#FAF8F4" stroke="#6B6560" stroke-width="1.4" stroke-dasharray="5 4"/><text x="176" y="145" text-anchor="middle" font-size="11" fill="#854F0B" font-weight="700" font-family="sans-serif">あてはまる ところ</text><text x="391" y="145" text-anchor="middle" font-size="11" fill="#6B6560" font-family="sans-serif">例外</text><text x="230" y="182" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">前の文を 消すのではなく、少し せまくする</text></svg>
+    <div class="zu-cap">②「ただし」とのちがい</div>
+    <svg class="zu" viewBox="0 0 460 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ただしはきまりや案内に付ける条件で、もっともは話し手が自分の話に付け足す補足であることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="18" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">だれが 付け足すか が ちがう</text><rect x="14" y="34" width="208" height="80" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.6"/><text x="118" y="56" text-anchor="middle" font-size="12.5" fill="#6B6560" font-weight="700" font-family="sans-serif">ただし</text><text x="118" y="76" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">案内・きまり・かたい文</text><text x="118" y="96" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">「雨天は中止」のように</text><rect x="238" y="34" width="208" height="80" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="342" y="56" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">もっとも</text><text x="342" y="76" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">話し手が 自分で 言いそえる</text><text x="342" y="96" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">うしろは「〜が」で 終わる</text><text x="230" y="142" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">もっとも＝自分の ことばを 自分で おぎなう</text></svg>
+    <div class="zu-note">「もっとも」は<b>前の文を消しません</b>。九割はそのままで、残りの一割だけを「ここはちがうけれど」と切り取るイメージです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">前の文 ＋ 。 ＋ <span class="n">もっとも</span>、＋ うしろの文（〜が・〜けれど）</div>
+    <div class="setsu-note">「いちばん」の意味の副詞「もっとも」と形が同じです。<b>文の頭に置いて点（、）を打つ</b>と接続詞になります。「もっとも高い山」（副詞）／「もっとも、高くはないが」（接続詞）と見分けてください。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る文の形</div>
+      <div class="chips"><span class="chip">〜が</span><span class="chip">〜けれど</span><span class="chip">〜のだが</span><span class="chip">〜だけの話だが</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使うことば</div>
+      <div class="chips"><span class="chip">ただし</span><span class="chip">たまに</span><span class="chip">めったに</span><span class="chip">実は</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく足す中身</div>
+      <div class="chips"><span class="chip">例外</span><span class="chip">条件</span><span class="chip">小さな断り</span><span class="chip">自分の事情</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">条件を足す</span>
+        <div class="ex-ja">この道を行けば十分で着く。<b>もっとも</b>、雨の日は少し時間がかかるが。<button class="say" data-say="この道を行けば十分で着く。もっとも、雨の日は少し時間がかかるが。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This road gets you there in ten minutes - though on rainy days it takes a little longer.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ねだんの断り</span>
+        <div class="ex-ja">新しい辞書はとても引きやすい。<b>もっとも</b>、値段は前の倍もするけれど。<button class="say" data-say="新しい辞書はとても引きやすい。もっとも、値段は前の倍もするけれど。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The new dictionary is very easy to use, though it costs twice as much as the old one.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">事情を足す</span>
+        <div class="ex-ja">彼は毎朝六時に出社している。<b>もっとも</b>、そのぶん夕方には帰るそうだ。<button class="say" data-say="彼は毎朝六時に出社している。もっとも、そのぶん夕方には帰るそうだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">He gets to the office at six every morning - though he apparently leaves by early evening.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">いい話に一言</span>
+        <div class="ex-ja">その資格があれば就職に有利だ。<b>もっとも</b>、取るには三年かかるが。<button class="say" data-say="その資格があれば就職に有利だ。もっとも、取るには三年かかるが。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">That qualification helps a lot in job hunting, though it takes three years to get.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">例外を足す</span>
+        <div class="ex-ja">休みの日はたいてい家にいる。<b>もっとも</b>、月に一度は山へ出かける。<button class="say" data-say="休みの日はたいてい家にいる。もっとも、月に一度は山へ出かける。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">On days off I am usually at home - though once a month I do head for the mountains.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">自分のことを足す</span>
+        <div class="ex-ja">駅前の店は品ぞろえがいい。<b>もっとも</b>、私は近所の店で買うのだが。<button class="say" data-say="駅前の店は品ぞろえがいい。もっとも、私は近所の店で買うのだが。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The shop by the station has a good range, though I buy at my local shop anyway.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>言い切らずに 終わる</div>
+      <div class="use-d">うしろを「〜が」「〜けれど」で止めて、そこで文を終えることがよくあります。強く言わない、やわらかい言い方になります。</div>
+      <div class="use-e">この店は安い。<b>もっとも</b>、日曜は休みだが。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>副詞の「もっとも」と見分ける</div>
+      <div class="use-d">「もっとも」は「いちばん」という意味の副詞にもなります。文の頭で点を打っていれば接続詞、名詞や形容詞の前に付いていれば副詞です。</div>
+      <div class="use-e">日本で<b>もっとも</b>高い山（副詞）／<b>もっとも</b>、私は登ったことがないが（接続詞）</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">ただし</div>
+      <div class="vs-lead">「ただし」は案内やきまりで<b>正式な条件</b>を付けるときに使います。「もっとも」は話し手が<b>自分のことばを自分でおぎなう</b>ときの言い方で、うしろが「〜が」で終わることが多いです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>もっとも</th><th>ただし</th></tr>
+        <tr><td class="k">使う場面</td><td>会話や文章の中の言いそえ</td><td>案内・きまり・かたい文</td></tr>
+        <tr><td class="k">足す中身</td><td>自分の話への小さな断り</td><td>守るべき条件</td></tr>
+        <tr><td class="k">うしろの形</td><td>〜が・〜けれど で止まりやすい</td><td>言い切る形が多い</td></tr>
+      </table>
+      <div class="vs-ex">
+        「入場は無料です。<b>ただし</b>、写真をとってはいけません」＝きまりの条件。<br>
+        「入場は無料だ。<b>もっとも</b>、中は写真がとれないが」＝自分の話への言いそえ。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">それなのに</div>
+      <div class="vs-lead">「もっとも」は前の文を<b>少しせまくする</b>だけで、内容は生きています。「それなのに」は前の文から<b>反対の結果</b>が来て、不満の気持ちが出ます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>もっとも</th><th>それなのに</th></tr>
+        <tr><td class="k">前の文</td><td>そのまま生きている（一部だけ例外）</td><td>予想がうらぎられる</td></tr>
+        <tr><td class="k">うしろの中身</td><td>条件・例外の付け足し</td><td>反対の結果</td></tr>
+        <tr><td class="k">気持ち</td><td>落ち着いた言いそえ</td><td>不満・意外</td></tr>
+      </table>
+      <div class="vs-ex">
+        「この道は近い。<b>もっとも</b>、夜は暗いが」＝近いことは変わらない。<br>
+        「この道は近いと聞いた。<b>それなのに</b>、一時間もかかった」＝話とちがう、という不満。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>もっとも at the head of a sentence adds a condition or an exception to what the speaker has just said, much like "though" or "but then again". It does not cancel the first sentence; it only narrows it. The following clause often ends in 〜が or 〜けれど. Note that the same word is also an adverb meaning "most".</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">句首的「もっとも」用來替自己剛說過的話補上條件或例外，接近中文的「不過、話雖如此」。它並不推翻前一句，只是把範圍縮小，後句常以「〜が」「〜けれど」收尾。另外，同形的「もっとも」也可以是表示「最」的副詞，須從位置分辨。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%82%82%E3%81%A3%E3%81%A8%E3%82%82&amp;lv=N2&amp;ex=%E3%81%93%E3%81%AE%E9%81%93%E3%82%92%E8%A1%8C%E3%81%91%E3%81%B0%E5%8D%81%E5%88%86%E3%81%A7%E7%9D%80%E3%81%8F%E3%80%82%E3%82%82%E3%81%A3%E3%81%A8%E3%82%82%E3%80%81%E9%9B%A8%E3%81%AE%E6%97%A5%E3%81%AF%E5%B0%91%E3%81%97%E6%99%82%E9%96%93%E3%81%8C%E3%81%8B%E3%81%8B%E3%82%8B%E3%81%8C%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="sorenishitemo.html">🔁 それにしても（程度におどろく）とくらべる<span class="ar">›</span></a>
+      <a href="sorenanoni.html">🔁 それなのに（反対の結果に不満）とくらべる<span class="ar">›</span></a>
+      <a href="omakeni.html">🔁 おまけに（同じ向きに重なる）を見る<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-82">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

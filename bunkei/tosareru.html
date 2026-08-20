@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜とする・〜とされる・〜とされている（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜とする・〜とされる・〜とされている」の意味・接続・例文。規則で決める使い方と世間の見方を表す使い方、「〜ということだ」「〜と言われている」とのちがいを解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜とする・〜とされる・〜とされている</div>
+    <div class="p-en">be regarded as ~ / it is said that ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">名詞・普通形に付く</span>
+      <span class="badge sub">かたい書きことば</span>
+      <span class="badge sub">言い手を出さない</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">そう決める</span>規則や取り決めで、そのように定める</div>
+    <div class="lead"><span class="imi-tag">世間の見方</span>世の中で広く、そう考えられている</div>
+    <div class="desc">「〜とする」は、規則や取り決めで「これはこうだ」と決めるときの、かたい言い方です。「〜とされる・〜とされている」はその受身の形で、世の中の多くの人がそう考えている、そう決まっている、という意味になります。どちらも、だれがそう言ったのか、だれが決めたのかを表に出しません。そのため、案内文や説明文、新聞のように、書き手の気もちを出さない文章でよく使われます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 言い手をかくす言い方</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="学者や役所や世間などの言い手の名前をかくして、世の中でそう考えられている・そう決まっているという形にする働きを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">だれが 言ったかを、表に 出さない</text><rect x="12" y="44" width="120" height="88" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="72" y="62" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">学者・役所・世間</text><circle cx="44" cy="88" r="12" fill="#FAEEDA" stroke="#E2DDD6" stroke-width="1.3"/><circle cx="72" cy="88" r="12" fill="#FAEEDA" stroke="#E2DDD6" stroke-width="1.3"/><circle cx="100" cy="88" r="12" fill="#FAEEDA" stroke="#E2DDD6" stroke-width="1.3"/><text x="72" y="120" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">（名前は 出ない）</text><text x="170" y="78" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">言い手を かくす</text><path d="M136 90 L204 90" fill="none" stroke="#854F0B" stroke-width="2" marker-end="url(#ar)"/><rect x="208" y="40" width="238" height="96" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/><text x="327" y="68" text-anchor="middle" font-size="14" fill="#854F0B" font-weight="700" font-family="sans-serif">〜とされている</text><text x="327" y="94" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">＝世の中で そう 考えられている</text><text x="327" y="116" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">＝規則で そう 決まっている</text><text x="230" y="166" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">書き手の 気もちが 出ないので、案内文・説明文・新聞で よく 使う</text></svg>
+    <div class="zu-cap">② 「とする」と「とされている」</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「とする」はこれから規則で決めること、「とされている」は前から続く世の中の見方であることを左右に分けて示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12" fill="#854F0B" font-weight="700" font-family="sans-serif">「とする」＝いま 決める ／「とされている」＝みんなの 見方</text><rect x="14" y="36" width="210" height="138" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.6"/><text x="119" y="58" text-anchor="middle" font-size="13" fill="#854F0B" font-weight="700" font-family="sans-serif">〜とする</text><rect x="30" y="70" width="178" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4"/><text x="119" y="89" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">規則・取り決め</text><text x="119" y="106" text-anchor="middle" font-size="9" fill="#6B6560" font-family="sans-serif">「会費は四月に納めるものとする」</text><path d="M119 118 L119 134" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><text x="119" y="152" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">これから そう 決める</text><text x="119" y="168" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">（決める人は いる）</text><rect x="236" y="36" width="210" height="138" rx="8" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.6"/><text x="341" y="58" text-anchor="middle" font-size="13" fill="#854F0B" font-weight="700" font-family="sans-serif">〜とされている</text><rect x="252" y="70" width="178" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.4"/><text x="341" y="89" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">世の中の 見方</text><text x="341" y="106" text-anchor="middle" font-size="9" fill="#6B6560" font-family="sans-serif">「この塔は町で最も古いとされる」</text><path d="M341 118 L341 134" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><text x="341" y="152" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">前から ずっと そう</text><text x="341" y="168" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">（決めた人は 見えない）</text><text x="230" y="192" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">どちらも「だれが」を 言わない、客観的な 言い方</text></svg>
+    <div class="zu-note">「〜とする」は<b>これから決める</b>、「〜とされている」は<b>前からそうなっている</b>。同じ形でも、向いている時間がちがいます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">名詞・普通形 ＋ <span class="n">とする</span>／<span class="n">とされる</span>／<span class="n">とされている</span></div>
+    <div class="setsu-note">名詞やな形容詞は<b>「〜だとする」「〜であるとする」</b>の形にもなります。文をつづけるときは「〜とし、…」。名詞の前に置いて<b>「〜とされる＋名詞」</b>（そう考えられている〜）の形でも使えます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">「と」の前によく来る言い方</div>
+      <div class="chips"><span class="chip">〜が原則だ</span><span class="chip">〜は無効だ</span><span class="chip">〜であるもの</span><span class="chip">必要だ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">一般に</span><span class="chip">古くから</span><span class="chip">現在では</span><span class="chip">広く</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">この形が出る文章</div>
+      <div class="chips"><span class="chip">規則</span><span class="chip">案内文</span><span class="chip">契約</span><span class="chip">説明文</span><span class="chip">新聞</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">規則で決める</span>
+        <div class="ex-ja">会費は、毎年四月に納めるもの<b>とする</b>。<button class="say" data-say="会費は、毎年四月に納めるものとする。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The membership fee shall be paid every April.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">規則（つづける形）</span>
+        <div class="ex-ja">申しこみは一人一回<b>とし</b>、重ねての応募は受け付けない。<button class="say" data-say="申しこみは一人一回とし、重ねての応募は受け付けない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Applications are limited to one per person; repeat entries will not be accepted.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">世間の見方</span>
+        <div class="ex-ja">この地方の織物は、千年ほど前に始まった<b>とされている</b>。<button class="say" data-say="この地方の織物は、千年ほど前に始まったとされている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The weaving of this region is said to have begun about a thousand years ago.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名詞を修飾する</span>
+        <div class="ex-ja">湖のほとりに立つその塔は、町でもっとも古い建物<b>とされる</b>。<button class="say" data-say="湖のほとりに立つその塔は、町でもっとも古い建物とされる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The tower standing by the lake is regarded as the oldest building in town.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">一般に言われること</span>
+        <div class="ex-ja">一般に、朝の光を浴びると体の調子が整う<b>とされている</b>。<button class="say" data-say="一般に、朝の光を浴びると体の調子が整うとされている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It is generally held that getting morning light helps put the body in order.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">決まりを述べる</span>
+        <div class="ex-ja">会場での飲食は、原則として禁止<b>とされている</b>。<button class="say" data-say="会場での飲食は、原則として禁止とされている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Eating and drinking in the hall is, as a rule, prohibited.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>仮にそう決める</div>
+      <div class="use-d">「〜としたら」「〜とすると」の形で、仮にそうだと考えて話を進めるときにも使います。</div>
+      <div class="use-e">この線を境<b>とすると</b>、右側が新しい区画になる。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜とされる＋名詞」</div>
+      <div class="use-d">名詞の前に置くと、「そう考えられている〜」という意味の飾りになります。かたい文章でよく見ます。</div>
+      <div class="use-e">村で最古<b>とされる</b>井戸を、地図をたよりに探した。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜ということだ（伝聞）</div>
+      <div class="vs-lead">「〜ということだ」は、<b>だれかから聞いた話</b>をそのまま伝える言い方で、今そのとき聞いたばかりのことにも使えます。「〜とされている」は、<b>世の中に長く広くある見方</b>を言います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜とされている</th><th>〜ということだ</th></tr>
+        <tr><td class="k">情報のもと</td><td>世の中に広くある見方・決まり</td><td>だれかから聞いた話</td></tr>
+        <tr><td class="k">新しさ</td><td>前から長く続いている</td><td>今聞いたばかりのことでもよい</td></tr>
+        <tr><td class="k">文章の調子</td><td>かたい書きことば</td><td>話しことばでも使える</td></tr>
+      </table>
+      <div class="vs-ex">
+        「この石は魔よけ<b>とされている</b>」＝昔からの共通の見方。<br>
+        「あの店は今月で閉まる<b>ということだ</b>」＝聞いた話を伝えている。<br>
+        「今日は午後から雪だ<b>ということだ</b>」＝新しい情報。「とされている」では言えない。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜と言われている</div>
+      <div class="vs-lead">「〜と言われている」は「言う」がそのまま残っているので、<b>人びとが口にしている</b>ことが感じられます。「〜とされている」は<b>定説・決まりとして扱われている</b>感じが強く、より客観的でかたい言い方です。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜とされている</th><th>〜と言われている</th></tr>
+        <tr><td class="k">受ける感じ</td><td>定説・決まりとして扱う</td><td>人びとが口にしている</td></tr>
+        <tr><td class="k">かたさ</td><td>かたい（説明文・規則）</td><td>少しやわらかい（話でも使う）</td></tr>
+        <tr><td class="k">規則に使えるか</td><td>規則・取り決めにも使える</td><td>規則には使いにくい</td></tr>
+      </table>
+      <div class="vs-ex">
+        「この橋は百年ほど前にかけられた<b>とされている</b>」＝調べた結果の定説。<br>
+        「この橋には昔、白い馬が通った<b>と言われている</b>」＝人が語り伝えていること。<br>
+        「使用は一日三回まで<b>とされている</b>」＝決まり。「と言われている」ではおかしい。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜とする sets something down as a rule: 会費は四月に納めるものとする. Its passive forms 〜とされる / 〜とされている say that people in general regard it that way, or that it has been fixed that way. Both hide who said or decided it, which is why they fill notices, explanations and newspapers. Compare 〜と言われている, which still sounds like people talking.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜とする」用於以規則、章程訂定某事，如「会費は四月に納めるものとする」。被動形「〜とされる・〜とされている」則表示世人普遍如此認為，或已如此規定。兩者都不點出是誰說的、誰決定的，因此常見於公告、說明文與報導。與仍帶有人們口耳相傳語感的「〜と言われている」不同，語氣更客觀、更書面。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A8%E3%81%99%E3%82%8B%E3%83%BB%E3%80%9C%E3%81%A8%E3%81%95%E3%82%8C%E3%82%8B%E3%83%BB%E3%80%9C%E3%81%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B&amp;lv=N2&amp;ex=%E4%BC%9A%E8%B2%BB%E3%81%AF%E3%80%81%E6%AF%8E%E5%B9%B4%E5%9B%9B%E6%9C%88%E3%81%AB%E7%B4%8D%E3%82%81%E3%82%8B%E3%82%82%E3%81%AE%E3%81%A8%E3%81%99%E3%82%8B%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="toiukotoda.html">🔁 〜ということだ（結論）とくらべる<span class="ar">›</span></a>
+      <a href="tonokotoda.html">🔁 〜ということだ・〜とのことだ（伝聞）とくらべる<span class="ar">›</span></a>
+      <a href="toshite.html">🔁 〜として（資格・立場）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-65">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

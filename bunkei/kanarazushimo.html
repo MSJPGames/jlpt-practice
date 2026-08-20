@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>必ずしも〜ない（N2文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「必ずしも〜ない」の意味・接続・例文。例外があることを表す部分否定の使い方と、「必ず〜ない」「〜とは限らない」「全然〜ない」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #854F0B; --accent-bg: #FAEEDA;   /* N2 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #F2E0BC 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">必ずしも〜ない</div>
+    <div class="p-en">not necessarily ~</div>
+    <div class="p-badges">
+      <span class="badge">N2</span>
+      <span class="badge sub">副詞</span>
+      <span class="badge sub">打ち消しとセット</span>
+      <span class="badge sub">部分否定</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">部分否定</span>いつもそうだとは言えない。例外がある</div>
+    <div class="lead"><span class="imi-tag">全部ではない</span>「全部そうではない」という意味ではない</div>
+    <div class="desc">「必ずしも〜ない」は、「いつもそうだとは言えない」「例外もある」という意味を表します。だいじなのは、全部を打ち消しているのではないことです。「高い店が必ずしもおいしいとは限らない」は、高い店の中にはおいしくない店もある、という意味で、「高い店はおいしくない」とはまったくちがいます。うしろには「〜とは限らない」「〜わけではない」がよく来ます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 「必ずしも〜ない」と「必ず〜ない」</div>
+    <svg class="zu" viewBox="0 0 460 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「必ずしもおいしくない」は五つのうち二つだけが打ち消される部分否定、「必ずおいしくない」は五つ全部が打ち消される全部の否定であることを左右にならべて示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">打ち消すのは「一部」か「全部」か</text><rect x="12" y="34" width="214" height="140" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="119" y="56" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">必ずしも おいしく ない</text><text x="119" y="74" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">＝一部だけ 打ち消す</text><circle cx="35" cy="100" r="14" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.4"/><text x="35" y="105" text-anchor="middle" font-size="14" fill="#854F0B" font-weight="700" font-family="sans-serif">○</text><circle cx="77" cy="100" r="14" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.4"/><text x="77" y="105" text-anchor="middle" font-size="14" fill="#854F0B" font-weight="700" font-family="sans-serif">○</text><circle cx="119" cy="100" r="14" fill="#FAF8F4" stroke="#854F0B" stroke-width="1.4"/><text x="119" y="105" text-anchor="middle" font-size="14" fill="#854F0B" font-weight="700" font-family="sans-serif">○</text><circle cx="161" cy="100" r="14" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.4"/><text x="161" y="105" text-anchor="middle" font-size="14" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><circle cx="203" cy="100" r="14" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.4"/><text x="203" y="105" text-anchor="middle" font-size="14" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><text x="119" y="134" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">おいしい ものも ちゃんと ある</text><text x="119" y="156" text-anchor="middle" font-size="11" fill="#854F0B" font-weight="700" font-family="sans-serif">例外が ある ＝ 部分否定</text><rect x="234" y="34" width="214" height="140" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.8"/><text x="341" y="56" text-anchor="middle" font-size="12.5" fill="#A0392E" font-weight="700" font-family="sans-serif">必ず おいしく ない</text><text x="341" y="74" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">＝全部 打ち消す</text><circle cx="257" cy="100" r="14" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.4"/><text x="257" y="105" text-anchor="middle" font-size="14" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><circle cx="299" cy="100" r="14" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.4"/><text x="299" y="105" text-anchor="middle" font-size="14" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><circle cx="341" cy="100" r="14" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.4"/><text x="341" y="105" text-anchor="middle" font-size="14" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><circle cx="383" cy="100" r="14" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.4"/><text x="383" y="105" text-anchor="middle" font-size="14" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><circle cx="425" cy="100" r="14" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.4"/><text x="425" y="105" text-anchor="middle" font-size="14" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><text x="341" y="134" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">おいしい ものは 一つも ない</text><text x="341" y="156" text-anchor="middle" font-size="11" fill="#A0392E" font-weight="700" font-family="sans-serif">例外は ない ＝ 全部の 打ち消し</text><text x="230" y="196" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「必ずしも〜ない」と「必ず〜ない」は、意味が まったく ちがう</text></svg>
+    <div class="zu-cap">② うしろの打ち消しとセットで使う</div>
+    <svg class="zu" viewBox="0 0 460 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="副詞の「必ずしも」は文のおわりの打ち消しとセットになり、打ち消しがないと文が成り立たないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#854F0B"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">「必ずしも」は、うしろの 打ち消しと セット</text><rect x="14" y="36" width="120" height="50" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="74" y="60" text-anchor="middle" font-size="13" fill="#854F0B" font-weight="700" font-family="sans-serif">必ずしも</text><text x="74" y="77" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">（副詞）</text><rect x="160" y="36" width="120" height="50" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="220" y="60" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">……（内容）</text><text x="220" y="77" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">高い・新しい・多い</text><rect x="306" y="36" width="140" height="50" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.8"/><text x="376" y="60" text-anchor="middle" font-size="12.5" fill="#854F0B" font-weight="700" font-family="sans-serif">とは限らない</text><text x="376" y="77" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">／わけではない／ない</text><path d="M74 90 C74 122 376 122 376 92" fill="none" stroke="#854F0B" stroke-width="1.8" marker-end="url(#ar)"/><text x="225" y="140" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">この 二つが そろって、はじめて 文に なる</text><text x="230" y="164" text-anchor="middle" font-size="10.5" fill="#A0392E" font-weight="700" font-family="sans-serif">×「必ずしも 値段が 高い」… 打ち消しが ないので 言えない</text></svg>
+    <div class="zu-note">図の○と×をよく見てください。<b>必ずしも</b>のほうは○が残っています。ここが「必ず〜ない」との、いちばん大きなちがいです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">必ずしも</span> ＋ …… ＋ <span class="n">とは限らない</span>／<span class="n">わけではない</span>／<span class="n">ない</span></div>
+    <div class="setsu-note">「必ずしも」は<b>副詞</b>なので、これだけでは文になりません。文のおわりに<b>打ち消しの形</b>がないと使えません。とくに<b>「必ずしも〜とは限らない」</b>の組み合わせが多く、ひとまとまりで覚えると使いやすくなります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る形</div>
+      <div class="chips"><span class="chip">〜とは限らない</span><span class="chip">〜わけではない</span><span class="chip">〜とは言えない</span><span class="chip">〜ない</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来ることば</div>
+      <div class="chips"><span class="chip">値段が高い</span><span class="chip">有名な</span><span class="chip">経験が長い</span><span class="chip">数が多い</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使うことば</div>
+      <div class="chips"><span class="chip">だからといって</span><span class="chip">一般に</span><span class="chip">世間では</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">必ずしも〜とは限らない</span>
+        <div class="ex-ja">値段の高い品が、<b>必ずしも</b>長もちする<b>とは限らない</b>。<button class="say" data-say="値段の高い品が、必ずしも長もちするとは限らない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">An expensive item does not necessarily last a long time.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">必ずしも〜わけではない</span>
+        <div class="ex-ja">会議が長ければ、<b>必ずしも</b>よい案が出る<b>わけではない</b>。<button class="say" data-say="会議が長ければ、必ずしもよい案が出るわけではない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">A long meeting does not necessarily produce good ideas.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">必ずしも〜ない</span>
+        <div class="ex-ja">経験の長い人が、<b>必ずしも</b>正しい判断をするとは言え<b>ない</b>。<button class="say" data-say="経験の長い人が、必ずしも正しい判断をするとは言えない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">One cannot say that experienced people always make the right call.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">だからといって〜</span>
+        <div class="ex-ja">新しい機械だからといって、<b>必ずしも</b>使いやすい<b>とは限らない</b>。<button class="say" data-say="新しい機械だからといって、必ずしも使いやすいとは限らない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Just because a machine is new does not mean it is easy to use.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">かたい書きことば</span>
+        <div class="ex-ja">人数が多いことは、<b>必ずしも</b>組織の強さを意味し<b>ない</b>。<button class="say" data-say="人数が多いことは、必ずしも組織の強さを意味しない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Large numbers do not necessarily mean that an organisation is strong.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">身近な話で</span>
+        <div class="ex-ja">早く並んでも、<b>必ずしも</b>よい席が取れる<b>わけではない</b>。<button class="say" data-say="早く並んでも、必ずしもよい席が取れるわけではない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even if you queue early, you will not necessarily get a good seat.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「必ずしもそうではない」</div>
+      <div class="use-d">前に出た話をやわらかく打ち消すとき、「必ずしもそうではない」「必ずしもそうとは言えない」の形だけで使えます。</div>
+      <div class="use-e">そのやり方が悪いのかというと、<b>必ずしもそうではない</b>。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>問いへのひかえめな答え</div>
+      <div class="use-d">強く言い切らずに、例外があることだけを伝えたいときに便利です。相手の考えを全部は否定しません。</div>
+      <div class="use-e">便利になったかと聞かれれば、<b>必ずしも</b>そうとは言え<b>ない</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜とは限らない</div>
+      <div class="vs-lead">「〜とは限らない」は<b>それだけで使えます</b>。「必ずしも」は副詞で、そこに「いつもそうとは言えない」という気もちをそえ、打ち消しをはっきりさせる働きをします。二つはいっしょに使われることがとても多い組み合わせです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>必ずしも〜ない</th><th>〜とは限らない</th></tr>
+        <tr><td class="k">ことばの種類</td><td>副詞（文のとちゅうに置く）</td><td>文のおわりに付く形</td></tr>
+        <tr><td class="k">それだけで使えるか</td><td>使えない。打ち消しが要る</td><td>使える</td></tr>
+        <tr><td class="k">よくある組み合わせ</td><td>「必ずしも〜とは限らない」</td><td>「必ずしも」なしでもよい</td></tr>
+      </table>
+      <div class="vs-ex">
+        「安いものが質が悪い<b>とは限らない</b>」＝これだけで言える。<br>
+        「安いものが<b>必ずしも</b>質が悪い<b>とは限らない</b>」＝例外があることを、よりはっきり示す。<br>
+        「安いものが<b>必ずしも</b>質が悪い」＝打ち消しがないので、これは言えない。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">全然〜ない・まったく〜ない</div>
+      <div class="vs-lead">「全然〜ない」「まったく〜ない」は<b>全部を打ち消します</b>。「必ずしも〜ない」は<b>一部だけを打ち消す</b>言い方です。形は似ていますが、意味は正反対に近いほどちがうので、取りちがえに気をつけてください。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>必ずしも〜ない</th><th>全然〜ない・まったく〜ない</th></tr>
+        <tr><td class="k">打ち消す範囲</td><td>一部だけ（例外がある）</td><td>全部（一つもない）</td></tr>
+        <tr><td class="k">言いかえると</td><td>そうでない場合もある</td><td>まったくそうではない</td></tr>
+        <tr><td class="k">聞き手の受けとり方</td><td>ひかえめ・やわらかい</td><td>強い・きっぱり</td></tr>
+      </table>
+      <div class="vs-ex">
+        「この薬が<b>必ずしも</b>効く<b>とは限らない</b>」＝効く人もいるが、効かない人もいる。<br>
+        「この薬は<b>まったく</b>効か<b>ない</b>」＝だれにも効かない。<br>
+        同じ「ない」でも、残るものがあるかどうかで、まるでちがう話になる。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>必ずしも〜ない is partial negation: it says that something is not always the case, that there are exceptions. It is an adverb, so a negative ending is required, most often 〜とは限らない or 〜わけではない. Be careful: it is quite different from 必ず〜ない, 全然〜ない or まったく〜ない, which deny everything with no exceptions.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「必ずしも〜ない」是部分否定，表示「未必如此、也有例外」。它是副詞，句尾一定要有否定形式，最常見的搭配是「〜とは限らない」「〜わけではない」。要特別注意：它與全面否定、毫無例外的「必ず〜ない」「全然〜ない」「まったく〜ない」意思完全不同。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E5%BF%85%E3%81%9A%E3%81%97%E3%82%82%E3%80%9C%E3%81%AA%E3%81%84&amp;lv=N2&amp;ex=%E5%80%A4%E6%AE%B5%E3%81%AE%E9%AB%98%E3%81%84%E5%93%81%E3%81%8C%E3%80%81%E5%BF%85%E3%81%9A%E3%81%97%E3%82%82%E9%95%B7%E3%82%82%E3%81%A1%E3%81%99%E3%82%8B%E3%81%A8%E3%81%AF%E9%99%90%E3%82%89%E3%81%AA%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="towakagiranai.html">🔁 〜とは限らない（いっしょによく使う）<span class="ar">›</span></a>
+      <a href="naikotohanai.html">🔁 〜ないことはない（打ち消しの打ち消し）<span class="ar">›</span></a>
+      <a href="../bunkei.html#n2-83">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

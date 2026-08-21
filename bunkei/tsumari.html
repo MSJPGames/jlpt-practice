@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>つまり（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="文と文をつなぐ「つまり」の意味・使い方・例文。前に言ったことを短く言いかえてまとめる使い方と、新しいことは足さないこと、「要するに」「すなわち」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">つまり</div>
+    <div class="p-en">in other words / that is to say</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">文と文をつなぐ</span>
+      <span class="badge sub">言いかえ・まとめ</span>
+      <span class="badge sub">前と同じ中身</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">言いかえる</span>前に言ったことを、わかりやすいことばで言いなおす</div>
+    <div class="lead"><span class="imi-tag">まとめる</span>長い話を、短いひとことにまとめる</div>
+    <div class="desc">「つまり」は、前に言ったことを、もっとわかりやすいことばで言いなおしたり、短くまとめたりするときに使います。たいせつなのは、前とうしろが同じ中身だということです。新しいことは足しません。だから「つまり」のうしろには、聞く人が「なるほど」とわかる短いことばがきます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 前＝うしろ。新しいことは足さない</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="つまりの前とうしろが同じ中身で、新しいことは足さないことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">前と うしろは 同じ 中身</text><rect x="12" y="42" width="170" height="58" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="97" y="64" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">前に 言ったこと</text><text x="97" y="86" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">父の 妹の 子ども</text><path d="M186 71 L194 71" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="198" y="53" width="64" height="36" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="230" y="77" text-anchor="middle" font-size="12" fill="#3C3489" font-weight="700" font-family="sans-serif">つまり</text><path d="M266 71 L274 71" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="278" y="42" width="170" height="58" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="363" y="64" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">言いかえ・まとめ</text><text x="363" y="86" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">いとこ</text><path d="M97 106 L97 120" fill="none" stroke="#E2DDD6" stroke-width="1.6"/><path d="M97 120 L363 120" fill="none" stroke="#E2DDD6" stroke-width="1.6"/><path d="M363 120 L363 106" fill="none" stroke="#E2DDD6" stroke-width="1.6"/><text x="230" y="140" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">＝ 中身は 同じ</text><text x="230" y="166" text-anchor="middle" font-size="11" fill="#A0392E" font-family="sans-serif">新しい ことは 足さない ×</text><text x="230" y="188" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">足したい ときは 「その上」「それに」</text></svg>
+    <div class="zu-cap">②「足すことば」とくらべる</div>
+    <svg class="zu" viewBox="0 0 460 176" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="つまりでは中身の量が変わらず、その上・それにでは中身がふえることを長さでくらべた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">中身が ふえない か、ふえる か</text><rect x="14" y="32" width="200" height="106" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="114" y="52" text-anchor="middle" font-size="12" fill="#3C3489" font-weight="700" font-family="sans-serif">つまり</text><text x="30" y="76" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">前</text><rect x="42" y="62" width="156" height="16" rx="4" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.3"/><text x="30" y="104" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">後</text><rect x="42" y="90" width="156" height="16" rx="4" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.3"/><text x="114" y="128" text-anchor="middle" font-size="10.5" fill="#3C3489" font-family="sans-serif">同じ 長さ ＝ 言いかえただけ</text><rect x="246" y="32" width="200" height="106" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="346" y="52" text-anchor="middle" font-size="12" fill="#6B6560" font-weight="700" font-family="sans-serif">その上・それに</text><text x="262" y="76" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">前</text><rect x="274" y="62" width="100" height="16" rx="4" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.3"/><text x="262" y="104" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">後</text><rect x="274" y="90" width="100" height="16" rx="4" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.3"/><rect x="374" y="90" width="56" height="16" rx="4" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.3"/><text x="402" y="82" text-anchor="middle" font-size="9.5" fill="#3C3489" font-family="sans-serif">ふえた分</text><text x="346" y="128" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">新しい ことが 足される</text><text x="230" y="162" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「つまり」は 言いかえるだけ。中身は ふえない。</text></svg>
+    <div class="zu-note">「つまり」のうしろに<b>新しい話</b>を入れると、聞く人は「まとめのはずなのに、話がふえた」と感じます。足すときは「その上」「それに」を使ってください。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">前の文 ＋ 。 ＋ <span class="n">つまり</span>、＋ 言いかえた文</div>
+    <div class="setsu-note">文の頭に置いて、点（、）を打ちます。一つの文の中で「〜、つまり〜」とことばのすぐあとに置くこともできます。うしろは「〜ということだ」「〜わけだ」で終わることが多いです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来る形</div>
+      <div class="chips"><span class="chip">〜ということだ</span><span class="chip">〜わけだ</span><span class="chip">〜のだ</span><span class="chip">〜ことになる</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る言い方</div>
+      <div class="chips"><span class="chip">長い説明</span><span class="chip">理由をならべる</span><span class="chip">数字をならべる</span><span class="chip">人の話</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">にた言い方</div>
+      <div class="chips"><span class="chip">要するに</span><span class="chip">すなわち</span><span class="chip">言いかえると</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">家族の言いかえ</span>
+        <div class="ex-ja">アンさんは姉の子どもだ。<b>つまり</b>、わたしのめいにあたる。<button class="say" data-say="アンさんは姉の子どもだ。つまり、わたしのめいにあたる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">An is my older sister's child. In other words, she is my niece.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">数をまとめる</span>
+        <div class="ex-ja">この店は月曜と火曜が休みだ。<b>つまり</b>、一週間に五日しか開かない。<button class="say" data-say="この店は月曜と火曜が休みだ。つまり、一週間に五日しか開かない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This shop is closed on Monday and Tuesday. That is to say, it opens only five days a week.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">仕事のまとめ</span>
+        <div class="ex-ja">部長も課長も出張中です。<b>つまり</b>、今日は決められる人がいません。<button class="say" data-say="部長も課長も出張中です。つまり、今日は決められる人がいません。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Both the manager and the section chief are away. In other words, nobody can decide today.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">お金の計算</span>
+        <div class="ex-ja">一つ千二百円のものを五つ買った。<b>つまり</b>、六千円はらったことになる。<button class="say" data-say="一つ千二百円のものを五つ買った。つまり、六千円はらったことになる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I bought five items at 1,200 yen each, which means I paid 6,000 yen in total.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">会話で確かめる</span>
+        <div class="ex-ja">「その日は用事がありまして…。」「<b>つまり</b>、来られないということですね。」<button class="say" data-say="「その日は用事がありまして…。」「つまり、来られないということですね。」" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">"I have something on that day..." "So, in other words, you cannot come."</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">きまりの説明</span>
+        <div class="ex-ja">この教室では日本語しか使わない。<b>つまり</b>、英語で質問することはできない。<button class="say" data-say="この教室では日本語しか使わない。つまり、英語で質問することはできない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">In this class we use only Japanese. That is to say, you cannot ask questions in English.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜ということですか」で 聞き返す</div>
+      <div class="use-d">相手の長い話をまとめて、そういう意味かどうかを確かめるときによく使います。ていねいに聞けるので、会議でも便利です。</div>
+      <div class="use-e"><b>つまり</b>、工事の日は店を閉めるということですか。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>ことばの すぐ あとに 置く</div>
+      <div class="use-d">文の頭だけでなく、言いかえたいことばのすぐあとに置くこともできます。「〜、つまり〜」の形です。</div>
+      <div class="use-e">この町のいちばん古い建物、<b>つまり</b>あの赤い倉庫は、今も使われている。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">要するに</div>
+      <div class="vs-lead">どちらも前をまとめますが、「要するに」は長い話を<b>強く短く切ってしまう</b>言い方で、「話が長い」という気持ちが出ることがあります。「つまり」はもっとやわらかい言いかえです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>つまり</th><th>要するに</th></tr>
+        <tr><td class="k">すること</td><td>前を言いかえる・まとめる</td><td>長い話を強くまとめる</td></tr>
+        <tr><td class="k">ひびき</td><td>やわらかい。だれにでも使える</td><td>強い。目上の人には使いにくい</td></tr>
+        <tr><td class="k">出やすい気持ち</td><td>わかりやすく言いなおそう</td><td>話が長い、早く言うと</td></tr>
+      </table>
+      <div class="vs-ex">
+        「三人とも来られない。<b>つまり</b>、今日の練習は中止だ」＝しずかな言いかえ。<br>
+        「説明が長いですね。<b>要するに</b>、お金が足りないんでしょう」＝相手の話を短く切る。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">すなわち</div>
+      <div class="vs-lead">意味はほとんど同じですが、「すなわち」は<b>かたい書きことば</b>です。ふつうの会話で使うと、大げさに聞こえます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>つまり</th><th>すなわち</th></tr>
+        <tr><td class="k">ひびき</td><td>話しことばにも書きことばにも</td><td>かたい書きことば</td></tr>
+        <tr><td class="k">よく出る場所</td><td>会話・メール・説明</td><td>論文・新聞・あらたまった案内</td></tr>
+        <tr><td class="k">言いかえるもの</td><td>話の中身ぜんたい</td><td>ことばや数字の言いかえが多い</td></tr>
+      </table>
+      <div class="vs-ex">
+        「休みが三日つづく。<b>つまり</b>、月曜まで店は閉まる」＝ふつうの会話。<br>
+        「この学校ができた年、<b>すなわち</b>一九六二年に…」＝かたい文章の言いかえ。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>つまり joins two sentences and means "in other words". It restates what was just said in shorter, clearer words, or sums a long explanation up. The key point is that the two halves carry the same content: つまり never adds new information. Use その上 or それに when you want to add something.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「つまり」用來連接兩個句子，意思是「也就是說、換句話說」。它把剛才說過的內容用更簡短易懂的話重講一次，或把冗長的說明歸納起來。重點在於前後內容完全相同：「つまり」不會加入新的訊息。想追加內容時，請改用「その上」「それに」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%81%A4%E3%81%BE%E3%82%8A&amp;lv=N3&amp;ex=%E3%82%A2%E3%83%B3%E3%81%95%E3%82%93%E3%81%AF%E5%A7%89%E3%81%AE%E5%AD%90%E3%81%A9%E3%82%82%E3%81%A0%E3%80%82%E3%81%A4%E3%81%BE%E3%82%8A%E3%80%81%E3%82%8F%E3%81%9F%E3%81%97%E3%81%AE%E3%82%81%E3%81%84%E3%81%AB%E3%81%82%E3%81%9F%E3%82%8B%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="toiukotoda.html">🔁 〜ということだ（結論）とくらべる<span class="ar">›</span></a>
+      <a href="wakeda.html">🔁 〜というわけだ（すじが通る）を見る<span class="ar">›</span></a>
+      <a href="sonoue.html">🔁 その上（新しいことを足す）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-70">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

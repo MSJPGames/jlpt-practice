@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜とは思えない（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜とは思えない」の意味・接続・例文。見た目や事実とのギャップにおどろく強い打ち消しの言い方と、ただの否定「〜と思わない」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜とは思えない</div>
+    <div class="p-en">I can't believe that ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">普通形に付く</span>
+      <span class="badge sub">信じられない</span>
+      <span class="badge sub">強い打ち消し</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">信じられない</span>とても、そうだとは思えない</div>
+    <div class="lead"><span class="imi-tag">おどろき</span>見た目や事実とのギャップにおどろく</div>
+    <div class="desc">「〜とは思えない」は、目の前のことや聞いたことについて、「とてもそうだとは信じられない」という強い気もちを表します。上手すぎる、若すぎる、静かすぎるなど、ふつうでは考えられないことにおどろいたときによく使います。ただの否定の「〜と思わない」とちがって、「とは」が入ると、打ち消しがずっと強くなります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 芯：事実と 気もちの ギャップ</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="目の前の事実と、頭の中の「そうだとは思えない」という気もちが合わず、そのギャップにおどろいていることをあらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">目の前の こと と 気もちが 合わない</text><rect x="16" y="40" width="170" height="66" rx="9" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="101" y="62" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1C1C1C" font-family="sans-serif">目の前の こと</text><text x="101" y="81" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">小学生が かいた絵</text><text x="101" y="98" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">（と 聞いた）</text><text x="230" y="80" text-anchor="middle" font-size="20" font-weight="700" fill="#A0392E" font-family="sans-serif">≠</text><text x="230" y="100" text-anchor="middle" font-size="10" fill="#A0392E" font-family="sans-serif">合わない</text><rect x="274" y="40" width="170" height="66" rx="9" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="359" y="62" text-anchor="middle" font-size="11.5" font-weight="700" fill="#3C3489" font-family="sans-serif">頭の中</text><text x="359" y="82" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">そうだ とは</text><text x="359" y="99" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">思えない</text><rect x="60" y="122" width="340" height="44" rx="9" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5" stroke-dasharray="6 4"/><text x="230" y="142" text-anchor="middle" font-size="11.5" font-weight="700" fill="#3C3489" font-family="sans-serif">→「とても 信じられない」という おどろき</text><text x="230" y="159" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">見た目や 事実との ギャップに おどろく</text><text x="230" y="182" text-anchor="middle" font-size="10.5" fill="#1C1C1C" font-family="sans-serif">事実は そうでも、気もちが ついていかない</text></svg>
+    <div class="zu-cap">② 大事なところ：「とは」で 打ち消しが 強くなる</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="「〜と思わない」がふつうの否定なのに対して、「とは」が入った「〜とは思えない」は打ち消しがずっと強くなることを、長さのちがう帯であらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="22" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">「とは」が つくと 打ち消しが 強くなる</text><text x="16" y="64" font-size="12" fill="#1C1C1C" font-family="sans-serif">〜と思わない</text><rect x="150" y="49" width="86" height="22" rx="6" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="193" y="65" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">弱い</text><text x="330" y="65" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ただ そう思っていない</text><text x="16" y="114" font-size="12" font-weight="700" fill="#3C3489" font-family="sans-serif">〜とは思えない</text><rect x="150" y="99" width="230" height="22" rx="6" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="265" y="115" text-anchor="middle" font-size="10.5" font-weight="700" fill="#3C3489" font-family="sans-serif">強い</text><path d="M150 84 L380 84" fill="none" stroke="#9E9890" stroke-width="1.2" marker-end="url(#ar2)"/><text x="410" y="115" text-anchor="middle" font-size="10.5" fill="#3C3489" font-family="sans-serif">そんなはずがない</text><rect x="60" y="138" width="340" height="42" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5" stroke-dasharray="5 4"/><text x="230" y="156" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">「〜とは」＝ その考えを 前に出して、強く 打ち消す</text><text x="230" y="172" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">「とても そうは 思えない」という 気もち</text></svg>
+    <div class="zu-note">「〜とは」は、<b>その考えをいったん前に出して、それを強く打ち消す</b>はたらきをします。だから、ただ「思わない」と言うより、おどろきの気もちが出ます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">普通形 ＋ <span class="n">とは思えない</span></div>
+    <div class="setsu-note">名詞とな形容詞には「だ」が入ります（学生<b>だ</b>とは思えない／元気<b>だ</b>とは思えない）。もっと強く言うときは「とてもそうだ<b>とは思えない</b>」、前のことを言うときは「〜とは思えなかった」です。「〜とは思えないほど」の形もよく使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">とても</span><span class="chip">どうしても</span><span class="chip">まさか</span><span class="chip">とうてい</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う形</div>
+      <div class="chips"><span class="chip">〜とは思えないほど</span><span class="chip">〜とは思えなかった</span><span class="chip">とてもそうだとは思えない</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく話題になること</div>
+      <div class="chips"><span class="chip">年れい</span><span class="chip">上手さ</span><span class="chip">値だん</span><span class="chip">静けさ</span><span class="chip">大きさ</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">名詞＋だ</span>
+        <div class="ex-ja">この絵が小学生の作品<b>だとは思えない</b>。線がとても細かい。<button class="say" data-say="この絵が小学生の作品だとは思えない。線がとても細かい。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I can't believe this picture is by a primary school child - the lines are so fine.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">〜ほど</span>
+        <div class="ex-ja">あの二人が兄弟だ<b>とは思えない</b>ほど、顔も声もちがう。<button class="say" data-say="あの二人が兄弟だとは思えないほど、顔も声もちがう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Their faces and voices are so different that you'd never believe those two are brothers.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">年れい</span>
+        <div class="ex-ja">父は八十歳を過ぎている<b>とは思えない</b>ほど、歩くのが速い。<button class="say" data-say="父は八十歳を過ぎているとは思えないほど、歩くのが速い。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">My father walks so fast that you would never think he is past eighty.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">人がら</span>
+        <div class="ex-ja">まじめな森田さんが、そんなうそをつく<b>とは思えない</b>。<button class="say" data-say="まじめな森田さんが、そんなうそをつくとは思えない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I can't believe that someone as sincere as Ms. Morita would tell a lie like that.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">過去のこと</span>
+        <div class="ex-ja">妹がはじめて作ったケーキだ<b>とは思えなかった</b>。お店のようだ。<button class="say" data-say="妹がはじめて作ったケーキだとは思えなかった。お店のようだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I couldn't believe it was the first cake my sister had ever made - it looked like a shop's.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">強く言う</span>
+        <div class="ex-ja">こんなに静かでは、この建物に百人いる<b>とは思えない</b>。<button class="say" data-say="こんなに静かでは、この建物に百人いるとは思えない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">It's so quiet that I can't believe there are a hundred people in this building.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜とは思えないほど」＝ とても〜だ</div>
+      <div class="use-d">「ほど」を付けると、「信じられないくらい〜だ」という、ほめる言い方になります。</div>
+      <div class="use-e">はじめて<b>だとは思えないほど</b>、じょうずに話していました。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「とても〜とは思えない」＝ もっと強く</div>
+      <div class="use-d">前に「とても」「どうしても」を入れると、打ち消しの気もちがもっと強くなります。</div>
+      <div class="use-e">この計画が一週間で終わるとは、<b>どうしても思えない</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜と思わない</div>
+      <div class="vs-lead">山は「とは」です。「〜と思わない」は<b>ただの否定</b>で、自分はそう思っていないと言うだけです。「〜とは思えない」は<b>そんなはずがない</b>という強い打ち消しで、おどろきが入ります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜とは思えない</th><th>〜と思わない</th></tr>
+        <tr><td class="k">打ち消しの 強さ</td><td>強い（そんなはずがない）</td><td>ふつう（そう思っていない）</td></tr>
+        <tr><td class="k">気もち</td><td>信じられない・おどろく</td><td>ただ 自分の考えを 言う</td></tr>
+        <tr><td class="k">何とくらべるか</td><td>目の前の 事実や 見た目</td><td>とくに くらべない</td></tr>
+        <tr><td class="k">言いかえ</td><td>とても そうは 思えない</td><td>そうは 思っていない</td></tr>
+      </table>
+      <div class="vs-ex">
+        「この店が高い<b>とは思えない</b>」＝高いはずがない、と強く打ち消している。<br>
+        「この店が高い<b>と思わない</b>」＝私はそう思っていない、と言うだけ。<br>
+        「彼がうそをつく<b>とは思えない</b>」＝そんなことをする人ではない、という強い気もち。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜としか思えない</div>
+      <div class="vs-lead">向きが反対です。「〜とは思えない」は<b>その考えを打ち消し</b>ます。「〜としか思えない」は<b>それ以外に考えられない</b>と、一つにしぼります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜とは思えない</th><th>〜としか思えない</th></tr>
+        <tr><td class="k">向き</td><td>その考えを 打ち消す</td><td>その考えに しぼる</td></tr>
+        <tr><td class="k">言いたいこと</td><td>そうでは ないだろう</td><td>それしか 考えられない</td></tr>
+        <tr><td class="k">例</td><td>わざとした とは思えない</td><td>わざとした としか思えない</td></tr>
+      </table>
+      <div class="vs-ex">
+        「新人だ<b>とは思えない</b>」＝新人には見えない、うまい。<br>
+        「新人だ<b>としか思えない</b>」＝どう見ても新人だ。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜とは思えない says that you simply cannot believe something is so, usually because what you see clashes with what you are told. Nouns and na-adjectives take だ before it. Compare plain 〜と思わない, which only reports that you do not think so; adding とは pushes the idea forward and knocks it down, adding surprise.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜とは思えない」表示「怎麼也不覺得是那樣」，多用在眼前所見與所聽到的事實有落差、令人吃驚的時候。名詞和な形容詞要加「だ」。單純的「〜と思わない」只是說自己不那麼認為；加上「とは」之後，會先把那個想法提出來再強力否定，帶有驚訝的語氣。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%A8%E3%81%AF%E6%80%9D%E3%81%88%E3%81%AA%E3%81%84&amp;lv=N3&amp;ex=%E3%81%93%E3%81%AE%E7%B5%B5%E3%81%8C%E5%B0%8F%E5%AD%A6%E7%94%9F%E3%81%AE%E4%BD%9C%E5%93%81%E3%81%A0%E3%81%A8%E3%81%AF%E6%80%9D%E3%81%88%E3%81%AA%E3%81%84%E3%80%82%E7%B7%9A%E3%81%8C%E3%81%A8%E3%81%A6%E3%82%82%E7%B4%B0%E3%81%8B%E3%81%84%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="toshikanai.html">🔁 〜としか〜ない（一つにしぼる）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-56">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

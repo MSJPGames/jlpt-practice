@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>より〜（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の副詞「より〜」の意味・接続・例文。「より早く」「より安全に」のように程度を強める使い方と、くらべる助詞の「〜より」とのちがいを、図つきでやさしく解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">より〜</div>
+    <div class="p-en">more ~ (than before)</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">形容詞・副詞の前に置く</span>
+      <span class="badge sub">程度を強める</span>
+      <span class="badge sub">かたい書きことば</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">もっと</span>いまの ようすより、もっと〜</div>
+    <div class="lead"><span class="imi-tag">かたい形</span>広告・スピーチ・説明書で 使う</div>
+    <div class="desc">「より」は、形容詞や副詞の前に置いて、<b>いまより もっと</b>という気もちを足すことばです。「より早く」「より安全に」「よりよい」のように使います。ここで だいじなのは、<b>前に 何も 来ない</b>ことです。「電車よりバス」の「より」は くらべる 助詞で、前に名詞が つきます。前が 空っぽなら 副詞、名詞が あれば 助詞だと 考えてください。話しことばでは「もっと」を使い、「より」は かたい 書きことばで よく 見ます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 程度を もっと 上へ</div>
+    <svg class="zu" viewBox="0 0 460 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="いまの程度より上へ目もりが動くことで、副詞の「より」が程度を強めることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">いまの ところ より、もっと 上へ</text><rect x="40" y="60" width="380" height="24" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><rect x="40" y="60" width="122" height="24" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.5"/><path d="M162 52 L162 92" fill="none" stroke="#6B6560" stroke-width="1.4"/><text x="162" y="46" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">いま</text><path d="M360 52 L360 92" fill="none" stroke="#3C3489" stroke-width="2"/><text x="360" y="46" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">より 早く</text><path d="M166 112 L350 112" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="258" y="134" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">もっと 上の 程度へ 動かす</text><text x="46" y="168" text-anchor="start" font-size="10" fill="#6B6560" font-family="sans-serif">ひくい</text><text x="414" y="168" text-anchor="end" font-size="10" fill="#6B6560" font-family="sans-serif">たかい</text></svg>
+    <div class="zu-cap">② 助詞の「より」との 見分け方</div>
+    <svg class="zu" viewBox="0 0 460 212" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="前に名詞があれば助詞の「より」、前に何もなければ副詞の「より」であることを比べた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">前に 名詞が あるか、ないか で 見分ける</text><rect x="14" y="34" width="432" height="74" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="28" y="54" text-anchor="start" font-size="11" fill="#6B6560" font-weight="700" font-family="sans-serif">助詞の「より」＝くらべる</text><rect x="110" y="62" width="78" height="32" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="149" y="83" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-weight="700" font-family="sans-serif">電車</text><rect x="194" y="62" width="56" height="32" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="222" y="83" text-anchor="middle" font-size="12" fill="#3C3489" font-weight="700" font-family="sans-serif">より</text><rect x="256" y="62" width="152" height="32" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="332" y="83" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">バスが 安い</text><text x="28" y="84" text-anchor="start" font-size="10" fill="#6B6560" font-family="sans-serif">前に 名詞</text><rect x="14" y="122" width="432" height="76" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="28" y="142" text-anchor="start" font-size="11" fill="#3C3489" font-weight="700" font-family="sans-serif">副詞の「より」＝程度を 強める</text><rect x="110" y="150" width="78" height="34" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.4" stroke-dasharray="5 4"/><text x="149" y="172" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">（なし）</text><text x="222" y="172" text-anchor="middle" font-size="12" fill="#3C3489" font-weight="700" font-family="sans-serif">より</text><rect x="194" y="150" width="56" height="34" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.8"/><rect x="256" y="150" width="152" height="34" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.5"/><text x="332" y="172" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">安全に 運ぶ</text><text x="28" y="172" text-anchor="start" font-size="10" fill="#6B6560" font-family="sans-serif">前は 空っぽ</text><text x="230" y="208" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">前が 空っぽなら 副詞。名詞が あれば 助詞。</text></svg>
+    <div class="zu-note">「より」の<b>前を 見る</b>のが こつです。前に 名詞が あれば「AよりB」の 助詞、何も なければ「より＋形容詞」の 副詞です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">より</span> ＋ 形容詞・副詞（早く・安全に・よい …）</div>
+    <div class="setsu-note">い形容詞は「より早く」「より大きく」のように<b>副詞の形</b>にすることが多く、な形容詞は「より安全な」「より便利に」のように使います。「よりよい」「より多くの」は、そのまま覚えると べんりな 形です。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来ることば</div>
+      <div class="chips"><span class="chip">早く</span><span class="chip">安全に</span><span class="chip">よい</span><span class="chip">多くの</span><span class="chip">くわしく</span><span class="chip">便利に</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う副詞</div>
+      <div class="chips"><span class="chip">いっそう</span><span class="chip">さらに</span><span class="chip">ますます</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う場面</div>
+      <div class="chips"><span class="chip">広告</span><span class="chip">スピーチ</span><span class="chip">説明書</span><span class="chip">会社の文書</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">仕事</span>
+        <div class="ex-ja">この機械を使えば、作業が<b>より早く</b>終わります。<button class="say" data-say="この機械を使えば、作業がより早く終わります。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">If you use this machine, the work will finish more quickly.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">スピーチ</span>
+        <div class="ex-ja">来年は<b>より多くの</b>方に、この町へ来ていただきたいです。<button class="say" data-say="来年はより多くの方に、この町へ来ていただきたいです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Next year we hope to welcome even more visitors to our town.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">注意書き</span>
+        <div class="ex-ja">工事の場所では、<b>より安全な</b>やり方を選んでください。<button class="say" data-say="工事の場所では、より安全なやり方を選んでください。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">At the work site, please choose the safer method.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">学校</span>
+        <div class="ex-ja">学生が<b>よりよい</b>教室で学べるように、いすを新しくした。<button class="say" data-say="学生がよりよい教室で学べるように、いすを新しくした。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">We replaced the chairs so that students can study in a better classroom.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">書き方</span>
+        <div class="ex-ja">説明は<b>より短く</b>、そして やさしいことばで 書いてください。<button class="say" data-say="説明はより短く、そして やさしいことばで 書いてください。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Please write the explanation more briefly, and in simpler words.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">広告</span>
+        <div class="ex-ja">新しい型は<b>より軽く</b>なり、かばんにも すっと入ります。<button class="say" data-say="新しい型はより軽くなり、かばんにも すっと入ります。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The new model is even lighter, and slips easily into a bag.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>よりいっそう・より一層</div>
+      <div class="use-d">「いっそう」といっしょに使うと、程度の強さが もっと はっきりします。あいさつや あいさつ文で よく 見る 形です。</div>
+      <div class="use-e">これからも<b>よりいっそう</b>努力してまいります。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「よりよい」の形</div>
+      <div class="use-d">「よりよい」は「もっといい」のかたい言い方で、そのまま 一つのことばのように 使います。うしろには 名詞が 来ます。</div>
+      <div class="use-e">町の人が<b>よりよい</b>毎日を送れる場所にしたい。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">もっと</div>
+      <div class="vs-lead">意味は ほとんど 同じですが、<b>使う場所</b>が ちがいます。「もっと」は 話しことばで、友だちにも 使えます。「より」は <b>かたい 書きことば</b>で、広告や スピーチ、会社の 文書で よく 使います。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>より〜</th><th>もっと〜</th></tr>
+        <tr><td class="k">場面</td><td>広告・スピーチ・文書</td><td>話しことば・毎日の会話</td></tr>
+        <tr><td class="k">感じ</td><td>かたい、ていねい</td><td>やわらかい、ふつう</td></tr>
+        <tr><td class="k">うしろ</td><td>形容詞・副詞が多い</td><td>形容詞・副詞・動詞にも付く</td></tr>
+      </table>
+      <div class="vs-ex">
+        「<b>より</b>安全な方法をお選びください」＝会社の 注意書き。<br>
+        「<b>もっと</b>安全なやり方にしようよ」＝友だちとの 会話。<br>
+        「もっと食べたい」は言えるが、「より食べたい」とは 言いにくい。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜に比べて</div>
+      <div class="vs-lead">「〜に比べて」は<b>くらべる相手を はっきり 出す</b>言い方で、前に 名詞が 来ます。副詞の「より」は<b>相手を 言いません</b>。いまの ようすより 上、という 気もちだけを 足します。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>より〜（副詞）</th><th>〜に比べて</th></tr>
+        <tr><td class="k">前に来るもの</td><td>何も来ない</td><td>くらべる相手の名詞</td></tr>
+        <tr><td class="k">くらべる相手</td><td>言わない（いまの状態）</td><td>はっきり 言う</td></tr>
+        <tr><td class="k">文の形</td><td>より＋形容詞・副詞</td><td>名詞＋に比べて＋文</td></tr>
+      </table>
+      <div class="vs-ex">
+        「<b>より</b>安く なりました」＝前より 安い、とだけ 言う。<br>
+        「去年<b>に比べて</b>安くなりました」＝去年と くらべている。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>As an adverb, より is placed directly before an adjective or adverb and means "more ~ (than now)": より早く (more quickly), より安全に (more safely), よりよい (better). Nothing comes before it. This is different from the particle より in AよりB ("B rather than A"), which always follows a noun. Adverbial より belongs to formal written Japanese - advertising, speeches, manuals - while もっと is the everyday spoken word.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">作為副詞的「より」直接放在形容詞或副詞前面，表示「比現在更～」：より早く（更快）、より安全に（更安全地）、よりよい（更好的）。它的前面不接任何詞。這與「AよりB」中表示比較的助詞「より」不同，助詞前面一定有名詞。副詞的「より」屬於書面語，常見於廣告、演講與說明書；日常口語則說「もっと」。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%82%88%E3%82%8A%E3%80%9C&amp;lv=N3&amp;ex=%E3%81%93%E3%81%AE%E6%A9%9F%E6%A2%B0%E3%82%92%E4%BD%BF%E3%81%88%E3%81%B0%E3%80%81%E4%BD%9C%E6%A5%AD%E3%81%8C%E3%82%88%E3%82%8A%E6%97%A9%E3%81%8F%E7%B5%82%E3%82%8F%E3%82%8A%E3%81%BE%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="nikurabete.html">🔁 〜に比べて（くらべる相手を出す）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-74">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

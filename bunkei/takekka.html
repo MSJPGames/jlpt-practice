@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜た結果（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜た結果」の意味・接続・例文。いろいろしたあとでこうなったという使い方、よい結果もわるい結果も来ること、「〜末に」「〜あげく」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜た結果</div>
+    <div class="p-en">as a result of ~</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">動詞た形・名詞のに付く</span>
+      <span class="badge sub">かたい書きことば</span>
+      <span class="badge sub">よい結果もわるい結果も</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">結果</span>いろいろ した あとで、こう なった</div>
+    <div class="lead"><span class="imi-tag">書きことば</span>報告や 説明に 使う、かたい 言い方</div>
+    <div class="desc">「〜た結果」は、あることをいろいろやってみて、そのあとどうなったかを言う言い方です。前には「調べた」「話し合った」のように、自分たちがした行いが来ます。名詞のときは「調査の結果」「検査の結果」のように「の」を入れます。うしろには、よい結果もわるい結果も来られます。報告や説明でよく使う、少しかたい書きことばです。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① いろいろしたあとで、こうなった</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="調べる・試す・話し合うといった行いのあとに結果が出て、その結果はよいものにもわるいものにもなることをあらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">いろいろ した あとで、こう なった</text><rect x="14" y="34" width="112" height="30" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="70" y="54" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">調べる</text><rect x="14" y="72" width="112" height="30" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="70" y="92" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">試す</text><rect x="14" y="110" width="112" height="30" rx="7" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="70" y="130" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">話し合う</text><text x="70" y="158" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">いくつもの 行い</text><path d="M130 87 L168 87" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="174" y="62" width="106" height="50" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="2"/><text x="227" y="92" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3C3489" font-family="sans-serif">〜た結果</text><path d="M284 78 L320 60" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><path d="M284 98 L320 128" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="326" y="34" width="120" height="44" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.5"/><text x="386" y="52" text-anchor="middle" font-size="11.5" font-weight="700" fill="#3C3489" font-family="sans-serif">よい 結果</text><text x="386" y="69" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">原因が 分かった</text><rect x="326" y="112" width="120" height="44" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.5"/><text x="386" y="130" text-anchor="middle" font-size="11.5" font-weight="700" fill="#A0392E" font-family="sans-serif">わるい 結果</text><text x="386" y="147" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">体を こわした</text><text x="230" y="186" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">うしろには、よい 結果も わるい 結果も 来られる</text></svg>
+    <div class="zu-cap">② 前に来る形</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="動詞のた形か名詞に「の」を付けた形が「結果」の前に来ることをあらわした図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">前に 来るのは、動詞た形か「名詞＋の」</text><rect x="14" y="36" width="192" height="52" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="110" y="60" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">話し合った</text><text x="110" y="79" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">動詞た形（自分たちが した こと）</text><rect x="14" y="102" width="192" height="52" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="110" y="126" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3C3489" font-family="sans-serif">調査の</text><text x="110" y="145" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">名詞＋の（検査・投票 など）</text><path d="M210 62 L248 84" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><path d="M210 128 L248 106" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="254" y="70" width="192" height="50" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="2"/><text x="350" y="94" text-anchor="middle" font-size="14" font-weight="700" fill="#3C3489" font-family="sans-serif">結果、……</text><text x="350" y="111" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">ここから あとが 分かった こと</text><text x="230" y="178" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">報告や 説明に よく 使う、少し かたい 書きことば</text></svg>
+    <div class="zu-note">「結果」の前は<b>自分たちがした行い</b>です。ただ起きただけのこと（雨が降った、電車がおくれた）は前に置きにくく、そういうときは「〜ために」「〜せいで」を使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">動詞た形・名詞の ＋ <span class="n">結果</span></div>
+    <div class="setsu-note">動詞は<b>た形</b>で付きます（「調べた結果」）。名詞のときは<b>「の」</b>をはさみます（「投票の結果」）。うしろに文をつづけるときは「〜結果、……」と読点を打ち、言い切るときは「〜結果になった」「〜結果である」の形も使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る動詞（た形）</div>
+      <div class="chips"><span class="chip">調べた</span><span class="chip">話し合った</span><span class="chip">試した</span><span class="chip">続けた</span><span class="chip">考えた</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る名詞</div>
+      <div class="chips"><span class="chip">調査</span><span class="chip">検査</span><span class="chip">投票</span><span class="chip">話し合い</span><span class="chip">実験</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来ることば</div>
+      <div class="chips"><span class="chip">分かった</span><span class="chip">決まった</span><span class="chip">〜ことになった</span><span class="chip">〜てしまった</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">会議</span>
+        <div class="ex-ja">話し合った<b>結果</b>、出発を一日おくらせることになった。<button class="say" data-say="話し合った結果、出発を一日おくらせることになった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">After discussing it, we decided to put the departure off by a day.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">調べる</span>
+        <div class="ex-ja">くわしく調べた<b>結果</b>、故障の原因は古い配線だと分かった。<button class="say" data-say="くわしく調べた結果、故障の原因は古い配線だと分かった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">A close inspection showed that the fault came from the old wiring.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">よい結果</span>
+        <div class="ex-ja">毎日走った<b>結果</b>、五キロを楽に走れるようになった。<button class="say" data-say="毎日走った結果、五キロを楽に走れるようになった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">As a result of running every day, I can now do five kilometres with ease.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">わるい結果</span>
+        <div class="ex-ja">無理を続けた<b>結果</b>、とうとう体をこわしてしまった。<button class="say" data-say="無理を続けた結果、とうとう体をこわしてしまった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">As a result of pushing myself too hard, I ended up ruining my health.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名詞＋の</span>
+        <div class="ex-ja">検査の<b>結果</b>、どこにも悪いところは見つからなかった。<button class="say" data-say="検査の結果、どこにも悪いところは見つからなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The examination showed that there was nothing wrong anywhere.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">名詞＋の（決める）</span>
+        <div class="ex-ja">投票の<b>結果</b>、新しい案のほうが選ばれた。<button class="say" data-say="投票の結果、新しい案のほうが選ばれた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">As a result of the vote, the new proposal was the one chosen.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「その結果」で文をつなぐ</div>
+      <div class="use-d">前の文を受けて「その結果」と始めると、そのあとの文が結果になります。二つの文に分けて書きたいときに便利です。</div>
+      <div class="use-e">何度も作り直した。<b>その結果</b>、いちばん軽い形に決まった。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>「〜結果になる」</div>
+      <div class="use-d">「〜結果になる」の形にすると、思っていたのとちがう形でそうなってしまった、という気もちが出ます。</div>
+      <div class="use-e">急いだために、かえっておくれる<b>結果になった</b>。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜末（に）</div>
+      <div class="vs-lead">「〜末に」は、<b>長いあいだ苦労したり迷ったりしたあとで</b>、やっとそうなった、という言い方です。「〜た結果」は時間の長さを言わず、<b>したことと、そのあと分かったこと</b>を落ち着いてつなぎます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜た結果</th><th>〜末（に）</th></tr>
+        <tr><td class="k">前に来ること</td><td>調べる・話し合うなどの行い</td><td>長く続いた苦労・迷い・話し合い</td></tr>
+        <tr><td class="k">時間の長さ</td><td>長くなくてもよい</td><td>長くかかった感じが強い</td></tr>
+        <tr><td class="k">気もち</td><td>事実を落ち着いて伝える</td><td>やっと、ようやく、という気もち</td></tr>
+        <tr><td class="k">名詞のとき</td><td>調査の結果</td><td>苦労の末に</td></tr>
+      </table>
+      <div class="vs-ex">
+        「調べた<b>結果</b>、原因が分かった」＝したことと、分かったことをつなぐ。<br>
+        「長い話し合いの<b>末に</b>、ようやく決まった」＝長くかかって、やっと決まった。<br>
+        「三年考えた<b>末の</b>決断だ」のように、「〜末の＋名詞」の形も使えます。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜あげく</div>
+      <div class="vs-lead">「〜あげく」は、いろいろやったのに<b>わるい結果・がっかりする結果</b>になった、というときだけに使います。「〜た結果」は、よい結果にもわるい結果にも使えます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜た結果</th><th>〜あげく</th></tr>
+        <tr><td class="k">結果のよしあし</td><td>よい結果も わるい結果も来る</td><td>わるい結果・残念な結果だけ</td></tr>
+        <tr><td class="k">気もち</td><td>落ち着いて事実を伝える</td><td>あきれる、がっかりする</td></tr>
+        <tr><td class="k">場面</td><td>報告・説明などのかたい文</td><td>話しことばにもよく使う</td></tr>
+        <tr><td class="k">言えるか</td><td>「調べた結果、合格した」も言える</td><td>「迷ったあげく、合格した」は言いにくい</td></tr>
+      </table>
+      <div class="vs-ex">
+        「毎日練習した<b>結果</b>、大会に出られた」＝よい結果でも言える。<br>
+        「さんざん迷った<b>あげく</b>、何も買わなかった」＝がっかりする終わり方。<br>
+        「話し合った<b>結果</b>、けんかになった」のように、わるい結果も「結果」で言えます。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜た結果 reports what came out of something you did: a past-form verb (調べた, 話し合った) or a noun plus の (調査の, 投票の) comes in front. The outcome that follows may be good or bad, which is what separates it from 〜あげく. It belongs to fairly formal written Japanese, so it is common in reports and explanations.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜た結果」用來說明做了某些事之後得到的結果，前面接動詞的「た形」（調べた、話し合った）或「名詞＋の」（調査の、投票の）。後面接的結果可好可壞，這一點與只能接壞結果的「〜あげく」不同。它屬於比較生硬的書面語，常出現在報告與說明中。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%9F%E7%B5%90%E6%9E%9C&amp;lv=N3&amp;ex=%E8%A9%B1%E3%81%97%E5%90%88%E3%81%A3%E3%81%9F%E7%B5%90%E6%9E%9C%E3%80%81%E5%87%BA%E7%99%BA%E3%82%92%E4%B8%80%E6%97%A5%E3%81%8A%E3%81%8F%E3%82%89%E3%81%9B%E3%82%8B%E3%81%93%E3%81%A8%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="sue.html">🔁 〜末（に）（長く続いたあとで）とくらべる<span class="ar">›</span></a>
+      <a href="ageku.html">🔁 〜あげく（わるい結果だけ）とくらべる<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-52">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

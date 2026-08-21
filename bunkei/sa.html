@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>〜さ（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の文型「〜さ」の意味・接続・例文。い形容詞・な形容詞を名詞にする作り方と、はかれる程度を表す「さ」、感じを表す「〜み」との使い分け、「〜がる」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">〜さ</div>
+    <div class="p-en">-ness (noun form)</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">形容詞の語幹に付く</span>
+      <span class="badge sub">名詞を作る</span>
+      <span class="badge sub">「〜み」と使い分け</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">名詞にする</span>形容詞を、名詞の形にかえる</div>
+    <div class="lead"><span class="imi-tag">程度</span>どのくらいかを、はかって言う</div>
+    <div class="desc">「〜さ」は、形容詞を名詞にすることばです。「高い」→「高さ」、「便利だ」→「便利さ」のように、い形容詞やな形容詞のうしろに付けて、その性質がどのくらいあるかを表す名詞を作ります。数字で言えることによく使います。できた「〜さ」は名詞なので、「この山の高さ」「荷物の重さをはかる」のように、文の中でふつうの名詞として使えます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 形容詞から 名詞を 作る</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="い形容詞「高い」やな形容詞「便利だ」の語幹にさを付けて名詞にし、どのくらいかという程度を表すことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="18" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">形容詞 → 名詞に かえる</text><rect x="14" y="32" width="150" height="60" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="89" y="56" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">高い（い形容詞）</text><text x="89" y="80" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">便利だ（な形容詞）</text><path d="M170 62 L206 62" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="188" y="50" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">語幹＋さ</text><rect x="212" y="32" width="150" height="60" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="287" y="56" text-anchor="middle" font-size="13" fill="#3C3489" font-weight="700" font-family="sans-serif">高さ</text><text x="287" y="80" text-anchor="middle" font-size="13" fill="#3C3489" font-weight="700" font-family="sans-serif">便利さ</text><text x="372" y="56" font-size="10.5" fill="#6B6560" font-family="sans-serif">名詞に</text><text x="372" y="76" font-size="10.5" fill="#6B6560" font-family="sans-serif">なった</text><rect x="14" y="106" width="432" height="50" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="230" y="126" text-anchor="middle" font-size="11" fill="#3C3489" font-weight="700" font-family="sans-serif">高さ ＝ どのくらい 高いか（はかれる 程度）</text><path d="M40 142 L418 142" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><path d="M120 138 L120 148" fill="none" stroke="#6B6560" stroke-width="1.2"/><path d="M200 138 L200 148" fill="none" stroke="#6B6560" stroke-width="1.2"/><path d="M280 138 L280 148" fill="none" stroke="#6B6560" stroke-width="1.2"/><text x="40" y="136" font-size="10" fill="#6B6560" font-family="sans-serif">ひくい</text><text x="420" y="136" text-anchor="end" font-size="10" fill="#6B6560" font-family="sans-serif">たかい</text><text x="230" y="176" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">「たかい」→「たか」＋さ　／　「べんりだ」→「べんり」＋さ</text><text x="230" y="194" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">長さ・重さ・広さ・強さ … 数字で 言えるものに よく 使う</text></svg>
+    <div class="zu-cap">② 「〜さ」と「〜み」の 使い分け</div>
+    <svg class="zu" viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="さははかれる程度を表し、みは心で感じるようすを表すという使い分けを、二つの箱でならべて示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="18" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">さ ＝ はかれる 程度　／　み ＝ 感じ・ようす</text><rect x="14" y="30" width="210" height="128" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="119" y="52" text-anchor="middle" font-size="13" fill="#3C3489" font-weight="700" font-family="sans-serif">〜さ</text><text x="119" y="74" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">はかれる 程度・数</text><text x="119" y="96" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">高さ・重さ・広さ</text><text x="119" y="116" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">速さ・強さ・長さ</text><text x="119" y="140" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">ほとんどの 形容詞に つく</text><rect x="236" y="30" width="210" height="128" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="341" y="52" text-anchor="middle" font-size="13" fill="#1C1C1C" font-weight="700" font-family="sans-serif">〜み</text><text x="341" y="74" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">心で 感じる ようす</text><text x="341" y="96" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">あたたかみ・深み</text><text x="341" y="116" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">おもしろみ・ありがたみ</text><text x="341" y="140" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">つくことばは 決まっている</text><text x="230" y="178" text-anchor="middle" font-size="11" fill="#1C1C1C" font-family="sans-serif">「山の高さは千メートル」は○、「山の高み」とは 言わない</text><text x="230" y="194" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">数字で 言えるなら さ、心の 感じなら み</text></svg>
+    <div class="zu-note">「さ」は<b>ものさしで はかる</b>ようなことば、「み」は<b>手ざわりや 心の感じ</b>のことばです。まよったときは「数字で言えるか」を考えるとえらべます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">い形容詞の語幹／な形容詞の語幹 ＋ <span class="n">さ</span></div>
+    <div class="setsu-note">い形容詞はさいごの「い」をとって「高<b>さ</b>」「長<b>さ</b>」、な形容詞はそのままの形に付けて「便利<b>さ</b>」「大切<b>さ</b>」にします。できたことばは名詞なので、「〜が」「〜を」「〜の」を付けて使えます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">よく使う〜さ</div>
+      <div class="chips"><span class="chip">高さ</span><span class="chip">重さ</span><span class="chip">広さ</span><span class="chip">長さ</span><span class="chip">速さ</span><span class="chip">強さ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">な形容詞から作る</div>
+      <div class="chips"><span class="chip">便利さ</span><span class="chip">大切さ</span><span class="chip">大変さ</span><span class="chip">不便さ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来ることば</div>
+      <div class="chips"><span class="chip">〜がわかる</span><span class="chip">〜をはかる</span><span class="chip">〜におどろく</span><span class="chip">〜を感じる</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">数字ではかる</span>
+        <div class="ex-ja">この箱の<b>重さ</b>は、はかりでちょうど三キロだった。<button class="say" data-say="この箱の重さは、はかりでちょうど三キロだった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">On the scales this box weighed exactly three kilograms.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">おどろく</span>
+        <div class="ex-ja">地図を見て、この川の<b>長さ</b>におどろいた。<button class="say" data-say="地図を見て、この川の長さにおどろいた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Looking at the map, I was amazed at how long this river is.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">な形容詞から</span>
+        <div class="ex-ja">外国に住んでみて、家族の<b>大切さ</b>がよくわかった。<button class="say" data-say="外国に住んでみて、家族の大切さがよくわかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Living abroad, I really came to understand how important family is.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">仕事の道具</span>
+        <div class="ex-ja">この機械の<b>便利さ</b>は、一度使ってみればすぐにわかる。<button class="say" data-say="この機械の便利さは、一度使ってみればすぐにわかる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">You see how handy this machine is the moment you try it.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">旅行で</span>
+        <div class="ex-ja">山の上から、町の<b>広さ</b>と海の<b>近さ</b>を感じた。<button class="say" data-say="山の上から、町の広さと海の近さを感じた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">From the mountain top I felt how wide the town was and how near the sea lay.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">程度をえらぶ</span>
+        <div class="ex-ja">この道具は、風の<b>強さ</b>を三段階に変えられる。<button class="say" data-say="この道具は、風の強さを三段階に変えられる。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">This tool lets you change the strength of the airflow in three steps.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>「〜み」を使うことば</div>
+      <div class="use-d">「さ」ではなく「み」を使うことばがあります。「あたたかみ」「おもしろみ」「深み」「ありがたみ」など、心で感じるようすを表すことばで、数字では言えません。</div>
+      <div class="use-e">この茶わんには、手作りの<b>あたたかみ</b>がある。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>前に長いことばを付ける</div>
+      <div class="use-d">「〜さ」は名詞なので、前にことばを付けて長いかたまりが作れます。数といっしょに「二メートルの深さ」のようにも言えます。</div>
+      <div class="use-e">この池は、いちばん深いところで二メートルの<b>深さ</b>がある。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">〜み</div>
+      <div class="vs-lead">「〜さ」は<b>はかれる程度</b>、「〜み」は<b>心で感じるようす</b>です。「重さ」は何キロと数字で言えますが、「重み」は「ずっしりとした感じ・大切さ」を表します。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜さ</th><th>〜み</th></tr>
+        <tr><td class="k">表すもの</td><td>どのくらいか（程度）</td><td>どんな感じか（ようす）</td></tr>
+        <tr><td class="k">数字で言えるか</td><td>言える（三キロの重さ）</td><td>言えない</td></tr>
+        <tr><td class="k">付けられることば</td><td>ほとんどの形容詞に付く</td><td>決まったことばだけに付く</td></tr>
+        <tr><td class="k">例</td><td>高さ・広さ・重さ・強さ</td><td>あたたかみ・おもしろみ・深み</td></tr>
+      </table>
+      <div class="vs-ex">
+        「荷物の<b>重さ</b>をはかる」＝何キロかを 調べている。<br>
+        「あの人のことばには<b>重み</b>がある」＝心に ひびく 感じが する。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">〜がる</div>
+      <div class="vs-lead">「〜さ」は形容詞を<b>名詞</b>にすることばですが、「〜がる」は形容詞を<b>動詞</b>にして、ほかの人が気持ちを外に出しているようすを表します。作るものがちがいます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>〜さ</th><th>〜がる</th></tr>
+        <tr><td class="k">できるもの</td><td>名詞</td><td>動詞</td></tr>
+        <tr><td class="k">表すこと</td><td>程度・どのくらいか</td><td>その人のようす（外に出た気持ち）</td></tr>
+        <tr><td class="k">だれのことか</td><td>もの・ことの性質</td><td>ふつう自分以外の人</td></tr>
+        <tr><td class="k">例</td><td>うれしさ・こわさ</td><td>うれしがる・こわがる</td></tr>
+      </table>
+      <div class="vs-ex">
+        「合格した<b>うれしさ</b>で、声も出なかった」＝気持ちの 大きさ。<br>
+        「弟は暗い道を<b>こわがる</b>」＝人の ようすを 外から 見て 言う。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>〜さ turns an adjective into a noun: takai becomes takasa, benri da becomes benrisa. The noun it makes names the degree of that quality - how tall, how heavy, how wide - so it suits qualities you can measure or put a number on. Compare 〜み (atatakami, omoshiromi), which names a feeling or impression rather than a measurable degree and attaches only to a limited set of words.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「〜さ」把形容詞變成名詞：「高い」→「高さ」，「便利だ」→「便利さ」。做出來的名詞表示那個性質有多少，也就是可以測量、可以用數字說出來的程度（高さ、重さ、広さ）。相對地，「〜み」表示心裡的感覺或印象（あたたかみ、おもしろみ），不能用數字說，而且只能接在有限的幾個詞上面。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%80%9C%E3%81%95&amp;lv=N3&amp;ex=%E3%81%93%E3%81%AE%E7%AE%B1%E3%81%AE%E9%87%8D%E3%81%95%E3%81%AF%E3%80%81%E3%81%AF%E3%81%8B%E3%82%8A%E3%81%A7%E3%81%A1%E3%82%87%E3%81%86%E3%81%A9%E4%B8%89%E3%82%AD%E3%83%AD%E3%81%A0%E3%81%A3%E3%81%9F%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="tagaru.html">🔁 〜たがる（気持ちを外に出す）とくらべる<span class="ar">›</span></a>
+      <a href="noga.html">🔁 〜のが・〜のを（動詞を名詞にする）を見る<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-50">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>その上（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="文と文をつなぐ「その上」の意味・使い方・例文。前のことに同じ方向のことを足す使い方と、よいことにもこまったことにも使えること、「おまけに」「しかも」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">その上</div>
+    <div class="p-en">on top of that / in addition</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">文と文をつなぐ</span>
+      <span class="badge sub">同じ方向に足す</span>
+      <span class="badge sub">話しても書いても</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">さらに足す</span>前に言ったことに、同じ方向のことをつけ加える</div>
+    <div class="lead"><span class="imi-tag">どちらにも</span>よいことにも、こまったことにも使える</div>
+    <div class="desc">「その上」は、前の文で言ったことに、同じ方向のことをもう一つ足すことばです。よいことのあとには、もっとよいことがきます。こまったことのあとには、もっとこまることがきます。前とうしろで向きは変わりません。話すときにも書くときにも使えるので、案内文や説明にもよく出てきます。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 同じ方向に、もう一つ足す</div>
+    <svg class="zu" viewBox="0 0 460 205" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="よいことにもこまったことにも、前と同じ方向のことをもう一つ足して強くなることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">前と 同じ 方向に、もう一つ 足す</text><rect x="12" y="44" width="112" height="38" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="68" y="68" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">この店は 安い</text><path d="M128 63 L150 63" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="154" y="49" width="62" height="28" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.6"/><text x="185" y="68" text-anchor="middle" font-size="11" fill="#3C3489" font-weight="700" font-family="sans-serif">その上</text><path d="M220 63 L242 63" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="246" y="44" width="118" height="38" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="305" y="68" text-anchor="middle" font-size="11" fill="#3C3489" font-weight="700" font-family="sans-serif">味も いい</text><text x="406" y="58" text-anchor="middle" font-size="15" fill="#3C3489" font-weight="700" font-family="sans-serif">＋＋</text><text x="406" y="76" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">もっと よい</text><rect x="12" y="104" width="112" height="38" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="68" y="128" text-anchor="middle" font-size="11" fill="#3C3489" font-weight="700" font-family="sans-serif">道が こんでいた</text><path d="M128 123 L150 123" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="154" y="109" width="62" height="28" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.6"/><text x="185" y="128" text-anchor="middle" font-size="11" fill="#3C3489" font-weight="700" font-family="sans-serif">その上</text><path d="M220 123 L242 123" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="246" y="104" width="118" height="38" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="305" y="128" text-anchor="middle" font-size="11" fill="#3C3489" font-weight="700" font-family="sans-serif">雨も 降ってきた</text><text x="406" y="118" text-anchor="middle" font-size="15" fill="#A0392E" font-weight="700" font-family="sans-serif">－－</text><text x="406" y="136" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">もっと こまる</text><text x="230" y="172" text-anchor="middle" font-size="11" fill="#A0392E" font-family="sans-serif">×「安い。その上、まずい」… 反対の 方向へは いけない</text><text x="230" y="194" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">よいこと どうし、こまること どうしを かさねる</text></svg>
+    <div class="zu-cap">② くだけた ← → かたい</div>
+    <svg class="zu" viewBox="0 0 460 172" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="くだけた言い方から かたい言い方までの物差しに、おまけに・その上・しかもを並べた図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">どのくらい かたい ことばか</text><path d="M24 100 L436 100" fill="none" stroke="#E2DDD6" stroke-width="2"/><rect x="60" y="52" width="82" height="30" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="101" y="72" text-anchor="middle" font-size="11.5" fill="#6B6560" font-family="sans-serif">おまけに</text><path d="M101 84 L101 98" fill="none" stroke="#E2DDD6" stroke-width="1.6"/><rect x="184" y="46" width="92" height="38" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="230" y="71" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">その上</text><path d="M230 86 L230 98" fill="none" stroke="#3C3489" stroke-width="1.8"/><rect x="318" y="52" width="82" height="30" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="359" y="72" text-anchor="middle" font-size="11.5" fill="#6B6560" font-family="sans-serif">しかも</text><path d="M359 84 L359 98" fill="none" stroke="#E2DDD6" stroke-width="1.6"/><text x="14" y="122" text-anchor="start" font-size="10" fill="#6B6560" font-family="sans-serif">くだけた 話しことば</text><text x="446" y="122" text-anchor="end" font-size="10" fill="#6B6560" font-family="sans-serif">かたい 書きことば</text><text x="230" y="152" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「その上」は 話しても 書いても 使える、まん中の ことば</text></svg>
+    <div class="zu-note">「その上」のうしろに、前と<b>反対のこと</b>は置けません。「この店は安い。その上、まずい」とは言えず、向きが変わるときは「しかし」を使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku">前の文 ＋ 。 ＋ <span class="n">その上</span>、＋ うしろの文</div>
+    <div class="setsu-note">文の頭に置いて、点（、）を打ちます。「そのうえ」とひらがなで書くこともあります。前で「〜し、〜し」といくつか並べてから、最後に一つ足す形でもよく使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来る形</div>
+      <div class="chips"><span class="chip">〜し、〜し</span><span class="chip">〜て</span><span class="chip">〜だけでなく</span><span class="chip">〜ばかりか</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来ることば</div>
+      <div class="chips"><span class="chip">〜も</span><span class="chip">〜まで</span><span class="chip">とても</span><span class="chip">ずいぶん</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">かさなりやすい話題</div>
+      <div class="chips"><span class="chip">店・買い物</span><span class="chip">天気</span><span class="chip">部屋さがし</span><span class="chip">人の様子</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">いいことの重なり</span>
+        <div class="ex-ja">この店のパンは安い。<b>その上</b>、朝早くから開いている。<button class="say" data-say="この店のパンは安い。その上、朝早くから開いている。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The bread at this shop is cheap. On top of that, it opens early in the morning.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">こまることの重なり</span>
+        <div class="ex-ja">発表の資料が見つからない。<b>その上</b>、パソコンまで動かなくなった。<button class="say" data-say="発表の資料が見つからない。その上、パソコンまで動かなくなった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">I cannot find the handouts for my talk. On top of that, my computer has stopped working.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">部屋さがし</span>
+        <div class="ex-ja">新しい部屋は広くて明るい。<b>その上</b>、駅から歩いて五分だ。<button class="say" data-say="新しい部屋は広くて明るい。その上、駅から歩いて五分だ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The new room is big and bright. In addition, it is five minutes on foot from the station.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">天気の話</span>
+        <div class="ex-ja">今日は朝から風が強い。<b>その上</b>、気温もどんどん下がってきた。<button class="say" data-say="今日は朝から風が強い。その上、気温もどんどん下がってきた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The wind has been strong since this morning, and on top of that the temperature keeps dropping.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">人の様子</span>
+        <div class="ex-ja">田口さんは仕事が早い。<b>その上</b>、書く字がとてもきれいだ。<button class="say" data-say="田口さんは仕事が早い。その上、書く字がとてもきれいだ。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Mr. Taguchi works fast. On top of that, his handwriting is very neat.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">旅行</span>
+        <div class="ex-ja">この旅館は料理がおいしかった。<b>その上</b>、部屋から海が見えた。<button class="say" data-say="この旅館は料理がおいしかった。その上、部屋から海が見えた。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">The food at this inn was delicious. In addition, we could see the sea from our room.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>ならべてから 最後に 足す</div>
+      <div class="use-d">前の文を「〜し、〜し」と並べておいて、いちばん言いたいことを最後に一つだけ足すときにもよく使います。</div>
+      <div class="use-e">部屋は静かだし、日当たりもいいし、<b>その上</b>家賃も安い。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>案内文や 説明にも 使える</div>
+      <div class="use-d">「おまけに」とちがって、書きことばでも使えます。お知らせやパンフレットにもそのまま書けます。</div>
+      <div class="use-e">この教室は費用がかかりません。<b>その上</b>、手続きも簡単です。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">おまけに</div>
+      <div class="vs-lead">どちらも「さらに足す」ことばですが、「おまけに」は<b>くだけた話しことば</b>で、こまったことが重なるときによく使います。「その上」は<b>話しても書いても</b>使え、よいことにも同じように使えます。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>その上</th><th>おまけに</th></tr>
+        <tr><td class="k">ひびき</td><td>話しても書いても使える</td><td>くだけた話しことば</td></tr>
+        <tr><td class="k">よく来る中身</td><td>よいこと・こまること どちらも</td><td>こまることの重なりが多い</td></tr>
+        <tr><td class="k">使える場面</td><td>会話・案内文・説明</td><td>おもに会話</td></tr>
+      </table>
+      <div class="vs-ex">
+        「駅に近い。<b>その上</b>、家賃も安い」＝お知らせにも書ける言い方。<br>
+        「バスが来ない。<b>おまけに</b>、財布まで忘れてきた」＝会話でのうんざりした気持ち。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">しかも</div>
+      <div class="vs-lead">「しかも」は<b>かたい言い方</b>で、前のことを強めながら足します。「その上」よりも説明文や広告に多く、話すときに使うと少しあらたまった感じになります。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>その上</th><th>しかも</th></tr>
+        <tr><td class="k">ひびき</td><td>ふつう。だれにでも使える</td><td>かたい。書きことば寄り</td></tr>
+        <tr><td class="k">足し方</td><td>もう一つ、ならべて足す</td><td>前を強めながら足す</td></tr>
+        <tr><td class="k">よく出る場所</td><td>会話・案内・説明</td><td>説明文・広告・レポート</td></tr>
+      </table>
+      <div class="vs-ex">
+        「この道具は軽い。<b>その上</b>、値段も安い」＝ふつうの言い方。<br>
+        「この紙はうすく、<b>しかも</b>やぶれにくい」＝かたい説明の言い方。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>その上 joins two sentences and means "on top of that". The second sentence points in the same direction as the first: something good is followed by something even better, something bad by something even worse. It never turns to the opposite direction. Unlike おまけに it is fine in writing, and unlike しかも it does not sound formal.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「その上」用來連接兩個句子，意思是「而且、再加上」。後句與前句方向一致：好事之後再加好事，麻煩之後再添麻煩，絕不會轉向相反的方向。與「おまけに」不同，它也能用於書面；與「しかも」相比，語氣則沒有那麼生硬。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%81%9D%E3%81%AE%E4%B8%8A&amp;lv=N3&amp;ex=%E3%81%93%E3%81%AE%E5%BA%97%E3%81%AE%E3%83%91%E3%83%B3%E3%81%AF%E5%AE%89%E3%81%84%E3%80%82%E3%81%9D%E3%81%AE%E4%B8%8A%E3%80%81%E6%9C%9D%E6%97%A9%E3%81%8F%E3%81%8B%E3%82%89%E9%96%8B%E3%81%84%E3%81%A6%E3%81%84%E3%82%8B%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="omakeni.html">🔁 おまけに（くだけた話しことば）とくらべる<span class="ar">›</span></a>
+      <a href="ueni.html">🔁 〜上（に）（一つの文の中で重ねる）を見る<span class="ar">›</span></a>
+      <a href="nikuwaete.html">🔁 〜に加えて（かたい付け足し）を見る<span class="ar">›</span></a>
+      <a href="dakedenaku.html">🔁 〜だけでなく（二つを合わせて言う）を見る<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-69">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

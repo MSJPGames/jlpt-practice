@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>さすが（N3文型）・文型解説 ・ 日本語の部屋</title>
+<meta name="description" content="日本語の副詞「さすが」の意味・使い方・例文。思っていたとおりりっぱだと感心する気持ち、「さすが〜だけあって」「さすがの〜も」の形、「やはり」とのちがいを図つきで解説します。">
+<style>
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --border: #E2DDD6;
+    --text: #1C1C1C; --text-muted: #6B6560; --text-hint: #9E9890;
+    --radius: 14px; --radius-sm: 10px;
+    --accent: #3C3489; --accent-bg: #EEEDFE;   /* N3 */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 1rem 3rem;
+    line-height: 1.6; -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+  .back {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 1.25rem; margin-right: 10px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back:hover { color: var(--text); }
+
+  .app-header { text-align: center; padding: 1.1rem 0 0.4rem; }
+  .app-logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-hint); margin-bottom: 8px; }
+  .p-title { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; }
+  .p-en { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+  .p-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); }
+  .badge.sub { background: #ECE8E1; color: var(--text-muted); }
+
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+  .sec-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; }
+  .sec-bar { width: 4px; height: 15px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+  .lead { font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .lead + .lead { margin-top: 12px; }
+  .lead .imi-tag { font-size: 12px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 3px 9px; border-radius: 8px; vertical-align: 3px; margin-right: 7px; }
+  .desc { font-size: 14px; margin-top: 10px; line-height: 1.75; }
+  .desc b { font-weight: 700; }
+
+  .setsuzoku { font-size: 15px; font-weight: 700; background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; line-height: 1.9; }
+  .setsuzoku .n { color: var(--accent); }
+  .setsu-note { font-size: 12px; color: var(--text-hint); margin-top: 8px; line-height: 1.6; }
+
+  .kyouki-row { margin-bottom: 9px; }
+  .kyouki-row:last-child { margin-bottom: 0; }
+  .kyouki-lab { font-size: 11px; font-weight: 700; color: var(--text-hint); margin-bottom: 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 12.5px; font-weight: 600; background: #F1EEE8; color: var(--text); padding: 4px 10px; border-radius: 999px; }
+
+  .ex { display: flex; flex-direction: column; gap: 13px; }
+  .ex-item { padding-left: 11px; border-left: 2px solid var(--border); }
+  .ex-form { font-size: 10px; font-weight: 800; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-bottom: 5px; }
+  .ex-ja { font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .ex-ja b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+  .ex-en { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+  .say { border: none; background: transparent; cursor: pointer; font-size: 14px; padding: 0 0 0 4px; color: var(--text-hint); -webkit-tap-highlight-color: transparent; font-family: inherit; }
+  .say:hover { color: var(--accent); }
+
+  /* その他の用法 */
+  .use { padding: 11px 0; border-top: 1px solid var(--border); }
+  .use:first-of-type { border-top: none; padding-top: 0; }
+  .use-h { font-size: 14px; font-weight: 700; }
+  .use-h .num { color: var(--accent); margin-right: 6px; }
+  .use-d { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.6; }
+  .use-e { font-size: 14px; font-weight: 600; margin-top: 6px; line-height: 1.6; }
+  .use-e b { background: linear-gradient(transparent 62%, #DCDAF6 62%); font-weight: 700; }
+
+  /* 類義表現 */
+  .vs-card { background: #FAF8F4; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 11px; }
+  .vs-card:last-child { margin-bottom: 0; }
+  .vs-head { font-size: 16px; font-weight: 700; }
+  .vs-lead { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+  .vs-lead b { color: var(--text); }
+  .vs-tbl { width: 100%; border-collapse: collapse; margin-top: 11px; font-size: 12.5px; }
+  .vs-tbl th { font-size: 10.5px; font-weight: 700; color: var(--text-hint); text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--border); }
+  .vs-tbl th.k { width: 27%; }
+  .vs-tbl td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+  .vs-tbl td.k { font-weight: 700; color: var(--text-muted); font-size: 11.5px; }
+  .vs-tbl tr:last-child td { border-bottom: none; }
+  .vs-ex { font-size: 13.5px; line-height: 1.95; margin-top: 10px; }
+  .vs-ex .memo { font-size: 11.5px; color: var(--text-hint); }
+  .ok { color: #2F7168; font-weight: 800; }
+  .ng { color: #A0392E; font-weight: 800; }
+  .tri { color: #8A6A12; font-weight: 800; }
+
+  .zu { width: 100%; height: auto; display: block; }
+  .zu + .zu { margin-top: 14px; }
+  .zu-cap { font-size: 11px; font-weight: 700; color: var(--text-hint); margin: 4px 0 0; }
+  .zu-note { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.7; }
+  .zu-note b { color: var(--text); }
+
+  .lang-row { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; line-height: 1.65; }
+  .lang-row:first-of-type { border-top: none; padding-top: 0; }
+  .lang-code { font-size: 10px; font-weight: 800; color: var(--text-hint); flex-shrink: 0; width: 26px; padding-top: 4px; letter-spacing: 0.05em; }
+
+  .rel { display: flex; flex-direction: column; gap: 8px; }
+  .rel a {
+    display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600;
+    color: var(--text); text-decoration: none; background: #FAF8F4;
+    border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .rel a:hover { background: #F3EFE8; }
+  .rel .ar { margin-left: auto; color: var(--text-hint); }
+
+  .app-footer { text-align: center; font-size: 11px; color: var(--text-hint); margin-top: 2.5rem; line-height: 1.8; }
+
+  @media (min-width: 700px)  { .container { zoom: 1.3; } }
+  @media (min-width: 1100px) { .container { zoom: 1.5; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../bunkei.html" class="back">‹ 文型解説にもどる</a><a href="../index.html" class="back">🏠 トップ</a>
+
+  <div class="app-header">
+    <div class="app-logo">NIHONGO NO HEYA</div>
+    <div class="p-title">さすが</div>
+    <div class="p-en">just as you would expect (admiringly) / true to one's name</div>
+    <div class="p-badges">
+      <span class="badge">N3</span>
+      <span class="badge sub">文のはじめのほうに来る</span>
+      <span class="badge sub">感心・ほめる</span>
+      <span class="badge sub">副詞</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>意味</div>
+    <div class="lead"><span class="imi-tag">感心</span>思っていたとおり、やはりすばらしい</div>
+    <div class="lead"><span class="imi-tag">納得</span>りっぱな理由があるのだから当然だ、と分かる</div>
+    <div class="desc">「さすが」は、前から「あの人はすごい」「あの店はいい」と思っていて、実際に見て「やっぱりすばらしい」と感心したときに使うことばです。予想が当たっただけではなく、相手をほめる気持ちが入るのがとくちょうです。「さすが田中さん」のように名詞の前に置いたり、「さすが〜だけあって」「さすがの〜も」の形にしたりして使います。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>コアイメージ</div>
+    <div class="zu-cap">① 予想どおり、しかもりっぱ</div>
+    <svg class="zu" viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="予想どおりりっぱだったことに感心して「さすが」と言う流れを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">思っていた とおり、やっぱり りっぱ</text><rect x="14" y="60" width="120" height="58" rx="8" fill="#FAF8F4" stroke="#E2DDD6" stroke-width="1.5"/><text x="74" y="82" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">前から 思っていた</text><text x="74" y="104" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">上手な はず</text><path d="M138 89 L172 89" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><text x="157" y="78" text-anchor="middle" font-size="9.5" fill="#6B6560" font-family="sans-serif">会って みると</text><rect x="176" y="60" width="124" height="58" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.6"/><text x="238" y="82" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">実際も</text><text x="238" y="104" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">本当に 上手</text><path d="M304 89 L322 89" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="326" y="50" width="120" height="78" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="386" y="74" text-anchor="middle" font-size="13" fill="#3C3489" font-weight="700" font-family="sans-serif">さすが！</text><text x="386" y="96" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">予想どおり</text><text x="386" y="114" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">＋ ほめる 気持ち</text><text x="230" y="152" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「当たった」だけなら「やはり」。ほめる 気持ちが 入ると「さすが」</text><text x="230" y="174" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">だから、わるい ことには 使わない</text></svg>
+    <div class="zu-cap">②「さすが〜だけあって」＝理由をつける</div>
+    <svg class="zu" viewBox="0 0 460 175" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="さすが〜だけあってが、りっぱな理由と当然のよさをつなぐことを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">さすが 〜 だけあって ＝ りっぱな 理由 ＋ 当然の よさ</text><rect x="16" y="52" width="178" height="58" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="105" y="74" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">りっぱな 理由</text><text x="105" y="96" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">十年 修業した だけあって</text><path d="M198 80 L232 80" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="236" y="52" width="210" height="58" rx="8" fill="#FAF8F4" stroke="#3C3489" stroke-width="1.6"/><text x="341" y="74" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">当然、すばらしい</text><text x="341" y="96" text-anchor="middle" font-size="11.5" fill="#1C1C1C" font-family="sans-serif">さすがに 味が ちがう</text><text x="230" y="136" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">理由を つけたい ときは 「〜だけあって」を うしろに おく</text><text x="230" y="158" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">「さすが」は 文の はじめ、「だけあって」は 理由の あと</text></svg>
+    <div class="zu-cap">③「さすがの〜も」＝すごい人でも</div>
+    <svg class="zu" viewBox="0 0 460 165" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="さすがの〜もが、すごい人でも今回は例外だと言う形であることを示した図"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#3C3489"/></marker></defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#9E9890"/></marker><text x="230" y="20" text-anchor="middle" font-size="12.5" fill="#3C3489" font-weight="700" font-family="sans-serif">さすがの 〜 も ＝ あの すごい 人 でも、今回は…</text><rect x="18" y="52" width="160" height="60" rx="8" fill="#EEEDFE" stroke="#3C3489" stroke-width="1.8"/><text x="98" y="74" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">いつもは 強い</text><text x="98" y="96" text-anchor="middle" font-size="11.5" fill="#3C3489" font-weight="700" font-family="sans-serif">さすがの 山川選手も</text><path d="M182 80 L216 80" fill="none" stroke="#3C3489" stroke-width="1.8" marker-end="url(#ar)"/><rect x="220" y="52" width="190" height="60" rx="8" fill="#FAF8F4" stroke="#A0392E" stroke-width="1.6"/><text x="315" y="74" text-anchor="middle" font-size="10" fill="#6B6560" font-family="sans-serif">今回だけは</text><text x="315" y="96" text-anchor="middle" font-size="11.5" fill="#A0392E" font-family="sans-serif">足が 動かなかった</text><text x="430" y="88" text-anchor="middle" font-size="18" fill="#A0392E" font-weight="700" font-family="sans-serif">×</text><text x="230" y="140" text-anchor="middle" font-size="10.5" fill="#6B6560" font-family="sans-serif">すごい 人 なのに、めずらしく そう ならない、と 言う 形</text></svg>
+    <div class="zu-note">「さすが」は<b>ほめることば</b>です。だから「さすが、また失敗した」のように、わるい結果には使えません。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>接続</div>
+    <div class="setsuzoku"><span class="n">さすが</span>（は）＋ 名詞　／　<span class="n">さすが（に）</span> ＋ 文　／　<span class="n">さすがの</span> ＋ 名詞 ＋ <span class="n">も</span></div>
+    <div class="setsu-note">名詞の前に置く「さすが（は）〜だ」のほか、文の頭に置いて「さすが、よく知っていますね」とも言います。理由をいっしょに言うときは「<b>さすが〜だけあって</b>」、「あんなにすごい人でも」と言うときは「<b>さすがの〜も</b>」の形になります。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>いっしょに使うことば</div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">いっしょに使う形</div>
+      <div class="chips"><span class="chip">〜だけあって</span><span class="chip">〜だけのことはある</span><span class="chip">〜ですね</span><span class="chip">〜だ</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">うしろによく来ることば</div>
+      <div class="chips"><span class="chip">うまい</span><span class="chip">きれいだ</span><span class="chip">早い</span><span class="chip">ちがう</span><span class="chip">くわしい</span></div>
+    </div>
+    <div class="kyouki-row">
+      <div class="kyouki-lab">前によく来ることば</div>
+      <div class="chips"><span class="chip">プロ</span><span class="chip">本場</span><span class="chip">ベテラン</span><span class="chip">十年</span><span class="chip">毎日</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>例文</div>
+    <div class="ex">
+      <div class="ex-item">
+        <span class="ex-form">ほめる</span>
+        <div class="ex-ja">十年も習っているそうですね。<b>さすが</b>、字がとてもきれいです。<button class="say" data-say="十年も習っているそうですね。さすが、字がとてもきれいです。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">You've been learning it for ten years? Just as I'd expect, your writing is beautiful.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">だけあって</span>
+        <div class="ex-ja"><b>さすが</b>十年修業しただけあって、このスープは味がちがう。<button class="say" data-say="さすが十年修業しただけあって、このスープは味がちがう。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Just as you'd expect from ten years of training, this soup really is on another level.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">さすがの〜も</span>
+        <div class="ex-ja"><b>さすがの</b>山川選手も、四試合目は足が動かなかった。<button class="say" data-say="さすがの山川選手も、四試合目は足が動かなかった。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Even Yamakawa, strong as he is, could not move his legs in the fourth match.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">ものをほめる</span>
+        <div class="ex-ja">この会社のかばんは<b>さすが</b>だ。三年使っても形がくずれない。<button class="say" data-say="この会社のかばんはさすがだ。三年使っても形がくずれない。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Bags from this company really live up to their name; three years on, they still keep their shape.</div>
+      </div>
+      <div class="ex-item">
+        <span class="ex-form">仕事の場面</span>
+        <div class="ex-ja">難しい相談を三十分でまとめるとは、<b>さすが</b>先輩ですね。<button class="say" data-say="難しい相談を三十分でまとめるとは、さすが先輩ですね。" aria-label="読み上げ">🔊</button></div>
+        <div class="ex-en">Settling such a hard problem in thirty minutes — that's my senior colleague for you.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかの用法</div>
+    <div class="use">
+      <div class="use-h"><span class="num">①</span>さすが〜だけあって</div>
+      <div class="use-d">りっぱな理由をいっしょに言う形です。「〜だけのことはある」と組み合わせることもあります。</div>
+      <div class="use-e"><b>さすが</b>プロが作っただけあって、仕上がりがまるでちがう。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">②</span>さすがの〜も</div>
+      <div class="use-d">「あんなにすごい人でも」と言って、めずらしい例外を出す形です。</div>
+      <div class="use-e"><b>さすがの</b>父も、今年の寒さには参ったようだ。</div>
+    </div>
+    <div class="use">
+      <div class="use-h"><span class="num">③</span>さすがに（そうはいっても）</div>
+      <div class="use-d">「そうはいっても、やはり」の意味で、感心ではなく限界を言うこともあります。</div>
+      <div class="use-e">三日続けて残業したので、<b>さすがに</b>今日は早く帰りたい。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>にた文型とのちがい</div>
+    <div class="vs-card">
+      <div class="vs-head">やはり</div>
+      <div class="vs-lead">「さすが」には<b>ほめる気持ち</b>が入ります。「やはり」は<b>予想が当たった</b>と確かめるだけで、ほめる意味はありません。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>さすが</th><th>やはり</th></tr>
+        <tr><td class="k">気持ち</td><td>感心する・ほめる</td><td>予想が当たったと確かめる</td></tr>
+        <tr><td class="k">よい・わるい</td><td>よいことだけに使う</td><td>よいことにもわるいことにも使う</td></tr>
+        <tr><td class="k">前にあること</td><td>相手の力や努力を知っている</td><td>ただそうなると思っていた</td></tr>
+      </table>
+      <div class="vs-ex">
+        「<b>さすが</b>、一位でしたね」＝すばらしいと相手をほめている。<br>
+        「<b>やはり</b>、一位でしたね」＝そうなると思っていた、と確かめている。<br>
+        「<b>やはり</b>、また負けた」は言えますが、「さすが、また負けた」とは言えません。
+      </div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-head">思ったとおり</div>
+      <div class="vs-lead">「思ったとおり」は<b>自分の予想が当たった</b>ことだけを言います。「さすが」は相手の力を認めて<b>ほめる</b>ときのことばです。</div>
+      <table class="vs-tbl">
+        <tr><th class="k"></th><th>さすが</th><th>思ったとおり</th></tr>
+        <tr><td class="k">言いたいこと</td><td>相手がりっぱだ</td><td>自分の予想が当たった</td></tr>
+        <tr><td class="k">中心にあるもの</td><td>ほめる相手のこと</td><td>自分の考えのこと</td></tr>
+        <tr><td class="k">わるい結果</td><td>使えない</td><td>使える</td></tr>
+      </table>
+      <div class="vs-ex">
+        「<b>さすが</b>、仕上がりが早い」＝腕を認めてほめている。<br>
+        「<b>思ったとおり</b>、雨が降ってきた」＝予想が当たっただけ。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>ほかのことばで</div>
+    <div class="lang-row">
+      <div class="lang-code">EN</div>
+      <div>さすが expresses admiration: what you actually see matches what you expected, and it really is impressive. It appears as さすが（は）＋noun, as さすが〜だけあって when a reason is given, and as さすがの〜も meaning "even that great person". Unlike やはり, it always praises, so it cannot be used for a bad result.</div>
+    </div>
+    <div class="lang-row">
+      <div class="lang-code">中文</div>
+      <div lang="zh-Hant">「さすが」表示佩服的心情：實際看到的和原本的期待一致，而且確實出色，相當於「不愧是、果然厲害」。常用「さすが（は）＋名詞」；要說明理由時用「さすが〜だけあって」；「さすがの〜も」則表示「連那麼厲害的人也…」。與「やはり」不同，它一定帶有稱讚，因此不用於壞的結果。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><span class="sec-bar"></span>関連</div>
+    <div class="rel">
+      <a href="../kaiwa.html?g=%E3%81%95%E3%81%99%E3%81%8C&amp;lv=N3&amp;ex=%E5%8D%81%E5%B9%B4%E3%82%82%E7%BF%92%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%81%9D%E3%81%86%E3%81%A7%E3%81%99%E3%81%AD%E3%80%82%E3%81%95%E3%81%99%E3%81%8C%E3%80%81%E5%AD%97%E3%81%8C%E3%81%A8%E3%81%A6%E3%82%82%E3%81%8D%E3%82%8C%E3%81%84%E3%81%A7%E3%81%99%E3%80%82">🗣️ この文型で会話練習<span class="ar">›</span></a>
+      <a href="dakeatte.html">🔁 〜だけあって（さすがといっしょに使う形）を見る<span class="ar">›</span></a>
+      <a href="hazuda.html">🔁 〜はずだ（当然そうなるという予想）を見る<span class="ar">›</span></a>
+      <a href="../bunkei.html#n3-67">📚 文型解説の一覧でみる<span class="ar">›</span></a>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    レベルは目安です<br>
+    © 2025 日本語の部屋
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.say').forEach(function(b){
+  b.addEventListener('click', function(){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'ja-JP'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
+});
+</script>
+</body>
+</html>

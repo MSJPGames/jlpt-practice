@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="description" content="スペイン語の語彙・コロケーション・文法を、読み上げとシャドウイングで練習する個人用ページ。">
+<meta name="theme-color" content="#F1F4F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1513" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Voz y Letra">
+<title>Voz y Letra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+</head>
+<body>
+<style>
+:root{
+  --bg:#F1F4F2; --surface:#FFFFFF; --surface-2:#E9EEEB; --border:#D6DEDA;
+  --text:#141D1A; --muted:#5A6862; --faint:#8A968F;
+  --accent:#0C6154; --accent-ink:#0C6154; --accent-soft:#D6E8E3; --on-accent:#FFFFFF;
+  --ok:#0C6154; --ok-soft:#D6E8E3; --bad:#9E3324; --bad-soft:#F4DDD8;
+  --amber:#8A5A12; --amber-soft:#F4E7CE;
+  --shadow:0 1px 2px rgba(16,32,28,.06), 0 8px 24px -16px rgba(16,32,28,.28);
+  --r:10px;
+  --sans:"IBM Plex Sans","Hiragino Sans","Noto Sans JP","Yu Gothic UI","Meiryo",sans-serif;
+  --serif:"Newsreader","Hiragino Mincho ProN","Noto Serif JP",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1513; --surface:#161F1C; --surface-2:#1D2825; --border:#2A3733;
+    --text:#E5EDE9; --muted:#93A29B; --faint:#6D7C75;
+    --accent:#54C2AB; --accent-ink:#7BD6C2; --accent-soft:#153029; --on-accent:#0E1513;
+    --ok:#54C2AB; --ok-soft:#153029; --bad:#E58C7C; --bad-soft:#3A1F1A;
+    --amber:#E0B565; --amber-soft:#33280F;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1513; --surface:#161F1C; --surface-2:#1D2825; --border:#2A3733;
+  --text:#E5EDE9; --muted:#93A29B; --faint:#6D7C75;
+  --accent:#54C2AB; --accent-ink:#7BD6C2; --accent-soft:#153029; --on-accent:#0E1513;
+  --ok:#54C2AB; --ok-soft:#153029; --bad:#E58C7C; --bad-soft:#3A1F1A;
+  --amber:#E0B565; --amber-soft:#33280F;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.65;-webkit-text-size-adjust:100%}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px 110px}
+
+.top{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--border)}
+.top-in{max-width:640px;margin:0 auto;padding:13px 16px 9px;display:flex;align-items:baseline;gap:12px}
+.brand{font-family:var(--serif);font-size:23px;font-weight:600;line-height:1.1;margin:0}
+.brand em{font-style:italic;font-weight:400;color:var(--accent-ink)}
+.brand-sub{font-size:11px;color:var(--faint);letter-spacing:.09em;text-transform:uppercase;margin-left:auto;white-space:nowrap}
+.tabs{max-width:640px;margin:0 auto;padding:0 16px 9px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tab{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--muted);
+  font-family:var(--sans);font-size:13px;font-weight:500;padding:9px 4px;border-radius:var(--r);cursor:pointer;
+  transition:background .12s,color .12s,border-color .12s}
+.tab:hover{color:var(--text)}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:600}
+.tab:focus-visible,.btn:focus-visible,.say:focus-visible,.opt:focus-visible,.seg b:focus-visible,
+select:focus-visible,input:focus-visible,.v:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.voicebar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 12px;margin:14px 0 0;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);font-size:13px;color:var(--muted)}
+.voicebar label{display:flex;align-items:center;gap:6px}
+.voicebar select{font-family:var(--sans);font-size:13px;color:var(--text);background:var(--surface-2);
+  border:1px solid var(--border);border-radius:7px;padding:5px 7px;max-width:180px}
+.note{margin:14px 0 0;padding:12px 14px;border-radius:var(--r);font-size:13.5px;line-height:1.65}
+.note.warn{background:var(--bad-soft);border:1px solid var(--bad)}
+.note.warn b{color:var(--bad)}
+.note.info{background:var(--amber-soft);border:1px solid var(--amber)}
+.note.info b{color:var(--amber)}
+
+h2.sec{font-family:var(--serif);font-size:19px;font-weight:600;margin:26px 0 4px;text-wrap:balance}
+.sec-note{font-size:13px;color:var(--muted);margin:0 0 14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow)}
+.btn{appearance:none;font-family:var(--sans);font-size:14px;font-weight:500;padding:10px 16px;border-radius:var(--r);
+  cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:background .12s,border-color .12s}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:600}
+.btn[disabled]{opacity:.45;cursor:default}
+.btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.es{font-family:var(--serif)}
+.hidden{display:none !important}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:0}
+
+.say{appearance:none;flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--border);
+  background:var(--surface-2);color:var(--accent-ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
+  transition:background .12s,border-color .12s,transform .12s}
+.say svg{width:15px;height:15px;fill:currentColor}
+.say:hover{border-color:var(--accent);background:var(--accent-soft)}
+.say.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+@media (prefers-reduced-motion: no-preference){
+  .say.on{animation:pulse 1.1s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+}
+
+/* quiz */
+.quiz-head{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--muted);margin:16px 0 10px}
+.meter{flex:1;height:4px;border-radius:2px;background:var(--surface-2);overflow:hidden;border:1px solid var(--border)}
+.meter i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.count{font-variant-numeric:tabular-nums}
+.q-card{padding:22px 18px 18px;text-align:center}
+.q-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+.q-word{font-size:26px;line-height:1.25;margin:0 0 6px;text-wrap:balance}
+.q-word.es{font-family:var(--serif);font-weight:500}
+.q-pos{font-size:12.5px;color:var(--muted);margin:0}
+.opts{display:grid;gap:8px;margin:18px 0 0}
+.opt{appearance:none;text-align:left;width:100%;font-family:var(--sans);font-size:15.5px;line-height:1.45;
+  padding:12px 14px;border-radius:var(--r);cursor:pointer;border:1px solid var(--border);background:var(--surface);
+  color:var(--text);display:flex;align-items:center;gap:10px;transition:background .12s,border-color .12s}
+.opt:hover:not([disabled]){background:var(--surface-2);border-color:var(--faint)}
+.opt .k{flex:none;width:22px;height:22px;border-radius:5px;background:var(--surface-2);border:1px solid var(--border);
+  font-size:11px;display:flex;align-items:center;justify-content:center;color:var(--faint);font-variant-numeric:tabular-nums}
+.opt.es-opt{font-family:var(--serif);font-size:17px}
+.opt.correct{background:var(--ok-soft);border-color:var(--ok)}
+.opt.correct .k{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opt.wrong .k{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.verdict{margin:14px 0 0;padding:12px 14px;border-radius:var(--r);background:var(--surface-2);border:1px solid var(--border);
+  font-size:14px;line-height:1.6;display:flex;gap:10px;align-items:flex-start}
+.verdict .col{margin-top:7px;font-size:13px;color:var(--muted)}
+.verdict .col b{color:var(--accent-ink);font-weight:600}
+.quiz-foot{display:flex;gap:8px;margin:14px 0 0}
+.quiz-foot .btn{flex:1}
+.result{padding:26px 20px;text-align:center}
+.score{font-family:var(--serif);font-size:44px;font-weight:600;line-height:1;margin:0;font-variant-numeric:tabular-nums}
+.score small{font-size:20px;color:var(--muted);font-weight:400}
+.result p{color:var(--muted);font-size:14px;margin:10px 0 18px}
+.missed{text-align:left;margin:0 0 18px;display:grid;gap:6px}
+.missed div{font-size:14px;padding:7px 10px;background:var(--bad-soft);border-radius:7px}
+
+/* segmented */
+.seg{display:flex;gap:6px;margin:16px 0 4px}
+.seg b{flex:1;text-align:center;font-weight:500;font-size:13.5px;padding:8px 4px;border-radius:var(--r);
+  border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer}
+.seg b.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+
+/* listen list */
+.line{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border-bottom:1px solid var(--border)}
+.line:last-child{border-bottom:0}
+.line.on{background:var(--accent-soft)}
+.line-body{flex:1;min-width:0}
+.line .t{font-family:var(--serif);font-size:16.5px;line-height:1.5;margin:0}
+.line .j{font-size:13px;color:var(--muted);margin:3px 0 0;line-height:1.55}
+.line .src{font-size:11px;color:var(--faint);margin:5px 0 0}
+.line .src a{color:var(--faint)}
+.group-h{font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);margin:22px 0 8px;padding:0 2px}
+
+/* shadowing */
+.sh-card{padding:20px 18px}
+.sh-pos{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 10px;
+  display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.sh-text{font-family:var(--serif);font-size:21px;line-height:1.5;margin:0;text-wrap:balance}
+.sh-ja{font-size:13.5px;color:var(--muted);margin:10px 0 0;line-height:1.6}
+.sh-src{font-size:11.5px;color:var(--faint);margin:10px 0 0}
+.mic{appearance:none;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;
+  font-family:var(--sans);font-size:15px;font-weight:600;padding:14px;border-radius:var(--r);cursor:pointer;
+  border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);margin:12px 0 0}
+.mic svg{width:17px;height:17px;fill:currentColor}
+.mic.rec{background:var(--bad);border-color:var(--bad);color:#fff}
+@media (prefers-reduced-motion: no-preference){.mic.rec{animation:pulse 1.2s ease-in-out infinite}}
+.mic[disabled]{opacity:.45;cursor:default}
+.heard{margin:12px 0 0;padding:14px;border-radius:var(--r);border:1px solid var(--border);background:var(--surface)}
+.heard .lab{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 7px}
+.heard .diff{font-family:var(--serif);font-size:18px;line-height:1.55;margin:0}
+.heard .diff .hit{color:var(--text)}
+.heard .diff .miss{color:var(--bad);border-bottom:2px solid var(--bad);padding-bottom:1px}
+.heard .said{font-family:var(--serif);font-size:14.5px;color:var(--muted);margin:9px 0 0;font-style:italic}
+.pct{display:flex;align-items:baseline;gap:9px;margin:12px 0 0}
+.pct b{font-family:var(--serif);font-size:31px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.pct span{font-size:13px;color:var(--muted)}
+
+/* vocab */
+.search{width:100%;font-family:var(--sans);font-size:15px;color:var(--text);background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;margin:16px 0 4px}
+.search::placeholder{color:var(--faint)}
+.vcount{font-size:12px;color:var(--faint);margin:0 0 10px;font-variant-numeric:tabular-nums}
+.v{border-bottom:1px solid var(--border)}
+.v:last-child{border-bottom:0}
+.v-head{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;cursor:pointer}
+.v-body{flex:1;min-width:0}
+.v .w{font-family:var(--serif);font-size:17px;font-weight:500;margin:0;line-height:1.4}
+.v .m{font-size:14px;margin:2px 0 0}
+.v .pos{font-size:11px;color:var(--faint);margin-left:7px;font-family:var(--sans)}
+.v .ctx{font-size:12.5px;color:var(--muted);margin:5px 0 0;font-family:var(--serif);font-style:italic}
+.v .chev{flex:none;color:var(--faint);font-size:12px;padding-top:5px;transition:transform .15s}
+.v.open .chev{transform:rotate(90deg)}
+.v.masked .m{filter:blur(5px)}
+.v.masked.open .m{filter:none}
+.v-detail{padding:0 14px 15px 60px}
+.v-detail dl{margin:0;display:grid;gap:11px}
+.v-detail dt{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 3px}
+.v-detail dd{margin:0;font-size:13.5px;line-height:1.7}
+.v-detail .es{font-family:var(--serif);color:var(--accent-ink);font-weight:500}
+@media (max-width:420px){.v-detail{padding-left:14px}}
+
+/* grammar */
+.g{padding:18px 16px;margin:0 0 14px}
+.g h3{font-family:var(--serif);font-size:18px;font-weight:600;margin:0 0 4px;text-wrap:balance}
+.g .from{font-size:11.5px;color:var(--faint);margin:0 0 12px}
+.g p{font-size:14.5px;margin:0 0 12px}
+.g .quote{font-family:var(--serif);font-size:16px;line-height:1.55;border-left:3px solid var(--accent);
+  padding:2px 0 2px 13px;margin:0 0 12px;display:flex;gap:10px;align-items:flex-start}
+.g .quote span{flex:1}
+.tw{overflow-x:auto;margin:0 0 12px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:340px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:600;white-space:nowrap}
+td.es-cell{font-family:var(--serif);font-size:15px}
+tr:last-child td{border-bottom:0}
+.g .key{background:var(--accent-soft);border-radius:8px;padding:10px 13px;font-size:14px;margin:0}
+.drill{margin:12px 0 0;padding:13px 15px;border-radius:var(--r);background:var(--surface);border:1px solid var(--accent)}
+.drill-lab{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--muted);margin:0 0 8px}
+.drill-lab b{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--accent-ink)}
+.dmeter{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden;border:1px solid var(--border)}
+.dmeter i{display:block;height:100%;background:var(--accent);width:100%}
+.dmeter.you i{background:var(--amber)}
+.paste{width:100%;min-height:170px;font-family:var(--serif);font-size:15.5px;line-height:1.6;color:var(--text);
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 13px;margin:12px 0 0;resize:vertical}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:14px 0 0}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 4px;text-align:center}
+.stat b{display:block;font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{font-size:10px;color:var(--faint)}
+mark.kw{background:var(--accent-soft);color:var(--accent-ink);border-radius:3px;padding:0 2px;font-weight:500}
+.kwlist{margin:13px 0 0;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);font-size:13px;color:var(--muted);line-height:1.9}
+.kwlist b{font-family:var(--serif);color:var(--accent-ink);font-weight:500}
+.foot{margin:34px 0 0;padding:16px 2px 0;border-top:1px solid var(--border);font-size:12px;color:var(--faint);line-height:1.7}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <h1 class="brand">Voz y <em>Letra</em></h1>
+    <span class="brand-sub">BBC Mundo</span>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" data-pane="quiz" aria-selected="true">クイズ</button>
+    <button class="tab" role="tab" data-pane="voice" aria-selected="false">音読</button>
+    <button class="tab" role="tab" data-pane="vocab" aria-selected="false">語彙</button>
+    <button class="tab" role="tab" data-pane="grammar" aria-selected="false">文法</button>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div id="novoice" class="note warn hidden">
+    <b>スペイン語の音声がこの端末に入っていません。</b><br>
+    Android は 設定 → 言語と入力 → テキスト読み上げ → 言語データをインストール。<br>
+    iPhone は 設定 → アクセシビリティ → 読み上げコンテンツ → 声 → スペイン語。<br>
+    追加してからこのページを開き直してください。
+  </div>
+  <div class="voicebar" id="voicebar">
+    <label>声 <select id="voiceSel"></select></label>
+    <label>速さ <select id="rateSel">
+      <option value="0.6">とてもゆっくり</option>
+      <option value="0.75">ゆっくり</option>
+      <option value="0.85" selected>やや遅め</option>
+      <option value="1">ふつう</option>
+    </select></label>
+  </div>
+
+  <!-- クイズ -->
+  <section id="pane-quiz">
+    <h2 class="sec">単語クイズ</h2>
+    <p class="sec-note">10問。答えると読み上げと、よく一緒に使う語が出ます。</p>
+    <div class="row" id="dirRow">
+      <button class="btn" data-dir="ja2es">日本語 → スペイン語</button>
+      <button class="btn" data-dir="es2ja">スペイン語 → 日本語</button>
+    </div>
+    <div id="quizPlay">
+      <div class="quiz-head">
+        <span class="count" id="qCount">1 / 10</span>
+        <span class="meter"><i id="qMeter"></i></span>
+        <span class="count" id="qScore">正解 0</span>
+      </div>
+      <div class="card q-card">
+        <p class="q-label" id="qLabel"></p>
+        <p class="q-word" id="qWord"></p>
+        <p class="q-pos" id="qPos"></p>
+      </div>
+      <div class="opts" id="qOpts"></div>
+      <div class="verdict hidden" id="qVerdict"></div>
+      <div class="quiz-foot"><button class="btn primary hidden" id="qNext">次へ</button></div>
+    </div>
+    <div class="card result hidden" id="quizResult">
+      <p class="score"><span id="rScore">0</span><small> / 10</small></p>
+      <p id="rMsg"></p>
+      <div class="missed" id="rMissed"></div>
+      <div class="quiz-foot">
+        <button class="btn" id="rRetryMissed">間違えた語だけ</button>
+        <button class="btn primary" id="rAgain">もう一度</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 音読 -->
+  <section id="pane-voice" class="hidden">
+    <h2 class="sec">音読</h2>
+    <p class="sec-note">一覧で聞き流すか、1文ずつシャドウイングするか。</p>
+    <div class="seg" id="voiceSeg">
+      <b class="on" data-mode="list">一覧</b>
+      <b data-mode="shadow">シャドウイング</b>
+      <b data-mode="paste">貼り付け</b>
+    </div>
+
+    <div id="modeList">
+      <div class="row" style="margin:14px 0 12px">
+        <button class="btn primary" id="playAll">▶ 用例を続けて</button>
+        <button class="btn" id="stopAll">■ 停止</button>
+        <button class="btn" id="toggleJa">訳を隠す</button>
+      </div>
+      <div id="listenBody"></div>
+    </div>
+
+    <div id="modeShadow" class="hidden">
+      <div class="seg" id="shSrc" style="margin-top:14px">
+        <b class="on" data-src="ex">用例</b>
+        <b data-src="lead">リード文</b>
+        <b data-src="paste">貼り付け</b>
+      </div>
+      <div class="card sh-card" style="margin-top:12px">
+        <p class="sh-pos"><span id="shCount"></span><span id="shTag"></span></p>
+        <p class="sh-text es" id="shText"></p>
+        <p class="sh-ja" id="shJa"></p>
+        <p class="sh-src" id="shSrc2"></p>
+      </div>
+      <div class="row" style="margin:10px 0 0">
+        <button class="btn primary" id="shPlay">▶ 聞く</button>
+        <button class="btn" id="shLoop">🔁 3回</button>
+        <button class="btn" id="shJaBtn">訳を隠す</button>
+      </div>
+      <div class="row" style="margin:10px 0 0">
+        <button class="btn" id="shDrill">◉ 練習を始める</button>
+        <label class="btn" style="flex:0 0 auto;display:flex;align-items:center;gap:6px;font-weight:400">間
+          <select id="shGap" style="font-family:var(--sans);font-size:13px;color:var(--text);background:transparent;border:0">
+            <option value="1">1.0倍</option>
+            <option value="1.3" selected>1.3倍</option>
+            <option value="1.6">1.6倍</option>
+          </select>
+        </label>
+      </div>
+      <div class="drill hidden" id="drillBox">
+        <p class="drill-lab"><b id="drillLab">聞く</b><span id="drillPos"></span></p>
+        <div class="dmeter" id="drillMeter"><i></i></div>
+      </div>
+      <button class="mic" id="shMic" type="button">
+        <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3z"/><path d="M18 11a1 1 0 1 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.9V19H8a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2h-3v-2.1A6 6 0 0 0 18 11z"/></svg>
+        <span id="shMicLab">話して確かめる</span>
+      </button>
+      <div class="note warn hidden" id="micWarn"></div>
+      <div class="heard hidden" id="shHeard">
+        <p class="lab">あなたの発音と原文の照合</p>
+        <p class="diff es" id="shDiff"></p>
+        <p class="said" id="shSaid"></p>
+        <div class="pct"><b id="shPct">0%</b><span id="shPctNote"></span></div>
+      </div>
+      <div class="row" style="margin:12px 0 0">
+        <button class="btn" id="shPrev">← 前の文</button>
+        <button class="btn" id="shNext">次の文 →</button>
+      </div>
+    </div>
+
+    <div id="modePaste" class="hidden">
+      <p class="sec-note" style="margin:14px 0 0">記事の本文を貼ると、文に区切って、学んだ語に色を付けます。通信は使いません。</p>
+      <textarea id="pasteBox" class="paste" placeholder="ここにスペイン語の文章を貼り付けてください。&#10;RSSリーダーやBBCのページからそのままで大丈夫です。"></textarea>
+      <div class="row" style="margin:10px 0 0">
+        <button class="btn primary" id="pasteRun">解析する</button>
+        <button class="btn" id="pasteClear">消す</button>
+      </div>
+      <div id="pasteOut" class="hidden">
+        <div class="stats" id="pasteStats"></div>
+        <div class="kwlist hidden" id="pasteKw"></div>
+        <div class="row" style="margin:13px 0 0">
+          <button class="btn" id="pasteToShadow">この文章でシャドウイング</button>
+        </div>
+        <div class="card" id="pasteBody" style="margin-top:12px"></div>
+        <p class="sec-note" style="margin:10px 2px 0">色が付くのは、学んだ36語とその活用形です。不規則な形は拾いきれないことがあります。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 語彙 -->
+  <section id="pane-vocab" class="hidden">
+    <h2 class="sec">語彙・表現</h2>
+    <p class="sec-note">タップで、よく一緒に使う語と、似た語との違いが開きます。</p>
+    <input class="search" id="vSearch" type="search" placeholder="スペイン語でも日本語でも検索できます" autocomplete="off">
+    <div class="row" style="margin:12px 0 0">
+      <button class="btn" id="vMask">意味を隠す</button>
+      <button class="btn" id="vAll">すべて開く</button>
+    </div>
+    <p class="vcount" id="vCount"></p>
+    <div class="card" id="vocabBody"></div>
+  </section>
+
+  <!-- 文法 -->
+  <section id="pane-grammar" class="hidden">
+    <h2 class="sec">文法</h2>
+    <p class="sec-note">教材で1回に1点ずつ扱ったもの。例文はタップで読み上げます。</p>
+    <div id="grammarBody"></div>
+  </section>
+
+  <p class="foot">
+    素材は BBC Mundo の RSS（見出しとリード文）。用例文はすべて自作。<br>
+    読み上げと音声認識は、端末が持っている機能を使っています。<br>
+    Obsidian の <span class="es">語学/</span> フォルダと同じ内容です。個人用のため、サイトのどこからもリンクしていません。
+  </p>
+</div>
+
+<script>
+(function(){
+"use strict";
+var L1="2026-08-22", L2="2026-08-23", L3="2026-08-23 ②";
+
+/* ============ 語彙データ ============ */
+var VOCAB=[
+{w:"disparar las alarmas",say:"disparar las alarmas",m:"警鐘を鳴らす、危機感を呼び起こす",pos:"熟語",l:L1,
+ ex:"La caída del yen disparó las alarmas entre los importadores.",exj:"円安が輸入業者の間に警戒感を走らせた。",
+ col:"主語になるのは <b>la inflación / los datos / la caída de… / el aumento de casos</b>。「〜の間で」は <b>entre los inversores</b>、<b>entre los expertos</b>。同系統に <b>saltar las alarmas</b>、<b>encender las alarmas</b>。",
+ syn:"<b>saltar las alarmas</b> は警報の側が主語（警報が鳴る）。<b>disparar</b> は原因の側が主語（鳴らさせる）。<b>alertar</b> は単に警告するだけで比喩性が弱く、<b>preocupar</b> は個人の心配。この語は社会全体がざわつく感じ。"},
+{w:"el hito",say:"el hito",m:"節目、画期的な出来事",pos:"男性名詞",l:L1,
+ ex:"Aprobar el DELE B2 fue un hito en mi aprendizaje.",exj:"DELE B2に受かったのは、私の学習の一つの節目だった。",
+ col:"動詞は <b>alcanzar / marcar / suponer / representar un hito</b>。形容詞は <b>un hito histórico</b>、<b>un hito importante</b>。<b>un hito en la historia de…</b>",
+ syn:"<b>el logro</b> は成果そのもの、<b>el récord</b> は数値の記録、<b>el punto de inflexión</b> は流れが変わる転換点で良し悪しを問わない。<b>hito</b> は原則プラス評価の到達点。"},
+{w:"la deuda",say:"la deuda",m:"負債、借金",pos:"女性名詞",l:L1,
+ col:"<b>contraer / pagar / saldar / cancelar / condonar una deuda</b>。種類は <b>la deuda pública / externa / soberana</b>。<b>el nivel de deuda</b>、<b>estar endeudado</b>。",
+ syn:"<b>el préstamo</b> は貸し借りされた金そのもの（融資）、<b>el crédito</b> は与信・信用枠。<b>deuda</b> は「返す義務」の側に焦点。比喩で <b>tener una deuda con alguien</b>＝恩義がある。"},
+{w:"hasta qué punto",say:"hasta qué punto",m:"どの程度まで〜か",pos:"疑問表現",l:L1,
+ col:"<b>¿Hasta qué punto es cierto / fiable / grave…?</b>／<b>No sé hasta qué punto…</b>／<b>Habría que ver hasta qué punto…</b>",
+ syn:"<b>por qué</b> は理由、<b>cuánto</b> は量。<b>en qué medida</b> はほぼ同義だがより硬い書き言葉。この表現は「程度」を問う。"},
+{w:"sumarse a",say:"sumarse a",m:"〜に加わる、名を連ねる",pos:"再帰動詞",l:L1,
+ ex:"Este año me sumé a un grupo de conversación en español.",exj:"今年、スペイン語の会話グループに加わった。",
+ col:"<b>sumarse a la lista / a la iniciativa / a la protesta / a la huelga / al proyecto / a las críticas</b>。",
+ syn:"<b>unirse a</b> は仲間や団体に加わる（最も一般的）。<b>adherirse a</b> は硬く、協定・条約への加入。<b>apuntarse a</b> は口語で「参加を申し込む」。<b>sumarse</b> は既にある流れに賛同して加わる含み。"},
+{w:"lograr ＋不定詞",say:"lograr",m:"〜し遂げる（≒ conseguir）",pos:"動詞",l:L1,
+ col:"<b>lograr un acuerdo / el objetivo / la victoria / el récord</b>。<b>lograr que ＋接続法</b>（Logró que le escucharan）。",
+ syn:"<b>conseguir</b> とほぼ同義だが <b>lograr</b> のほうがやや硬く、努力の末という含みが強い。<b>alcanzar</b> は目標や水準に「到達する」。<b>poder</b> は単なる可能で達成のニュアンスがない。"},
+{w:"albergar",say:"albergar",m:"（場所が）擁する、住まわせる",pos:"動詞",l:L1,
+ ex:"La biblioteca alberga más de un millón de libros.",exj:"その図書館は100万冊を超える蔵書を擁している。",
+ col:"物なら <b>albergar un museo / la sede / especies</b>、人なら <b>albergar a los refugiados</b>、感情なら <b>albergar esperanzas / dudas / temores</b>。",
+ syn:"<b>alojar</b> は人を泊める、<b>abrigar</b> は感情を抱く（文語）。<b>albergar</b> は場所が擁する意味と感情を抱く意味の両方に使えるのが強み。<b>tener</b> より格式が高い。"},
+{w:"a un ritmo alarmante",say:"a un ritmo alarmante",m:"憂慮すべき速さで",pos:"熟語",l:L1,
+ col:"<b>crecer / aumentar / disminuir / perder … a un ritmo</b> ＋ <b>alarmante / acelerado / vertiginoso / constante / lento</b>。",
+ syn:"<b>a una velocidad</b> はより物理的な速さ。<b>alarmante</b> は必ず否定的、<b>vertiginoso</b> は「めまいがするほど速い」で必ずしも否定的でない。"},
+{w:"sancionar a 人 con 罰",say:"sancionar a alguien con algo",m:"〜に…の処分を科す",pos:"動詞",l:L1,
+ ex:"El árbitro lo sancionó con una tarjeta roja.",exj:"主審は彼にレッドカードの処分を下した。",
+ col:"<b>sancionar con una multa / con la suspensión / con X partidos</b>。名詞形で <b>imponer una sanción</b>、<b>levantar las sanciones</b>（制裁を解除）。",
+ syn:"<b>castigar</b> はより一般的な「罰する」（親が子を、も可）。<b>multar</b> は罰金に限定。<b>penalizar</b> は不利益を課す・減点。<b>sancionar</b> は公的機関による処分。※ 法律の文脈では「裁可する」という正反対の意味にもなるので文脈で判断。"},
+{w:"el altercado",say:"el altercado",m:"口論、いさかい",pos:"男性名詞",l:L1,
+ col:"<b>tener / protagonizar un altercado</b>。<b>un altercado con la policía</b>、<b>entre aficionados</b>。<b>altercados violentos</b>。",
+ syn:"<b>la discusión</b> は言い争い（暴力なし）、<b>la pelea</b> は殴り合いを含む喧嘩、<b>la riña</b> は口語的な口喧嘩、<b>el enfrentamiento</b> はより大きな対立。<b>altercado</b> は口論から小競り合いの間で、報道向けの硬い語。"},
+{w:"desafiar",say:"desafiar",m:"逆らう、公然と挑む",pos:"動詞",l:L1,
+ col:"<b>desafiar la ley / la autoridad / las normas / la lógica / la gravedad</b>。対人では <b>desafiar a alguien a ＋不定詞</b>。",
+ syn:"<b>retar</b> は「挑戦状を出す」で対人的。<b>enfrentarse a</b> は立ち向かう。<b>desobedecer</b> は単に従わないだけで挑発の含みがない。<b>desafiar</b> は公然と、見せつけるように逆らう。"},
+{w:"desatar",say:"desatar",m:"引き起こす（元は「ほどく」）",pos:"動詞",l:L1,
+ ex:"La noticia desató una ola de críticas.",exj:"その報道は批判の波を引き起こした。",
+ col:"<b>desatar una polémica / una crisis / una ola de críticas / una guerra / el pánico</b>。再帰で <b>desatarse</b>（嵐や騒動が起きる）。",
+ syn:"<b>provocar</b> は中立的に引き起こす、<b>causar</b> は単なる因果、<b>generar</b> は穏当に生み出す。<b>desatar</b> は「せき止めていたものが一気に噴き出す」感じで、激しいものにしか使わない。"},
+
+{w:"la red",say:"la red",m:"網、（組織の）ネットワーク",pos:"女性名詞",l:L2,
+ ex:"La policía desarticuló una red de estafas telefónicas.",exj:"警察は電話詐欺の組織網を摘発した。",
+ col:"犯罪なら <b>una red de tráfico / de contrabando / de corrupción / de trata</b>、摘発は <b>desarticular / desmantelar una red</b>。日常では <b>la red de transporte</b>、<b>las redes sociales</b>。",
+ syn:"<b>la banda</b> は犯罪グループ（人の集団）、<b>la organización</b> は組織、<b>el entramado</b> は入り組んだ仕組み。<b>red</b> は「張り巡らされた網」で、広がりと結節点を含意する。"},
+{w:"atrapar",say:"atrapar",m:"捕らえる、つかまえる",pos:"動詞",l:L2,
+ col:"<b>atrapar a un sospechoso / al ladrón</b>。受動的に <b>quedar atrapado en / bajo</b>（閉じ込められる）。比喩で <b>atrapar la atención</b>。",
+ syn:"報道で「逮捕」なら <b>detener</b>（公的手続き）。<b>capturar</b> は硬く動物や逃亡者に。<b>coger / agarrar</b> は単に手に取る。<b>atrapar</b> は逃げるものを捕まえる語感で、やや口語寄り。"},
+{w:"el aspirante a",say:"el aspirante a",m:"〜志望者、〜の候補",pos:"男性名詞",l:L2,
+ col:"<b>aspirante a la presidencia / al título / a miembro / a un puesto</b>。動詞は <b>aspirar a</b>。",
+ syn:"<b>el candidato</b> は正式に立っている候補者、<b>el postulante</b> は応募者（硬い）、<b>el pretendiente</b> は求婚者や王位請求者。<b>aspirante</b> はまだ資格を得ていない志望段階。"},
+{w:"la fiscalía",say:"la fiscalía",m:"検察（当局）",pos:"女性名詞",l:L2,
+ col:"<b>según la fiscalía</b>（報道の定型）。<b>la fiscalía investiga / acusa / pide X años</b>。人は <b>el fiscal</b>、組織名は <b>la Fiscalía General</b>。",
+ syn:"<b>el juzgado / el tribunal</b> は裁判所、<b>la policía</b> は警察。スペイン語圏の報道では「捜査と起訴＝policía・fiscalía、判断＝juez・tribunal」と役割が明確に書き分けられる。"},
+{w:"el buque",say:"el buque",m:"船舶（大型の船）",pos:"男性名詞",l:L2,
+ col:"<b>buque de carga / de guerra / mercante / cisterna / portacontenedores</b>。<b>el tránsito de buques</b>。",
+ syn:"<b>el barco</b> が最も広く一般的な「船」。<b>la nave</b> は文語や宇宙船。<b>el bote / la lancha</b> は小舟。<b>buque</b> は大型船に限られ、報道や海運の語。"},
+{w:"atribuir A a B",say:"atribuir algo a algo",m:"AをBに帰する、Bのせいだとする",pos:"動詞",l:L2,
+ ex:"Los expertos atribuyen el retraso a la falta de personal.",exj:"専門家は、遅れを人手不足のせいだとしている。",
+ col:"<b>atribuir la culpa / el éxito / el retraso / la decisión a…</b>。受動的に <b>se le atribuye…</b>（〜のものとされる）。美術では <b>atribuir un cuadro a un pintor</b>。",
+ syn:"<b>achacar</b> は口語で「〜のせいにする」（否定的）。<b>culpar</b> は人を責める。<b>deberse a</b> は結果が主語になり「〜に起因する」。<b>atribuir</b> は比較的中立で客観的。"},
+{w:"la escasez",say:"la escasez",m:"不足、欠乏",pos:"女性名詞",l:L2,
+ ex:"Hay escasez de vivienda asequible en la capital.",exj:"首都では手ごろな住宅が不足している。",
+ col:"<b>escasez de agua / de lluvias / de personal / de vivienda / de recursos / de alimentos</b>。<b>ante la escasez de…</b>",
+ syn:"<b>la falta</b> はより一般的な「欠如」。<b>la carencia</b> は硬く、栄養素や要件の欠乏。<b>la penuria</b> は困窮。<b>escasez</b> は「あるべき量に届かない」で、資源や物資と結びつきやすい。"},
+{w:"en medio de",say:"en medio de",m:"〜の真っただ中で",pos:"前置詞句",l:L2,
+ ex:"En medio de la reunión, se fue la luz.",exj:"会議の最中に停電した。",
+ col:"<b>en medio de la crisis / del caos / de las protestas / de la nada / de la noche</b>。",
+ syn:"<b>durante</b> は単に期間を示すだけ。<b>entre</b> は2つのものの間。<b>en pleno ＋名詞</b>（en pleno invierno）はより口語的で「まさに最中」を強調。<b>en medio de</b> は混乱や騒ぎのただ中というニュアンスを持ちやすい。"},
+{w:"contrarreloj",say:"contrarreloj",m:"時間と競って",pos:"副詞的",l:L2,
+ col:"<b>trabajar / correr / negociar / reorganizarse contrarreloj</b>。名詞で <b>una carrera contrarreloj</b>（自転車のタイムトライアル）。",
+ syn:"<b>a toda prisa</b> は「大急ぎで」、<b>con urgencia</b> は「緊急に」。<b>contrarreloj</b> は締切という敵がはっきりしているときに使う。元は自転車競技の用語。"},
+{w:"acusar a 人 de 〜",say:"acusar a alguien de algo",m:"〜のかどで人を告発する",pos:"動詞",l:L2,
+ ex:"Lo acusaron de falsificar documentos.",exj:"彼は文書偽造のかどで告発された。",
+ col:"<b>acusar de corrupción / de plagio / de fraude</b>、動詞なら <b>acusar de ＋不定詞</b>。受動で <b>ser acusado de</b>。名詞は <b>las acusaciones</b>。",
+ syn:"<b>denunciar</b> は当局に通報・告発する。<b>culpar</b> は法的でなくても責任を負わせる。<b>imputar</b> は法律用語で「被疑者とする」。<b>acusar</b> は法廷でも日常でも使える最も広い語。"},
+{w:"el plagio",say:"el plagio",m:"盗用、剽窃",pos:"男性名詞",l:L2,
+ col:"<b>acusar de plagio</b>、<b>cometer plagio</b>、<b>un caso de plagio</b>。動詞は <b>plagiar</b>。",
+ syn:"<b>la copia</b> は単なる複製、<b>la falsificación</b> は偽造、<b>el fraude</b> は不正一般。<b>plagio</b> は著作物・研究の盗用に限定される。"},
+{w:"cada vez más",say:"cada vez más",m:"ますます（多くの）",pos:"熟語",l:L2,
+ ex:"Cada vez más jóvenes estudian español en Japón.",exj:"日本でスペイン語を学ぶ若者がますます増えている。",
+ col:"名詞にも形容詞にも動詞にも付く：<b>cada vez más turistas</b>／<b>cada vez más caro</b>／<b>se usa cada vez más</b>。反対は <b>cada vez menos</b>。",
+ syn:"<b>más y más</b> はより口語的・文学的。<b>progresivamente</b>、<b>de forma creciente</b> は硬い書き言葉。<b>cada día más</b> は日単位の強調。"},
+
+{w:"el estafador",say:"el estafador",m:"詐欺師（la estafa＝詐欺）",pos:"男性名詞",l:L3,
+ ex:"Un estafador se hizo pasar por empleado del banco.",exj:"詐欺師が銀行員になりすました。",
+ col:"<b>un estafador se hace pasar por…</b>（なりすます）、<b>caer en manos de un estafador</b>。名詞は <b>la estafa</b>、動詞は <b>estafar a alguien</b>。種類に <b>estafa piramidal</b>、<b>estafa romántica</b>。",
+ syn:"<b>el timador</b> はほぼ同義でやや口語。<b>el impostor</b> は身分を偽る者で金銭とは限らない。<b>el ladrón</b> は窃盗犯。<b>estafador</b> は信用させて金を取る手口を指す。"},
+{w:"seducir",say:"seducir",m:"たぶらかす、誘惑する",pos:"動詞",l:L3,
+ col:"<b>seducir a alguien</b>、<b>seducir con promesas / con su encanto</b>、<b>dejarse seducir por…</b>。物が主語でも使える（<b>La idea me seduce</b>）。",
+ syn:"<b>engañar</b> は欺瞞そのもの、<b>convencer</b> は理屈で説得、<b>cautivar</b> は良い意味で魅了する。<b>seducir</b> は魅力で相手の判断を曇らせる含みがあり、詐欺の文脈では「たぶらかす」に寄る。"},
+{w:"anular",say:"anular",m:"無効にする、取り消す",pos:"動詞",l:L3,
+ ex:"El tribunal anuló la multa por falta de pruebas.",exj:"裁判所は証拠不十分としてその罰金を取り消した。",
+ col:"<b>anular un contrato / una multa / una decisión / un partido / un gol / una prohibición</b>。<b>quedar anulado</b>。",
+ syn:"<b>cancelar</b> は予定を取り消す。<b>suspender</b> は一時停止・延期。<b>derogar</b> は法律を廃止する。<b>revocar</b> は上級機関が決定を覆す。<b>anular</b> は「はじめから無かったことにする」法的な無効化。"},
+{w:"dejar sin efecto",say:"dejar sin efecto",m:"効力を失わせる（≒ anular）",pos:"熟語",l:L3,
+ col:"<b>dejar sin efecto una medida / una resolución / una orden / un decreto</b>。",
+ syn:"意味は <b>anular</b> とほぼ同じだが、こちらは判決文・行政文書で好まれる硬い言い回し。「これから効かなくする」という手続き的な響きがあり、日常会話ではまず使わない。"},
+{w:"la medida",say:"la medida",m:"措置、対策",pos:"女性名詞",l:L3,
+ ex:"El gobierno anunció nuevas medidas contra la inflación.",exj:"政府はインフレ対策の新しい措置を発表した。",
+ col:"<b>tomar / adoptar / aplicar / anunciar medidas</b>（「対策を取る」は tomar medidas が定型）。<b>medidas de seguridad / de emergencia / cautelares</b>。別義で <b>a medida que…</b>（〜するにつれて）。",
+ syn:"<b>la política</b> は方針レベルの政策、<b>la ley</b> は法律、<b>la acción</b> は行動一般。<b>medida</b> は個別具体の施策。「寸法」の意味も持つので文脈に注意。"},
+{w:"permanecer",say:"permanecer",m:"とどまる、〜のままである",pos:"動詞",l:L3,
+ ex:"Permanecí callado durante toda la reunión.",exj:"会議のあいだ、私は黙ったままでいた。",
+ col:"<b>permanecer en / permanecer callado / oculto / cerrado / en silencio / con vida / atento</b>。",
+ syn:"<b>quedarse</b> は口語で同義。<b>seguir ＋現在分詞・形容詞</b> は「〜し続ける」。<b>estar</b> は単なる状態。<b>permanecer</b> は硬い書き言葉で、報道文が好む。"},
+{w:"la ladera",say:"la ladera",m:"山腹、斜面",pos:"女性名詞",l:L3,
+ col:"<b>la ladera de la montaña / del volcán</b>、<b>en la ladera norte / sur</b>、<b>bajar por la ladera</b>。",
+ syn:"<b>la falda</b> は山裾、<b>la cuesta</b> は坂道（道路）、<b>la pendiente</b> は勾配（数値的）、<b>la cima</b> は頂上。<b>ladera</b> は山の側面そのもの。"},
+{w:"el arancel",say:"el arancel",m:"関税",pos:"男性名詞",l:L3,
+ col:"<b>imponer / aplicar / elevar / eliminar aranceles</b>。<b>aranceles sobre las importaciones</b>、<b>una guerra arancelaria</b>。",
+ syn:"<b>el impuesto</b> は税一般、<b>la tasa</b> は手数料・料率、<b>el gravamen</b> は硬く「課税」。<b>arancel</b> は輸入品にかかる関税に限定され、通商記事の必須語。"},
+{w:"entrar en vigor",say:"entrar en vigor",m:"（法や措置が）発効する",pos:"熟語",l:L3,
+ ex:"La nueva ley entra en vigor el 1 de enero.",exj:"新しい法律は1月1日に発効する。",
+ col:"主語は <b>la ley / el acuerdo / la medida / el decreto</b>。<b>entrar en vigor el ＋日付</b>。状態は <b>estar en vigor</b>（有効である）。",
+ syn:"手続きの順番で覚えると混ざらない。<b>aprobar</b>（可決）→ <b>promulgar</b>（公布）→ <b>entrar en vigor</b>（発効）→ <b>aplicarse</b>（適用）。可決と発効は別の日であることが多い。"},
+{w:"reclamar",say:"reclamar",m:"要求する、返還を求める",pos:"動詞",l:L3,
+ ex:"Los vecinos reclaman una solución al ayuntamiento.",exj:"住民たちは市役所に解決を求めている。",
+ col:"<b>reclamar el pago / una solución / justicia / la devolución / indemnizaciones</b>。相手は <b>reclamar algo a alguien</b>。名詞は <b>la reclamación</b>。",
+ syn:"強さの順に並べると <b>pedir</b>（頼む）＜ <b>solicitar</b>（正式に申請）＜ <b>reclamar</b>（権利として求める）＜ <b>exigir</b>（拒否を許さず要求）。<b>demandar</b> は法的に訴える。"},
+{w:"exigir que ＋接続法",say:"exigir que",m:"〜するよう要求する",pos:"動詞",l:L3,
+ col:"<b>exigir responsabilidades / explicaciones / el cumplimiento / la dimisión</b>。人に向けるなら <b>exigir a alguien que ＋接続法</b>。",
+ syn:"<b>reclamar</b> より強く、拒否の余地を与えない。<b>requerir</b> は「必要とする」の意味も併せ持つ。que 節を取るときは必ず接続法（exigir que paguen、exigir que pagan は誤り）。"},
+{w:"la encuesta",say:"la encuesta",m:"アンケート、世論調査",pos:"女性名詞",l:L3,
+ col:"<b>realizar / hacer una encuesta</b>、<b>según una encuesta</b>、<b>una encuesta a 1.000 personas</b>、<b>las encuestas electorales</b>。",
+ syn:"<b>el sondeo</b> は世論の探り（特に選挙予測）。<b>el estudio</b> は研究、<b>la entrevista</b> は個別の聞き取り、<b>el censo</b> は全数調査。<b>encuesta</b> は設問に答えてもらう調査そのもの。"}
+];
+
+var HEADS=[
+{t:"Por qué el estado de la economía de EE.UU. está disparando las alarmas en todo el mundo",j:"米国の債務が節目に達し、世界最大の経済をどこまで心配すべきかを問う",u:"https://www.bbc.com/mundo/articles/cg5lrejv18yo",l:L1},
+{t:"Cuál es la situación del hambre en América Latina",j:"ドミニカ共和国が国連の基準で「飢餓ゼロ」を達成",u:"https://www.bbc.com/mundo/articles/c77g1jd322no",l:L1},
+{t:"Australia alberga algunas de las especies más singulares del mundo, pero las está perdiendo a un ritmo alarmante.",j:"オーストラリアは世界でも独特な種を擁しているが、憂慮すべき速さでそれらを失いつつある。",u:"https://www.bbc.com/mundo/articles/ckg3j4r6l07o",l:L1},
+{t:"La FIFA sanciona con 10 partidos al argentino Leandro Paredes por el altercado tras la final del Mundial",j:"W杯決勝後の悶着で10試合の出場停止",u:"https://www.bbc.com/mundo/articles/cz7d4g3r514o",l:L1},
+{t:"Israel desafía la condena internacional y permite el regreso de colonos a un asentamiento en Cisjordania",j:"20年前に撤去された入植地への帰還を容認",u:"https://www.bbc.com/mundo/articles/cn9n07p35yno",l:L1},
+{t:"El arresto del asesor desata un escándalo de alcance regional.",j:"その顧問の逮捕が、地域規模の醜聞を引き起こしている。",u:"https://www.bbc.com/mundo/articles/clyx45xkzzyo",l:L1},
+{t:"La red de tráfico de cocaína que dirigían los alumnos de una de las universidades más conocidas de EE.UU.",j:"米名門大の学生が運営していたコカイン密売網",u:"https://www.bbc.com/mundo/articles/c8dnv832zqvo",l:L2},
+{t:"El Canal de Panamá reducirá el tránsito de buques por los efectos de El Niño",j:"雨不足でパナマ運河が船舶の通航数を削減",u:"https://www.bbc.com/mundo/articles/c3r0gzdwqqno",l:L2},
+{t:"El operador atribuye la decisión a la escasez de lluvias provocada por el fenómeno de El Niño.",j:"運営者はその決定を、エルニーニョ現象による雨不足のせいだとしている。",u:"https://www.bbc.com/mundo/articles/c3r0gzdwqqno",l:L2},
+{t:"Suspenden al académico que acusó de plagio al profesor de la Universidad de Cambridge",j:"盗用を告発した研究者が停職に",u:"https://www.bbc.com/mundo/articles/ce859yel4lzo",l:L2},
+{t:"Por qué cada vez más turistas disfrutan visitando supermercados durante sus vacaciones",j:"旅先のスーパーが人気の体験に",u:"https://www.bbc.com/mundo/articles/cz64vg562gvo",l:L2},
+{t:"Qué descubrí cuando viajé de España a Nigeria para enfrentar al estafador que sedujo a mi madre",j:"母を騙したロマンス詐欺師に会いに渡航した娘の記録",u:"https://www.bbc.com/mundo/articles/cj9dxw4wxwyo",l:L3},
+{t:"Una jueza anula la prohibición de visados de EE.UU. a ciudadanos de 75 países",j:"連邦判事がビザ禁止措置を連邦法違反として無効に",u:"https://www.bbc.com/mundo/articles/cp3r3nn6nnxo",l:L3},
+{t:"La jueza federal dejó sin efecto la medida al considerar que era contraria a la ley federal.",j:"連邦判事は、連邦法に反するとしてその措置を無効とした。",u:"https://www.bbc.com/mundo/articles/cp3r3nn6nnxo",l:L3},
+{t:"Los esfuerzos por recuperar el cuerpo de un escalador congelado en el Everest desde hace 30 años",j:"エベレストに30年残る遺体を収容する試み",u:"https://www.bbc.com/mundo/articles/c62v4p573p5o",l:L3},
+{t:"Canadá igualará los aranceles estadounidenses dólar por dólar tras la ruptura de las negociaciones",j:"通商交渉決裂。カナダが同額で対抗",u:"https://www.bbc.com/mundo/articles/cpd7dvg6jepo",l:L3},
+{t:"Ghana se ha convertido en la principal voz de África en exigir que las naciones occidentales paguen reparaciones.",j:"ガーナは、西洋諸国が賠償を支払うよう求めるアフリカの主導的な声となった。",u:"https://www.bbc.com/mundo/articles/cm2grpxne10o",l:L3},
+{t:"Una encuesta con esta pregunta desató un acalorado debate en las redes sociales.",j:"この問いを使ったアンケートが、SNSで白熱した論争を引き起こした。",u:"https://www.bbc.com/mundo/articles/c330k1j7nn5o",l:L3}
+];
+
+var LEADS=[
+{t:"Estados Unidos alcanzó un hito importante en su nivel de deuda esta semana, pero ¿hasta qué punto deberíamos preocuparnos por la mayor economía del mundo?",j:"米国は今週、債務の水準で大きな節目に達した。だが、世界最大の経済をどこまで心配すべきなのか。",u:"https://www.bbc.com/mundo/articles/cg5lrejv18yo",l:L1},
+{t:"La nación caribeña se sumó a la lista de países que consiguieron salir del mapa mundial del hambre, según Naciones Unidas.",j:"国連によれば、そのカリブの国は、世界の飢餓地図から抜け出せた国々の列に加わった。",u:"https://www.bbc.com/mundo/articles/c77g1jd322no",l:L1},
+{t:"Australia alberga algunas de las especies más singulares del mundo, pero las está perdiendo a un ritmo alarmante.",j:"オーストラリアは世界でも独特な種を擁しているが、憂慮すべき速さでそれらを失いつつある。",u:"https://www.bbc.com/mundo/articles/ckg3j4r6l07o",l:L1},
+{t:"La FIFA sancionó al centrocampista argentino Leandro Paredes con 10 partidos de suspensión, mientras que a su compañero de equipo Nahuel Molina estará suspendido por siete partidos.",j:"FIFAはアルゼンチンのMFレアンドロ・パレデスに10試合の出場停止を科した。一方、チームメイトのナウエル・モリーナは7試合の停止となる。",u:"https://www.bbc.com/mundo/articles/cz7d4g3r514o",l:L1},
+{t:"Los enfrentamientos entre colonos y habitantes de los territorios palestinos continúan en varios lugares de Cisjordania.",j:"入植者とパレスチナ地区の住民との衝突が、ヨルダン川西岸の各地で続いている。",u:"https://www.bbc.com/mundo/articles/cn9n07p35yno",l:L1},
+{t:"El arresto del hombre que colaboró en las campañas de los actuales presidentes de Argentina, Bolivia y Honduras desata un escándalo de alcance regional.",j:"アルゼンチン、ボリビア、ホンジュラスの現大統領の選挙運動に関わった男の逮捕が、地域規模の醜聞を引き起こしている。",u:"https://www.bbc.com/mundo/articles/clyx45xkzzyo",l:L1},
+{t:"Como parte del rito de iniciación, los aspirantes a miembros de una fraternidad eran obligados a empaquetar la droga, según la fiscalía.",j:"検察によれば、入会の儀式の一環として、フラタニティの入会志望者は薬物の梱包を強いられていた。",u:"https://www.bbc.com/mundo/articles/c8dnv832zqvo",l:L2},
+{t:"El operador de esta vía fluvial crucial atribuye la decisión a la escasez de lluvias provocada por el fenómeno de El Niño.",j:"この重要な水路の運営者は、その決定をエルニーニョ現象による雨不足のせいだとしている。",u:"https://www.bbc.com/mundo/articles/c3r0gzdwqqno",l:L2},
+{t:"En medio del caos, el personal del Hospital Universitario del Valle reaccionó con rapidez y vocación, salvando vidas y reorganizándose contrarreloj.",j:"混乱のただ中で、バジェ大学病院の職員は迅速に、使命感をもって動き、命を救い、時間と競って態勢を組み直した。",u:"https://www.bbc.com/mundo/articles/c8en3n78x5go",l:L2},
+{t:"Nathan Cofnas afirma que está siendo investigado por discriminar al fallecido profesor de Cambridge.",j:"ネイサン・コフナス氏は、亡くなったケンブリッジの教授を差別したとして調査を受けているところだと主張している。",u:"https://www.bbc.com/mundo/articles/ce859yel4lzo",l:L2},
+{t:"Desde los sándwiches de huevo de Tokio hasta los productos lácteos en Grecia, los pasillos de los supermercados se están convirtiendo en una de las experiencias de viaje más reveladoras y apreciadas.",j:"東京の卵サンドからギリシャの乳製品まで、スーパーの通路は、旅の体験のうちで最も発見に富み、愛されるものの一つになりつつある。",u:"https://www.bbc.com/mundo/articles/cz64vg562gvo",l:L2},
+{t:"Silvia se enamoró de quien creía que era un militar estadounidense que conoció online, pero que en verdad era un estafador de Nigeria.",j:"シルビアは、ネットで知り合った米軍人だと信じていた相手に恋をしたが、実際はナイジェリアの詐欺師だった。",u:"https://www.bbc.com/mundo/articles/cj9dxw4wxwyo",l:L3},
+{t:"La jueza federal Jeannette Vargas dejó sin efecto la medida al considerar que era contraria a la ley federal.",j:"連邦判事ジャネット・バルガスは、連邦法に反するとして、その措置を無効とした。",u:"https://www.bbc.com/mundo/articles/cp3r3nn6nnxo",l:L3},
+{t:"Durante 30 años, un cadáver conocido como «Botas Verdes» ha permanecido en la ladera del Monte Everest.",j:"30年のあいだ、「緑のブーツ」として知られる遺体がエベレストの斜面にとどまり続けてきた。",u:"https://www.bbc.com/mundo/articles/c62v4p573p5o",l:L3},
+{t:"Un nuevo arancel del 50% sobre importaciones canadienses por valor de 20.000 millones de dólares entra en vigor tras el fracaso de última hora de las negociaciones comerciales.",j:"200億ドル相当のカナダからの輸入品に対する50%の新関税が、土壇場での通商交渉の決裂を受けて発効する。",u:"https://www.bbc.com/mundo/articles/cpd7dvg6jepo",l:L3},
+{t:"Ghana se ha convertido en la principal voz de África en exigir que las naciones occidentales paguen reparaciones.",j:"ガーナは、西洋諸国が賠償を支払うよう求めるアフリカの主導的な声となった。",u:"https://www.bbc.com/mundo/articles/cm2grpxne10o",l:L3},
+{t:"Una encuesta con esta pregunta desató un acalorado debate en las redes sociales. Pero muchos economistas vieron en las respuestas la confirmación de varias teorías económicas.",j:"この問いを使ったアンケートが、SNSで白熱した論争を引き起こした。だが多くの経済学者は、その回答にいくつかの経済理論の裏づけを見た。",u:"https://www.bbc.com/mundo/articles/c330k1j7nn5o",l:L3}
+];
+
+var GRAMMAR=[
+{title:"目的格代名詞の位置",from:L1+" の教材より",
+ lead:"<b>las está perdiendo</b> と <b>está perdiéndolas</b> は同じ意味。代名詞は活用した動詞の前が原則だが、現在分詞・不定詞・肯定命令のときだけ後ろにくっつけてもよい。",
+ quote:{t:"Australia alberga algunas de las especies más singulares del mundo, pero las está perdiendo a un ritmo alarmante.",j:"オーストラリアは世界でも独特な種を擁しているが、憂慮すべき速さでそれらを失いつつある。"},
+ table:{h:["形","例","備考"],r:[
+  ["動詞の前","<span class='es'>las</span> está perdiendo","報道文はこちらが多い"],
+  ["後ろにくっつける","está perdiéndo<span class='es'>las</span>","<b>アクセント記号が要る</b>"],
+  ["不定詞","<span class='es'>la</span> quiero ver ／ quiero ver<span class='es'>la</span>","「彼女に会いたい」"],
+  ["肯定命令","dí<span class='es'>melo</span>","くっつけるのみ"],
+  ["否定命令","<span class='es'>no me lo</span> digas","前だけ。✗ no digasmelo"]]},
+ key:"くっつけられるのは、動詞が活用していない形（現在分詞・不定詞）と肯定命令のときだけ。"},
+{title:"「誰がやったか」を言わない4つの型",from:L2+" の教材より",
+ lead:"日本語の「〜された」に当たるものが、スペイン語では型ごとに分かれている。報道文の背骨。",
+ quote:{t:"Nathan Cofnas afirma que está siendo investigado por discriminar al fallecido profesor.",j:"コフナス氏は、亡くなった教授を差別したとして調査を受けているところだと主張している。"},
+ table:{h:["型","例","使いどころ"],r:[
+  ["ser ＋ 過去分詞","los aspirantes <b>eran obligados a</b> empaquetar la droga","書き言葉的。主語に性数一致"],
+  ["過去分詞＋por","la escasez de lluvias <b>provocada por</b> El Niño","<b>provocada</b> は escasez に一致"],
+  ["3人称複数（無人称）","<b>Suspenden</b> al académico","いちばん普通。最頻出"],
+  ["se ＋ 3人称","Aquí <b>se habla</b> español.","一般的な事実・掲示・規則"],
+  ["estar siendo ＋ 過去分詞","<b>está siendo investigado</b>","進行中の受け身"]]},
+ key:"日常なら3人称複数、報道の書き言葉なら ser ＋ 過去分詞、掲示や一般論なら se。"},
+{title:"接続法の入口",from:L3+" の教材より",
+ lead:"「要求・依頼・願望・必要」を表す動詞 ＋ que ＋ 接続法。que の前後で主語が変わるとき。作り方は母音の入れ替えだけ。<b>-ar は e、-er と -ir は a。</b>",
+ quote:{t:"Ghana se ha convertido en la principal voz de África en exigir que las naciones occidentales paguen reparaciones.",j:"ガーナは、西洋諸国が賠償を支払うよう求めるアフリカの主導的な声となった。"},
+ table:{h:["不定詞","直説法（ellos）","接続法（ellos）"],r:[
+  ["pag<b>ar</b>","pag<b>an</b>","pag<b>uen</b>"],
+  ["habl<b>ar</b>","habl<b>an</b>","habl<b>en</b>"],
+  ["com<b>er</b>","com<b>en</b>","com<b>an</b>"],
+  ["viv<b>ir</b>","viv<b>en</b>","viv<b>an</b>"]],es:true},
+ key:"事実を述べるなら直説法（Sé que pagas）、まだ起きていないことを求めるなら接続法（Exijo que pagues）。引き金は exigir／pedir／querer／esperar／necesitar。"}
+];
+
+/* ============ 基盤 ============ */
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+var store={get:function(k,d){try{var v=localStorage.getItem("vyl_"+k);return v===null?d:v}catch(e){return d}},
+           set:function(k,v){try{localStorage.setItem("vyl_"+k,v)}catch(e){}}};
+var voices=[], voice=null, rate=parseFloat(store.get("rate","0.85"))||0.85, queue=[], qi=-1, activeBtn=null;
+var synth=window.speechSynthesis||null;
+
+function pickVoices(){
+  var all=[]; if(synth){try{all=synth.getVoices()||[]}catch(e){}}
+  voices=all.filter(function(v){return (v.lang||"").toLowerCase().indexOf("es")===0});
+  var sel=document.getElementById("voiceSel"), bar=document.getElementById("voicebar"), warn=document.getElementById("novoice");
+  if(!voices.length){bar.classList.add("hidden");warn.classList.remove("hidden");return}
+  bar.classList.remove("hidden");warn.classList.add("hidden");
+  sel.innerHTML="";var saved=store.get("voice","");
+  voices.forEach(function(v,i){var o=document.createElement("option");o.value=i;o.textContent=v.name+"（"+v.lang+"）";
+    sel.appendChild(o); if(v.name===saved) sel.value=i;});
+  voice=voices[parseInt(sel.value,10)]||voices[0];
+}
+if(synth){pickVoices();
+  if(typeof synth.addEventListener==="function")synth.addEventListener("voiceschanged",pickVoices);else synth.onvoiceschanged=pickVoices;
+  setTimeout(pickVoices,700);}else{pickVoices()}
+
+function clearActive(){if(activeBtn){activeBtn.classList.remove("on");activeBtn=null}
+  var on=document.querySelector(".line.on");if(on)on.classList.remove("on")}
+function stopAll(){queue=[];qi=-1;if(synth){try{synth.cancel()}catch(e){}}clearActive()}
+function speak(text,btn,after){
+  if(!synth||!text){if(after)after();return}
+  try{synth.cancel()}catch(e){}
+  clearActive();
+  var u=new SpeechSynthesisUtterance(text);
+  if(voice){u.voice=voice;u.lang=voice.lang}else{u.lang="es-ES"}
+  u.rate=rate;
+  if(btn){btn.classList.add("on");activeBtn=btn;var r=btn.closest(".line");if(r)r.classList.add("on")}
+  u.onend=function(){clearActive();if(after)after()};
+  u.onerror=function(){clearActive();if(after)after()};
+  try{synth.speak(u)}catch(e){clearActive();if(after)after()}
+}
+function playQueue(){qi++;if(qi>=queue.length){queue=[];qi=-1;return}speak(queue[qi].text,queue[qi].btn,playQueue)}
+var SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7 1 1 0 0 0 1.4 1.4 7 7 0 0 0 0-9.8 1 1 0 1 0-1.4 1.4z"/></svg>';
+function sayBtn(text,label){
+  var b=document.createElement("button");b.className="say";b.type="button";
+  b.setAttribute("aria-label",(label||text)+" を読み上げる");b.innerHTML=SPK;
+  b.addEventListener("click",function(ev){ev.stopPropagation();queue=[];qi=-1;speak(text,b)});
+  return b;
+}
+document.getElementById("rateSel").value=String(rate);
+document.getElementById("rateSel").addEventListener("change",function(e){rate=parseFloat(e.target.value);store.set("rate",e.target.value)});
+document.getElementById("voiceSel").addEventListener("change",function(e){voice=voices[parseInt(e.target.value,10)]||null;if(voice)store.set("voice",voice.name)});
+
+var panes=["quiz","voice","vocab","grammar"];
+document.querySelectorAll(".tab").forEach(function(t){
+  t.addEventListener("click",function(){
+    stopAll(); stopRec(); drillStop();
+    document.querySelectorAll(".tab").forEach(function(x){x.setAttribute("aria-selected",x===t?"true":"false")});
+    panes.forEach(function(p){document.getElementById("pane-"+p).classList.toggle("hidden",p!==t.dataset.pane)});
+    window.scrollTo(0,0); store.set("tab",t.dataset.pane);
+  });
+});
+
+/* ============ クイズ ============ */
+var dir=store.get("dir","ja2es"), deck=[], di=0, score=0, missed=[], pool=null;
+function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t}return b}
+function buildDeck(src){
+  var s=shuffle(src||VOCAB);
+  deck=s.slice(0,Math.min(10,s.length)).map(function(it){
+    return {item:it, choices:shuffle(shuffle(VOCAB.filter(function(v){return v!==it})).slice(0,3).concat([it]))};
+  });
+  di=0;score=0;missed=[];
+  document.getElementById("quizResult").classList.add("hidden");
+  document.getElementById("quizPlay").classList.remove("hidden");
+  renderQ();
+}
+function renderQ(){
+  var q=deck[di], it=q.item;
+  document.getElementById("qCount").textContent=(di+1)+" / "+deck.length;
+  document.getElementById("qScore").textContent="正解 "+score;
+  document.getElementById("qMeter").style.width=(di/deck.length*100)+"%";
+  var w=document.getElementById("qWord");
+  document.getElementById("qLabel").textContent = dir==="ja2es"?"この意味のスペイン語は？":"この語の意味は？";
+  w.textContent = dir==="ja2es"? it.m : it.w;
+  w.classList.toggle("es", dir!=="ja2es");
+  document.getElementById("qPos").textContent=it.pos+" ・ "+it.l;
+  var box=document.getElementById("qOpts"); box.innerHTML="";
+  q.choices.forEach(function(c,i){
+    var b=document.createElement("button");b.type="button";b.className="opt"+(dir==="ja2es"?" es-opt":"");
+    var k=document.createElement("span");k.className="k";k.textContent=String(i+1);
+    var s=document.createElement("span");s.textContent = dir==="ja2es"? c.w : c.m;
+    b.appendChild(k);b.appendChild(s);
+    b.addEventListener("click",function(){answer(b,c,q)});
+    box.appendChild(b);
+  });
+  document.getElementById("qVerdict").classList.add("hidden");
+  document.getElementById("qNext").classList.add("hidden");
+}
+function answer(btn,choice,q){
+  var opts=document.getElementById("qOpts").querySelectorAll(".opt");
+  opts.forEach(function(o){o.disabled=true});
+  if(choice===q.item){score++;btn.classList.add("correct")}
+  else{btn.classList.add("wrong");missed.push(q.item);
+    opts.forEach(function(o,i){if(q.choices[i]===q.item)o.classList.add("correct")})}
+  document.getElementById("qScore").textContent="正解 "+score;
+  var v=document.getElementById("qVerdict"); v.innerHTML="";
+  var t=document.createElement("div");
+  t.innerHTML="<span class='es'>"+esc(q.item.w)+"</span> ── "+esc(q.item.m)+
+    (q.item.ex?"<div style='margin-top:6px;font-size:13.5px' class='es'>"+esc(q.item.ex)+"</div>":"")+
+    "<div class='col'>"+q.item.col+"</div>";
+  v.appendChild(sayBtn(q.item.ex||q.item.say,q.item.w)); v.appendChild(t);
+  v.classList.remove("hidden");
+  speak(q.item.say,null);
+  var n=document.getElementById("qNext");
+  n.textContent=(di===deck.length-1)?"結果を見る":"次へ";
+  n.classList.remove("hidden");
+}
+document.getElementById("qNext").addEventListener("click",function(){
+  stopAll(); if(di===deck.length-1){showResult()}else{di++;renderQ()}
+});
+function showResult(){
+  document.getElementById("quizPlay").classList.add("hidden");
+  var r=document.getElementById("quizResult"); r.classList.remove("hidden");
+  document.getElementById("rScore").textContent=score;
+  r.querySelector(".score small").textContent=" / "+deck.length;
+  document.getElementById("rMsg").textContent = score===deck.length?"全問正解。次の教材へ進んで大丈夫です。"
+    : score>=deck.length*0.7?"よく入っています。落とした語だけ拾い直しましょう。"
+    : "まだ馴染んでいません。語彙タブでコロケーションごと音読すると定着します。";
+  var box=document.getElementById("rMissed"); box.innerHTML="";
+  var uniq=[]; missed.forEach(function(m){if(uniq.indexOf(m)<0)uniq.push(m)});
+  uniq.forEach(function(m){var d=document.createElement("div");
+    d.innerHTML="<span class='es'>"+esc(m.w)+"</span> ── "+esc(m.m);box.appendChild(d)});
+  box.classList.toggle("hidden",!uniq.length);
+  document.getElementById("rRetryMissed").disabled=!uniq.length;
+  pool=uniq.length?uniq:null;
+}
+document.getElementById("rAgain").addEventListener("click",function(){buildDeck(VOCAB)});
+document.getElementById("rRetryMissed").addEventListener("click",function(){if(pool)buildDeck(pool)});
+document.getElementById("dirRow").addEventListener("click",function(e){
+  var b=e.target.closest("button[data-dir]"); if(!b)return;
+  dir=b.dataset.dir; store.set("dir",dir);
+  document.querySelectorAll("#dirRow .btn").forEach(function(x){x.classList.toggle("on",x===b)});
+  buildDeck(VOCAB);
+});
+document.querySelectorAll("#dirRow .btn").forEach(function(x){x.classList.toggle("on",x.dataset.dir===dir)});
+
+/* ============ 音読：一覧 ============ */
+function makeLine(text,ja,note,url,lesson){
+  var row=document.createElement("div");row.className="line";
+  row.appendChild(sayBtn(text));
+  var body=document.createElement("div");body.className="line-body";
+  var t=document.createElement("p");t.className="t";t.textContent=text;body.appendChild(t);
+  var j=document.createElement("p");j.className="j ja";j.textContent=ja;body.appendChild(j);
+  if(note){var n=document.createElement("p");n.className="src";n.textContent=note;body.appendChild(n)}
+  if(url){var n2=document.createElement("p");n2.className="src";
+    n2.innerHTML=esc(lesson)+" ・ <a href='"+esc(url)+"' target='_blank' rel='noopener'>BBC で読む</a>";body.appendChild(n2)}
+  row.appendChild(body); row.dataset.say=text; return row;
+}
+function buildListen(){
+  var host=document.getElementById("listenBody"); host.innerHTML="";
+  var exs=VOCAB.filter(function(v){return v.ex});
+  var h1=document.createElement("p");h1.className="group-h";h1.textContent="用例文（自作）・"+exs.length+"文";host.appendChild(h1);
+  var c1=document.createElement("div");c1.className="card";host.appendChild(c1);
+  exs.forEach(function(v){c1.appendChild(makeLine(v.ex,v.exj,v.w+" ・ "+v.l))});
+  var h2=document.createElement("p");h2.className="group-h";h2.textContent="BBC Mundo のリード文・"+LEADS.length+"本";host.appendChild(h2);
+  var c2=document.createElement("div");c2.className="card";host.appendChild(c2);
+  LEADS.forEach(function(h){c2.appendChild(makeLine(h.t,h.j,null,h.u,h.l))});
+  var h3=document.createElement("p");h3.className="group-h";h3.textContent="見出しほか・"+HEADS.length+"本";host.appendChild(h3);
+  var c3=document.createElement("div");c3.className="card";host.appendChild(c3);
+  HEADS.forEach(function(h){c3.appendChild(makeLine(h.t,h.j,null,h.u,h.l))});
+}
+document.getElementById("playAll").addEventListener("click",function(){
+  stopAll();
+  var rows=document.querySelectorAll("#listenBody .card:first-of-type .line");
+  queue=[];qi=-1;
+  Array.prototype.forEach.call(rows,function(r){queue.push({text:r.dataset.say,btn:r.querySelector(".say")})});
+  playQueue();
+});
+document.getElementById("stopAll").addEventListener("click",stopAll);
+var jaHidden=false;
+document.getElementById("toggleJa").addEventListener("click",function(){
+  jaHidden=!jaHidden;
+  document.querySelectorAll("#listenBody .ja").forEach(function(e){e.classList.toggle("hidden",jaHidden)});
+  this.textContent=jaHidden?"訳を出す":"訳を隠す";
+});
+
+/* ============ 音読：シャドウイング ============ */
+var shSrc="ex", shIdx=0, shJaHidden=false, rec=null, recording=false;
+var pasteSents=[];
+function shList(){
+  if(shSrc==="ex") return VOCAB.filter(function(v){return v.ex}).map(function(v){return {t:v.ex,j:v.exj,tag:v.w,l:v.l}});
+  if(shSrc==="lead") return LEADS.map(function(h){return {t:h.t,j:h.j,tag:"BBC Mundo",l:h.l,u:h.u}});
+  return pasteSents.length? pasteSents.map(function(t,i){return {t:t,j:"",tag:"貼り付けた文章",l:"第"+(i+1)+"文"}})
+                          : [{t:"（貼り付けタブで文章を入れてください）",j:"",tag:"貼り付け",l:"—"}];
+}
+function shRender(){
+  var list=shList(); if(shIdx>=list.length)shIdx=0; if(shIdx<0)shIdx=list.length-1;
+  var it=list[shIdx];
+  document.getElementById("shCount").textContent=(shIdx+1)+" / "+list.length;
+  document.getElementById("shTag").textContent=it.l;
+  document.getElementById("shText").textContent=it.t;
+  var ja=document.getElementById("shJa"); ja.textContent=it.j; ja.classList.toggle("hidden",shJaHidden);
+  var src=document.getElementById("shSrc2");
+  src.innerHTML = it.u ? "<a href='"+esc(it.u)+"' target='_blank' rel='noopener'>BBC で読む</a>" : esc(it.tag);
+  document.getElementById("shHeard").classList.add("hidden");
+}
+document.getElementById("voiceSeg").addEventListener("click",function(e){
+  var b=e.target.closest("b[data-mode]"); if(!b)return;
+  stopAll(); stopRec();
+  this.querySelectorAll("b").forEach(function(x){x.classList.toggle("on",x===b)});
+  document.getElementById("modeList").classList.toggle("hidden",b.dataset.mode!=="list");
+  document.getElementById("modeShadow").classList.toggle("hidden",b.dataset.mode!=="shadow");
+  document.getElementById("modePaste").classList.toggle("hidden",b.dataset.mode!=="paste");
+});
+document.getElementById("shSrc").addEventListener("click",function(e){
+  var b=e.target.closest("b[data-src]"); if(!b)return;
+  this.querySelectorAll("b").forEach(function(x){x.classList.toggle("on",x===b)});
+  shSrc=b.dataset.src; shIdx=0; drillStop(); shRender();
+});
+document.getElementById("shPlay").addEventListener("click",function(){stopAll();speak(shList()[shIdx].t,null)});
+document.getElementById("shLoop").addEventListener("click",function(){
+  stopAll(); var t=shList()[shIdx].t; queue=[{text:t},{text:t},{text:t}]; qi=-1; playQueue();
+});
+document.getElementById("shJaBtn").addEventListener("click",function(){
+  shJaHidden=!shJaHidden;
+  document.getElementById("shJa").classList.toggle("hidden",shJaHidden);
+  this.textContent=shJaHidden?"訳を出す":"訳を隠す";
+});
+document.getElementById("shPrev").addEventListener("click",function(){drillStop();shIdx--;shRender()});
+document.getElementById("shNext").addEventListener("click",function(){drillStop();shIdx++;shRender()});
+
+/* 反復ドリル（マイク不要） */
+var drill={on:false,timer:null,raf:null};
+function drillStop(){
+  drill.on=false;
+  if(drill.timer){clearTimeout(drill.timer);drill.timer=null}
+  if(drill.raf){cancelAnimationFrame(drill.raf);drill.raf=null}
+  stopAll();
+  document.getElementById("drillBox").classList.add("hidden");
+  document.getElementById("shDrill").textContent="◉ 練習を始める";
+  document.getElementById("shDrill").classList.remove("on");
+}
+function drillBar(ms,you,done){
+  var box=document.getElementById("drillMeter"), bar=box.querySelector("i");
+  box.classList.toggle("you",!!you);
+  var t0=null;
+  function step(ts){
+    if(!drill.on)return;
+    if(t0===null)t0=ts;
+    var k=Math.min(1,(ts-t0)/ms);
+    bar.style.width=(100-k*100)+"%";
+    if(k<1){drill.raf=requestAnimationFrame(step)}else{bar.style.width="0%";done()}
+  }
+  bar.style.width="100%";
+  drill.raf=requestAnimationFrame(step);
+}
+function drillRun(){
+  if(!drill.on)return;
+  var list=shList(); if(shIdx>=list.length){drillStop();return}
+  shRender();
+  document.getElementById("drillPos").textContent=(shIdx+1)+" / "+list.length;
+  var text=list[shIdx].t, gap=parseFloat(document.getElementById("shGap").value)||1.3;
+  var t0=Date.now();
+  document.getElementById("drillLab").textContent="聞く";
+  document.getElementById("drillMeter").classList.remove("you");
+  document.getElementById("drillMeter").querySelector("i").style.width="100%";
+  speak(text,null,function(){
+    if(!drill.on)return;
+    var dur=Math.max(1200,(Date.now()-t0))*gap;
+    document.getElementById("drillLab").textContent="あなたの番";
+    drillBar(dur,true,function(){
+      if(!drill.on)return;
+      document.getElementById("drillLab").textContent="もう一度聞く";
+      var t1=Date.now();
+      speak(text,null,function(){
+        if(!drill.on)return;
+        document.getElementById("drillLab").textContent="次の文へ";
+        drill.timer=setTimeout(function(){
+          if(!drill.on)return;
+          shIdx++; drillRun();
+        },500);
+      });
+    });
+  });
+}
+document.getElementById("shDrill").addEventListener("click",function(){
+  if(drill.on){drillStop();return}
+  if(!synth){micMsg("<b>この端末では読み上げが使えないため、練習モードは動きません。</b>");return}
+  drill.on=true;
+  this.textContent="■ 練習を止める"; this.classList.add("on");
+  document.getElementById("drillBox").classList.remove("hidden");
+  drillRun();
+});
+
+/* 音声認識 */
+var SR=window.SpeechRecognition||window.webkitSpeechRecognition||null;
+function micMsg(html){var w=document.getElementById("micWarn");w.className="note warn";w.innerHTML=html;w.classList.remove("hidden")}
+function stopRec(){if(rec&&recording){try{rec.stop()}catch(e){}}recording=false;
+  var b=document.getElementById("shMic");b.classList.remove("rec");
+  document.getElementById("shMicLab").textContent="話して確かめる"}
+var FRAMED=(function(){try{return window.self!==window.top}catch(e){return true}})();
+function hideMic(reason){
+  var b=document.getElementById("shMic"); if(b) b.classList.add("hidden");
+  var w=document.getElementById("micWarn");
+  w.className="note info"; w.innerHTML=reason; w.classList.remove("hidden");
+  store.set("nomic","1");
+}
+if(!SR){
+  hideMic("<b>このブラウザは音声認識に対応していません。</b><br>「◉ 練習を始める」でシャドウイングはできます。");
+}else if(FRAMED||store.get("nomic","")==="1"){
+  hideMic("この表示ではマイクが使えないため、音声認識は省いています。<br><b>「◉ 練習を始める」で、聞く→重ねる→もう一度、が自動で回ります。</b>");
+}
+document.getElementById("shMic").addEventListener("click",function(){
+  if(!SR)return;
+  if(recording){stopRec();return}
+  stopAll();
+  document.getElementById("micWarn").classList.add("hidden");
+  try{
+    rec=new SR();
+    rec.lang=(voice&&voice.lang)||"es-ES";
+    rec.interimResults=false; rec.maxAlternatives=1; rec.continuous=false;
+    rec.onresult=function(ev){
+      var said=""; try{said=ev.results[0][0].transcript||""}catch(e){}
+      compare(shList()[shIdx].t, said);
+    };
+    rec.onerror=function(ev){
+      var e=ev.error||"";
+      if(e==="not-allowed"||e==="service-not-allowed"){
+        stopRec();
+        hideMic("この端末ではマイクが使えないため、音声認識は省きます。<br><b>「◉ 練習を始める」で、聞く→重ねる→もう一度、が自動で回ります。</b>");
+        return;
+      }
+      var msg = e==="no-speech" ? "<b>声が拾えませんでした。</b><br>ボタンを押してから話し始めてください。"
+        : e==="network" ? "<b>音声認識は通信を使います。</b><br>接続を確認してもう一度お試しください。"
+        : "<b>音声認識でエラーが起きました（"+esc(e)+"）。</b>";
+      micMsg(msg); stopRec();
+    };
+    rec.onend=function(){stopRec()};
+    rec.start();
+    recording=true;
+    this.classList.add("rec");
+    document.getElementById("shMicLab").textContent="● 録音中 — もう一度押すと停止";
+  }catch(err){
+    micMsg("<b>マイクを起動できませんでした。</b><br>ページを再読み込みして、もう一度お試しください。");
+    stopRec();
+  }
+});
+function normWords(s){
+  return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/[^a-z0-9ñ\s]/g," ").replace(/\s+/g," ").trim().split(" ").filter(Boolean);
+}
+function compare(target, said){
+  var A=normWords(target), B=normWords(said);
+  var n=A.length, m=B.length, dp=[];
+  for(var i=0;i<=n;i++){dp.push(new Array(m+1).fill(0))}
+  for(i=1;i<=n;i++)for(var j=1;j<=m;j++){
+    dp[i][j]= A[i-1]===B[j-1] ? dp[i-1][j-1]+1 : Math.max(dp[i-1][j],dp[i][j-1]);
+  }
+  var hit=new Array(n).fill(false); i=n; j=m;
+  while(i>0&&j>0){
+    if(A[i-1]===B[j-1]){hit[i-1]=true;i--;j--}
+    else if(dp[i-1][j]>=dp[i][j-1])i--; else j--;
+  }
+  var raw=String(target).split(/\s+/), out=[], k=0;
+  raw.forEach(function(tok){
+    var core=normWords(tok);
+    if(!core.length){out.push("<span class='hit'>"+esc(tok)+"</span>");return}
+    var ok=true; for(var z=0;z<core.length;z++){ if(!hit[k+z]) ok=false }
+    k+=core.length;
+    out.push("<span class='"+(ok?"hit":"miss")+"'>"+esc(tok)+"</span>");
+  });
+  var got=hit.filter(Boolean).length, pct=n?Math.round(got/n*100):0;
+  document.getElementById("shDiff").innerHTML=out.join(" ");
+  document.getElementById("shSaid").textContent="聞き取られた音：「"+(said||"—")+"」";
+  document.getElementById("shPct").textContent=pct+"%";
+  document.getElementById("shPctNote").textContent =
+    pct>=90?"ほぼ完璧です。速さを上げてもう一度。":
+    pct>=70?"通じる範囲です。赤い語だけ直しましょう。":
+    pct>=40?"半分ほど。もう一度聞いてから重ねてください。":
+            "まず「聞く」を3回押して、口を慣らしてから。";
+  document.getElementById("shHeard").classList.remove("hidden");
+}
+
+/* ============ 貼り付け解析 ============ */
+var STOP=["el","la","los","las","un","una","unos","unas","de","del","al","a","que","y","o","en","con","por","para","se","su","sus","lo","es","son","como","mas","más","no","si","le","les","ha","han","fue","era","este","esta","esto","esos","esas","ese","esa"];
+var STEM_SKIP=["entr","esta","com","dej","dar","hac","ten","pon","sal","ver","dic","ser","ir"];
+function stemOf(word){
+  var w=word;
+  if(/arse$|erse$|irse$/.test(w)) w=w.slice(0,-2);
+  if(/ar$/.test(w)&&w.length>=5) return w.slice(0,-2);
+  if(/(er|ir)$/.test(w)&&w.length>=5){var a=w.slice(0,-3);return a.length>=4?a:w.slice(0,-2)}
+  if(w.length>=6) return w.slice(0,-1);
+  return w;
+}
+function keysFor(v){
+  var out=[];
+  normWords(v.say).forEach(function(w){
+    if(STOP.indexOf(w)>=0) return;
+    if(w.length<3) return;
+    var k=stemOf(w);
+    if(k.length<3) return;
+    if(STEM_SKIP.indexOf(k)>=0) return;
+    if(out.indexOf(k)<0) out.push(k);
+  });
+  return out;
+}
+var VKEYS=VOCAB.map(function(v){return {v:v,k:keysFor(v)}});
+function matchVocab(tok){
+  for(var i=0;i<VKEYS.length;i++){
+    var ks=VKEYS[i].k;
+    for(var j=0;j<ks.length;j++){
+      var k=ks[j];
+      if(k.length>=4 ? tok.indexOf(k)===0 : tok===k) return VKEYS[i].v;
+    }
+  }
+  return null;
+}
+function splitSentences(txt){
+  var t=String(txt).replace(/\s+/g," ").trim(), out=[], cur="";
+  var OPEN=/[¿¡"«A-ZÁÉÍÓÚÑ]/, ABBR=/(^|[\s(])[A-ZÁÉÍÓÚÑ]{1,3}\.?$/;
+  for(var i=0;i<t.length;i++){
+    cur+=t.charAt(i);
+    if(".!?…".indexOf(t.charAt(i))<0) continue;
+    var body=cur.slice(0,-1);
+    if(ABBR.test(body)) continue;
+    var j=i+1; while(j<t.length&&t.charAt(j)===" ") j++;
+    if(j>=t.length){out.push(cur.trim());cur="";i=j-1;continue}
+    if(OPEN.test(t.charAt(j))){out.push(cur.trim());cur=""}
+  }
+  if(cur.trim()) out.push(cur.trim());
+  return out.filter(function(x){return x.length>1});
+}
+function runPaste(){
+  var txt=document.getElementById("pasteBox").value||"";
+  if(!txt.trim()){document.getElementById("pasteOut").classList.add("hidden");return}
+  store.set("paste",txt.slice(0,20000));
+  var sents=splitSentences(txt);
+  pasteSents=sents;
+  var host=document.getElementById("pasteBody"); host.innerHTML="";
+  var totalWords=0, found=[];
+  sents.forEach(function(sn){
+    var row=document.createElement("div"); row.className="line";
+    row.appendChild(sayBtn(sn));
+    var body=document.createElement("div"); body.className="line-body";
+    var toks=sn.split(/(\s+)/), html="";
+    toks.forEach(function(tok){
+      if(/^\s+$/.test(tok)){html+=tok;return}
+      var core=normWords(tok)[0]||"";
+      if(!core){html+=esc(tok);return}
+      totalWords++;
+      var hit=matchVocab(core);
+      if(hit){
+        if(found.indexOf(hit)<0) found.push(hit);
+        html+="<mark class='kw'>"+esc(tok)+"</mark>";
+      }else html+=esc(tok);
+    });
+    var t=document.createElement("p"); t.className="t"; t.innerHTML=html; body.appendChild(t);
+    row.appendChild(body); host.appendChild(row);
+  });
+  var avg=sents.length?Math.round(totalWords/sents.length):0;
+  document.getElementById("pasteStats").innerHTML=
+    "<div class='stat'><b>"+sents.length+"</b><span>文</span></div>"+
+    "<div class='stat'><b>"+totalWords+"</b><span>語</span></div>"+
+    "<div class='stat'><b>"+avg+"</b><span>平均語数/文</span></div>"+
+    "<div class='stat'><b>"+found.length+"</b><span>既習語</span></div>";
+  var kw=document.getElementById("pasteKw");
+  if(found.length){
+    kw.innerHTML="この文章に出てきた既習語：<br>"+found.map(function(f){
+      return "<b>"+esc(f.w)+"</b>（"+esc(f.m)+"）"}).join(" ／ ");
+    kw.classList.remove("hidden");
+  }else{
+    kw.innerHTML="学んだ36語は、この文章には出てきませんでした。新しい語を拾う機会です。";
+    kw.classList.remove("hidden");
+  }
+  document.getElementById("pasteOut").classList.remove("hidden");
+}
+document.getElementById("pasteRun").addEventListener("click",runPaste);
+document.getElementById("pasteClear").addEventListener("click",function(){
+  document.getElementById("pasteBox").value="";
+  document.getElementById("pasteOut").classList.add("hidden");
+  pasteSents=[]; store.set("paste","");
+});
+document.getElementById("pasteToShadow").addEventListener("click",function(){
+  if(!pasteSents.length)return;
+  shSrc="paste"; shIdx=0;
+  document.querySelectorAll("#shSrc b").forEach(function(x){x.classList.toggle("on",x.dataset.src==="paste")});
+  document.querySelectorAll("#voiceSeg b").forEach(function(x){x.classList.toggle("on",x.dataset.mode==="shadow")});
+  document.getElementById("modeList").classList.add("hidden");
+  document.getElementById("modePaste").classList.add("hidden");
+  document.getElementById("modeShadow").classList.remove("hidden");
+  shRender(); window.scrollTo(0,0);
+});
+(function(){var saved=store.get("paste","");if(saved){document.getElementById("pasteBox").value=saved;runPaste()}})();
+
+/* ============ 語彙 ============ */
+var masked=false, allOpen=false;
+function buildVocab(filter){
+  var host=document.getElementById("vocabBody"); host.innerHTML="";
+  var f=(filter||"").trim().toLowerCase();
+  var list=VOCAB.filter(function(v){
+    if(!f)return true;
+    return (v.w+" "+v.m+" "+v.pos+" "+(v.ex||"")+" "+(v.exj||"")+" "+v.col+" "+v.syn).toLowerCase().indexOf(f)>=0;
+  });
+  document.getElementById("vCount").textContent=list.length+" 語 / 全 "+VOCAB.length+" 語";
+  if(!list.length){host.innerHTML="<div class='v'><div class='v-head'><div class='v-body'><p class='m'>見つかりませんでした。</p></div></div></div>";return}
+  list.forEach(function(v){
+    var row=document.createElement("div"); row.className="v"+(masked?" masked":"")+(allOpen?" open":"");
+    var head=document.createElement("div"); head.className="v-head";
+    head.appendChild(sayBtn(v.say,v.w));
+    var body=document.createElement("div"); body.className="v-body";
+    body.innerHTML="<p class='w'>"+esc(v.w)+"<span class='pos'>"+esc(v.pos)+"</span></p>"+
+      "<p class='m'>"+esc(v.m)+"</p>"+(v.ex?"<p class='ctx'>"+esc(v.ex)+"</p>":"");
+    head.appendChild(body);
+    var ch=document.createElement("span"); ch.className="chev"; ch.textContent="▶"; head.appendChild(ch);
+    row.appendChild(head);
+    var det=document.createElement("div"); det.className="v-detail"+(allOpen?"":" hidden");
+    det.innerHTML="<dl><div><dt>よく一緒に使う語</dt><dd>"+v.col+"</dd></div>"+
+      "<div><dt>似た語との違い</dt><dd>"+v.syn+"</dd></div>"+
+      (v.ex?"<div><dt>用例</dt><dd><span class='es'>"+esc(v.ex)+"</span><br>"+esc(v.exj)+"</dd></div>":"")+
+      "<div><dt>出典</dt><dd>"+esc(v.l)+" の教材</dd></div></dl>";
+    row.appendChild(det);
+    head.addEventListener("click",function(){
+      var open=row.classList.toggle("open");
+      det.classList.toggle("hidden",!open);
+    });
+    host.appendChild(row);
+  });
+}
+document.getElementById("vSearch").addEventListener("input",function(e){buildVocab(e.target.value)});
+document.getElementById("vMask").addEventListener("click",function(){
+  masked=!masked; this.textContent=masked?"意味を出す":"意味を隠す";
+  buildVocab(document.getElementById("vSearch").value);
+});
+document.getElementById("vAll").addEventListener("click",function(){
+  allOpen=!allOpen; this.textContent=allOpen?"すべて閉じる":"すべて開く";
+  buildVocab(document.getElementById("vSearch").value);
+});
+
+/* ============ 文法 ============ */
+function buildGrammar(){
+  var host=document.getElementById("grammarBody"); host.innerHTML="";
+  GRAMMAR.forEach(function(g){
+    var c=document.createElement("div"); c.className="card g";
+    c.innerHTML="<h3>"+esc(g.title)+"</h3><p class='from'>"+esc(g.from)+"</p><p>"+g.lead+"</p>";
+    if(g.quote){
+      var q=document.createElement("div"); q.className="quote";
+      q.appendChild(sayBtn(g.quote.t));
+      var sp=document.createElement("span");
+      sp.innerHTML=esc(g.quote.t)+"<span style='display:block;font-family:var(--sans);font-style:normal;font-size:13px;color:var(--muted);margin-top:5px'>"+esc(g.quote.j)+"</span>";
+      q.appendChild(sp); c.appendChild(q);
+    }
+    if(g.table){
+      var tw=document.createElement("div"); tw.className="tw";
+      var tb=document.createElement("table");
+      tb.innerHTML="<thead><tr>"+g.table.h.map(function(x){return "<th>"+esc(x)+"</th>"}).join("")+"</tr></thead><tbody>"+
+        g.table.r.map(function(r){return "<tr>"+r.map(function(cell,i){
+          return "<td"+((g.table.es||i===1)?" class='es-cell'":"")+">"+cell+"</td>"}).join("")+"</tr>"}).join("")+"</tbody>";
+      tw.appendChild(tb); c.appendChild(tw);
+    }
+    var k=document.createElement("p"); k.className="key"; k.textContent=g.key; c.appendChild(k);
+    host.appendChild(c);
+  });
+}
+
+/* ============ 起動 ============ */
+buildDeck(VOCAB); buildListen(); shRender(); buildVocab(""); buildGrammar();
+var lastTab=store.get("tab","quiz");
+if(panes.indexOf(lastTab)>=0 && lastTab!=="quiz"){
+  var tb=document.querySelector('.tab[data-pane="'+lastTab+'"]'); if(tb)tb.click();
+}
+})();
+</script>
+</body>
+</html>

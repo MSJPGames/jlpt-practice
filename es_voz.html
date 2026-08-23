@@ -235,7 +235,10 @@ tr:last-child td{border-bottom:0}
 .chip{appearance:none;font-family:var(--serif);font-size:14px;padding:5px 10px;border-radius:99px;cursor:pointer;
   border:1px solid var(--border);background:var(--surface-2);color:var(--text)}
 .chip:hover{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)}
-.art-foot{font-size:11.5px;color:var(--faint);display:flex;justify-content:space-between;gap:10px}
+.art-foot{font-size:11.5px;color:var(--faint);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.url{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:var(--faint);
+  word-break:break-all;margin:6px 0 0;line-height:1.55;-webkit-user-select:all;user-select:all}
+.url:hover{color:var(--accent-ink)}
 .art-foot a{color:var(--faint)}
 .gtag{display:inline-block;font-size:11px;background:var(--amber-soft);color:var(--amber);border-radius:5px;padding:2px 7px;margin:0 0 9px}
 .drill{margin:12px 0 0;padding:13px 15px;border-radius:var(--r);background:var(--surface);border:1px solid var(--accent)}
@@ -844,7 +847,9 @@ function answer(btn,choice,q){
   t.innerHTML="<span class='es'>"+esc(q.item.w)+"</span> ── "+esc(q.item.m)+
     (q.item.ex?"<div style='margin-top:6px;font-size:13.5px' class='es'>"+esc(q.item.ex)+"</div>":"")+
     "<div class='col'>"+q.item.col+"</div>"+
-    (WORD2ART[q.item.w]?"<div class='col' style='margin-top:5px'>出典："+esc(WORD2ART[q.item.w].ja)+"</div>":"");
+    (function(){var a=WORD2ART[q.item.w];return a?
+      "<div class='col' style='margin-top:5px'>出典："+esc(a.ja)+
+      " <a href='"+esc(a.u)+"' target='_blank' rel='noopener'>BBC で読む</a><span class='url'>"+esc(a.u)+"</span></div>":""})();
   v.appendChild(sayBtn(q.item.ex||q.item.say,q.item.w)); v.appendChild(t);
   v.classList.remove("hidden");
   speak(q.item.say,null);
@@ -890,7 +895,8 @@ function makeLine(text,ja,note,url,lesson){
   var j=document.createElement("p");j.className="j ja";j.textContent=ja;body.appendChild(j);
   if(note){var n=document.createElement("p");n.className="src";n.textContent=note;body.appendChild(n)}
   if(url){var n2=document.createElement("p");n2.className="src";
-    n2.innerHTML=esc(lesson)+" ・ <a href='"+esc(url)+"' target='_blank' rel='noopener'>BBC で読む</a>";body.appendChild(n2)}
+    n2.innerHTML=esc(lesson)+" ・ <a href='"+esc(url)+"' target='_blank' rel='noopener'>BBC で読む</a>";body.appendChild(n2);
+    var u3=document.createElement("span");u3.className="url";u3.textContent=url;body.appendChild(u3)}
   row.appendChild(body); row.dataset.say=text; return row;
 }
 function buildListen(){
@@ -938,7 +944,9 @@ function shRender(){
   document.getElementById("shText").textContent=it.t;
   var ja=document.getElementById("shJa"); ja.textContent=it.j; ja.classList.toggle("hidden",shJaHidden);
   var src=document.getElementById("shSrc2");
-  src.innerHTML = it.u ? "<a href='"+esc(it.u)+"' target='_blank' rel='noopener'>BBC で読む</a>" : esc(it.tag);
+  src.innerHTML = it.u
+    ? "<a href='"+esc(it.u)+"' target='_blank' rel='noopener'>BBC で読む</a><span class='url'>"+esc(it.u)+"</span>"
+    : esc(it.tag);
   document.getElementById("shHeard").classList.add("hidden");
 }
 document.getElementById("voiceSeg").addEventListener("click",function(e){
@@ -1296,7 +1304,7 @@ function buildVocab(filter){
       (v.ex?"<div><dt>用例</dt><dd><span class='es'>"+esc(v.ex)+"</span><br>"+esc(v.exj)+"</dd></div>":"")+
       (function(){var a=WORD2ART[v.w];return a?
         "<div><dt>出てきた記事</dt><dd>"+esc(a.l)+" 記事"+a.n+"<br><span class='es'>"+esc(a.head)+"</span><br>"+esc(a.ja)+
-        "<br><a href='"+esc(a.u)+"' target='_blank' rel='noopener'>BBC で読む</a></dd></div>":
+        "<br><a href='"+esc(a.u)+"' target='_blank' rel='noopener'>BBC で読む</a><span class='url'>"+esc(a.u)+"</span></dd></div>":
         "<div><dt>出典</dt><dd>"+esc(v.l)+" の教材</dd></div>"})()+"</dl>";
     row.appendChild(det);
     head.addEventListener("click",function(){
@@ -1410,6 +1418,7 @@ function buildLessons(){
       var ft=document.createElement("p"); ft.className="art-foot";
       ft.innerHTML="<span>"+a.words.length+" 語をここから</span><a href='"+esc(a.u)+"' target='_blank' rel='noopener'>BBC で全文を読む</a>";
       c.appendChild(ft);
+      var ur=document.createElement("span"); ur.className="url"; ur.textContent=a.u; c.appendChild(ur);
       host.appendChild(c);
     });
   });

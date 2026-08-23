@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<meta name="description" content="スペイン語の語彙・コロケーション・文法を、読み上げとシャドウイングで練習する個人用ページ。">
+<meta name="description" content="スペイン語の語彙・コロケーション・文法を、記事ごとに、読み上げとシャドウイングで練習する個人用ページ。">
 <meta name="theme-color" content="#F1F4F2" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0E1513" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -55,9 +55,9 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);fon
 .brand{font-family:var(--serif);font-size:23px;font-weight:600;line-height:1.1;margin:0}
 .brand em{font-style:italic;font-weight:400;color:var(--accent-ink)}
 .brand-sub{font-size:11px;color:var(--faint);letter-spacing:.09em;text-transform:uppercase;margin-left:auto;white-space:nowrap}
-.tabs{max-width:640px;margin:0 auto;padding:0 16px 9px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tabs{max-width:640px;margin:0 auto;padding:0 16px 9px;display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
 .tab{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--muted);
-  font-family:var(--sans);font-size:13px;font-weight:500;padding:9px 4px;border-radius:var(--r);cursor:pointer;
+  font-family:var(--sans);font-size:12.5px;font-weight:500;padding:9px 4px;border-radius:var(--r);cursor:pointer;
   transition:background .12s,color .12s,border-color .12s}
 .tab:hover{color:var(--text)}
 .tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:600}
@@ -215,6 +215,29 @@ th{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--fain
 td.es-cell{font-family:var(--serif);font-size:15px}
 tr:last-child td{border-bottom:0}
 .g .key{background:var(--accent-soft);border-radius:8px;padding:10px 13px;font-size:14px;margin:0}
+.lessonbar{display:flex;align-items:center;gap:9px;margin:14px 0 0;padding:9px 12px;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);font-size:13px;color:var(--muted)}
+.lessonbar select{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--text);background:var(--surface-2);
+  border:1px solid var(--border);border-radius:7px;padding:5px 7px;flex:1;min-width:0}
+.lesson-h{margin:26px 0 10px;padding:0 2px}
+.lesson-h b{font-family:var(--serif);font-size:18px;font-weight:600;display:block}
+.lesson-h span{font-size:12.5px;color:var(--muted)}
+.art{padding:15px 15px 14px;margin:0 0 10px}
+.art-n{font-size:10.5px;letter-spacing:.1em;color:var(--faint);margin:0 0 6px;display:flex;justify-content:space-between}
+.art-head{display:flex;gap:10px;align-items:flex-start;margin:0 0 8px}
+.art-head p{margin:0;font-family:var(--serif);font-size:16px;line-height:1.45;font-weight:500;flex:1}
+.art-ja{font-size:13px;color:var(--muted);margin:0 0 11px;line-height:1.6}
+.art-lead{display:flex;gap:10px;align-items:flex-start;border-left:3px solid var(--accent);padding:2px 0 2px 12px;margin:0 0 11px}
+.art-lead div{flex:1}
+.art-lead .t{font-family:var(--serif);font-size:15px;line-height:1.55;margin:0}
+.art-lead .j{font-size:12.5px;color:var(--muted);margin:5px 0 0;line-height:1.6}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.chip{appearance:none;font-family:var(--serif);font-size:14px;padding:5px 10px;border-radius:99px;cursor:pointer;
+  border:1px solid var(--border);background:var(--surface-2);color:var(--text)}
+.chip:hover{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)}
+.art-foot{font-size:11.5px;color:var(--faint);display:flex;justify-content:space-between;gap:10px}
+.art-foot a{color:var(--faint)}
+.gtag{display:inline-block;font-size:11px;background:var(--amber-soft);color:var(--amber);border-radius:5px;padding:2px 7px;margin:0 0 9px}
 .drill{margin:12px 0 0;padding:13px 15px;border-radius:var(--r);background:var(--surface);border:1px solid var(--accent)}
 .drill-lab{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--muted);margin:0 0 8px}
 .drill-lab b{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--accent-ink)}
@@ -239,7 +262,8 @@ mark.kw{background:var(--accent-soft);color:var(--accent-ink);border-radius:3px;
     <span class="brand-sub">BBC Mundo</span>
   </div>
   <nav class="tabs" role="tablist">
-    <button class="tab" role="tab" data-pane="quiz" aria-selected="true">クイズ</button>
+    <button class="tab" role="tab" data-pane="lesson" aria-selected="true">教材</button>
+    <button class="tab" role="tab" data-pane="quiz" aria-selected="false">クイズ</button>
     <button class="tab" role="tab" data-pane="voice" aria-selected="false">音読</button>
     <button class="tab" role="tab" data-pane="vocab" aria-selected="false">語彙</button>
     <button class="tab" role="tab" data-pane="grammar" aria-selected="false">文法</button>
@@ -263,8 +287,23 @@ mark.kw{background:var(--accent-soft);color:var(--accent-ink);border-radius:3px;
     </select></label>
   </div>
 
+  <div class="lessonbar hidden" id="lessonbar">
+    <label style="flex:1;display:flex;align-items:center;gap:8px">教材
+      <select id="lessonSel">
+        <option value="all">すべて（36語）</option>
+      </select>
+    </label>
+  </div>
+
+  <!-- 教材 -->
+  <section id="pane-lesson">
+    <h2 class="sec">教材</h2>
+    <p class="sec-note">どの記事から、どの語を拾ったか。語をタップすると意味が出ます。</p>
+    <div id="lessonBody"></div>
+  </section>
+
   <!-- クイズ -->
-  <section id="pane-quiz">
+  <section id="pane-quiz" class="hidden">
     <h2 class="sec">単語クイズ</h2>
     <p class="sec-note">10問。答えると読み上げと、よく一緒に使う語が出ます。</p>
     <div class="row" id="dirRow">
@@ -547,46 +586,121 @@ var VOCAB=[
  syn:"<b>el sondeo</b> は世論の探り（特に選挙予測）。<b>el estudio</b> は研究、<b>la entrevista</b> は個別の聞き取り、<b>el censo</b> は全数調査。<b>encuesta</b> は設問に答えてもらう調査そのもの。"}
 ];
 
-var HEADS=[
-{t:"Por qué el estado de la economía de EE.UU. está disparando las alarmas en todo el mundo",j:"米国の債務が節目に達し、世界最大の経済をどこまで心配すべきかを問う",u:"https://www.bbc.com/mundo/articles/cg5lrejv18yo",l:L1},
-{t:"Cuál es la situación del hambre en América Latina",j:"ドミニカ共和国が国連の基準で「飢餓ゼロ」を達成",u:"https://www.bbc.com/mundo/articles/c77g1jd322no",l:L1},
-{t:"Australia alberga algunas de las especies más singulares del mundo, pero las está perdiendo a un ritmo alarmante.",j:"オーストラリアは世界でも独特な種を擁しているが、憂慮すべき速さでそれらを失いつつある。",u:"https://www.bbc.com/mundo/articles/ckg3j4r6l07o",l:L1},
-{t:"La FIFA sanciona con 10 partidos al argentino Leandro Paredes por el altercado tras la final del Mundial",j:"W杯決勝後の悶着で10試合の出場停止",u:"https://www.bbc.com/mundo/articles/cz7d4g3r514o",l:L1},
-{t:"Israel desafía la condena internacional y permite el regreso de colonos a un asentamiento en Cisjordania",j:"20年前に撤去された入植地への帰還を容認",u:"https://www.bbc.com/mundo/articles/cn9n07p35yno",l:L1},
-{t:"El arresto del asesor desata un escándalo de alcance regional.",j:"その顧問の逮捕が、地域規模の醜聞を引き起こしている。",u:"https://www.bbc.com/mundo/articles/clyx45xkzzyo",l:L1},
-{t:"La red de tráfico de cocaína que dirigían los alumnos de una de las universidades más conocidas de EE.UU.",j:"米名門大の学生が運営していたコカイン密売網",u:"https://www.bbc.com/mundo/articles/c8dnv832zqvo",l:L2},
-{t:"El Canal de Panamá reducirá el tránsito de buques por los efectos de El Niño",j:"雨不足でパナマ運河が船舶の通航数を削減",u:"https://www.bbc.com/mundo/articles/c3r0gzdwqqno",l:L2},
-{t:"El operador atribuye la decisión a la escasez de lluvias provocada por el fenómeno de El Niño.",j:"運営者はその決定を、エルニーニョ現象による雨不足のせいだとしている。",u:"https://www.bbc.com/mundo/articles/c3r0gzdwqqno",l:L2},
-{t:"Suspenden al académico que acusó de plagio al profesor de la Universidad de Cambridge",j:"盗用を告発した研究者が停職に",u:"https://www.bbc.com/mundo/articles/ce859yel4lzo",l:L2},
-{t:"Por qué cada vez más turistas disfrutan visitando supermercados durante sus vacaciones",j:"旅先のスーパーが人気の体験に",u:"https://www.bbc.com/mundo/articles/cz64vg562gvo",l:L2},
-{t:"Qué descubrí cuando viajé de España a Nigeria para enfrentar al estafador que sedujo a mi madre",j:"母を騙したロマンス詐欺師に会いに渡航した娘の記録",u:"https://www.bbc.com/mundo/articles/cj9dxw4wxwyo",l:L3},
-{t:"Una jueza anula la prohibición de visados de EE.UU. a ciudadanos de 75 países",j:"連邦判事がビザ禁止措置を連邦法違反として無効に",u:"https://www.bbc.com/mundo/articles/cp3r3nn6nnxo",l:L3},
-{t:"La jueza federal dejó sin efecto la medida al considerar que era contraria a la ley federal.",j:"連邦判事は、連邦法に反するとしてその措置を無効とした。",u:"https://www.bbc.com/mundo/articles/cp3r3nn6nnxo",l:L3},
-{t:"Los esfuerzos por recuperar el cuerpo de un escalador congelado en el Everest desde hace 30 años",j:"エベレストに30年残る遺体を収容する試み",u:"https://www.bbc.com/mundo/articles/c62v4p573p5o",l:L3},
-{t:"Canadá igualará los aranceles estadounidenses dólar por dólar tras la ruptura de las negociaciones",j:"通商交渉決裂。カナダが同額で対抗",u:"https://www.bbc.com/mundo/articles/cpd7dvg6jepo",l:L3},
-{t:"Ghana se ha convertido en la principal voz de África en exigir que las naciones occidentales paguen reparaciones.",j:"ガーナは、西洋諸国が賠償を支払うよう求めるアフリカの主導的な声となった。",u:"https://www.bbc.com/mundo/articles/cm2grpxne10o",l:L3},
-{t:"Una encuesta con esta pregunta desató un acalorado debate en las redes sociales.",j:"この問いを使ったアンケートが、SNSで白熱した論争を引き起こした。",u:"https://www.bbc.com/mundo/articles/c330k1j7nn5o",l:L3}
+var ARTICLES=[
+{k:"a1",l:L1,n:1,head:"Por qué el estado de la economía de EE.UU. está disparando las alarmas en todo el mundo",
+ ja:"米国の債務が節目に達した。世界最大の経済をどこまで心配すべきかを問う記事。",
+ lead:"Estados Unidos alcanzó un hito importante en su nivel de deuda esta semana, pero ¿hasta qué punto deberíamos preocuparnos por la mayor economía del mundo?",
+ leadJ:"米国は今週、債務の水準で大きな節目に達した。だが、世界最大の経済をどこまで心配すべきなのか。",
+ u:"https://www.bbc.com/mundo/articles/cg5lrejv18yo",
+ words:["disparar las alarmas","el hito","la deuda","hasta qué punto"]},
+{k:"a2",l:L1,n:2,head:"Cuál es la situación del hambre en América Latina (y cómo República Dominicana ha logrado ser el último país en alcanzar el hambre cero)",
+ ja:"ドミニカ共和国が国連の基準で「飢餓ゼロ」を達成した国の列に加わった。",
+ lead:"La nación caribeña se sumó a la lista de países que consiguieron salir del mapa mundial del hambre, según Naciones Unidas.",
+ leadJ:"国連によれば、そのカリブの国は、世界の飢餓地図から抜け出せた国々の列に加わった。",
+ u:"https://www.bbc.com/mundo/articles/c77g1jd322no",
+ words:["sumarse a","lograr ＋不定詞"]},
+{k:"a3",l:L1,n:3,head:"Numbats, los adorables animales que dan esperanza al país que es el epicentro mundial de la extinción de mamíferos",
+ ja:"哺乳類絶滅の世界的中心地オーストラリアと、希望を託されるフクロアリクイ。",
+ lead:"Australia alberga algunas de las especies más singulares del mundo, pero las está perdiendo a un ritmo alarmante.",
+ leadJ:"オーストラリアは世界でも独特な種を擁しているが、憂慮すべき速さでそれらを失いつつある。",
+ u:"https://www.bbc.com/mundo/articles/ckg3j4r6l07o",
+ words:["albergar","a un ritmo alarmante"],g:0},
+{k:"a4",l:L1,n:4,head:"La FIFA sanciona con 10 partidos al argentino Leandro Paredes por el altercado tras la final del Mundial con España",
+ ja:"W杯決勝後の悶着で、パレデスに10試合、モリーナに7試合の出場停止。",
+ lead:"La FIFA sancionó al centrocampista argentino Leandro Paredes con 10 partidos de suspensión, mientras que a su compañero de equipo Nahuel Molina estará suspendido por siete partidos.",
+ leadJ:"FIFAはアルゼンチンのMFレアンドロ・パレデスに10試合の出場停止を科した。一方、チームメイトのナウエル・モリーナは7試合の停止となる。",
+ u:"https://www.bbc.com/mundo/articles/cz7d4g3r514o",
+ words:["sancionar a 人 con 罰","el altercado"]},
+{k:"a5",l:L1,n:5,head:"Israel desafía la condena internacional y permite el regreso de colonos a un asentamiento en Cisjordania evacuado hace 20 años",
+ ja:"20年前に撤去された入植地への帰還を容認。ヨルダン川西岸で衝突が続く。",
+ lead:"Los enfrentamientos entre colonos y habitantes de los territorios palestinos continúan en varios lugares de Cisjordania.",
+ leadJ:"入植者とパレスチナ地区の住民との衝突が、ヨルダン川西岸の各地で続いている。",
+ u:"https://www.bbc.com/mundo/articles/cn9n07p35yno",
+ words:["desafiar"]},
+{k:"a6",l:L1,n:6,head:"Quién es Fernando Cerimedo, el asesor de Milei y otros políticos de derecha acusado en Bolivia de ordenar un ataque de sicarios contra su pareja",
+ ja:"ミレイら3か国の大統領選に関わった選挙顧問の逮捕が、地域規模の醜聞に。",
+ lead:"El arresto del hombre que colaboró en las campañas de los actuales presidentes de Argentina, Bolivia y Honduras desata un escándalo de alcance regional.",
+ leadJ:"アルゼンチン、ボリビア、ホンジュラスの現大統領の選挙運動に関わった男の逮捕が、地域規模の醜聞を引き起こしている。",
+ u:"https://www.bbc.com/mundo/articles/clyx45xkzzyo",
+ words:["desatar"]},
+
+{k:"b1",l:L2,n:1,head:"La red de tráfico de cocaína que dirigían los alumnos de una de las universidades más conocidas de EE.UU. (y cómo los atraparon)",
+ ja:"米名門大の学生が運営していたコカイン密売網。入会志望者が梱包をやらされていたと検察。",
+ lead:"Como parte del rito de iniciación, los aspirantes a miembros de una fraternidad eran obligados a empaquetar la droga, según la fiscalía.",
+ leadJ:"検察によれば、入会の儀式の一環として、フラタニティの入会志望者は薬物の梱包を強いられていた。",
+ u:"https://www.bbc.com/mundo/articles/c8dnv832zqvo",
+ words:["la red","atrapar","el aspirante a","la fiscalía"]},
+{k:"b2",l:L2,n:2,head:"El Canal de Panamá reducirá el tránsito de buques por los efectos de El Niño",
+ ja:"エルニーニョによる雨不足で、パナマ運河が船舶の通航数を削減。",
+ lead:"El operador de esta vía fluvial crucial atribuye la decisión a la escasez de lluvias provocada por el fenómeno de El Niño.",
+ leadJ:"この重要な水路の運営者は、その決定をエルニーニョ現象による雨不足のせいだとしている。",
+ u:"https://www.bbc.com/mundo/articles/c3r0gzdwqqno",
+ words:["el buque","atribuir A a B","la escasez"]},
+{k:"b3",l:L2,n:3,head:"«Mi prioridad era sacar a esos niños»: la historia de una de las imágenes más conmovedoras del terremoto en Colombia",
+ ja:"コロンビア地震。混乱のなか時間と競って動いた病院職員の話。",
+ lead:"En medio del caos, el personal del Hospital Universitario del Valle reaccionó con rapidez y vocación, salvando vidas y reorganizándose contrarreloj.",
+ leadJ:"混乱のただ中で、バジェ大学病院の職員は迅速に、使命感をもって動き、命を救い、時間と競って態勢を組み直した。",
+ u:"https://www.bbc.com/mundo/articles/c8en3n78x5go",
+ words:["en medio de","contrarreloj"]},
+{k:"b4",l:L2,n:4,head:"Suspenden al académico que acusó de plagio al profesor de la Universidad de Cambridge que apareció muerto",
+ ja:"盗用を告発した研究者が停職に。本人は差別を理由に調査されていると主張。",
+ lead:"Nathan Cofnas afirma que está siendo investigado por discriminar al fallecido profesor de Cambridge.",
+ leadJ:"ネイサン・コフナス氏は、亡くなったケンブリッジの教授を差別したとして調査を受けているところだと主張している。",
+ u:"https://www.bbc.com/mundo/articles/ce859yel4lzo",
+ words:["acusar a 人 de 〜","el plagio"],g:1},
+{k:"b5",l:L2,n:5,head:"Por qué cada vez más turistas disfrutan visitando supermercados durante sus vacaciones",
+ ja:"東京の卵サンドからギリシャの乳製品まで。旅先のスーパーが人気の体験に。",
+ lead:"Desde los sándwiches de huevo de Tokio hasta los productos lácteos en Grecia, los pasillos de los supermercados se están convirtiendo en una de las experiencias de viaje más reveladoras y apreciadas.",
+ leadJ:"東京の卵サンドからギリシャの乳製品まで、スーパーの通路は、旅の体験のうちで最も発見に富み、愛されるものの一つになりつつある。",
+ u:"https://www.bbc.com/mundo/articles/cz64vg562gvo",
+ words:["cada vez más"]},
+
+{k:"c1",l:L3,n:1,head:"Qué descubrí cuando viajé de España a Nigeria para enfrentar al estafador que sedujo a mi madre",
+ ja:"母を騙したロマンス詐欺師に会いにナイジェリアへ渡った息子の記録。",
+ lead:"Silvia se enamoró de quien creía que era un militar estadounidense que conoció online, pero que en verdad era un estafador de Nigeria.",
+ leadJ:"シルビアは、ネットで知り合った米軍人だと信じていた相手に恋をしたが、実際はナイジェリアの詐欺師だった。",
+ u:"https://www.bbc.com/mundo/articles/cj9dxw4wxwyo",
+ words:["el estafador","seducir"]},
+{k:"c2",l:L3,n:2,head:"Una jueza anula la prohibición de visados de EE.UU. a ciudadanos de 75 países, entre ellos Colombia, Uruguay y Cuba",
+ ja:"連邦判事が75か国へのビザ禁止措置を、連邦法違反として無効に。",
+ lead:"La jueza federal Jeannette Vargas dejó sin efecto la medida al considerar que era contraria a la ley federal.",
+ leadJ:"連邦判事ジャネット・バルガスは、連邦法に反するとして、その措置を無効とした。",
+ u:"https://www.bbc.com/mundo/articles/cp3r3nn6nnxo",
+ words:["anular","dejar sin efecto","la medida"]},
+{k:"c3",l:L3,n:3,head:"El misterio de «Botas Verdes»: los esfuerzos por recuperar el cuerpo de un escalador congelado en el Everest desde hace 30 años",
+ ja:"エベレストの斜面に30年間残る遺体「緑のブーツ」を収容する試み。",
+ lead:"Durante 30 años, un cadáver conocido como «Botas Verdes» ha permanecido en la ladera del Monte Everest.",
+ leadJ:"30年のあいだ、「緑のブーツ」として知られる遺体がエベレストの斜面にとどまり続けてきた。",
+ u:"https://www.bbc.com/mundo/articles/c62v4p573p5o",
+ words:["permanecer","la ladera"]},
+{k:"c4",l:L3,n:4,head:"Canadá igualará los aranceles estadounidenses «dólar por dólar» tras la ruptura de las negociaciones comerciales con el gobierno de Trump",
+ ja:"通商交渉決裂。カナダが米国の関税に同額で対抗。",
+ lead:"Un nuevo arancel del 50% sobre importaciones canadienses por valor de 20.000 millones de dólares entra en vigor tras el fracaso de última hora de las negociaciones comerciales.",
+ leadJ:"200億ドル相当のカナダからの輸入品に対する50%の新関税が、土壇場での通商交渉の決裂を受けて発効する。",
+ u:"https://www.bbc.com/mundo/articles/cpd7dvg6jepo",
+ words:["el arancel","entrar en vigor"]},
+{k:"c5",l:L3,n:5,head:"«Fuimos la escena del crimen de estas atrocidades»: el país que se enfrenta a EE.UU. y Europa al reclamar el pago de reparaciones por la esclavitud",
+ ja:"奴隷制の賠償を欧米に求めるガーナ。アフリカの主導的な声に。",
+ lead:"Ghana se ha convertido en la principal voz de África en exigir que las naciones occidentales paguen reparaciones.",
+ leadJ:"ガーナは、西洋諸国が賠償を支払うよう求めるアフリカの主導的な声となった。",
+ u:"https://www.bbc.com/mundo/articles/cm2grpxne10o",
+ words:["reclamar","exigir que ＋接続法"],g:2},
+{k:"c6",l:L3,n:6,head:"¿Preferirías US$50.000 o un 50% de posibilidades de ganar US$1 millón? (y qué revela esta pregunta)",
+ ja:"5万ドル確実か、100万ドルを50%か。SNSで白熱した論争と経済学の見方。",
+ lead:"Una encuesta con esta pregunta desató un acalorado debate en las redes sociales. Pero muchos economistas vieron en las respuestas la confirmación de varias teorías económicas.",
+ leadJ:"この問いを使ったアンケートが、SNSで白熱した論争を引き起こした。だが多くの経済学者は、その回答にいくつかの経済理論の裏づけを見た。",
+ u:"https://www.bbc.com/mundo/articles/c330k1j7nn5o",
+ words:["la encuesta"]}
 ];
 
-var LEADS=[
-{t:"Estados Unidos alcanzó un hito importante en su nivel de deuda esta semana, pero ¿hasta qué punto deberíamos preocuparnos por la mayor economía del mundo?",j:"米国は今週、債務の水準で大きな節目に達した。だが、世界最大の経済をどこまで心配すべきなのか。",u:"https://www.bbc.com/mundo/articles/cg5lrejv18yo",l:L1},
-{t:"La nación caribeña se sumó a la lista de países que consiguieron salir del mapa mundial del hambre, según Naciones Unidas.",j:"国連によれば、そのカリブの国は、世界の飢餓地図から抜け出せた国々の列に加わった。",u:"https://www.bbc.com/mundo/articles/c77g1jd322no",l:L1},
-{t:"Australia alberga algunas de las especies más singulares del mundo, pero las está perdiendo a un ritmo alarmante.",j:"オーストラリアは世界でも独特な種を擁しているが、憂慮すべき速さでそれらを失いつつある。",u:"https://www.bbc.com/mundo/articles/ckg3j4r6l07o",l:L1},
-{t:"La FIFA sancionó al centrocampista argentino Leandro Paredes con 10 partidos de suspensión, mientras que a su compañero de equipo Nahuel Molina estará suspendido por siete partidos.",j:"FIFAはアルゼンチンのMFレアンドロ・パレデスに10試合の出場停止を科した。一方、チームメイトのナウエル・モリーナは7試合の停止となる。",u:"https://www.bbc.com/mundo/articles/cz7d4g3r514o",l:L1},
-{t:"Los enfrentamientos entre colonos y habitantes de los territorios palestinos continúan en varios lugares de Cisjordania.",j:"入植者とパレスチナ地区の住民との衝突が、ヨルダン川西岸の各地で続いている。",u:"https://www.bbc.com/mundo/articles/cn9n07p35yno",l:L1},
-{t:"El arresto del hombre que colaboró en las campañas de los actuales presidentes de Argentina, Bolivia y Honduras desata un escándalo de alcance regional.",j:"アルゼンチン、ボリビア、ホンジュラスの現大統領の選挙運動に関わった男の逮捕が、地域規模の醜聞を引き起こしている。",u:"https://www.bbc.com/mundo/articles/clyx45xkzzyo",l:L1},
-{t:"Como parte del rito de iniciación, los aspirantes a miembros de una fraternidad eran obligados a empaquetar la droga, según la fiscalía.",j:"検察によれば、入会の儀式の一環として、フラタニティの入会志望者は薬物の梱包を強いられていた。",u:"https://www.bbc.com/mundo/articles/c8dnv832zqvo",l:L2},
-{t:"El operador de esta vía fluvial crucial atribuye la decisión a la escasez de lluvias provocada por el fenómeno de El Niño.",j:"この重要な水路の運営者は、その決定をエルニーニョ現象による雨不足のせいだとしている。",u:"https://www.bbc.com/mundo/articles/c3r0gzdwqqno",l:L2},
-{t:"En medio del caos, el personal del Hospital Universitario del Valle reaccionó con rapidez y vocación, salvando vidas y reorganizándose contrarreloj.",j:"混乱のただ中で、バジェ大学病院の職員は迅速に、使命感をもって動き、命を救い、時間と競って態勢を組み直した。",u:"https://www.bbc.com/mundo/articles/c8en3n78x5go",l:L2},
-{t:"Nathan Cofnas afirma que está siendo investigado por discriminar al fallecido profesor de Cambridge.",j:"ネイサン・コフナス氏は、亡くなったケンブリッジの教授を差別したとして調査を受けているところだと主張している。",u:"https://www.bbc.com/mundo/articles/ce859yel4lzo",l:L2},
-{t:"Desde los sándwiches de huevo de Tokio hasta los productos lácteos en Grecia, los pasillos de los supermercados se están convirtiendo en una de las experiencias de viaje más reveladoras y apreciadas.",j:"東京の卵サンドからギリシャの乳製品まで、スーパーの通路は、旅の体験のうちで最も発見に富み、愛されるものの一つになりつつある。",u:"https://www.bbc.com/mundo/articles/cz64vg562gvo",l:L2},
-{t:"Silvia se enamoró de quien creía que era un militar estadounidense que conoció online, pero que en verdad era un estafador de Nigeria.",j:"シルビアは、ネットで知り合った米軍人だと信じていた相手に恋をしたが、実際はナイジェリアの詐欺師だった。",u:"https://www.bbc.com/mundo/articles/cj9dxw4wxwyo",l:L3},
-{t:"La jueza federal Jeannette Vargas dejó sin efecto la medida al considerar que era contraria a la ley federal.",j:"連邦判事ジャネット・バルガスは、連邦法に反するとして、その措置を無効とした。",u:"https://www.bbc.com/mundo/articles/cp3r3nn6nnxo",l:L3},
-{t:"Durante 30 años, un cadáver conocido como «Botas Verdes» ha permanecido en la ladera del Monte Everest.",j:"30年のあいだ、「緑のブーツ」として知られる遺体がエベレストの斜面にとどまり続けてきた。",u:"https://www.bbc.com/mundo/articles/c62v4p573p5o",l:L3},
-{t:"Un nuevo arancel del 50% sobre importaciones canadienses por valor de 20.000 millones de dólares entra en vigor tras el fracaso de última hora de las negociaciones comerciales.",j:"200億ドル相当のカナダからの輸入品に対する50%の新関税が、土壇場での通商交渉の決裂を受けて発効する。",u:"https://www.bbc.com/mundo/articles/cpd7dvg6jepo",l:L3},
-{t:"Ghana se ha convertido en la principal voz de África en exigir que las naciones occidentales paguen reparaciones.",j:"ガーナは、西洋諸国が賠償を支払うよう求めるアフリカの主導的な声となった。",u:"https://www.bbc.com/mundo/articles/cm2grpxne10o",l:L3},
-{t:"Una encuesta con esta pregunta desató un acalorado debate en las redes sociales. Pero muchos economistas vieron en las respuestas la confirmación de varias teorías económicas.",j:"この問いを使ったアンケートが、SNSで白熱した論争を引き起こした。だが多くの経済学者は、その回答にいくつかの経済理論の裏づけを見た。",u:"https://www.bbc.com/mundo/articles/c330k1j7nn5o",l:L3}
+var LESSONS=[
+ {id:L1,theme:"経済・飢餓・絶滅・処分・入植・醜聞"},
+ {id:L2,theme:"密売網・パナマ運河・地震・盗用告発・スーパー観光"},
+ {id:L3,theme:"詐欺師・ビザ無効・エベレスト・関税報復・奴隷制賠償・経済クイズ"}
 ];
+var WORD2ART={}; ARTICLES.forEach(function(a){a.words.forEach(function(w){WORD2ART[w]=a})});
+var LEADS=ARTICLES.map(function(a){return {t:a.lead,j:a.leadJ,u:a.u,l:a.l}});
+var HEADS=ARTICLES.map(function(a){return {t:a.head,j:a.ja,u:a.u,l:a.l}});
 
 var GRAMMAR=[
 {title:"目的格代名詞の位置",from:L1+" の教材より",
@@ -669,13 +783,15 @@ document.getElementById("rateSel").value=String(rate);
 document.getElementById("rateSel").addEventListener("change",function(e){rate=parseFloat(e.target.value);store.set("rate",e.target.value)});
 document.getElementById("voiceSel").addEventListener("change",function(e){voice=voices[parseInt(e.target.value,10)]||null;if(voice)store.set("voice",voice.name)});
 
-var panes=["quiz","voice","vocab","grammar"];
+var panes=["lesson","quiz","voice","vocab","grammar"];
 document.querySelectorAll(".tab").forEach(function(t){
   t.addEventListener("click",function(){
     stopAll(); stopRec(); drillStop();
     document.querySelectorAll(".tab").forEach(function(x){x.setAttribute("aria-selected",x===t?"true":"false")});
     panes.forEach(function(p){document.getElementById("pane-"+p).classList.toggle("hidden",p!==t.dataset.pane)});
-    window.scrollTo(0,0); store.set("tab",t.dataset.pane);
+    var m=t.dataset.pane;
+    document.getElementById("lessonbar").classList.toggle("hidden", !(m==="quiz"||m==="voice"||m==="vocab"));
+    window.scrollTo(0,0); store.set("tab",m);
   });
 });
 
@@ -683,9 +799,11 @@ document.querySelectorAll(".tab").forEach(function(t){
 var dir=store.get("dir","ja2es"), deck=[], di=0, score=0, missed=[], pool=null;
 function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t}return b}
 function buildDeck(src){
-  var s=shuffle(src||VOCAB);
+  var s=shuffle(src||lessonWords());
   deck=s.slice(0,Math.min(10,s.length)).map(function(it){
-    return {item:it, choices:shuffle(shuffle(VOCAB.filter(function(v){return v!==it})).slice(0,3).concat([it]))};
+    var others=VOCAB.filter(function(v){return v!==it&&inLesson(v)});
+    if(others.length<3) others=VOCAB.filter(function(v){return v!==it});
+    return {item:it, choices:shuffle(shuffle(others).slice(0,3).concat([it]))};
   });
   di=0;score=0;missed=[];
   document.getElementById("quizResult").classList.add("hidden");
@@ -725,7 +843,8 @@ function answer(btn,choice,q){
   var t=document.createElement("div");
   t.innerHTML="<span class='es'>"+esc(q.item.w)+"</span> ── "+esc(q.item.m)+
     (q.item.ex?"<div style='margin-top:6px;font-size:13.5px' class='es'>"+esc(q.item.ex)+"</div>":"")+
-    "<div class='col'>"+q.item.col+"</div>";
+    "<div class='col'>"+q.item.col+"</div>"+
+    (WORD2ART[q.item.w]?"<div class='col' style='margin-top:5px'>出典："+esc(WORD2ART[q.item.w].ja)+"</div>":"");
   v.appendChild(sayBtn(q.item.ex||q.item.say,q.item.w)); v.appendChild(t);
   v.classList.remove("hidden");
   speak(q.item.say,null);
@@ -752,13 +871,13 @@ function showResult(){
   document.getElementById("rRetryMissed").disabled=!uniq.length;
   pool=uniq.length?uniq:null;
 }
-document.getElementById("rAgain").addEventListener("click",function(){buildDeck(VOCAB)});
+document.getElementById("rAgain").addEventListener("click",function(){buildDeck(lessonWords())});
 document.getElementById("rRetryMissed").addEventListener("click",function(){if(pool)buildDeck(pool)});
 document.getElementById("dirRow").addEventListener("click",function(e){
   var b=e.target.closest("button[data-dir]"); if(!b)return;
   dir=b.dataset.dir; store.set("dir",dir);
   document.querySelectorAll("#dirRow .btn").forEach(function(x){x.classList.toggle("on",x===b)});
-  buildDeck(VOCAB);
+  buildDeck(lessonWords());
 });
 document.querySelectorAll("#dirRow .btn").forEach(function(x){x.classList.toggle("on",x.dataset.dir===dir)});
 
@@ -776,16 +895,16 @@ function makeLine(text,ja,note,url,lesson){
 }
 function buildListen(){
   var host=document.getElementById("listenBody"); host.innerHTML="";
-  var exs=VOCAB.filter(function(v){return v.ex});
+  var exs=VOCAB.filter(function(v){return v.ex&&inLesson(v)});
   var h1=document.createElement("p");h1.className="group-h";h1.textContent="用例文（自作）・"+exs.length+"文";host.appendChild(h1);
   var c1=document.createElement("div");c1.className="card";host.appendChild(c1);
   exs.forEach(function(v){c1.appendChild(makeLine(v.ex,v.exj,v.w+" ・ "+v.l))});
-  var h2=document.createElement("p");h2.className="group-h";h2.textContent="BBC Mundo のリード文・"+LEADS.length+"本";host.appendChild(h2);
+  var h2=document.createElement("p");h2.className="group-h";h2.textContent="BBC Mundo のリード文・"+LEADS.filter(inLesson).length+"本";host.appendChild(h2);
   var c2=document.createElement("div");c2.className="card";host.appendChild(c2);
-  LEADS.forEach(function(h){c2.appendChild(makeLine(h.t,h.j,null,h.u,h.l))});
-  var h3=document.createElement("p");h3.className="group-h";h3.textContent="見出しほか・"+HEADS.length+"本";host.appendChild(h3);
+  LEADS.filter(inLesson).forEach(function(h){c2.appendChild(makeLine(h.t,h.j,null,h.u,h.l))});
+  var h3=document.createElement("p");h3.className="group-h";h3.textContent="見出し・"+HEADS.filter(inLesson).length+"本";host.appendChild(h3);
   var c3=document.createElement("div");c3.className="card";host.appendChild(c3);
-  HEADS.forEach(function(h){c3.appendChild(makeLine(h.t,h.j,null,h.u,h.l))});
+  HEADS.filter(inLesson).forEach(function(h){c3.appendChild(makeLine(h.t,h.j,null,h.u,h.l))});
 }
 document.getElementById("playAll").addEventListener("click",function(){
   stopAll();
@@ -806,8 +925,8 @@ document.getElementById("toggleJa").addEventListener("click",function(){
 var shSrc="ex", shIdx=0, shJaHidden=false, rec=null, recording=false;
 var pasteSents=[];
 function shList(){
-  if(shSrc==="ex") return VOCAB.filter(function(v){return v.ex}).map(function(v){return {t:v.ex,j:v.exj,tag:v.w,l:v.l}});
-  if(shSrc==="lead") return LEADS.map(function(h){return {t:h.t,j:h.j,tag:"BBC Mundo",l:h.l,u:h.u}});
+  if(shSrc==="ex") return VOCAB.filter(function(v){return v.ex&&inLesson(v)}).map(function(v){return {t:v.ex,j:v.exj,tag:v.w,l:v.l}});
+  if(shSrc==="lead") return LEADS.filter(inLesson).map(function(h){return {t:h.t,j:h.j,tag:"BBC Mundo",l:h.l,u:h.u}});
   return pasteSents.length? pasteSents.map(function(t,i){return {t:t,j:"",tag:"貼り付けた文章",l:"第"+(i+1)+"文"}})
                           : [{t:"（貼り付けタブで文章を入れてください）",j:"",tag:"貼り付け",l:"—"}];
 }
@@ -928,11 +1047,30 @@ if(!SR){
 }else if(FRAMED||store.get("nomic","")==="1"){
   hideMic("この表示ではマイクが使えないため、音声認識は省いています。<br><b>「◉ 練習を始める」で、聞く→重ねる→もう一度、が自動で回ります。</b>");
 }
-document.getElementById("shMic").addEventListener("click",function(){
-  if(!SR)return;
-  if(recording){stopRec();return}
-  stopAll();
-  document.getElementById("micWarn").classList.add("hidden");
+/* 先にマイク権限を確定させると、以後ブラウザが尋ねなくなる */
+var micReady=(store.get("micok","")==="1");
+function ensureMic(){
+  return new Promise(function(resolve,reject){
+    if(micReady)return resolve();
+    var go=function(){
+      if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)return resolve();
+      navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+        try{stream.getTracks().forEach(function(t){t.stop()})}catch(e){}
+        micReady=true; store.set("micok","1"); resolve();
+      },function(err){reject(err)});
+    };
+    if(navigator.permissions&&navigator.permissions.query){
+      try{
+        navigator.permissions.query({name:"microphone"}).then(function(st){
+          if(st.state==="granted"){micReady=true;store.set("micok","1");return resolve()}
+          if(st.state==="denied"){return reject({name:"NotAllowedError"})}
+          go();
+        },go);
+      }catch(e){go()}
+    }else go();
+  });
+}
+function startRec(){
   try{
     rec=new SR();
     rec.lang=(voice&&voice.lang)||"es-ES";
@@ -956,12 +1094,32 @@ document.getElementById("shMic").addEventListener("click",function(){
     rec.onend=function(){stopRec()};
     rec.start();
     recording=true;
-    this.classList.add("rec");
+    document.getElementById("shMic").classList.add("rec");
     document.getElementById("shMicLab").textContent="● 録音中 — もう一度押すと停止";
   }catch(err){
     micMsg("<b>マイクを起動できませんでした。</b><br>ページを再読み込みして、もう一度お試しください。");
     stopRec();
   }
+}
+document.getElementById("shMic").addEventListener("click",function(){
+  if(!SR)return;
+  if(recording){stopRec();return}
+  stopAll();
+  document.getElementById("micWarn").classList.add("hidden");
+  var lab=document.getElementById("shMicLab");
+  lab.textContent="マイクを準備中…";
+  ensureMic().then(function(){
+    lab.textContent="話して確かめる";
+    startRec();
+  },function(err){
+    lab.textContent="話して確かめる";
+    var n=(err&&err.name)||"";
+    if(n==="NotAllowedError"||n==="SecurityError"){
+      hideMic("マイクの使用が拒否されています。<br>アドレスバー左の錠前アイコン → マイク → 許可 に変えてから、ページを再読み込みしてください。<br><b>「◉ 練習を始める」なら、マイクなしでシャドウイングできます。</b>");
+    }else{
+      micMsg("<b>マイクを準備できませんでした（"+esc(n||"不明")+"）。</b><br>ページを再読み込みしてお試しください。");
+    }
+  });
 });
 function normWords(s){
   return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
@@ -1116,10 +1274,11 @@ function buildVocab(filter){
   var host=document.getElementById("vocabBody"); host.innerHTML="";
   var f=(filter||"").trim().toLowerCase();
   var list=VOCAB.filter(function(v){
+    if(!inLesson(v))return false;
     if(!f)return true;
     return (v.w+" "+v.m+" "+v.pos+" "+(v.ex||"")+" "+(v.exj||"")+" "+v.col+" "+v.syn).toLowerCase().indexOf(f)>=0;
   });
-  document.getElementById("vCount").textContent=list.length+" 語 / 全 "+VOCAB.length+" 語";
+  document.getElementById("vCount").textContent=list.length+" 語 / "+(curLesson==="all"?"全 "+VOCAB.length:curLesson+" の "+lessonWords().length)+" 語";
   if(!list.length){host.innerHTML="<div class='v'><div class='v-head'><div class='v-body'><p class='m'>見つかりませんでした。</p></div></div></div>";return}
   list.forEach(function(v){
     var row=document.createElement("div"); row.className="v"+(masked?" masked":"")+(allOpen?" open":"");
@@ -1135,7 +1294,10 @@ function buildVocab(filter){
     det.innerHTML="<dl><div><dt>よく一緒に使う語</dt><dd>"+v.col+"</dd></div>"+
       "<div><dt>似た語との違い</dt><dd>"+v.syn+"</dd></div>"+
       (v.ex?"<div><dt>用例</dt><dd><span class='es'>"+esc(v.ex)+"</span><br>"+esc(v.exj)+"</dd></div>":"")+
-      "<div><dt>出典</dt><dd>"+esc(v.l)+" の教材</dd></div></dl>";
+      (function(){var a=WORD2ART[v.w];return a?
+        "<div><dt>出てきた記事</dt><dd>"+esc(a.l)+" 記事"+a.n+"<br><span class='es'>"+esc(a.head)+"</span><br>"+esc(a.ja)+
+        "<br><a href='"+esc(a.u)+"' target='_blank' rel='noopener'>BBC で読む</a></dd></div>":
+        "<div><dt>出典</dt><dd>"+esc(v.l)+" の教材</dd></div>"})()+"</dl>";
     row.appendChild(det);
     head.addEventListener("click",function(){
       var open=row.classList.toggle("open");
@@ -1157,7 +1319,10 @@ document.getElementById("vAll").addEventListener("click",function(){
 /* ============ 文法 ============ */
 function buildGrammar(){
   var host=document.getElementById("grammarBody"); host.innerHTML="";
-  GRAMMAR.forEach(function(g){
+  GRAMMAR.filter(function(g,i){
+    if(curLesson==="all")return true;
+    return ARTICLES.some(function(a){return a.l===curLesson&&a.g===i});
+  }).forEach(function(g){
     var c=document.createElement("div"); c.className="card g";
     c.innerHTML="<h3>"+esc(g.title)+"</h3><p class='from'>"+esc(g.from)+"</p><p>"+g.lead+"</p>";
     if(g.quote){
@@ -1180,10 +1345,80 @@ function buildGrammar(){
   });
 }
 
+/* ============ 教材（記事ごと） ============ */
+var curLesson=store.get("lesson","all");
+function inLesson(v){return curLesson==="all"||v.l===curLesson}
+function lessonWords(){return VOCAB.filter(inLesson)}
+
+(function initLessonSel(){
+  var sel=document.getElementById("lessonSel");
+  LESSONS.forEach(function(L){
+    var n=VOCAB.filter(function(v){return v.l===L.id}).length;
+    var o=document.createElement("option");
+    o.value=L.id; o.textContent=L.id+"（"+n+"語）";
+    sel.appendChild(o);
+  });
+  sel.value=curLesson;
+  sel.addEventListener("change",function(){
+    curLesson=this.value; store.set("lesson",curLesson);
+    drillStop(); stopAll();
+    document.getElementById("vSearch").value="";
+    shIdx=0; buildDeck(lessonWords()); buildListen(); shRender();
+    buildVocab(""); buildGrammar();
+  });
+})();
+
+function goWord(w){
+  document.querySelector('.tab[data-pane="vocab"]').click();
+  var box=document.getElementById("vSearch"); box.value=w; buildVocab(w);
+  var first=document.querySelector("#vocabBody .v .v-head"); if(first)first.click();
+}
+function buildLessons(){
+  var host=document.getElementById("lessonBody"); host.innerHTML="";
+  LESSONS.forEach(function(L){
+    var arts=ARTICLES.filter(function(a){return a.l===L.id});
+    if(!arts.length)return;
+    var h=document.createElement("div"); h.className="lesson-h";
+    h.innerHTML="<b>"+esc(L.id)+"</b><span>"+esc(L.theme)+" ・ 記事"+arts.length+"本</span>";
+    host.appendChild(h);
+    arts.forEach(function(a){
+      var c=document.createElement("div"); c.className="card art";
+      var n=document.createElement("p"); n.className="art-n";
+      n.innerHTML="<span>記事 "+a.n+"</span><span>"+esc(a.l)+"</span>"; c.appendChild(n);
+      var hd=document.createElement("div"); hd.className="art-head";
+      hd.appendChild(sayBtn(a.head));
+      var hp=document.createElement("p"); hp.textContent=a.head; hd.appendChild(hp);
+      c.appendChild(hd);
+      var ja=document.createElement("p"); ja.className="art-ja"; ja.textContent=a.ja; c.appendChild(ja);
+      var ld=document.createElement("div"); ld.className="art-lead";
+      ld.appendChild(sayBtn(a.lead));
+      var d=document.createElement("div");
+      d.innerHTML="<p class='t'>"+esc(a.lead)+"</p><p class='j'>"+esc(a.leadJ)+"</p>";
+      ld.appendChild(d); c.appendChild(ld);
+      if(typeof a.g==="number"&&GRAMMAR[a.g]){
+        var g=document.createElement("span"); g.className="gtag";
+        g.textContent="この記事から学んだ文法：" + GRAMMAR[a.g].title; c.appendChild(g);
+      }
+      var ch=document.createElement("div"); ch.className="chips";
+      a.words.forEach(function(w){
+        var v=VOCAB.filter(function(x){return x.w===w})[0]; if(!v)return;
+        var btn=document.createElement("button"); btn.type="button"; btn.className="chip"; btn.textContent=w;
+        btn.addEventListener("click",function(){goWord(w)});
+        ch.appendChild(btn);
+      });
+      c.appendChild(ch);
+      var ft=document.createElement("p"); ft.className="art-foot";
+      ft.innerHTML="<span>"+a.words.length+" 語をここから</span><a href='"+esc(a.u)+"' target='_blank' rel='noopener'>BBC で全文を読む</a>";
+      c.appendChild(ft);
+      host.appendChild(c);
+    });
+  });
+}
+
 /* ============ 起動 ============ */
-buildDeck(VOCAB); buildListen(); shRender(); buildVocab(""); buildGrammar();
-var lastTab=store.get("tab","quiz");
-if(panes.indexOf(lastTab)>=0 && lastTab!=="quiz"){
+buildLessons(); buildDeck(lessonWords()); buildListen(); shRender(); buildVocab(""); buildGrammar();
+var lastTab=store.get("tab","lesson");
+if(panes.indexOf(lastTab)>=0 && lastTab!=="lesson"){
   var tb=document.querySelector('.tab[data-pane="'+lastTab+'"]'); if(tb)tb.click();
 }
 })();

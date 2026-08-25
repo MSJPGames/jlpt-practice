@@ -17,7 +17,7 @@
 <title>Voz y Letra</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+Gurmukhi:wght@400;500;600&display=swap">
 </head>
 <body>
 <style>
@@ -97,6 +97,12 @@ h2.sec{font-family:var(--serif);font-size:19px;font-weight:600;margin:26px 0 4px
 .btn[disabled]{opacity:.45;cursor:default}
 .btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
 .es{font-family:var(--serif)}
+body.lg-pa .es{font-family:"Noto Sans Gurmukhi","Nirmala UI","Noto Sans",sans-serif;font-style:normal}
+select.lgsel{margin-left:auto;font-family:var(--sans);font-size:11.5px;color:var(--muted);
+  -webkit-appearance:none;appearance:none;background-color:var(--surface);border:1px solid var(--border);
+  border-radius:999px;padding:5px 25px 5px 11px;cursor:pointer;letter-spacing:.03em;line-height:1.2;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%238A968F' stroke-width='1.6' stroke-linecap='round'/></svg>");
+  background-repeat:no-repeat;background-position:right 9px center;background-size:9px 6px}
 .hidden{display:none !important}
 .row{display:flex;gap:8px;flex-wrap:wrap}
 .row .btn{flex:1;min-width:0}
@@ -370,7 +376,7 @@ details.fold .fold-in>p:first-child{margin-top:0}
 <header class="top">
   <div class="top-in">
     <h1 class="brand">Voz y <em>Letra</em></h1>
-    <span class="brand-sub">BBC Mundo</span>
+    <select id="lgSel" class="lgsel" aria-label="学ぶ言語"></select>
   </div>
   <nav class="tabs" role="tablist">
     <button class="tab" role="tab" data-pane="lesson" aria-selected="true">教材</button>
@@ -383,12 +389,7 @@ details.fold .fold-in>p:first-child{margin-top:0}
 </header>
 
 <div class="wrap">
-  <div id="novoice" class="note warn hidden">
-    <b>スペイン語の音声がこの端末に入っていません。</b><br>
-    Android は 設定 → 言語と入力 → テキスト読み上げ → 言語データをインストール。<br>
-    iPhone は 設定 → アクセシビリティ → 読み上げコンテンツ → 声 → スペイン語。<br>
-    追加してからこのページを開き直してください。
-  </div>
+  <div id="novoice" class="note warn hidden"></div>
   <div class="voicebar" id="voicebar">
     <label>声 <select id="voiceSel"></select></label>
     <label>速さ <select id="rateSel">
@@ -641,7 +642,7 @@ details.fold .fold-in>p:first-child{margin-top:0}
   </div>
 
   <p class="foot">
-    素材は BBC Mundo の RSS（見出しとリード文）。用例文はすべて自作。<br>
+    素材は <span id="ftSrc">BBC Mundo</span> の RSS（見出しとリード文）。用例文はすべて自作。<br>
     読み上げと音声認識は、端末が持っている機能を使っています。<br>
     Obsidian の <span class="es">語学/</span> フォルダと同じ内容です。個人用のため、サイトのどこからもリンクしていません。
   </p>
@@ -949,23 +950,63 @@ var GRAMMAR=[
  key:"見分け方は que の直前を見ること。名詞なら修飾節、動詞なら補文。教材タブでは修飾節を紫、補文を緑で示し、入れ子は色の濃淡で表している。"}
 ];
 
+
+/* ============ 学ぶ言語の設定 ============
+   言語を足すときは、ここに1つ足すだけでよい。
+   stop / skip / stem は語のハイライト用。無ければ素通しする（機能が落ちるだけで壊れない）。 */
+var LANGS={
+ es:{name:"スペイン語", src:"BBC Mundo", flag:"\uD83C\uDDEA\uD83C\uDDF8",
+   tts:"es", ttsFb:"es-ES", asr:"es-ES",
+   hint:"名詞は el / la を付ける。動詞は不定詞。",
+   voiceHelp:'Android は 設定 \u2192 言語と入力 \u2192 テキスト読み上げ \u2192 言語データをインストール。<br>iPhone は 設定 \u2192 アクセシビリティ \u2192 読み上げコンテンツ \u2192 声 \u2192 スペイン語。',
+   stop:["el","la","los","las","un","una","unos","unas","de","del","al","a","que","y","o","en","con","por","para","se","su","sus","lo","es","son","como","mas","m\u00e1s","no","si","le","les","ha","han","fue","era","este","esta","esto","esos","esas","ese","esa"],
+   skip:["entr","esta","com","dej","dar","hac","ten","pon","sal","ver","dic","ser","ir"],
+   stem:function(word){
+     var w=word;
+     if(/arse$|erse$|irse$/.test(w)) w=w.slice(0,-2);
+     if(/ar$/.test(w)&&w.length>=5) return w.slice(0,-2);
+     if(/(er|ir)$/.test(w)&&w.length>=5){var a=w.slice(0,-3);return a.length>=4?a:w.slice(0,-2)}
+     if(w.length>=6) return w.slice(0,-1);
+     return w;
+   }},
+ pa:{name:"\u30d1\u30f3\u30b8\u30e3\u30fc\u30d6\u8a9e", src:"BBC News \u0a16\u0a3c\u0a2c\u0a30\u0a3e\u0a02", flag:"\uD83D\uDCD6",
+   tts:"pa", ttsFb:"pa-IN", asr:"pa-IN",
+   hint:"動詞は \u0a23\u0a3e で終わる形（不定詞）。名詞は単数・主格。",
+   voiceHelp:'Android は 設定 \u2192 言語と入力 \u2192 テキスト読み上げ \u2192 言語データをインストール（\u0a2a\u0a70\u0a1c\u0a3e\u0a2c\u0a40 / Punjabi）。<br>iPhone は 設定 \u2192 アクセシビリティ \u2192 読み上げコンテンツ \u2192 声。<br><b>端末によっては用意されていません。</b>その場合、読み上げとシャドウイングは使えません。',
+   stop:[], skip:[], stem:null}
+};
+var LG=(function(){try{var v=localStorage.getItem("vyl_lg");return (v&&LANGS[v])?v:"es"}catch(e){return "es"}})();
+var LC=LANGS[LG];
+
 /* ============ この端末に追加された教材を読み込む ============ */
 var EXTRA={v:1,packs:[]};
 try{var _raw=localStorage.getItem("vyl_extra");
   if(_raw){var _p=JSON.parse(_raw); if(_p&&_p.packs&&_p.packs.length)EXTRA=_p}}catch(e){}
+/* 組み込みぶんはすべてスペイン語 */
+LESSONS.forEach(function(x){x.lg="es"});
+ARTICLES.forEach(function(x){x.lg="es"});
+VOCAB.forEach(function(x){x.lg="es"});
+GRAMMAR.forEach(function(x){x.lg="es"});
+
 EXTRA.packs.forEach(function(P){
   if(!P||!P.id)return;
-  LESSONS.push({id:P.id,theme:P.theme||"追加した記事"});
+  var plg=P.lg||"es";
+  LESSONS.push({id:P.id,theme:P.theme||"追加した記事",lg:plg});
   var gBase=GRAMMAR.length;
-  (P.grammar||[]).forEach(function(g){GRAMMAR.push(g)});
+  (P.grammar||[]).forEach(function(g){g.lg=plg;GRAMMAR.push(g)});
   (P.articles||[]).forEach(function(a){
-    a.l=P.id;
+    a.l=P.id; a.lg=plg;
     if(typeof a.g==="number"&&P.grammar&&P.grammar[a.g])a.g=gBase+a.g; else delete a.g;
     if(!a.words)a.words=[];
     ARTICLES.push(a);
   });
-  (P.vocab||[]).forEach(function(v){v.l=P.id; VOCAB.push(v)});
+  (P.vocab||[]).forEach(function(v){v.l=P.id; v.lg=plg; VOCAB.push(v)});
 });
+/* いま選んでいる言語だけにする。GRAMMAR は記事からの索引（a.g）を壊さないため絞らない。 */
+LESSONS=LESSONS.filter(function(x){return x.lg===LG});
+ARTICLES=ARTICLES.filter(function(x){return x.lg===LG});
+VOCAB=VOCAB.filter(function(x){return x.lg===LG});
+
 LESSONS.sort(function(x,y){return x.id<y.id?-1:(x.id>y.id?1:0)});
 ARTICLES.sort(function(x,y){return x.l<y.l?-1:(x.l>y.l?1:((x.n||0)-(y.n||0)))});
 
@@ -976,17 +1017,26 @@ var HEADS=ARTICLES.filter(function(a){return a.head}).map(function(a){return {t:
 /* ============ 基盤 ============ */
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 var store={get:function(k,d){try{var v=localStorage.getItem("vyl_"+k);return v===null?d:v}catch(e){return d}},
-           set:function(k,v){try{localStorage.setItem("vyl_"+k,v)}catch(e){}}};
+           set:function(k,v){try{localStorage.setItem("vyl_"+k,v)}catch(e){}},
+           /* 言語ごとに分ける値（学習記録など） */
+           lget:function(k,d){return this.get(k+"_"+LG,d)},
+           lset:function(k,v){this.set(k+"_"+LG,v)}};
+/* 多言語化する前の記録をスペイン語ぶんとして引き継ぐ（初回だけ） */
+(function(){
+  ["srs","lesson","qmode","voice"].forEach(function(k){
+    if(store.get(k+"_es",null)===null){var v=store.get(k,null); if(v!==null)store.set(k+"_es",v)}
+  });
+})();
 var voices=[], voice=null, rate=parseFloat(store.get("rate","0.85"))||0.85, queue=[], qi=-1, activeBtn=null;
 var synth=window.speechSynthesis||null;
 
 function pickVoices(){
   var all=[]; if(synth){try{all=synth.getVoices()||[]}catch(e){}}
-  voices=all.filter(function(v){return (v.lang||"").toLowerCase().indexOf("es")===0});
+  voices=all.filter(function(v){return (v.lang||"").toLowerCase().indexOf(LC.tts)===0});
   var sel=document.getElementById("voiceSel"), bar=document.getElementById("voicebar"), warn=document.getElementById("novoice");
   if(!voices.length){bar.classList.add("hidden");warn.classList.remove("hidden");return}
   bar.classList.remove("hidden");warn.classList.add("hidden");
-  sel.innerHTML="";var saved=store.get("voice","");
+  sel.innerHTML="";var saved=store.lget("voice","");
   voices.forEach(function(v,i){var o=document.createElement("option");o.value=i;o.textContent=v.name+"（"+v.lang+"）";
     sel.appendChild(o); if(v.name===saved) sel.value=i;});
   voice=voices[parseInt(sel.value,10)]||voices[0];
@@ -1003,7 +1053,7 @@ function speak(text,btn,after){
   try{synth.cancel()}catch(e){}
   clearActive();
   var u=new SpeechSynthesisUtterance(text);
-  if(voice){u.voice=voice;u.lang=voice.lang}else{u.lang="es-ES"}
+  if(voice){u.voice=voice;u.lang=voice.lang}else{u.lang=LC.ttsFb}
   u.rate=rate;
   if(btn){btn.classList.add("on");activeBtn=btn;var r=btn.closest(".line");if(r)r.classList.add("on")}
   u.onend=function(){clearActive();if(after)after()};
@@ -1020,7 +1070,7 @@ function sayBtn(text,label){
 }
 document.getElementById("rateSel").value=String(rate);
 document.getElementById("rateSel").addEventListener("change",function(e){rate=parseFloat(e.target.value);store.set("rate",e.target.value)});
-document.getElementById("voiceSel").addEventListener("change",function(e){voice=voices[parseInt(e.target.value,10)]||null;if(voice)store.set("voice",voice.name)});
+document.getElementById("voiceSel").addEventListener("change",function(e){voice=voices[parseInt(e.target.value,10)]||null;if(voice)store.lset("voice",voice.name)});
 
 var panes=["lesson","quiz","voice","vocab","grammar","add"];
 function paintLessonbar(m){
@@ -1044,7 +1094,7 @@ document.querySelectorAll(".tab").forEach(function(t){
 });
 
 /* ============ 間隔反復（この端末に記録。通信は使わない） ============ */
-var SRS=(function(){try{var o=JSON.parse(store.get("srs","{}"));return (o&&typeof o==="object")?o:{}}catch(e){return {}}})();
+var SRS=(function(){try{var o=JSON.parse(store.lget("srs","{}"));return (o&&typeof o==="object")?o:{}}catch(e){return {}}})();
 var SRS_IV=[1,3,7,21,60,150];
 function dayNum(d){d=d||new Date();return Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/86400000)}
 function T(){return dayNum()}
@@ -1055,7 +1105,7 @@ function srsMark(w,ok){
   if(ok){lv=(lv<0)?0:Math.min(SRS_IV.length-1,lv+1)}
   else{lv=(lv<=0)?0:lv-1}
   SRS[w]=[lv, T()+(ok?SRS_IV[lv]:1)];
-  try{store.set("srs",JSON.stringify(SRS))}catch(e){}
+  try{store.lset("srs",JSON.stringify(SRS))}catch(e){}
 }
 function srsDueList(){
   var fresh=[], due=[];
@@ -1104,11 +1154,11 @@ function srsPaint(){
 /* ============ クイズ ============ */
 var dir=store.get("dir","ja2es"), deck=[], di=0, score=0, missed=[], pool=null;
 function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t}return b}
-var qMode=store.get("qmode","srs");
+var qMode=store.lget("qmode","srs");
 function qModePaint(){
   document.querySelectorAll("#qMode b").forEach(function(x){x.classList.toggle("on",x.dataset.qm===qMode)});
 }
-function setQMode(m){qMode=m;store.set("qmode",m);qModePaint();buildDeck();paintLessonbar()}
+function setQMode(m){qMode=m;store.lset("qmode",m);qModePaint();buildDeck();paintLessonbar()}
 document.getElementById("qMode").addEventListener("click",function(e){
   var b=e.target.closest("b[data-qm]"); if(!b)return;
   stopAll(); setQMode(b.dataset.qm);
@@ -1144,7 +1194,7 @@ function renderQ(){
   document.getElementById("qScore").textContent="正解 "+score;
   document.getElementById("qMeter").style.width=(di/deck.length*100)+"%";
   var w=document.getElementById("qWord");
-  document.getElementById("qLabel").textContent = dir==="ja2es"?"この意味のスペイン語は？":"この語の意味は？";
+  document.getElementById("qLabel").textContent = dir==="ja2es"?("この意味の"+LC.name+"は？"):"この語の意味は？";
   w.textContent = dir==="ja2es"? it.m : it.w;
   w.classList.toggle("es", dir!=="ja2es");
   document.getElementById("qPos").textContent=it.pos+" ・ "+it.l;
@@ -1416,7 +1466,7 @@ function ensureMic(){
 function startRec(){
   try{
     rec=new SR();
-    rec.lang=(voice&&voice.lang)||"es-ES";
+    rec.lang=(voice&&voice.lang)||LC.asr;
     rec.interimResults=false; rec.maxAlternatives=1; rec.continuous=false;
     rec.onresult=function(ev){
       var said=""; try{said=ev.results[0][0].transcript||""}catch(e){}
@@ -1501,16 +1551,9 @@ function compare(target, said){
 }
 
 /* ============ 貼り付け解析 ============ */
-var STOP=["el","la","los","las","un","una","unos","unas","de","del","al","a","que","y","o","en","con","por","para","se","su","sus","lo","es","son","como","mas","más","no","si","le","les","ha","han","fue","era","este","esta","esto","esos","esas","ese","esa"];
-var STEM_SKIP=["entr","esta","com","dej","dar","hac","ten","pon","sal","ver","dic","ser","ir"];
-function stemOf(word){
-  var w=word;
-  if(/arse$|erse$|irse$/.test(w)) w=w.slice(0,-2);
-  if(/ar$/.test(w)&&w.length>=5) return w.slice(0,-2);
-  if(/(er|ir)$/.test(w)&&w.length>=5){var a=w.slice(0,-3);return a.length>=4?a:w.slice(0,-2)}
-  if(w.length>=6) return w.slice(0,-1);
-  return w;
-}
+var STOP=LC.stop||[];
+var STEM_SKIP=LC.skip||[];
+function stemOf(word){ return LC.stem ? LC.stem(word) : word; }
 function keysFor(v){
   var out=[];
   normWords(v.say).forEach(function(w){
@@ -1599,7 +1642,7 @@ document.getElementById("pasteCopy").addEventListener("click",function(){
   var txt=(document.getElementById("pasteBox").value||"").trim();
   if(!txt)return;
   var msg="このプロジェクトの引き継ぎメモを読んで、方針を把握して。\n"+
-          "そのうえで、この記事でスペイン語の教材ノートを作って。Markdownでそのまま貼れる形で。\n\n"+txt;
+          "そのうえで、この記事で"+LC.name+"の教材ノートを作って。Markdownでそのまま貼れる形で。\n\n"+txt;
   var note=document.getElementById("copyNote");
   function ok(){note.textContent="コピーしました。Claudeを開いて貼り付けてください。";note.classList.remove("hidden");
     setTimeout(function(){note.classList.add("hidden")},4000)}
@@ -1687,6 +1730,7 @@ document.getElementById("vAll").addEventListener("click",function(){
 function buildGrammar(){
   var host=document.getElementById("grammarBody"); host.innerHTML="";
   GRAMMAR.filter(function(g,i){
+    if(g.lg&&g.lg!==LG)return false;
     if(curLesson==="all")return true;
     return ARTICLES.some(function(a){return a.l===curLesson&&a.g===i});
   }).forEach(function(g){
@@ -1715,7 +1759,7 @@ function buildGrammar(){
 /* ============ 教材（記事ごと） ============ */
 var DATES=(function(){var a=[];LESSONS.forEach(function(L){var d=dOf(L.id);if(a.indexOf(d)<0)a.push(d)});
   return a.sort().reverse()})();
-var curLesson=store.get("lesson","all");
+var curLesson=store.lget("lesson","all");
 if(curLesson!=="all"&&DATES.indexOf(curLesson)<0) curLesson="all";
 function dOf(x){return String(x).slice(0,10)}
 function inLesson(v){return curLesson==="all"||dOf(v.l)===curLesson}
@@ -1936,11 +1980,11 @@ function shiftMonth(ym,n){
   return y+"-"+(m<10?"0"+m:m);
 }
 function setLesson(v){
-  curLesson=v; store.set("lesson",v);
+  curLesson=v; store.lset("lesson",v);
   var sel=document.getElementById("lessonSel"); if(sel)sel.value=v;
   drillStop(); stopAll(); hidePop();
   document.getElementById("vSearch").value="";
-  if(v!=="all"&&qMode==="srs"){qMode="lesson";store.set("qmode","lesson")}
+  if(v!=="all"&&qMode==="srs"){qMode="lesson";store.lset("qmode","lesson")}
   shIdx=0; buildDeck(); buildListen(); shRender();
   buildVocab(""); buildGrammar(); buildLessons(); buildCal();
 }
@@ -2014,7 +2058,7 @@ function toPack(raw,url){
 
   var id=newId();
   var stamp=String(Date.now()).slice(-7);
-  var P={id:id,theme:S(raw.theme||(raw.lesson&&raw.lesson.theme)||"追加した記事"),added:today(),
+  var P={id:id,lg:LG,theme:S(raw.theme||(raw.lesson&&raw.lesson.theme)||"追加した記事"),added:today(),
          articles:[],vocab:[],grammar:[]};
 
   gram.forEach(function(g){if(g&&g.title)P.grammar.push(clean(g))});
@@ -2047,7 +2091,7 @@ function savePackAndReload(P,el){
   x.packs.push(P);
   try{writeExtra(x)}
   catch(e){note(el,"warn","<b>保存できませんでした。</b>この端末の保存容量がいっぱいかもしれません。<br>古い追加分をいくつか消してから、もう一度お試しください。");return}
-  try{store.set("tab","lesson");store.set("lesson",String(P.id).slice(0,10))}catch(e){}
+  try{store.set("tab","lesson");store.lset("lesson",String(P.id).slice(0,10))}catch(e){}
   note(el,"ok","<b>追加しました。</b>記事"+P.articles.length+"本・語彙"+P.vocab.length+"語。教材のページを開きます…");
   setTimeout(function(){location.reload()},700);
 }
@@ -2058,9 +2102,9 @@ var SCHEMA=[
 '  "theme": "その回の主題を日本語で10〜20字",',
 '  "articles": [',
 '    {',
-'      "head":  "見出しの原文（スペイン語のまま）",',
+'      "head":  "見出しの原文（'+LC.name+'のまま）",',
 '      "ja":    "何の話かを日本語1文で",',
-'      "lead":  "リード文の原文を1文だけ（スペイン語のまま）",',
+'      "lead":  "リード文の原文を1文だけ（'+LC.name+'のまま）",',
 '      "leadJ": "そのリード文の日本語訳",',
 '      "sj":    "leadの中の主語。leadに出てくる綴りそのまま。無ければ空",',
 '      "pr":    "leadの中の述語動詞。leadに出てくる綴りそのまま。無ければ空",',
@@ -2069,7 +2113,7 @@ var SCHEMA=[
 '  ],',
 '  "vocab": [',
 '    {',
-'      "w":   "見出し語。名詞は el / la を付ける。動詞は不定詞",',
+'      "w":   "見出し語。'+LC.hint+'",',
 '      "pos": "動詞 / 男性名詞 / 女性名詞 / 形容詞 / 副詞 / 熟語 のどれか",',
 '      "m":   "日本語の意味",',
 '      "say": "読み上げ用。wと同じでよい",',
@@ -2096,7 +2140,7 @@ var RULES=[
 ].join("\n");
 
 var SYS=[
-'あなたはスペイン語の教材編集者です。渡されたスペイン語のニュース記事から、日本語話者の学習者向けの教材データを作ります。',
+'あなたは'+LC.name+'の教材編集者です。渡された'+LC.name+'のニュース記事から、日本語話者の学習者向けの教材データを作ります。',
 '',
 '返すのは JSON だけです。前置きも説明もコードブロックの印も付けないでください。',
 '',
@@ -2283,9 +2327,10 @@ $("addImport").addEventListener("click",function(){
 
 /* --- Markdown 書き出し --- */
 function packMd(P){
-  var L=["---","tags: [語学/教材, 語学/スペイン語]","更新日: "+(P.added||today()),
-         "言語: スペイン語","素材: BBC Mundo","---","",
-         "# 🇪🇸 "+P.id+" スペイン語","",
+  var NM=(LANGS[P.lg||"es"]||LC).name, SRC2=(LANGS[P.lg||"es"]||LC).src, FL=(LANGS[P.lg||"es"]||LC).flag;
+  var L=["---","tags: [語学/教材, 語学/"+NM+"]","更新日: "+(P.added||today()),
+         "言語: "+NM,"素材: "+SRC2,"---","",
+         "# "+FL+" "+P.id+" "+NM,"",
          "> 練習ページから書き出したもの。原文の引用は見出しとリード文まで。",""];
   if(P.articles.length){
     L.push("## 📰 見出し（"+P.articles.length+"本）","","| # | 見出し（原文） | ざっくり何の話か |","|---|---|---|");
@@ -2318,7 +2363,7 @@ function packMd(P){
     }
     L.push("");
   }
-  L.push("## 🔗 関連","","- [[_スペイン語ホーム]]","- [[スペイン語_語彙台帳]] ／ [[スペイン語_文法メモ]]","- [[00_語学ハブ]]","");
+  L.push("## 🔗 関連","","- [[_"+NM+"ホーム]]","- [["+NM+"_語彙台帳]] ／ [["+NM+"_文法メモ]]","- [[00_語学ハブ]]","");
   return L.join("\n");
 }
 
@@ -2335,7 +2380,8 @@ function buildAddList(){
     var c=document.createElement("div"); c.className="pack";
     var b=document.createElement("b"); b.textContent=P.id; c.appendChild(b);
     var s2=document.createElement("span");
-    s2.textContent=(P.theme||"")+" ・ 記事"+(P.articles||[]).length+"本 ・ 語彙"+(P.vocab||[]).length+"語";
+    var nm=(LANGS[P.lg||"es"]||{}).name||"";
+    s2.textContent=(nm?nm+" ・ ":"")+(P.theme||"")+" ・ 記事"+(P.articles||[]).length+"本 ・ 語彙"+(P.vocab||[]).length+"語";
     c.appendChild(s2);
     var row=document.createElement("div"); row.className="row";
 
@@ -2383,6 +2429,32 @@ $("addExport").addEventListener("click",function(){
     function(){note(st,"ok","<b>コピーしました。</b>どこかに貼って保存しておいてください。")},
     function(){note(st,"warn","コピーできませんでした。")});
 });
+})();
+
+/* ============ 起動：言語まわりの表示を差し替える ============ */
+document.body.classList.add("lg-"+LG);
+(function(){
+  var sel=document.getElementById("lgSel");
+  Object.keys(LANGS).forEach(function(k){
+    var o=document.createElement("option"); o.value=k; o.textContent=LANGS[k].name; sel.appendChild(o);
+  });
+  sel.value=LG;
+  sel.addEventListener("change",function(){
+    try{localStorage.setItem("vyl_lg",this.value)}catch(e){}
+    location.reload();
+  });
+  document.getElementById("novoice").innerHTML=
+    "<b>"+esc(LC.name)+"の音声がこの端末に入っていません。</b><br>"+LC.voiceHelp+
+    "<br>追加してからこのページを開き直してください。";
+  document.getElementById("ftSrc").textContent=LC.src;
+  var d1=document.querySelector('#dirRow [data-dir="ja2es"]'),
+      d2=document.querySelector('#dirRow [data-dir="es2ja"]');
+  if(d1)d1.textContent="日本語 → "+LC.name;
+  if(d2)d2.textContent=LC.name+" → 日本語";
+  var pb=document.getElementById("pasteBox");
+  if(pb)pb.placeholder="ここに"+LC.name+"の文章を貼り付けてください。\n記事のページからそのままで大丈夫です。";
+  var vs=document.getElementById("vSearch");
+  if(vs)vs.placeholder=LC.name+"でも日本語でも検索できます";
 })();
 
 /* ============ 起動 ============ */

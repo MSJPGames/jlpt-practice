@@ -65,7 +65,8 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);fon
 .brand{font-family:var(--serif);font-size:23px;font-weight:600;line-height:1.1;margin:0}
 .brand em{font-style:italic;font-weight:400;color:var(--accent-ink)}
 .brand-sub{font-size:11px;color:var(--faint);letter-spacing:.09em;text-transform:uppercase;margin-left:auto;white-space:nowrap}
-.tabs{max-width:640px;margin:0 auto;padding:0 16px 9px;display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.tabs{max-width:640px;margin:0 auto;padding:0 16px 9px;display:flex;gap:4px}
+.tab{flex:1 1 0;min-width:0}
 .tab{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--muted);
   font-family:var(--sans);font-size:11.5px;font-weight:500;padding:9px 2px;border-radius:var(--r);cursor:pointer;
   transition:background .12s,color .12s,border-color .12s}
@@ -98,6 +99,9 @@ h2.sec{font-family:var(--serif);font-size:19px;font-weight:600;margin:26px 0 4px
 .btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
 .es{font-family:var(--serif)}
 body.lg-pa .es{font-family:"Noto Sans Gurmukhi","Nirmala UI","Noto Sans",sans-serif;font-style:normal}
+/* 端末にその言語の音声が無いとき、押しても鳴らないものを出さない */
+body.no-tts .say,body.no-tts .voicebar,body.no-tts #playAll,
+body.no-tts #voiceSeg b[data-mode="list"],body.no-tts #voiceSeg b[data-mode="shadow"]{display:none}
 select.lgsel{margin-left:auto;font-family:var(--sans);font-size:11.5px;color:var(--muted);
   -webkit-appearance:none;appearance:none;background-color:var(--surface);border:1px solid var(--border);
   border-radius:999px;padding:5px 25px 5px 11px;cursor:pointer;letter-spacing:.03em;line-height:1.2;
@@ -954,6 +958,7 @@ var GRAMMAR=[
 /* ============ 学ぶ言語の設定 ============
    言語を足すときは、ここに1つ足すだけでよい。
    stop / skip / stem は語のハイライト用。無ければ素通しする（機能が落ちるだけで壊れない）。 */
+var GENERIC='Android は 設定 → システム → 言語と入力 → テキスト読み上げの設定 → 言語データのインストール。<br>iPhone は 設定 → アクセシビリティ → 読み上げコンテンツ → 声。<br><b>用意されていない言語もあります。</b>その場合、読み上げとシャドウイングは使えません。';
 var LANGS={
  es:{name:"スペイン語", src:"BBC Mundo", flag:"\uD83C\uDDEA\uD83C\uDDF8",
    tts:"es", ttsFb:"es-ES", asr:"es-ES",
@@ -969,6 +974,26 @@ var LANGS={
      if(w.length>=6) return w.slice(0,-1);
      return w;
    }},
+ /* 以下は素材のRSSだけ確認済み。読み上げの有無は端末しだいなので、
+    切り替えて「声」の欄が出るかどうかで判定する。 */
+ hi:{name:"ヒンディー語", src:"BBC News हिंदी", flag:"\uD83D\uDCD6",
+   tts:"hi", ttsFb:"hi-IN", asr:"hi-IN", hint:"動詞は ना で終わる形（不定詞）。名詞は単数・主格。",
+   voiceHelp:GENERIC, stop:[], skip:[], stem:null},
+ ne:{name:"ネパール語", src:"BBC News नेपाली", flag:"\uD83D\uDCD6",
+   tts:"ne", ttsFb:"ne-NP", asr:"ne-NP", hint:"動詞は नु で終わる形（不定詞）。名詞は単数・主格。",
+   voiceHelp:GENERIC, stop:[], skip:[], stem:null},
+ vi:{name:"ベトナム語", src:"BBC News Tiếng Việt", flag:"\uD83D\uDCD6",
+   tts:"vi", ttsFb:"vi-VN", asr:"vi-VN", hint:"声調記号まで正確に書く。名詞は単数形。",
+   voiceHelp:GENERIC, stop:[], skip:[], stem:null},
+ th:{name:"タイ語", src:"BBC News ไทย", flag:"\uD83D\uDCD6",
+   tts:"th", ttsFb:"th-TH", asr:"th-TH", hint:"動詞は原形。名詞は単数形。声調記号を落とさない。",
+   voiceHelp:GENERIC, stop:[], skip:[], stem:null},
+ bn:{name:"ベンガル語", src:"BBC News বাংলা", flag:"\uD83D\uDCD6",
+   tts:"bn", ttsFb:"bn-IN", asr:"bn-IN", hint:"動詞は不定詞。名詞は単数・主格。",
+   voiceHelp:GENERIC, stop:[], skip:[], stem:null},
+ ur:{name:"ウルドゥー語", src:"BBC News اردو", flag:"\uD83D\uDCD6",
+   tts:"ur", ttsFb:"ur-PK", asr:"ur-PK", hint:"動詞は نا で終わる形（不定詞）。名詞は単数・主格。",
+   voiceHelp:GENERIC, stop:[], skip:[], stem:null},
  pa:{name:"\u30d1\u30f3\u30b8\u30e3\u30fc\u30d6\u8a9e", src:"BBC News \u0a16\u0a3c\u0a2c\u0a30\u0a3e\u0a02", flag:"\uD83D\uDCD6",
    tts:"pa", ttsFb:"pa-IN", asr:"pa-IN",
    hint:"動詞は \u0a23\u0a3e で終わる形（不定詞）。名詞は単数・主格。",
@@ -1030,11 +1055,27 @@ var store={get:function(k,d){try{var v=localStorage.getItem("vyl_"+k);return v==
 var voices=[], voice=null, rate=parseFloat(store.get("rate","0.85"))||0.85, queue=[], qi=-1, activeBtn=null;
 var synth=window.speechSynthesis||null;
 
+var voicesSettled=false;
+/* 読み上げが使えない言語のとき、鳴らない部品を隠し、音読タブを「文章」に変える。 */
+function noTTS(on){
+  document.body.classList.toggle("no-tts",!!on);
+  var t=document.querySelector('.tab[data-pane="voice"]');
+  if(t)t.textContent = on ? "文章" : "音読";
+  if(on){
+    var seg=document.getElementById("voiceSeg");
+    if(seg){
+      seg.querySelectorAll("b").forEach(function(x){x.classList.toggle("on",x.dataset.mode==="paste")});
+      var ml=document.getElementById("modeList"), ms=document.getElementById("modeShadow"), mp=document.getElementById("modePaste");
+      if(ml)ml.classList.add("hidden"); if(ms)ms.classList.add("hidden"); if(mp)mp.classList.remove("hidden");
+    }
+  }
+}
 function pickVoices(){
   var all=[]; if(synth){try{all=synth.getVoices()||[]}catch(e){}}
   voices=all.filter(function(v){return (v.lang||"").toLowerCase().indexOf(LC.tts)===0});
   var sel=document.getElementById("voiceSel"), bar=document.getElementById("voicebar"), warn=document.getElementById("novoice");
-  if(!voices.length){bar.classList.add("hidden");warn.classList.remove("hidden");return}
+  if(!voices.length){bar.classList.add("hidden");warn.classList.remove("hidden");if(voicesSettled)noTTS(true);return}
+  noTTS(false);
   bar.classList.remove("hidden");warn.classList.add("hidden");
   sel.innerHTML="";var saved=store.lget("voice","");
   voices.forEach(function(v,i){var o=document.createElement("option");o.value=i;o.textContent=v.name+"（"+v.lang+"）";
@@ -1043,7 +1084,8 @@ function pickVoices(){
 }
 if(synth){pickVoices();
   if(typeof synth.addEventListener==="function")synth.addEventListener("voiceschanged",pickVoices);else synth.onvoiceschanged=pickVoices;
-  setTimeout(pickVoices,700);}else{pickVoices()}
+  setTimeout(function(){voicesSettled=true;pickVoices()},700);}
+else{voicesSettled=true;pickVoices()}
 
 function clearActive(){if(activeBtn){activeBtn.classList.remove("on");activeBtn=null}
   var on=document.querySelector(".line.on");if(on)on.classList.remove("on")}

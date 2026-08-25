@@ -98,6 +98,10 @@ h2.sec{font-family:var(--serif);font-size:19px;font-weight:600;margin:26px 0 4px
 .btn[disabled]{opacity:.45;cursor:default}
 .btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
 .es{font-family:var(--serif)}
+body.lg-paIN .es{font-family:"Noto Sans Gurmukhi","Noto Serif Gurmukhi",sans-serif;font-style:normal;
+  font-size:1.08em;line-height:1.9}
+body.lg-paIN .v .ctx{font-family:"Noto Sans Gurmukhi",sans-serif;font-style:normal;font-size:14.5px;line-height:1.9}
+body.lg-paIN .g table .es{font-size:1.15em;line-height:1.9}
 body.lg-pa .es{font-family:"Noto Naskh Arabic","Noto Nastaliq Urdu","Urdu Typesetting",serif;font-style:normal;
   direction:rtl;unicode-bidi:isolate;font-size:1.12em;line-height:1.9}
 body.lg-ur .es{font-family:"Noto Naskh Arabic","Noto Nastaliq Urdu","Urdu Typesetting",serif;font-style:normal;
@@ -163,7 +167,8 @@ select.lgsel{margin-left:auto;font-family:var(--sans);font-size:11.5px;color:var
 
 /* segmented */
 .seg{display:flex;gap:6px;margin:16px 0 4px}
-.seg b{flex:1;text-align:center;font-weight:500;font-size:13.5px;padding:8px 4px;border-radius:var(--r);
+.seg b{flex:1 1 0;min-width:0;text-align:center;font-weight:500;font-size:13px;padding:8px 3px;border-radius:var(--r);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer}
 .seg b.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
 
@@ -492,7 +497,8 @@ details.fold .fold-in>p:first-child{margin-top:0}
     <p class="sec-note">一覧で聞き流すか、1文ずつシャドウイングするか。</p>
     <div class="seg" id="voiceSeg">
       <b class="on" data-mode="list">一覧</b>
-      <b data-mode="shadow">シャドウイング</b>
+      <b data-mode="shadow">シャドウ</b>
+      <b data-mode="text">本文</b>
       <b data-mode="paste">貼り付け</b>
     </div>
 
@@ -509,6 +515,7 @@ details.fold .fold-in>p:first-child{margin-top:0}
       <div class="seg" id="shSrc" style="margin-top:14px">
         <b class="on" data-src="ex">用例</b>
         <b data-src="lead">リード文</b>
+        <b data-src="text">本文</b>
         <b data-src="paste">貼り付け</b>
       </div>
       <div class="card sh-card" style="margin-top:12px">
@@ -553,6 +560,14 @@ details.fold .fold-in>p:first-child{margin-top:0}
       </div>
     </div>
 
+    <div id="modeText" class="hidden">
+      <p class="sec-note" style="margin:14px 0 0">教材に入っている記事の本文です。<b>文をタップすると読み上げます。</b>学んだ語に色が付きます。通信は使いません。</p>
+      <div class="row" style="margin:11px 0 0">
+        <button class="btn" id="txtToShadow">この本文でシャドウイング</button>
+      </div>
+      <div id="textOut" style="margin-top:12px"></div>
+    </div>
+
     <div id="modePaste" class="hidden">
       <p class="sec-note" style="margin:14px 0 0">記事の本文を貼ると、文に区切って、学んだ語に色を付けます。通信は使いません。</p>
       <textarea id="pasteBox" class="paste" placeholder="ここにスペイン語の文章を貼り付けてください。&#10;RSSリーダーやBBCのページからそのままで大丈夫です。"></textarea>
@@ -569,7 +584,7 @@ details.fold .fold-in>p:first-child{margin-top:0}
         </div>
         <p class="sec-note hidden" id="copyNote" style="margin:8px 2px 0"></p>
         <div class="card" id="pasteBody" style="margin-top:12px"></div>
-        <p class="sec-note" style="margin:10px 2px 0">色が付くのは、学んだ36語とその活用形です。不規則な形は拾いきれないことがあります。</p>
+        <p class="sec-note" id="pasteFoot" style="margin:10px 2px 0">色が付くのは、学んだ語とその活用形です。不規則な形は拾いきれないことがあります。</p>
       </div>
     </div>
   </section>
@@ -609,12 +624,17 @@ details.fold .fold-in>p:first-child{margin-top:0}
     <div id="addStatus" class="note hidden"></div>
     <p class="mini">「解析して追加」は中継サーバーのAIが下ごしらえをします。語彙・意味・自作例文まで。<br>
       構文の色分けまで要るときは「Claudeへの依頼文をコピー」→ Claudeに貼る →
-      返ってきたものを下の「できあがったデータを貼り付ける」へ。</p>
+      返ってきたものを下の「ファイル／データを読み込む」へ。</p>
 
     <details class="fold" id="foldJson">
-      <summary>できあがったデータを貼り付ける</summary>
+      <summary>📄 ファイル／データを読み込む</summary>
       <div class="fold-in">
-        <p class="sec-note" style="margin:4px 0 0">Claudeが返したJSONを、そのまま貼って押してください。</p>
+        <p class="sec-note" style="margin:4px 0 0">受け取ったファイルを選ぶか、JSONを貼り付けてください。</p>
+        <div class="row" style="margin:10px 0 2px">
+          <label class="btn primary" for="addFile" style="flex:1;text-align:center;cursor:pointer;line-height:1.4">📄 ファイルから読み込む</label>
+          <input id="addFile" type="file" accept=".json,application/json,text/plain" style="display:none">
+        </div>
+        <p class="mini" style="margin:2px 2px 8px">選ぶだけで取り込みます。貼り付けは要りません。</p>
         <textarea id="addJson" class="paste" placeholder='{"theme":"...","articles":[...],"vocab":[...]}'></textarea>
         <div class="row" style="margin:10px 0 0"><button class="btn primary" id="addImport">取り込む</button></div>
       </div>
@@ -644,7 +664,7 @@ details.fold .fold-in>p:first-child{margin-top:0}
     <div class="row" style="margin:14px 0 0">
       <button class="btn" id="addExport">全部を書き出す</button>
     </div>
-    <p class="mini">書き出したものは「できあがったデータを貼り付ける」から戻せます。機種変更のときに。</p>
+    <p class="mini">書き出したものは「ファイル／データを読み込む」から戻せます。機種変更のときに。</p>
   </section>
 
   <div class="pop" id="pop" role="dialog" aria-live="polite">
@@ -671,305 +691,11 @@ details.fold .fold-in>p:first-child{margin-top:0}
 <script>
 (function(){
 "use strict";
-var L1="2026-08-22", L2="2026-08-23", L3="2026-08-23 ②";
-
-/* ============ 語彙データ ============ */
-var VOCAB=[
-{w:"disparar las alarmas",reg:"報道・比喩",warn:"文字どおりの disparar は「発砲する」。同じ動詞なので、比喩だと気づかないと物騒に読める。",say:"disparar las alarmas",m:"警鐘を鳴らす、危機感を呼び起こす",pos:"熟語",l:L1,
- ex:"La caída del yen disparó las alarmas entre los importadores.",sj:"caída",pr:"disparó",exj:"円安が輸入業者の間に警戒感を走らせた。",
- col:"主語になるのは <b>la inflación / los datos / la caída de… / el aumento de casos</b>。「〜の間で」は <b>entre los inversores</b>、<b>entre los expertos</b>。同系統に <b>saltar las alarmas</b>、<b>encender las alarmas</b>。",
- syn:"<b>saltar las alarmas</b> は警報の側が主語（警報が鳴る）。<b>disparar</b> は原因の側が主語（鳴らさせる）。<b>alertar</b> は単に警告するだけで比喩性が弱く、<b>preocupar</b> は個人の心配。この語は社会全体がざわつく感じ。"},
-{w:"el hito",reg:"報道・やや硬い",warn:"会話では un momento importante などのほうが自然。",say:"el hito",m:"節目、画期的な出来事",pos:"男性名詞",l:L1,
- ex:"Aprobar el DELE B2 fue un hito en mi aprendizaje.",sj:"Aprobar",pr:"fue",exj:"DELE B2に受かったのは、私の学習の一つの節目だった。",
- col:"動詞は <b>alcanzar / marcar / suponer / representar un hito</b>。形容詞は <b>un hito histórico</b>、<b>un hito importante</b>。<b>un hito en la historia de…</b>",
- syn:"<b>el logro</b> は成果そのもの、<b>el récord</b> は数値の記録、<b>el punto de inflexión</b> は流れが変わる転換点で良し悪しを問わない。<b>hito</b> は原則プラス評価の到達点。"},
-{w:"la deuda",reg:"中立",say:"la deuda",m:"負債、借金",pos:"女性名詞",l:L1,
- col:"<b>contraer / pagar / saldar / cancelar / condonar una deuda</b>。種類は <b>la deuda pública / externa / soberana</b>。<b>el nivel de deuda</b>、<b>estar endeudado</b>。",
- syn:"<b>el préstamo</b> は貸し借りされた金そのもの（融資）、<b>el crédito</b> は与信・信用枠。<b>deuda</b> は「返す義務」の側に焦点。比喩で <b>tener una deuda con alguien</b>＝恩義がある。"},
-{w:"hasta qué punto",reg:"中立",warn:"会話でも使える。より硬く言うなら en qué medida。",say:"hasta qué punto",m:"どの程度まで〜か",pos:"疑問表現",l:L1,
- col:"<b>¿Hasta qué punto es cierto / fiable / grave…?</b>／<b>No sé hasta qué punto…</b>／<b>Habría que ver hasta qué punto…</b>",
- syn:"<b>por qué</b> は理由、<b>cuánto</b> は量。<b>en qué medida</b> はほぼ同義だがより硬い書き言葉。この表現は「程度」を問う。"},
-{w:"sumarse a",reg:"報道",warn:"会話で「参加する」は unirse a や apuntarse a のほうが普通。",say:"sumarse a",m:"〜に加わる、名を連ねる",pos:"再帰動詞",l:L1,
- ex:"Este año me sumé a un grupo de conversación en español.",sj:"",pr:"me sumé",exj:"今年、スペイン語の会話グループに加わった。",
- col:"<b>sumarse a la lista / a la iniciativa / a la protesta / a la huelga / al proyecto / a las críticas</b>。",
- syn:"<b>unirse a</b> は仲間や団体に加わる（最も一般的）。<b>adherirse a</b> は硬く、協定・条約への加入。<b>apuntarse a</b> は口語で「参加を申し込む」。<b>sumarse</b> は既にある流れに賛同して加わる含み。"},
-{w:"lograr ＋不定詞",reg:"中立",warn:"会話では conseguir のほうが多い。lograr はやや改まった響き。",say:"lograr",m:"〜し遂げる（≒ conseguir）",pos:"動詞",l:L1,
- col:"<b>lograr un acuerdo / el objetivo / la victoria / el récord</b>。<b>lograr que ＋接続法</b>（Logró que le escucharan）。",
- syn:"<b>conseguir</b> とほぼ同義だが <b>lograr</b> のほうがやや硬く、努力の末という含みが強い。<b>alcanzar</b> は目標や水準に「到達する」。<b>poder</b> は単なる可能で達成のニュアンスがない。"},
-{w:"albergar",reg:"硬い・書き言葉",warn:"会話ではまず使わない。人を泊めるなら alojar、感情なら tener。",say:"albergar",m:"（場所が）擁する、住まわせる",pos:"動詞",l:L1,
- ex:"La biblioteca alberga más de un millón de libros.",sj:"biblioteca",pr:"alberga",exj:"その図書館は100万冊を超える蔵書を擁している。",
- col:"物なら <b>albergar un museo / la sede / especies</b>、人なら <b>albergar a los refugiados</b>、感情なら <b>albergar esperanzas / dudas / temores</b>。",
- syn:"<b>alojar</b> は人を泊める、<b>abrigar</b> は感情を抱く（文語）。<b>albergar</b> は場所が擁する意味と感情を抱く意味の両方に使えるのが強み。<b>tener</b> より格式が高い。"},
-{w:"a un ritmo alarmante",reg:"報道の定型",say:"a un ritmo alarmante",m:"憂慮すべき速さで",pos:"熟語",l:L1,
- col:"<b>crecer / aumentar / disminuir / perder … a un ritmo</b> ＋ <b>alarmante / acelerado / vertiginoso / constante / lento</b>。",
- syn:"<b>a una velocidad</b> はより物理的な速さ。<b>alarmante</b> は必ず否定的、<b>vertiginoso</b> は「めまいがするほど速い」で必ずしも否定的でない。"},
-{w:"sancionar a 人 con 罰",reg:"公的・法律／スポーツ",warn:"法律の文脈では「（法案を）裁可する」という<b>正反対の意味</b>にもなる。主語が議会や大統領なら要注意。日常で人を罰するなら castigar。",say:"sancionar a alguien con algo",m:"〜に…の処分を科す",pos:"動詞",l:L1,
- ex:"El árbitro lo sancionó con una tarjeta roja.",sj:"árbitro",pr:"sancionó",exj:"主審は彼にレッドカードの処分を下した。",
- col:"<b>sancionar con una multa / con la suspensión / con X partidos</b>。名詞形で <b>imponer una sanción</b>、<b>levantar las sanciones</b>（制裁を解除）。",
- syn:"<b>castigar</b> はより一般的な「罰する」（親が子を、も可）。<b>multar</b> は罰金に限定。<b>penalizar</b> は不利益を課す・減点。<b>sancionar</b> は公的機関による処分。※ 法律の文脈では「裁可する」という正反対の意味にもなるので文脈で判断。"},
-{w:"el altercado",reg:"報道・硬い",warn:"会話では pelea や discusión。altercado は新聞の語。",say:"el altercado",m:"口論、いさかい",pos:"男性名詞",l:L1,
- col:"<b>tener / protagonizar un altercado</b>。<b>un altercado con la policía</b>、<b>entre aficionados</b>。<b>altercados violentos</b>。",
- syn:"<b>la discusión</b> は言い争い（暴力なし）、<b>la pelea</b> は殴り合いを含む喧嘩、<b>la riña</b> は口語的な口喧嘩、<b>el enfrentamiento</b> はより大きな対立。<b>altercado</b> は口論から小競り合いの間で、報道向けの硬い語。"},
-{w:"desafiar",reg:"中立〜やや硬い",say:"desafiar",m:"逆らう、公然と挑む",pos:"動詞",l:L1,
- col:"<b>desafiar la ley / la autoridad / las normas / la lógica / la gravedad</b>。対人では <b>desafiar a alguien a ＋不定詞</b>。",
- syn:"<b>retar</b> は「挑戦状を出す」で対人的。<b>enfrentarse a</b> は立ち向かう。<b>desobedecer</b> は単に従わないだけで挑発の含みがない。<b>desafiar</b> は公然と、見せつけるように逆らう。"},
-{w:"desatar",reg:"報道",warn:"会話では provocar や causar。desatar は激しいものにしか使わない。",say:"desatar",m:"引き起こす（元は「ほどく」）",pos:"動詞",l:L1,
- ex:"La noticia desató una ola de críticas.",sj:"noticia",pr:"desató",exj:"その報道は批判の波を引き起こした。",
- col:"<b>desatar una polémica / una crisis / una ola de críticas / una guerra / el pánico</b>。再帰で <b>desatarse</b>（嵐や騒動が起きる）。",
- syn:"<b>provocar</b> は中立的に引き起こす、<b>causar</b> は単なる因果、<b>generar</b> は穏当に生み出す。<b>desatar</b> は「せき止めていたものが一気に噴き出す」感じで、激しいものにしか使わない。"},
-
-{w:"la red",reg:"中立",warn:"las redes sociales は完全な日常語。犯罪の「網」と使い分けは文脈で。",say:"la red",m:"網、（組織の）ネットワーク",pos:"女性名詞",l:L2,
- ex:"La policía desarticuló una red de estafas telefónicas.",sj:"policía",pr:"desarticuló",exj:"警察は電話詐欺の組織網を摘発した。",
- col:"犯罪なら <b>una red de tráfico / de contrabando / de corrupción / de trata</b>、摘発は <b>desarticular / desmantelar una red</b>。日常では <b>la red de transporte</b>、<b>las redes sociales</b>。",
- syn:"<b>la banda</b> は犯罪グループ（人の集団）、<b>la organización</b> は組織、<b>el entramado</b> は入り組んだ仕組み。<b>red</b> は「張り巡らされた網」で、広がりと結節点を含意する。"},
-{w:"atrapar",reg:"やや口語寄り",warn:"報道で「逮捕する」は detener。atrapar だと「取り押さえた」ような生々しさが出る。",say:"atrapar",m:"捕らえる、つかまえる",pos:"動詞",l:L2,
- col:"<b>atrapar a un sospechoso / al ladrón</b>。受動的に <b>quedar atrapado en / bajo</b>（閉じ込められる）。比喩で <b>atrapar la atención</b>。",
- syn:"報道で「逮捕」なら <b>detener</b>（公的手続き）。<b>capturar</b> は硬く動物や逃亡者に。<b>coger / agarrar</b> は単に手に取る。<b>atrapar</b> は逃げるものを捕まえる語感で、やや口語寄り。"},
-{w:"el aspirante a",reg:"やや硬い",warn:"会話や選挙報道では candidato のほうが普通。aspirante はまだ資格を得ていない段階。",say:"el aspirante a",m:"〜志望者、〜の候補",pos:"男性名詞",l:L2,
- col:"<b>aspirante a la presidencia / al título / a miembro / a un puesto</b>。動詞は <b>aspirar a</b>。",
- syn:"<b>el candidato</b> は正式に立っている候補者、<b>el postulante</b> は応募者（硬い）、<b>el pretendiente</b> は求婚者や王位請求者。<b>aspirante</b> はまだ資格を得ていない志望段階。"},
-{w:"la fiscalía",reg:"専門・報道",say:"la fiscalía",m:"検察（当局）",pos:"女性名詞",l:L2,
- col:"<b>según la fiscalía</b>（報道の定型）。<b>la fiscalía investiga / acusa / pide X años</b>。人は <b>el fiscal</b>、組織名は <b>la Fiscalía General</b>。",
- syn:"<b>el juzgado / el tribunal</b> は裁判所、<b>la policía</b> は警察。スペイン語圏の報道では「捜査と起訴＝policía・fiscalía、判断＝juez・tribunal」と役割が明確に書き分けられる。"},
-{w:"el buque",reg:"専門・報道",warn:"日常の「船」は barco。buque は大型船と海運記事の語。",say:"el buque",m:"船舶（大型の船）",pos:"男性名詞",l:L2,
- col:"<b>buque de carga / de guerra / mercante / cisterna / portacontenedores</b>。<b>el tránsito de buques</b>。",
- syn:"<b>el barco</b> が最も広く一般的な「船」。<b>la nave</b> は文語や宇宙船。<b>el bote / la lancha</b> は小舟。<b>buque</b> は大型船に限られ、報道や海運の語。"},
-{w:"atribuir A a B",reg:"硬い・書き言葉",warn:"会話で「〜のせいにする」は echar la culpa a や achacar。",say:"atribuir algo a algo",m:"AをBに帰する、Bのせいだとする",pos:"動詞",l:L2,
- ex:"Los expertos atribuyen el retraso a la falta de personal.",sj:"expertos",pr:"atribuyen",exj:"専門家は、遅れを人手不足のせいだとしている。",
- col:"<b>atribuir la culpa / el éxito / el retraso / la decisión a…</b>。受動的に <b>se le atribuye…</b>（〜のものとされる）。美術では <b>atribuir un cuadro a un pintor</b>。",
- syn:"<b>achacar</b> は口語で「〜のせいにする」（否定的）。<b>culpar</b> は人を責める。<b>deberse a</b> は結果が主語になり「〜に起因する」。<b>atribuir</b> は比較的中立で客観的。"},
-{w:"la escasez",reg:"報道・やや硬い",warn:"会話では falta de… で足りることが多い。",say:"la escasez",m:"不足、欠乏",pos:"女性名詞",l:L2,
- ex:"Hay escasez de vivienda asequible en la capital.",sj:"",pr:"Hay",exj:"首都では手ごろな住宅が不足している。",
- col:"<b>escasez de agua / de lluvias / de personal / de vivienda / de recursos / de alimentos</b>。<b>ante la escasez de…</b>",
- syn:"<b>la falta</b> はより一般的な「欠如」。<b>la carencia</b> は硬く、栄養素や要件の欠乏。<b>la penuria</b> は困窮。<b>escasez</b> は「あるべき量に届かない」で、資源や物資と結びつきやすい。"},
-{w:"en medio de",reg:"中立",warn:"会話でも使う。より口語的に強調するなら en pleno + 名詞。",say:"en medio de",m:"〜の真っただ中で",pos:"前置詞句",l:L2,
- ex:"En medio de la reunión, se fue la luz.",sj:"luz",pr:"se fue",exj:"会議の最中に停電した。",
- col:"<b>en medio de la crisis / del caos / de las protestas / de la nada / de la noche</b>。",
- syn:"<b>durante</b> は単に期間を示すだけ。<b>entre</b> は2つのものの間。<b>en pleno ＋名詞</b>（en pleno invierno）はより口語的で「まさに最中」を強調。<b>en medio de</b> は混乱や騒ぎのただ中というニュアンスを持ちやすい。"},
-{w:"contrarreloj",reg:"報道・比喩",warn:"元は自転車競技のタイムトライアル。締切と競う場面に限る。",say:"contrarreloj",m:"時間と競って",pos:"副詞的",l:L2,
- col:"<b>trabajar / correr / negociar / reorganizarse contrarreloj</b>。名詞で <b>una carrera contrarreloj</b>（自転車のタイムトライアル）。",
- syn:"<b>a toda prisa</b> は「大急ぎで」、<b>con urgencia</b> は「緊急に」。<b>contrarreloj</b> は締切という敵がはっきりしているときに使う。元は自転車競技の用語。"},
-{w:"acusar a 人 de 〜",reg:"中立",warn:"日常でも冗談でも使える。法的な「起訴」は imputar や procesar。",say:"acusar a alguien de algo",m:"〜のかどで人を告発する",pos:"動詞",l:L2,
- ex:"Lo acusaron de falsificar documentos.",sj:"",pr:"acusaron",exj:"彼は文書偽造のかどで告発された。",
- col:"<b>acusar de corrupción / de plagio / de fraude</b>、動詞なら <b>acusar de ＋不定詞</b>。受動で <b>ser acusado de</b>。名詞は <b>las acusaciones</b>。",
- syn:"<b>denunciar</b> は当局に通報・告発する。<b>culpar</b> は法的でなくても責任を負わせる。<b>imputar</b> は法律用語で「被疑者とする」。<b>acusar</b> は法廷でも日常でも使える最も広い語。"},
-{w:"el plagio",reg:"専門（学術・出版）",say:"el plagio",m:"盗用、剽窃",pos:"男性名詞",l:L2,
- col:"<b>acusar de plagio</b>、<b>cometer plagio</b>、<b>un caso de plagio</b>。動詞は <b>plagiar</b>。",
- syn:"<b>la copia</b> は単なる複製、<b>la falsificación</b> は偽造、<b>el fraude</b> は不正一般。<b>plagio</b> は著作物・研究の盗用に限定される。"},
-{w:"cada vez más",reg:"中立",warn:"会話でも報道でも頻出。最も使い勝手のよい表現の一つ。",say:"cada vez más",m:"ますます（多くの）",pos:"熟語",l:L2,
- ex:"Cada vez más jóvenes estudian español en Japón.",sj:"jóvenes",pr:"estudian",exj:"日本でスペイン語を学ぶ若者がますます増えている。",
- col:"名詞にも形容詞にも動詞にも付く：<b>cada vez más turistas</b>／<b>cada vez más caro</b>／<b>se usa cada vez más</b>。反対は <b>cada vez menos</b>。",
- syn:"<b>más y más</b> はより口語的・文学的。<b>progresivamente</b>、<b>de forma creciente</b> は硬い書き言葉。<b>cada día más</b> は日単位の強調。"},
-
-{w:"el estafador",reg:"中立",say:"el estafador",m:"詐欺師（la estafa＝詐欺）",pos:"男性名詞",l:L3,
- ex:"Un estafador se hizo pasar por empleado del banco.",sj:"estafador",pr:"se hizo pasar",exj:"詐欺師が銀行員になりすました。",
- col:"<b>un estafador se hace pasar por…</b>（なりすます）、<b>caer en manos de un estafador</b>。名詞は <b>la estafa</b>、動詞は <b>estafar a alguien</b>。種類に <b>estafa piramidal</b>、<b>estafa romántica</b>。",
- syn:"<b>el timador</b> はほぼ同義でやや口語。<b>el impostor</b> は身分を偽る者で金銭とは限らない。<b>el ladrón</b> は窃盗犯。<b>estafador</b> は信用させて金を取る手口を指す。"},
-{w:"seducir",reg:"中立・文脈注意",warn:"恋愛の含みが強い語。物や案が主語なら「魅力的に思わせる」の意味になる（La idea me seduce）。人に使うと下心が匂うことがある。",say:"seducir",m:"たぶらかす、誘惑する",pos:"動詞",l:L3,
- col:"<b>seducir a alguien</b>、<b>seducir con promesas / con su encanto</b>、<b>dejarse seducir por…</b>。物が主語でも使える（<b>La idea me seduce</b>）。",
- syn:"<b>engañar</b> は欺瞞そのもの、<b>convencer</b> は理屈で説得、<b>cautivar</b> は良い意味で魅了する。<b>seducir</b> は魅力で相手の判断を曇らせる含みがあり、詐欺の文脈では「たぶらかす」に寄る。"},
-{w:"anular",reg:"法律・公的",warn:"予定を取り消すのは cancelar。anular は「はじめから無効にする」ので、日常の予定変更には重すぎる。",say:"anular",m:"無効にする、取り消す",pos:"動詞",l:L3,
- ex:"El tribunal anuló la multa por falta de pruebas.",sj:"tribunal",pr:"anuló",exj:"裁判所は証拠不十分としてその罰金を取り消した。",
- col:"<b>anular un contrato / una multa / una decisión / un partido / un gol / una prohibición</b>。<b>quedar anulado</b>。",
- syn:"<b>cancelar</b> は予定を取り消す。<b>suspender</b> は一時停止・延期。<b>derogar</b> は法律を廃止する。<b>revocar</b> は上級機関が決定を覆す。<b>anular</b> は「はじめから無かったことにする」法的な無効化。"},
-{w:"dejar sin efecto",reg:"法律・行政の硬い言い回し",warn:"判決文や官報の語。<b>会話では使わない。</b>",say:"dejar sin efecto",m:"効力を失わせる（≒ anular）",pos:"熟語",l:L3,
- col:"<b>dejar sin efecto una medida / una resolución / una orden / un decreto</b>。",
- syn:"意味は <b>anular</b> とほぼ同じだが、こちらは判決文・行政文書で好まれる硬い言い回し。「これから効かなくする」という手続き的な響きがあり、日常会話ではまず使わない。"},
-{w:"la medida",reg:"中立",warn:"「寸法」の意味も持つ。tomar medidas（対策を取る）は完全な定型なので丸ごと覚える。",say:"la medida",m:"措置、対策",pos:"女性名詞",l:L3,
- ex:"El gobierno anunció nuevas medidas contra la inflación.",sj:"gobierno",pr:"anunció",exj:"政府はインフレ対策の新しい措置を発表した。",
- col:"<b>tomar / adoptar / aplicar / anunciar medidas</b>（「対策を取る」は tomar medidas が定型）。<b>medidas de seguridad / de emergencia / cautelares</b>。別義で <b>a medida que…</b>（〜するにつれて）。",
- syn:"<b>la política</b> は方針レベルの政策、<b>la ley</b> は法律、<b>la acción</b> は行動一般。<b>medida</b> は個別具体の施策。「寸法」の意味も持つので文脈に注意。"},
-{w:"permanecer",reg:"硬い・書き言葉",warn:"会話では quedarse。報道文が permanecer を好む。",say:"permanecer",m:"とどまる、〜のままである",pos:"動詞",l:L3,
- ex:"Permanecí callado durante toda la reunión.",sj:"",pr:"Permanecí",exj:"会議のあいだ、私は黙ったままでいた。",
- col:"<b>permanecer en / permanecer callado / oculto / cerrado / en silencio / con vida / atento</b>。",
- syn:"<b>quedarse</b> は口語で同義。<b>seguir ＋現在分詞・形容詞</b> は「〜し続ける」。<b>estar</b> は単なる状態。<b>permanecer</b> は硬い書き言葉で、報道文が好む。"},
-{w:"la ladera",reg:"中立（地理）",say:"la ladera",m:"山腹、斜面",pos:"女性名詞",l:L3,
- col:"<b>la ladera de la montaña / del volcán</b>、<b>en la ladera norte / sur</b>、<b>bajar por la ladera</b>。",
- syn:"<b>la falda</b> は山裾、<b>la cuesta</b> は坂道（道路）、<b>la pendiente</b> は勾配（数値的）、<b>la cima</b> は頂上。<b>ladera</b> は山の側面そのもの。"},
-{w:"el arancel",reg:"専門（通商）",say:"el arancel",m:"関税",pos:"男性名詞",l:L3,
- col:"<b>imponer / aplicar / elevar / eliminar aranceles</b>。<b>aranceles sobre las importaciones</b>、<b>una guerra arancelaria</b>。",
- syn:"<b>el impuesto</b> は税一般、<b>la tasa</b> は手数料・料率、<b>el gravamen</b> は硬く「課税」。<b>arancel</b> は輸入品にかかる関税に限定され、通商記事の必須語。"},
-{w:"entrar en vigor",reg:"法律・公的",warn:"会話では使わない。ニュースを読むための語。",say:"entrar en vigor",m:"（法や措置が）発効する",pos:"熟語",l:L3,
- ex:"La nueva ley entra en vigor el 1 de enero.",sj:"ley",pr:"entra",exj:"新しい法律は1月1日に発効する。",
- col:"主語は <b>la ley / el acuerdo / la medida / el decreto</b>。<b>entrar en vigor el ＋日付</b>。状態は <b>estar en vigor</b>（有効である）。",
- syn:"手続きの順番で覚えると混ざらない。<b>aprobar</b>（可決）→ <b>promulgar</b>（公布）→ <b>entrar en vigor</b>（発効）→ <b>aplicarse</b>（適用）。可決と発効は別の日であることが多い。"},
-{w:"reclamar",reg:"中立〜やや強い",warn:"英語の reclaim とずれる。「要求する・返還を求める」であって「埋め立てる」ではない。日常では苦情を言う意味でも使う。",say:"reclamar",m:"要求する、返還を求める",pos:"動詞",l:L3,
- ex:"Los vecinos reclaman una solución al ayuntamiento.",sj:"vecinos",pr:"reclaman",exj:"住民たちは市役所に解決を求めている。",
- col:"<b>reclamar el pago / una solución / justicia / la devolución / indemnizaciones</b>。相手は <b>reclamar algo a alguien</b>。名詞は <b>la reclamación</b>。",
- syn:"強さの順に並べると <b>pedir</b>（頼む）＜ <b>solicitar</b>（正式に申請）＜ <b>reclamar</b>（権利として求める）＜ <b>exigir</b>（拒否を許さず要求）。<b>demandar</b> は法的に訴える。"},
-{w:"exigir que ＋接続法",reg:"やや硬い・強い",warn:"会話で人に使うと角が立つ。頼むだけなら pedir。que の後ろは必ず接続法。",say:"exigir que",m:"〜するよう要求する",pos:"動詞",l:L3,
- col:"<b>exigir responsabilidades / explicaciones / el cumplimiento / la dimisión</b>。人に向けるなら <b>exigir a alguien que ＋接続法</b>。",
- syn:"<b>reclamar</b> より強く、拒否の余地を与えない。<b>requerir</b> は「必要とする」の意味も併せ持つ。que 節を取るときは必ず接続法（exigir que paguen、exigir que pagan は誤り）。"},
-{w:"la encuesta",reg:"中立",say:"la encuesta",m:"アンケート、世論調査",pos:"女性名詞",l:L3,
- col:"<b>realizar / hacer una encuesta</b>、<b>según una encuesta</b>、<b>una encuesta a 1.000 personas</b>、<b>las encuestas electorales</b>。",
- syn:"<b>el sondeo</b> は世論の探り（特に選挙予測）。<b>el estudio</b> は研究、<b>la entrevista</b> は個別の聞き取り、<b>el censo</b> は全数調査。<b>encuesta</b> は設問に答えてもらう調査そのもの。"}
-];
-
-var ARTICLES=[
-{k:"a1",ch:[{t:"un hito importante en su nivel de deuda",h:"hito"},{t:"la mayor economía del mundo",h:"economía"}],sj:"Estados Unidos",pr:"alcanzó",l:L1,n:1,head:"Por qué el estado de la economía de EE.UU. está disparando las alarmas en todo el mundo",
- ja:"米国の債務が節目に達した。世界最大の経済をどこまで心配すべきかを問う記事。",
- lead:"Estados Unidos alcanzó un hito importante en su nivel de deuda esta semana, pero ¿hasta qué punto deberíamos preocuparnos por la mayor economía del mundo?",
- leadJ:"米国は今週、債務の水準で大きな節目に達した。だが、世界最大の経済をどこまで心配すべきなのか。",
- u:"https://www.bbc.com/mundo/articles/cg5lrejv18yo",
- words:["disparar las alarmas","el hito","la deuda","hasta qué punto"]},
-{k:"a2",pp:"a",rel:[{t:"que consiguieron salir del mapa mundial del hambre",d:1}],ch:[{t:"La nación caribeña",h:"nación"},{t:"la lista de países que consiguieron salir del mapa mundial del hambre",h:"lista"}],sj:"nación",pr:"se sumó",l:L1,n:2,head:"Cuál es la situación del hambre en América Latina (y cómo República Dominicana ha logrado ser el último país en alcanzar el hambre cero)",
- ja:"ドミニカ共和国が国連の基準で「飢餓ゼロ」を達成した国の列に加わった。",
- lead:"La nación caribeña se sumó a la lista de países que consiguieron salir del mapa mundial del hambre, según Naciones Unidas.",
- leadJ:"国連によれば、そのカリブの国は、世界の飢餓地図から抜け出せた国々の列に加わった。",
- u:"https://www.bbc.com/mundo/articles/c77g1jd322no",
- words:["sumarse a","lograr ＋不定詞"]},
-{k:"a3",ch:[{t:"algunas de las especies más singulares del mundo",h:"especies"},{t:"un ritmo alarmante",h:"ritmo"}],sj:"Australia",pr:"alberga",l:L1,n:3,head:"Numbats, los adorables animales que dan esperanza al país que es el epicentro mundial de la extinción de mamíferos",
- ja:"哺乳類絶滅の世界的中心地オーストラリアと、希望を託されるフクロアリクイ。",
- lead:"Australia alberga algunas de las especies más singulares del mundo, pero las está perdiendo a un ritmo alarmante.",
- leadJ:"オーストラリアは世界でも独特な種を擁しているが、憂慮すべき速さでそれらを失いつつある。",
- u:"https://www.bbc.com/mundo/articles/ckg3j4r6l07o",
- words:["albergar","a un ritmo alarmante"],g:0},
-{k:"a4",pp:"con",ch:[{t:"al centrocampista argentino Leandro Paredes",h:"centrocampista"},{t:"10 partidos de suspensión",h:"partidos"},{t:"su compañero de equipo Nahuel Molina",h:"compañero"}],sj:"FIFA",pr:"sancionó",l:L1,n:4,head:"La FIFA sanciona con 10 partidos al argentino Leandro Paredes por el altercado tras la final del Mundial con España",
- ja:"W杯決勝後の悶着で、パレデスに10試合、モリーナに7試合の出場停止。",
- lead:"La FIFA sancionó al centrocampista argentino Leandro Paredes con 10 partidos de suspensión, mientras que a su compañero de equipo Nahuel Molina estará suspendido por siete partidos.",
- leadJ:"FIFAはアルゼンチンのMFレアンドロ・パレデスに10試合の出場停止を科した。一方、チームメイトのナウエル・モリーナは7試合の停止となる。",
- u:"https://www.bbc.com/mundo/articles/cz7d4g3r514o",
- words:["sancionar a 人 con 罰","el altercado"]},
-{k:"a5",ch:[{t:"Los enfrentamientos entre colonos y habitantes de los territorios palestinos",h:"enfrentamientos"},{t:"varios lugares de Cisjordania",h:"lugares"}],sj:"enfrentamientos",pr:"continúan",l:L1,n:5,head:"Israel desafía la condena internacional y permite el regreso de colonos a un asentamiento en Cisjordania evacuado hace 20 años",
- ja:"20年前に撤去された入植地への帰還を容認。ヨルダン川西岸で衝突が続く。",
- lead:"Los enfrentamientos entre colonos y habitantes de los territorios palestinos continúan en varios lugares de Cisjordania.",
- leadJ:"入植者とパレスチナ地区の住民との衝突が、ヨルダン川西岸の各地で続いている。",
- u:"https://www.bbc.com/mundo/articles/cn9n07p35yno",
- words:["desafiar"]},
-{k:"a6",rel:[{t:"que colaboró en las campañas de los actuales presidentes de Argentina, Bolivia y Honduras",d:1}],ch:[{t:"El arresto del hombre que colaboró en las campañas de los actuales presidentes de Argentina, Bolivia y Honduras",h:"arresto"},{t:"un escándalo de alcance regional",h:"escándalo"}],sj:"arresto",pr:"desata",l:L1,n:6,head:"Quién es Fernando Cerimedo, el asesor de Milei y otros políticos de derecha acusado en Bolivia de ordenar un ataque de sicarios contra su pareja",
- ja:"ミレイら3か国の大統領選に関わった選挙顧問の逮捕が、地域規模の醜聞に。",
- lead:"El arresto del hombre que colaboró en las campañas de los actuales presidentes de Argentina, Bolivia y Honduras desata un escándalo de alcance regional.",
- leadJ:"アルゼンチン、ボリビア、ホンジュラスの現大統領の選挙運動に関わった男の逮捕が、地域規模の醜聞を引き起こしている。",
- u:"https://www.bbc.com/mundo/articles/clyx45xkzzyo",
- words:["desatar"]},
-
-{k:"b1",pp:"a",ch:[{t:"parte del rito de iniciación",h:"parte"},{t:"los aspirantes a miembros de una fraternidad",h:"aspirantes"}],sj:"aspirantes",pr:"eran obligados",l:L2,n:1,head:"La red de tráfico de cocaína que dirigían los alumnos de una de las universidades más conocidas de EE.UU. (y cómo los atraparon)",
- ja:"米名門大の学生が運営していたコカイン密売網。入会志望者が梱包をやらされていたと検察。",
- lead:"Como parte del rito de iniciación, los aspirantes a miembros de una fraternidad eran obligados a empaquetar la droga, según la fiscalía.",
- leadJ:"検察によれば、入会の儀式の一環として、フラタニティの入会志望者は薬物の梱包を強いられていた。",
- u:"https://www.bbc.com/mundo/articles/c8dnv832zqvo",
- words:["la red","atrapar","el aspirante a","la fiscalía"]},
-{k:"b2",g:3,pp:"a",rel:[{t:"provocada por el fenómeno de El Niño",d:1}],ch:[{t:"El operador de esta vía fluvial crucial",h:"operador"},{t:"la escasez de lluvias provocada por el fenómeno de El Niño",h:"escasez"}],sj:"operador",pr:"atribuye",l:L2,n:2,head:"El Canal de Panamá reducirá el tránsito de buques por los efectos de El Niño",
- ja:"エルニーニョによる雨不足で、パナマ運河が船舶の通航数を削減。",
- lead:"El operador de esta vía fluvial crucial atribuye la decisión a la escasez de lluvias provocada por el fenómeno de El Niño.",
- leadJ:"この重要な水路の運営者は、その決定をエルニーニョ現象による雨不足のせいだとしている。",
- u:"https://www.bbc.com/mundo/articles/c3r0gzdwqqno",
- words:["el buque","atribuir A a B","la escasez"]},
-{k:"b3",ch:[{t:"el personal del Hospital Universitario del Valle",h:"personal"}],sj:"personal",pr:"reaccionó",l:L2,n:3,head:"«Mi prioridad era sacar a esos niños»: la historia de una de las imágenes más conmovedoras del terremoto en Colombia",
- ja:"コロンビア地震。混乱のなか時間と競って動いた病院職員の話。",
- lead:"En medio del caos, el personal del Hospital Universitario del Valle reaccionó con rapidez y vocación, salvando vidas y reorganizándose contrarreloj.",
- leadJ:"混乱のただ中で、バジェ大学病院の職員は迅速に、使命感をもって動き、命を救い、時間と競って態勢を組み直した。",
- u:"https://www.bbc.com/mundo/articles/c8en3n78x5go",
- words:["en medio de","contrarreloj"]},
-{k:"b4",sub:[{t:"que está siendo investigado por discriminar al fallecido profesor de Cambridge"}],ch:[{t:"al fallecido profesor de Cambridge",h:"profesor"}],sj:"Nathan Cofnas",pr:"afirma",l:L2,n:4,head:"Suspenden al académico que acusó de plagio al profesor de la Universidad de Cambridge que apareció muerto",
- ja:"盗用を告発した研究者が停職に。本人は差別を理由に調査されていると主張。",
- lead:"Nathan Cofnas afirma que está siendo investigado por discriminar al fallecido profesor de Cambridge.",
- leadJ:"ネイサン・コフナス氏は、亡くなったケンブリッジの教授を差別したとして調査を受けているところだと主張している。",
- u:"https://www.bbc.com/mundo/articles/ce859yel4lzo",
- words:["acusar a 人 de 〜","el plagio"],g:1},
-{k:"b5",pp:"en",ch:[{t:"los sándwiches de huevo de Tokio",h:"sándwiches"},{t:"los productos lácteos en Grecia",h:"productos"},{t:"los pasillos de los supermercados",h:"pasillos"},{t:"una de las experiencias de viaje más reveladoras y apreciadas",h:"experiencias"}],sj:"pasillos",pr:"se están convirtiendo",l:L2,n:5,head:"Por qué cada vez más turistas disfrutan visitando supermercados durante sus vacaciones",
- ja:"東京の卵サンドからギリシャの乳製品まで。旅先のスーパーが人気の体験に。",
- lead:"Desde los sándwiches de huevo de Tokio hasta los productos lácteos en Grecia, los pasillos de los supermercados se están convirtiendo en una de las experiencias de viaje más reveladoras y apreciadas.",
- leadJ:"東京の卵サンドからギリシャの乳製品まで、スーパーの通路は、旅の体験のうちで最も発見に富み、愛されるものの一つになりつつある。",
- u:"https://www.bbc.com/mundo/articles/cz64vg562gvo",
- words:["cada vez más"]},
-
-{k:"c1",g:4,pp:"de",rel:[{t:"creía que era un militar estadounidense que conoció online",d:1},{t:"que conoció online",d:2},{t:"que en verdad era un estafador de Nigeria",d:1}],ch:[{t:"un militar estadounidense que conoció online",h:"militar"},{t:"un estafador de Nigeria",h:"estafador"}],sj:"Silvia",pr:"se enamoró",l:L3,n:1,head:"Qué descubrí cuando viajé de España a Nigeria para enfrentar al estafador que sedujo a mi madre",
- ja:"母を騙したロマンス詐欺師に会いにナイジェリアへ渡った息子の記録。",
- lead:"Silvia se enamoró de quien creía que era un militar estadounidense que conoció online, pero que en verdad era un estafador de Nigeria.",
- leadJ:"シルビアは、ネットで知り合った米軍人だと信じていた相手に恋をしたが、実際はナイジェリアの詐欺師だった。",
- u:"https://www.bbc.com/mundo/articles/cj9dxw4wxwyo",
- words:["el estafador","seducir"]},
-{k:"c2",sub:[{t:"que era contraria a la ley federal"}],ch:[{t:"La jueza federal Jeannette Vargas",h:"jueza"},{t:"la ley federal",h:"ley"}],sj:"jueza",pr:"dejó",l:L3,n:2,head:"Una jueza anula la prohibición de visados de EE.UU. a ciudadanos de 75 países, entre ellos Colombia, Uruguay y Cuba",
- ja:"連邦判事が75か国へのビザ禁止措置を、連邦法違反として無効に。",
- lead:"La jueza federal Jeannette Vargas dejó sin efecto la medida al considerar que era contraria a la ley federal.",
- leadJ:"連邦判事ジャネット・バルガスは、連邦法に反するとして、その措置を無効とした。",
- u:"https://www.bbc.com/mundo/articles/cp3r3nn6nnxo",
- words:["anular","dejar sin efecto","la medida"]},
-{k:"c3",rel:[{t:"conocido como «Botas Verdes»",d:1}],ch:[{t:"un cadáver conocido como «Botas Verdes»",h:"cadáver"},{t:"la ladera del Monte Everest",h:"ladera"}],sj:"cadáver",pr:"ha permanecido",l:L3,n:3,head:"El misterio de «Botas Verdes»: los esfuerzos por recuperar el cuerpo de un escalador congelado en el Everest desde hace 30 años",
- ja:"エベレストの斜面に30年間残る遺体「緑のブーツ」を収容する試み。",
- lead:"Durante 30 años, un cadáver conocido como «Botas Verdes» ha permanecido en la ladera del Monte Everest.",
- leadJ:"30年のあいだ、「緑のブーツ」として知られる遺体がエベレストの斜面にとどまり続けてきた。",
- u:"https://www.bbc.com/mundo/articles/c62v4p573p5o",
- words:["permanecer","la ladera"]},
-{k:"c4",pp:"en",ch:[{t:"Un nuevo arancel del 50% sobre importaciones canadienses por valor de 20.000 millones de dólares",h:"arancel"},{t:"el fracaso de última hora de las negociaciones comerciales",h:"fracaso"}],sj:"arancel",pr:"entra",l:L3,n:4,head:"Canadá igualará los aranceles estadounidenses «dólar por dólar» tras la ruptura de las negociaciones comerciales con el gobierno de Trump",
- ja:"通商交渉決裂。カナダが米国の関税に同額で対抗。",
- lead:"Un nuevo arancel del 50% sobre importaciones canadienses por valor de 20.000 millones de dólares entra en vigor tras el fracaso de última hora de las negociaciones comerciales.",
- leadJ:"200億ドル相当のカナダからの輸入品に対する50%の新関税が、土壇場での通商交渉の決裂を受けて発効する。",
- u:"https://www.bbc.com/mundo/articles/cpd7dvg6jepo",
- words:["el arancel","entrar en vigor"]},
-{k:"c5",sub:[{t:"que las naciones occidentales paguen reparaciones"}],pp:"en",ch:[{t:"la principal voz de África",h:"voz"},{t:"las naciones occidentales",h:"naciones"}],sj:"Ghana",pr:"se ha convertido",l:L3,n:5,head:"«Fuimos la escena del crimen de estas atrocidades»: el país que se enfrenta a EE.UU. y Europa al reclamar el pago de reparaciones por la esclavitud",
- ja:"奴隷制の賠償を欧米に求めるガーナ。アフリカの主導的な声に。",
- lead:"Ghana se ha convertido en la principal voz de África en exigir que las naciones occidentales paguen reparaciones.",
- leadJ:"ガーナは、西洋諸国が賠償を支払うよう求めるアフリカの主導的な声となった。",
- u:"https://www.bbc.com/mundo/articles/cm2grpxne10o",
- words:["reclamar","exigir que ＋接続法"],g:2},
-{k:"c6",ch:[{t:"Una encuesta con esta pregunta",h:"encuesta"},{t:"un acalorado debate en las redes sociales",h:"debate"},{t:"la confirmación de varias teorías económicas",h:"confirmación"}],sj:"encuesta",pr:"desató",l:L3,n:6,head:"¿Preferirías US$50.000 o un 50% de posibilidades de ganar US$1 millón? (y qué revela esta pregunta)",
- ja:"5万ドル確実か、100万ドルを50%か。SNSで白熱した論争と経済学の見方。",
- lead:"Una encuesta con esta pregunta desató un acalorado debate en las redes sociales. Pero muchos economistas vieron en las respuestas la confirmación de varias teorías económicas.",
- leadJ:"この問いを使ったアンケートが、SNSで白熱した論争を引き起こした。だが多くの経済学者は、その回答にいくつかの経済理論の裏づけを見た。",
- u:"https://www.bbc.com/mundo/articles/c330k1j7nn5o",
- words:["la encuesta"]}
-];
-
-var LESSONS=[
- {id:L1,theme:"経済・飢餓・絶滅・処分・入植・醜聞"},
- {id:L2,theme:"密売網・パナマ運河・地震・盗用告発・スーパー観光"},
- {id:L3,theme:"詐欺師・ビザ無効・エベレスト・関税報復・奴隷制賠償・経済クイズ"}
-];
-
-var GRAMMAR=[
-{title:"目的格代名詞の位置",from:L1+" の教材より",
- lead:"<b>las está perdiendo</b> と <b>está perdiéndolas</b> は同じ意味。代名詞は活用した動詞の前が原則だが、現在分詞・不定詞・肯定命令のときだけ後ろにくっつけてもよい。",
- quote:{t:"Australia alberga algunas de las especies más singulares del mundo, pero las está perdiendo a un ritmo alarmante.",j:"オーストラリアは世界でも独特な種を擁しているが、憂慮すべき速さでそれらを失いつつある。"},
- table:{h:["形","例","備考"],r:[
-  ["動詞の前","<span class='es'>las</span> está perdiendo","報道文はこちらが多い"],
-  ["後ろにくっつける","está perdiéndo<span class='es'>las</span>","<b>アクセント記号が要る</b>"],
-  ["不定詞","<span class='es'>la</span> quiero ver ／ quiero ver<span class='es'>la</span>","「彼女に会いたい」"],
-  ["肯定命令","dí<span class='es'>melo</span>","くっつけるのみ"],
-  ["否定命令","<span class='es'>no me lo</span> digas","前だけ。✗ no digasmelo"]]},
- key:"くっつけられるのは、動詞が活用していない形（現在分詞・不定詞）と肯定命令のときだけ。"},
-{title:"「誰がやったか」を言わない4つの型",from:L2+" の教材より",
- lead:"日本語の「〜された」に当たるものが、スペイン語では型ごとに分かれている。報道文の背骨。",
- quote:{t:"Nathan Cofnas afirma que está siendo investigado por discriminar al fallecido profesor.",j:"コフナス氏は、亡くなった教授を差別したとして調査を受けているところだと主張している。"},
- table:{h:["型","例","使いどころ"],r:[
-  ["ser ＋ 過去分詞","los aspirantes <b>eran obligados a</b> empaquetar la droga","書き言葉的。主語に性数一致"],
-  ["過去分詞＋por","la escasez de lluvias <b>provocada por</b> El Niño","<b>provocada</b> は escasez に一致"],
-  ["3人称複数（無人称）","<b>Suspenden</b> al académico","いちばん普通。最頻出"],
-  ["se ＋ 3人称","Aquí <b>se habla</b> español.","一般的な事実・掲示・規則"],
-  ["estar siendo ＋ 過去分詞","<b>está siendo investigado</b>","進行中の受け身"]]},
- key:"日常なら3人称複数、報道の書き言葉なら ser ＋ 過去分詞、掲示や一般論なら se。"},
-{title:"接続法の入口",from:L3+" の教材より",
- lead:"「要求・依頼・願望・必要」を表す動詞 ＋ que ＋ 接続法。que の前後で主語が変わるとき。作り方は母音の入れ替えだけ。<b>-ar は e、-er と -ir は a。</b>",
- quote:{t:"Ghana se ha convertido en la principal voz de África en exigir que las naciones occidentales paguen reparaciones.",j:"ガーナは、西洋諸国が賠償を支払うよう求めるアフリカの主導的な声となった。"},
- table:{h:["不定詞","直説法（ellos）","接続法（ellos）"],r:[
-  ["pag<b>ar</b>","pag<b>an</b>","pag<b>uen</b>"],
-  ["habl<b>ar</b>","habl<b>an</b>","habl<b>en</b>"],
-  ["com<b>er</b>","com<b>en</b>","com<b>an</b>"],
-  ["viv<b>ir</b>","viv<b>en</b>","viv<b>an</b>"]],es:true},
- key:"事実を述べるなら直説法（Sé que pagas）、まだ起きていないことを求めるなら接続法（Exijo que pagues）。引き金は exigir／pedir／querer／esperar／necesitar。"},
-{title:"動詞が要求する前置詞",from:"2026-08-23 の記事を読んでいて出てきた論点",
- lead:"動詞によっては、<b>前置詞まで含めて一つの語</b>として覚える必要がある。これは目的語ではなく<b>前置詞補語</b>（régimen preposicional）で、辞書もその形で載っている。前置詞が離れて置かれることもあるので、動詞を見たら「この動詞は何を連れてくるか」を思い出す癖をつける。",
- quote:{t:"El operador de esta vía fluvial crucial atribuye la decisión a la escasez de lluvias provocada por el fenómeno de El Niño.",j:"この重要な水路の運営者は、その決定をエルニーニョ現象による雨不足のせいだとしている。"},
- table:{h:["動詞","前置詞","意味","記事での形"],r:[
-  ["enamorarse","<b>de</b>","〜に恋をする","se enamoró <b>de</b> quien…"],
-  ["sumarse","<b>a</b>","〜に加わる","se sumó <b>a</b> la lista"],
-  ["convertirse","<b>en</b>","〜になる","se ha convertido <b>en</b> la principal voz"],
-  ["atribuir 〜","<b>a</b>","〜のせいにする","atribuye la decisión <b>a</b> la escasez"],
-  ["sancionar 人","<b>con</b>","〜の処分を科す","sancionó… <b>con</b> 10 partidos"],
-  ["obligar 人","<b>a</b>","〜を強いる","eran obligados <b>a</b> empaquetar"],
-  ["entrar","<b>en</b>","（vigor と）発効する","entra <b>en</b> vigor"]]},
- key:"前置詞は動詞の一部。切り離して覚えると、読めても書けない・言えない語になる。教材タブでは述語より薄い同系色で示している。"},
-{title:"修飾節の入れ子 ― 何がどこにかかるか",from:"2026-08-23 の記事を読んでいて出てきた論点",
- lead:"報道文は名詞のうしろに節が次々ぶら下がる。<b>どの節がどの名詞にかかるか</b>を取り違えると意味が反転する。下の文では quien に<b>2本の節が並列</b>し、その1本目の中にもう1本入れ子になっている。",
- quote:{t:"Silvia se enamoró de quien creía que era un militar estadounidense que conoció online, pero que en verdad era un estafador de Nigeria.",j:"シルビアは、ネットで知り合った米軍人だと信じていた相手に恋をしたが、実際はナイジェリアの詐欺師だった。"},
- table:{h:["種類","目印","例","はたらき"],r:[
-  ["関係節","que／quien／donde ＋ 動詞","un militar <b>que conoció online</b>","直前の名詞を修飾する"],
-  ["分詞句","過去分詞 ＋ por","la escasez <b>provocada por</b> El Niño","que fue provocada… の短縮"],
-  ["補文","creer／afirmar／exigir ＋ que","afirma <b>que está siendo investigado</b>","動詞の目的語。修飾ではない"]]},
- key:"見分け方は que の直前を見ること。名詞なら修飾節、動詞なら補文。教材タブでは修飾節を紫、補文を緑で示し、入れ子は色の濃淡で表している。"}
-];
-
+/* ============ 教材データ ============
+   このファイルには教材を持たない。記事の文字は1字も置かない。
+   中身はすべて端末の中（追加タブ →「できあがったデータを貼り付ける」）に入れる。
+   公開される場所に素材を残さないため。2026-08-25 */
+var LESSONS=[], ARTICLES=[], VOCAB=[], GRAMMAR=[];
 
 /* ============ 学ぶ言語の設定 ============
    言語を足すときは、ここに1つ足すだけでよい。
@@ -992,6 +718,22 @@ var LANGS={
    }},
  /* 以下は素材のRSSだけ確認済み。読み上げの有無は端末しだいなので、
     切り替えて「声」の欄が出るかどうかで判定する。 */
+ pt:{name:"ポルトガル語", src:"RTP Notícias", flag:"\uD83C\uDDF5\uD83C\uDDF9",
+   tts:"pt", ttsFb:"pt-PT", asr:"pt-PT",
+   hint:"名詞は o / a を付ける。動詞は不定詞。<b>ポルトガルの綴り</b>（registar であって registrar ではない）。",
+   foot:"素材は RTP Notícias の RSS（見出しとリード文）。用例文はすべて自作。<b>ヨーロッパのポルトガル語</b>。ブラジルとは綴りも発音も違う。",
+   voiceHelp:'Android は 設定 \u2192 システム \u2192 言語と入力 \u2192 テキスト読み上げの設定 \u2192 言語データのインストール。<br>iPhone は 設定 \u2192 アクセシビリティ \u2192 読み上げコンテンツ \u2192 声 \u2192 ポルトガル語。<br><b>「ポルトガル（Portugal）」を選ぶこと。</b>ブラジルの音声とは母音がまるで違う。',
+   stop:["o", "a", "os", "as", "um", "uma", "uns", "umas", "de", "do", "da", "dos", "das", "em", "no", "na", "nos", "nas", "ao", "aos", "à", "às", "por", "para", "com", "que", "e", "ou", "se", "seu", "sua", "seus", "suas", "lo", "é", "são", "foi", "eram", "como", "mais", "não", "já", "mas", "também", "entre", "sobre", "pelo", "pela", "pelos", "pelas", "ser", "ter", "há", "este", "esta", "esse", "essa", "isso", "aquele", "aquela", "muito", "muita", "cerca"],
+   skip:["entr", "esta", "com", "dei", "dar", "faz", "ten", "por", "sai", "ver", "diz", "ser", "ir", "vin"],
+   stem:function(word){
+     var w=word;
+     if(/ções$/.test(w))return w.slice(0,-4);
+     if(/ção$/.test(w))return w.slice(0,-3);
+     if(/ar$/.test(w)&&w.length>=5)return w.slice(0,-2);
+     if(/(er|ir)$/.test(w)&&w.length>=5){var a=w.slice(0,-3);return a.length>=4?a:w.slice(0,-2)}
+     if(w.length>=6)return w.slice(0,-1);
+     return w;
+   }},
  hi:{name:"ヒンディー語", src:"BBC News हिंदी", flag:"\uD83D\uDCD6",
    tts:"hi", ttsFb:"hi-IN", asr:"hi-IN", hint:"動詞は ना で終わる形（不定詞）。名詞は単数・主格。",
    voiceHelp:GENERIC, stop:[], skip:[], stem:null},
@@ -1010,7 +752,20 @@ var LANGS={
  ur:{name:"ウルドゥー語", src:"BBC News اردو", flag:"\uD83D\uDCD6", rtl:true,
    tts:"ur", ttsFb:"ur-PK", asr:"ur-PK", hint:"動詞は نا で終わる形（不定詞）。名詞は単数・主格。",
    voiceHelp:GENERIC, stop:[], skip:[], stem:null},
- pa:{name:"パンジャーブ語", src:"会話から", flag:"\uD83D\uDCAC", rtl:true,
+ paIN:{name:"パンジャーブ語（インド）", src:"BBC News ਪੰਜਾਬੀ", flag:"\uD83D\uDCD6",
+   tts:"pa", ttsFb:"pa-IN", asr:"pa-IN", ipa:true,
+   hint:"グルムキー文字で書く。動詞は ਣਾ／ਨਾ で終わる形（不定詞）。名詞は単数・主格。",
+   foot:"素材は BBC News ਪੰਜਾਬੀ の RSS（見出しとリード文）。用例文はすべて自作。<b>これはインド側のパンジャーブ語（グルムキー文字）。</b>散髪屋で使う形とは、あいさつと宗教語彙が違う。",
+   voiceHelp:GENERIC,
+   stop:["ਦਾ", "ਦੀ", "ਦੇ", "ਦੀਆਂ", "ਨੂੰ", "ਨੇ", "ਨਾਲ", "ਤੋਂ", "ਲਈ", "ਵਿੱਚ", "ਵਿਚ", "ਤੇ", "ਅਤੇ", "ਜਾਂ", "ਪਰ", "ਵੀ", "ਹੀ", "ਹੈ", "ਹਨ", "ਸੀ", "ਸਨ", "ਇਹ", "ਉਹ", "ਇਸ", "ਉਸ", "ਇਨ੍ਹਾਂ", "ਉਨ੍ਹਾਂ", "ਕਿ", "ਜੋ", "ਜਿਸ", "ਕੀ", "ਕੋਈ", "ਕੁਝ", "ਸਭ", "ਬਾਅਦ", "ਬਾਰੇ", "ਤਾਂ", "ਨਹੀਂ", "ਨਾ", "ਕੇ", "ਕੀਤਾ", "ਗਿਆ", "ਰਿਹਾ", "ਰਹੇ", "ਹੋ", "ਹੋਏ", "ਹੋਇਆ", "ਵਾਲੇ", "ਵਾਲਾ", "ਵਾਲੀ", "ਇੱਕ", "ਇਕ", "ਦੋ", "ਹੋਰ", "ਬਹੁਤ"],
+   skip:["ਕਰ", "ਹੋ", "ਜਾ", "ਦੇ", "ਲੈ", "ਆ"],
+   stem:function(word){
+     var e=["ਿਆਂ","ੀਆਂ","ਈਆਂ","ਿਆ","ਵਾਂ","ਾਂ","ੀਏ","ਿਓ","ੋਂ","ੂੰ","ੇ","ੀ","ਾ"];
+     for(var i=0;i<e.length;i++){var x=e[i];
+       if(word.length>x.length+2&&word.slice(-x.length)===x)return word.slice(0,-x.length)}
+     return word;
+   }},
+ pa:{name:"パンジャーブ語（散髪屋）", src:"会話から", flag:"\uD83D\uDCAC", rtl:true,
    tts:"pa", ttsFb:"pa-PK", asr:"ur-PK", ipa:true,
    foot:"素材は実際の会話から。<b>表現は必ず話者に確かめて直すこと。</b>文字はシャームキー（ウルドゥー語と同じ文字）。",
    hint:"パキスタン側なのでシャームキー文字（アラビア文字系）で書く。",
@@ -1081,9 +836,15 @@ function noTTS(on){
   if(on){
     var seg=document.getElementById("voiceSeg");
     if(seg){
-      seg.querySelectorAll("b").forEach(function(x){x.classList.toggle("on",x.dataset.mode==="paste")});
-      var ml=document.getElementById("modeList"), ms=document.getElementById("modeShadow"), mp=document.getElementById("modePaste");
-      if(ml)ml.classList.add("hidden"); if(ms)ms.classList.add("hidden"); if(mp)mp.classList.remove("hidden");
+      var hasBody=(typeof bodyArticles==="function")&&bodyArticles().length>0;
+      var want=hasBody?"text":"paste";
+      seg.querySelectorAll("b").forEach(function(x){x.classList.toggle("on",x.dataset.mode===want)});
+      var ml=document.getElementById("modeList"), ms=document.getElementById("modeShadow"),
+          mp=document.getElementById("modePaste"), mt=document.getElementById("modeText");
+      if(ml)ml.classList.add("hidden"); if(ms)ms.classList.add("hidden");
+      if(mp)mp.classList.toggle("hidden",want!=="paste");
+      if(mt)mt.classList.toggle("hidden",want!=="text");
+      if(want==="text"&&typeof buildText==="function")buildText();
     }
   }
 }
@@ -1375,6 +1136,8 @@ var pasteSents=[];
 function shList(){
   if(shSrc==="ex") return VOCAB.filter(function(v){return v.ex&&inLesson(v)}).slice().reverse().map(function(v){return {t:v.ex,j:v.exj,tag:v.w,l:v.l,ann:v}});
   if(shSrc==="lead") return LEADS.filter(inLesson).slice().reverse().map(function(h){return {t:h.t,j:h.j,tag:"BBC Mundo",l:h.l,u:h.u,ann:h.a}});
+  if(shSrc==="text") return textSents.length? textSents.map(function(t,i){return {t:t,j:"",tag:"本文",l:"第"+(i+1)+"文"}})
+                          : [{t:"（この回の教材には本文が入っていません）",j:"",tag:"本文",l:"—"}];
   return pasteSents.length? pasteSents.map(function(t,i){return {t:t,j:"",tag:"貼り付けた文章",l:"第"+(i+1)+"文"}})
                           : [{t:"（貼り付けタブで文章を入れてください）",j:"",tag:"貼り付け",l:"—"}];
 }
@@ -1399,7 +1162,9 @@ document.getElementById("voiceSeg").addEventListener("click",function(e){
   this.querySelectorAll("b").forEach(function(x){x.classList.toggle("on",x===b)});
   document.getElementById("modeList").classList.toggle("hidden",b.dataset.mode!=="list");
   document.getElementById("modeShadow").classList.toggle("hidden",b.dataset.mode!=="shadow");
+  document.getElementById("modeText").classList.toggle("hidden",b.dataset.mode!=="text");
   document.getElementById("modePaste").classList.toggle("hidden",b.dataset.mode!=="paste");
+  if(b.dataset.mode==="text")buildText();
 });
 document.getElementById("shSrc").addEventListener("click",function(e){
   var b=e.target.closest("b[data-src]"); if(!b)return;
@@ -1651,6 +1416,54 @@ function splitSentences(txt){
   if(cur.trim()) out.push(cur.trim());
   return out.filter(function(x){return x.length>1});
 }
+/* ============ 本文（教材に入っている記事の全文） ============ */
+var textSents=[];
+function bodyArticles(){
+  return ARTICLES.filter(function(a){return a.body&&inLesson(a)});
+}
+function buildText(){
+  var host=document.getElementById("textOut"); if(!host)return;
+  host.innerHTML=""; textSents=[];
+  var list=bodyArticles();
+  if(!list.length){
+    var e=document.createElement("div"); e.className="note info";
+    e.innerHTML=ARTICLES.length
+      ? "<b>この回の教材には本文が入っていません。</b>教材を「すべて」に戻すか、「貼り付け」から文章を入れてください。"
+      : "<b>まだ教材がありません。</b>「追加」タブから入れてください。";
+    host.appendChild(e); return;
+  }
+  list.forEach(function(a){
+    var c=document.createElement("div"); c.className="card";
+    var n=document.createElement("p"); n.className="art-n";
+    n.innerHTML="<span>記事 "+(a.n||1)+"</span><span>"+esc(a.l||"")+"</span>"; c.appendChild(n);
+    var hd=document.createElement("div"); hd.className="art-head";
+    hd.appendChild(sayBtn(a.head));
+    var hp=document.createElement("p"); hp.innerHTML=renderRich(a.head,null); hd.appendChild(hp);
+    c.appendChild(hd);
+    if(a.ja){var ja=document.createElement("p"); ja.className="art-ja"; ja.textContent=a.ja; c.appendChild(ja)}
+    String(a.body).split(/\n{1,}/).forEach(function(para){
+      if(!para.trim())return;
+      splitSentences(para).forEach(function(sn){
+        textSents.push(sn);
+        var row=document.createElement("div"); row.className="line";
+        row.appendChild(sayBtn(sn));
+        var body=document.createElement("div"); body.className="line-body";
+        var t=document.createElement("p"); t.className="t"; t.innerHTML=renderRich(sn,null);
+        body.appendChild(t); row.appendChild(body); c.appendChild(row);
+      });
+    });
+    if(a.u){
+      var f=document.createElement("p"); f.className="sec-note"; f.style.margin="10px 2px 0";
+      f.innerHTML="<a href='"+esc(a.u)+"' target='_blank' rel='noopener'>元の記事を開く</a>";
+      c.appendChild(f);
+    }
+    host.appendChild(c);
+  });
+  var s2=document.createElement("p"); s2.className="sec-note"; s2.style.margin="12px 2px 0";
+  s2.textContent="全 "+textSents.length+" 文。色が付くのは、学んだ"+VOCAB.length+"語とその活用形です。";
+  host.appendChild(s2);
+}
+
 function runPaste(){
   var txt=document.getElementById("pasteBox").value||"";
   if(!txt.trim()){document.getElementById("pasteOut").classList.add("hidden");return}
@@ -1686,11 +1499,23 @@ function runPaste(){
       return "<b>"+esc(f.w)+"</b>（"+esc(f.m)+"）"}).join(" ／ ");
     kw.classList.remove("hidden");
   }else{
-    kw.innerHTML="学んだ36語は、この文章には出てきませんでした。新しい語を拾う機会です。";
+    kw.innerHTML="学んだ"+VOCAB.length+"語は、この文章には出てきませんでした。新しい語を拾う機会です。";
     kw.classList.remove("hidden");
   }
   document.getElementById("pasteOut").classList.remove("hidden");
 }
+(function(){
+  var b=document.getElementById("txtToShadow");
+  if(b)b.addEventListener("click",function(){
+    if(!textSents.length)return;
+    shSrc="text"; shIdx=0;
+    document.querySelectorAll('#shSrc b').forEach(function(x){x.classList.toggle("on",x.dataset.src==="text")});
+    document.querySelectorAll('#voiceSeg b').forEach(function(x){x.classList.toggle("on",x.dataset.mode==="shadow")});
+    document.getElementById("modeText").classList.add("hidden");
+    document.getElementById("modeShadow").classList.remove("hidden");
+    shRender();
+  });
+})();
 document.getElementById("pasteRun").addEventListener("click",runPaste);
 document.getElementById("pasteClear").addEventListener("click",function(){
   document.getElementById("pasteBox").value="";
@@ -1745,7 +1570,11 @@ function buildVocab(filter){
   });
   list=list.slice().reverse();
   document.getElementById("vCount").textContent=list.length+" 語 / "+(curLesson==="all"?"全 "+VOCAB.length:curLesson+" の "+lessonWords().length)+" 語";
-  if(!list.length){host.innerHTML="<div class='v'><div class='v-head'><div class='v-body'><p class='m'>見つかりませんでした。</p></div></div></div>";return}
+  if(!list.length){
+    host.innerHTML="<div class='note info'>"+(VOCAB.length
+      ? "<b>見つかりませんでした。</b>検索の語を変えるか、教材を「すべて」に戻してください。"
+      : "<b>まだ語彙がありません。</b>「追加」タブから教材を入れてください。")+"</div>";
+    return}
   list.forEach(function(v){
     var row=document.createElement("div"); row.className="v"+(masked?" masked":"")+(allOpen?" open":"");
     var head=document.createElement("div"); head.className="v-head";
@@ -1755,7 +1584,7 @@ function buildVocab(filter){
     body.innerHTML="<p class='w'>"+esc(v.w)+(LC.ipa?lvlTag(v.w)+posTag:posTag+lvlTag(v.w))+"</p>"+
       "<p class='m'>"+esc(v.m)+"</p>"+(v.reg?"<span class='reg'>"+esc(v.reg)+"</span>":"")+
       (v.ex?"<p class='ctx'>"+esc(v.ex)+"</p>":"")+
-      ((LC.ipa&&v.exj)?"<p class='ctx-j'>"+esc(v.exj)+"</p>":"");
+      ((LC.ipa&&v.exi)?"<p class='ctx-j'>"+esc(v.exi)+"</p>":"");
     head.appendChild(body);
     var ch=document.createElement("span"); ch.className="chev"; ch.textContent="▶"; head.appendChild(ch);
     row.appendChild(head);
@@ -1765,7 +1594,7 @@ function buildVocab(filter){
       (v.warn?"<div><dt>注意</dt><dd>"+v.warn+"</dd></div>":"")+
       "<div><dt>よく一緒に使う語</dt><dd>"+v.col+"</dd></div>"+
       "<div><dt>似た語との違い</dt><dd>"+v.syn+"</dd></div>"+
-      (v.ex?"<div><dt>用例</dt><dd><span class='es'>"+esc(v.ex)+"</span>"+(v.exj?"<br>"+esc(v.exj):"")+"</dd></div>":"")+
+      (v.ex?"<div><dt>用例</dt><dd><span class='es'>"+esc(v.ex)+"</span>"+(v.exi?"<br>"+esc(v.exi):"")+(v.exj?"<br>"+esc(v.exj):"")+"</dd></div>":"")+
       (function(){var a=WORD2ART[v.w];return a?
         "<div><dt>出てきた記事</dt><dd>"+esc(a.l)+" 記事"+a.n+"<br><span class='es'>"+esc(a.head)+"</span><br>"+esc(a.ja)+
         "<br><a href='"+esc(a.u)+"' target='_blank' rel='noopener'>BBC で読む</a><span class='url'>"+esc(a.u)+"</span></dd></div>":
@@ -1791,6 +1620,7 @@ document.getElementById("vAll").addEventListener("click",function(){
 /* ============ 文法 ============ */
 function buildGrammar(){
   var host=document.getElementById("grammarBody"); host.innerHTML="";
+  var gShown=0;
   GRAMMAR.filter(function(g,i){
     if(g.lg&&g.lg!==LG)return false;
     if(curLesson==="all")return true;
@@ -1814,9 +1644,16 @@ function buildGrammar(){
           return "<td"+((g.table.es||i===1)?" class='es-cell'":"")+">"+cell+"</td>"}).join("")+"</tr>"}).join("")+"</tbody>";
       tw.appendChild(tb); c.appendChild(tw);
     }
-    var k=document.createElement("p"); k.className="key"; k.textContent=g.key; c.appendChild(k);
-    host.appendChild(c);
+    var k=document.createElement("p"); k.className="key"; k.innerHTML=g.key||""; c.appendChild(k);
+    host.appendChild(c); gShown++;
   });
+  if(!gShown){
+    var e=document.createElement("div"); e.className="note info";
+    e.innerHTML=GRAMMAR.length
+      ? "<b>この回には文法メモがありません。</b>教材を「すべて」に戻すと、ほかの回のものが出ます。"
+      : "<b>まだ文法メモがありません。</b>「追加」タブから教材を入れてください。";
+    host.appendChild(e);
+  }
 }
 
 /* ============ 教材（記事ごと） ============ */
@@ -2051,6 +1888,7 @@ function setLesson(v){
   if(v!=="all"&&qMode==="srs"){qMode="lesson";store.lset("qmode","lesson")}
   shIdx=0; buildDeck(); buildListen(); shRender();
   buildVocab(""); buildGrammar(); buildLessons(); buildCal();
+  if(typeof buildText==="function")buildText();
 }
 
 /* ============ 教材の追加 ============ */
@@ -2111,7 +1949,7 @@ function newId(){
 }
 
 /* --- 受け取ったデータを教材の形に --- */
-function toPack(raw,url){
+function toPack(raw,url,srcText){
   if(!raw||typeof raw!=="object")throw new Error("形が違います。");
   var arts=raw.articles||raw.arts||[];
   var voc=raw.vocab||raw.words||[];
@@ -2134,6 +1972,8 @@ function toPack(raw,url){
     a.k="x"+stamp+"_"+i;
     a.n=P.articles.length+1;
     if(!a.u&&url)a.u=url;
+    /* 貼り付けた本文は、最初の記事にだけ付ける。音読タブの「本文」で読む用。 */
+    if(!a.body&&srcText&&P.articles.length===0)a.body=String(srcText).slice(0,60000);
     if(Object.prototype.toString.call(a.words)!=="[object Array]")a.words=[];
     a.words=a.words.filter(function(w){return typeof w==="string"&&w});
     P.articles.push(a);
@@ -2172,16 +2012,18 @@ var SCHEMA=[
 '      "leadJ": "そのリード文の日本語訳",',
 '      "sj":    "leadの中の主語。leadに出てくる綴りそのまま。無ければ空",',
 '      "pr":    "leadの中の述語動詞。leadに出てくる綴りそのまま。無ければ空",',
+'      "body":  "記事の本文をそのまま。無ければ空",',
 '      "words": ["この記事から採る語（vocabのwと一致させる）"]',
 '    }',
 '  ],',
 '  "vocab": [',
 '    {',
 '      "w":   "見出し語。'+LC.hint+'",',
-'      "pos": "動詞 / 男性名詞 / 女性名詞 / 形容詞 / 副詞 / 熟語 のどれか",',
+(LC.ipa?'      "pos": "この語の発音を国際音声字母（IPA）で。角括弧で囲む。例 [ˈəkʰɾiː]",':'      "pos": "動詞 / 男性名詞 / 女性名詞 / 形容詞 / 副詞 / 熟語 のどれか",'),
 '      "m":   "日本語の意味",',
 '      "say": "読み上げ用。wと同じでよい",',
 '      "ex":  "自作の短い例文（記事本文から取らない）",',
+(LC.ipa?'      "exi": "exの発音を国際音声字母（IPA）で。角括弧で囲む",':null),
 '      "exj": "その日本語訳",',
 '      "sj":  "exの中の主語。exに出てくる綴りそのまま",',
 '      "pr":  "exの中の述語動詞。exに出てくる綴りそのまま",',
@@ -2192,7 +2034,7 @@ var SCHEMA=[
 '    }',
 '  ]',
 '}'
-].join("\n");
+].filter(function(x){return x!==null}).join("\n");
 
 var RULES=[
 '決まり:',
@@ -2200,8 +2042,9 @@ var RULES=[
 '・ex は必ず自作。記事本文の文をそのまま使わない。別の場面の短い文にする。',
 '・sj と pr は、その文の中に**そのままの綴りで**現れる文字列だけを書く。活用形を変えない。無ければ空文字。',
 '・vocab は6〜12語。articles の words に挙げた語は必ず vocab に入れる。',
-'・日本語は自然な日本語に。直訳調にしない。'
-].join("\n");
+'・日本語は自然な日本語に。直訳調にしない。',
+(LC.ipa?'・この言語は文字が読めない前提。pos と exi の発音記号は必ず入れる。ローマ字とカタカナは使わない。':null)
+].filter(function(x){return x!==null}).join("\n");
 
 var SYS=[
 'あなたは'+LC.name+'の教材編集者です。渡された'+LC.name+'のニュース記事から、日本語話者の学習者向けの教材データを作ります。',
@@ -2357,7 +2200,7 @@ $("addRun").addEventListener("click",function(){
     try{raw=grabJSON(c)}catch(e){
       note(st,"warn","<b>返事の形が読めませんでした。</b>もう一度押すと直ることがあります。<br>"+
         "<span class='es' style='font-size:12px'>"+esc(String(c).slice(0,200))+"</span>");return}
-    try{P=toPack(raw,url)}catch(e){note(st,"warn","<b>"+esc(e.message)+"</b>もう一度お試しください。");return}
+    try{P=toPack(raw,url,txt)}catch(e){note(st,"warn","<b>"+esc(e.message)+"</b>もう一度お試しください。");return}
     savePackAndReload(P,st);
   },function(msg){
     btn.disabled=false;
@@ -2365,6 +2208,20 @@ $("addRun").addEventListener("click",function(){
   });
 });
 
+(function(){
+  var fi=$("addFile"); if(!fi)return;
+  fi.addEventListener("change",function(){
+    var f=this.files&&this.files[0]; if(!f)return;
+    var r=new FileReader();
+    r.onload=function(){
+      $("addJson").value=String(r.result||"");
+      fi.value="";
+      $("addImport").click();
+    };
+    r.onerror=function(){note(st,"warn","<b>ファイルを読めませんでした。</b>");fi.value=""};
+    r.readAsText(f);
+  });
+})();
 $("addImport").addEventListener("click",function(){
   var txt=($("addJson").value||"").trim();
   if(!txt){note(st,"info","JSONを貼り付けてください。");return}
@@ -2372,10 +2229,13 @@ $("addImport").addEventListener("click",function(){
   try{raw=grabJSON(txt)}catch(e){note(st,"warn","<b>JSONとして読めませんでした。</b>"+esc(e.message));return}
   /* 書き出したもの（packs入り）を戻す場合 */
   if(raw&&raw.packs&&Object.prototype.toString.call(raw.packs)==="[object Array]"){
-    var cur=readExtra(), have=allIds(), added=0;
+    var cur=readExtra(), added=0;
+    /* 同じ日でも言語が違えば別物。言語＋IDで見分ける。 */
+    var key=function(P){return (P.lg||"es")+"\u0000"+P.id};
+    var have=cur.packs.map(key);
     raw.packs.forEach(function(P){
-      if(!P||!P.id||have.indexOf(P.id)>=0)return;
-      cur.packs.push(clean(P)); have.push(P.id); added++;
+      if(!P||!P.id||have.indexOf(key(P))>=0)return;
+      cur.packs.push(clean(P)); have.push(key(P)); added++;
     });
     if(!added){note(st,"info","新しく増えるものはありませんでした。");return}
     try{writeExtra(cur)}catch(e){note(st,"warn","<b>保存できませんでした。</b>容量がいっぱいかもしれません。");return}
@@ -2384,7 +2244,7 @@ $("addImport").addEventListener("click",function(){
     return;
   }
   var P;
-  try{P=toPack(raw,($("addUrl").value||"").trim())}
+  try{P=toPack(raw,($("addUrl").value||"").trim(),($("addBox").value||"").trim())}
   catch(e){note(st,"warn","<b>"+esc(e.message)+"</b>");return}
   savePackAndReload(P,st);
 });

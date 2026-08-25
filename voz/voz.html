@@ -17,7 +17,7 @@
 <title>Voz y Letra</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+Gurmukhi:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+Gurmukhi:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600&display=swap">
 </head>
 <body>
 <style>
@@ -98,7 +98,11 @@ h2.sec{font-family:var(--serif);font-size:19px;font-weight:600;margin:26px 0 4px
 .btn[disabled]{opacity:.45;cursor:default}
 .btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
 .es{font-family:var(--serif)}
-body.lg-pa .es{font-family:"Noto Sans Gurmukhi","Nirmala UI","Noto Sans",sans-serif;font-style:normal}
+body.lg-pa .es{font-family:"Noto Naskh Arabic","Noto Nastaliq Urdu","Urdu Typesetting",serif;font-style:normal;
+  direction:rtl;unicode-bidi:isolate;font-size:1.12em;line-height:1.9}
+body.lg-ur .es{font-family:"Noto Naskh Arabic","Noto Nastaliq Urdu","Urdu Typesetting",serif;font-style:normal;
+  direction:rtl;unicode-bidi:isolate;font-size:1.12em;line-height:1.9}
+body.lg-pa .q-word.es,body.lg-ur .q-word.es{line-height:1.7}
 /* 端末にその言語の音声が無いとき、押しても鳴らないものを出さない */
 body.no-tts .say,body.no-tts .voicebar,body.no-tts #playAll,
 body.no-tts #voiceSeg b[data-mode="list"],body.no-tts #voiceSeg b[data-mode="shadow"]{display:none}
@@ -210,6 +214,18 @@ select.lgsel{margin-left:auto;font-family:var(--sans);font-size:11.5px;color:var
 .v .w{font-family:var(--serif);font-size:17px;font-weight:500;margin:0;line-height:1.4}
 .v .m{font-size:14px;margin:2px 0 0}
 .v .pos{font-size:11px;color:var(--faint);margin-left:7px;font-family:var(--sans)}
+/* 文字が読めない言語では、発音記号が本体。小さくしない。 */
+body.ipa-on .v .pos{display:block;margin:3px 0 0;font-size:14.5px;color:var(--text);
+  font-family:var(--serif);font-style:normal;letter-spacing:.005em;direction:ltr;unicode-bidi:isolate}
+body.ipa-on .pop .pos{display:block;margin:4px 0 0;font-size:15px;color:var(--text);
+  font-family:var(--serif);letter-spacing:.005em;direction:ltr;unicode-bidi:isolate}
+body.lg-pa .v .ctx,body.lg-ur .v .ctx{font-family:"Noto Naskh Arabic","Noto Nastaliq Urdu",serif;
+  font-style:normal;font-size:15px;line-height:1.9;direction:rtl;unicode-bidi:isolate;text-align:left}
+body.lg-pa .g table .es,body.lg-ur .g table .es{font-size:1.3em;line-height:2}
+/* 発音記号の列は、そり舌のかぎが見える大きさで */
+body.ipa-on .g table td:first-child{font-family:var(--serif);font-size:15.5px;letter-spacing:.03em;white-space:normal}
+body.ipa-on .v .ctx-j{font-family:var(--serif);font-size:13.5px;color:var(--muted);margin:3px 0 0;
+  direction:ltr;unicode-bidi:isolate;line-height:1.6}
 .lvl{font-family:var(--sans);font-size:10.5px;font-weight:500;margin-left:7px;padding:1px 7px;border-radius:999px;
   background:var(--surface-2);color:var(--faint);vertical-align:2px;white-space:nowrap}
 .lvl.due{background:var(--amber-soft);color:var(--amber)}
@@ -407,7 +423,7 @@ details.fold .fold-in>p:first-child{margin-top:0}
   <div class="lessonbar hidden" id="lessonbar">
     <label style="flex:1;display:flex;align-items:center;gap:8px">教材
       <select id="lessonSel">
-        <option value="all">すべて（36語）</option>
+        <option value="all">すべて</option>
       </select>
     </label>
   </div>
@@ -646,7 +662,7 @@ details.fold .fold-in>p:first-child{margin-top:0}
   </div>
 
   <p class="foot">
-    素材は <span id="ftSrc">BBC Mundo</span> の RSS（見出しとリード文）。用例文はすべて自作。<br>
+    <span id="ftSrc">素材は BBC Mundo の RSS（見出しとリード文）。用例文はすべて自作。</span><br>
     読み上げと音声認識は、端末が持っている機能を使っています。<br>
     Obsidian の <span class="es">語学/</span> フォルダと同じ内容です。個人用のため、サイトのどこからもリンクしていません。
   </p>
@@ -958,12 +974,12 @@ var GRAMMAR=[
 /* ============ 学ぶ言語の設定 ============
    言語を足すときは、ここに1つ足すだけでよい。
    stop / skip / stem は語のハイライト用。無ければ素通しする（機能が落ちるだけで壊れない）。 */
-var GENERIC='Android は 設定 → システム → 言語と入力 → テキスト読み上げの設定 → 言語データのインストール。<br>iPhone は 設定 → アクセシビリティ → 読み上げコンテンツ → 声。<br><b>用意されていない言語もあります。</b>その場合、読み上げとシャドウイングは使えません。';
+var GENERIC='Android は 設定 → システム → 言語と入力 → テキスト読み上げの設定 → 言語データのインストール。<br>iPhone は 設定 → アクセシビリティ → 読み上げコンテンツ → 声。<br><b>用意されていない言語もあります。</b>その場合、読み上げとシャドウイングは使えません。<br>追加したら、このページを開き直してください。';
 var LANGS={
  es:{name:"スペイン語", src:"BBC Mundo", flag:"\uD83C\uDDEA\uD83C\uDDF8",
    tts:"es", ttsFb:"es-ES", asr:"es-ES",
    hint:"名詞は el / la を付ける。動詞は不定詞。",
-   voiceHelp:'Android は 設定 \u2192 言語と入力 \u2192 テキスト読み上げ \u2192 言語データをインストール。<br>iPhone は 設定 \u2192 アクセシビリティ \u2192 読み上げコンテンツ \u2192 声 \u2192 スペイン語。',
+   voiceHelp:'Android は 設定 \u2192 言語と入力 \u2192 テキスト読み上げ \u2192 言語データをインストール。<br>iPhone は 設定 \u2192 アクセシビリティ \u2192 読み上げコンテンツ \u2192 声 \u2192 スペイン語。<br>追加してからこのページを開き直してください。',
    stop:["el","la","los","las","un","una","unos","unas","de","del","al","a","que","y","o","en","con","por","para","se","su","sus","lo","es","son","como","mas","m\u00e1s","no","si","le","les","ha","han","fue","era","este","esta","esto","esos","esas","ese","esa"],
    skip:["entr","esta","com","dej","dar","hac","ten","pon","sal","ver","dic","ser","ir"],
    stem:function(word){
@@ -991,13 +1007,14 @@ var LANGS={
  bn:{name:"ベンガル語", src:"BBC News বাংলা", flag:"\uD83D\uDCD6",
    tts:"bn", ttsFb:"bn-IN", asr:"bn-IN", hint:"動詞は不定詞。名詞は単数・主格。",
    voiceHelp:GENERIC, stop:[], skip:[], stem:null},
- ur:{name:"ウルドゥー語", src:"BBC News اردو", flag:"\uD83D\uDCD6",
+ ur:{name:"ウルドゥー語", src:"BBC News اردو", flag:"\uD83D\uDCD6", rtl:true,
    tts:"ur", ttsFb:"ur-PK", asr:"ur-PK", hint:"動詞は نا で終わる形（不定詞）。名詞は単数・主格。",
    voiceHelp:GENERIC, stop:[], skip:[], stem:null},
- pa:{name:"\u30d1\u30f3\u30b8\u30e3\u30fc\u30d6\u8a9e", src:"BBC News \u0a16\u0a3c\u0a2c\u0a30\u0a3e\u0a02", flag:"\uD83D\uDCD6",
-   tts:"pa", ttsFb:"pa-IN", asr:"pa-IN",
-   hint:"動詞は \u0a23\u0a3e で終わる形（不定詞）。名詞は単数・主格。",
-   voiceHelp:'Android は 設定 \u2192 言語と入力 \u2192 テキスト読み上げ \u2192 言語データをインストール（\u0a2a\u0a70\u0a1c\u0a3e\u0a2c\u0a40 / Punjabi）。<br>iPhone は 設定 \u2192 アクセシビリティ \u2192 読み上げコンテンツ \u2192 声。<br><b>端末によっては用意されていません。</b>その場合、読み上げとシャドウイングは使えません。',
+ pa:{name:"パンジャーブ語", src:"会話から", flag:"\uD83D\uDCAC", rtl:true,
+   tts:"pa", ttsFb:"pa-PK", asr:"ur-PK", ipa:true,
+   foot:"素材は実際の会話から。<b>表現は必ず話者に確かめて直すこと。</b>文字はシャームキー（ウルドゥー語と同じ文字）。",
+   hint:"パキスタン側なのでシャームキー文字（アラビア文字系）で書く。",
+   voiceHelp:'パンジャーブ語の合成音声は、多くの端末に入っていません。<br><b>それで構いません。</b>この言語の見本は、目の前で話している人です。<br>言い方を教わったら、その場で真似るのがいちばん正確です。',
    stop:[], skip:[], stem:null}
 };
 var LG=(function(){try{var v=localStorage.getItem("vyl_lg");return (v&&LANGS[v])?v:"es"}catch(e){return "es"}})();
@@ -1018,7 +1035,7 @@ EXTRA.packs.forEach(function(P){
   var plg=P.lg||"es";
   LESSONS.push({id:P.id,theme:P.theme||"追加した記事",lg:plg});
   var gBase=GRAMMAR.length;
-  (P.grammar||[]).forEach(function(g){g.lg=plg;GRAMMAR.push(g)});
+  (P.grammar||[]).forEach(function(g){g.lg=plg;g.l=P.id;GRAMMAR.push(g)});
   (P.articles||[]).forEach(function(a){
     a.l=P.id; a.lg=plg;
     if(typeof a.g==="number"&&P.grammar&&P.grammar[a.g])a.g=gBase+a.g; else delete a.g;
@@ -1734,8 +1751,11 @@ function buildVocab(filter){
     var head=document.createElement("div"); head.className="v-head";
     head.appendChild(sayBtn(v.say,v.w));
     var body=document.createElement("div"); body.className="v-body";
-    body.innerHTML="<p class='w'>"+esc(v.w)+"<span class='pos'>"+esc(v.pos)+"</span>"+lvlTag(v.w)+"</p>"+
-      "<p class='m'>"+esc(v.m)+"</p>"+(v.reg?"<span class='reg'>"+esc(v.reg)+"</span>":"")+(v.ex?"<p class='ctx'>"+esc(v.ex)+"</p>":"");
+    var posTag="<span class='pos'>"+esc(v.pos)+"</span>";
+    body.innerHTML="<p class='w'>"+esc(v.w)+(LC.ipa?lvlTag(v.w)+posTag:posTag+lvlTag(v.w))+"</p>"+
+      "<p class='m'>"+esc(v.m)+"</p>"+(v.reg?"<span class='reg'>"+esc(v.reg)+"</span>":"")+
+      (v.ex?"<p class='ctx'>"+esc(v.ex)+"</p>":"")+
+      ((LC.ipa&&v.exj)?"<p class='ctx-j'>"+esc(v.exj)+"</p>":"");
     head.appendChild(body);
     var ch=document.createElement("span"); ch.className="chev"; ch.textContent="▶"; head.appendChild(ch);
     row.appendChild(head);
@@ -1745,7 +1765,7 @@ function buildVocab(filter){
       (v.warn?"<div><dt>注意</dt><dd>"+v.warn+"</dd></div>":"")+
       "<div><dt>よく一緒に使う語</dt><dd>"+v.col+"</dd></div>"+
       "<div><dt>似た語との違い</dt><dd>"+v.syn+"</dd></div>"+
-      (v.ex?"<div><dt>用例</dt><dd><span class='es'>"+esc(v.ex)+"</span><br>"+esc(v.exj)+"</dd></div>":"")+
+      (v.ex?"<div><dt>用例</dt><dd><span class='es'>"+esc(v.ex)+"</span>"+(v.exj?"<br>"+esc(v.exj):"")+"</dd></div>":"")+
       (function(){var a=WORD2ART[v.w];return a?
         "<div><dt>出てきた記事</dt><dd>"+esc(a.l)+" 記事"+a.n+"<br><span class='es'>"+esc(a.head)+"</span><br>"+esc(a.ja)+
         "<br><a href='"+esc(a.u)+"' target='_blank' rel='noopener'>BBC で読む</a><span class='url'>"+esc(a.u)+"</span></dd></div>":
@@ -1774,6 +1794,7 @@ function buildGrammar(){
   GRAMMAR.filter(function(g,i){
     if(g.lg&&g.lg!==LG)return false;
     if(curLesson==="all")return true;
+    if(g.l&&dOf(g.l)===curLesson)return true;   /* 語彙だけの回でも出す */
     return ARTICLES.some(function(a){return a.l===curLesson&&a.g===i});
   }).forEach(function(g){
     var c=document.createElement("div"); c.className="card g";
@@ -1782,7 +1803,7 @@ function buildGrammar(){
       var q=document.createElement("div"); q.className="quote";
       q.appendChild(sayBtn(g.quote.t));
       var sp=document.createElement("span");
-      sp.innerHTML=esc(g.quote.t)+"<span style='display:block;font-family:var(--sans);font-style:normal;font-size:13px;color:var(--muted);margin-top:5px'>"+esc(g.quote.j)+"</span>";
+      sp.innerHTML="<span class='es'>"+esc(g.quote.t)+"</span>"+"<span style='display:block;font-family:var(--sans);font-style:normal;font-size:13px;color:var(--muted);margin-top:5px'>"+esc(g.quote.j)+"</span>";
       q.appendChild(sp); c.appendChild(q);
     }
     if(g.table){
@@ -1815,6 +1836,7 @@ function lessonWords(){return VOCAB.filter(inLesson)}
     o.value=d; o.textContent=d+"（"+n+"語）";
     sel.appendChild(o);
   });
+  sel.options[0].textContent="すべて（"+VOCAB.length+"語）";
   sel.value=curLesson;
   sel.addEventListener("change",function(){ setLesson(this.value) });
 })();
@@ -2475,6 +2497,8 @@ $("addExport").addEventListener("click",function(){
 
 /* ============ 起動：言語まわりの表示を差し替える ============ */
 document.body.classList.add("lg-"+LG);
+if(LC.ipa)document.body.classList.add("ipa-on");
+if(LC.rtl)document.body.classList.add("rtl-on");
 (function(){
   var sel=document.getElementById("lgSel");
   Object.keys(LANGS).forEach(function(k){
@@ -2486,9 +2510,8 @@ document.body.classList.add("lg-"+LG);
     location.reload();
   });
   document.getElementById("novoice").innerHTML=
-    "<b>"+esc(LC.name)+"の音声がこの端末に入っていません。</b><br>"+LC.voiceHelp+
-    "<br>追加してからこのページを開き直してください。";
-  document.getElementById("ftSrc").textContent=LC.src;
+    "<b>"+esc(LC.name)+"の音声がこの端末に入っていません。</b><br>"+LC.voiceHelp;
+  document.getElementById("ftSrc").innerHTML=LC.foot||("素材は "+esc(LC.src)+" の RSS（見出しとリード文）。用例文はすべて自作。");
   var d1=document.querySelector('#dirRow [data-dir="ja2es"]'),
       d2=document.querySelector('#dirRow [data-dir="es2ja"]');
   if(d1)d1.textContent="日本語 → "+LC.name;

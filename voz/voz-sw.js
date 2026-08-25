@@ -1,7 +1,7 @@
 /* Voz y Letra — オフライン用のキャッシュ係
    このファイルは voz/ の中だけを担当します。サイトの他の部分には触れません。 */
 
-var CACHE = "voz-2026-08-25";
+var CACHE = "voz-2026-08-25d";
 var ASSETS = ["./voz.html", "./voz-manifest.json", "./voz-icon-192.png", "./voz-icon-512.png"];
 
 self.addEventListener("install", function (e) {

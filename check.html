@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>接続チェック ／ 連線檢查</title>
+<style>
+  :root{ --bg:#faf9f7; --card:#fff; --ink:#23201d; --sub:#6b6560; --line:#e6e2dc;
+         --ok:#1a7f4b; --okbg:#e8f5ee; --ng:#b3261e; --ngbg:#fdecea; --wait:#8a6d1f; --waitbg:#fdf4e0; --accent:#4a5db0; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI","Noto Sans JP","Microsoft JhengHei",sans-serif;
+       line-height:1.65;padding:16px 14px 60px}
+  .wrap{max-width:640px;margin:0 auto}
+  h1{font-size:1.25rem;margin:.2em 0 .1em}
+  .lead{color:var(--sub);font-size:.92rem;margin:.2em 0 1.2em}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px;margin-bottom:12px}
+  .row{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
+  .row:first-of-type{border-top:0}
+  .badge{flex:0 0 auto;min-width:56px;text-align:center;font-size:.78rem;font-weight:700;
+         padding:3px 8px;border-radius:999px;background:var(--waitbg);color:var(--wait)}
+  .badge.ok{background:var(--okbg);color:var(--ok)}
+  .badge.ng{background:var(--ngbg);color:var(--ng)}
+  .t{flex:1 1 auto;min-width:0}
+  .t b{display:block;font-size:.95rem}
+  .t small{display:block;color:var(--sub);font-size:.82rem;word-break:break-all}
+  button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px 18px;cursor:pointer;
+         background:var(--accent);color:#fff;width:100%;margin-top:4px}
+  button.sub{background:#efedea;color:var(--ink)}
+  button:disabled{opacity:.5}
+  .note{font-size:.85rem;color:var(--sub);margin-top:10px}
+  textarea{width:100%;height:150px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;
+           border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff;color:var(--ink)}
+  h2{font-size:1rem;margin:.2em 0 .6em}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>接続チェック ／ 連線檢查</h1>
+  <p class="lead">会話練習ページが使えるかどうかを調べます。ボタンを押して、結果の画面を先生に送ってください。<br>
+  檢查會話練習頁面能不能使用。請按按鈕，然後把結果畫面傳給老師。</p>
+
+  <div class="card">
+    <h2>1. 通信のチェック ／ 連線</h2>
+    <div class="row"><span class="badge" id="b1">…</span><div class="t"><b>教材のページ</b><small id="s1">msjpgames.github.io</small></div></div>
+    <div class="row"><span class="badge" id="b2">…</span><div class="t"><b>会話AIの中継サーバー</b><small id="s2">nihongo-ai.miurasuehisa.workers.dev</small></div></div>
+    <button id="run">通信をしらべる ／ 開始檢查</button>
+  </div>
+
+  <div class="card">
+    <h2>2. マイクのチェック ／ 麥克風</h2>
+    <div class="row"><span class="badge" id="b3">…</span><div class="t"><b>安全な接続（https）</b><small id="s3">—</small></div></div>
+    <div class="row"><span class="badge" id="b4">…</span><div class="t"><b>録音のしくみ</b><small id="s4">—</small></div></div>
+    <div class="row"><span class="badge" id="b5">…</span><div class="t"><b>マイクの許可</b><small id="s5">下のボタンを押してください ／ 請按下面的按鈕</small></div></div>
+    <button id="mic">マイクをためす ／ 測試麥克風</button>
+    <p class="note">「許可しますか？」と聞かれたら「許可」を押してください。<br>出現「是否允許」時請按「允許」。</p>
+  </div>
+
+  <div class="card">
+    <h2>3. 結果 ／ 結果</h2>
+    <textarea id="out" readonly></textarea>
+    <button class="sub" id="copy">結果をコピー ／ 複製結果</button>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var PAGE  = "https://msjpgames.github.io/jlpt-practice/kaiwa_class.html";
+  var RELAY = "https://nihongo-ai.miurasuehisa.workers.dev";
+  var res = {};
+
+  function $(id){ return document.getElementById(id); }
+  function mark(n, state, text){
+    var b=$("b"+n);
+    b.className = "badge" + (state==="ok"?" ok":(state==="ng"?" ng":""));
+    b.textContent = state==="ok" ? "OK" : (state==="ng" ? "NG" : "…");
+    if(text) $("s"+n).textContent = text;
+  }
+  function dump(){
+    var L=[];
+    L.push("=== 接続チェック結果 ===");
+    L.push("日時: " + new Date().toString());
+    for(var k in res) L.push(k + ": " + res[k]);
+    L.push("UA: " + navigator.userAgent);
+    $("out").value = L.join("\n");
+  }
+
+  // ---- 環境 ----
+  var ua = navigator.userAgent;
+  var inApp = /(FBAN|FBAV|Instagram|Line\/|MicroMessenger|WhatsApp|Twitter)/i.test(ua);
+  res["ブラウザ内蔵アプリ"] = inApp ? "はい（LINE・WeChat等の中で開いています）" : "いいえ";
+
+  var isHttps = (location.protocol === "https:") || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  mark(3, isHttps ? "ok" : "ng",
+       location.protocol + (isHttps ? "（安全な接続です）"
+         : "（ファイルを直接ひらいています。マイクは使えません。https のURLで開いてください ／ 請用 https 網址開啟）"));
+  res["https"] = isHttps ? "OK" : "NG (" + location.protocol + ")";
+
+  var canRec = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) && (typeof MediaRecorder !== "undefined");
+  mark(4, canRec ? "ok" : "ng",
+       canRec ? "このブラウザは録音できます"
+              : (inApp ? "アプリの中のブラウザでは使えません。Safari／Chrome で開いてください ／ 請用 Safari 或 Chrome 開啟"
+                       : "このブラウザは録音に対応していません"));
+  res["録音対応"] = canRec ? "OK" : "NG";
+
+  // ---- 通信 ----
+  function testUrl(n, url, label){
+    mark(n, "wait", "しらべています… ／ 檢查中…");
+    var t0 = Date.now();
+    var timer = setTimeout(function(){ done(false, "時間切れ（15秒）／ 逾時"); }, 15000);
+    var finished = false;
+    function done(ok, msg){
+      if(finished) return; finished = true; clearTimeout(timer);
+      mark(n, ok ? "ok" : "ng", msg);
+      res[label] = (ok ? "OK" : "NG") + " — " + msg;
+      dump();
+    }
+    fetch(url, { method:"GET", cache:"no-store" })
+      .then(function(r){ done(true, "つながりました（" + r.status + " / " + (Date.now()-t0) + "ms）"); })
+      .catch(function(e){ done(false, "つながりません ／ 無法連線（" + (e && e.message ? e.message : e) + "）"); });
+  }
+
+  $("run").addEventListener("click", function(){
+    this.disabled = true;
+    testUrl(1, PAGE + "?t=" + Date.now(), "教材のページ");
+    testUrl(2, RELAY + "/?t=" + Date.now(), "中継サーバー");
+    var self = this;
+    setTimeout(function(){ self.disabled = false; }, 16000);
+  });
+
+  // ---- マイク ----
+  $("mic").addEventListener("click", function(){
+    var btn = this; btn.disabled = true;
+    mark(5, "wait", "許可を待っています… ／ 等待允許…");
+    if(!canRec){ mark(5,"ng","このブラウザでは試せません ／ 此瀏覽器無法測試"); res["マイク許可"]="NG (未対応)"; dump(); btn.disabled=false; return; }
+    navigator.mediaDevices.getUserMedia({ audio:true })
+      .then(function(st){
+        st.getTracks().forEach(function(t){ t.stop(); });
+        mark(5, "ok", "マイクが使えます ／ 可以使用麥克風");
+        res["マイク許可"] = "OK";
+        dump(); btn.disabled = false;
+      })
+      .catch(function(e){
+        var name = (e && e.name) || "エラー";
+        var msg = name === "NotAllowedError" ? "許可されませんでした。ブラウザの設定でマイクを許可してください ／ 未允許，請在瀏覽器設定允許麥克風"
+                : name === "NotFoundError"   ? "マイクが見つかりません ／ 找不到麥克風"
+                : name + " ／ " + (e && e.message ? e.message : "");
+        mark(5, "ng", msg);
+        res["マイク許可"] = "NG (" + name + ")";
+        dump(); btn.disabled = false;
+      });
+  });
+
+  $("copy").addEventListener("click", function(){
+    var ta = $("out"); ta.removeAttribute("readonly"); ta.select(); ta.setSelectionRange(0, 99999);
+    try{ document.execCommand("copy"); this.textContent = "コピーしました ／ 已複製"; }catch(e){}
+    ta.setAttribute("readonly","readonly");
+    var self=this; setTimeout(function(){ self.textContent="結果をコピー ／ 複製結果"; }, 2000);
+  });
+
+  dump();
+})();
+</script>
+</body>
+</html>

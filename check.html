@@ -187,14 +187,18 @@
       headers:{ "Content-Type":"application/json", "Authorization":"Bearer " + savedKey },
       body: JSON.stringify({ model: savedModel, messages:[{role:"user",content:"こんにちは"}], max_tokens:200 })
     })
-    .then(function(r){ return r.json().then(function(d){ return {ok:r.ok, status:r.status, d:d}; })
-                                       .catch(function(){ return {ok:r.ok, status:r.status, d:{}}; }); })
+    .then(function(r){ return r.text().then(function(txt){
+        var d = {}; try{ d = JSON.parse(txt); }catch(e){}
+        return { ok:r.ok, status:r.status, d:d, raw:txt, ctype:(r.headers.get("content-type")||"") };
+      }); })
     .then(function(x){
       if(!x.ok){
         var em = (x.d && x.d.error && (x.d.error.message || x.d.error)) || "エラー";
         if(typeof em !== "string") em = JSON.stringify(em);
         mark(7, "ng", "HTTP " + x.status + "：" + em);
         res["AI応答"] = "NG (" + x.status + ") " + em;
+        res["応答の中身"] = (x.ctype ? "[" + x.ctype + "] " : "") +
+                            String(x.raw || "").replace(/\s+/g," ").slice(0,400);
       }else{
         var t = ""; try{ t = (x.d.choices[0].message.content || "").trim(); }catch(e){}
         mark(7, t ? "ok" : "ng", t ? ("返事: " + t) : "返事が空でした ／ 回覆是空的");

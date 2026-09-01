@@ -58,7 +58,15 @@
   </div>
 
   <div class="card">
-    <h2>3. 結果 ／ 結果</h2>
+    <h2>3. 会話AIをためす ／ 測試 AI 對話</h2>
+    <div class="row"><span class="badge" id="b6">…</span><div class="t"><b>この端末に保存されている設定</b><small id="s6">—</small></div></div>
+    <div class="row"><span class="badge" id="b7">…</span><div class="t"><b>AIに話しかけてみる</b><small id="s7">下のボタンを押してください ／ 請按下面的按鈕</small></div></div>
+    <button id="ai">AIをためす ／ 測試 AI</button>
+    <p class="note">実際に「こんにちは」と送ってみます。返事が来れば会話練習は使えます。<br>會實際傳送「こんにちは」。有回覆就表示可以使用。</p>
+  </div>
+
+  <div class="card">
+    <h2>4. 結果 ／ 結果</h2>
     <textarea id="out" readonly></textarea>
     <button class="sub" id="copy">結果をコピー ／ 複製結果</button>
   </div>
@@ -151,6 +159,54 @@
         res["マイク許可"] = "NG (" + name + ")";
         dump(); btn.disabled = false;
       });
+  });
+
+  // ---- 会話AIをためす（この端末に保存されている設定をそのまま使う）----
+  function ls(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function mask(v){ if(!v) return "（空）"; return v.slice(0,3) + "***（" + v.length + "文字）"; }
+
+  var savedProv  = ls("llm_provider") || "（未設定）";
+  var savedBase  = (ls("custom_base")  || "").trim().replace(/\/+$/,"");
+  var savedModel = (ls("custom_model") || "").trim();
+  var savedKey   = (ls("key_custom")   || "").trim();
+  var setOk = (savedProv === "custom" && savedBase && savedModel && savedKey);
+  mark(6, setOk ? "ok" : "ng",
+       "提供元=" + savedProv + " ／ URL=" + (savedBase || "（空）") +
+       " ／ モデル=" + (savedModel || "（空）") + " ／ 合言葉=" + mask(savedKey));
+  res["保存設定"] = "提供元=" + savedProv + ", URL=" + (savedBase||"空") + ", モデル=" + (savedModel||"空") + ", 合言葉=" + mask(savedKey);
+
+  $("ai").addEventListener("click", function(){
+    var btn = this; btn.disabled = true;
+    mark(7, "wait", "送っています… ／ 傳送中…");
+    if(!savedBase || !savedModel || !savedKey){
+      mark(7, "ng", "設定が足りません。会話練習のページで合言葉を入れてください ／ 設定不完整，請先在會話練習頁面輸入密碼");
+      res["AI応答"] = "NG (設定不足)"; dump(); btn.disabled = false; return;
+    }
+    fetch(savedBase + "/chat/completions", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json", "Authorization":"Bearer " + savedKey },
+      body: JSON.stringify({ model: savedModel, messages:[{role:"user",content:"こんにちは"}], max_tokens:200 })
+    })
+    .then(function(r){ return r.json().then(function(d){ return {ok:r.ok, status:r.status, d:d}; })
+                                       .catch(function(){ return {ok:r.ok, status:r.status, d:{}}; }); })
+    .then(function(x){
+      if(!x.ok){
+        var em = (x.d && x.d.error && (x.d.error.message || x.d.error)) || "エラー";
+        if(typeof em !== "string") em = JSON.stringify(em);
+        mark(7, "ng", "HTTP " + x.status + "：" + em);
+        res["AI応答"] = "NG (" + x.status + ") " + em;
+      }else{
+        var t = ""; try{ t = (x.d.choices[0].message.content || "").trim(); }catch(e){}
+        mark(7, t ? "ok" : "ng", t ? ("返事: " + t) : "返事が空でした ／ 回覆是空的");
+        res["AI応答"] = t ? ("OK — " + t) : "NG (返事が空)";
+      }
+      dump(); btn.disabled = false;
+    })
+    .catch(function(e){
+      mark(7, "ng", "通信できません ／ 無法連線（" + (e && e.message ? e.message : e) + "）");
+      res["AI応答"] = "NG (通信失敗) " + (e && e.message ? e.message : e);
+      dump(); btn.disabled = false;
+    });
   });
 
   $("copy").addEventListener("click", function(){

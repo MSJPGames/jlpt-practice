@@ -189,7 +189,8 @@
     })
     .then(function(r){ return r.text().then(function(txt){
         var d = {}; try{ d = JSON.parse(txt); }catch(e){}
-        return { ok:r.ok, status:r.status, d:d, raw:txt, ctype:(r.headers.get("content-type")||"") };
+        return { ok:r.ok, status:r.status, d:d, raw:txt,
+                 ctype:(r.headers.get("content-type")||""), via:(r.headers.get("X-Relay-Via")||"") };
       }); })
     .then(function(x){
       if(!x.ok){
@@ -201,8 +202,10 @@
                             String(x.raw || "").replace(/\s+/g," ").slice(0,400);
       }else{
         var t = ""; try{ t = (x.d.choices[0].message.content || "").trim(); }catch(e){}
-        mark(7, t ? "ok" : "ng", t ? ("返事: " + t) : "返事が空でした ／ 回覆是空的");
-        res["AI応答"] = t ? ("OK — " + t) : "NG (返事が空)";
+        var via = x.via ? "［" + x.via + "］" : "";
+        mark(7, t ? "ok" : "ng", t ? (via + "返事: " + t) : (via + "返事が空でした ／ 回覆是空的"));
+        res["AI応答"] = (t ? "OK — " + t : "NG (返事が空)");
+        res["経由"] = (x.via || "不明") + (x.d && x.d.model ? " / " + x.d.model : "");
       }
       dump(); btn.disabled = false;
     })

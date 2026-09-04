@@ -32,19 +32,26 @@
   textarea{width:100%;height:150px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;
            border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff;color:var(--ink)}
   h2{font-size:1rem;margin:.2em 0 .6em}
+  .verdict{border:1px solid var(--line);border-left:5px solid var(--wait);background:var(--waitbg);
+           color:var(--wait);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-weight:700;font-size:.95rem}
+  .verdict.ok{border-left-color:var(--ok);background:var(--okbg);color:var(--ok)}
+  .verdict.ng{border-left-color:var(--ng);background:var(--ngbg);color:var(--ng)}
+  .verdict small{display:block;font-weight:400;margin-top:4px;color:var(--sub)}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <h1>接続チェック ／ 連線檢查</h1>
-  <p class="lead">会話練習ページが使えるかどうかを調べます。ボタンを押して、結果の画面を先生に送ってください。<br>
-  檢查會話練習頁面能不能使用。請按按鈕，然後把結果畫面傳給老師。</p>
+  <p class="lead">このページを開くと、自動でしらべます。<b>この画面の写真を先生に送ってください。</b><br>
+  打開這個頁面就會自動檢查。<b>請把這個畫面截圖傳給老師。</b></p>
+
+  <div class="verdict" id="verdict">しらべています… ／ 檢查中…</div>
 
   <div class="card">
     <h2>1. 通信のチェック ／ 連線</h2>
     <div class="row"><span class="badge" id="b1">…</span><div class="t"><b>教材のページ</b><small id="s1">msjpgames.github.io</small></div></div>
-    <div class="row"><span class="badge" id="b2">…</span><div class="t"><b>会話AIの中継サーバー</b><small id="s2">nihongo-ai.miurasuehisa.workers.dev</small></div></div>
+    <div class="row"><span class="badge" id="b2">…</span><div class="t"><b>会話AIの中継サーバー</b><small id="s2">nihongo-relay.pages.dev</small></div></div>
     <button id="run">通信をしらべる ／ 開始檢查</button>
   </div>
 
@@ -83,7 +90,12 @@
 <script>
 (function(){
   var PAGE  = "https://msjpgames.github.io/jlpt-practice/kaiwa_class.html";
-  var RELAY = "https://nihongo-ai.miurasuehisa.workers.dev";
+  var RELAY_DEFAULT = "https://nihongo-relay.pages.dev/api";
+  var RELAY = RELAY_DEFAULT;
+  try{
+    var b = (localStorage.getItem("custom_base") || "").trim().replace(/\/+$/,"");
+    if(b) RELAY = b;                       // その端末が実際に使っているURLをしらべる
+  }catch(e){}
   var res = {};
 
   function $(id){ return document.getElementById(id); }
@@ -122,28 +134,75 @@
 
   // ---- 通信 ----
   function testUrl(n, url, label){
-    mark(n, "wait", "しらべています… ／ 檢查中…");
-    var t0 = Date.now();
-    var timer = setTimeout(function(){ done(false, "時間切れ（15秒）／ 逾時"); }, 15000);
-    var finished = false;
-    function done(ok, msg){
-      if(finished) return; finished = true; clearTimeout(timer);
-      mark(n, ok ? "ok" : "ng", msg);
-      res[label] = (ok ? "OK" : "NG") + " — " + msg;
-      dump();
-    }
-    fetch(url, { method:"GET", cache:"no-store" })
-      .then(function(r){ done(true, "つながりました（" + r.status + " / " + (Date.now()-t0) + "ms）"); })
-      .catch(function(e){ done(false, "つながりません ／ 無法連線（" + (e && e.message ? e.message : e) + "）"); });
+    return new Promise(function(resolve){
+      mark(n, "wait", "しらべています… ／ 檢查中…");
+      var t0 = Date.now();
+      var timer = setTimeout(function(){ done(false, "時間切れ（15秒）／ 逾時"); }, 15000);
+      var finished = false;
+      function done(ok, msg){
+        if(finished) return; finished = true; clearTimeout(timer);
+        mark(n, ok ? "ok" : "ng", msg);
+        res[label] = (ok ? "OK" : "NG") + " — " + msg;
+        dump(); resolve(ok);
+      }
+      fetch(url, { method:"GET", cache:"no-store" })
+        .then(function(r){ done(true, "つながりました（" + r.status + " / " + (Date.now()-t0) + "ms）"); })
+        .catch(function(e){ done(false, "つながりません ／ 無法連線（" + (e && e.message ? e.message : e) + "）"); });
+    });
+  }
+
+  function runNet(){
+    return Promise.all([
+      testUrl(1, PAGE + "?t=" + Date.now(), "教材のページ"),
+      testUrl(2, RELAY + "/?t=" + Date.now(), "中継サーバー")
+    ]);
   }
 
   $("run").addEventListener("click", function(){
-    this.disabled = true;
-    testUrl(1, PAGE + "?t=" + Date.now(), "教材のページ");
-    testUrl(2, RELAY + "/?t=" + Date.now(), "中継サーバー");
-    var self = this;
-    setTimeout(function(){ self.disabled = false; }, 16000);
+    var self = this; self.disabled = true;
+    runNet().then(function(){ self.disabled = false; });
   });
+
+  // ---- 開いたら自動でしらべる（通信 → 会話AI）----
+  function verdict(state, title, detail){
+    var v = $("verdict");
+    v.className = "verdict" + (state ? " " + state : "");
+    v.innerHTML = title + (detail ? "<small>" + detail + "</small>" : "");
+  }
+  function autoRun(){
+    runNet().then(function(r){
+      if(!r[1]){
+        verdict("ng", "❌ 中継サーバーに届いていません",
+          "回線がブロックしています。この画面を先生に送ってください。／ 網路被阻擋，請把畫面傳給老師。");
+        return;
+      }
+      if(!setOk){
+        verdict("ng", "❌ 設定が入っていません",
+          "会話練習のページで合言葉を入れてから、もう一度ひらいてください。／ 請先在會話練習頁面輸入密碼。");
+        return;
+      }
+      return new Promise(function(done){
+        var b = $("ai");
+        b.click();
+        var n = 0;
+        var iv = setInterval(function(){
+          n++;
+          if(res["AI応答"] || n > 40){
+            clearInterval(iv);
+            if(/^OK/.test(res["AI応答"] || "")){
+              verdict("ok", "✅ 会話は使えます（経由: " + (res["経由"] || "?") + "）",
+                "下の「3秒 録音してためす」も押して、この画面を先生に送ってください。／ 也請按下面的錄音測試，然後把畫面傳給老師。");
+            }else{
+              verdict("ng", "❌ AIが応答しません",
+                (res["AI応答"] || "") + "　この画面を先生に送ってください。／ 請把畫面傳給老師。");
+            }
+            done();
+          }
+        }, 500);
+      });
+    });
+  }
+  setTimeout(autoRun, 300);
 
   // ---- マイク ----
   $("mic").addEventListener("click", function(){

@@ -417,6 +417,33 @@
     set:function(k,v){ try{ localStorage.setItem(k,v); }catch(e){ mem[k]=v; } }
   };
 
+  // ★はじめから入れておく設定（学習者の入力の手間をへらすため）
+  //   すでにその端末で設定したことがある場合は、そちらが優先されます（先生のGemini設定は消えません）。
+  //   自動入力をやめたい項目は "" にしてください。
+  //   ※ key（合言葉）は、ここに書くと公開ページのソースに載って誰でも読めてしまいます。
+  //     ふだんは "" のままにして、合言葉だけ学習者に入力してもらってください（1回入れれば端末が覚えます）。
+  var DEFAULTS = {
+    provider: "custom",                                    // 会話AIの提供元（custom＝OpenAI互換＝授業用の中継サーバー）
+    base:     "https://nihongo-relay.pages.dev/api",       // ベースURL（末尾の /api まで含めます）
+    model:    "groq",                                      // モデル名
+    stt:      "",                                          // 音声認識モデル（空＝自動で判定）
+    key:      ""                                           // 合言葉（★空のままにしてください）
+  };
+  // 古い中継サーバーの住所（香港のプロバイダに遮断されている）。見つけたら新しい住所に置きかえます。
+  var OLD_BASES = ["nihongo-ai.miurasuehisa.workers.dev"];
+  (function(){
+    if(!DEFAULTS.provider) return;
+    var cur = (store.get("custom_base") || "").trim();
+    for(var i=0;i<OLD_BASES.length;i++){
+      if(cur && cur.indexOf(OLD_BASES[i]) >= 0){ store.set("custom_base", DEFAULTS.base); cur = DEFAULTS.base; break; }
+    }
+    if(store.get("llm_provider")===null) store.set("llm_provider", DEFAULTS.provider);
+    if(DEFAULTS.base  && !cur)                       store.set("custom_base",  DEFAULTS.base);
+    if(DEFAULTS.model && !store.get("custom_model")) store.set("custom_model", DEFAULTS.model);
+    if(DEFAULTS.stt   && !store.get("custom_stt"))   store.set("custom_stt",   DEFAULTS.stt);
+    if(DEFAULTS.key   && !store.get("key_"+DEFAULTS.provider)) store.set("key_"+DEFAULTS.provider, DEFAULTS.key);
+  })();
+
   var $=function(id){ return document.getElementById(id); };
   var keyEl=$("key"), scenarioEl=$("scenario"), levelEl=$("level"), roleEl=$("role"), foreignEl=$("foreignMode");
   var practiceModeEl=$("practiceMode"), generalBox=$("generalBox"), textbookBox=$("textbookBox"), roleBox=$("roleBox");
@@ -1242,6 +1269,13 @@
 
   var history=[], systemText="", busy=false;
 
+  // 授業用の中継サーバーを使うときだけ、考えこみを浅くして返事を速く・確実にする。
+  // ほかの提供元（DeepSeek等）には送りません（知らない項目で弾かれるのを防ぐため）。
+  function withEffort(base, body, level){
+    try{ if(/(workers|pages)\.dev/i.test(base||"")) body.reasoning_effort = level || "low"; }catch(e){}
+    return body;
+  }
+
   function callOpenAICompat(cb){
     var key=keyEl.value.trim(); var pp=curProv();
     var base=(pp==="openrouter")?PROVIDERS.openrouter.base:(baseUrlEl.value.trim().replace(/\/+$/,""));
@@ -1253,7 +1287,7 @@
     var headers={"Content-Type":"application/json","Authorization":"Bearer "+key};
     if(pp==="openrouter"){ headers["HTTP-Referer"]="https://msjpgames.github.io/jlpt-practice/"; headers["X-Title"]="Nihongo no Heya"; }
     fetch(base+"/chat/completions",{ method:"POST", headers:headers,
-      body:JSON.stringify({ model:model, messages:msgs, temperature:0.9, max_tokens:512 }) })
+      body:JSON.stringify(withEffort(base,{ model:model, messages:msgs, temperature:0.9, max_tokens:900 },"low")) })
     .then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
       .then(function(r){
         if(!r.ok){ var em=(r.data&&r.data.error&&(r.data.error.message||r.data.error))||"エラーが発生しました"; if(typeof em!=="string") em=JSON.stringify(em); cb(null,em); return; }
@@ -1331,7 +1365,7 @@
     var headers={"Content-Type":"application/json","Authorization":"Bearer "+key};
     if(pp==="openrouter"){ headers["HTTP-Referer"]="https://msjpgames.github.io/jlpt-practice/"; headers["X-Title"]="Nihongo no Heya"; }
     fetch(base+"/chat/completions",{ method:"POST", headers:headers,
-      body:JSON.stringify({ model:model, messages:[{role:"system",content:sys},{role:"user",content:userText}], temperature:0.3, max_tokens:700 }) })
+      body:JSON.stringify(withEffort(base,{ model:model, messages:[{role:"system",content:sys},{role:"user",content:userText}], temperature:0.3, max_tokens:1500 },"medium")) })
     .then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
       .then(function(r){ if(!r.ok){ var em=(r.data&&r.data.error&&(r.data.error.message||r.data.error))||"エラーが発生しました"; if(typeof em!=="string") em=JSON.stringify(em); cb(null,em); return; }
         var text=""; try{ text=(r.data.choices[0].message.content||"").trim(); }catch(e){}

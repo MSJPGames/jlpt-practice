@@ -66,7 +66,14 @@
   </div>
 
   <div class="card">
-    <h2>4. 結果 ／ 結果</h2>
+    <h2>4. 音声入力をためす ／ 測試語音輸入</h2>
+    <div class="row"><span class="badge" id="b8">…</span><div class="t"><b>3秒録音して、文字にしてみる</b><small id="s8">ボタンを押して、日本語で何か話してください ／ 按下按鈕後請用日語說一句話</small></div></div>
+    <button id="rec">3秒 録音してためす ／ 錄音 3 秒測試</button>
+    <p class="note">「きょうは いい てんきですね」など、はっきり話してください。<br>請清楚地說一句日語，例如「きょうは いい てんきですね」。</p>
+  </div>
+
+  <div class="card">
+    <h2>5. 結果 ／ 結果</h2>
     <textarea id="out" readonly></textarea>
     <button class="sub" id="copy">結果をコピー ／ 複製結果</button>
   </div>
@@ -213,6 +220,65 @@
       mark(7, "ng", "通信できません ／ 無法連線（" + (e && e.message ? e.message : e) + "）");
       res["AI応答"] = "NG (通信失敗) " + (e && e.message ? e.message : e);
       dump(); btn.disabled = false;
+    });
+  });
+
+  // ---- 音声入力をためす（3秒録音 → 中継サーバーへ送る）----
+  $("rec").addEventListener("click", function(){
+    var btn = this; btn.disabled = true;
+    if(!canRec || !savedBase || !savedKey){
+      mark(8, "ng", "録音できないか、設定が足りません ／ 無法錄音或設定不完整");
+      res["音声入力"] = "NG (前提条件)"; dump(); btn.disabled = false; return;
+    }
+    mark(8, "wait", "録音中… 3秒 話してください ／ 錄音中…請說話");
+    navigator.mediaDevices.getUserMedia({ audio:true }).then(function(stream){
+      var mr, chunks = [];
+      try{ mr = new MediaRecorder(stream); }
+      catch(e){ stream.getTracks().forEach(function(t){t.stop();});
+                mark(8,"ng","録音を始められません ／ 無法開始錄音（"+e+"）"); res["音声入力"]="NG (MediaRecorder)"; dump(); btn.disabled=false; return; }
+      mr.ondataavailable = function(e){ chunks.push(e.data); };
+      mr.onstop = function(){
+        stream.getTracks().forEach(function(t){ t.stop(); });
+        var blob = new Blob(chunks, { type: mr.mimeType || "audio/webm" });
+        res["録音"] = (mr.mimeType||"?") + " / " + blob.size + "バイト";
+        mark(8, "wait", "送っています… ／ 傳送中…");
+        var fd = new FormData();
+        fd.append("file", blob, "audio.webm");
+        fd.append("model", "whisper-large-v3");
+        var t0 = Date.now();
+        fetch(savedBase + "/audio/transcriptions", {
+          method:"POST", headers:{ "Authorization":"Bearer " + savedKey }, body: fd
+        })
+        .then(function(r){ return r.text().then(function(txt){
+            var d={}; try{ d=JSON.parse(txt); }catch(e){}
+            return { ok:r.ok, status:r.status, d:d, raw:txt, via:(r.headers.get("X-Relay-Via")||""), ms:Date.now()-t0 };
+          }); })
+        .then(function(x){
+          var via = x.via ? "［" + x.via + "］" : "";
+          if(!x.ok){
+            var em = (x.d && x.d.error && (x.d.error.message || x.d.error)) || "エラー";
+            if(typeof em !== "string") em = JSON.stringify(em);
+            mark(8, "ng", via + "HTTP " + x.status + "：" + em);
+            res["音声入力"] = "NG (" + x.status + ") " + em;
+            res["音声の応答"] = String(x.raw||"").replace(/\s+/g," ").slice(0,300);
+          }else{
+            var t = (x.d && (x.d.text || x.d.transcript) || "").trim();
+            mark(8, t ? "ok" : "ng", via + (t ? ("聞きとり: 「" + t + "」（" + x.ms + "ms）") : ("文字になりませんでした（" + x.ms + "ms）／ 沒有辨識出文字")));
+            res["音声入力"] = (t ? "OK — 「" + t + "」" : "NG (空)") + " / " + x.ms + "ms";
+          }
+          res["音声の経由"] = x.via || "不明";
+          dump(); btn.disabled = false;
+        })
+        .catch(function(e){
+          mark(8, "ng", "送れませんでした ／ 無法傳送（" + (e && e.message ? e.message : e) + "）");
+          res["音声入力"] = "NG (通信失敗)"; dump(); btn.disabled = false;
+        });
+      };
+      mr.start();
+      setTimeout(function(){ try{ mr.stop(); }catch(e){} }, 3000);
+    }).catch(function(e){
+      mark(8, "ng", "マイクが使えません ／ 無法使用麥克風（" + ((e&&e.name)||e) + "）");
+      res["音声入力"] = "NG (マイク)"; dump(); btn.disabled = false;
     });
   });
 

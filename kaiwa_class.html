@@ -100,6 +100,12 @@
   .rc-mission li:before{content:"🎯 "}
   .rc-mission .mi-note{font-size:11.5px;font-weight:400;color:var(--text-muted);margin-top:6px}
   .taskbar.hidden,.dock.hidden{display:none}
+  /* 他のページに埋めこんで使うとき（?embed=1）。見出しや戻るリンクを隠して詰めて表示する */
+  html.embed body{padding-top:0}
+  html.embed .backlink,html.embed .app-head{display:none!important}
+  html.embed .wrap{max-width:100%;padding-top:4px}
+  /* 呼び出し元のページが 課・場面・役 を持っているので、埋めこみ時は隠す */
+  html.embed .hostctl{display:none!important}
 </style>
 </head>
 <body>
@@ -213,12 +219,12 @@
         <div class="hint" style="margin-top:4px">『日本語超級話者へのかけはし』全12課の会話練習です。課と場面を選ぶと、AIが相手役を演じます（上級〜超級向け）。</div>
       </div>
       <div id="challengeBox" style="margin-top:12px;display:none">
-        <label for="chLesson">課</label>
-        <select id="chLesson"></select>
-        <label for="chScene" style="margin-top:8px;display:block">ロールプレイ（場面）</label>
-        <select id="chScene"></select>
+        <label for="chLesson" class="hostctl">課</label>
+        <select id="chLesson" class="hostctl"></select>
+        <label for="chScene" class="hostctl" style="margin-top:8px;display:block">ロールプレイ（場面）</label>
+        <select id="chScene" class="hostctl"></select>
         <div class="row" style="margin-top:8px">
-          <div style="flex:0 0 150px">
+          <div style="flex:0 0 150px" class="hostctl">
             <label for="chSide">あなたの役</label>
             <select id="chSide">
               <option value="A" selected>Aさん</option>
@@ -442,6 +448,26 @@
     if(DEFAULTS.model && !store.get("custom_model")) store.set("custom_model", DEFAULTS.model);
     if(DEFAULTS.stt   && !store.get("custom_stt"))   store.set("custom_stt",   DEFAULTS.stt);
     if(DEFAULTS.key   && !store.get("key_"+DEFAULTS.provider)) store.set("key_"+DEFAULTS.provider, DEFAULTS.key);
+  })();
+
+  // ★URLで練習の設定を指定できるようにする（Challenge Roleplay のページから呼ぶため）
+  //   例: kaiwa_class.html?mode=challenge&lesson=7&scene=2&side=A&embed=1
+  //   embed=1 … 他のページに埋めこんだとき用。見出しと戻るリンクを隠します。
+  var EMBED = false;
+  (function(){
+    try{
+      var q = new URLSearchParams(location.search);
+      var m = (q.get("mode")||"").trim();
+      if(m) store.set("practice_mode", m);
+      var L = (q.get("lesson")||"").trim();
+      if(L) store.set("ch_lesson", L);
+      var n = L || store.get("ch_lesson") || "1";
+      var S = q.get("scene");
+      if(S!==null && String(S).trim()!=="") store.set("ch_scene_"+n, String(S).trim());
+      var D = (q.get("side")||"").trim().toUpperCase();
+      if(D==="A"||D==="B") store.set("ch_side_"+n, D);
+      if(q.get("embed")==="1"){ EMBED = true; document.documentElement.classList.add("embed"); }
+    }catch(e){}
   })();
 
   var $=function(id){ return document.getElementById(id); };
@@ -977,6 +1003,22 @@
   vocabLevelEl.addEventListener("change", function(){ store.set("vocab_level",vocabLevelEl.value); updateVocabUI(); });
   vocabListEl.addEventListener("change", function(){ store.set("vocab_list",vocabListEl.value); });
   updateModeUI(); updateVocabUI();
+
+  // 埋めこみ表示のときは、呼び出し元が決めている設定を隠して見やすくする
+  if(EMBED){
+    (function(){
+      function hide(el){ if(el) el.style.display="none"; }
+      var lab = provSel && provSel.previousElementSibling;
+      if(lab && lab.tagName==="LABEL") hide(lab);
+      hide(provSel); hide(customBox); hide(providerHintEl); hide(practiceModeRow);
+      // 合言葉（APIキー）は、まだ入っていないときだけ見せる
+      if((keyEl.value||"").trim()){
+        var klab = keyEl.previousElementSibling;
+        if(klab && klab.tagName==="LABEL") hide(klab);
+        hide(keyEl);
+      }
+    })();
+  }
 
   // ---- システム指示 ----
   function buildSystem(){

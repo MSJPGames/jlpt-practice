@@ -499,6 +499,9 @@
   // ---- 合言葉ゲート（PASSCODE 設定時のみ）----
   (function(){
     if(!PASSCODE) return;
+    // 他のページに埋めこんで使うとき（?embed=1）は、この確認をしません。
+    // 合言葉を2回きくと学習者が混乱するためです。中継サーバー側の合言葉は、そのまま必要です。
+    if(EMBED) return;
     if(store.get("gate_ok")===PASSCODE) return;
     setupCard.classList.add("hidden");
     gateCard.classList.remove("hidden");
@@ -1012,10 +1015,14 @@
       if(lab && lab.tagName==="LABEL") hide(lab);
       hide(provSel); hide(customBox); hide(providerHintEl); hide(practiceModeRow);
       // 合言葉（APIキー）は、まだ入っていないときだけ見せる
+      var klab = keyEl.previousElementSibling;
       if((keyEl.value||"").trim()){
-        var klab = keyEl.previousElementSibling;
         if(klab && klab.tagName==="LABEL") hide(klab);
         hide(keyEl);
+      }else{
+        // 学習者にわかる言い方にする（「APIキー」ではなく「合言葉」）
+        if(klab && klab.tagName==="LABEL") klab.textContent = "合言葉";
+        keyEl.placeholder = "先生から聞いた合言葉を入力";
       }
     })();
   }

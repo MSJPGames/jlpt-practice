@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>位相チェッカー ｜ 日本語の部屋</title>
+<meta name="description" content="入力した日本語の「硬さ」と「丁寧さ」を場面ごとに診断し、言いかえの候補を示します。上級者の「話し方が硬い」「文末だけ敬体」を自分で直すための道具です。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#F3F5F8; --surface:#FFFFFF; --surface-2:#EDF1F5; --line:#DBE2EA; --line-soft:#E9EEF3;
+  --ink:#18212C; --ink-2:#3A4755; --muted:#65717F;
+  --accent:#2F5D8C; --accent-soft:#E3ECF6;
+  --bad:#A83C28; --bad-bg:#FBEAE6; --bad-line:#E6B6AA;
+  --warn:#9A6B1E; --warn-bg:#FBF2E1; --warn-line:#E4CB96;
+  --ok:#35704A; --ok-bg:#E6F1E9; --ok-line:#A9CDB6;
+  --s1:#C0604F; --s2:#B0833C; --s3:#6A9552; --s4:#3A868E; --s5:#3C6BA4; --s6:#5A598E;
+  --shadow:0 1px 2px rgba(24,33,44,.06), 0 8px 24px -12px rgba(24,33,44,.18);
+  --radius:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12161B; --surface:#1B212A; --surface-2:#222A34; --line:#2E3843; --line-soft:#262F39;
+    --ink:#E7ECF2; --ink-2:#C3CCD7; --muted:#94A1AF;
+    --accent:#7FA9DC; --accent-soft:#1F2A38;
+    --bad:#E8917B; --bad-bg:#35211D; --bad-line:#6A3B30;
+    --warn:#DCB264; --warn-bg:#332A19; --warn-line:#6B5730;
+    --ok:#82C098; --ok-bg:#1B2A21; --ok-line:#38573F;
+    --s1:#DE8974; --s2:#D0A45F; --s3:#8FBD73; --s4:#5FB2BA; --s5:#7098D2; --s6:#9190C6;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12161B; --surface:#1B212A; --surface-2:#222A34; --line:#2E3843; --line-soft:#262F39;
+  --ink:#E7ECF2; --ink-2:#C3CCD7; --muted:#94A1AF;
+  --accent:#7FA9DC; --accent-soft:#1F2A38;
+  --bad:#E8917B; --bad-bg:#35211D; --bad-line:#6A3B30;
+  --warn:#DCB264; --warn-bg:#332A19; --warn-line:#6B5730;
+  --ok:#82C098; --ok-bg:#1B2A21; --ok-line:#38573F;
+  --s1:#DE8974; --s2:#D0A45F; --s3:#8FBD73; --s4:#5FB2BA; --s5:#7098D2; --s6:#9190C6;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html{ -webkit-text-size-adjust:100% }
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  font-size:15px; line-height:1.75;}
+.wrap{max-width:1000px; margin:0 auto; padding-inline:18px; padding-block:0 56px;}
+h1,h2,h3{font-family:"Noto Serif JP",serif; font-weight:700; text-wrap:balance; line-height:1.45; margin:0}
+p{margin:0}
+button{font-family:inherit; font-size:inherit; color:inherit; cursor:pointer}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+
+.sitebar{background:var(--surface); border-bottom:1px solid var(--line);}
+.sitebar .inner{max-width:1000px; margin:0 auto; padding:10px 18px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.sitebar a{font-size:13px; text-decoration:none; font-weight:700;}
+.sitebar span{font-size:12px; color:var(--muted)}
+
+header{padding-block:38px 24px; border-bottom:1px solid var(--line);}
+.eyebrow{font-size:12px; letter-spacing:.16em; color:var(--muted); font-weight:700;}
+h1{font-size:clamp(26px,5vw,36px); margin-top:8px;}
+.lede{margin-top:12px; max-width:62ch; color:var(--ink-2);}
+.lede em{font-style:normal; background:linear-gradient(transparent 62%, var(--accent-soft) 62%); font-weight:700;}
+
+section{padding-block:34px; border-bottom:1px solid var(--line-soft);}
+section:last-of-type{border-bottom:0}
+.sec-head{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;}
+.sec-head h2{font-size:19px}
+.sec-head .hint{color:var(--muted); font-size:13px}
+.sec-note{color:var(--ink-2); font-size:14px; max-width:64ch; margin-top:8px}
+
+/* scene chips */
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px}
+.chip{display:flex; align-items:center; gap:8px; padding:8px 13px 8px 11px; border-radius:999px;
+  border:1px solid var(--line); background:var(--surface); color:var(--ink-2); font-size:14px; font-weight:500;}
+.chip i{width:9px; height:9px; border-radius:50%; background:var(--c); flex:none}
+.chip[aria-pressed="true"]{border-color:var(--c); color:var(--ink); font-weight:700;
+  background:color-mix(in srgb, var(--c) 12%, var(--surface));}
+.scene-meta{margin-top:10px; font-size:13px; color:var(--muted)}
+.scene-meta b{color:var(--ink-2)}
+
+/* checker */
+.tool{margin-top:16px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden}
+.tool-in{padding:16px 18px}
+textarea{width:100%; min-height:96px; resize:vertical; padding:12px 14px; border-radius:8px; border:1px solid var(--line);
+  background:var(--bg); color:var(--ink); font-family:"Noto Serif JP",serif; font-size:16.5px; line-height:1.9}
+.row{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:12px}
+.btn{padding:9px 20px; border-radius:8px; border:1px solid var(--accent); background:var(--accent); color:#fff; font-weight:700; font-size:14px}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn{color:#10161D} }
+:root[data-theme="dark"] .btn{color:#10161D}
+.btn-ghost{background:transparent; color:var(--ink-2); border-color:var(--line); font-weight:500}
+.samples{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px}
+.samples b{font-size:12px; color:var(--muted); align-self:center; font-weight:700}
+.samples button{font-size:12.5px; padding:4px 11px; border-radius:999px; border:1px dashed var(--line); background:transparent; color:var(--ink-2)}
+
+.result{border-top:1px solid var(--line-soft)}
+.marked{padding:16px 18px; font-family:"Noto Serif JP",serif; font-size:18px; line-height:2.3; background:var(--surface-2)}
+mark{padding:2px 3px; border-radius:4px; border-bottom:2px solid; background:transparent; color:inherit; cursor:pointer}
+mark.bad{background:var(--bad-bg); border-color:var(--bad-line)}
+mark.warn{background:var(--warn-bg); border-color:var(--warn-line)}
+mark.ok{background:var(--ok-bg); border-color:var(--ok-line)}
+mark.keep{background:var(--ok-bg); border-color:var(--ok-line); border-bottom-style:dashed}
+
+.gauges{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); border-top:1px solid var(--line-soft)}
+.gauge{padding:14px 18px; border-right:1px solid var(--line-soft)}
+.gauge:last-child{border-right:0}
+.gauge b{display:block; font-size:11px; letter-spacing:.1em; color:var(--muted); font-weight:700}
+.gauge .val{font-family:"Noto Serif JP",serif; font-size:17px; margin-top:4px}
+.gauge .bar{display:flex; gap:3px; margin-top:7px}
+.gauge .bar s{flex:1; height:6px; border-radius:2px; background:var(--line); text-decoration:none}
+.gauge .bar s.on{background:var(--accent)}
+.gauge small{display:block; margin-top:6px; font-size:12px; color:var(--muted); line-height:1.6}
+.verdict{padding:13px 18px; border-top:1px solid var(--line-soft); font-size:14px}
+.verdict.chiguhagu{background:var(--bad-bg); color:var(--ink-2)}
+.verdict.fine{background:var(--ok-bg); color:var(--ink-2)}
+.verdict b{font-weight:700}
+.verdict.chiguhagu b{color:var(--bad)}
+.verdict.fine b{color:var(--ok)}
+
+.hits{border-top:1px solid var(--line-soft)}
+.hit{display:grid; grid-template-columns:150px minmax(0,1fr); border-bottom:1px solid var(--line-soft)}
+.hit:last-child{border-bottom:0}
+@media (max-width:600px){ .hit{grid-template-columns:1fr} .hit .lhs{padding-bottom:0} }
+.hit .lhs{padding:13px 14px 13px 18px; border-right:1px solid var(--line-soft)}
+@media (max-width:600px){ .hit .lhs{border-right:0} }
+.hit .word{font-family:"Noto Serif JP",serif; font-size:16px}
+.hit .tag{display:inline-block; margin-top:4px; font-size:11px; font-weight:700; letter-spacing:.06em; padding:1px 8px; border-radius:999px; border:1px solid}
+.tag.bad{color:var(--bad); border-color:var(--bad-line); background:var(--bad-bg)}
+.tag.warn{color:var(--warn); border-color:var(--warn-line); background:var(--warn-bg)}
+.tag.ok{color:var(--ok); border-color:var(--ok-line); background:var(--ok-bg)}
+.hit .rhs{padding:13px 18px}
+.hit .swap{font-family:"Noto Serif JP",serif; font-size:17px}
+.hit .swap em{font-style:normal; color:var(--muted); padding:0 6px}
+.hit .swap b{color:var(--ok)}
+.hit .why{margin-top:5px; font-size:13px; color:var(--ink-2); line-height:1.7}
+.hit .layer{font-size:11.5px; color:var(--muted); margin-top:3px}
+.none{padding:18px; color:var(--muted); font-size:14px}
+.legend{display:flex; gap:14px; flex-wrap:wrap; padding:11px 18px; border-top:1px solid var(--line-soft); font-size:12px; color:var(--muted)}
+.legend span{display:flex; align-items:center; gap:6px}
+.legend i{width:16px; height:9px; border-radius:3px; border-bottom:2px solid}
+.legend i.bad{background:var(--bad-bg); border-color:var(--bad-line)}
+.legend i.warn{background:var(--warn-bg); border-color:var(--warn-line)}
+.legend i.ok{background:var(--ok-bg); border-color:var(--ok-line)}
+
+/* two axes mini */
+.axes{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,290px); gap:24px; margin-top:18px; align-items:start}
+@media (max-width:740px){ .axes{grid-template-columns:1fr} }
+.plot-frame{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:14px 46px 32px 40px}
+.plot{position:relative; width:100%; aspect-ratio:1/.56;
+  background:
+    repeating-linear-gradient(to right, var(--line-soft) 0 1px, transparent 1px 20%),
+    repeating-linear-gradient(to bottom, var(--line-soft) 0 1px, transparent 1px 20%);
+  border-left:1.5px solid var(--line); border-bottom:1.5px solid var(--line)}
+.dot{position:absolute; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; gap:3px;
+  background:none; border:0; padding:2px; white-space:nowrap}
+.dot i{display:block; width:12px; height:12px; border-radius:50%; background:var(--c); box-shadow:0 0 0 3px var(--surface)}
+.dot span{font-size:11.5px; font-weight:700; color:var(--muted)}
+.dot[aria-pressed="true"] i{width:16px; height:16px; box-shadow:0 0 0 3px var(--surface), 0 0 0 6px color-mix(in srgb, var(--c) 35%, transparent)}
+.dot[aria-pressed="true"] span{color:var(--ink)}
+.ylab,.xlab{position:absolute; font-size:11px; letter-spacing:.1em; color:var(--muted); font-weight:700; white-space:nowrap}
+.ylab{left:-10px; transform:translateX(-100%); writing-mode:vertical-rl}
+.ylab.hi{top:0} .ylab.lo{bottom:0}
+.xlab{bottom:-24px}
+.xlab.lo{left:0} .xlab.hi{right:0}
+.axis-card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; margin-bottom:12px}
+.axis-card:last-child{margin-bottom:0}
+.axis-card h3{font-size:14px; margin-bottom:4px}
+.axis-card p{font-size:13px; color:var(--ink-2); line-height:1.7}
+.axis-card.key{border-color:color-mix(in srgb, var(--accent) 45%, var(--line)); background:var(--accent-soft)}
+
+/* examples */
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--surface)}
+.seg button{padding:7px 14px; border:0; background:transparent; font-size:13px; color:var(--muted); font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--accent); color:#fff; font-weight:700}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .seg button[aria-pressed="true"]{color:#10161D} }
+:root[data-theme="dark"] .seg button[aria-pressed="true"]{color:#10161D}
+.fn-list{display:flex; flex-direction:column; gap:14px; margin-top:16px}
+.fn{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden}
+.fn-head{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; padding:12px 18px 10px; border-bottom:1px solid var(--line-soft); background:var(--surface-2)}
+.fn-head h3{font-size:15px}
+.fn-head .sit{font-size:12.5px; color:var(--muted)}
+.fn-body{padding:15px 18px 17px}
+.line{font-family:"Noto Serif JP",serif; font-size:18px; line-height:1.9}
+.line.na{font-size:15px; color:var(--muted); font-family:inherit}
+.cell-note{margin-top:8px; font-size:13px; color:var(--ink-2); line-height:1.7}
+.pivot{margin-top:13px; padding-top:11px; border-top:1px dashed var(--line); font-size:13px; color:var(--muted)}
+.pivot b{color:var(--ink-2); font-weight:700}
+.cmp{border-top:1px solid var(--line-soft)}
+.cmp-row{display:grid; grid-template-columns:152px minmax(0,1fr); border-bottom:1px solid var(--line-soft)}
+.cmp-row:last-child{border-bottom:0}
+.cmp-row.cur{background:color-mix(in srgb, var(--rc) 9%, var(--surface))}
+.cmp-lab{padding:12px 14px 12px 18px; display:flex; align-items:flex-start; gap:8px; font-size:12.5px; font-weight:700; color:var(--ink-2); border-right:1px solid var(--line-soft)}
+.cmp-lab i{width:8px; height:8px; border-radius:50%; background:var(--rc); flex:none; margin-top:8px}
+.cmp-val{padding:11px 18px}
+.cmp-val .line{font-size:17px}
+@media (max-width:620px){ .cmp-row{grid-template-columns:1fr} .cmp-lab{border-right:0; padding-bottom:0} .cmp-val{padding-top:4px} }
+
+/* dictionary */
+.search{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:16px}
+input[type="search"]{flex:1 1 240px; min-width:0; padding:9px 13px; border-radius:8px; border:1px solid var(--line);
+  background:var(--surface); color:var(--ink); font-family:inherit; font-size:14px}
+.tbl-scroll{overflow-x:auto; margin-top:13px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface)}
+table{border-collapse:collapse; width:100%; min-width:720px}
+th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line-soft); vertical-align:top}
+th{font-size:11px; letter-spacing:.1em; color:var(--muted); font-weight:700; background:var(--surface-2); position:sticky; top:0}
+tbody tr:last-child td{border-bottom:0}
+td.a,td.b{font-family:"Noto Serif JP",serif; font-size:16px}
+td.b{color:var(--ok)}
+td.memo{font-size:13px; color:var(--ink-2); line-height:1.65}
+.kind{display:inline-block; font-size:11px; font-weight:700; padding:1px 8px; border-radius:999px; border:1px solid var(--line); color:var(--muted); white-space:nowrap}
+
+footer{padding-block:26px 0; color:var(--muted); font-size:12.5px; border-top:1px solid var(--line)}
+footer p+p{margin-top:6px}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important; animation:none!important} }
+</style>
+</head>
+<body>
+
+<div class="sitebar"><div class="inner">
+  <a href="./index.html">日本語の部屋</a><span>／　位相チェッカー</span>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">上級者むけ　話し方の道具</div>
+  <h1>その日本語、硬いですか</h1>
+  <p class="lede">「日本語が硬い」と言われる原因は、ふつう一つではありません。<em>内容語は書きことばなのに、あいづちや接続はタメ口</em>、というように層が割れていることがあります。文を入れると、どの語が原因かを場面ごとに示します。</p>
+</header>
+
+<section id="scene">
+  <div class="sec-head"><h2>1　場面を選ぶ</h2><span class="hint">相手が誰かで、正解が変わります</span></div>
+  <div class="chips" id="chips"></div>
+  <div class="scene-meta" id="sceneMeta"></div>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2>2　文を入れて調べる</h2><span class="hint">入力した文はこの画面から出ません</span></div>
+  <div class="tool">
+    <div class="tool-in">
+      <label for="inp" style="position:absolute;left:-9999px">調べたい文</label>
+      <textarea id="inp" placeholder="言いたいことを一文か二文、入れてください。">本件につきましては、明日までに確認を実施いたします。なんか、思ったより時間かかっちゃって。</textarea>
+      <div class="row">
+        <button class="btn" id="run">調べる</button>
+        <button class="btn btn-ghost" id="clr">消す</button>
+      </div>
+      <div class="samples" id="samples"><b>例文を試す</b></div>
+    </div>
+    <div class="result" id="res"></div>
+  </div>
+  <p class="sec-note">語を一つずつ辞書と照らしています。人が読むようには文を理解していないので、見落としや思いちがいがあります。迷ったら先生に確かめてください。</p>
+</section>
+
+<section id="axes">
+  <div class="sec-head"><h2>3　二本の軸</h2><span class="hint">点をクリックすると場面が変わります</span></div>
+  <div class="axes">
+    <div class="plot-frame">
+      <div class="plot" id="plot">
+        <span class="ylab hi">丁寧さ 高</span><span class="ylab lo">低</span>
+        <span class="xlab lo">話し言葉</span><span class="xlab hi">書き言葉</span>
+      </div>
+    </div>
+    <div>
+      <div class="axis-card"><h3>縦軸 ── 丁寧さ</h3><p>相手との上下・距離で決まります。普通体か丁寧体か、尊敬語・謙譲語をどこまで使うか。あいづちや接続詞も、この軸に乗っています。</p></div>
+      <div class="axis-card"><h3>横軸 ── 硬さ</h3><p>語彙と文の作りで決まります。和語か漢語か、「みたいな」か「のような」か、縮約するかしないか。</p></div>
+      <div class="axis-card key"><h3>交差するところが要点</h3><p><b>顧客</b>は敬語が最も高いのに、位置は左寄り＝話し言葉です。<b>会議</b>は敬語はそこまで高くないのに、右寄り＝硬い。この二つを取りちがえると、「メールを読み上げたような日本語」になります。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="ex">
+  <div class="sec-head"><h2>4　同じ用件を、六つの場面で</h2><span class="hint" id="exHint"></span></div>
+  <div class="row" style="margin-top:14px">
+    <div class="seg" role="group" aria-label="表示">
+      <button id="m1" aria-pressed="true">選んだ場面だけ</button>
+      <button id="m6" aria-pressed="false">六場面を並べる</button>
+    </div>
+  </div>
+  <div class="fn-list" id="fnList"></div>
+</section>
+
+<section id="dict">
+  <div class="sec-head"><h2>5　言いかえ辞典</h2><span class="hint">硬い語・タメ口の語から引けます</span></div>
+  <p class="sec-note">漢語がいつも硬いわけではありません。「確認する」「連絡する」「相談する」は会話でもごく自然です。硬さが出るのは、和語で足りる場面にわざわざ漢語を持ち込んだときと、書くための語を口に出したときです。</p>
+  <div class="search">
+    <input type="search" id="q" placeholder="語やメモから探す（例：うん、確認、遅延、みたいな）" aria-label="辞典を検索">
+    <div class="seg" role="group" aria-label="種類">
+      <button class="fbtn" data-f="all" aria-pressed="true">すべて</button>
+      <button class="fbtn" data-f="filler" aria-pressed="false">あいづち・フィラー</button>
+      <button class="fbtn" data-f="kango" aria-pressed="false">漢語と和語</button>
+      <button class="fbtn" data-f="written" aria-pressed="false">書くための語</button>
+    </div>
+  </div>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th style="width:162px">くだけた側・硬い側</th><th style="width:200px">改まった側・やわらかい側</th><th style="width:112px">種類</th><th>メモ</th></tr></thead>
+      <tbody id="dbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <p>日本語の部屋 ／ 位相チェッカー　—　入力された文はブラウザの中だけで処理され、どこにも送られません。</p>
+  <p>© 日本語の部屋</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ===================== 場面 ===================== */
+var STYLES = [
+  { id:"shinyu", label:"親友と話す", who:"同年代・対等・気を使わない相手", c:"var(--s1)", x:8, y:7, t:1, h:1,
+    memo:"普通体。縮約形も終助詞もそのままでよい場面です。" },
+  { id:"doryo", label:"同僚と雑談", who:"同じ職場・上下があまりない相手", c:"var(--s2)", x:24, y:36, t:2, h:1,
+    memo:"文末は丁寧体、語彙はくだけたまま。日本の職場でいちばん使う量が多い組み合わせです。" },
+  { id:"tenin", label:"店員と話す", who:"店・駅・窓口。一度きりの関係", c:"var(--s3)", x:31, y:49, t:2, h:1,
+    memo:"丁寧だが短く。長い前置きはかえって不自然に聞こえます。" },
+  { id:"kokyaku", label:"顧客と話す", who:"取引先・お客様と、口頭で", c:"var(--s5)", x:53, y:89, t:3, h:2,
+    memo:"敬語は最も高い。ただし口で話す以上、「ちょっと」「〜んですが」は残してよい場面です。" },
+  { id:"kaigi", label:"会議で発表する", who:"社内の複数人に向けて話す", c:"var(--s4)", x:77, y:71, t:3, h:3,
+    memo:"敬語の高さより、言い切ることと数字が大事。書き言葉の接続がそのまま口に出ます。" },
+  { id:"mail", label:"ビジネスメール", who:"書いて送る。相手は読み返す", c:"var(--s6)", x:91, y:92, t:3, h:3, w:true,
+    memo:"話し言葉の要素を全部落とし、代わりに定型の挨拶と結びを入れます。" }
+];
+var ORDER = ["shinyu","doryo","tenin","kokyaku","kaigi","mail"];
+function S(id){ for(var i=0;i<STYLES.length;i++) if(STYLES[i].id===id) return STYLES[i]; return STYLES[0]; }
+
+/* ===================== 辞書 =====================
+   ax : "t" 丁寧さの軸 / "h" 硬さの軸 / "keep" 残してよい語
+   v  : [やわらかい, 中間, 硬い] の表示
+   m  : 照合する語形（null なら v の語だけ、[] なら照合しない）
+   r  : 場面の段階1〜3ごとに「最低これ以上の段」
+   x  : 同じく「これ以下の段」（省略時は 2）
+   w  : 1 なら書くための語（メール以外では避ける）
+   soft:1 なら注意ではなく参考（黄色）
+==================================================*/
+var L = [];
+function E(o){ L.push(o); }
+
+/* --- あいづち・フィラー（丁寧さの軸） --- */
+E({ax:"t",g:"filler",lay:"あいづち",v:["うん","はい","はい／ええ"],m:[["うん","うんうん"],["はい"],["ええ"]],r:[0,1,1],
+  why:"あいづちは回数が多いので、ここだけで全体の印象が決まります。まず直すならこの一語です。"});
+E({ax:"t",g:"filler",lay:"あいづち",v:["そうそう","そうですね","ええ、そうですね"],m:[["そうそう"],["そうですね"],["おっしゃるとおりです"]],r:[0,1,1],
+  why:"強い同意。改まった場では「おっしゃるとおりです」「ごもっともです」。"});
+E({ax:"t",g:"filler",lay:"あいづち",v:["だよね","ですよね","ですよね"],m:[["だよね","だよな"],["ですよね"],[]],r:[0,1,1],
+  why:"文末は敬体にできていても、あいづちがタメ口だと全体がくだけて聞こえます。"});
+E({ax:"t",g:"filler",lay:"あいづち",v:["へえ／ほんと？","そうなんですか","そうなんですか"],m:[["へえ","ほんと？","ほんとに？","マジで","マジ？"],["そうなんですか"],[]],r:[0,1,1],
+  why:"驚きのあいづち。改まった場では「そうなんですか」「存じませんでした」。"});
+E({ax:"t",g:"filler",lay:"接続",v:["でも","でも","ただ／ですが"],m:[["でも"],[],["ただ","ですが","ただし"]],r:[0,0,2],
+  why:"雑談では「でも」で自然。会議・面談・顧客の前では「ただ」「ですが」。"});
+E({ax:"t",g:"filler",lay:"接続",v:["だから","だから","ですから"],m:[["だから"],[],["ですから"]],r:[0,0,2],
+  why:"同じ理由の接続でも、改まると「ですから」。"});
+E({ax:"t",g:"filler",lay:"副詞",v:["やっぱ","やっぱり","やはり"],m:[["やっぱ"],["やっぱり"],["やはり"]],r:[0,1,2],
+  why:"三段あります。「やっぱ」は職場では出さない段です。"});
+E({ax:"t",g:"filler",lay:"言いかえ",v:["っていうか","というか","といいますか"],m:[["っていうか","ていうか","つーか"],["というか"],["といいますか"]],r:[0,1,2],
+  why:"言い直すときの語。改まった場は「といいますか」「逆に申しますと」。"});
+E({ax:"t",g:"filler",lay:"フィラー",v:["なんか","なんか","（言わない）／そうですね"],m:[["なんか"],[],["そうですね"]],r:[0,0,2],
+  why:"考える間を埋める語ですが、改まった場では中身のない語に聞こえます。「えーと」「あの」に替えるか、少し黙るほうが落ち着いて聞こえます。"});
+E({ax:"keep",g:"filler",lay:"中立フィラー",v:["えーと／あの／そのー／まあ","","" ],m:[["えーと","ええと","えっと","あのー","あの、","そのー","まあ、","まぁ"],[],[]],
+  why:"この四つは敬体でも自然です。消すと間が空いて、機械のように聞こえます。残してください。"});
+
+/* --- 文末・敬語（丁寧さの軸） --- */
+E({ax:"t",g:"filler",lay:"返事",v:["わかった／了解","わかりました","承知しました"],m:[["わかった","了解","りょうかい","オッケー","オーケー"],["わかりました"],["承知しました","承知いたしました","かしこまりました"]],r:[0,1,2],
+  why:"「了解しました」は目上や顧客には避けるのがふつうです。「承知しました」「かしこまりました」へ。"});
+E({ax:"t",g:"filler",lay:"謝罪",v:["ごめん","すみません","申し訳ございません"],m:[["ごめん","ごめんね","わるい"],["すみません","すいません"],["申し訳ございません","申し訳ありません"]],r:[0,1,2],
+  why:"謝罪は段が四つあります。段を飛ばすといちばん目立ちます。"});
+E({ax:"t",g:"filler",lay:"感謝",v:["ありがとう","ありがとうございます","誠にありがとうございます"],m:[["ありがとう"],["ありがとうございます"],["誠にありがとうございます"]],r:[0,1,1],
+  why:"「ありがとう」だけで止めるのは親しい相手のみ。"});
+E({ax:"t",g:"敬語",lay:"授受",v:["もらう","もらいます","いただきます"],m:[["もらう","もらった","もらって","もらえる"],["もらいます","もらいました","もらえますか"],["いただきます","いただきました","いただけますか","頂戴します"]],r:[0,0,2],
+  why:"自分が受け取る動作は「いただく」。顧客の前ではここをそろえないと、敬語が途中で切れます。"});
+E({ax:"t",g:"敬語",lay:"授受",v:["くれる","くれます","くださいます"],m:[["くれる","くれた","くれて"],["くれます","くれました"],["くださいます","くださいました"]],r:[0,0,2],
+  why:"相手がしてくれる動作は「くださる」。"});
+E({ax:"t",g:"敬語",lay:"動詞",v:["言う","言います","おっしゃいます／申します"],m:[["言う","言った","言って"],["言います","言いました"],["おっしゃる","おっしゃいます","申します","申し上げます"]],r:[0,0,2],
+  why:"相手の動作なら「おっしゃる」、自分の動作なら「申す」。"});
+E({ax:"t",g:"敬語",lay:"動詞",v:["行く","行きます","伺います"],m:[["行く","行った"],["行きます","行きました"],["伺います","伺いました","参ります"]],r:[0,0,2],
+  why:"自分が相手のところへ行くときは「伺います」。"});
+E({ax:"t",g:"敬語",lay:"動詞",v:["見る","見ます","拝見します／ご覧になります"],m:[["見る","見た","見て"],["見ます","見ました"],["拝見します","拝見しました","ご覧になります","ご覧ください"]],r:[0,0,2],
+  why:"自分が見るなら「拝見する」、相手が見るなら「ご覧になる」。"});
+E({ax:"t",g:"敬語",lay:"動詞",v:["知ってる","知っています","ご存じです／存じております"],m:[["知ってる","知ってた"],["知っています","知ってます"],["ご存じ","存じております","存じ上げております"]],r:[0,1,2],
+  why:"相手が知っているなら「ご存じ」、自分が知っているなら「存じております」。"});
+E({ax:"t",g:"filler",lay:"依頼",v:["ちょっと待って","少々お待ちください","少々お待ちいただけますでしょうか"],m:[["ちょっと待って","待って"],["少々お待ちください","お待ちください"],["少々お待ちいただけますでしょうか"]],r:[0,1,1],
+  why:"待たせる依頼。顧客には疑問形にすると当たりがやわらぎます。"});
+E({ax:"t",g:"filler",lay:"確認",v:["いい？／大丈夫？","いいですか","よろしいでしょうか"],m:[["いい？","大丈夫？","平気？"],["いいですか","大丈夫ですか"],["よろしいでしょうか","よろしいですか"]],r:[0,1,2],
+  why:"許可をもらう言い方。改まると「よろしいでしょうか」。"});
+
+/* --- 縮約形（丁寧さの軸） --- */
+E({ax:"t",g:"filler",lay:"縮約形",v:["〜てる","〜てます","〜ております"],
+  m:[["してる","してた","なってる","なってた","言ってる","やってる","見てる","思ってる","出てる","入ってる","持ってる","来てる","考えてる"],
+     ["してます","なってます","思ってます","やってます"],
+     ["しております","なっております","考えております","存じております"]],r:[0,0,1],
+  why:"敬体でも「〜てます」は自然です。改まった場だけ「〜ております」に上げます。"});
+E({ax:"t",g:"filler",lay:"縮約形",v:["〜ちゃう","〜ちゃいます","〜てしまいます"],m:[["ちゃう","ちゃった","ちゃって","じゃった","じゃう"],[],["てしまいます","てしまいました","てしまって"]],r:[0,0,2],
+  why:"会議・面談では「〜てしまいます」に戻します。"});
+E({ax:"t",g:"filler",lay:"縮約形",v:["〜とく","〜ときます","〜ておきます"],m:[["とくね","といて","しとく","しといて","やっとく"],["ときます","しときます"],["ておきます","しておきます"]],r:[0,1,2],
+  why:"「〜ておく」の縮約。職場でも文末が敬体なら「〜ておきます」。"});
+E({ax:"t",g:"filler",lay:"縮約形",v:["〜なきゃ","〜ないと","〜なければなりません"],m:[["なきゃ","なくちゃ"],["ないと"],["なければなりません","なければならない"]],r:[0,1,2],
+  why:"義務の縮約形。改まった場では戻します。"});
+E({ax:"t",g:"filler",lay:"文末",v:["〜じゃん","〜ですよね","〜ではないでしょうか"],m:[["じゃん","じゃんか","でしょ？"],["ですよね"],["ではないでしょうか"]],r:[0,1,2],
+  why:"同意を求める文末。改まると疑問の形に変わります。"});
+
+/* --- 硬さの軸：会話では硬い漢語 --- */
+function K(hard, soft, x, why, forms){
+  E({ax:"h",g:"kango",lay:"内容語",v:[soft,soft,hard],m:[[],[],forms||[hard]],x:x,why:why});
+}
+K("購入する","買う",[0,1,2],"会話では「買う」。「購入」は書面や店側の言い方です。",["購入する","購入します","購入いたしました","購入し"]);
+K("使用する","使う",[0,1,2],"話すときは「使う」。取扱説明や規約では「使用」。",["使用する","使用します","使用し"]);
+K("実施する","する／行う",[0,1,2],"「確認を実施する」は「確認する」で足ります。漢語が二重になると、いちばん硬く聞こえます。",["実施する","実施します","実施いたします","実施し"]);
+K("理解する","わかる",[0,0,2],"会話で「理解しました」は硬い。「わかりました」「承知しました」。",["理解する","理解します","理解しました","理解でき"]);
+K("到着する","着く",[0,1,2],"「着きました」。「到着いたしました」は運送や受付の言い方です。",["到着する","到着します","到着いたしました","到着し"]);
+K("増加する","増える",[0,1,2],"会話は「増えてます」。数字を説明する場だけ「増加しております」。",["増加する","増加します","増加し","増加傾向"]);
+K("減少する","減る",[0,1,2],"同じく、数字を示す場だけ漢語に上げます。",["減少する","減少します","減少し"]);
+K("訪問する","伺う",[0,1,2],"自分が行くなら「伺います」。「訪問いたします」は書き言葉寄りです。",["訪問する","訪問します","訪問いたします","訪問し"]);
+K("依頼する","お願いする",[0,1,2],"会話で「依頼します」は硬い。「お願いします」。",["依頼する","依頼します","依頼いたします","依頼し"]);
+K("可能です","できます",[0,1,2],"「できます」で十分。「可能でございます」は案内のアナウンス調です。",["可能です","可能である","可能でございます","可能となります"]);
+K("困難です","難しいです",[0,1,2],"会話は「難しいです」。「困難です」は報告書の語です。",["困難です","困難である","困難となって"]);
+K("変更する","変える",[0,1,2],"口頭では「変えます」。文書では「変更いたします」。",["変更する","変更します","変更いたします","変更し"]);
+K("開始する","始める",[0,2,2],"会議では「開始します」もあり。日常では「始めます」。",["開始する","開始します","開始し"]);
+K("終了する","終わる",[0,2,2],"「終わりました」が自然。「終了いたしました」は案内文。",["終了する","終了します","終了いたしました","終了し"]);
+K("提出する","出す",[0,2,2],"「出しておきます」で十分。書面は「提出いたします」。",["提出する","提出します","提出いたします","提出し"]);
+K("記入する","書く",[0,2,2],"窓口の指示では「ご記入ください」。話すときは「書いてください」。",["記入する","記入します","ご記入"]);
+K("中止する","やめる／取りやめる",[0,2,2],"軽い取りやめは「やめます」。公式には「中止」。",["中止する","中止します","中止いたします","中止と"]);
+K("遅延","遅れ",[0,1,2],"「遅れが出ております」までが口頭の上限。「遅延が生じております」は文書です。",["遅延"]);
+K("検討する","考える",[0,2,2],"顧客・会議では「検討します」。同僚には「考えてみます」。",["検討する","検討します","検討いたします","検討し"]);
+K("本日","今日",[1,2,2],"接客と会議の冒頭は「本日」が定番。それ以外の会話は「今日」。",["本日"]);
+K("現在","今",[1,2,2],"「今」が自然。説明の途中で「現時点では」は会議で効きます。",["現在"]);
+K("〜に関して","〜について",[1,2,2],"「について」が中間の語。「〜に関しまして」はメール寄りです。",["に関して","に関しまして","に関する"]);
+K("〜において","〜で",[1,1,2],"場所や場面の「で」。話すときに「において」は出しません。",["において","における","におきまして"]);
+K("したがって","だから／なので",[1,2,2],"会議や資料では「したがって」。会話は「なので」。",["したがって","従って"]);
+K("〜でございます","〜です",[1,2,2],"接客のアナウンス調。ふつうの会話では「です」で足ります。",["でございます","でございました"]);
+E({ax:"h",g:"written",lay:"接続",v:["と","と","および"],m:[[],[],["および","及び","ならびに","並びに"]],x:[0,0,2],
+  why:"「および」は書くための語です。口に出すと読み上げているように聞こえます。話すときは「と」。"});
+
+/* --- 硬さの軸：話し言葉すぎる語 --- */
+function Y(soft, hard, why, forms){
+  E({ax:"h",g:"kango",lay:"話し言葉",v:[soft,soft,hard],m:[forms||[soft],[],[]],r:[0,0,2],why:why});
+}
+Y("ちょっと","少々／少し","顧客と話すときは「ちょっと」で自然です。落とすのは会議の発表と書くときだけ。",["ちょっと"]);
+Y("たぶん","おそらく","会議では推量もはっきり言います。",["たぶん"]);
+Y("すごく","非常に／かなり","程度の副詞。数字があるならそちらを言うほうが伝わります。",["すごく","すごい","めっちゃ","超"]);
+Y("いっぱい","多く／多数","量は数字にできると、いちばん硬さが要りません。",["いっぱい"]);
+Y("やる","行う","「やります」は顧客の前でも自然。会議の発表と書くときだけ「行います」。",["やる","やって","やった","やります"]);
+Y("だいたい","おおよそ／約","おおまかな数の言い方。",["だいたい"]);
+Y("もっと","さらに","",["もっと"]);
+Y("全然","まったく","「全然」は打ち消しと一緒に使うのが本来の形です。",["全然"]);
+Y("〜とか","〜など","例を挙げる語。会議では「など」。",["とか"]);
+Y("〜みたいな","〜のような","「みたいな」は書き言葉では使いません。",["みたいな","みたいに","みたいで"]);
+Y("〜という感じ","（使わない）","ぼかす言い方。会議では判断が伝わりません。言い切ってください。",["という感じ","って感じ","感じです","感じで"]);
+
+/* --- 書くための語（メール以外では避ける） --- */
+function W(word, spoken, why, forms){
+  E({ax:"h",g:"written",lay:"書き言葉",v:[spoken,spoken,word],m:[[],[],forms||[word]],w:1,why:why});
+}
+W("標記の件","その件／例の件","メール専用の書き出しです。口に出すと原稿を読んでいるように聞こえます。",["標記の件","標題の件","表記の件"]);
+W("賜りますよう","いただけますでしょうか","文書の結びの定型。話すときは疑問の形にします。",["賜りますよう","賜りたく","賜ります"]);
+W("〜いたしたく存じます","〜したいと思います","書面の言い方。口頭では「〜したいと思っております」。",["いたしたく存じます","したく存じます","たく存じます"]);
+W("何卒","どうぞ／ぜひ","手紙・メールの語。話すと時代がかって聞こえます。",["何卒"]);
+W("つきましては","それで／ですので","文書の接続。話すときは「それで」「ですので」。",["つきましては"]);
+W("〜のほど","（言わない）","「ご検討のほど」は書面の形。話すときは「ご検討ください」。",["のほど"]);
+W("貴社","御社","話すときは「御社」、書くときは「貴社」。ここは日本人もよく確かめる区別です。",["貴社"]);
+W("拝啓","（使わない）","手紙の形式。メール本文でも今はあまり使いません。",["拝啓","敬具","謹啓"]);
+W("〜のため、","〜ので","理由の「ため」は書き言葉です。話すときは「ので」。",["のため、","ため、"]);
+
+/* --- 硬さの軸：そのままでよい漢語（緑で出す） --- */
+function G(word, why, forms){
+  E({ax:"h",g:"kango",lay:"内容語",v:[word,word,word],m:[[],[],forms||[word]],x:[2,2,2],r:[0,0,0],ok:1,why:why});
+}
+G("確認する","漢語ですが会話でも完全に自然です。硬さの原因にはなりません。",["確認する","確認します","確認いたします","確認し","ご確認"]);
+G("連絡する","これも会話で自然。「ご連絡します」は口頭でよく使います。",["連絡する","連絡します","ご連絡","連絡し"]);
+G("準備する","どちらも自然。「用意する」のほうがやや和らぎます。",["準備する","準備します","準備し"]);
+G("説明する","会話でも書面でも自然な語です。",["説明する","説明します","ご説明","説明し"]);
+G("相談する","会話で自然。「ちょっとご相談が」はよく使う切り出しです。",["相談する","相談します","ご相談","相談し"]);
+G("報告する","職場の標準語です。",["報告する","報告します","ご報告","報告し"]);
+G("用意する","和語側の語。会話ではこちらのほうが自然に響きます。",["用意する","用意します","ご用意"]);
+
+/* ===================== 照合 ===================== */
+var INDEX = [];
+L.forEach(function(e, ei){
+  if(e.ax === "keep"){
+    (e.m[0]||[]).forEach(function(w){ INDEX.push({w:w, e:ei, slot:0}); });
+    return;
+  }
+  for(var s=0;s<3;s++){
+    var forms = e.m && e.m[s] !== undefined ? e.m[s] : null;
+    if(forms === null) forms = e.v[s] ? [e.v[s]] : [];
+    forms.forEach(function(w){ if(w) INDEX.push({w:w, e:ei, slot:s}); });
+  }
+});
+INDEX.sort(function(a,b){ return b.w.length - a.w.length; });
+
+function scan(text){
+  var used = new Array(text.length), hits = [], i, j, k, ok;
+  for(k=0;k<INDEX.length;k++){
+    var w = INDEX[k].w, from = 0, at;
+    while((at = text.indexOf(w, from)) !== -1){
+      ok = true;
+      for(j=at;j<at+w.length;j++) if(used[j]){ ok = false; break; }
+      if(ok){
+        for(j=at;j<at+w.length;j++) used[j] = true;
+        hits.push({at:at, len:w.length, w:w, e:INDEX[k].e, slot:INDEX[k].slot});
+      }
+      from = at + 1;
+    }
+  }
+  hits.sort(function(a,b){ return a.at - b.at; });
+  return hits;
+}
+
+function pick(v, idx){
+  var i;
+  for(i=idx;i<3;i++) if(v[i]) return v[i];
+  for(i=idx;i>=0;i--) if(v[i]) return v[i];
+  return "";
+}
+
+function judge(hit, sc){
+  var e = L[hit.e];
+  if(e.ax === "keep") return {k:"keep", to:"", why:e.why, e:e};
+  if(e.w && !sc.w) return {k:"bad", to:pick(e.v, 0), why:e.why, e:e};
+  var tier = (e.ax === "t") ? sc.t : sc.h;
+  var r = (e.r || [0,0,0])[tier-1];
+  var x = (e.x || [2,2,2])[tier-1];
+  if(hit.slot < r) return {k:"bad", to:pick(e.v, r), why:e.why, e:e};
+  if(hit.slot > x) return {k:"bad", to:pick(e.v, x), why:e.why, e:e};
+  return {k:"ok", to:"", why:e.why, e:e};
+}
+
+/* 文末の体裁 */
+function styleOfSentences(text){
+  var parts = text.split(/[。．.!！?？\n]/).map(function(s){ return s.trim(); }).filter(Boolean);
+  var polite = 0, plain = 0;
+  parts.forEach(function(s){
+    var tail = s.replace(/[よねなかわさぞぜっ〜ー～]+$/, "");
+    if(/(です|ます|ません|でした|ました|ましょう|ください|ませ|ございます|でしょう)$/.test(tail)) polite++;
+    else if(/(だ|だろ|じゃん|かな|る|た|ない|う|い|の)$/.test(tail)) plain++;
+  });
+  return {n:parts.length, polite:polite, plain:plain};
+}
+
+/* ===================== 描画 ===================== */
+var cur = "kokyaku", mode = 1, dictFilter = "all";
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];}); }
+
+function buildScene(){
+  var c = document.getElementById("chips"), plot = document.getElementById("plot");
+  STYLES.forEach(function(s){
+    var b = document.createElement("button");
+    b.className = "chip"; b.style.setProperty("--c", s.c); b.dataset.id = s.id;
+    b.setAttribute("aria-pressed", s.id===cur?"true":"false");
+    b.innerHTML = '<i></i>' + esc(s.label);
+    b.addEventListener("click", function(){ select(s.id); });
+    c.appendChild(b);
+
+    var d = document.createElement("button");
+    d.className = "dot"; d.style.setProperty("--c", s.c); d.dataset.id = s.id;
+    d.style.left = s.x + "%"; d.style.top = (100 - s.y) + "%";
+    d.setAttribute("aria-pressed", s.id===cur?"true":"false");
+    d.innerHTML = '<i></i><span>' + esc(s.label.replace(/と話す|で発表する|と雑談/,"")) + '</span>';
+    d.addEventListener("click", function(){ select(s.id); });
+    plot.appendChild(d);
+  });
+}
+
+function renderSceneMeta(){
+  var s = S(cur);
+  document.getElementById("sceneMeta").innerHTML =
+    '<b>' + esc(s.who) + '</b>　／　' + esc(s.memo);
+}
+
+function bar(n){
+  var o = "";
+  for(var i=1;i<=3;i++) o += '<s class="' + (i<=n?"on":"") + '"></s>';
+  return o;
+}
+
+function analyze(){
+  var text = document.getElementById("inp").value;
+  var res = document.getElementById("res");
+  if(!text.trim()){ res.innerHTML = '<div class="none">文を入れてから「調べる」を押してください。</div>'; return; }
+  var sc = S(cur), hits = scan(text), out = [], html = "", last = 0;
+
+  hits.forEach(function(h){
+    var j = judge(h, sc);
+    out.push({h:h, j:j});
+    html += esc(text.slice(last, h.at));
+    html += '<mark class="' + j.k + '" title="' + esc(j.e.lay) + '">' + esc(h.w) + '</mark>';
+    last = h.at + h.len;
+  });
+  html += esc(text.slice(last));
+  html = html.replace(/\n/g, "<br>");
+
+  /* 位相の集計 */
+  var cw = [], fw = [];
+  out.forEach(function(o){
+    if(o.j.e.ax === "h") cw.push(o.h.slot);
+    else if(o.j.e.ax === "t") fw.push(o.h.slot);
+  });
+  function avg(a){ if(!a.length) return null; var s=0; a.forEach(function(v){s+=v;}); return s/a.length; }
+  var ca = avg(cw), fa = avg(fw);
+  function lvl(a){ return a === null ? null : (a >= 1.5 ? 3 : (a >= 0.7 ? 2 : 1)); }
+  function word(n){ return n === null ? "—" : (n === 3 ? "硬" : (n === 2 ? "中" : "柔")); }
+  var cl = lvl(ca), fl = lvl(fa);
+  var st = styleOfSentences(text);
+  var fend = st.polite && st.plain ? "混在" : (st.polite ? "丁寧体" : (st.plain ? "普通体" : "—"));
+
+  var g = '<div class="gauges">' +
+    '<div class="gauge"><b>内容語の位相</b><div class="val">' + word(cl) + '</div><div class="bar">' + bar(cl||0) + '</div>' +
+      '<small>名詞や動詞そのものの硬さ。漢語が多いと「硬」に寄ります。</small></div>' +
+    '<div class="gauge"><b>機能語の位相</b><div class="val">' + word(fl) + '</div><div class="bar">' + bar(fl||0) + '</div>' +
+      '<small>あいづち・接続・敬語・縮約形。ここがタメ口だと全体が崩れます。</small></div>' +
+    '<div class="gauge"><b>文末</b><div class="val">' + esc(fend) + '</div>' +
+      '<small>' + (st.n ? esc(st.n + "文中　丁寧体 " + st.polite + "／普通体 " + st.plain) : "") + '</small></div>' +
+  '</div>';
+
+  var v = "";
+  if(cl === 3 && fl === 1){
+    v = '<div class="verdict chiguhagu"><b>ちぐはぐです。</b>　内容語は書きことばなのに、あいづちや接続がタメ口のままです。これは語彙が足りないのではなく、層がそろっていない状態です。下の赤い語を直すだけで印象が変わります。</div>';
+  } else if(fend === "混在"){
+    v = '<div class="verdict chiguhagu"><b>文末がそろっていません。</b>　丁寧体と普通体が混ざっています。まず文末を一つの体にそろえてください。</div>';
+  } else if(cl !== null && fl !== null && cl === fl){
+    v = '<div class="verdict fine"><b>位相はそろっています。</b>　あとは、この場面に合う高さかどうかだけです。</div>';
+  }
+
+  var hitHtml = "";
+  var rank = {bad:0, keep:1, ok:2}, seen = {}, flagged = [];
+  out.forEach(function(o){
+    var key = o.h.e + "|" + o.h.w + "|" + o.j.k;
+    if(seen[key]){ seen[key].n++; return; }
+    o.n = 1; seen[key] = o; flagged.push(o);
+  });
+  flagged.sort(function(a,b){ return rank[a.j.k] - rank[b.j.k]; });
+  if(!flagged.length){
+    hitHtml = '<div class="none">辞書に載っている語は見つかりませんでした。拾えるのは登録した語だけなので、目安として見てください。</div>';
+  } else {
+    flagged.forEach(function(o){
+      var j = o.j, tag = j.k === "keep" ? "ok" : j.k, lab =
+        j.k === "keep" ? "残す" : (j.k === "bad" ? "直す" : "このままで可");
+      hitHtml += '<div class="hit"><div class="lhs">' +
+        '<div class="word">' + esc(o.h.w) + (o.n > 1 ? ' <span style="font-size:12px;color:var(--muted)">' + o.n + '回</span>' : '') + '</div>' +
+        '<span class="tag ' + tag + '">' + lab + '</span>' +
+        '<div class="layer">' + esc(j.e.lay) + '</div></div>' +
+        '<div class="rhs">' +
+        (j.to ? '<div class="swap">' + esc(o.h.w) + '<em>→</em><b>' + esc(j.to) + '</b></div>' : '') +
+        '<div class="why">' + esc(j.why) + '</div></div></div>';
+    });
+  }
+
+  res.innerHTML =
+    '<div class="marked">' + html + '</div>' + g + v +
+    '<div class="hits">' + hitHtml + '</div>' +
+    '<div class="legend">' +
+      '<span><i class="bad"></i>この場面では直す</span>' +
+      '<span><i class="ok"></i>このままでよい・残す</span>' +
+      '<span>' + esc(S(cur).label) + ' として見ています</span>' +
+    '</div>';
+}
+
+/* 例文帳 */
+var FNS = [
+  { fn:"もう一度言ってほしいと頼む", sit:"相手の説明が聞き取れなかった",
+    pivot:"「言って」→「お願いします」→「ご説明いただけますか」→「ご教示いただけますと幸いです」。和語の「言う」が漢語に置き換わっていくのが硬さの正体です。",
+    v:{ shinyu:{t:"ごめん、もっかい言って。"}, doryo:{t:"すみません、もう一回いいですか。"},
+      tenin:{t:"すみません、もう一度お願いします。"},
+      kokyaku:{t:"申し訳ございません、もう一度おっしゃっていただけますでしょうか。",n:"「言う」の尊敬語は「おっしゃる」。ここを「ご説明賜る」にすると硬くなりすぎます。"},
+      kaigi:{t:"恐れ入りますが、もう一度ご説明いただけますか。"},
+      mail:{t:"恐れ入りますが、再度ご教示いただけますと幸いです。",n:"「もう一度」→「再度」、「教えて」→「ご教示」。書き言葉では二字熟語に寄ります。"} }},
+  { fn:"申し出を断る", sit:"相手の提案・誘いを受けない",
+    pivot:"日本語の断りは「できません」と言い切らず、見送る・遠慮する、と方向を変えて表します。",
+    v:{ shinyu:{t:"あー、それはいいや。ごめん。"},
+      doryo:{t:"あ、大丈夫です。ありがとうございます。",n:"職場の「大丈夫です」は断りとして通用します。"},
+      tenin:{t:"大丈夫です。"},
+      kokyaku:{t:"せっかくのお話なのですが、今回は見送らせていただければと存じます。"},
+      kaigi:{t:"その案につきましては、今回は見送りたいと考えております。"},
+      mail:{t:"ご提案いただいた件、誠に恐縮ですが、今回は見送らせていただきたく存じます。"} }},
+  { fn:"違う意見を言う", sit:"相手の見方に同意できない",
+    pivot:"反対そのものより、反対を出す前の置き方が変わります。上に行くほど、まず相手を認める一文が要ります。",
+    v:{ shinyu:{t:"えー、それはちょっと違うんじゃない？"},
+      doryo:{t:"うーん、それはどうですかね。ちょっと違う気がします。"},
+      tenin:{t:"すみません、頼んだのはこれじゃないと思うんですけど。",n:"店では遠回しにせず、事実をそのまま言うほうが早く伝わります。"},
+      kokyaku:{t:"おっしゃることはごもっともです。ただ、弊社としては少し違う見方をしておりまして。",n:"最後を言い切らず「〜ておりまして」で止めるのが口頭の作法。"},
+      kaigi:{t:"その点については、別の見方もあるのではないかと思います。"},
+      mail:{t:"ご指摘の点はごもっともですが、弊社といたしましては、別の見解を持っております。"} }},
+  { fn:"謝る", sit:"遅れた・間違えた",
+    pivot:"「ごめん→すみません→申し訳ありません→申し訳ございません→お詫び申し上げます」。段が決まっているので、飛ばすと目立ちます。",
+    v:{ shinyu:{t:"ごめん、遅れた！"}, doryo:{t:"すみません、遅くなりました。"}, tenin:{t:"あ、すみません。"},
+      kokyaku:{t:"このたびはご迷惑をおかけし、誠に申し訳ございませんでした。"},
+      kaigi:{t:"私の確認が不十分でした。申し訳ありません。",n:"会議では、謝罪より原因を先に言うほうが評価されます。"},
+      mail:{t:"このたびは多大なるご迷惑をおかけいたしましたこと、深くお詫び申し上げます。"} }},
+  { fn:"礼を言う", sit:"助けてもらった・世話になった",
+    pivot:"「ありがとう」は全場面で使えます。変わるのは前後に何を足すか。メールだけは「御礼申し上げます」という別の語になります。",
+    v:{ shinyu:{t:"ありがと、助かった。"}, doryo:{t:"ありがとうございます。助かりました。"}, tenin:{t:"ありがとうございます。"},
+      kokyaku:{t:"このたびはお力添えをいただき、誠にありがとうございました。"},
+      kaigi:{t:"貴重なご意見をいただき、ありがとうございました。"},
+      mail:{t:"平素より格別のご高配を賜り、厚く御礼申し上げます。",n:"これは挨拶の定型で、実際に何かをしてもらっていなくても書きます。"} }},
+  { fn:"提案する", sit:"こうしてはどうか、と持ちかける",
+    pivot:"下の段は疑問形、上の段は「〜してはいかがでしょうか」。疑問形のままでも丁寧にできる、というのが見えるところです。",
+    v:{ shinyu:{t:"じゃあさ、こっちにしない？"}, doryo:{t:"こうしたらどうですかね。"},
+      tenin:{t:"",na:true,n:"店ではふつう提案しません。「〜をお願いします」と依頼の形になります。場面によって、そもそも起きない機能があります。"},
+      kokyaku:{t:"もしよろしければ、こちらの形でご検討いただくのはいかがでしょうか。"},
+      kaigi:{t:"二点目の案として、対象を来期に絞ることを提案いたします。"},
+      mail:{t:"つきましては、対象を来期に絞る案をご提案申し上げます。ご検討のほどよろしくお願いいたします。"} }},
+  { fn:"確認する", sit:"これで合っているか確かめる",
+    pivot:"「合ってる？」→「相違ございませんでしょうか」。和語の「合う」が漢語の「相違」に変わると、一気に書類の文になります。",
+    v:{ shinyu:{t:"これでいいんだよね？"}, doryo:{t:"これで合ってますよね？"}, tenin:{t:"これ、このサイズで合ってますか？"},
+      kokyaku:{t:"念のため確認させていただきたいのですが、こちらの内容でお間違いないでしょうか。"},
+      kaigi:{t:"この理解で相違ないか、確認させてください。"},
+      mail:{t:"念のため確認させていただきます。下記の内容にて相違ございませんでしょうか。"} }},
+  { fn:"状況を報告する", sit:"予定より遅れている",
+    pivot:"「遅れてる」→「遅れが出ております」→「遅延が生じております」。同じ事実が三段で変わります。この行だけでも練習になります。",
+    v:{ shinyu:{t:"あー、ちょっと遅れてる。"}, doryo:{t:"すみません、ちょっと遅れてます。"},
+      tenin:{t:"あの、注文したの、まだ来てないんですけど。"},
+      kokyaku:{t:"申し訳ございませんが、現在、予定より少々遅れが出ております。",n:"顧客には数字より先に謝罪。漢語は「遅延」まで行かず「遅れ」で止めます。"},
+      kaigi:{t:"現時点で、予定より二日ほど遅れております。"},
+      mail:{t:"現在、予定より二営業日ほど遅延が生じております。"} }},
+  { fn:"話を切り出す", sit:"用件に入る前のひとこと",
+    pivot:"切り出しの長さが、そのまま場面の格を表します。親友は一語、メールは二文。ここを間違えると、内容が正しくても場違いに聞こえます。",
+    v:{ shinyu:{t:"あのさ、"}, doryo:{t:"あの、ちょっといいですか。"}, tenin:{t:"すみません。"},
+      kokyaku:{t:"お忙しいところ恐れ入ります。少しお時間よろしいでしょうか。"},
+      kaigi:{t:"それでは、お手元の資料に沿ってご説明いたします。"},
+      mail:{t:"お世話になっております。標記の件につきまして、ご連絡いたします。"} }}
+];
+
+function cellHTML(v){
+  if(!v) return '<div class="line na">—</div>';
+  if(v.na) return '<div class="line na">この場面ではほとんど使いません</div>' + (v.n?'<div class="cell-note">'+esc(v.n)+'</div>':'');
+  return '<div class="line">' + esc(v.t) + '</div>' + (v.n?'<div class="cell-note">'+esc(v.n)+'</div>':'');
+}
+function renderFns(){
+  var s = S(cur);
+  document.getElementById("exHint").textContent = mode===1 ? "いま表示しているのは「" + s.label + "」の言い方です" : "上から下へ、丁寧さと硬さが上がります";
+  var html = "";
+  FNS.forEach(function(f){
+    html += '<div class="fn"><div class="fn-head"><h3>' + esc(f.fn) + '</h3><span class="sit">' + esc(f.sit) + '</span></div>';
+    if(mode===1){
+      html += '<div class="fn-body">' + cellHTML(f.v[cur]) + '<div class="pivot"><b>どこが変わるか　</b>' + esc(f.pivot) + '</div></div>';
+    } else {
+      html += '<div class="cmp">';
+      ORDER.forEach(function(id){
+        var st = S(id);
+        html += '<div class="cmp-row' + (id===cur?" cur":"") + '" style="--rc:' + st.c + '">' +
+          '<div class="cmp-lab"><i></i>' + esc(st.label) + '</div><div class="cmp-val">' + cellHTML(f.v[id]) + '</div></div>';
+      });
+      html += '</div><div class="fn-body" style="padding-top:12px"><div class="pivot" style="border-top:0;padding-top:0"><b>どこが変わるか　</b>' + esc(f.pivot) + '</div></div>';
+    }
+    html += '</div>';
+  });
+  document.getElementById("fnList").innerHTML = html;
+}
+
+/* 辞典 */
+var KINDNAME = {filler:"あいづち・フィラー", kango:"漢語と和語", written:"書くための語", "敬語":"敬語"};
+function dictRows(){
+  return L.filter(function(e){ return e.ax !== "keep" || true; }).map(function(e){
+    var a, b, kind = e.g === "敬語" ? "filler" : e.g;
+    if(e.ax === "keep"){ a = e.v[0]; b = "そのまま残す"; }
+    else if(e.g === "written" || (e.ax === "h" && e.m[2] && e.m[2].length && !e.ok && e.v[0] !== e.v[2])){ a = e.v[2]; b = e.v[0]; }
+    else if(e.ax === "h" && e.r && e.r[2] === 2){ a = e.v[0]; b = e.v[2]; }
+    else { a = e.v[0]; b = e.v[2] || e.v[1]; }
+    return {a:a, b:b, kind:kind, lay:e.lay, why:e.why};
+  }).filter(function(r){ return r.a; });
+}
+var DICT = dictRows();
+function renderDict(){
+  var q = document.getElementById("q").value.trim().toLowerCase();
+  var rows = DICT.filter(function(r){
+    if(dictFilter !== "all" && r.kind !== dictFilter) return false;
+    if(!q) return true;
+    return (r.a + r.b + r.why + r.lay).toLowerCase().indexOf(q) !== -1;
+  });
+  document.getElementById("dbody").innerHTML = rows.length ? rows.map(function(r){
+    return '<tr><td class="a">' + esc(r.a) + '</td><td class="b">' + esc(r.b) + '</td>' +
+      '<td><span class="kind">' + esc(r.lay) + '</span></td><td class="memo">' + esc(r.why) + '</td></tr>';
+  }).join("") : '<tr><td colspan="4" class="none">該当する語がありません。</td></tr>';
+}
+
+/* 例文ボタン */
+var SAMPLES = [
+  "本件につきましては、明日までに確認を実施いたします。",
+  "うん、そうそう。でも、やっぱそれは難しいと思うんですよね。",
+  "すみません、資料もう一回送ってもらっていいですか。",
+  "現在、予定より遅延が生じておりまして、ちょっと厳しい感じです。"
+];
+
+function select(id){
+  cur = id;
+  var n = document.querySelectorAll(".chip"), i;
+  for(i=0;i<n.length;i++) n[i].setAttribute("aria-pressed", n[i].dataset.id===id?"true":"false");
+  n = document.querySelectorAll(".dot");
+  for(i=0;i<n.length;i++) n[i].setAttribute("aria-pressed", n[i].dataset.id===id?"true":"false");
+  renderSceneMeta();
+  renderFns();
+  if(document.getElementById("res").innerHTML.trim()) analyze();
+}
+
+/* 起動 */
+buildScene();
+renderSceneMeta();
+renderFns();
+renderDict();
+(function(){
+  var box = document.getElementById("samples");
+  SAMPLES.forEach(function(s){
+    var b = document.createElement("button");
+    b.textContent = s.length > 22 ? s.slice(0,22) + "…" : s;
+    b.title = s;
+    b.addEventListener("click", function(){ document.getElementById("inp").value = s; analyze(); });
+    box.appendChild(b);
+  });
+})();
+analyze();
+
+document.getElementById("run").addEventListener("click", analyze);
+document.getElementById("clr").addEventListener("click", function(){
+  document.getElementById("inp").value = "";
+  document.getElementById("res").innerHTML = '<div class="none">文を入れてから「調べる」を押してください。</div>';
+  document.getElementById("inp").focus();
+});
+document.getElementById("inp").addEventListener("keydown", function(ev){
+  if((ev.ctrlKey || ev.metaKey) && ev.key === "Enter") analyze();
+});
+document.getElementById("m1").addEventListener("click", function(){
+  mode = 1; this.setAttribute("aria-pressed","true");
+  document.getElementById("m6").setAttribute("aria-pressed","false"); renderFns();
+});
+document.getElementById("m6").addEventListener("click", function(){
+  mode = 6; this.setAttribute("aria-pressed","true");
+  document.getElementById("m1").setAttribute("aria-pressed","false"); renderFns();
+});
+document.getElementById("q").addEventListener("input", renderDict);
+Array.prototype.forEach.call(document.querySelectorAll(".fbtn"), function(b){
+  b.addEventListener("click", function(){
+    dictFilter = b.dataset.f;
+    Array.prototype.forEach.call(document.querySelectorAll(".fbtn"), function(o){
+      o.setAttribute("aria-pressed", o === b ? "true" : "false");
+    });
+    renderDict();
+  });
+});
+
+})();
+</script>
+</body>
+</html>

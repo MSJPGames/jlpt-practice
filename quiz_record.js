@@ -80,14 +80,16 @@
     var html="";
     html+='<h4>📝 練習の記録</h4>';
     html+='<div class="nnh-sub">結果をWordで保存できます（各問の○×・正解つきで見直せます）。'+(formOn?'先生に送ることもできます。':'')+'</div>';
-    html+='<label>名前（にんずう）</label><input id="nnhName" type="text" placeholder="なまえ" value="'+esc(savedName)+'">';
+    html+='<label>名前（なまえ）</label><input id="nnhName" type="text" placeholder="なまえ" value="'+esc(savedName)+'">';
     html+='<label>疑問点・先生への質問（あれば）</label><textarea id="nnhQ" placeholder="わからなかったところや、質問があれば書いてください。"></textarea>';
     html+='<div class="nnh-btns">';
     html+='<button class="nnh-word" id="nnhWord">📄 結果を Word で保存</button>';
     if(formOn) html+='<button class="nnh-send" id="nnhSend">✉️ 先生に送る（フォーム）</button>';
     html+='</div>';
     html+='<div class="nnh-done" id="nnhDone"></div>';
-    if(!formOn) html+='<div class="nnh-hint">※先生へ提出する場合は、保存したWordを送ってください。（先生用：record_config.js を設定すると送信フォームも使えます）</div>';
+    /* 先生用のメモ（record_config.js の設定方法）は、学習者の画面には出さない。
+       設定していないときの案内は、学習者に必要な一文だけにする。 */
+    if(!formOn) html+='<div class="nnh-hint">※先生へ提出する場合は、保存したWordを送ってください。</div>';
     wrap.innerHTML=html;
     container.appendChild(wrap);
 
@@ -171,7 +173,12 @@
   }
   function sendForm(){
     var pf=parseForm(String(CFG.formPrefillLink||""));
-    if(!pf || Object.keys(pf.map).length===0){ showDone('送信フォームが未設定です（先生用設定）。', true); return; }
+    if(!pf || Object.keys(pf.map).length===0){
+      /* 学習者には理由を説明しない。原因は先生がコンソールで確認する。 */
+      try{ console.warn("[練習の記録] record_config.js の formPrefillLink が正しくありません（entry.◯◯ と 1〜6 の対応が読み取れません）。"); }catch(e){}
+      showDone('いまは送信できません。お手数ですが、Wordで保存して先生に送ってください。', true);
+      return;
+    }
     var name=curName(), q=curQuestion();
     var vals={
       "1":name||"（未記入）",

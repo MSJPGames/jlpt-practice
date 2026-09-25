@@ -224,11 +224,11 @@
         <div class="cat-sub">4種類の問題形式</div>
         <div class="cat-count">計171問収録</div>
       </button>
-      <button class="main-cat-btn" onclick="startQuiz('聴解', null)">
-        <div class="cat-icon">💬</div>
-        <div class="cat-name">聴解（場面理解）</div>
-        <div class="cat-sub">状況から推測</div>
-        <div class="cat-count">20問収録</div>
+      <button class="main-cat-btn" id="cat-listening" onclick="toggleListening()">
+        <div class="cat-icon">🎧</div>
+        <div class="cat-name">聴解</div>
+        <div class="cat-sub">5種類の問題形式</div>
+        <div class="cat-count">計182問収録</div>
       </button>
     </div>
 
@@ -295,6 +295,32 @@
         <button class="vocab-sub-btn" onclick="startQuiz('読解', '情報検索')">
           <span>情報検索<br><span style="font-size:11px;color:var(--text-hint)">お知らせから必要な情報を探す</span></span>
           <span class="tag">46問</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="listening-sub" class="vocab-sub">
+      <div class="vocab-sub-title">問題の種類を選んでください</div>
+      <div class="vocab-sub-grid">
+        <button class="vocab-sub-btn" onclick="startQuiz('聴解', '課題理解')">
+          <span>問題１ 課題理解<br><span style="font-size:11px;color:var(--text-hint)">このあと何をするかを聞き取る</span></span>
+          <span class="tag">30問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('聴解', 'ポイント理解')">
+          <span>問題２ ポイント理解<br><span style="font-size:11px;color:var(--text-hint)">聞くべき点をしぼって聞く</span></span>
+          <span class="tag">30問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('聴解', '概要理解')">
+          <span>問題３ 概要理解<br><span style="font-size:11px;color:var(--text-hint)">話し手の意図や主張をつかむ</span></span>
+          <span class="tag">30問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('聴解', '発話表現')">
+          <span>問題４ 発話表現<br><span style="font-size:11px;color:var(--text-hint)">場面に合う言い方を選ぶ</span></span>
+          <span class="tag">42問</span>
+        </button>
+        <button class="vocab-sub-btn" onclick="startQuiz('聴解', '即時応答')">
+          <span>問題５ 即時応答<br><span style="font-size:11px;color:var(--text-hint)">短い発話にすぐ答える</span></span>
+          <span class="tag">50問</span>
         </button>
       </div>
     </div>
@@ -52704,6 +52730,17 @@ function startReview() {
 }
 
 
+function toggleListening() {
+  const sub = document.getElementById('listening-sub');
+  const btn = document.getElementById('cat-listening');
+  if (!sub || !btn) return;
+  const open = sub.classList.contains('show');
+  document.querySelectorAll('.vocab-sub').forEach(x => x.classList.remove('show'));
+  document.querySelectorAll('.main-cat-btn').forEach(x => x.classList.remove('active'));
+  vocabExpanded = false;
+  if (!open) { sub.classList.add('show'); btn.classList.add('active'); }
+}
+
 function toggleReading() {
   const el = document.getElementById('reading-sub');
   const btn = document.getElementById('cat-reading');
@@ -52718,6 +52755,13 @@ function toggleReading() {
   if (gEl) gEl.classList.remove('show');
   if (vBtn) vBtn.classList.remove('active');
   if (gBtn) gBtn.classList.remove('active');
+  closeListeningSub();
+}
+function closeListeningSub() {
+  const lEl = document.getElementById('listening-sub');
+  const lBtn = document.getElementById('cat-listening');
+  if (lEl) lEl.classList.remove('show');
+  if (lBtn) lBtn.classList.remove('active');
 }
 function toggleGrammar() {
   const sub = document.getElementById('grammar-sub');
@@ -52730,6 +52774,7 @@ function toggleGrammar() {
   const rBtn = document.getElementById('cat-reading');
   if (rSub) rSub.classList.remove('show');
   if (rBtn) rBtn.classList.remove('active');
+  closeListeningSub();
   if (!isExpanded) {
     sub.classList.add('show');
     btn.classList.add('active');
@@ -52750,6 +52795,7 @@ function toggleVocab() {
   if (readingSub) readingSub.classList.remove('show');
   const catReading = document.getElementById('cat-reading');
   if (catReading) catReading.classList.remove('active');
+  closeListeningSub();
   if (vocabExpanded) {
     sub.classList.add('show');
     btn.classList.add('active');
@@ -52771,9 +52817,12 @@ function startQuiz(sec, sub) {
   if (readingSub) readingSub.classList.remove('show');
   const catReading = document.getElementById('cat-reading');
   if (catReading) catReading.classList.remove('active');
+  closeListeningSub();
 
   let sourcePool;
-  if (sec === '文字・語彙' && sub) {
+  if (sec === '聴解' && sub) {
+    sourcePool = ((typeof otherQuestions !== 'undefined' && otherQuestions['聴解']) || []).filter(q => q.type === sub);
+  } else if (sec === '文字・語彙' && sub) {
     sourcePool = vocabQuestions[sub] || [];
   } else if (sec === '文法' && sub) {
     sourcePool = grammarQuestions[sub] || [];
@@ -53481,7 +53530,14 @@ function __updateCounts(){
     if(cat==='文字・語彙') return (V&&V[sub])?V[sub].length:0;
     if(cat==='文法') return (G&&G[sub])?G[sub].length:0;
     if(cat==='読解') return (R&&R[sub])?R[sub].length:0;
-    if(cat==='聴解'){ if(!L||!L.length) return chouLen(); var mm=(sub||'').match(/(\d+)/); if(mm){var n=parseInt(mm[1],10); return L.filter(function(q){return q.mondai===n;}).length;} return L.length; }
+    if(cat==='聴解'){
+      var arr=(L&&L.length)?L:((O&&O['聴解'])?O['聴解']:null);
+      if(!arr||!arr.length) return 0;
+      var mm=(sub||'').match(/(\d+)/);
+      if(mm){ var n=parseInt(mm[1],10); return arr.filter(function(q){return q.mondai===n;}).length; }
+      if(sub) return arr.filter(function(q){return q.type===sub;}).length;
+      return arr.length;
+    }
     return 0;
   }
   function catTotal(cat){

@@ -23,7 +23,7 @@ EXCLUDE = {
     'index.html',                                            # → / として出力
     # 編集・開発用
     'edit_all.html', 'listening_check.html', 'n1_vocab_preview.html',
-    'gomi_edit.html', 'bousai_edit.html', 'onyomi_edit.html',
+    'gomi_edit.html', 'bousai_edit.html', 'onyomi_edit.html', 'isou_edit.html',
     # 作業用の別版
     'bunkei_final.html', 'onomatope_final.html',
     # learn/ へのリダイレクト

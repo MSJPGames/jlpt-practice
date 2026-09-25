@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>位相チェッカー 編集 ・ 日本語の部屋</title>
+<style>
+  :root{
+    --bg:#F7F5F0; --surface:#FFFFFF; --border:#E2DDD6;
+    --text:#1C1C1C; --text-muted:#6B6560; --text-hint:#9E9890;
+    --radius:14px; --radius-sm:10px;
+    --accent:#3C3489; --accent-bg:#EEEDFE;
+    --ok:#3B6D11; --ok-bg:#EAF3DE;
+    --ng:#9A3D1C; --ng-bg:#FAECE7;
+    --mono:'SFMono-Regular',Consolas,'Courier New',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;
+    background:var(--bg);color:var(--text);padding:0 1rem 4rem;line-height:1.7;-webkit-text-size-adjust:100%}
+  .container{max-width:860px;margin:0 auto}
+  a{color:var(--accent)}
+  button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+  .top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-top:1.2rem}
+  h1{font-size:20px;font-weight:700}
+  .top a{font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none}
+  .lead{font-size:12.5px;color:var(--text-muted);margin:6px 0 0}
+  .lead code{font-family:var(--mono);font-size:11.5px;background:var(--surface);border:1px solid var(--border);
+    border-radius:5px;padding:1px 5px}
+
+  .banner{margin-top:12px;padding:10px 14px;border-radius:var(--radius);font-size:12.5px;
+    background:#FAF6EE;border:1px solid #EBDFC7;color:#6b5d40;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .banner button{font-size:12px;padding:4px 10px;border-radius:8px;border:1px solid #D9C79C;background:#fff;font-weight:600}
+
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 12px}
+  .tab{padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface);
+    font-size:13px;font-weight:600;color:var(--text-muted)}
+  .tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+  .panel{display:none}
+  .panel.on{display:block}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:13px 15px;margin-bottom:10px}
+  .card.del{opacity:.45}
+  .ch{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:9px}
+  .ch .num{font-size:11px;font-weight:700;color:var(--text-hint);font-family:var(--mono)}
+  .ch .name{font-size:15px;font-weight:700}
+  .ch .sp{flex:1}
+  .mini{font-size:11.5px;padding:3px 9px;border-radius:7px;border:1px solid var(--border);
+    background:var(--surface);color:var(--text-muted);font-weight:600}
+  .mini.danger{color:var(--ng);border-color:#E0B4A4}
+
+  label.f{display:block;margin-top:8px}
+  label.f > span{display:block;font-size:11px;font-weight:700;color:var(--text-hint);margin-bottom:3px}
+  input[type=text],textarea,select{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:8px;
+    background:#FCFBF8;color:var(--text);font-family:inherit;font-size:14px;line-height:1.7}
+  textarea{min-height:56px;resize:vertical}
+  input.mono,textarea.mono{font-family:var(--mono);font-size:12.5px}
+  .grid{display:grid;gap:8px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr 1fr}
+  @media (max-width:620px){ .g2,.g3{grid-template-columns:1fr} }
+  .tier{border:1px solid var(--border);border-radius:10px;padding:9px 10px;background:#FCFBF8}
+  .tier .th{font-size:11px;font-weight:700;color:var(--accent);margin-bottom:5px}
+  .tier .tw{font-size:10.5px;color:var(--text-hint);margin-bottom:6px;line-height:1.5}
+  .cb{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--text-muted);margin-top:9px}
+  .cb input{width:16px;height:16px}
+  .hr{height:1px;background:#F1EEE9;margin:11px 0}
+  .hint{font-size:11px;color:var(--text-hint);line-height:1.6;margin-top:4px}
+
+  .bar{position:sticky;bottom:0;margin-top:16px;padding:11px 14px;background:rgba(247,245,240,.96);
+    border-top:1px solid var(--border);display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+    backdrop-filter:blur(6px)}
+  .btn{padding:9px 18px;border-radius:9px;border:1px solid var(--accent);background:var(--accent);
+    color:#fff;font-weight:700;font-size:14px}
+  .btn.ghost{background:transparent;color:var(--text-muted);border-color:var(--border);font-weight:600}
+  .status{font-size:12px;color:var(--text-muted)}
+  .search{width:100%;margin-bottom:10px}
+  .toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#1C1C1C;color:#fff;
+    padding:9px 18px;border-radius:20px;font-size:13px;font-weight:600;opacity:0;transition:opacity .18s;pointer-events:none;z-index:9}
+  .toast.on{opacity:.94}
+  .steps{font-size:12.5px;line-height:1.9;color:var(--text-muted)}
+  .steps b{color:var(--text)}
+  .steps ol{margin:6px 0 0 1.2em}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="top">
+    <h1>位相チェッカー　編集</h1>
+    <a href="isou.html">‹ ページを見る</a>
+    <a href="index.html">🏠 トップ</a>
+  </div>
+  <p class="lead">直したら「書き出し」タブで <code>isou_data.js</code> をダウンロードし、GitHub の同じファイルを置きかえます。<code>isou.html</code> は触りません。書きかけはこのブラウザに自動で残ります。</p>
+
+  <div id="banner"></div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" data-tab="ui"     role="tab" aria-selected="true">画面の文言</button>
+    <button class="tab" data-tab="styles" role="tab" aria-selected="false">場面</button>
+    <button class="tab" data-tab="lex"    role="tab" aria-selected="false">辞書</button>
+    <button class="tab" data-tab="fns"    role="tab" aria-selected="false">例文</button>
+    <button class="tab" data-tab="out"    role="tab" aria-selected="false">書き出し</button>
+  </div>
+
+  <div class="panel on" id="p-ui"></div>
+  <div class="panel" id="p-styles"></div>
+  <div class="panel" id="p-lex">
+    <input type="text" class="search" id="lexQ" placeholder="語・メモ・層で絞り込む">
+    <div id="lexList"></div>
+    <button class="btn ghost" id="lexAdd">＋ 語を追加</button>
+  </div>
+  <div class="panel" id="p-fns">
+    <div id="fnsList"></div>
+    <button class="btn ghost" id="fnsAdd">＋ 機能を追加</button>
+  </div>
+  <div class="panel" id="p-out">
+    <div class="card">
+      <div class="steps">
+        <b>サイトに反映させる手順</b>
+        <ol>
+          <li>下の「isou_data.js を書き出す」を押す。ダウンロードフォルダに <code>isou_data.js</code> ができます</li>
+          <li>GitHub の jlpt-practice を開き、<b>Add file → Upload files</b> を押す</li>
+          <li>書き出した <code>isou_data.js</code> をその画面にドラッグする。同じ名前なので古いほうが置きかわります</li>
+          <li>下までスクロールして <b>Commit changes</b> を押す</li>
+          <li>1〜2分あとに <a href="isou.html">ページ</a> を開いて確かめる</li>
+        </ol>
+        <div class="hint">OneDrive の JLPT PRACTICE フォルダにも、同じファイルを入れておいてください。次に直すときの元になります。</div>
+      </div>
+      <div class="hr"></div>
+      <div class="steps" id="counts"></div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <button class="btn" id="dl">isou_data.js を書き出す</button>
+    <button class="btn ghost" id="reset">変更を捨ててもとにもどす</button>
+    <span class="status" id="status"></span>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="isou_data.js"></script>
+<script>
+(function(){
+"use strict";
+
+var KEY = "isou_edit_v1";
+var BASE = window.ISOU_DATA;
+if(!BASE){
+  document.querySelector(".container").innerHTML =
+    '<p style="padding:2rem 0">isou_data.js が読み込めませんでした。このファイルと同じフォルダに置いてください。</p>';
+  return;
+}
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+var W = clone(BASE), restored = false;
+try{ var raw = localStorage.getItem(KEY); if(raw){ W = JSON.parse(raw); restored = true; } }catch(e){}
+
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];}); }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(W)); }catch(e){} status("保存しました（このブラウザ内）"); }
+var st;
+function status(s){ var el=document.getElementById("status"); el.textContent=s; clearTimeout(st); st=setTimeout(function(){el.textContent="";},2200); }
+function toast(s){ var t=document.getElementById("toast"); t.textContent=s; t.classList.add("on"); setTimeout(function(){t.classList.remove("on");},1500); }
+
+/* ---- path helpers ---- */
+function get(p){ var a=p.split("."),o=W,i; for(i=0;i<a.length;i++) o=o[a[i]]; return o; }
+function set(p,v){ var a=p.split("."),o=W,i; for(i=0;i<a.length-1;i++) o=o[a[i]]; o[a[a.length-1]]=v; }
+
+document.addEventListener("input", function(ev){
+  var el = ev.target, p = el.getAttribute("data-p");
+  if(!p) return;
+  var t = el.getAttribute("data-t");
+  var v = el.value;
+  if(t === "num") v = Number(v)||0;
+  else if(t === "list") v = v.split(/[,、\s]+/).map(function(x){return x.trim();}).filter(Boolean);
+  set(p, v);
+  save();
+});
+document.addEventListener("change", function(ev){
+  var el = ev.target, p = el.getAttribute("data-p");
+  if(!p) return;
+  if(el.type === "checkbox"){ set(p, el.checked ? 1 : 0); save(); render(); }
+  else if(el.tagName === "SELECT"){
+    var t = el.getAttribute("data-t");
+    set(p, t === "num" ? Number(el.value) : el.value);
+    save();
+    if(el.getAttribute("data-re")) render();
+  }
+});
+
+/* ---- fields ---- */
+function fText(p, label, hint){
+  return '<label class="f"><span>' + esc(label) + '</span>' +
+    '<input type="text" data-p="' + p + '" value="' + esc(get(p)) + '"></label>' +
+    (hint ? '<div class="hint">' + esc(hint) + '</div>' : '');
+}
+function fArea(p, label, hint){
+  return '<label class="f"><span>' + esc(label) + '</span>' +
+    '<textarea data-p="' + p + '">' + esc(get(p)) + '</textarea></label>' +
+    (hint ? '<div class="hint">' + esc(hint) + '</div>' : '');
+}
+function fList(p, label){
+  return '<label class="f"><span>' + esc(label) + '</span>' +
+    '<input type="text" class="mono" data-t="list" data-p="' + p + '" value="' + esc((get(p)||[]).join("、")) + '"></label>';
+}
+function fNum(p, label){
+  return '<label class="f"><span>' + esc(label) + '</span>' +
+    '<input type="text" data-t="num" data-p="' + p + '" value="' + esc(get(p)) + '"></label>';
+}
+function fSel(p, label, opts, num, re){
+  var v = get(p);
+  var o = opts.map(function(x){
+    return '<option value="' + esc(x[0]) + '"' + (String(x[0])===String(v)?" selected":"") + '>' + esc(x[1]) + '</option>';
+  }).join("");
+  return '<label class="f"><span>' + esc(label) + '</span>' +
+    '<select data-p="' + p + '"' + (num?' data-t="num"':'') + (re?' data-re="1"':'') + '>' + o + '</select></label>';
+}
+function fCheck(p, label){
+  return '<label class="cb"><input type="checkbox" data-p="' + p + '"' + (get(p)?" checked":"") + '>' + esc(label) + '</label>';
+}
+
+/* ===================== 画面の文言 ===================== */
+var UI_LABELS = {
+  pageTitle:["ブラウザのタブに出る題名",1],
+  title:["ページの題名",1], sub:["題名の下の一行",1],
+  lead:["いちばん上の説明文",2],
+  sec1:["見出し1",1], sec1en:["見出し1の英語",1],
+  sec2:["見出し2",1], sec2en:["見出し2の英語",1],
+  note2:["見出し2の下の注意書き",2],
+  inpPlaceholder:["入力欄が空のときに薄く出る文",1],
+  inpDefault:["最初から入力欄に入っている文",2],
+  btnRun:["ボタン「調べる」",1], btnClear:["ボタン「消す」",1], samplesLabel:["例文ボタンの見出し",1],
+  gContent:["メーター「内容語」",1], gContentNote:["その下の小さい説明",1],
+  gFunc:["メーター「機能語」",1], gFuncNote:["その下の小さい説明",1],
+  gEnd:["メーター「文末」",1],
+  vChiguhagu:["判定文：ちぐはぐのとき",2],
+  vMixed:["判定文：文末が混ざっているとき",2],
+  vOk:["判定文：そろっているとき",2],
+  labFix:["ふだ「直す」",1], labKeep:["ふだ「残す」",1], labAsIs:["ふだ「このままで可」",1],
+  emptyInput:["文が入っていないときの表示",2],
+  emptyHit:["辞書に当たらなかったときの表示",2],
+  legendBad:["凡例・赤",1], legendOk:["凡例・緑",1],
+  disclaimer:["ツールの下のことわり書き",2],
+  sec3:["見出し3",1], sec3en:["見出し3の英語",1],
+  axY:["縦軸の名前",1], axYn:["縦軸の説明",2],
+  axX:["横軸の名前",1], axXn:["横軸の説明",2],
+  plotYhi:["図・縦の上",1], plotYlo:["図・縦の下",1], plotXlo:["図・横の左",1], plotXhi:["図・横の右",1],
+  note3:["二軸の下のまとめ",2],
+  sec4:["見出し4",1], sec4en:["見出し4の英語",1],
+  mode1:["切替ボタン・片方",1], mode6:["切替ボタン・もう片方",1],
+  pivotLabel:["例文の下の見出し",1], naText:["「この場面では使わない」の文",1],
+  sec5:["見出し5",1], sec5en:["見出し5の英語",1],
+  note5:["辞典の上の説明",2],
+  qPlaceholder:["辞典の検索欄の薄い文字",1],
+  fAll:["絞り込み・すべて",1], fFiller:["絞り込み・フィラー",1],
+  fKango:["絞り込み・漢語",1], fWritten:["絞り込み・書き言葉",1],
+  keepLabel:["辞典で「残す」語の右側",1],
+  dictEmpty:["辞典で見つからないとき",1],
+  kyoinTitle:["教える人向けの見出し",1], kyoinBody:["教える人向けの本文",1],
+  foot1:["フッター1行目",1], foot2:["フッター2行目",1]
+};
+function renderUI(){
+  var h = '<div class="card"><div class="ch"><span class="name">画面に出る文言</span></div>' +
+    '<div class="hint">**このように**アスタリスク二つで囲むと太字になります。</div>';
+  Object.keys(UI_LABELS).forEach(function(k){
+    if(W.ui[k] === undefined) return;
+    var L = UI_LABELS[k];
+    h += (L[1] === 2 ? fArea("ui." + k, L[0]) : fText("ui." + k, L[0]));
+  });
+  h += '</div><div class="card"><div class="ch"><span class="name">例文ボタン</span><span class="sp"></span>' +
+    '<button class="mini" data-act="sampleAdd">＋ 追加</button></div>';
+  (W.ui.samples||[]).forEach(function(s, i){
+    h += '<div class="grid g2" style="align-items:end"><label class="f"><span>' + (i+1) + '本目</span>' +
+      '<input type="text" data-p="ui.samples.' + i + '" value="' + esc(s) + '"></label>' +
+      '<div><button class="mini danger" data-act="sampleDel" data-i="' + i + '">この例文を消す</button></div></div>';
+  });
+  h += '</div>';
+  document.getElementById("p-ui").innerHTML = h;
+}
+
+/* ===================== 場面 ===================== */
+function renderStyles(){
+  var h = '<div class="card"><div class="hint">場面の数や色は変えられません。名前・説明・位置・段階だけ直せます。' +
+    '段階は、その場面で求める丁寧さ・硬さの高さです（1がいちばん低い）。</div></div>';
+  W.styles.forEach(function(s, i){
+    h += '<div class="card"><div class="ch"><span class="num">' + esc(s.id) + '</span><span class="name">' + esc(s.label) + '</span></div>' +
+      '<div class="grid g2">' +
+        '<div>' + fText("styles." + i + ".label", "場面の名前") + fText("styles." + i + ".short", "図の中の短い名前") + '</div>' +
+        '<div>' + fText("styles." + i + ".who", "相手（名前の下に出る）") + '</div>' +
+      '</div>' +
+      fArea("styles." + i + ".memo", "場面の説明") +
+      '<div class="grid g2">' +
+        fSel("styles." + i + ".t", "丁寧さの段階", [[1,"1（低い）"],[2,"2"],[3,"3（高い）"]], 1) +
+        fSel("styles." + i + ".h", "硬さの段階", [[1,"1（やわらかい）"],[2,"2"],[3,"3（硬い）"]], 1) +
+      '</div>' +
+      '<div class="grid g2">' + fNum("styles." + i + ".x", "図の横位置（0〜100）") + fNum("styles." + i + ".y", "図の縦位置（0〜100）") + '</div>' +
+      fCheck("styles." + i + ".w", "書き言葉の場面（書くための語を許す）") +
+      '</div>';
+  });
+  document.getElementById("p-styles").innerHTML = h;
+}
+
+/* ===================== 辞書 ===================== */
+var TIER_T = ["親友", "同僚・店員", "顧客・会議・メール"];
+var TIER_H = ["親友・同僚・店員", "顧客", "会議・メール"];
+var STEP = [[0,"やわらかい"],[1,"ふつう"],[2,"かたい"]];
+function lexName(e){
+  var a = e.v[0] || "", b = e.v[2] || "";
+  if(a && b && a !== b) return a + " ／ " + b;
+  return a || b || "（新しい語）";
+}
+function lexCard(e, i){
+  var tiers = e.ax === "t" ? TIER_T : TIER_H;
+  var h = '<div class="card" id="lex' + i + '"><div class="ch">' +
+    '<span class="num">' + (i+1) + '</span>' +
+    '<span class="name">' + esc(lexName(e)) + '</span>' +
+    '<span class="sp"></span>' +
+    '<button class="mini danger" data-act="lexDel" data-i="' + i + '">消す</button></div>' +
+    '<div class="grid g3">' +
+      fSel("lex." + i + ".ax", "軸", [["t","丁寧さ（あいづち・敬語など）"],["h","硬さ（漢語・書き言葉など）"],["keep","残す語"]], 0, 1) +
+      fSel("lex." + i + ".g", "辞典での分類", [["filler","あいづち・フィラー"],["kango","漢語と和語"],["written","書くための語"]]) +
+      fText("lex." + i + ".lay", "層（ふだに出る）") +
+    '</div><div class="hr"></div>';
+
+  if(e.ax === "keep"){
+    h += fList("lex." + i + ".m.0", "拾う語形（読点で区切る）") +
+      fText("lex." + i + ".v.0", "辞典に出す見出し");
+  } else {
+    h += '<div class="grid g3">';
+    [0,1,2].forEach(function(s){
+      h += '<div class="tier"><div class="th">' + ["やわらかい","ふつう","かたい"][s] + '</div>' +
+        fText("lex." + i + ".v." + s, "言い方") +
+        fList("lex." + i + ".m." + s, "拾う語形") + '</div>';
+    });
+    h += '</div><div class="hr"></div><div class="grid g3">';
+    [0,1,2].forEach(function(t){
+      h += '<div class="tier"><div class="th">' + esc(tiers[t]) + '</div>' +
+        '<div class="tw">この場面ではどの段までよいか</div>' +
+        fSel("lex." + i + ".r." + t, "最低これ以上", STEP, 1) +
+        fSel("lex." + i + ".x." + t, "最高これ以下", STEP, 1) + '</div>';
+    });
+    h += '</div>' +
+      fCheck("lex." + i + ".w", "書くための語（メール以外では赤にする）") +
+      fCheck("lex." + i + ".ok", "そのままでよい語として緑で出す");
+  }
+  h += fArea("lex." + i + ".why", "メモ（診断結果と辞典に出ます）") + '</div>';
+  return h;
+}
+function renderLex(){
+  var q = (document.getElementById("lexQ").value || "").trim().toLowerCase();
+  var h = "", n = 0;
+  W.lex.forEach(function(e, i){
+    if(q){
+      var hay = (e.v.join("") + e.m.join("") + e.why + e.lay).toLowerCase();
+      if(hay.indexOf(q) === -1) return;
+    }
+    n++;
+    h += lexCard(e, i);
+  });
+  document.getElementById("lexList").innerHTML =
+    '<div class="card"><div class="hint">全 ' + W.lex.length + ' 語中 ' + n + ' 語を表示しています。' +
+    '「拾う語形」に書いた語が文の中に見つかると反応します。読点（、）で区切ってください。空なら拾いません。</div></div>' + h;
+}
+
+/* ===================== 例文 ===================== */
+function renderFns(){
+  var h = "";
+  W.fns.forEach(function(f, i){
+    h += '<div class="card"><div class="ch"><span class="num">' + (i+1) + '</span>' +
+      '<span class="name">' + esc(f.fn) + '</span><span class="sp"></span>' +
+      '<button class="mini danger" data-act="fnDel" data-i="' + i + '">消す</button></div>' +
+      '<div class="grid g2">' + fText("fns." + i + ".fn", "機能の名前") + fText("fns." + i + ".sit", "どんな場面か") + '</div>' +
+      fArea("fns." + i + ".pivot", "「どこが変わるか」の解説") + '<div class="hr"></div>';
+    W.styles.forEach(function(s){
+      if(!f.v[s.id]) f.v[s.id] = {t:""};
+      var b = "fns." + i + ".v." + s.id;
+      h += '<div class="tier" style="margin-bottom:8px"><div class="th">' + esc(s.label) + '</div>' +
+        fText(b + ".t", "言い方") +
+        fText(b + ".n", "ひとこと注（なくてもよい）") +
+        '<label class="cb"><input type="checkbox" data-p="' + b + '.na"' + (f.v[s.id].na?" checked":"") + '>この場面では使わない</label>' +
+        '</div>';
+    });
+    h += '</div>';
+  });
+  document.getElementById("fnsList").innerHTML = h;
+}
+
+/* ===================== 共通 ===================== */
+function renderBanner(){
+  document.getElementById("banner").innerHTML = restored ?
+    '<div class="banner">前回の書きかけを読み込みました。<button class="mini" data-act="fresh">ファイルの内容にもどす</button></div>' : '';
+}
+function renderCounts(){
+  document.getElementById("counts").innerHTML =
+    '<b>いまの中身</b><br>場面 ' + W.styles.length + '　／　辞書 ' + W.lex.length + ' 語　／　例文 ' + W.fns.length +
+    ' 機能　／　例文ボタン ' + (W.ui.samples||[]).length + ' 本';
+}
+function render(){
+  renderBanner(); renderUI(); renderStyles(); renderLex(); renderFns(); renderCounts();
+}
+
+document.addEventListener("click", function(ev){
+  var b = ev.target.closest ? ev.target.closest("[data-act]") : null;
+  if(!b) return;
+  var act = b.getAttribute("data-act"), i = Number(b.getAttribute("data-i"));
+  if(act === "lexDel"){ if(!confirm("この語を消しますか。")) return; W.lex.splice(i,1); }
+  else if(act === "fnDel"){ if(!confirm("この機能を消しますか。")) return; W.fns.splice(i,1); }
+  else if(act === "sampleDel"){ W.ui.samples.splice(i,1); }
+  else if(act === "sampleAdd"){ W.ui.samples.push(""); }
+  else if(act === "fresh"){ if(!confirm("書きかけを捨てて、ファイルの内容にもどしますか。")) return;
+    W = clone(BASE); restored = false; try{localStorage.removeItem(KEY);}catch(e){} }
+  else return;
+  save(); render();
+});
+
+document.getElementById("lexAdd").addEventListener("click", function(){
+  W.lex.unshift({ax:"h", g:"kango", lay:"内容語", v:["","",""], m:[[],[],[]],
+    r:[0,0,0], x:[2,2,2], w:0, ok:0, why:""});
+  save(); render();
+  document.getElementById("lexQ").value = "";
+  renderLex();
+  window.scrollTo(0, 0);
+  toast("いちばん上に追加しました");
+});
+document.getElementById("fnsAdd").addEventListener("click", function(){
+  var v = {};
+  W.styles.forEach(function(s){ v[s.id] = {t:""}; });
+  W.fns.push({fn:"（新しい機能）", sit:"", pivot:"", v:v});
+  save(); render(); toast("いちばん下に追加しました");
+});
+document.getElementById("lexQ").addEventListener("input", renderLex);
+
+document.getElementById("reset").addEventListener("click", function(){
+  if(!confirm("いま直した内容をすべて捨てて、isou_data.js の中身にもどします。よろしいですか。")) return;
+  W = clone(BASE); restored = false;
+  try{ localStorage.removeItem(KEY); }catch(e){}
+  render(); toast("もとにもどしました");
+});
+
+document.getElementById("dl").addEventListener("click", function(){
+  var header = "/* 位相チェッカー　データ ------------------------------------------\n" +
+    "   このファイルは isou_edit.html で編集して書き出します。\n" +
+    "   手で直すときは、引用符とカンマを壊さないように気をつけてください。\n" +
+    "   ui   … 画面に出る文言（**…** で囲むと太字）\n" +
+    "   styles … 六つの場面\n" +
+    "   lex  … 辞書。ax は t=丁寧さの軸 / h=硬さの軸 / keep=残す語\n" +
+    "   fns  … 機能べつの例文\n" +
+    "--------------------------------------------------------------- */\n";
+  var text = header + "var ISOU_DATA = " + JSON.stringify(W, null, 1) + ";\n";
+  var blob = new Blob([text], {type:"application/javascript;charset=utf-8"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "isou_data.js";
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  toast("書き出しました");
+});
+
+Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(t){
+  t.addEventListener("click", function(){
+    Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(o){
+      o.setAttribute("aria-selected", o === t ? "true" : "false");
+    });
+    Array.prototype.forEach.call(document.querySelectorAll(".panel"), function(p){ p.classList.remove("on"); });
+    document.getElementById("p-" + t.getAttribute("data-tab")).classList.add("on");
+    window.scrollTo(0, 0);
+  });
+});
+
+render();
+})();
+</script>
+</body>
+</html>

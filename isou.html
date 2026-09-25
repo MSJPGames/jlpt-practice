@@ -163,247 +163,94 @@
 
   <div class="app-header">
     <div class="app-logo">NIHONGO NO HEYA</div>
-    <div class="app-title">位相チェッカー</div>
-    <div class="app-sub">その日本語、硬いですか ・ Register Checker</div>
+    <div class="app-title" id="uiTitle">位相チェッカー</div>
+    <div class="app-sub" id="uiSub"></div>
   </div>
 
-  <div class="lead">
-    「日本語が硬い」と言われる原因は、ふつう一つではありません。<b>内容語は書きことばなのに、あいづちや接続はタメ口</b>、というように層が割れていることがあります。文を入れると、どの語が原因かを場面ごとに示します。
-  </div>
+  <div class="lead" id="uiLead"></div>
 
-  <div class="section-label">1　場面をえらぶ <span>・ Choose the situation</span></div>
+  <div class="section-label" id="sec1"></div>
   <div class="card"><div class="row">
     <div class="chips" id="chips"></div>
     <div class="scene-memo" id="sceneMemo"></div>
   </div></div>
 
-  <div class="section-label">2　文を入れて調べる <span>・ Check your sentence</span></div>
-  <div class="note">入力した文はこの画面の中だけで処理されます。どこにも送られません。</div>
+  <div class="section-label" id="sec2"></div>
+  <div class="note" id="note2"></div>
   <div class="card">
     <div class="row">
       <label for="inp" style="position:absolute;left:-9999px">調べたい文</label>
-      <textarea id="inp" placeholder="言いたいことを一文か二文、入れてください。">本件につきましては、明日までに確認を実施いたします。なんか、思ったより時間かかっちゃって。</textarea>
+      <textarea id="inp"></textarea>
       <div class="btnrow">
         <button class="btn" id="run">調べる</button>
         <button class="btn ghost" id="clr">消す</button>
       </div>
-      <div class="samples" id="samples"><b>例文</b></div>
+      <div class="samples" id="samples"></div>
     </div>
     <div id="res"></div>
   </div>
-  <div class="rn" style="margin:0 2px 1rem">語を一つずつ辞書と照らしています。人が読むようには文を理解していないので、見落としや思いちがいがあります。迷ったら先生に確かめてください。</div>
+  <div class="rn" id="disc" style="margin:0 2px 1rem"></div>
 
-  <div class="section-label">3　二本の軸 <span>・ Two axes</span></div>
+  <div class="section-label" id="sec3"></div>
   <div class="card">
     <div class="plotwrap">
       <div class="plot" id="plot">
-        <span class="ylab hi">高</span><span class="ylab lo">低</span>
-        <span class="xlab lo">話し言葉</span><span class="xlab hi">書き言葉</span>
+        <span class="ylab hi" id="plotYhi"></span><span class="ylab lo" id="plotYlo"></span>
+        <span class="xlab lo" id="plotXlo"></span><span class="xlab hi" id="plotXhi"></span>
       </div>
     </div>
-    <div class="row"><div class="dlay">縦軸 ── 丁寧さ</div><div class="rn" style="margin-top:0">相手との上下・距離で決まります。普通体か丁寧体か、尊敬語・謙譲語をどこまで使うか。あいづちや接続詞も、この軸に乗っています。</div></div>
-    <div class="row"><div class="dlay">横軸 ── 硬さ</div><div class="rn" style="margin-top:0">語彙と文の作りで決まります。和語か漢語か、「みたいな」か「のような」か、縮約するかしないか。</div></div>
+    <div class="row"><div class="dlay" id="axY"></div><div class="rn" id="axYn" style="margin-top:0"></div></div>
+    <div class="row"><div class="dlay" id="axX"></div><div class="rn" id="axXn" style="margin-top:0"></div></div>
   </div>
-  <div class="note"><b>交差するところが要点。</b>　「顧客」は敬語がいちばん高いのに、位置は左寄り＝話し言葉です。「会議」は敬語はそこまで高くないのに、右寄り＝硬い。この二つを取りちがえると、「メールを読み上げたような日本語」になります。</div>
+  <div class="note" id="note3"></div>
 
-  <div class="section-label">4　同じ用件を、六つの場面で <span>・ One message, six ways</span></div>
+  <div class="section-label" id="sec4"></div>
   <div class="btnrow" style="margin:0 2px 10px">
     <div class="seg" role="group" aria-label="表示">
-      <button id="m1" aria-pressed="true">えらんだ場面だけ</button>
-      <button id="m6" aria-pressed="false">六場面を並べる</button>
+      <button id="m1" aria-pressed="true"></button>
+      <button id="m6" aria-pressed="false"></button>
     </div>
   </div>
   <div id="fnList"></div>
 
-  <div class="section-label">5　言いかえ辞典 <span>・ Dictionary</span></div>
-  <div class="note">漢語がいつも硬いわけではありません。「確認する」「連絡する」「相談する」は会話でもごく自然です。硬さが出るのは、和語で足りる場面にわざわざ漢語を持ち込んだときと、書くための語を口に出したときです。</div>
-  <input type="search" id="q" placeholder="語やメモから探す（例：うん、確認、遅延、みたいな）" aria-label="辞典を検索">
+  <div class="section-label" id="sec5"></div>
+  <div class="note" id="note5"></div>
+  <input type="search" id="q" aria-label="辞典を検索">
   <div class="fbtns">
-    <button class="fbtn" data-f="all" aria-pressed="true">すべて</button>
-    <button class="fbtn" data-f="filler" aria-pressed="false">あいづち・フィラー</button>
-    <button class="fbtn" data-f="kango" aria-pressed="false">漢語と和語</button>
-    <button class="fbtn" data-f="written" aria-pressed="false">書くための語</button>
+    <button class="fbtn" data-f="all" aria-pressed="true"></button>
+    <button class="fbtn" data-f="filler" aria-pressed="false"></button>
+    <button class="fbtn" data-f="kango" aria-pressed="false"></button>
+    <button class="fbtn" data-f="written" aria-pressed="false"></button>
   </div>
   <div class="card" id="dict"></div>
 
   <div class="kyoin">
-    <div class="h">🎓 教える人向け（日本語教員試験）</div>
-    この項目に関わる専門用語の解説：<a href="kyoin_yogo_isougo.html">位相語</a>・<a href="kyoin_yogo_register.html">レジスター</a>・<a href="kyoin_yogo_taiguu.html">待遇表現</a>・<a href="kyoin_yogo_aizuchi.html">あいづち</a>・<a href="kyoin_yogo_goshu.html">語種</a>
+    <div class="h" id="kyoinTitle"></div>
+    <span id="kyoinBody"></span><a href="kyoin_yogo_isougo.html">位相語</a>・<a href="kyoin_yogo_register.html">レジスター</a>・<a href="kyoin_yogo_taiguu.html">待遇表現</a>・<a href="kyoin_yogo_aizuchi.html">あいづち</a>・<a href="kyoin_yogo_goshu.html">語種</a>
   </div>
 
   <div class="app-footer">
-    辞書に登録した語だけを拾う目安の道具です。文脈によっては当てはまらないことがあります<br>
-    © 2025 日本語の部屋
+    <span id="foot1"></span><br>
+    <span id="foot2"></span>
   </div>
 </div>
+<script src="isou_data.js"></script>
 <script>
 (function(){
 "use strict";
 
-/* ===================== 場面 ===================== */
-var STYLES = [
-  { id:"shinyu", label:"親友と話す", who:"同年代・対等・気を使わない相手", c:"var(--s1)", x:8, y:7, t:1, h:1,
-    memo:"普通体。縮約形も終助詞もそのままでよい場面です。" },
-  { id:"doryo", label:"同僚と雑談", who:"同じ職場・上下があまりない相手", c:"var(--s2)", x:24, y:36, t:2, h:1,
-    memo:"文末は丁寧体、語彙はくだけたまま。日本の職場でいちばん使う量が多い組み合わせです。" },
-  { id:"tenin", label:"店員と話す", who:"店・駅・窓口。一度きりの関係", c:"var(--s3)", x:31, y:49, t:2, h:1,
-    memo:"丁寧だが短く。長い前置きはかえって不自然に聞こえます。" },
-  { id:"kokyaku", label:"顧客と話す", who:"取引先・お客様と、口頭で", c:"var(--s5)", x:53, y:89, t:3, h:2,
-    memo:"敬語は最も高い。ただし口で話す以上、「ちょっと」「〜んですが」は残してよい場面です。" },
-  { id:"kaigi", label:"会議で発表する", who:"社内の複数人に向けて話す", c:"var(--s4)", x:77, y:71, t:3, h:3,
-    memo:"敬語の高さより、言い切ることと数字が大事。書き言葉の接続がそのまま口に出ます。" },
-  { id:"mail", label:"ビジネスメール", who:"書いて送る。相手は読み返す", c:"var(--s6)", x:91, y:92, t:3, h:3, w:true,
-    memo:"話し言葉の要素を全部落とし、代わりに定型の挨拶と結びを入れます。" }
-];
-var ORDER = ["shinyu","doryo","tenin","kokyaku","kaigi","mail"];
+var D = window.ISOU_DATA || {};
+var T = D.ui || {};
+var STYLES = D.styles || [];
+var L = D.lex || [];
+var FNS = D.fns || [];
+var ORDER = STYLES.map(function(s){ return s.id; });
+
 function S(id){ for(var i=0;i<STYLES.length;i++) if(STYLES[i].id===id) return STYLES[i]; return STYLES[0]; }
-
-/* ===================== 辞書 =====================
-   ax : "t" 丁寧さの軸 / "h" 硬さの軸 / "keep" 残してよい語
-   v  : [やわらかい, 中間, 硬い] の表示
-   m  : 照合する語形（null なら v の語だけ、[] なら照合しない）
-   r  : 場面の段階1〜3ごとに「最低これ以上の段」
-   x  : 同じく「これ以下の段」（省略時は 2）
-   w  : 1 なら書くための語（メール以外では避ける）
-   soft:1 なら注意ではなく参考（黄色）
-==================================================*/
-var L = [];
-function E(o){ L.push(o); }
-
-/* --- あいづち・フィラー（丁寧さの軸） --- */
-E({ax:"t",g:"filler",lay:"あいづち",v:["うん","はい","はい／ええ"],m:[["うん","うんうん"],["はい"],["ええ"]],r:[0,1,1],
-  why:"あいづちは回数が多いので、ここだけで全体の印象が決まります。まず直すならこの一語です。"});
-E({ax:"t",g:"filler",lay:"あいづち",v:["そうそう","そうですね","ええ、そうですね"],m:[["そうそう"],["そうですね"],["おっしゃるとおりです"]],r:[0,1,1],
-  why:"強い同意。改まった場では「おっしゃるとおりです」「ごもっともです」。"});
-E({ax:"t",g:"filler",lay:"あいづち",v:["だよね","ですよね","ですよね"],m:[["だよね","だよな"],["ですよね"],[]],r:[0,1,1],
-  why:"文末は敬体にできていても、あいづちがタメ口だと全体がくだけて聞こえます。"});
-E({ax:"t",g:"filler",lay:"あいづち",v:["へえ／ほんと？","そうなんですか","そうなんですか"],m:[["へえ","ほんと？","ほんとに？","マジで","マジ？"],["そうなんですか"],[]],r:[0,1,1],
-  why:"驚きのあいづち。改まった場では「そうなんですか」「存じませんでした」。"});
-E({ax:"t",g:"filler",lay:"接続",v:["でも","でも","ただ／ですが"],m:[["でも"],[],["ただ","ですが","ただし"]],r:[0,0,2],
-  why:"雑談では「でも」で自然。会議・面談・顧客の前では「ただ」「ですが」。"});
-E({ax:"t",g:"filler",lay:"接続",v:["だから","だから","ですから"],m:[["だから"],[],["ですから"]],r:[0,0,2],
-  why:"同じ理由の接続でも、改まると「ですから」。"});
-E({ax:"t",g:"filler",lay:"副詞",v:["やっぱ","やっぱり","やはり"],m:[["やっぱ"],["やっぱり"],["やはり"]],r:[0,1,2],
-  why:"三段あります。「やっぱ」は職場では出さない段です。"});
-E({ax:"t",g:"filler",lay:"言いかえ",v:["っていうか","というか","といいますか"],m:[["っていうか","ていうか","つーか"],["というか"],["といいますか"]],r:[0,1,2],
-  why:"言い直すときの語。改まった場は「といいますか」「逆に申しますと」。"});
-E({ax:"t",g:"filler",lay:"フィラー",v:["なんか","なんか","（言わない）／そうですね"],m:[["なんか"],[],["そうですね"]],r:[0,0,2],
-  why:"考える間を埋める語ですが、改まった場では中身のない語に聞こえます。「えーと」「あの」に替えるか、少し黙るほうが落ち着いて聞こえます。"});
-E({ax:"keep",g:"filler",lay:"中立フィラー",v:["えーと／あの／そのー／まあ","","" ],m:[["えーと","ええと","えっと","あのー","あの、","そのー","まあ、","まぁ"],[],[]],
-  why:"この四つは敬体でも自然です。消すと間が空いて、機械のように聞こえます。残してください。"});
-
-/* --- 文末・敬語（丁寧さの軸） --- */
-E({ax:"t",g:"filler",lay:"返事",v:["わかった／了解","わかりました","承知しました"],m:[["わかった","了解","りょうかい","オッケー","オーケー"],["わかりました"],["承知しました","承知いたしました","かしこまりました"]],r:[0,1,2],
-  why:"「了解しました」は目上や顧客には避けるのがふつうです。「承知しました」「かしこまりました」へ。"});
-E({ax:"t",g:"filler",lay:"謝罪",v:["ごめん","すみません","申し訳ございません"],m:[["ごめん","ごめんね","わるい"],["すみません","すいません"],["申し訳ございません","申し訳ありません"]],r:[0,1,2],
-  why:"謝罪は段が四つあります。段を飛ばすといちばん目立ちます。"});
-E({ax:"t",g:"filler",lay:"感謝",v:["ありがとう","ありがとうございます","誠にありがとうございます"],m:[["ありがとう"],["ありがとうございます"],["誠にありがとうございます"]],r:[0,1,1],
-  why:"「ありがとう」だけで止めるのは親しい相手のみ。"});
-E({ax:"t",g:"敬語",lay:"授受",v:["もらう","もらいます","いただきます"],m:[["もらう","もらった","もらって","もらえる"],["もらいます","もらいました","もらえますか"],["いただきます","いただきました","いただけますか","頂戴します"]],r:[0,0,2],
-  why:"自分が受け取る動作は「いただく」。顧客の前ではここをそろえないと、敬語が途中で切れます。"});
-E({ax:"t",g:"敬語",lay:"授受",v:["くれる","くれます","くださいます"],m:[["くれる","くれた","くれて"],["くれます","くれました"],["くださいます","くださいました"]],r:[0,0,2],
-  why:"相手がしてくれる動作は「くださる」。"});
-E({ax:"t",g:"敬語",lay:"動詞",v:["言う","言います","おっしゃいます／申します"],m:[["言う","言った","言って"],["言います","言いました"],["おっしゃる","おっしゃいます","申します","申し上げます"]],r:[0,0,2],
-  why:"相手の動作なら「おっしゃる」、自分の動作なら「申す」。"});
-E({ax:"t",g:"敬語",lay:"動詞",v:["行く","行きます","伺います"],m:[["行く","行った"],["行きます","行きました"],["伺います","伺いました","参ります"]],r:[0,0,2],
-  why:"自分が相手のところへ行くときは「伺います」。"});
-E({ax:"t",g:"敬語",lay:"動詞",v:["見る","見ます","拝見します／ご覧になります"],m:[["見る","見た","見て"],["見ます","見ました"],["拝見します","拝見しました","ご覧になります","ご覧ください"]],r:[0,0,2],
-  why:"自分が見るなら「拝見する」、相手が見るなら「ご覧になる」。"});
-E({ax:"t",g:"敬語",lay:"動詞",v:["知ってる","知っています","ご存じです／存じております"],m:[["知ってる","知ってた"],["知っています","知ってます"],["ご存じ","存じております","存じ上げております"]],r:[0,1,2],
-  why:"相手が知っているなら「ご存じ」、自分が知っているなら「存じております」。"});
-E({ax:"t",g:"filler",lay:"依頼",v:["ちょっと待って","少々お待ちください","少々お待ちいただけますでしょうか"],m:[["ちょっと待って","待って"],["少々お待ちください","お待ちください"],["少々お待ちいただけますでしょうか"]],r:[0,1,1],
-  why:"待たせる依頼。顧客には疑問形にすると当たりがやわらぎます。"});
-E({ax:"t",g:"filler",lay:"確認",v:["いい？／大丈夫？","いいですか","よろしいでしょうか"],m:[["いい？","大丈夫？","平気？"],["いいですか","大丈夫ですか"],["よろしいでしょうか","よろしいですか"]],r:[0,1,2],
-  why:"許可をもらう言い方。改まると「よろしいでしょうか」。"});
-
-/* --- 縮約形（丁寧さの軸） --- */
-E({ax:"t",g:"filler",lay:"縮約形",v:["〜てる","〜てます","〜ております"],
-  m:[["してる","してた","なってる","なってた","言ってる","やってる","見てる","思ってる","出てる","入ってる","持ってる","来てる","考えてる"],
-     ["してます","なってます","思ってます","やってます"],
-     ["しております","なっております","考えております","存じております"]],r:[0,0,1],
-  why:"敬体でも「〜てます」は自然です。改まった場だけ「〜ております」に上げます。"});
-E({ax:"t",g:"filler",lay:"縮約形",v:["〜ちゃう","〜ちゃいます","〜てしまいます"],m:[["ちゃう","ちゃった","ちゃって","じゃった","じゃう"],[],["てしまいます","てしまいました","てしまって"]],r:[0,0,2],
-  why:"会議・面談では「〜てしまいます」に戻します。"});
-E({ax:"t",g:"filler",lay:"縮約形",v:["〜とく","〜ときます","〜ておきます"],m:[["とくね","といて","しとく","しといて","やっとく"],["ときます","しときます"],["ておきます","しておきます"]],r:[0,1,2],
-  why:"「〜ておく」の縮約。職場でも文末が敬体なら「〜ておきます」。"});
-E({ax:"t",g:"filler",lay:"縮約形",v:["〜なきゃ","〜ないと","〜なければなりません"],m:[["なきゃ","なくちゃ"],["ないと"],["なければなりません","なければならない"]],r:[0,1,2],
-  why:"義務の縮約形。改まった場では戻します。"});
-E({ax:"t",g:"filler",lay:"文末",v:["〜じゃん","〜ですよね","〜ではないでしょうか"],m:[["じゃん","じゃんか","でしょ？"],["ですよね"],["ではないでしょうか"]],r:[0,1,2],
-  why:"同意を求める文末。改まると疑問の形に変わります。"});
-
-/* --- 硬さの軸：会話では硬い漢語 --- */
-function K(hard, soft, x, why, forms){
-  E({ax:"h",g:"kango",lay:"内容語",v:[soft,soft,hard],m:[[],[],forms||[hard]],x:x,why:why});
-}
-K("購入する","買う",[0,1,2],"会話では「買う」。「購入」は書面や店側の言い方です。",["購入する","購入します","購入いたしました","購入し"]);
-K("使用する","使う",[0,1,2],"話すときは「使う」。取扱説明や規約では「使用」。",["使用する","使用します","使用し"]);
-K("実施する","する／行う",[0,1,2],"「確認を実施する」は「確認する」で足ります。漢語が二重になると、いちばん硬く聞こえます。",["実施する","実施します","実施いたします","実施し"]);
-K("理解する","わかる",[0,0,2],"会話で「理解しました」は硬い。「わかりました」「承知しました」。",["理解する","理解します","理解しました","理解でき"]);
-K("到着する","着く",[0,1,2],"「着きました」。「到着いたしました」は運送や受付の言い方です。",["到着する","到着します","到着いたしました","到着し"]);
-K("増加する","増える",[0,1,2],"会話は「増えてます」。数字を説明する場だけ「増加しております」。",["増加する","増加します","増加し","増加傾向"]);
-K("減少する","減る",[0,1,2],"同じく、数字を示す場だけ漢語に上げます。",["減少する","減少します","減少し"]);
-K("訪問する","伺う",[0,1,2],"自分が行くなら「伺います」。「訪問いたします」は書き言葉寄りです。",["訪問する","訪問します","訪問いたします","訪問し"]);
-K("依頼する","お願いする",[0,1,2],"会話で「依頼します」は硬い。「お願いします」。",["依頼する","依頼します","依頼いたします","依頼し"]);
-K("可能です","できます",[0,1,2],"「できます」で十分。「可能でございます」は案内のアナウンス調です。",["可能です","可能である","可能でございます","可能となります"]);
-K("困難です","難しいです",[0,1,2],"会話は「難しいです」。「困難です」は報告書の語です。",["困難です","困難である","困難となって"]);
-K("変更する","変える",[0,1,2],"口頭では「変えます」。文書では「変更いたします」。",["変更する","変更します","変更いたします","変更し"]);
-K("開始する","始める",[0,2,2],"会議では「開始します」もあり。日常では「始めます」。",["開始する","開始します","開始し"]);
-K("終了する","終わる",[0,2,2],"「終わりました」が自然。「終了いたしました」は案内文。",["終了する","終了します","終了いたしました","終了し"]);
-K("提出する","出す",[0,2,2],"「出しておきます」で十分。書面は「提出いたします」。",["提出する","提出します","提出いたします","提出し"]);
-K("記入する","書く",[0,2,2],"窓口の指示では「ご記入ください」。話すときは「書いてください」。",["記入する","記入します","ご記入"]);
-K("中止する","やめる／取りやめる",[0,2,2],"軽い取りやめは「やめます」。公式には「中止」。",["中止する","中止します","中止いたします","中止と"]);
-K("遅延","遅れ",[0,1,2],"「遅れが出ております」までが口頭の上限。「遅延が生じております」は文書です。",["遅延"]);
-K("検討する","考える",[0,2,2],"顧客・会議では「検討します」。同僚には「考えてみます」。",["検討する","検討します","検討いたします","検討し"]);
-K("本日","今日",[1,2,2],"接客と会議の冒頭は「本日」が定番。それ以外の会話は「今日」。",["本日"]);
-K("現在","今",[1,2,2],"「今」が自然。説明の途中で「現時点では」は会議で効きます。",["現在"]);
-K("〜に関して","〜について",[1,2,2],"「について」が中間の語。「〜に関しまして」はメール寄りです。",["に関して","に関しまして","に関する"]);
-K("〜において","〜で",[1,1,2],"場所や場面の「で」。話すときに「において」は出しません。",["において","における","におきまして"]);
-K("したがって","だから／なので",[1,2,2],"会議や資料では「したがって」。会話は「なので」。",["したがって","従って"]);
-K("〜でございます","〜です",[1,2,2],"接客のアナウンス調。ふつうの会話では「です」で足ります。",["でございます","でございました"]);
-E({ax:"h",g:"written",lay:"接続",v:["と","と","および"],m:[[],[],["および","及び","ならびに","並びに"]],x:[0,0,2],
-  why:"「および」は書くための語です。口に出すと読み上げているように聞こえます。話すときは「と」。"});
-
-/* --- 硬さの軸：話し言葉すぎる語 --- */
-function Y(soft, hard, why, forms){
-  E({ax:"h",g:"kango",lay:"話し言葉",v:[soft,soft,hard],m:[forms||[soft],[],[]],r:[0,0,2],why:why});
-}
-Y("ちょっと","少々／少し","顧客と話すときは「ちょっと」で自然です。落とすのは会議の発表と書くときだけ。",["ちょっと"]);
-Y("たぶん","おそらく","会議では推量もはっきり言います。",["たぶん"]);
-Y("すごく","非常に／かなり","程度の副詞。数字があるならそちらを言うほうが伝わります。",["すごく","すごい","めっちゃ","超"]);
-Y("いっぱい","多く／多数","量は数字にできると、いちばん硬さが要りません。",["いっぱい"]);
-Y("やる","行う","「やります」は顧客の前でも自然。会議の発表と書くときだけ「行います」。",["やる","やって","やった","やります"]);
-Y("だいたい","おおよそ／約","おおまかな数の言い方。",["だいたい"]);
-Y("もっと","さらに","",["もっと"]);
-Y("全然","まったく","「全然」は打ち消しと一緒に使うのが本来の形です。",["全然"]);
-Y("〜とか","〜など","例を挙げる語。会議では「など」。",["とか"]);
-Y("〜みたいな","〜のような","「みたいな」は書き言葉では使いません。",["みたいな","みたいに","みたいで"]);
-Y("〜という感じ","（使わない）","ぼかす言い方。会議では判断が伝わりません。言い切ってください。",["という感じ","って感じ","感じです","感じで"]);
-
-/* --- 書くための語（メール以外では避ける） --- */
-function W(word, spoken, why, forms){
-  E({ax:"h",g:"written",lay:"書き言葉",v:[spoken,spoken,word],m:[[],[],forms||[word]],w:1,why:why});
-}
-W("標記の件","その件／例の件","メール専用の書き出しです。口に出すと原稿を読んでいるように聞こえます。",["標記の件","標題の件","表記の件"]);
-W("賜りますよう","いただけますでしょうか","文書の結びの定型。話すときは疑問の形にします。",["賜りますよう","賜りたく","賜ります"]);
-W("〜いたしたく存じます","〜したいと思います","書面の言い方。口頭では「〜したいと思っております」。",["いたしたく存じます","したく存じます","たく存じます"]);
-W("何卒","どうぞ／ぜひ","手紙・メールの語。話すと時代がかって聞こえます。",["何卒"]);
-W("つきましては","それで／ですので","文書の接続。話すときは「それで」「ですので」。",["つきましては"]);
-W("〜のほど","（言わない）","「ご検討のほど」は書面の形。話すときは「ご検討ください」。",["のほど"]);
-W("貴社","御社","話すときは「御社」、書くときは「貴社」。ここは日本人もよく確かめる区別です。",["貴社"]);
-W("拝啓","（使わない）","手紙の形式。メール本文でも今はあまり使いません。",["拝啓","敬具","謹啓"]);
-W("〜のため、","〜ので","理由の「ため」は書き言葉です。話すときは「ので」。",["のため、","ため、"]);
-
-/* --- 硬さの軸：そのままでよい漢語（緑で出す） --- */
-function G(word, why, forms){
-  E({ax:"h",g:"kango",lay:"内容語",v:[word,word,word],m:[[],[],forms||[word]],x:[2,2,2],r:[0,0,0],ok:1,why:why});
-}
-G("確認する","漢語ですが会話でも完全に自然です。硬さの原因にはなりません。",["確認する","確認します","確認いたします","確認し","ご確認"]);
-G("連絡する","これも会話で自然。「ご連絡します」は口頭でよく使います。",["連絡する","連絡します","ご連絡","連絡し"]);
-G("準備する","どちらも自然。「用意する」のほうがやや和らぎます。",["準備する","準備します","準備し"]);
-G("説明する","会話でも書面でも自然な語です。",["説明する","説明します","ご説明","説明し"]);
-G("相談する","会話で自然。「ちょっとご相談が」はよく使う切り出しです。",["相談する","相談します","ご相談","相談し"]);
-G("報告する","職場の標準語です。",["報告する","報告します","ご報告","報告し"]);
-G("用意する","和語側の語。会話ではこちらのほうが自然に響きます。",["用意する","用意します","ご用意"]);
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];}); }
+function rich(s){ return esc(s).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>"); }
+function txt(id, s){ var el = document.getElementById(id); if(el) el.innerHTML = rich(s); }
+function cvars(s){ return "--c:" + s.c + ";--cb:" + s.cb; }
 
 /* ===================== 照合 ===================== */
 var INDEX = [];
@@ -413,15 +260,13 @@ L.forEach(function(e, ei){
     return;
   }
   for(var s=0;s<3;s++){
-    var forms = e.m && e.m[s] !== undefined ? e.m[s] : null;
-    if(forms === null) forms = e.v[s] ? [e.v[s]] : [];
-    forms.forEach(function(w){ if(w) INDEX.push({w:w, e:ei, slot:s}); });
+    (e.m[s]||[]).forEach(function(w){ if(w) INDEX.push({w:w, e:ei, slot:s}); });
   }
 });
 INDEX.sort(function(a,b){ return b.w.length - a.w.length; });
 
 function scan(text){
-  var used = new Array(text.length), hits = [], i, j, k, ok;
+  var used = new Array(text.length), hits = [], j, k, ok;
   for(k=0;k<INDEX.length;k++){
     var w = INDEX[k].w, from = 0, at;
     while((at = text.indexOf(w, from)) !== -1){
@@ -437,14 +282,12 @@ function scan(text){
   hits.sort(function(a,b){ return a.at - b.at; });
   return hits;
 }
-
 function pick(v, idx){
   var i;
   for(i=idx;i<3;i++) if(v[i]) return v[i];
   for(i=idx;i>=0;i--) if(v[i]) return v[i];
   return "";
 }
-
 function judge(hit, sc){
   var e = L[hit.e];
   if(e.ax === "keep") return {k:"keep", to:"", why:e.why, e:e};
@@ -456,8 +299,6 @@ function judge(hit, sc){
   if(hit.slot > x) return {k:"bad", to:pick(e.v, x), why:e.why, e:e};
   return {k:"ok", to:"", why:e.why, e:e};
 }
-
-/* 文末の体裁 */
 function styleOfSentences(text){
   var parts = text.split(/[。．.!！?？\n]/).map(function(s){ return s.trim(); }).filter(Boolean);
   var polite = 0, plain = 0;
@@ -469,79 +310,51 @@ function styleOfSentences(text){
   return {n:parts.length, polite:polite, plain:plain};
 }
 
-var FNS = [
-  { fn:"もう一度言ってほしいと頼む", sit:"相手の説明が聞き取れなかった",
-    pivot:"「言って」→「お願いします」→「ご説明いただけますか」→「ご教示いただけますと幸いです」。和語の「言う」が漢語に置き換わっていくのが硬さの正体です。",
-    v:{ shinyu:{t:"ごめん、もっかい言って。"}, doryo:{t:"すみません、もう一回いいですか。"},
-      tenin:{t:"すみません、もう一度お願いします。"},
-      kokyaku:{t:"申し訳ございません、もう一度おっしゃっていただけますでしょうか。",n:"「言う」の尊敬語は「おっしゃる」。ここを「ご説明賜る」にすると硬くなりすぎます。"},
-      kaigi:{t:"恐れ入りますが、もう一度ご説明いただけますか。"},
-      mail:{t:"恐れ入りますが、再度ご教示いただけますと幸いです。",n:"「もう一度」→「再度」、「教えて」→「ご教示」。書き言葉では二字熟語に寄ります。"} }},
-  { fn:"申し出を断る", sit:"相手の提案・誘いを受けない",
-    pivot:"日本語の断りは「できません」と言い切らず、見送る・遠慮する、と方向を変えて表します。",
-    v:{ shinyu:{t:"あー、それはいいや。ごめん。"},
-      doryo:{t:"あ、大丈夫です。ありがとうございます。",n:"職場の「大丈夫です」は断りとして通用します。"},
-      tenin:{t:"大丈夫です。"},
-      kokyaku:{t:"せっかくのお話なのですが、今回は見送らせていただければと存じます。"},
-      kaigi:{t:"その案につきましては、今回は見送りたいと考えております。"},
-      mail:{t:"ご提案いただいた件、誠に恐縮ですが、今回は見送らせていただきたく存じます。"} }},
-  { fn:"違う意見を言う", sit:"相手の見方に同意できない",
-    pivot:"反対そのものより、反対を出す前の置き方が変わります。上に行くほど、まず相手を認める一文が要ります。",
-    v:{ shinyu:{t:"えー、それはちょっと違うんじゃない？"},
-      doryo:{t:"うーん、それはどうですかね。ちょっと違う気がします。"},
-      tenin:{t:"すみません、頼んだのはこれじゃないと思うんですけど。",n:"店では遠回しにせず、事実をそのまま言うほうが早く伝わります。"},
-      kokyaku:{t:"おっしゃることはごもっともです。ただ、弊社としては少し違う見方をしておりまして。",n:"最後を言い切らず「〜ておりまして」で止めるのが口頭の作法。"},
-      kaigi:{t:"その点については、別の見方もあるのではないかと思います。"},
-      mail:{t:"ご指摘の点はごもっともですが、弊社といたしましては、別の見解を持っております。"} }},
-  { fn:"謝る", sit:"遅れた・間違えた",
-    pivot:"「ごめん→すみません→申し訳ありません→申し訳ございません→お詫び申し上げます」。段が決まっているので、飛ばすと目立ちます。",
-    v:{ shinyu:{t:"ごめん、遅れた！"}, doryo:{t:"すみません、遅くなりました。"}, tenin:{t:"あ、すみません。"},
-      kokyaku:{t:"このたびはご迷惑をおかけし、誠に申し訳ございませんでした。"},
-      kaigi:{t:"私の確認が不十分でした。申し訳ありません。",n:"会議では、謝罪より原因を先に言うほうが評価されます。"},
-      mail:{t:"このたびは多大なるご迷惑をおかけいたしましたこと、深くお詫び申し上げます。"} }},
-  { fn:"礼を言う", sit:"助けてもらった・世話になった",
-    pivot:"「ありがとう」は全場面で使えます。変わるのは前後に何を足すか。メールだけは「御礼申し上げます」という別の語になります。",
-    v:{ shinyu:{t:"ありがと、助かった。"}, doryo:{t:"ありがとうございます。助かりました。"}, tenin:{t:"ありがとうございます。"},
-      kokyaku:{t:"このたびはお力添えをいただき、誠にありがとうございました。"},
-      kaigi:{t:"貴重なご意見をいただき、ありがとうございました。"},
-      mail:{t:"平素より格別のご高配を賜り、厚く御礼申し上げます。",n:"これは挨拶の定型で、実際に何かをしてもらっていなくても書きます。"} }},
-  { fn:"提案する", sit:"こうしてはどうか、と持ちかける",
-    pivot:"下の段は疑問形、上の段は「〜してはいかがでしょうか」。疑問形のままでも丁寧にできる、というのが見えるところです。",
-    v:{ shinyu:{t:"じゃあさ、こっちにしない？"}, doryo:{t:"こうしたらどうですかね。"},
-      tenin:{t:"",na:true,n:"店ではふつう提案しません。「〜をお願いします」と依頼の形になります。場面によって、そもそも起きない機能があります。"},
-      kokyaku:{t:"もしよろしければ、こちらの形でご検討いただくのはいかがでしょうか。"},
-      kaigi:{t:"二点目の案として、対象を来期に絞ることを提案いたします。"},
-      mail:{t:"つきましては、対象を来期に絞る案をご提案申し上げます。ご検討のほどよろしくお願いいたします。"} }},
-  { fn:"確認する", sit:"これで合っているか確かめる",
-    pivot:"「合ってる？」→「相違ございませんでしょうか」。和語の「合う」が漢語の「相違」に変わると、一気に書類の文になります。",
-    v:{ shinyu:{t:"これでいいんだよね？"}, doryo:{t:"これで合ってますよね？"}, tenin:{t:"これ、このサイズで合ってますか？"},
-      kokyaku:{t:"念のため確認させていただきたいのですが、こちらの内容でお間違いないでしょうか。"},
-      kaigi:{t:"この理解で相違ないか、確認させてください。"},
-      mail:{t:"念のため確認させていただきます。下記の内容にて相違ございませんでしょうか。"} }},
-  { fn:"状況を報告する", sit:"予定より遅れている",
-    pivot:"「遅れてる」→「遅れが出ております」→「遅延が生じております」。同じ事実が三段で変わります。この行だけでも練習になります。",
-    v:{ shinyu:{t:"あー、ちょっと遅れてる。"}, doryo:{t:"すみません、ちょっと遅れてます。"},
-      tenin:{t:"あの、注文したの、まだ来てないんですけど。"},
-      kokyaku:{t:"申し訳ございませんが、現在、予定より少々遅れが出ております。",n:"顧客には数字より先に謝罪。漢語は「遅延」まで行かず「遅れ」で止めます。"},
-      kaigi:{t:"現時点で、予定より二日ほど遅れております。"},
-      mail:{t:"現在、予定より二営業日ほど遅延が生じております。"} }},
-  { fn:"話を切り出す", sit:"用件に入る前のひとこと",
-    pivot:"切り出しの長さが、そのまま場面の格を表します。親友は一語、メールは二文。ここを間違えると、内容が正しくても場違いに聞こえます。",
-    v:{ shinyu:{t:"あのさ、"}, doryo:{t:"あの、ちょっといいですか。"}, tenin:{t:"すみません。"},
-      kokyaku:{t:"お忙しいところ恐れ入ります。少しお時間よろしいでしょうか。"},
-      kaigi:{t:"それでは、お手元の資料に沿ってご説明いたします。"},
-      mail:{t:"お世話になっております。標記の件につきまして、ご連絡いたします。"} }}
-];
-
 /* ===================== 描画 ===================== */
-var SHORT = {shinyu:"親友", doryo:"同僚", tenin:"店員", kokyaku:"顧客", kaigi:"会議", mail:"メール"};
-var CB = {shinyu:"var(--s1b)", doryo:"var(--s2b)", tenin:"var(--s3b)", kokyaku:"var(--s5b)", kaigi:"var(--s4b)", mail:"var(--s6b)"};
-var cur = "kokyaku", mode = 1, dictFilter = "all";
-function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];}); }
-function cvars(s){ return "--c:" + s.c + ";--cb:" + CB[s.id]; }
+var cur = STYLES.length ? STYLES[0].id : "", mode = 1, dictFilter = "all";
+(function(){ for(var i=0;i<STYLES.length;i++) if(STYLES[i].id === "kokyaku") cur = "kokyaku"; })();
+
+function boot(){
+  document.title = T.pageTitle || document.title;
+  txt("uiTitle", T.title); txt("uiSub", T.sub); txt("uiLead", T.lead);
+  txt("sec1", (T.sec1||"") + ' <span>' + esc(T.sec1en||"") + '</span>');
+  txt("sec2", (T.sec2||"") + ' <span>' + esc(T.sec2en||"") + '</span>');
+  txt("sec3", (T.sec3||"") + ' <span>' + esc(T.sec3en||"") + '</span>');
+  txt("sec4", (T.sec4||"") + ' <span>' + esc(T.sec4en||"") + '</span>');
+  txt("sec5", (T.sec5||"") + ' <span>' + esc(T.sec5en||"") + '</span>');
+  txt("note2", T.note2); txt("note3", T.note3); txt("note5", T.note5);
+  txt("disc", T.disclaimer);
+  txt("axY", T.axY); txt("axYn", T.axYn); txt("axX", T.axX); txt("axXn", T.axXn);
+  txt("plotYhi", T.plotYhi); txt("plotYlo", T.plotYlo);
+  txt("plotXlo", T.plotXlo); txt("plotXhi", T.plotXhi);
+  txt("kyoinTitle", T.kyoinTitle); txt("kyoinBody", T.kyoinBody);
+  txt("foot1", T.foot1); txt("foot2", T.foot2);
+  document.getElementById("run").textContent = T.btnRun || "調べる";
+  document.getElementById("clr").textContent = T.btnClear || "消す";
+  document.getElementById("m1").textContent = T.mode1 || "";
+  document.getElementById("m6").textContent = T.mode6 || "";
+  var inp = document.getElementById("inp");
+  inp.placeholder = T.inpPlaceholder || "";
+  inp.value = T.inpDefault || "";
+  document.getElementById("q").placeholder = T.qPlaceholder || "";
+  var fl = {all:T.fAll, filler:T.fFiller, kango:T.fKango, written:T.fWritten};
+  Array.prototype.forEach.call(document.querySelectorAll(".fbtn"), function(b){
+    b.textContent = fl[b.dataset.f] || b.dataset.f;
+  });
+  var box = document.getElementById("samples");
+  box.innerHTML = '<b>' + esc(T.samplesLabel||"例文") + '</b>';
+  (T.samples||[]).forEach(function(s){
+    var b = document.createElement("button");
+    b.textContent = s.length > 16 ? s.slice(0,16) + "…" : s;
+    b.title = s;
+    b.addEventListener("click", function(){ inp.value = s; analyze(); });
+    box.appendChild(b);
+  });
+}
 
 function buildScene(){
   var c = document.getElementById("chips"), plot = document.getElementById("plot");
+  c.innerHTML = "";
   STYLES.forEach(function(s){
     var b = document.createElement("button");
     b.className = "chip"; b.style.cssText = cvars(s); b.dataset.id = s.id;
@@ -554,21 +367,21 @@ function buildScene(){
     d.className = "dot"; d.style.cssText = cvars(s) + ";left:" + s.x + "%;top:" + (100 - s.y) + "%";
     d.dataset.id = s.id;
     d.setAttribute("aria-pressed", s.id===cur?"true":"false");
-    d.innerHTML = '<i></i><span>' + esc(SHORT[s.id]) + '</span>';
+    d.innerHTML = '<i></i><span>' + esc(s.short || s.label) + '</span>';
     d.addEventListener("click", function(){ select(s.id); });
     plot.appendChild(d);
   });
 }
 function renderSceneMemo(){
   var s = S(cur);
-  document.getElementById("sceneMemo").innerHTML = '<b>' + esc(s.who) + '</b><br>' + esc(s.memo);
+  document.getElementById("sceneMemo").innerHTML = '<b>' + esc(s.who) + '</b><br>' + rich(s.memo);
 }
 function bar(n){ var o=""; for(var i=1;i<=3;i++) o += '<s class="' + (i<=n?"on":"") + '"></s>'; return o; }
 
 function analyze(){
   var text = document.getElementById("inp").value;
   var res = document.getElementById("res");
-  if(!text.trim()){ res.innerHTML = '<div class="empty">文を入れてから「調べる」を押してください。</div>'; return; }
+  if(!text.trim()){ res.innerHTML = '<div class="empty">' + esc(T.emptyInput||"") + '</div>'; return; }
   var sc = S(cur), hits = scan(text), out = [], html = "", last = 0;
 
   hits.forEach(function(h){
@@ -594,22 +407,18 @@ function analyze(){
   var fend = st.polite && st.plain ? "混在" : (st.polite ? "丁寧体" : (st.plain ? "普通体" : "—"));
 
   var g = '<div class="gauges">' +
-    '<div class="gauge"><b>内容語</b><div class="val">' + word(cl) + '</div><div class="bar">' + bar(cl||0) + '</div>' +
-      '<small>名詞・動詞そのものの硬さ</small></div>' +
-    '<div class="gauge"><b>機能語</b><div class="val">' + word(fl) + '</div><div class="bar">' + bar(fl||0) + '</div>' +
-      '<small>あいづち・接続・敬語・縮約</small></div>' +
-    '<div class="gauge"><b>文末</b><div class="val">' + esc(fend) + '</div>' +
+    '<div class="gauge"><b>' + esc(T.gContent||"") + '</b><div class="val">' + word(cl) + '</div><div class="bar">' + bar(cl||0) + '</div>' +
+      '<small>' + esc(T.gContentNote||"") + '</small></div>' +
+    '<div class="gauge"><b>' + esc(T.gFunc||"") + '</b><div class="val">' + word(fl) + '</div><div class="bar">' + bar(fl||0) + '</div>' +
+      '<small>' + esc(T.gFuncNote||"") + '</small></div>' +
+    '<div class="gauge"><b>' + esc(T.gEnd||"") + '</b><div class="val">' + esc(fend) + '</div>' +
       '<small>' + (st.n ? esc(st.n + "文　丁寧" + st.polite + "／普通" + st.plain) : "") + '</small></div>' +
   '</div>';
 
   var v = "";
-  if(cl === 3 && fl === 1){
-    v = '<div class="verdict ng"><b>ちぐはぐです。</b>　内容語は書きことばなのに、あいづちや接続がタメ口のままです。語彙が足りないのではなく、層がそろっていない状態です。下の語を直すだけで印象が変わります。</div>';
-  } else if(fend === "混在"){
-    v = '<div class="verdict ng"><b>文末がそろっていません。</b>　丁寧体と普通体が混ざっています。まず文末を一つの体にそろえてください。</div>';
-  } else if(cl !== null && fl !== null && cl === fl){
-    v = '<div class="verdict good"><b>位相はそろっています。</b>　あとは、この場面に合う高さかどうかだけです。</div>';
-  }
+  if(cl === 3 && fl === 1) v = '<div class="verdict ng">' + rich(T.vChiguhagu||"") + '</div>';
+  else if(fend === "混在") v = '<div class="verdict ng">' + rich(T.vMixed||"") + '</div>';
+  else if(cl !== null && fl !== null && cl === fl) v = '<div class="verdict good">' + rich(T.vOk||"") + '</div>';
 
   var rank = {bad:0, keep:1, ok:2}, seen = {}, list = [];
   out.forEach(function(o){
@@ -621,33 +430,33 @@ function analyze(){
 
   var hitHtml = "";
   if(!list.length){
-    hitHtml = '<div class="empty">辞書に載っている語は見つかりませんでした。拾えるのは登録した語だけなので、目安として見てください。</div>';
+    hitHtml = '<div class="empty">' + esc(T.emptyHit||"") + '</div>';
   } else {
     list.forEach(function(o){
       var j = o.j, tag = j.k === "bad" ? "bad" : "ok",
-        lab = j.k === "keep" ? "残す" : (j.k === "bad" ? "直す" : "このままで可");
+        lab = j.k === "keep" ? (T.labKeep||"") : (j.k === "bad" ? (T.labFix||"") : (T.labAsIs||""));
       hitHtml += '<div class="hit"><div class="head">' +
-        '<span class="tag ' + tag + '">' + lab + '</span>' +
+        '<span class="tag ' + tag + '">' + esc(lab) + '</span>' +
         '<span class="lay">' + esc(j.e.lay) + '</span>' +
         (o.n > 1 ? '<span class="n">' + o.n + '回</span>' : '') + '</div>' +
         '<div class="swap">' + esc(o.h.w) +
         (j.to ? '<span class="ar">→</span><span class="to">' + esc(j.to) + '</span>' : '') + '</div>' +
-        '<div class="rn">' + esc(j.why) + '</div></div>';
+        '<div class="rn">' + rich(j.why) + '</div></div>';
     });
   }
 
   res.innerHTML = '<div class="marked">' + html + '</div>' + g + v + hitHtml +
     '<div class="legend">' +
-      '<span><i class="bad"></i>この場面では直す</span>' +
-      '<span><i class="ok"></i>このままでよい・残す</span>' +
+      '<span><i class="bad"></i>' + esc(T.legendBad||"") + '</span>' +
+      '<span><i class="ok"></i>' + esc(T.legendOk||"") + '</span>' +
       '<span>「' + esc(S(cur).label) + '」として見ています</span>' +
     '</div>';
 }
 
 function cellHTML(v){
   if(!v) return '<div class="line na">—</div>';
-  if(v.na) return '<div class="line na">この場面ではほとんど使いません</div>' + (v.n?'<div class="rn">'+esc(v.n)+'</div>':'');
-  return '<div class="line">' + esc(v.t) + '</div>' + (v.n?'<div class="rn">'+esc(v.n)+'</div>':'');
+  if(v.na) return '<div class="line na">' + esc(T.naText||"") + '</div>' + (v.n?'<div class="rn">'+rich(v.n)+'</div>':'');
+  return '<div class="line">' + esc(v.t) + '</div>' + (v.n?'<div class="rn">'+rich(v.n)+'</div>':'');
 }
 function renderFns(){
   var html = "";
@@ -662,23 +471,22 @@ function renderFns(){
           '<div class="who">' + esc(st.label) + '</div>' + cellHTML(f.v[id]) + '</div>';
       });
     }
-    html += '<div class="pivot"><b>どこが変わるか　</b>' + esc(f.pivot) + '</div></div>';
+    html += '<div class="pivot"><b>' + esc(T.pivotLabel||"") + '　</b>' + rich(f.pivot) + '</div></div>';
   });
   document.getElementById("fnList").innerHTML = html;
 }
 
-/* 辞典 */
 function dictRows(){
   return L.map(function(e){
     var a, b, kind = e.g === "敬語" ? "filler" : e.g;
-    if(e.ax === "keep"){ a = e.v[0]; b = "そのまま残す"; }
+    if(e.ax === "keep"){ a = e.v[0]; b = T.keepLabel || ""; }
     else if(e.g === "written" || (e.ax === "h" && e.m[2] && e.m[2].length && !e.ok && e.v[0] !== e.v[2])){ a = e.v[2]; b = e.v[0]; }
     else if(e.ax === "h" && e.r && e.r[2] === 2){ a = e.v[0]; b = e.v[2]; }
     else { a = e.v[0]; b = e.v[2] || e.v[1]; }
     return {a:a, b:b, kind:kind, lay:e.lay, why:e.why};
   }).filter(function(r){ return r.a; });
 }
-var DICT = dictRows();
+var DICT = [];
 function renderDict(){
   var q = document.getElementById("q").value.trim().toLowerCase();
   var rows = DICT.filter(function(r){
@@ -689,16 +497,9 @@ function renderDict(){
   document.getElementById("dict").innerHTML = rows.length ? rows.map(function(r){
     return '<div class="row"><div class="dlay">' + esc(r.lay) + '</div>' +
       '<div class="dw"><span class="from">' + esc(r.a) + '</span><span class="ar">→</span><span class="to">' + esc(r.b) + '</span></div>' +
-      '<div class="rn">' + esc(r.why) + '</div></div>';
-  }).join("") : '<div class="empty" style="border-top:none">該当する語がありません。</div>';
+      '<div class="rn">' + rich(r.why) + '</div></div>';
+  }).join("") : '<div class="empty" style="border-top:none">' + esc(T.dictEmpty||"") + '</div>';
 }
-
-var SAMPLES = [
-  "本件につきましては、明日までに確認を実施いたします。",
-  "うん、そうそう。でも、やっぱそれは難しいと思うんですよね。",
-  "すみません、資料もう一回送ってもらっていいですか。",
-  "現在、予定より遅延が生じておりまして、ちょっと厳しい感じです。"
-];
 
 function select(id){
   cur = id;
@@ -711,26 +512,23 @@ function select(id){
   if(document.getElementById("res").innerHTML.trim()) analyze();
 }
 
-buildScene();
-renderSceneMemo();
-renderFns();
-renderDict();
-(function(){
-  var box = document.getElementById("samples");
-  SAMPLES.forEach(function(s){
-    var b = document.createElement("button");
-    b.textContent = s.length > 16 ? s.slice(0,16) + "…" : s;
-    b.title = s;
-    b.addEventListener("click", function(){ document.getElementById("inp").value = s; analyze(); });
-    box.appendChild(b);
-  });
-})();
-analyze();
+if(!STYLES.length || !L.length){
+  document.getElementById("res").innerHTML =
+    '<div class="empty">データファイル（isou_data.js）が読み込めませんでした。同じフォルダにあるか確かめてください。</div>';
+} else {
+  boot();
+  buildScene();
+  renderSceneMemo();
+  renderFns();
+  DICT = dictRows();
+  renderDict();
+  analyze();
+}
 
 document.getElementById("run").addEventListener("click", analyze);
 document.getElementById("clr").addEventListener("click", function(){
   document.getElementById("inp").value = "";
-  document.getElementById("res").innerHTML = '<div class="empty">文を入れてから「調べる」を押してください。</div>';
+  document.getElementById("res").innerHTML = '<div class="empty">' + esc(T.emptyInput||"") + '</div>';
   document.getElementById("inp").focus();
 });
 document.getElementById("inp").addEventListener("keydown", function(ev){
